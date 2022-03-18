@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import Union
 from ..protocol.fields.data_types import *
 from ..protocol.fields.add_on import add_on
 from ..protocol.fields.field import XmpField

@@ -109,7 +109,7 @@ class PortL47(base_port.BasePort["ports_state.PortL47LocalState"]):
         )
         self.local_states.capabilities = capabilities_r
         self.local_states.sync_status = sync_status_r.sync_status
-        self.local_states.traffic_state = traffic_state_r.sync_status
+        self.local_states.traffic_state = traffic_state_r.state
         return self
 
     def _register_subscriptions(self) -> None:
