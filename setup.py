@@ -12,10 +12,10 @@ def rm(path: str):
 if __name__ == '__main__':
     setuptools.setup(
         name="xoa-driver",
-        version="1.0b",
+        version="1.0b1",
         description="Xena Open Automation pydriver is a python wrapper of binary xmp (Xena Management Protocol) which enables users to call xmp in an easy way.",
         author="Artem Constantinov, Ron Ding, Leonard Yu",
-        author_email="y_4ox@yahoo.com, rdi@xenanetworks.com, hyu@xenanetworks.com",
+        author_email="aco@xenanetworks.com, rdi@xenanetworks.com, hyu@xenanetworks.com",
         maintainer="Xena Networks",
         maintainer_email="support@xenanetworks.com",
         url="https://github.com/xenadevel/valhalla-bifrost/",
