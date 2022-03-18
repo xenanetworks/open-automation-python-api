@@ -12,7 +12,7 @@ def rm(path: str):
 if __name__ == '__main__':
     setuptools.setup(
         name="xoa-driver",
-        version="1.0b1",
+        version="1.0b2",
         description="Xena OpenAutomation high-level and low-level Python APIs and code examples for Xena TGA testers.",
         author="Artem Constantinov, Ron Ding, Leonard Yu",
         author_email="aco@xenanetworks.com, rdi@xenanetworks.com, hyu@xenanetworks.com",
