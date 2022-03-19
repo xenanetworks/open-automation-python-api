@@ -14,7 +14,7 @@ if typing.TYPE_CHECKING:
 
 class ModuleL23VE(bm.BaseModule):
     """
-    Representation of a Level23Module on virtual tester. 
+    Representation of a Valkyrie module on virtual tester. 
     """
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)

@@ -24,25 +24,28 @@ if TYPE_CHECKING:
     from . import __interfaces as m_itf
 
 class ChTXClock:
+    """Advanced timing feature (Chimera)"""
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.source = M_TXCLOCKSOURCE_NEW(conn, module_id)
         self.status = M_TXCLOCKSTATUS_NEW(conn, module_id)
 
 
 class ChCFP:
+    """CFP test module (Chimera)"""
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.type = M_CFPTYPE(conn, module_id)
         self.config = M_CFPCONFIG(conn, module_id)
 
 
 class ChUpgrade:
+    """Upgrade test module (Chimera)"""
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.start = M_UPGRADE(conn, module_id)
         self.progress = M_UPGRADEPROGRESS(conn, module_id)
 
 class ModuleChimera(bm.BaseModule):
     """
-        Representation of a Level23ChimeraModule on genuine tester.
+        Representation of a Chimera module on physical tester.
     """
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
