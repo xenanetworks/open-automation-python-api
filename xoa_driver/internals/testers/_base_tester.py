@@ -112,9 +112,9 @@ class BaseTester(Generic[TesterStateStorage]):
         return self._local_states.reservation == reserved_status
 
     is_released = functools.partialmethod(__is_reservation, enums.ReservedStatus.RELEASED)
-    """validate if tester is released"""
+    """Validate if the tester is released"""
     is_reserved_by_me = functools.partialmethod(__is_reservation, enums.ReservedStatus.RESERVED_BY_YOU)
-    """validate if my connection is controlling tester"""
+    """Validate if the tester is reserved by my connection."""
 
     @property
     def info(self) -> TesterStateStorage:
