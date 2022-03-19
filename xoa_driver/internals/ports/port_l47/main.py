@@ -115,7 +115,7 @@ class PortL47(base_port.BasePort["ports_state.PortL47LocalState"]):
     def _register_subscriptions(self) -> None:
         super()._register_subscriptions()
         self._conn.subscribe(P_RECEIVESYNC, utils.Update(self.local_states, "sync_status", "sync_status", self._check_identity))
-        self._conn.subscribe(P4_STATE, utils.Update(self.local_states, "traffic_state", "on_off", self._check_identity))
+        self._conn.subscribe(P4_STATE, utils.Update(self.local_states, "traffic_state", "state", self._check_identity))
     
     on_receave_sync_change = functools.partialmethod(utils.on_event, P_RECEIVESYNC)
     on_capabilities_change = functools.partialmethod(utils.on_event, P4_CAPABILITIES)

@@ -1916,16 +1916,16 @@ class P_MULTICAST:
             ),
         )
 
-    set_off = functools.partialmethod(set, MulticastOperation.OFF)
+    set_off = functools.partialmethod(set, operation=MulticastOperation.OFF)
     """Set port's multicast operation to Off.
     """
-    set_on = functools.partialmethod(set, MulticastOperation.ON)
+    set_on = functools.partialmethod(set, operation=MulticastOperation.ON)
     """Set port's multicast operation to On.
     """
-    set_join = functools.partialmethod(set, MulticastOperation.JOIN)
+    set_join = functools.partialmethod(set, operation=MulticastOperation.JOIN)
     """Set port's multicast operation to Join.
     """
-    set_leave = functools.partialmethod(set, MulticastOperation.LEAVE)
+    set_leave = functools.partialmethod(set, operation=MulticastOperation.LEAVE)
     """Set port's multicast operation to Join.
     """
 

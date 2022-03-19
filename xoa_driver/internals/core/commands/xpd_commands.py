@@ -104,10 +104,10 @@ class XPD_TSNSOURCE:
     def set(self, dataset_id: int, source: TSNSource) -> "Token":
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, dataset_id=dataset_id, source=source))
 
-    set_drift = functools.partialmethod(set, TSNSource.DRIFT)
-    set_driftpre = functools.partialmethod(set, TSNSource.DRIFTPRE)
-    set_pdelay = functools.partialmethod(set, TSNSource.PDELAY)
-    set_nrr = functools.partialmethod(set, TSNSource.NRR)
+    set_drift = functools.partialmethod(set, source=TSNSource.DRIFT)
+    set_driftpre = functools.partialmethod(set, source=TSNSource.DRIFTPRE)
+    set_pdelay = functools.partialmethod(set, source=TSNSource.PDELAY)
+    set_nrr = functools.partialmethod(set, source=TSNSource.NRR)
 
 
 @register_command

@@ -513,7 +513,7 @@ class PP_PMAERRPUL_PARAMS:
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, duration=duration, period=period, repetition=repetition, coeff=coeff, exp=exp))
 
-    set_infinite = functools.partialmethod(set, Infinite.INFINITE)
+    set_infinite = functools.partialmethod(set, exp=Infinite.INFINITE)
 
 
 @register_command

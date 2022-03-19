@@ -1061,13 +1061,13 @@ class PS_MODIFIER:
             ),
         )
 
-    set_inc = functools.partialmethod(set, ModifierAction.INC)
+    set_inc = functools.partialmethod(set, action=ModifierAction.INC)
     """Set a packet modifier action to incrementing.
     """
-    set_dec = functools.partialmethod(set, ModifierAction.DEC)
+    set_dec = functools.partialmethod(set, action=ModifierAction.DEC)
     """Set a packet modifier action to decrementing.
     """
-    set_random = functools.partialmethod(set, ModifierAction.RANDOM)
+    set_random = functools.partialmethod(set, action=ModifierAction.RANDOM)
     """Set a packet modifier action to random.
     """
 
@@ -1662,13 +1662,13 @@ class PS_MODIFIEREXT:
             ),
         )
 
-    set_inc = functools.partialmethod(set, ModifierAction.INC)
+    set_inc = functools.partialmethod(set, action=ModifierAction.INC)
     """Set modifier action to Incrementing.
     """
-    set_dec = functools.partialmethod(set, ModifierAction.DEC)
+    set_dec = functools.partialmethod(set, action=ModifierAction.DEC)
     """Set modifier action to Decrementing.
     """
-    set_random = functools.partialmethod(set, ModifierAction.RANDOM)
+    set_random = functools.partialmethod(set, action=ModifierAction.RANDOM)
     """Set modifier action to Random.
     """
 

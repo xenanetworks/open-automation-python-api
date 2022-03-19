@@ -163,8 +163,8 @@ class XP_TSNPROFILE:
     def set(self, shadow_working_selection: int, profile: TSNConfigProfile) -> "Token":
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, shadow_working_selection=shadow_working_selection, profile=profile))
 
-    set_automotive = functools.partialmethod(set, TSNConfigProfile.AUTOMOTIVE)
-    set_ieee1588v2 = functools.partialmethod(set, TSNConfigProfile.IEEE1588V2)
+    set_automotive = functools.partialmethod(set, profile=TSNConfigProfile.AUTOMOTIVE)
+    set_ieee1588v2 = functools.partialmethod(set, profile=TSNConfigProfile.IEEE1588V2)
 
 
 @register_command
@@ -195,8 +195,8 @@ class XP_TSNROLE:
     def set(self, shadow_working_selection: int, role: TSNPortRole) -> "Token":
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, shadow_working_selection=shadow_working_selection, role=role))
 
-    set_grandmaster = functools.partialmethod(set, TSNPortRole.GRANDMASTER)
-    set_slave = functools.partialmethod(set, TSNPortRole.SLAVE)
+    set_grandmaster = functools.partialmethod(set, role=TSNPortRole.GRANDMASTER)
+    set_slave = functools.partialmethod(set, role=TSNPortRole.SLAVE)
 
 
 @register_command
@@ -307,7 +307,7 @@ class XP_TSNDEVIATION:
             ),
         )
 
-    set_fixed = functools.partialmethod(set, TSNDeviationMode.FIXED)
+    set_fixed = functools.partialmethod(set, mode=TSNDeviationMode.FIXED)
 
 
 @register_command
@@ -452,14 +452,14 @@ class XP_TSNTIMESOURCE:
     def set(self, shadow_working_selection: int, source: TSNTimeSource) -> "Token":
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, shadow_working_selection=shadow_working_selection, source=source))
 
-    set_atomic = functools.partialmethod(set, TSNTimeSource.ATOMIC)
-    set_gps = functools.partialmethod(set, TSNTimeSource.GPS)
-    set_terrestrial = functools.partialmethod(set, TSNTimeSource.TERRESTRIAL)
-    set_ptp = functools.partialmethod(set, TSNTimeSource.PTP)
-    set_ntp = functools.partialmethod(set, TSNTimeSource.NTP)
-    set_hand_set = functools.partialmethod(set, TSNTimeSource.HAND_SET)
-    set_other = functools.partialmethod(set, TSNTimeSource.OTHER)
-    set_internal_osc = functools.partialmethod(set, TSNTimeSource.INTERNAL_OSC)
+    set_atomic = functools.partialmethod(set, source=TSNTimeSource.ATOMIC)
+    set_gps = functools.partialmethod(set, source=TSNTimeSource.GPS)
+    set_terrestrial = functools.partialmethod(set, source=TSNTimeSource.TERRESTRIAL)
+    set_ptp = functools.partialmethod(set, source=TSNTimeSource.PTP)
+    set_ntp = functools.partialmethod(set, source=TSNTimeSource.NTP)
+    set_hand_set = functools.partialmethod(set, source=TSNTimeSource.HAND_SET)
+    set_other = functools.partialmethod(set, source=TSNTimeSource.OTHER)
+    set_internal_osc = functools.partialmethod(set, source=TSNTimeSource.INTERNAL_OSC)
 
 
 @register_command
@@ -494,8 +494,8 @@ class XP_TSNENABLE:
     def set(self, shadow_working_selection: int, on_off: OnOff) -> "Token":
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, shadow_working_selection=shadow_working_selection, on_off=on_off))
 
-    set_off = functools.partialmethod(set, OnOff.OFF)
-    set_on = functools.partialmethod(set, OnOff.ON)
+    set_off = functools.partialmethod(set, on_off=OnOff.OFF)
+    set_on = functools.partialmethod(set, on_off=OnOff.ON)
 
 
 @register_command

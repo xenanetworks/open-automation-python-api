@@ -1563,8 +1563,8 @@ class P4G_L2_CLIENT_MAC:
     def set(self, mac_address: str, mode: EmbedIP) -> "Token":
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], mac_address=mac_address, mode=mode))
 
-    set_dont_embed_ip = functools.partialmethod(set, EmbedIP.DONT_EMBED_IP)
-    set_embed_ip = functools.partialmethod(set, EmbedIP.EMBED_IP)
+    set_dont_embed_ip = functools.partialmethod(set, mode=EmbedIP.DONT_EMBED_IP)
+    set_embed_ip = functools.partialmethod(set, mode=EmbedIP.EMBED_IP)
 
 
 @register_command
@@ -1600,8 +1600,8 @@ class P4G_L2_SERVER_MAC:
     def set(self, mac_address: str, mode: EmbedIP) -> "Token":
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], mac_address=mac_address, mode=mode))
 
-    set_dont_embed_ip = functools.partialmethod(set, EmbedIP.DONT_EMBED_IP)
-    set_embed_ip = functools.partialmethod(set, EmbedIP.EMBED_IP)
+    set_dont_embed_ip = functools.partialmethod(set, mode=EmbedIP.DONT_EMBED_IP)
+    set_embed_ip = functools.partialmethod(set, mode=EmbedIP.EMBED_IP)
 
 
 @register_command
