@@ -77,7 +77,7 @@ def get_module_type(revision: str) -> Type:
 
 class L23Tester(BaseTester["testers_state.TesterLocalState"]):
     """
-    Representation of a Level23Tester on genuine chassis.
+    Representation of a physical Xena Valkyrie Tester.
     """
     def __init__(self, host: str, username: str, password: str = "xena", port: int = 22606, *, debug: bool = False) -> None:
         super().__init__(host=host, username=username, password=password, port=port, debug=debug)
