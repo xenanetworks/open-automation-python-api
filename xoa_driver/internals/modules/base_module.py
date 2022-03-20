@@ -86,7 +86,7 @@ class BaseModule(Generic[T]):
     """Register a callback to the event that the module's ownership status changes."""
 
     on_model_change = functools.partialmethod(utils.on_event, M_MODEL)
-    """Register a callback to the event that the module's model status changes."""
+    """Register a callback to the event that the module's legacy model changes."""
 
     on_serial_number_change = functools.partialmethod(utils.on_event, M_SERIALNO)
     """Register a callback to the event that the module's serial number status changes."""
