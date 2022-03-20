@@ -20,13 +20,23 @@ Moving forward, all Xena’s automated test suites will be based on Xena OpenAut
 
 ## Installation
 
-### From Python Package Installer
+### Install Using `pip`
+Make sure Python `pip` is installed on you system. If you are using virtualenv, then pip is already installed into environments created by virtualenv, and using sudo is not needed. If you do not have pip installed, download this file: https://bootstrap.pypa.io/get-pip.py and run `python get-pip.py`.
+
+To install the latest, use pip to install from pypi:
 ``` shell
 ~/> pip install xoa-driver
 ```
 
-### From Source Code
-Make sure these packages are installed: ``wheel``, ``setuptools``
+To upgrade to the latest, use pip to upgrade from pypi:
+``` shell
+~/> pip install xoa-driver --upgrade
+```
+
+### Install From Source Code
+Make sure these packages are installed ``wheel``, ``setuptools`` on your system.
+
+Install ``setuptools`` using pip:
 ``` shell
 ~/> pip install wheel setuptools
 ```
@@ -42,6 +52,7 @@ To build ``.whl`` file for distribution:
 ```
 
 ## Documentation
+The user documentation is hosted:
 https://xena-openautomation-python-api.readthedocs.io/en/latest/
 
 
