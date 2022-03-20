@@ -80,16 +80,16 @@ class BaseModule(Generic[T]):
     """Validate if the module is reserved by me."""
 
     on_reservation_change = functools.partialmethod(utils.on_event, M_RESERVATION)
-    """Module's reservation status change event."""
+    """Register a callback to the event that the module's reservation status changes."""
 
     on_reserved_by_change = functools.partialmethod(utils.on_event, M_RESERVEDBY)
-    """Module's ownership status change event."""
+    """Register a callback to the event that the module's ownership status changes."""
 
     on_model_change = functools.partialmethod(utils.on_event, M_MODEL)
-    """Module's model change event."""
+    """Register a callback to the event that the module's model status changes."""
 
     on_serial_number_change = functools.partialmethod(utils.on_event, M_SERIALNO)
-    """Module's serial number change event."""
+    """Register a callback to the event that the module's serial number status changes."""
 
     on_version_number_change = functools.partialmethod(utils.on_event, M_VERSIONNO)
-    """Module's version number change event."""
+    """Register a callback to the event that the module's version number status changes."""

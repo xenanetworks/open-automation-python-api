@@ -130,7 +130,7 @@ class BaseTester(Generic[TesterStateStorage]):
     # will be less intuitive, and in one case subscription will work in an other don't
 
     def on_disconnected(self, callback: "Callable") -> None:
-        """Subscribe a callback which will be called ar the time when connection will be closed."""
+        """Register a callback which will be called at the time when connection will be closed."""
         self._conn.on_disconnected(callback)
 
     def on_reservation_change(self, callback: "Callable") -> None:
