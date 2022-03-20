@@ -12,10 +12,12 @@ CLI Code Example
 ----------------------
 
 `cli_script.py`
+
 .. literalinclude:: code_example/diff_with_cli/cli_script.py
 
 
 `config.txt`
+
 .. literalinclude:: code_example/diff_with_cli/config.txt
 
 
@@ -23,10 +25,13 @@ XOA Python API Example
 ----------------------
 
 `xoa_script.py`
+
 .. literalinclude:: code_example/diff_with_cli/xoa_script.py
 
 `config.py`
+
 .. literalinclude:: code_example/diff_with_cli/config.py
 
 `config.txt`
+
 .. literalinclude:: code_example/diff_with_cli/config.txt

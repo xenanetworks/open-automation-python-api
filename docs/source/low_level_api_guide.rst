@@ -13,11 +13,11 @@ The API trying to be semantic in function name patterns to avoid expectation con
 **IMPORTANT**:
     If there is a method that returns a single item or a collection of items, it is considered a BUG.
 
-``<indices>`` - representing ``Streams | Connection Groups`` indices etc.
+``<indices>`` - representing *Streams | Connection Groups* indices etc.
 
-``<prefix_command_group>`` - a group of commands that manage the resources of the same kind but still stays at the same level as others
+``<prefix_command_group>`` - a group of commands that manage the resources of the same kind but still stays at the same level as others. For example, ``P_SPEEDSELECTION`` and ``P_SPEEDS_SUPPORTED`` are in the ``P_`` group.
 
-``<command_name>`` - the name of the command's unmodified name. Commands of the same access level, which access or modify parameters of the same kind, are grouped under one ``p_commands`` group as shown in the example below:
+``<command_name>`` - the CLI name of the command. Commands of the same access level, which access or modify parameters of the same kind, are grouped under one command group as shown in the example below.
 
 .. code-block::
 

@@ -8,6 +8,8 @@ XOA Python API provides two ways to group commands together to send to testers, 
 Parallel Grouping
 ------------------
 
+``asyncio.gather`` groups commands in a parallel way. Commands are sent out in parallel (with neglectable delay between each other). This is very useful when you want to send commands to different test resources, e.g. two different ports on the same tester, or two different ports on different testers.
+
 .. code-block:: python
 
     await asyncio.gather(
@@ -17,8 +19,6 @@ Parallel Grouping
         ...
     )
 
-
-``asyncio.gather`` groups commands in a parallel way. Commands are sent out in parallel (with neglectable delay between each other). This is very useful when you want to send commands to different test resources, e.g. two different ports on the same tester, or two different ports on different testers.
 
 Sequential Grouping
 ---------------------
@@ -36,7 +36,7 @@ Sequential Grouping
     async for response in utils.apply(*commands):
         print(response)
 
-However, abusing this function can cause memory issue on your computer. This is because the computer needs to store all the grouped commands in the memory until the responses from the testers arrive. To avoid potential grouping abuse, a limit of ``200`` is place to the maximum number of  commands that you can group sequentially.
+However, abusing this function can cause memory issue on your computer. This is because the computer needs to store all the grouped commands in the memory until the responses from the testers arrive. To avoid potential grouping abuse, a limit of **200** is place to the maximum number of  commands that you can group sequentially.
 
 
 ``utils.apply_iter`` does exactly the same thing as ``utils.apply`` except it does not aggregate responses but return them one by one as soon as they are ready. This allows sending large batches commands without causing memory issue.

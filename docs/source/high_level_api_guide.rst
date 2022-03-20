@@ -35,7 +35,9 @@ are represented as
 Attributes and Methods
 ------------------------
 
-There are only two types of methods for each command, ``get`` and/or ``set``. ``get`` is used to query values, status, configuration of the command. ``set`` is the change.
+There are only two types of methods for each command, ``get`` and/or ``set``.
+* Method ``get`` is used to **query** the values, status, configuration of the resource.
+* Method ``set`` is used to **change** the values, status, configuration of the resource.
 
 To use ``get`` and ``set`` methods, you need to use ``await`` because they are all made asynchronous. Read more about Python `awaitable object <https://docs.python.org/3/library/asyncio-task.html#id2>`_.
 
@@ -57,7 +59,7 @@ Structure: ``<resource>.on_<command_oo_name>_change(<async_callback_function>)``
 
 The ``<async_callback_function>`` must be an `coroutine <https://docs.python.org/3/library/asyncio-task.html#id1>`_ function. Parameters, which can be passed to ``<async_callback_function>``, depend on what resource it is affiliated. Examples are shown below:
 
-Under the tester level
+Under the Tester level
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
 ::
@@ -77,6 +79,7 @@ Under the Port level
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
 ::
+    
     <ref_port>, <new_value>
 
 
@@ -87,8 +90,6 @@ Under the Port level
 **IMPORTANT**:
     A subscription to an event only provides a tool for notifying the external code. It is unnecessary to update the library instance state manually, because it is automatically handled by the library code.
 
-
-**IMPORTANT**:
     It is allowed to subscribe multiple callback functions to one event.
 
 
@@ -97,7 +98,7 @@ Resource Managers
 
 Most of the sublevel resources, which are organized into collections, are handled by resource managers.
 
-The most commonly used resource managers are ``Module Manager | Port Manager | Index Manager``.
+The most commonly used resource managers are *Module Manager | Port Manager | Index Manager*.
 
 **IMPORTANT**:
     Each resource manager is an `iterable object <https://wiki.python.org/moin/Iterator>`_
@@ -159,10 +160,10 @@ An illustration of the the resource managers and test resources are shown below:
 Module and Port Managers
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Each tester contains a ``Module Manager``, which can be accessed through attribute ``modules``. Each module contains a ``Port Manager``.
+Each tester contains a *Module Manager*, which can be accessed through attribute ``modules``. Each module contains a *Port Manager*.
 
 **IMPORTANT**:
-    A ``Module Manager`` can contain modules of different **Module Types**. This is because there can be various test modules installed in a physical tester. On the other hand, a ``Port Manager`` contains ports of the same **Port Type**. This is because the ports on a module are of the same type.
+    A Module Manager can contain modules of different *Module Types*. This is because there can be various test modules installed in a physical tester. On the other hand, a Port Manager contains ports of the same *Port Type*. This is because the ports on a module are of the same type.
 
 Methods to retrieve a module or a port from a resource manager:
 .. code-block:: python
@@ -185,7 +186,7 @@ Code example:
 Index Manager
 ^^^^^^^^^^^^^^^^^^^^
 
-``Index Manager`` manages the sub-port-level resource indices such as stream indices, filter indices, connection group indices, etc. It automatically ensures correct and conflict-free index assignment.
+*Index Manager* manages the sub-port-level resource indices such as stream indices, filter indices, connection group indices, etc. It automatically ensures correct and conflict-free index assignment.
 
 **IMPORTANT**:
     It is the user's responsibility to create, retrieve, and remove those sub-port-level indices.

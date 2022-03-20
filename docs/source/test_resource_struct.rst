@@ -1,8 +1,17 @@
 Test Resource Structure and Management Rules
 ====================================================
 
-L23 Valkyrie Tester (Physical)
--------------------------------
+Rules for Test Resource Management
+-----------------------------------------
+
+1. To do ``set`` on a test resource, i.e. ``Tester``, ``Module``, or ``Port``, you must reserve the resource under your username.
+2. To do ``get`` on a test resource or configuration, you don't need to reserve.
+3. To reserve a tester, you must make sure all the modules and ports are either released or under your ownership.
+4. To reserve a module, you must make sure all the ports are either released or under your ownership.
+
+
+Valkyrie (L23) Tester (Physical)
+----------------------------------
 
 Valkyrie Tester (physical) has the following hierarchical structure.
 
@@ -51,11 +60,12 @@ Everything below Valkyrie Port is virtual resources that can be created, deleted
         |        |        |        |    ********************** 
         |        |        |        |    ********************** 
         |        |        |        |----|  Stream Statistics | 
-        |        |        |        |    ********************** 
+        |        |        |        |    **********************
+        |        |        |        |    
 
 
-L47 Vulcan Tester (Physical and Virtual)
------------------------------------------
+Vulcan (L47) Tester (Physical and Virtual)
+---------------------------------------------
 
 Vulcan Tester (physical) has the following hierarchical structure.
 
@@ -84,6 +94,7 @@ Everything below Vulcan Port is virtual resources that can be created, deleted, 
         |        |        |    ************************ 
         |        |        |----|  Connection Group    | 
         |        |        |    ************************
+        |        |        |    
 
 
 ::
@@ -106,11 +117,12 @@ Everything below Vulcan Port is virtual resources that can be created, deleted, 
         |        |        |    ************************ 
         |        |        |----|  Connection Group    | 
         |        |        |    ************************
+        |        |        |    
 
 
 
-Network Impairment Chimera Emulator (Physical)
------------------------------------------------
+Chimera (Network Impairment) Emulator (Physical)
+---------------------------------------------------
 
 Chimera Emulator (physical) has the following hierarchical structure.
 
@@ -151,13 +163,5 @@ Everything below Chimera Port is virtual resources that can be created, deleted,
         |        |        |        |    ****************************
         |        |        |        |----|  Flow Statistics         | 
         |        |        |        |    ****************************
+        |        |        |        |    
 
-
-
-Rules for Test Resource Management
------------------------------------------
-
-1. To do ``set`` on a test resource, i.e. ``Tester``, ``Module``, or ``Port``, you must reserve the resource under your username.
-2. To do ``get`` on a test resource or configuration, you don't need to reserve.
-3. To reserve a tester, you must make sure all the modules and ports are either released or under your ownership.
-4. To reserve a module, you must make sure all the ports are either released or under your ownership.
