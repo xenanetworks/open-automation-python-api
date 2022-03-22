@@ -20,7 +20,7 @@ sys.path.insert(0, os.path.abspath('../../'))
 
 # -- Project information -----------------------------------------------------
 
-project = u'Xena OpenAutomation Python API'
+project = u'Xena OpenAutomation Python API Documentation'
 copyright = u'2022, Xena Networks'
 author = u'Artem Constantinov, Ron Ding, Leonard Yu'
 
@@ -123,3 +123,4 @@ man_pages = [
 
 # -- Options for EPUB output -----------------------------------------------------
 epub_show_urls = 'footnote'
+epub_basename = 'xoadriverdoc'
