@@ -195,7 +195,7 @@ class C_RESERVATION:
         """Set the chassis reservation operation to be performed.
 
         :param operation: reservation operation to be performed.
-        :type operation: enums.ReservedAction
+        :type operation: ReservedAction
         """
         return Token(self._connection, build_set_request(self, operation=operation))
 
@@ -281,7 +281,7 @@ class C_DOWN:
         """Shuts down the chassis, and either restarts it in a clean state or leaves it powered off.
 
         :param operation: what to do after shutting chassis down.
-        :type operation: enums.ChassisShutdownAction
+        :type operation: ChassisShutdownAction
         """
         return Token(self._connection, build_set_request(self, magic=-1480937026, operation=operation))
 
@@ -765,7 +765,7 @@ class C_DHCP:
         """Set DHCP for getting management IP.
 
         :param on_off: whether DHCP is enabled or disabled.
-        :type on_off: enums.OnOff
+        :type on_off: OnOff
         """
         return Token(self._connection, build_set_request(self, on_off=on_off))
 
@@ -875,7 +875,7 @@ class C_FLASH:
         """Set test ports LEDs blinking status.
 
         :param on_off: determines whether to blink all test port LEDs.
-        :type on_off: enums.OnOff
+        :type on_off: OnOff
         """
         return Token(self._connection, build_set_request(self, on_off=on_off))
 
@@ -1016,7 +1016,7 @@ class C_RESTENABLE:
         """Set the On/Off status of the REST API server.
 
         :param on_off: determines whether REST API server should be enabled or disabled
-        :type on_off: enums.OnOff
+        :type on_off: OnOff
         """
         return Token(self._connection, build_set_request(self, on_off=on_off))
 
@@ -1049,7 +1049,7 @@ class C_RESTCONTROL:
         """Controlling the REST API server.
 
         :param operation: what to do with the REST API server
-        :type operation: enums.RESTControlAction
+        :type operation: RESTControlAction
         """
         return Token(self._connection, build_set_request(self, operation=operation))
 
@@ -1365,7 +1365,7 @@ class C_TRAFFIC:
         """Starts or stops the traffic on a number of ports on the chassis simultaneously.
 
         :param on_off: determines whether to start or stop traffic generation
-        :type on_off: enums.OnOff
+        :type on_off: OnOff
         :param module_ports: specifies ports on modules, which should stop or start generating traffic
         :type module_ports: typing.List[int]
         """
@@ -1499,7 +1499,7 @@ class C_MULTIUSER:
         """Enable or disable the ability to control one resource from several different TCP connections.
 
         :param on_off: enable or disable the ability to control one resource from several different TCP connections
-        :type on_off: enums.OnOff
+        :type on_off: OnOff
         """
         return Token(self._connection, build_set_request(self, on_off=on_off))
 
@@ -1608,7 +1608,7 @@ class C_TKSVCSTATE:
         """Control TimeKeeper service state
 
         :param state: TimeKeeper service state
-        :type state: enums.TimeKeeperServiceAction
+        :type state: TimeKeeperServiceAction
         """
         return Token(self._connection, build_set_request(self, state=state))
 
@@ -1759,7 +1759,7 @@ class C_TRAFFICSYNC:
         """Set the status of traffic generation.
 
         :param on_off: determines whether to start or stop traffic generation
-        :type on_off: enums.OnOff
+        :type on_off: OnOff
         :param timestamp: the time where traffic should be started, expressed as the number of seconds since January 1 2010, 00
         :type timestamp: int
         :param module_ports: specifies ports on modules, which should stop or start traffic generation.

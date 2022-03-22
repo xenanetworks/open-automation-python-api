@@ -115,9 +115,9 @@ class PEC_VAL:
         CUST_ID. (Range: 1 - 40).
 
         :param linear: defines the way the FPGA RAM content is played out
-        :type linear: enums.OnOff
+        :type linear: OnOff
         :param symmetric: reserved for future use, must be set to 0.
-        :type symmetric: enums.OnOff
+        :type symmetric: OnOff
         :param entry_count: defines the number of entries in "dataX" (allowed value: 512,1024). NOTE: For Latency, 1024 entries are used, and for rest, 512 entries are used)
         :type entry_count: int
         :param data_x: array size="num_entries", holds values to be filled in the RAM memory.

@@ -163,7 +163,7 @@ class PF_ENABLE:
         """Set whether a filter is currently active on the port.
 
         :param on_off: whether the filter is enabled
-        :type on_off: enums.OnOff
+        :type on_off: OnOff
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._filter_xindex], on_off=on_off))
 

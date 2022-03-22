@@ -64,7 +64,7 @@ class PC_TRIGGER:
         """Set the capture criteria configurations.
 
         :param start_criteria: the criteria for starting the actual packet capture
-        :type start_criteria: enums.StartTrigger
+        :type start_criteria: StartTrigger
         :param start_criteria_filter: the index of a particular filter for the start criteria
         :type start_criteria_filter: int
         :param stop_criteria: the criteria for stopping the actual packet capture
@@ -115,7 +115,7 @@ class PC_KEEP:
         """Set the configuration of how to keep captured packets.
 
         :param kind: which general kind of packets to keep
-        :type kind: enums.PacketType
+        :type kind: PacketType
         :param index: test payload id or filter index for which packets to keep
         :type index: int
         :param byte_count: how many bytes to keep in the buffer for of each packet. The value -1 means no limit on packet size.

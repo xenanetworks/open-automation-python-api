@@ -60,7 +60,7 @@ class M_RESERVATION:
         """Set the reservation status of the test module.
 
         :param operation: reservation operation to perform
-        :type operation: enums.ReservedAction
+        :type operation: ReservedAction
         """
         return Token(self._connection, build_set_request(self, module=self._module, operation=operation))
 
@@ -348,7 +348,7 @@ class M_TIMESYNC:
         """Set the time sync mode of the test module timestamp clock.
 
         :param mode: the time sync mode of the test module timestamp clock
-        :type mode: enums.TimeSyncMode
+        :type mode: TimeSyncMode
         """
         return Token(self._connection, build_set_request(self, module=self._module, mode=mode))
 
@@ -655,7 +655,7 @@ class M_MULTIUSER:
         """Enable or disable multiple sessions to control the same module.
 
         :param on_off: Enable or disable multiple sessions to control the same module
-        :type on_off: enums.OnOff
+        :type on_off: OnOff
         """
         return Token(self._connection, build_set_request(self, module=self._module, on_off=on_off))
 
@@ -779,7 +779,7 @@ class M_SMAINPUT:
         """Set the function of the SMA (SubMiniature version A) input of the module
 
         :param sma_in: the function of the SMA (SubMiniature version A) input of the module
-        :type sma_in: enums.SMAInputFunction
+        :type sma_in: SMAInputFunction
         """
         return Token(self._connection, build_set_request(self, module=self._module, sma_in=sma_in))
 
@@ -827,7 +827,7 @@ class M_SMAOUTPUT:
         """Set the function of the SMA (SubMiniature version A) output of the module
 
         :param sma_in: the function of the SMA (SubMiniature version A) output of the module
-        :type sma_in: enums.SMAOutputFunction
+        :type sma_in: SMAOutputFunction
         """
         return Token(self._connection, build_set_request(self, module=self._module, sma_out=sma_out))
 
@@ -984,7 +984,7 @@ class M_MEDIA:
         """Set the media type of the test module.
 
         :param media_type: the media type of the test module
-        :type media_type: enums.MediaType
+        :type media_type: MediaType
         """
         return Token(self._connection, build_set_request(self, module=self._module, media_type=media_type))
 
@@ -1243,7 +1243,7 @@ class M_LICENSE_ONLINE:
         """Set the current online/offline mode of the L47 tester.
 
         :param mode: the current online/offline mode of the L47 tester
-        :type mode: enums.IsOnline
+        :type mode: IsOnline
         """
         return Token(self._connection, build_set_request(self, module=self._module, mode=mode))
 
@@ -1289,7 +1289,7 @@ class M_TXCLOCKSOURCE_NEW:
         """Set the test module's TX clock source settings.
 
         :param tx_clock: the test module's TX clock source settings
-        :type tx_clock: enums.TXClock
+        :type tx_clock: TXClock
         """
         return Token(self._connection, build_set_request(self, module=self._module, tx_clock=tx_clock))
 
@@ -1386,7 +1386,7 @@ class M_TXCLOCKFILTER_NEW:
         """Set the setting of the loop bandwidth on the TX clock filter.
 
         :param filter_bandwidth: the setting of the loop bandwidth on the TX clock filter
-        :type filter_bandwidth: enums.FilterBandwidth
+        :type filter_bandwidth: FilterBandwidth
         """
         return Token(self._connection, build_set_request(self, module=self._module, filter_bandwidth=filter_bandwidth))
 
@@ -1441,7 +1441,7 @@ class M_EMULBYPASS:
         """Set the bypass mode of the impairment emulator.
 
         :param on_off: the bypass mode of the impairment emulator.
-        :type on_off: enums.OnOff
+        :type on_off: OnOff
         """
         return Token(self._connection, build_set_request(self, module=self._module, on_off=on_off))
 

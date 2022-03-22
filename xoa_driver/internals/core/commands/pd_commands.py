@@ -151,7 +151,7 @@ class PD_ENABLE:
         """Get whether a histogram is currently active on a port.
 
         :return: whether the histogram is enabled
-        :rtype: enums.OnOff
+        :rtype: OnOff
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._dataset_xindex]))
 
@@ -159,7 +159,7 @@ class PD_ENABLE:
         """Set whether a histogram is currently active on a port.
 
         :param on_off: whether the histogram is enabled
-        :type on_off: enums.OnOff
+        :type on_off: OnOff
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._dataset_xindex], on_off=on_off))
 
@@ -211,9 +211,9 @@ class PD_SOURCE:
         """Set the source criteria specifying what is counted, and for which packets, by a histogram of a port.
 
         :param source_type: what is counted and for which packets
-        :type source_type: enums.SourceType
+        :type source_type: SourceType
         :param which_packets: a further detail on which packets to count
-        :type which_packets: enums.PacketDetailSelection
+        :type which_packets: PacketDetailSelection
         :param identity: test payload id or filter id for the wanted packets
         :type identity: int
         """

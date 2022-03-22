@@ -145,7 +145,7 @@ class PP_TXLANEINJECT:
         """Inject a particular kind of CAUI error into a specific physical lane.
 
         :param inject_error_type: specifying what kind of error to inject
-        :type inject_error_type: enums.InjectErrorType
+        :type inject_error_type: InjectErrorType
         """
         return Token(
             self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._lane_xindex], inject_error_type=inject_error_type)
@@ -205,9 +205,9 @@ class PP_TXPRBSCONFIG:
         :param prbs_seed: PRBS seed value
         :type prbs_seed: int
         :param prbs_on_off: whether this lane is transmitting PRBS data.
-        :type prbs_on_off: enums.PRBSOnOff
+        :type prbs_on_off: PRBSOnOff
         :param error_on_off: whether bit-level errors are injected into this lane
-        :type error_on_off: enums.ErrorOnOff
+        :type error_on_off: ErrorOnOff
         """
         return Token(
             self._connection,
@@ -450,7 +450,7 @@ class PP_LINKFLAP_ENABLE:
         """Set the port 'link flap' status of the port.
 
         :param on_off: whether link flap is enabled
-        :type on_off: enums.OnOff
+        :type on_off: OnOff
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, on_off=on_off))
 
@@ -513,7 +513,7 @@ class PP_PMAERRPUL_PARAMS:
         :param coeff: (0.01 < coeff < 9.99) * 100
         :type coeff: int
         :param exp: -3 < exp < -17
-        :type exp: enums.Infinite
+        :type exp: Infinite
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, duration=duration, period=period, repetition=repetition, coeff=coeff, exp=exp))
 
@@ -775,7 +775,7 @@ class PP_PMAERRPUL_ENABLE:
         """Set the status of 'PMA pulse error inject'. 
 
         :param on_off: whether PMA pulse error inject is enabled
-        :type on_off: enums.OnOff
+        :type on_off: OnOff
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, on_off=on_off))
 
@@ -825,7 +825,7 @@ class PP_EYEMEASURE:
         """Start/stop a new BER eye-measure on a 25G serdes. 
 
         :param status: status of the serdes
-        :type status: enums.StartOrStop
+        :type status: StartOrStop
         :param dummy: reserved for future expansion
         :type dummy: int
         """
@@ -1091,7 +1091,7 @@ class PP_PHYAUTOTUNE:
         """Enable/disable automatic receiving PHY retuning. Default is enabled. 
 
         :param on_off: Enable/disable automatic receiving PHY retuning. Default is enabled
-        :type on_off: enums.OnOff
+        :type on_off: OnOff
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], on_off=on_off))
 
@@ -1166,7 +1166,7 @@ class PP_PHYAUTONEG:
         """Set auto-negotiation settings of the PHY.
 
         :param fec_mode: FEC mode ON or OFF
-        :type fec_mode: enums.OnOff
+        :type fec_mode: OnOff
         :param reserved_1: reserved for future use.
         :type reserved_1: int
         :param reserved_2: reserved for future use.
@@ -1229,11 +1229,11 @@ class PP_TXPRBSTYPE:
         """Set the TX PRBS type used when the interface is in PRBS mode.
 
         :param prbs_inserted_type: PRBS inserted type
-        :type prbs_inserted_type: enums.PRBSInsertedType
+        :type prbs_inserted_type: PRBSInsertedType
         :param prbs_pattern: PRBS pattern
-        :type prbs_pattern: enums.PRBSPattern
+        :type prbs_pattern: PRBSPattern
         :param invert: PRBS invert state
-        :type invert: enums.PRBSInvertState
+        :type invert: PRBSInvertState
         """
         return Token(
             self._connection, build_set_request(self, module=self._module, port=self._port, prbs_inserted_type=prbs_inserted_type, prbs_pattern=prbs_pattern, invert=invert)
@@ -1280,13 +1280,13 @@ class PP_RXPRBSTYPE:
         """Set the RX PRBS type used when the interface is in PRBS mode.
 
         :param prbs_inserted_type: PRBS inserted type
-        :type prbs_inserted_type: enums.PRBSInsertedType
+        :type prbs_inserted_type: PRBSInsertedType
         :param prbs_pattern: PRBS pattern
-        :type prbs_pattern: enums.PRBSPattern
+        :type prbs_pattern: PRBSPattern
         :param invert: PRBS invert state
-        :type invert: enums.PRBSInvertState
+        :type invert: PRBSInvertState
         :param statistics_mode: PRBS statistics mode
-        :type statistics_mode: enums.PRBSStatisticsMode
+        :type statistics_mode: PRBSStatisticsMode
         """
         return Token(
             self._connection,
@@ -1330,7 +1330,7 @@ class PP_FECMODE:
         """Set the FEC mode for port that supports FEC.
 
         :param mode: FEC mode for port
-        :type mode: enums.FECMode
+        :type mode: FECMode
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, mode=mode))
 
@@ -1469,13 +1469,13 @@ class PP_PRBSTYPE:
         """Set the PRBS type used when the interface is in PRBS mode.
 
         :param prbs_inserted_type: specifying where the PRBS is inserted
-        :type prbs_inserted_type: enums.PRBSInsertedType
+        :type prbs_inserted_type: PRBSInsertedType
         :param polynomial: specifying which PRBS that is used
-        :type polynomial: enums.PRBSPolynomial
+        :type polynomial: PRBSPolynomial
         :param invert: specifying if the PRBS is inverted
-        :type invert: enums.PRBSInvertState
+        :type invert: PRBSInvertState
         :param statistics_mode: specifying PRBS statistics mode, accumulative or for last second
-        :type statistics_mode: enums.PRBSStatisticsMode
+        :type statistics_mode: PRBSStatisticsMode
         """
         return Token(
             self._connection,
@@ -1525,13 +1525,13 @@ class PP_PHYSETTINGS:
         """Set low-level PHY settings.
 
         :param link_training_on_off: enabling/disabling link training
-        :type link_training_on_off: enums.OnOff
+        :type link_training_on_off: OnOff
         :param precode_on_off: enabling/disabling link precode
-        :type precode_on_off: enums.OnOffDefault
+        :type precode_on_off: OnOffDefault
         :param graycode_on_off: enabling/disabling link graycode.
-        :type graycode_on_off: enums.OnOff
+        :type graycode_on_off: OnOff
         :param pam4_msb_lsb_swap: enabling/disabling PAM4 MSB/LSB swap.
-        :type pam4_msb_lsb_swap: enums.OnOff
+        :type pam4_msb_lsb_swap: OnOff
         """
         return Token(
             self._connection,
@@ -1640,15 +1640,15 @@ class PP_AUTONEG:
         """Set the auto-negotiation settings of the PHY.
 
         :param mode: auto neg mode
-        :type mode: enums.AutoNegMode
+        :type mode: AutoNegMode
         :param tec_ability: technical ability
-        :type tec_ability: enums.AutoNegTecAbility
+        :type tec_ability: AutoNegTecAbility
         :param fec_capable: FEC capable
-        :type fec_capable: enums.AutoNegFecOption
+        :type fec_capable: AutoNegFecOption
         :param fec_requested: FEC requested
-        :type fec_requested: enums.AutoNegFecOption
+        :type fec_requested: AutoNegFecOption
         :param pause_mode: pause mode
-        :type pause_mode: enums.PauseMode
+        :type pause_mode: PauseMode
         """
         return Token(
             self._connection,
@@ -1736,15 +1736,15 @@ class PP_LINKTRAIN:
         """Set the link training settings of the port.
 
         :param mode: link training mode
-        :type mode: enums.LinkTrainMode
+        :type mode: LinkTrainMode
         :param pam4_frame_size: PAM4 frame size
-        :type pam4_frame_size: enums.PAM4FrameSize
+        :type pam4_frame_size: PAM4FrameSize
         :param nrz_pam4_init_cond: link training init condition
-        :type nrz_pam4_init_cond: enums.LinkTrainingInitCondition
+        :type nrz_pam4_init_cond: LinkTrainingInitCondition
         :param nrz_preset: NRZ preset
-        :type nrz_preset: enums.NRZPreset
+        :type nrz_preset: NRZPreset
         :param timeout_mode: timeout mode
-        :type timeout_mode: enums.TimeoutMode
+        :type timeout_mode: TimeoutMode
         """
         return Token(
             self._connection,

@@ -1284,7 +1284,7 @@ class PEF_TPLDCONFIG:
         """Set the TPLD filter configuration.
 
         :param usage: specifies the usage of TPLD field information
-        :type usage: enums.OnOff
+        :type usage: OnOff
         :param id: specifies the TPLD ID. Range: 0-2015, Default value: 0
         :type id: int
         """

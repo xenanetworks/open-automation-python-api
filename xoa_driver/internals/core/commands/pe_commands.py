@@ -50,7 +50,7 @@ class PE_FCSDROP:
         """Set the status of whether the action on packets with FCS errors on a port is enabled.
 
         :param on_off:  whether the action on packets with FCS errors on a port is enabled
-        :type on_off: enums.OnOff
+        :type on_off: OnOff
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, on_off=on_off))
 
@@ -96,7 +96,7 @@ class PE_TPLDMODE:
         """Set the TPLD mode of the port.
 
         :param mode: indicating the TPLD mode
-        :type mode: enums.TPLDMode
+        :type mode: TPLDMode
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, mode=mode))
 
@@ -248,7 +248,7 @@ class PE_CORRUPT:
         not supported on default flow (0)
 
         :param corruption_type: corruption type
-        :type corruption_type: enums.CorruptionType
+        :type corruption_type: CorruptionType
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], corruption_type=corruption_type))
 
@@ -359,9 +359,9 @@ class PE_BANDPOLICER:
         """Set the bandwidth polcier configuration. 
 
         :param on_off: enables/disables policer. Note: PED_ENABLE is not supported for the policer.
-        :type on_off: enums.OnOff
+        :type on_off: OnOff
         :param mode: policer mode
-        :type mode: enums.PolicerMode
+        :type mode: PolicerMode
         :param cir: policer committed information rate in units of 100 kbps (range 0 to 1000000), default is 0.
         :type cir: int
         :param cbs: policer committed burst burst in bytes (range 0 to 4194304), default is 0.
@@ -417,9 +417,9 @@ class PE_BANDSHAPER:
         """Set the bandwidth shaper configuration.
 
         :param on_off: enables/disables shaper
-        :type on_off: enums.OnOff
+        :type on_off: OnOff
         :param mode: shaper mode
-        :type mode: enums.PolicerMode
+        :type mode: PolicerMode
         :param cir: shaper committed information rate in units of 100 kbps (range 0 to 1000000), default is 0.
         :type cir: int
         :param cbs: shaper committed burst size in bytes (range 0 to 4194304), default is 0.

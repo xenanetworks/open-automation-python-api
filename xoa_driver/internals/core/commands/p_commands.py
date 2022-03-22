@@ -52,7 +52,7 @@ class P_RESERVATION:
         """Get the reservation status of the test port.
 
         :return: the reservation status of the test port.
-        :rtype: enums.ReservedStatus
+        :rtype: ReservedStatus
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
@@ -60,7 +60,7 @@ class P_RESERVATION:
         """Set the reservation of the test port, i.e., reserve, release, or relinquish.
 
         :param operation: the reservation of the test port, i.e., reserve, release, or relinquish.
-        :type operation: enums.ReservedAction
+        :type operation: ReservedAction
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, operation=operation))
 
@@ -304,7 +304,7 @@ class P_SPEEDSELECTION:
         """Set the speed mode of the port with an interface type supporting multiple speeds.
 
         :param mode: the speed mode of the port with an interface type supporting multiple speeds
-        :type mode: enums.PortSpeedMode
+        :type mode: PortSpeedMode
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, mode=mode))
 
@@ -673,7 +673,7 @@ class P_ARPREPLY:
         """Set the status of whether the port replies to ARP requests.
 
         :param on_off: whether the port replies to ARP requests
-        :type on_off: enums.OnOff
+        :type on_off: OnOff
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, on_off=on_off))
 
@@ -722,7 +722,7 @@ class P_PINGREPLY:
         """Set the status of whether the port replies to IPv4/IPv6 PING requests.
 
         :param on_off: whether the port replies to IPv4/IPv6 PING requests
-        :type on_off: enums.OnOff
+        :type on_off: OnOff
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, on_off=on_off))
 
@@ -768,7 +768,7 @@ class P_PAUSE:
         """Set the status of whether the port responds to incoming Ethernet PAUSE frames by holding back outgoing traffic.
 
         :param on_off: the status of whether the port responds to incoming Ethernet PAUSE frames by holding back outgoing traffic.
-        :type on_off: enums.OnOff
+        :type on_off: OnOff
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, on_off=on_off))
 
@@ -869,7 +869,7 @@ class P_LOOPBACK:
         """Set the loop back mode of the port.
 
         :param mode: the loop back mode of the port
-        :type mode: enums.LoopMode
+        :type mode: LoopMode
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, mode=mode))
 
@@ -932,7 +932,7 @@ class P_FLASH:
         """Set the status of the LED flashing status of the port. 
 
         :param on_off: the status of the LED flashing status of the port.
-        :type on_off: enums.OnOff
+        :type on_off: OnOff
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, on_off=on_off))
 
@@ -984,7 +984,7 @@ class P_TRAFFIC:
         """Set the traffic generation status of the port. 
 
         :param on_off: the traffic generation status of the port.
-        :type on_off: enums.StartOrStop
+        :type on_off: StartOrStop
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, on_off=on_off))
 
@@ -1033,7 +1033,7 @@ class P_CAPTURE:
         """Set whether the port is capturing packets.
 
         :param on_off: whether the port is capturing packets.
-        :type on_off: enums.StartOrStop
+        :type on_off: StartOrStop
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, on_off=on_off))
 
@@ -1165,7 +1165,7 @@ class P_LATENCYMODE:
         """Set the latency measurement mode of the port. 
 
         :param mode: the latency measurement mode of the port
-        :type mode: enums.LatencyMode
+        :type mode: LatencyMode
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, mode=mode))
 
@@ -1270,7 +1270,7 @@ class P_UAT_MODE:
         """Set the UAT mode of the port. 
 
         :param mode: the state of the affected stream counters
-        :type mode: enums.OnOff
+        :type mode: OnOff
         :param delay: time in milliseconds to wait before detection of UAT is started. Default value: 500. This command is ignored when state is set to OFF
         :type delay: int
         """
@@ -1516,7 +1516,7 @@ class P_MDIXMODE:
         """Set the MDI/MDIX mode of the port. 
 
         :param mode: the MDI/MDIX mode of the port.
-        :type mode: enums.MDIXMode
+        :type mode: MDIXMode
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, mode=mode))
 
@@ -1720,7 +1720,7 @@ class P_AUTONEGSELECTION:
         """Set whether the port responds to incoming auto-negotiation requests.
 
         :param on_off: whether the port responds to incoming auto-negotiation requests
-        :type on_off: enums.OnOff
+        :type on_off: OnOff
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, on_off=on_off))
 
@@ -1911,7 +1911,7 @@ class P_MULTICAST:
         :param ipv4_multicast_addresses: a multicast group address to join or leave
         :type ipv4_multicast_addresses: List[ipaddress.IPv4Address]
         :param operation: the operation
-        :type operation: enums.MulticastOperation
+        :type operation: MulticastOperation
         :param second_count: the interval between repeated joins in seconds.
         :type second_count: int
         """
@@ -1984,11 +1984,11 @@ class P_MULTICASTEXT:
         :param ipv4_multicast_addresses: a multicast group address to join or leave
         :type ipv4_multicast_addresses: List[ipaddress.IPv4Address]
         :param operation: the operation
-        :type operation: enums.MulticastExtOperation
+        :type operation: MulticastExtOperation
         :param second_count: the interval between repeated joins in seconds.
         :type second_count: int
         :param igmp_version: IGMP version
-        :type igmp_version: enums.IGMPVersion
+        :type igmp_version: IGMPVersion
         """
         return Token(
             self._connection,
@@ -2105,7 +2105,7 @@ class P_TXMODE:
         """Set the the scheduling mode for outgoing traffic from the port.
 
         :param mode: the scheduling mode for outgoing traffic from the port, containing the loopback mode for the port: NORMAL (interleaved packet scheduling), STRICTUNIFORM (strict uniform mode), SEQUENTIAL (sequential packet scheduling), BURST (burst mode).
-        :type mode: enums.LoopbackMode
+        :type mode: LoopbackMode
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, mode=mode))
 
@@ -2168,13 +2168,13 @@ class P_MULTICASTHDR:
         :param header_count: number of additional headers. Currently only 0 or 1 supported
         :type header_count: int
         :param header_format: indicates the header format
-        :type header_format: enums.HeaderFormat
+        :type header_format: HeaderFormat
         :param tag: VLAN tag (VID)
         :type tag: int
         :param pcp: VLAN Priority code point
         :type pcp: int
         :param dei: drop-eligible indicator
-        :type dei: enums.OnOff
+        :type dei: OnOff
         """
         return Token(
             self._connection,
@@ -2349,7 +2349,7 @@ class P_PAYLOADMODE:
         """Set the port's payload mode, i.e. normal, extend payload, and custom payload field, for ALL streams on this port. 
 
         :param mode: the port's payload mode, i.e. normal, extend payload, and custom payload field, for ALL streams on this port
-        :type mode: enums.PayloadMode
+        :type mode: PayloadMode
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, mode=mode))
 
@@ -2398,7 +2398,7 @@ class P_BRRMODE:
         """Set the port's BroadR-Reach mode.
 
         :param mode: the port's BroadR-Reach mode
-        :type mode: enums.BRRMode
+        :type mode: BRRMode
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, mode=mode))
 
@@ -2444,7 +2444,7 @@ class P_TXENABLE:
         """Set the the port's transmitter status.
 
         :param on_off: the port's transmiter status
-        :type on_off: enums.OnOff
+        :type on_off: OnOff
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, on_off=on_off))
 
@@ -2698,7 +2698,7 @@ class P_ARPV6REPLY:
         """Set whether the port replies to NDP Neighbor Solicitations. 
 
         :param on_off: whether the port replies to NDP Neighbor Solicitations. 
-        :type on_off: enums.OnOff
+        :type on_off: OnOff
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, on_off=on_off))
 
@@ -2747,7 +2747,7 @@ class P_PINGV6REPLY:
         """Set whether the port replies to incoming PINGv6.
 
         :param on_off: whether the port replies to incoming PINGv6. 
-        :type on_off: enums.OnOff
+        :type on_off: OnOff
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, on_off=on_off))
 
@@ -2899,7 +2899,7 @@ class P_LPENABLE:
         """Set whether Energy Efficient Ethernet (EEE) is enabled on the port.
 
         :param on_off: whether Energy Efficient Ethernet (EEE) is enabled on the port
-        :type on_off: enums.OnOff
+        :type on_off: OnOff
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, on_off=on_off))
 
@@ -2949,7 +2949,7 @@ class P_LPTXMODE:
         """Set whether the transmission of Low Power Idles (LPIs) is enabeld on the port.
 
         :param on_off: whether the transmission of Low Power Idles (LPIs) is enabeld on the port
-        :type on_off: enums.OnOff
+        :type on_off: OnOff
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, on_off=on_off))
 
@@ -3147,7 +3147,7 @@ class P_FAULTSIGNALING:
         """Set the remote/local fault signaling behavior of the port (performed by the Reconciliation Sub-layer). 
 
         :param fault_signaling: remote/local fault signaling behavior of the port
-        :type fault_signaling: enums.FaultSignaling
+        :type fault_signaling: FaultSignaling
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, fault_signaling=fault_signaling))
 
@@ -3243,7 +3243,7 @@ class P_TPLDMODE:
         """Set the Test Payload mode of the port.
 
         :param mode: the Test Payload mode of the port.
-        :type mode: enums.TPLDMode
+        :type mode: TPLDMode
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, mode=mode))
     
@@ -3393,7 +3393,7 @@ class P_DYNAMIC:
         """Set whether the port should support dynamic changes when the traffic is running.
 
         :param on_off: whether the port should support dynamic changes when the traffic is running
-        :type on_off: enums.OnOff
+        :type on_off: OnOff
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, on_off=on_off))
 
@@ -3454,21 +3454,21 @@ class P_PFCENABLE:
         """Set whether the port responds to incoming Ethernet Priority Flow Control (PFC) frames.
 
         :param cos_0: whether PFC response is enabled for CoS 0
-        :type cos_0: enums.OnOff
+        :type cos_0: OnOff
         :param cos_1: whether PFC response is enabled for CoS 1
-        :type cos_1: enums.OnOff
+        :type cos_1: OnOff
         :param cos_2: whether PFC response is enabled for CoS 2
-        :type cos_2: enums.OnOff
+        :type cos_2: OnOff
         :param cos_3: whether PFC response is enabled for CoS 3
-        :type cos_3: enums.OnOff
+        :type cos_3: OnOff
         :param cos_4: whether PFC response is enabled for CoS 4
-        :type cos_4: enums.OnOff
+        :type cos_4: OnOff
         :param cos_5: whether PFC response is enabled for CoS 5
-        :type cos_5: enums.OnOff
+        :type cos_5: OnOff
         :param cos_6: whether PFC response is enabled for CoS 6
-        :type cos_6: enums.OnOff
+        :type cos_6: OnOff
         :param cos_7: whether PFC response is enabled for CoS 7
-        :type cos_7: enums.OnOff
+        :type cos_7: OnOff
         """
         return Token(
             self._connection,
@@ -3663,7 +3663,7 @@ class P_TXPREAMBLE_REMOVE:
         """Set whether the preambles from outgoing frames are to be removed by the port.
 
         :param on_off: whether the preambles from outgoing frames are to be removed by the port
-        :type on_off: enums.OnOff
+        :type on_off: OnOff
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, on_off=on_off))
 
@@ -3709,7 +3709,7 @@ class P_RXPREAMBLE_INSERT:
         """Set whether the port should insert preambles to the incoming frames.
 
         :param on_off: whether the port should insert preambles to the incoming frames
-        :type on_off: enums.OnOff
+        :type on_off: OnOff
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, on_off=on_off))
 
@@ -3755,7 +3755,7 @@ class P_LOADMODE:
         """Set the status of config load mode of the Chimera port.
 
         :param on_off: whether config load is enabled on the Chimera port
-        :type on_off: enums.OnOff
+        :type on_off: OnOff
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, on_off=on_off))
 
@@ -3852,7 +3852,7 @@ class P_EMULATE:
         """Set whether the Chimera port's emulation functionality is enabled.
 
         :param action: whether the Chimera port's emulation functionality is enabled
-        :type action: enums.OnOff
+        :type action: OnOff
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, action=action))
 
