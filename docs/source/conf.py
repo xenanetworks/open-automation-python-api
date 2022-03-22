@@ -61,7 +61,7 @@ master_doc = 'index'
 # -- Options for HTML output -----------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.
-html_theme = 'classic'
+html_theme = 'sphinx_rtd_theme'
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'xoadriverdoc'
