@@ -1,4 +1,7 @@
-""" Low Level Interface"""
+"""
+Low-Level interface.
+"""
+
 from xoa_driver.internals.core import commands
 from xoa_driver.internals.core.registry import COMMANDS_REGISTRY
 from xoa_driver.internals.core.transporter import TransportationHandler

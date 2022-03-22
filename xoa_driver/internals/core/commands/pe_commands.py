@@ -1,4 +1,6 @@
-"""PE_ 	Port Emulation (Chimera only)"""
+"""
+Port Impairment (Chimera only) Commands
+"""
 from dataclasses import dataclass
 import typing
 import functools
@@ -435,8 +437,7 @@ class PE_BANDSHAPER:
 @dataclass
 class PE_DROPTOTAL:
     """
-    Obtains statistics concerning all the packets dropped between this receive port
-    and its partner TX port.
+    Obtains statistics concerning all the packets dropped between this receive port and its partner TX port.
     """
 
     code: typing.ClassVar[int] = 1750
@@ -460,15 +461,14 @@ class PE_DROPTOTAL:
         pkt_drop_ratio_other: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, ratio of number of packets dropped for other reasons in all flows, expressed in ppm.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get statistics concerning all the packets dropped between this receive port
-        and its partner TX port. 
+        """Get statistics concerning all the packets dropped between this receive port and its partner TX port. 
 
         :return: total number of packets dropped in all flows,
-        total number of packets dropped as programmed in all flows,
-        total number of packets dropped due to bandwidth control in all flows,
-        total number of packets dropped for other reasons in all flows,
-        ratio of number of packets dropped in all flows, expressed in ppm,
-        ratio of number of packets dropped as programmed in all flows, expressed in ppm
+            total number of packets dropped as programmed in all flows,
+            total number of packets dropped due to bandwidth control in all flows,
+            total number of packets dropped for other reasons in all flows,
+            ratio of number of packets dropped in all flows, expressed in ppm,
+            ratio of number of packets dropped as programmed in all flows, expressed in ppm
         :rtype: PE_DROPTOTAL.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
@@ -508,8 +508,7 @@ class PE_LATENCYTOTAL:
 @dataclass
 class PE_DUPTOTAL:
     """
-    Obtains statistics concerning all the packets duplicated between this receive
-    port and its partner TX port.
+    Obtains statistics concerning all the packets duplicated between this receive port and its partner TX port.
     """
 
     code: typing.ClassVar[int] = 1752
@@ -528,8 +527,7 @@ class PE_DUPTOTAL:
         """Get statistics concerning all the packets duplicated between this receive
         port and its partner TX port.
 
-        :return: number of packets duplicated in all flows,
-        ratio of number of packets duplicated in all flows, expressed in ppm.
+        :return: number of packets duplicated in all flows, ratio of number of packets duplicated in all flows, expressed in ppm.
         :rtype: PE_DUPTOTAL.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
@@ -568,8 +566,7 @@ class PE_MISTOTAL:
 @dataclass
 class PE_CORTOTAL:
     """
-    Obtains statistics concerning all the packets corrupted on between this receive
-    port and its partner TX port.
+    Obtains statistics concerning all the packets corrupted on between this receive port and its partner TX port.
     """
 
     code: typing.ClassVar[int] = 1754
@@ -604,15 +601,15 @@ class PE_CORTOTAL:
         """Get statistics concerning all the packets corrupted on between this receive port and its partner TX port.
 
         :return: number of packets corrupted in all flows;
-        number of packets with Ethernet FCS corrupted in all flows;
-        number of packets with IP header checksum corrupted in all flows;
-        number of packets with UDP checksum corrupted in all flows;
-        number of packets with TCP checksum corrupted in all flows;
-        ratio of number of packets corrupted in all flows, expressed in ppm;
-        ratio of number of packets with Ethernet FCS corrupted in all flows expressed in ppm;
-        ratio of number of packets with IP Header checksum corrupted in all flows, expressed in ppm;
-        ratio of number of packets with UDP checksum corrupted in all flows, expressed in ppm;
-        ratio of number of packets with TCP checksum corrupted in all flows, expressed in ppm
+            number of packets with Ethernet FCS corrupted in all flows;
+            number of packets with IP header checksum corrupted in all flows;
+            number of packets with UDP checksum corrupted in all flows;
+            number of packets with TCP checksum corrupted in all flows;
+            ratio of number of packets corrupted in all flows, expressed in ppm;
+            ratio of number of packets with Ethernet FCS corrupted in all flows expressed in ppm;
+            ratio of number of packets with IP Header checksum corrupted in all flows, expressed in ppm;
+            ratio of number of packets with UDP checksum corrupted in all flows, expressed in ppm;
+            ratio of number of packets with TCP checksum corrupted in all flows, expressed in ppm
         :rtype: PE_CORTOTAL.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
@@ -687,8 +684,7 @@ class PE_CLEAR:
 @dataclass
 class PE_FLOWDROPTOTAL:
     """
-    Obtains statistics concerning all the packets dropped in a flow between this
-    receive port and its partner TX port.
+    Obtains statistics concerning all the packets dropped in a flow between this receive port and its partner TX port.
     """
 
     code: typing.ClassVar[int] = 1770
@@ -715,14 +711,15 @@ class PE_FLOWDROPTOTAL:
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning all the packets dropped in a flow between this receive port and its partner TX port.
 
-        :return: total number of packets dropped for the flow,
-        total number of packets dropped as programmed for the flow,
-        total number of packets dropped due to bandwidth control for the flow,
-        total number of packets dropped for other reasons for the flow,
-        ratio of number of packets dropped for the flow, expressed in ppm,
-        ratio of number of packets dropped as programmed for the flow, expressed in ppm,
-        ratio of number of packets dropped due to bandwidth control for the flow, expressed in ppm,
-        ratio of number of packets dropped for other reasons for the flow, expressed in ppm.
+        :return:
+            total number of packets dropped for the flow,
+            total number of packets dropped as programmed for the flow,
+            total number of packets dropped due to bandwidth control for the flow,
+            total number of packets dropped for other reasons for the flow,
+            ratio of number of packets dropped for the flow, expressed in ppm,
+            ratio of number of packets dropped as programmed for the flow, expressed in ppm,
+            ratio of number of packets dropped due to bandwidth control for the flow, expressed in ppm,
+            ratio of number of packets dropped for other reasons for the flow, expressed in ppm.
         :rtype: PE_FLOWDROPTOTAL.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
@@ -732,8 +729,7 @@ class PE_FLOWDROPTOTAL:
 @dataclass
 class PE_FLOWLATENCYTOTAL:
     """
-    Obtains statistics concerning all the packets delayed between this receive port
-    and its partner TX port.
+    Obtains statistics concerning all the packets delayed between this receive port and its partner TX port.
     """
 
     code: typing.ClassVar[int] = 1771
@@ -750,8 +746,7 @@ class PE_FLOWLATENCYTOTAL:
         ratio: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, ratio of number of packets delayed in the flow, expressed in ppm.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get statistics concerning all the packets delayed between this receive port
-        and its partner TX port.
+        """Get statistics concerning all the packets delayed between this receive port and its partner TX port.
 
         :return: number of packets delayed in the flow, ratio of number of packets delayed in the flow, expressed in ppm.
         :rtype: PE_FLOWLATENCYTOTAL.GetDataAttr
@@ -763,8 +758,7 @@ class PE_FLOWLATENCYTOTAL:
 @dataclass
 class PE_FLOWDUPTOTAL:
     """
-    Obtains statistics concerning all the packets duplicated in a flow between this
-    receive port and its partner TX port.
+    Obtains statistics concerning all the packets duplicated in a flow between this receive port and its partner TX port.
     """
 
     code: typing.ClassVar[int] = 1772
@@ -781,8 +775,7 @@ class PE_FLOWDUPTOTAL:
         ratio: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, ratio of number of packets duplicated for the flow��expressed in ppm.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get statistics concerning all the packets duplicated in a flow between this
-        receive port and its partner TX port.
+        """Get statistics concerning all the packets duplicated in a flow between this receive port and its partner TX port.
 
         :return: number of packets duplicated for the flow, ratio of number of packets duplicated for the flow��expressed in ppm.
         :rtype: PE_FLOWDUPTOTAL.GetDataAttr
@@ -794,8 +787,7 @@ class PE_FLOWDUPTOTAL:
 @dataclass
 class PE_FLOWMISTOTAL:
     """
-    Obtains statistics concerning all the packets mis-ordered in a flow between this
-    receive port and its partner TX port.
+    Obtains statistics concerning all the packets mis-ordered in a flow between this receive port and its partner TX port.
     """
 
     code: typing.ClassVar[int] = 1773
@@ -812,8 +804,7 @@ class PE_FLOWMISTOTAL:
         ratio: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, ratio of number of packets, expressed in ppm.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get statistics concerning all the packets mis-ordered in a flow between this
-        receive port and its partner TX port.
+        """Get statistics concerning all the packets mis-ordered in a flow between this receive port and its partner TX port.
 
         :return: number of packets mis-ordered for the flow, ratio of number of packets, expressed in ppm.
         :rtype: PE_FLOWMISTOTAL.GetDataAttr
@@ -825,8 +816,7 @@ class PE_FLOWMISTOTAL:
 @dataclass
 class PE_FLOWCORTOTAL:
     """
-    Obtains statistics concerning all the packets corrupted in a flow between this
-    receive port and its partner TX port.
+    Obtains statistics concerning all the packets corrupted in a flow between this receive port and its partner TX port.
     """
 
     code: typing.ClassVar[int] = 1774
@@ -859,19 +849,19 @@ class PE_FLOWCORTOTAL:
         )  # long integer, ratio of number of packets with TCP checksum corrupted for the flow expressed in ppm.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get statistics concerning all the packets corrupted in a flow between this
-        receive port and its partner TX port.
+        """Get statistics concerning all the packets corrupted in a flow between this receive port and its partner TX port.
 
-        :return: number of packets corrupted for the flow,
-        number of packets with Ethernet FCS corrupted for the flow,
-        number of packets with IP header checksum corrupted for the flow,
-        number of packets with UDP checksum corrupted for the flow,
-        number of packets with TCP checksum corrupted for the flow,
-        ratio of number of packets corrupted for the flow expressed in ppm,
-        ratio of number of packets with Ethernet FCS corrupted for the flow expressed in ppm,
-        ratio of number of packets with IP Header checksum corrupted for the flowexpressed in ppm,
-        ratio of number of packets with UDP checksum corrupted for the flow expressed in ppm,
-        ratio of number of packets with TCP checksum corrupted for the flow expressed in ppm.
+        :return:
+            number of packets corrupted for the flow,
+            number of packets with Ethernet FCS corrupted for the flow,
+            number of packets with IP header checksum corrupted for the flow,
+            number of packets with UDP checksum corrupted for the flow,
+            number of packets with TCP checksum corrupted for the flow,
+            ratio of number of packets corrupted for the flow expressed in ppm,
+            ratio of number of packets with Ethernet FCS corrupted for the flow expressed in ppm,
+            ratio of number of packets with IP Header checksum corrupted for the flowexpressed in ppm,
+            ratio of number of packets with UDP checksum corrupted for the flow expressed in ppm,
+            ratio of number of packets with TCP checksum corrupted for the flow expressed in ppm.
         :rtype: PE_FLOWCORTOTAL.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
@@ -881,8 +871,7 @@ class PE_FLOWCORTOTAL:
 @dataclass
 class PE_FLOWJITTERTOTAL:
     """
-    Obtains statistics concerning all the packets jittered in a flow between this
-    receive port and its partner TX port.
+    Obtains statistics concerning all the packets jittered in a flow between this receive port and its partner TX port.
     """
 
     code: typing.ClassVar[int] = 1775
@@ -899,8 +888,7 @@ class PE_FLOWJITTERTOTAL:
         ratio: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, ratio of number of packets jittered in the flow, expressed in ppm.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get statistics concerning all the packets jittered in a flow between this
-        receive port and its partner TX port.
+        """Get statistics concerning all the packets jittered in a flow between this receive port and its partner TX port.
 
         :return: number of packets jittered in the flow, ratio of number of packets jittered in the flow, expressed in ppm
         :rtype: PE_FLOWJITTERTOTAL.GetDataAttr

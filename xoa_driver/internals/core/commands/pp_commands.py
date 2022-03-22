@@ -1,4 +1,6 @@
-"""PP_ 	Port PCS and PMA"""
+"""
+Port (high-speed) Commands
+"""
 from dataclasses import dataclass
 import typing
 import functools
@@ -317,16 +319,17 @@ class PP_RXTOTALSTATS:
 
     def get(self) -> "Token[GetDataAttr]":
         """Get FEC Total counters of the port:
-        1. total corrected FEC symbols count.
-        2. total uncorrectable FEC blocks count.
-        3. total pre-FEC BER estimate sent as "total_pre_ber = received_bits / total_corfecerrs".
-            To get the real total pre-BER, calculate the inverse: 1/total_pre_ber. 
-            If zero physical bit errors have been detected, the negative value "-received_bits" is provided, which can be used to generate the "< BER" value.
-        4. total post-FEC BER estimate sent as "total_post_ber = received_bits / total_estimated_uncorrectable_errors". 
-            To get the real total post-BER, calculate the inverse: 1/total_post_ber. 
-            If zero physical bit errors have been detected, the negative value "-received_bits" is provided, which can be used to generate the "< BER" value.
+            1. total corrected FEC symbols count.
+            2. total uncorrectable FEC blocks count.
+            3. total pre-FEC BER estimate sent as "total_pre_ber = received_bits / total_corfecerrs".
+                To get the real total pre-BER, calculate the inverse: 1/total_pre_ber. 
+                If zero physical bit errors have been detected, the negative value "-received_bits" is provided, which can be used to generate the "< BER" value.
+            4. total post-FEC BER estimate sent as "total_post_ber = received_bits / total_estimated_uncorrectable_errors". 
+                To get the real total post-BER, calculate the inverse: 1/total_post_ber. 
+                If zero physical bit errors have been detected, the negative value "-received_bits" is provided, which can be used to generate the "< BER" value.
 
         :return: total corrected FEC symbols count, total uncorrectable FEC blocks count, total pre-FEC BER estimate sent, and Total post-FEC BER estimate sent.
+
         :rtype: PP_RXTOTALSTATS.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
@@ -359,7 +362,8 @@ class PP_RXFECSTATS:
         """Get statistics on how many FEC blocks have been seen with a given number of symbol errors.
 
         :return: stats type (currently always 0), number of values in correction_stats, array of length value_count-1. 
-        The correction_stats array shows how many FEC blocks have been seen with [0, 1, 2, 3....15, >15] symbol errors, and the number of received uncorrectable code words
+            The correction_stats array shows how many FEC blocks have been seen with [0, 1, 2, 3....15, >15] symbol errors, and the number of received uncorrectable code words
+
         :rtype: PP_RXFECSTATS.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
@@ -929,6 +933,7 @@ class PP_EYEINFO:
     bathtub curve information on a 25G serdes. This must be called after "PP_EYEMEASURE"
     has run to return valid results.  Use "get" to see the status of the data
     gathering process.
+
     """
 
     code: typing.ClassVar[int] = 356
@@ -967,8 +972,7 @@ class PP_EYEINFO:
         has run to return valid results.  Use "get" to see the status of the data
         gathering process.
 
-        :return: BER eye-measurement information such as the vertical and horizontal
-        bathtub curve information on a 25G serdes
+        :return: BER eye-measurement information such as the vertical and horizontal bathtub curve information on a 25G serdes
         :rtype: PP_EYEINFO.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex]))

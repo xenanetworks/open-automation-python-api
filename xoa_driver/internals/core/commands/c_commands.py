@@ -1,4 +1,6 @@
-"""C_ 	Chassis"""
+"""
+Chassis Commands
+"""
 from dataclasses import dataclass
 import ipaddress
 import typing
@@ -1809,22 +1811,9 @@ class C_TKSTATUSEXT:
         """Get the TimeKeeper version and status.
 
         :return: extended status in JSON format. The string is formatted as shown in the example below.
+        
         ```json
-        {
-            "FormatVersion": 1,
-            "ApplicationVersion": 452.0,
-            "TimeKeeperStatus":
-            {
-                "systemtimingstatus": "Waiting for good time source",
-                "syncsource": "NTP",
-                "sourcestate": "NTP server 10.0.0.110",
-                "sourceaccuracy": " No updates yet",
-                "versioninfo": "8.0.3",
-                "timesincestart": "0 day(s) 0 hours 1 minutes",
-                "timesinceboot": "0 day(s) 0 hours 2 minutes",
-                "updatetime": 1637916837
-            }
-        }
+        {"FormatVersion": 1, "ApplicationVersion": 452.0, "TimeKeeperStatus": { "systemtimingstatus": "Waiting for good time source", "syncsource": "NTP", "sourcestate": "NTP server 10.0.0.110", "versioninfo": "8.0.3", "timesincestart": "0 day(s) 0 hours 1 minutes", "timesinceboot": "0 day(s) 0 hours 2 minutes", "updatetime": 1637916837 } }
         ```
 
         :rtype: C_TKSTATUSEXT.GetDataAttr

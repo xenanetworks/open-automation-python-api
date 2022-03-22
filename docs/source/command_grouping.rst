@@ -65,7 +65,7 @@ If you prefer sending commands in the old fashion like using CLI, you can certai
     await command_3
 
 
-**IMPORTANT**:
+.. note::
 
     Remember to use ``await`` before the command. This is because all command classes support ``asyncio`` and if you want your code to be non-blocking, then use ``await``. If a previous command is not responded due to network problem, the next command can still be sent (non-blocking). Otherwise, the next command will wait for the previous command to finish, which usually end up timing out and all the rest commands are not sent.
 

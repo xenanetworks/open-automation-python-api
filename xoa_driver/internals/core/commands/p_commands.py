@@ -1,4 +1,6 @@
-"""P_ 	Port"""
+"""
+Port Commands
+"""
 from dataclasses import dataclass
 import ipaddress
 import typing
@@ -837,6 +839,7 @@ class P_LOOPBACK:
     logic, and can be captured and analysed. 2) Internal TX-to-RX loopback, where
     the transmitted packets are received directly by the port itself. This is mainly
     useful for testing the generated traffic patterns before actual use.
+
     """
 
     code: typing.ClassVar[int] = 122
@@ -866,7 +869,7 @@ class P_LOOPBACK:
         """Set the loop back mode of the port.
 
         :param mode: the loop back mode of the port
-        :type mode:; enums.LoopMode
+        :type mode: enums.LoopMode
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, mode=mode))
 
@@ -1118,19 +1121,22 @@ class P_LATENCYMODE:
     """
     Latency is measured by inserting a time-stamp in each packet when it is
     transmitted, and relating it to the time when the packet is received. There are
-    four separate modes for calculating the latency: 
-    1)  Last-bit-out to last-bit-in, which measures basic bit-transit time, 
-        independent of packet length. 
-    2)  First-bit-out to last-bit-in, which adds the time taken to transmit the 
-        packet itself.
-    3)  Last-bit-out to first-bit-in, which subtracts the time taken to transmit the
-        packet itself. The same latency mode must be configured for the transmitting
-        port and the receiving port; otherwise invalid measurements will occur.
-    4)  First-bit-out to first-bit-in, which adds the time taken to transmit the 
-        packet itself, and subtracts the time taken to transmit the packet itself. 
-        The same latency mode must be configured for the transmitting
-        port and the receiving port; otherwise invalid measurements will occur.
+    four separate modes for calculating the latency:
+
+        1)  Last-bit-out to last-bit-in, which measures basic bit-transit time, 
+            independent of packet length. 
+        2)  First-bit-out to last-bit-in, which adds the time taken to transmit the 
+            packet itself.
+        3)  Last-bit-out to first-bit-in, which subtracts the time taken to transmit the
+            packet itself. The same latency mode must be configured for the transmitting
+            port and the receiving port; otherwise invalid measurements will occur.
+        4)  First-bit-out to first-bit-in, which adds the time taken to transmit the 
+            packet itself, and subtracts the time taken to transmit the packet itself. 
+            The same latency mode must be configured for the transmitting
+            port and the receiving port; otherwise invalid measurements will occur.
+
     """
+    
 
     code: typing.ClassVar[int] = 128
     pushed: typing.ClassVar[bool] = True
@@ -1529,8 +1535,8 @@ class P_MDIXMODE:
 @dataclass
 class P_TRAFFICERR:
     """
-    Obtain the traffic error which has occurred in the last *_TRAFFIC or
-    C_TRAFFICSYNC command
+    Obtain the traffic error which has occurred in the last `*_TRAFFIC` or `C_TRAFFICSYNC` command.
+
     """
 
     code: typing.ClassVar[int] = 198
@@ -1545,9 +1551,9 @@ class P_TRAFFICERR:
         error: XmpField[XmpInt] = XmpField(XmpInt, choices=TrafficError)  # coded byte, specifies the port traffic error.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get traffic error which has occurred in the last *_TRAFFIC or C_TRAFFICSYNC command.
+        """Get traffic error which has occurred in the last `*_TRAFFIC` or `C_TRAFFICSYNC` command.
 
-        :return: traffic error which has occurred in the last *_TRAFFIC or C_TRAFFICSYNC command
+        :return: traffic error which has occurred in the last `*_TRAFFIC` or `C_TRAFFICSYNC` command
         :rtype: P_TRAFFICERR.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))

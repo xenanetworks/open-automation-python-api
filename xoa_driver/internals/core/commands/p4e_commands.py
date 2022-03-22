@@ -1,4 +1,6 @@
-"""P4E_ 	Port L47 Packet Engine"""
+"""
+Port L47 Packet Engine Commands
+"""
 from dataclasses import dataclass
 import typing
 

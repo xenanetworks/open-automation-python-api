@@ -1,4 +1,6 @@
-"""M_ 	Module"""
+"""
+Module Commands
+"""
 from dataclasses import dataclass
 import typing
 import functools
@@ -579,11 +581,8 @@ class M_MEDIASUPPORT:
     def get(self) -> "Token[GetDataAttr]":
         """Get the 
 
-        :return: a list of integers. The structure of the returned value is 
-        [<cage_type> <available_speed_count> [<ports_per_speed> <speed>] ].
-        [<ports_per_speed> <speed>] are repeated until all speeds supported by the <cage_type> has been listed. 
-        [<cage_type> <available_speed_count>] are repeated for all cage types on the module 
-        including the related <ports_per_speed> <speed> information.
+        :return:
+            a list of integers. The structure of the returned value is [<cage_type> <available_speed_count>[<ports_per_speed> <speed>] ]. [<ports_per_speed> <speed>] are repeated until all speeds supported by the <cage_type> has been listed. [<cage_type> <available_speed_count>] are repeated for all cage types on the module including the related <ports_per_speed> <speed> information.
 
         :rtype: M_MEDIASUPPORT.GetDataAttr
         """

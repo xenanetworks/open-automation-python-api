@@ -1,4 +1,6 @@
-"""P4G_ 	Port L47 Connection Group"""
+"""
+Port L47 Connection Group Commands
+"""
 from dataclasses import dataclass
 import ipaddress
 import typing

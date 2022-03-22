@@ -1,4 +1,6 @@
-"""M4_ 	Module L47"""
+"""
+Module 47 Commands
+"""
 from dataclasses import dataclass
 import typing
 import functools

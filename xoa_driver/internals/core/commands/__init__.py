@@ -1,8 +1,8 @@
 """
-Definition of all BXMP commands.
+Definition of BXMP commands.
 
-All commands(parameters) in this module are only a stateles declaration of there structures which 
-define of how they will be converted to binary protocol.
+All commands in this module are only a stateles declaration of there structures which 
+define how they will be converted to binary protocol.
 """
 
 # importing commands subsets
@@ -30,11 +30,3 @@ from .pt_commands import *
 from .px_commands import *
 from .xp_commands import *
 from .xpd_commands import *
-
-
-
-
-"""
-All commands(parameters) in this module are only a stateles declaration of there structures which 
-define of how they will be converted to binary protocol.
-"""

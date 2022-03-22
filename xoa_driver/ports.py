@@ -1,4 +1,6 @@
-"""All avaliable port types"""
+"""
+All avaliable port types.
+"""
 
 import typing
 

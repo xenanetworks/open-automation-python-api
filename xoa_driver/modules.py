@@ -1,4 +1,6 @@
-"""All avaliable module types"""
+"""
+All avaliable module types.
+"""
 
 from .internals.modules.modules_l23.module_l23_base import ModuleL23
 from .internals.modules.modules_l23.famely_d import (

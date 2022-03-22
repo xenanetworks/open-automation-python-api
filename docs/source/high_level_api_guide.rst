@@ -6,7 +6,8 @@ Code API Notation and Namings
 
 High-level API aims to be semantic in function name patterns to avoid expectation conflicts, as well as avoiding methods which can return values of a different kind. The key rule is: **One Method One Action**:
 
-**IMPORTANT**:
+.. note::
+
     If there is a method that returns a single item or a collection of items, it is considered a bug.
 
 
@@ -87,7 +88,8 @@ Under the Port level
     Exception to the rule above is the event ``on_disconnected``. The parameters passed to it are ``tuple(<tester_ip: str>, <tester_port: int>)``
 
 
-**IMPORTANT**:
+.. note::
+
     A subscription to an event only provides a tool for notifying the external code. It is unnecessary to update the library instance state manually, because it is automatically handled by the library code.
 
     It is allowed to subscribe multiple callback functions to one event.
@@ -100,7 +102,8 @@ Most of the sublevel resources, which are organized into collections, are handle
 
 The most commonly used resource managers are *Module Manager | Port Manager | Index Manager*.
 
-**IMPORTANT**:
+.. note::
+
     Each resource manager is an `iterable object <https://wiki.python.org/moin/Iterator>`_
 
 
@@ -162,7 +165,8 @@ Module and Port Managers
 
 Each tester contains a *Module Manager*, which can be accessed through attribute ``modules``. Each module contains a *Port Manager*.
 
-**IMPORTANT**:
+.. note::
+
     A Module Manager can contain modules of different *Module Types*. This is because there can be various test modules installed in a physical tester. On the other hand, a Port Manager contains ports of the same *Port Type*. This is because the ports on a module are of the same type.
 
 Methods to retrieve a module or a port from a resource manager:
@@ -188,7 +192,8 @@ Index Manager
 
 *Index Manager* manages the sub-port-level resource indices such as stream indices, filter indices, connection group indices, etc. It automatically ensures correct and conflict-free index assignment.
 
-**IMPORTANT**:
+.. note::
+
     It is the user's responsibility to create, retrieve, and remove those sub-port-level indices.
 
 Thanks to the index manager of a port, users don't necessarily need to handle the index assignment.
@@ -291,14 +296,16 @@ Data Exchange
 
 **Querying parameters**
 
-**IMPORTANT**:
+.. note::
+
     Resource reservation is not required to query information from the tester.
 
 .. literalinclude:: code_example/high_level/query_parameters.py
 
 **Setting parameters**
 
-**IMPORTANT**:
+.. note::
+    
     Reservation is required to set parameter to: ``Tester | Module | Port``.
 
 .. literalinclude:: code_example/high_level/setting_parameters.py

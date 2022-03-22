@@ -1,4 +1,6 @@
-"""PF_ 	Port Filter"""
+"""
+Port Filter Commands
+"""
 from dataclasses import dataclass
 import typing
 import functools
@@ -231,7 +233,7 @@ class PF_CONDITION:
     positions (second, fourth, ...) are inverted, and all the contained match terms
     and length terms must be false at the same time that the those of the preceding
     compound term are true. This is the not-part of the condition. In practice, the
-    simplest way to generate these encodings is to use the Manager, which supports
+    simplest way to generate these encodings is to use the ValkyrieManager, which supports
     Boolean expressions using the operators &, |, and ~, and simply query the
     chassis for the resulting script-level definition.
     """
@@ -253,9 +255,21 @@ class PF_CONDITION:
         terms: XmpField[XmpIntList] = XmpField(XmpIntList)  # list of integers, encoding a compound term which is a set of the match terms and length terms.
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get the condition on the terms specifying when the filter is satisfied.
+
+        :return: list of integers, encoding a compound term which is a set of the match terms and length terms.
+        :rtype: Token[GetDataAttr]
+        """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._filter_xindex]))
 
     def set(self, terms: typing.List[int]) -> "Token":
+        """Set the condition on the terms specifying when the filter is satisfied.
+
+        :param terms: a compound term which is a set of the match terms and length terms.
+        :type terms: typing.List[int]
+        :return: the condition on the terms specifying when the filter is satisfied.
+        :rtype: Token
+        """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._filter_xindex], terms=terms))
 
 

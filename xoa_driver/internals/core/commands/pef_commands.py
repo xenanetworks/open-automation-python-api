@@ -1,4 +1,6 @@
-"""PEF_ 	Port Emulation Filter Definition (Chimera only)"""
+"""
+Port Impairment Filter Definition (Chimera only) Commands
+"""
 from dataclasses import dataclass
 import ipaddress
 import typing

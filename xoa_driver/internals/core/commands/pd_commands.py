@@ -1,4 +1,6 @@
-"""PD_ 	Port Histogram"""
+"""
+Port Histogram Commands
+"""
 from dataclasses import dataclass
 import typing
 import functools

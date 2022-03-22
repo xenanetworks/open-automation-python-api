@@ -1,4 +1,6 @@
-"""Halper functions"""
+"""
+Helper functions.
+"""
 from xoa_driver.internals.core.transporter.funcs import (
     apply, 
     apply_iter,

@@ -10,7 +10,8 @@ Code API Notation and Namings
 
 The API trying to be semantic in function name patterns to avoid expectation conflicts, as well as avoiding methods which can return values of a different kind. The key rule is: **One Method One Action**:
 
-**IMPORTANT**:
+.. note::
+
     If there is a method that returns a single item or a collection of items, it is considered a BUG.
 
 ``<indices>`` - representing *Streams | Connection Groups* indices etc.
@@ -85,14 +86,16 @@ Data Exchange
 
 **Querying parameters**
 
-**IMPORTANT**:
+.. note::
+
     Resource reservation is not required to query information from the tester.
 
 .. literalinclude:: code_example/low_level/query_parameters.py
 
 **Setting parameters**
 
-**IMPORTANT**:
+.. note::
+    
     Reservation is required to set parameter to ``Tester``, ``Module``, and ``Port``.
 
 .. literalinclude:: code_example/low_level/setting_parameters.py

@@ -1,4 +1,6 @@
-"""PT_ 	Port Transmission Statistics"""
+"""
+Port TX Statistics Commands
+"""
 from dataclasses import dataclass
 import typing
 
@@ -191,10 +193,12 @@ class PT_FLOWTOTAL:
     def get(self) -> "Token[GetDataAttr]":
         """(Chimera only) Get statistics concerning all the packets transmitted from a between this receive port and its partner TX port.
 
-        :return: number of bits transmitted at layer 2 in the last second for the flow, 
-        number of packets transmitted in the last second for the flow,
-        number of bytes transmitted since statistics were cleared for the flow,
-        number of packets transmitted since statistics were cleared for the flow
+        :return:
+            number of bits transmitted at layer 2 in the last second for the flow, 
+            number of packets transmitted in the last second for the flow,
+            number of bytes transmitted since statistics were cleared for the flow,
+            number of packets transmitted since statistics were cleared for the flow
+            
         :rtype: PT_FLOWTOTAL.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))

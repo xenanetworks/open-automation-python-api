@@ -1,4 +1,6 @@
-"""PS_ 	Port Stream"""
+"""
+Port Stream commands
+"""
 from dataclasses import dataclass
 import ipaddress
 import typing

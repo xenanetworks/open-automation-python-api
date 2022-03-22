@@ -1,4 +1,6 @@
-"""All avaliable enums which is used by commands, as values or response statuses"""
+"""
+All avaliable enums which are used by commands, as values or response statuses
+"""
 
 from .internals.core.commands.enums import *
 from .internals.core.protocol.constants import CommandStatus

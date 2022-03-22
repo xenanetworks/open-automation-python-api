@@ -1,4 +1,6 @@
-"""PED_ 	Port Emulation Distribution (Chimera only)"""
+"""
+Port Impairment Distribution (Chimera only) Commands
+"""
 from dataclasses import dataclass
 import typing
 

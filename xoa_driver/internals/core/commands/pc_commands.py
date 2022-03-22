@@ -1,4 +1,6 @@
-"""PC_ 	Port Capture"""
+"""
+Port Capture Commands
+"""
 from dataclasses import dataclass
 import typing
 import functools
