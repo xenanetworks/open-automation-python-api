@@ -20,7 +20,7 @@ sys.path.insert(0, os.path.abspath('../../'))
 
 # -- Project information -----------------------------------------------------
 
-project = u'Xena OpenAutomation Python API Documentation'
+project = u'xoa-driver'
 copyright = u'2022, Xena Networks'
 author = u'Artem Constantinov, Ron Ding, Leonard Yu'
 
