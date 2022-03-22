@@ -35,6 +35,9 @@ class XP_TSNINIT:
         pass
 
     def set(self) -> "Token":
+        """Initialize shadow configuration to defaults.
+
+        """
         return Token(
             self._connection,
             build_set_request(
@@ -64,6 +67,9 @@ class XP_TSNAPPLY:
         pass
 
     def set(self) -> "Token":
+        """Apply configuration from shadow configuration onto working configuration.
+
+        """
         return Token(
             self._connection,
             build_set_request(
@@ -94,6 +100,11 @@ class XP_TSNISSHADOWDIRTY:
         shadow_matches_working: XmpField[XmpByte] = XmpField(XmpByte, choices=YesNo)  # coded byte, whether shadow config matches the working config.
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get whether the shadow configuration matches the working configuration or not.
+
+        :return: whether the shadow configuration matches the working configuration or not.
+        :rtype: Token[GetDataAttr]
+        """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
@@ -124,9 +135,19 @@ class XP_TSNLOADMODE:
         )  # coded byte, allow 'set' commands to address working (sw_sel = 1), but actually apply to shadow (sw_sel = 0).
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get TSN configuration load mode.
+
+        :return: TSN configuration load mode
+        :rtype: Token[GetDataAttr]
+        """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
     def set(self, mode: OnOff) -> "Token":
+        """Set TSN configuration load mode.
+
+        :param mode: TSN configuration load mode
+        :type mode: OnOff
+        """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, mode=mode))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
@@ -146,6 +167,7 @@ class XP_TSNPROFILE:
     _connection: "interfaces.IConnection"
     _module: int
     _port: int
+    _sw_config_xindex: int
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -160,10 +182,15 @@ class XP_TSNPROFILE:
         )  # coded byte, AUTOMOTIVE = select defaults suitable for automotive testing, IEEE1588V2 = select defaults suitable for PTP testing. Note: Selecting profile configures a number of internal as well as user-settable parameters to default values, so this command should be the first in a configuration after XP_TSNINIT. Note: IEEE1588V2 is not supported yet.
 
     def get(self) -> "Token[GetDataAttr]":
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+        """Get PTP configuration profile
 
-    def set(self, shadow_working_selection: int, profile: TSNConfigProfile) -> "Token":
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, shadow_working_selection=shadow_working_selection, profile=profile))
+        :return: PTP configuration profile
+        :rtype: Token[GetDataAttr]
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex]))
+
+    def set(self, profile: TSNConfigProfile) -> "Token":
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex], profile=profile))
 
     set_automotive = functools.partialmethod(set, profile=TSNConfigProfile.AUTOMOTIVE)
     set_ieee1588v2 = functools.partialmethod(set, profile=TSNConfigProfile.IEEE1588V2)
@@ -182,6 +209,7 @@ class XP_TSNROLE:
     _connection: "interfaces.IConnection"
     _module: int
     _port: int
+    _sw_config_xindex: int
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -214,6 +242,7 @@ class XP_TSNSYNCINTERVAL:
     _connection: "interfaces.IConnection"
     _module: int
     _port: int
+    _sw_config_xindex: int
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -243,6 +272,7 @@ class XP_TSNPDELAYINTERVAL:
     _connection: "interfaces.IConnection"
     _module: int
     _port: int
+    _sw_config_xindex: int
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -272,6 +302,7 @@ class XP_TSNDEVIATION:
     _connection: "interfaces.IConnection"
     _module: int
     _port: int
+    _sw_config_xindex: int
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -325,6 +356,7 @@ class XP_TSNPORTINFO:
     _connection: "interfaces.IConnection"
     _module: int
     _port: int
+    _sw_config_xindex: int
 
     @dataclass(frozen=True)
     class GetDataAttr:
