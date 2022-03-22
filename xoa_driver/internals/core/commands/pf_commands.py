@@ -219,23 +219,18 @@ class PF_COMMENT:
 @dataclass
 class PF_CONDITION:
     """
-    The boolean condition on the terms specifying when the filter is satisfied. The
-    condition uses a canonical and-or-not expression on the match terms and length
-    terms. The condition is specified using a number of compound terms, each encoded
-    as an integer value specifying an arbitrary set of the match terms and length
-    terms defined for the port. Each match/length term has a specific power-of-two
-    value, and the set is encoded as the sum of the values for the contained terms:
-    Value for match term [mid] = 2 ^ mid, Value for length term [length_term_xindex]
-    = 2 ^ (length_term_xindex+16). A compound term is true if all the match terms and
-    length terms contained in it are true. This supports the and-part of the
-    condition. If some compound term is satisfied, the condition as a whole is true.
-    This is the or-part of the condition. The first few compound terms at the even
-    positions (second, fourth, ...) are inverted, and all the contained match terms
-    and length terms must be false at the same time that the those of the preceding
-    compound term are true. This is the not-part of the condition. In practice, the
-    simplest way to generate these encodings is to use the ValkyrieManager, which supports
-    Boolean expressions using the operators &, |, and ~, and simply query the
-    chassis for the resulting script-level definition.
+        The boolean condition on the terms specifying when the filter is satisfied. The condition uses a canonical and-or-not expression on the match terms and length terms. The condition is specified using a number of compound terms, each encoded as an integer value specifying an arbitrary set of the match terms and length terms defined for the port. Each match or length term has a specific power-of-two value, and the set is encoded as the sum of the values for the contained terms:
+        
+        Value for match term ``[mid] = 2^mid``
+
+        Value for length term ``[length_term_xindex] = 2^(length_term_xindex+16)``
+
+        A compound term is true if all the match terms and length terms contained in it are true. This supports the and-part of the condition. If some compound term is satisfied, the condition as a whole is true.
+
+        This is the or-part of the condition. The first few compound terms at the even positions (second, fourth, ...) are inverted, and all the contained match terms and length terms must be false at the same time that the those of the preceding compound term are true. This is the not-part of the condition.
+
+        In practice, the simplest way to generate these encodings is to use the ValkyrieManager, which supports Boolean expressions using the operators ``&, |, and ~``, and simply query the chassis for the resulting script-level definition.
+
     """
 
     code: typing.ClassVar[int] = 216
@@ -267,8 +262,6 @@ class PF_CONDITION:
 
         :param terms: a compound term which is a set of the match terms and length terms.
         :type terms: typing.List[int]
-        :return: the condition on the terms specifying when the filter is satisfied.
-        :rtype: Token
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._filter_xindex], terms=terms))
 
