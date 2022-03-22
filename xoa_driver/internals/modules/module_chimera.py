@@ -8,6 +8,7 @@ from xoa_driver.internals.core.commands import (
     M_CFPTYPE,
     M_CFPCONFIG,
     M_COMMENT,
+    M_CAPABILITIES,
     M_CLOCKPPB,
     M_TXCLOCKSOURCE_NEW,
     M_TXCLOCKSTATUS_NEW,
@@ -53,6 +54,7 @@ class ModuleChimera(bm.BaseModule):
         self.cfp = ChCFP(conn, self.module_id)
         self.upgrade = ChUpgrade(conn, self.module_id)
 
+        self.capabilities = M_CAPABILITIES(conn, self.module_id)
         self.comment = M_COMMENT(conn, self.module_id)
         self.status = M_STATUS(conn, self.module_id)
         self.clock_ppb = M_CLOCKPPB(conn, self.module_id)
