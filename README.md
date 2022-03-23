@@ -1,3 +1,4 @@
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/xoa-driver) [![PyPI](https://img.shields.io/pypi/v/xoa-driver)](https://pypi.python.org/pypi/xoa-driver)
 # Xena OpenAutomation Python API
 Xena OpenAutomation (XOA) Python API is a driver providing user-friendly communication interfaces to Xena's physical and virtual Traffic Generation and Analysis (TGA) testers. It provides a rich collection of programming interfaces that can be used to either write test scripts or develop applications.
 
