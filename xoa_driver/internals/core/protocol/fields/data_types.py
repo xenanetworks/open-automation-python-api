@@ -125,6 +125,31 @@ class XmpInt(int):
         # return cls(struct.unpack("!i", data)[0])
         # return cls(ResponseConverter.to_py_signed_int(data))
 
+
+class XmpUnsignedInt(int):
+    size: int = 4
+    # format: str = "i"
+    _max_val = 0xFFFFFFFF
+    _max_length = _max_val.bit_length()
+    
+    def __new__(cls, *args, **kwargs):
+        value = super().__new__(cls, *args, **kwargs)
+        if not value.bit_length() <= cls._max_length:
+            raise excp.NumberRangeError(value, cls._max_val)
+        return value
+
+    def __bytes__(self) -> bytes:
+        # return pack("!i", self)
+        return self.to_bytes(self.size, "big", signed=False)
+
+    def byte_length(self) -> int:
+        return self.size
+
+    @classmethod
+    def from_bytes(cls: Type["itf.XmpGenericType"], data: bytes) -> "itf.XmpGenericType":
+        return cls(int.from_bytes(data, "big", signed=False))
+
+
 class XmpShort(int):
     size: int = 2
     # format: str = "h"

@@ -29,7 +29,7 @@ class GPayloadRaw:
         self.type = P4G_RAW_PAYLOAD_TYPE(conn, module_id, port_id, group_idx)
         self.total_length = P4G_RAW_PAYLOAD_TOTAL_LEN(conn, module_id, port_id, group_idx)
         self.rx_length = P4G_RAW_RX_PAYLOAD_LEN(conn, module_id, port_id, group_idx) # ?
-        self.data_bytes = P4G_RAW_PAYLOAD(conn, module_id, port_id, group_idx)
+        self.content = P4G_RAW_PAYLOAD(conn, module_id, port_id, group_idx)
         self.repeat_length = P4G_RAW_PAYLOAD_REPEAT_LEN(conn, module_id, port_id, group_idx)
 
 

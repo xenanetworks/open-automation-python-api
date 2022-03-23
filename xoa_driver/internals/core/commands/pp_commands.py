@@ -483,7 +483,7 @@ class PP_PMAERRPUL_PARAMS:
         period: XmpField[XmpInt] = XmpField(XmpInt)  # integer, 10 ms - 50000 ms; number of ms - must be multiple of 10 ms
         repetition: XmpField[XmpInt] = XmpField(XmpInt)  # integer, 1 - 64K; 0 = continuous
         coeff: XmpField[XmpInt] = XmpField(XmpInt)  # long integer, (0.01 < coeff < 9.99) * 100
-        exp: XmpField[XmpInt] = XmpField(XmpInt, choices=Infinite)  # integer, -3 < exp < -17
+        exp: XmpField[XmpInt] = XmpField(XmpInt, climb=(-16, -4))  # integer, -3 < exp < -17
 
     @dataclass(frozen=True)
     class GetDataAttr:
@@ -491,7 +491,7 @@ class PP_PMAERRPUL_PARAMS:
         period: XmpField[XmpInt] = XmpField(XmpInt)  # integer, 10 ms - 50000 ms; number of ms - must be multiple of 10 ms
         repetition: XmpField[XmpInt] = XmpField(XmpInt)  # integer, 1 - 64K; 0 = continuous
         coeff: XmpField[XmpInt] = XmpField(XmpInt)  # long integer, (0.01 < coeff < 9.99) * 100
-        exp: XmpField[XmpInt] = XmpField(XmpInt, choices=Infinite)  # integer, -3 < exp < -17
+        exp: XmpField[XmpInt] = XmpField(XmpInt, climb=(-16, -4))  # integer, -3 < exp < -17
 
     def get(self) -> "Token[GetDataAttr]":
         """Get PMA pulse error injection settings.
@@ -501,7 +501,7 @@ class PP_PMAERRPUL_PARAMS:
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, duration: int, period: int, repetition: int, coeff: int, exp: Infinite) -> "Token":
+    def set(self, duration: int, period: int, repetition: int, coeff: int, exp: int) -> "Token":
         """Set PMA pulse error injection settings.
 
         :param duration: 0 ms - 5000m s; increments of 1 ms; 0 = constant BER
@@ -516,8 +516,6 @@ class PP_PMAERRPUL_PARAMS:
         :type exp: Infinite
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, duration=duration, period=period, repetition=repetition, coeff=coeff, exp=exp))
-
-    set_infinite = functools.partialmethod(set, exp=Infinite.INFINITE)
 
 
 @register_command

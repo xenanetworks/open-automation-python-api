@@ -1904,20 +1904,20 @@ class P4G_RAW_PAYLOAD:
     class SetDataAttr:
         offset: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the offset in the payload buffer where data is to be written
         length: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of bytes to write
-        payload: XmpField[XmpHexList] = XmpField(XmpHexList)  # list of hex bytes, specifying the payload
+        content: XmpField[XmpHexList] = XmpField(XmpHexList)  # list of hex bytes, specifying the payload
 
     @dataclass(frozen=True)
     class GetDataAttr:
         offset: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the offset in the payload buffer where data is to be written
         length: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of bytes to write
-        payload: XmpField[XmpHexList] = XmpField(XmpHexList)  # list of hex bytes, specifying the payload
+        content: XmpField[XmpHexList] = XmpField(XmpHexList)  # list of hex bytes, specifying the payload
 
     def get(self) -> "Token[GetDataAttr]":
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
 
-    def set(self, offset: int, length: int, payload: str) -> "Token":
+    def set(self, offset: int, length: int, content: str) -> "Token":
         return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], offset=offset, length=length, payload=payload)
+            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], offset=offset, length=length, content=content)
         )
 
 

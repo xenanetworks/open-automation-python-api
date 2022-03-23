@@ -203,7 +203,7 @@ class P_CAPABILITIES:
         can_sync_traffic_start: XmpField[XmpInt] = XmpField(XmpInt)  # integer, whether supports synchronized traffic start
         can_pfc: XmpField[XmpInt] = XmpField(XmpInt)  # integer, whether supports Priority Flow Control
         can_pcs_pma_config: XmpField[XmpInt] = XmpField(XmpInt)  # integer, whether this port can provide PCS/PMA configuration and status
-        can_fec: XmpField[XmpInt] = XmpField(XmpInt)  # bit map encoded, [0] = KR FEC, [1] = KP FEC, [2] = FC FEC, [31] = Mandatory (If this bit is set, you have to have FEC mode turned on in either of the supported mode, but you cannot turn FEC off.)
+        can_fec: XmpField[XmpUnsignedInt] = XmpField(XmpUnsignedInt)  # bit map encoded, [0] = KR FEC, [1] = KP FEC, [2] = FC FEC, [31] = Mandatory (If this bit is set, you have to have FEC mode turned on in either of the supported mode, but you cannot turn FEC off.)
         can_fec_stats: XmpField[XmpInt] = XmpField(XmpInt)  # bit map encoded, can this port provide advanced FEC stats of type x? [0] = symbol error distribution
         can_tx_eq: XmpField[XmpInt] = XmpField(XmpInt)  # integer, whether supports TX EQ settings
         can_rx_retune: XmpField[XmpInt] = XmpField(XmpInt)  # integer, whether supports RX retuning

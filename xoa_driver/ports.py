@@ -8,7 +8,7 @@ from .internals.ports.port_l47.main import PortL47
 
 from .internals.ports.port_l23.port_l23ve import PortL23VE
 from .internals.ports.port_l23.chimera.port_chimera import PortChimera
-
+from .internals.ports.port_l23.bases.port_l23 import BasePortL23
 from xoa_driver.internals.ports.port_l23.famely_d.base import (
     POdin1G3S6P,
     POdin1G3S6P_b,
@@ -94,6 +94,7 @@ GenericAnyPort = typing.Union[
 ]
 
 __all__ = (
+    "BasePortL23",
     "POdin1G3S6P",
     "POdin1G3S6P_b",
     "POdin1G3S6PE",
