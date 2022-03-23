@@ -41,6 +41,7 @@ https://xena-openautomation-python-api.readthedocs.io/en/latest/
     from xoa_driver import modules
     from xoa_driver import ports
     from xoa_driver import enums
+    from xoa_driver import utils
 
     async def my_awesome_script():
         # Establish connection with a Valkyrie tester
