@@ -44,9 +44,9 @@ https://xena-openautomation-python-api.readthedocs.io/en/latest/
 
     async def my_awesome_script():
         # Establish connection with a Valkyrie tester
-        async with testers.L23Tester("10.10.10.10.", "JonDoe") as tester:
+        async with testers.L23Tester("10.10.10.10", "JonDoe") as tester:
             # Get the port 0/0 (module 0)
-            await port = tester.modules.obtain(0).ports.obtain(0)
+            port = await tester.modules.obtain(0).ports.obtain(0)
 
             # Reserve the port
             await port.reservation.set_reserve()
