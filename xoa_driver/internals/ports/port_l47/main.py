@@ -3,7 +3,6 @@ from typing import TYPE_CHECKING
 from xoa_driver.internals.ports import base_port
 
 from xoa_driver.internals.core.commands import (
-    P_RECEIVESYNC,
     P4_TRAFFIC,
     P4_STATE,
     P4_CAPABILITIES,
@@ -53,7 +52,6 @@ class PortL47(base_port.BasePort["ports_state.PortL47LocalState"]):
     """Port L47"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         super().__init__(conn, module_id, port_id)
-        self.sync_status = P_RECEIVESYNC(conn, module_id, port_id)
         
         self.traffic = P4_TRAFFIC(self._conn, module_id, port_id)
         self.clear = P4_CLEAR(self._conn, module_id, port_id)
@@ -114,10 +112,8 @@ class PortL47(base_port.BasePort["ports_state.PortL47LocalState"]):
 
     def _register_subscriptions(self) -> None:
         super()._register_subscriptions()
-        self._conn.subscribe(P_RECEIVESYNC, utils.Update(self.local_states, "sync_status", "sync_status", self._check_identity))
         self._conn.subscribe(P4_STATE, utils.Update(self.local_states, "traffic_state", "state", self._check_identity))
     
-    on_receave_sync_change = functools.partialmethod(utils.on_event, P_RECEIVESYNC)
     on_capabilities_change = functools.partialmethod(utils.on_event, P4_CAPABILITIES)
     on_speed_selection_change = functools.partialmethod(utils.on_event, P4_SPEEDSELECTION)
     on_state_change = functools.partialmethod(utils.on_event, P4_STATE)
