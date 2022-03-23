@@ -1,4 +1,6 @@
-"""PM_ 	Port Match Term"""
+"""
+Port Match Term Commands
+"""
 from dataclasses import dataclass
 import typing
 
@@ -167,7 +169,7 @@ class PM_PROTOCOL:
         """Set the protocol segments assumed on the packets received on the port.
 
         :param segments: a number specifying a built-in protocol segment: Uses the same coded values as the PS_HEADERPROTOCOL parameter
-        :type segments: List[enums.ProtocolOption]
+        :type segments: List[ProtocolOption]
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._match_term_xindex], segments=segments))
 

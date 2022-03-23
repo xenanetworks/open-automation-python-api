@@ -1,4 +1,6 @@
-"""PL_ 	Port Length Term"""
+"""
+Port Length Term Commands
+"""
 from dataclasses import dataclass
 import typing
 import functools
@@ -164,7 +166,7 @@ class PL_LENGTH:
         """Set the configuration of a length-based check that is applied on the packets received on a port. 
 
         :param length_check_type: whether to test for shorter-than or longer-than
-        :type length_check_type: enums.LengthCheckType
+        :type length_check_type: LengthCheckType
         :param size: the value to compare the packet length against
         :type size: int
         """

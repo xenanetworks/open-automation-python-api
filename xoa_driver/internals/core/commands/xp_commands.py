@@ -1,4 +1,6 @@
-"""XP_ 	TSN Extension - Port"""
+"""
+Port TSN Extension Commands
+"""
 from dataclasses import dataclass
 import typing
 import functools
@@ -33,6 +35,9 @@ class XP_TSNINIT:
         pass
 
     def set(self) -> "Token":
+        """Initialize shadow configuration to defaults.
+
+        """
         return Token(
             self._connection,
             build_set_request(
@@ -62,6 +67,9 @@ class XP_TSNAPPLY:
         pass
 
     def set(self) -> "Token":
+        """Apply configuration from shadow configuration onto working configuration.
+
+        """
         return Token(
             self._connection,
             build_set_request(
@@ -92,6 +100,11 @@ class XP_TSNISSHADOWDIRTY:
         shadow_matches_working: XmpField[XmpByte] = XmpField(XmpByte, choices=YesNo)  # coded byte, whether shadow config matches the working config.
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get whether the shadow configuration matches the working configuration or not.
+
+        :return: whether the shadow configuration matches the working configuration or not.
+        :rtype: Token[GetDataAttr]
+        """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
@@ -122,9 +135,19 @@ class XP_TSNLOADMODE:
         )  # coded byte, allow 'set' commands to address working (sw_sel = 1), but actually apply to shadow (sw_sel = 0).
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get TSN configuration load mode.
+
+        :return: TSN configuration load mode
+        :rtype: Token[GetDataAttr]
+        """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
     def set(self, mode: OnOff) -> "Token":
+        """Set TSN configuration load mode.
+
+        :param mode: TSN configuration load mode
+        :type mode: OnOff
+        """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, mode=mode))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
@@ -144,6 +167,7 @@ class XP_TSNPROFILE:
     _connection: "interfaces.IConnection"
     _module: int
     _port: int
+    _sw_config_xindex: int
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -158,13 +182,18 @@ class XP_TSNPROFILE:
         )  # coded byte, AUTOMOTIVE = select defaults suitable for automotive testing, IEEE1588V2 = select defaults suitable for PTP testing. Note: Selecting profile configures a number of internal as well as user-settable parameters to default values, so this command should be the first in a configuration after XP_TSNINIT. Note: IEEE1588V2 is not supported yet.
 
     def get(self) -> "Token[GetDataAttr]":
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+        """Get PTP configuration profile
 
-    def set(self, shadow_working_selection: int, profile: TSNConfigProfile) -> "Token":
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, shadow_working_selection=shadow_working_selection, profile=profile))
+        :return: PTP configuration profile
+        :rtype: Token[GetDataAttr]
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex]))
 
-    set_automotive = functools.partialmethod(set, TSNConfigProfile.AUTOMOTIVE)
-    set_ieee1588v2 = functools.partialmethod(set, TSNConfigProfile.IEEE1588V2)
+    def set(self, profile: TSNConfigProfile) -> "Token":
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex], profile=profile))
+
+    set_automotive = functools.partialmethod(set, profile=TSNConfigProfile.AUTOMOTIVE)
+    set_ieee1588v2 = functools.partialmethod(set, profile=TSNConfigProfile.IEEE1588V2)
 
 
 @register_command
@@ -180,6 +209,7 @@ class XP_TSNROLE:
     _connection: "interfaces.IConnection"
     _module: int
     _port: int
+    _sw_config_xindex: int
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -190,13 +220,13 @@ class XP_TSNROLE:
         role: XmpField[XmpByte] = XmpField(XmpByte, choices=TSNPortRole)  # coded byte, GRANDMASTER = select Grandmaster role, SLAVE = select Slave role
 
     def get(self) -> "Token[GetDataAttr]":
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex]))
 
-    def set(self, shadow_working_selection: int, role: TSNPortRole) -> "Token":
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, shadow_working_selection=shadow_working_selection, role=role))
+    def set(self, role: TSNPortRole) -> "Token":
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex], role=role))
 
-    set_grandmaster = functools.partialmethod(set, TSNPortRole.GRANDMASTER)
-    set_slave = functools.partialmethod(set, TSNPortRole.SLAVE)
+    set_grandmaster = functools.partialmethod(set, role=TSNPortRole.GRANDMASTER)
+    set_slave = functools.partialmethod(set, role=TSNPortRole.SLAVE)
 
 
 @register_command
@@ -212,6 +242,7 @@ class XP_TSNSYNCINTERVAL:
     _connection: "interfaces.IConnection"
     _module: int
     _port: int
+    _sw_config_xindex: int
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -222,10 +253,10 @@ class XP_TSNSYNCINTERVAL:
         exponent: XmpField[XmpByte] = XmpField(XmpByte)  # byte, 2^exponent seconds between SYNC packets. Valid range: -7 (1/128 second) to 5 (32 seconds).
 
     def get(self) -> "Token[GetDataAttr]":
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex]))
 
-    def set(self, shadow_working_selection: int, exponent: int) -> "Token":
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, shadow_working_selection=shadow_working_selection, exponent=exponent))
+    def set(self, exponent: int) -> "Token":
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex], exponent=exponent))
 
 
 @register_command
@@ -241,6 +272,7 @@ class XP_TSNPDELAYINTERVAL:
     _connection: "interfaces.IConnection"
     _module: int
     _port: int
+    _sw_config_xindex: int
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -251,10 +283,10 @@ class XP_TSNPDELAYINTERVAL:
         exponent: XmpField[XmpByte] = XmpField(XmpByte)  # byte, 2^exponent seconds between SYNC packets. Valid range: -7 (1/128 second) to 5 (32 seconds).
 
     def get(self) -> "Token[GetDataAttr]":
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex]))
 
-    def set(self, shadow_working_selection: int, exponent: int) -> "Token":
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, shadow_working_selection=shadow_working_selection, exponent=exponent))
+    def set(self, exponent: int) -> "Token":
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex], exponent=exponent))
 
 
 @register_command
@@ -270,6 +302,7 @@ class XP_TSNDEVIATION:
     _connection: "interfaces.IConnection"
     _module: int
     _port: int
+    _sw_config_xindex: int
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -290,16 +323,16 @@ class XP_TSNDEVIATION:
         interval: XmpField[XmpInt] = XmpField(XmpInt)  # unsigned integer, interval between change of deviation, ms (millisecond)
 
     def get(self) -> "Token[GetDataAttr]":
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex]))
 
-    def set(self, shadow_working_selection: int, mode: TSNDeviationMode, first_clock_offset_dev: int, second_clock_offset_dev: int, interval: int) -> "Token":
+    def set(self, mode: TSNDeviationMode, first_clock_offset_dev: int, second_clock_offset_dev: int, interval: int) -> "Token":
         return Token(
             self._connection,
             build_set_request(
                 self,
                 module=self._module,
                 port=self._port,
-                shadow_working_selection=shadow_working_selection,
+                indices=[self._sw_config_xindex],
                 mode=mode,
                 first_clock_offset_dev=first_clock_offset_dev,
                 second_clock_offset_dev=second_clock_offset_dev,
@@ -307,7 +340,7 @@ class XP_TSNDEVIATION:
             ),
         )
 
-    set_fixed = functools.partialmethod(set, TSNDeviationMode.FIXED)
+    set_fixed = functools.partialmethod(set, mode=TSNDeviationMode.FIXED)
 
 
 @register_command
@@ -346,6 +379,7 @@ class XP_TSNPRIORITY:
     _connection: "interfaces.IConnection"
     _module: int
     _port: int
+    _sw_config_xindex: int
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -358,11 +392,11 @@ class XP_TSNPRIORITY:
         prio_2: XmpField[XmpByte] = XmpField(XmpByte)  # byte, second priority attribute.
 
     def get(self) -> "Token[GetDataAttr]":
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex]))
 
-    def set(self, shadow_working_selection: int, prio_1: int, prio_2: int) -> "Token":
+    def set(self, prio_1: int, prio_2: int) -> "Token":
         return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, shadow_working_selection=shadow_working_selection, prio_1=prio_1, prio_2=prio_2)
+            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex], prio_1=prio_1, prio_2=prio_2)
         )
 
 
@@ -379,6 +413,7 @@ class XP_TSNCLOCKCLASS:
     _connection: "interfaces.IConnection"
     _module: int
     _port: int
+    _sw_config_xindex: int
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -389,10 +424,10 @@ class XP_TSNCLOCKCLASS:
         value: XmpField[XmpByte] = XmpField(XmpByte)  # byte, clock class attribute.
 
     def get(self) -> "Token[GetDataAttr]":
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex]))
 
-    def set(self, shadow_working_selection: int, value: int) -> "Token":
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, shadow_working_selection=shadow_working_selection, value=value))
+    def set(self, value: int) -> "Token":
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex], value=value))
 
 
 @register_command
@@ -408,6 +443,7 @@ class XP_TSNCLOCKACCURACY:
     _connection: "interfaces.IConnection"
     _module: int
     _port: int
+    _sw_config_xindex: int
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -418,10 +454,10 @@ class XP_TSNCLOCKACCURACY:
         value: XmpField[XmpByte] = XmpField(XmpByte)  # byte, clock accuracy attribute.
 
     def get(self) -> "Token[GetDataAttr]":
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex]))
 
-    def set(self, shadow_working_selection: int, value: int) -> "Token":
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, shadow_working_selection=shadow_working_selection, value=value))
+    def set(self, value: int) -> "Token":
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex], value=value))
 
 
 @register_command
@@ -437,6 +473,7 @@ class XP_TSNTIMESOURCE:
     _connection: "interfaces.IConnection"
     _module: int
     _port: int
+    _sw_config_xindex: int
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -447,19 +484,19 @@ class XP_TSNTIMESOURCE:
         source: XmpField[XmpByte] = XmpField(XmpByte, choices=TSNTimeSource)  # coded byte, a time source value, as specified in the PTP standard.
 
     def get(self) -> "Token[GetDataAttr]":
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex]))
 
-    def set(self, shadow_working_selection: int, source: TSNTimeSource) -> "Token":
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, shadow_working_selection=shadow_working_selection, source=source))
+    def set(self, source: TSNTimeSource) -> "Token":
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex], source=source))
 
-    set_atomic = functools.partialmethod(set, TSNTimeSource.ATOMIC)
-    set_gps = functools.partialmethod(set, TSNTimeSource.GPS)
-    set_terrestrial = functools.partialmethod(set, TSNTimeSource.TERRESTRIAL)
-    set_ptp = functools.partialmethod(set, TSNTimeSource.PTP)
-    set_ntp = functools.partialmethod(set, TSNTimeSource.NTP)
-    set_hand_set = functools.partialmethod(set, TSNTimeSource.HAND_SET)
-    set_other = functools.partialmethod(set, TSNTimeSource.OTHER)
-    set_internal_osc = functools.partialmethod(set, TSNTimeSource.INTERNAL_OSC)
+    set_atomic = functools.partialmethod(set, source=TSNTimeSource.ATOMIC)
+    set_gps = functools.partialmethod(set, source=TSNTimeSource.GPS)
+    set_terrestrial = functools.partialmethod(set, source=TSNTimeSource.TERRESTRIAL)
+    set_ptp = functools.partialmethod(set, source=TSNTimeSource.PTP)
+    set_ntp = functools.partialmethod(set, source=TSNTimeSource.NTP)
+    set_hand_set = functools.partialmethod(set, source=TSNTimeSource.HAND_SET)
+    set_other = functools.partialmethod(set, source=TSNTimeSource.OTHER)
+    set_internal_osc = functools.partialmethod(set, source=TSNTimeSource.INTERNAL_OSC)
 
 
 @register_command
@@ -475,6 +512,7 @@ class XP_TSNENABLE:
     _connection: "interfaces.IConnection"
     _module: int
     _port: int
+    _sw_config_xindex: int
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -489,13 +527,13 @@ class XP_TSNENABLE:
         )  # coded byte, OFF = disable TSN when XP_TSNAPPLY is called, ON = enable TSN when XP_TSNAPPLY is called
 
     def get(self) -> "Token[GetDataAttr]":
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex]))
 
-    def set(self, shadow_working_selection: int, on_off: OnOff) -> "Token":
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, shadow_working_selection=shadow_working_selection, on_off=on_off))
+    def set(self, on_off: OnOff) -> "Token":
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex], on_off=on_off))
 
-    set_off = functools.partialmethod(set, OnOff.OFF)
-    set_on = functools.partialmethod(set, OnOff.ON)
+    set_off = functools.partialmethod(set, on_off=OnOff.OFF)
+    set_on = functools.partialmethod(set, on_off=OnOff.ON)
 
 
 @register_command

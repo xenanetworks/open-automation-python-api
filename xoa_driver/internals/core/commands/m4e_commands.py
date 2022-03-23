@@ -1,4 +1,6 @@
-"""M4E_ 	Module L47 Packet Engine"""
+"""
+Module L47 Packet Engine Commands
+"""
 from dataclasses import dataclass
 import typing
 import functools

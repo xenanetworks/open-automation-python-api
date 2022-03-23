@@ -1,4 +1,6 @@
-"""PX_ 	Port Transceiver"""
+"""
+Port Transceiver Commands
+"""
 from dataclasses import dataclass
 import typing
 

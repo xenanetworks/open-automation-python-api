@@ -831,8 +831,8 @@ class HeaderFormat(IntEnum):
     VLAN = 1
 
 
-class Infinite(IntEnum):
-    INFINITE = 0
+# class Infinite(IntEnum):
+#     INFINITE = 0
 
 
 class CorruptionType(IntEnum):

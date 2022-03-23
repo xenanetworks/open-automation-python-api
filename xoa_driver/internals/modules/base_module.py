@@ -21,7 +21,9 @@ from xoa_driver.internals.state_storage import modules_state
 
 T = TypeVar('T', bound="modules_state.ModuleLocalState")
 class BaseModule(Generic[T]):
-    
+    """
+    Representation of a Valkyrie module on physical tester.
+    """
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         self._conn = conn
         self.module_id = init_data.module_id
@@ -72,10 +74,22 @@ class BaseModule(Generic[T]):
         return self._local_states.reservation == reserved_status
 
     is_released = functools.partialmethod(__is_reservation, enums.ReservedStatus.RELEASED)
+    """Validate if the module is released."""
+
     is_reserved_by_me = functools.partialmethod(__is_reservation, enums.ReservedStatus.RESERVED_BY_YOU)
+    """Validate if the module is reserved by me."""
 
     on_reservation_change = functools.partialmethod(utils.on_event, M_RESERVATION)
+    """Register a callback to the event that the module's reservation status changes."""
+
     on_reserved_by_change = functools.partialmethod(utils.on_event, M_RESERVEDBY)
+    """Register a callback to the event that the module's ownership status changes."""
+
     on_model_change = functools.partialmethod(utils.on_event, M_MODEL)
+    """Register a callback to the event that the module's legacy model changes."""
+
     on_serial_number_change = functools.partialmethod(utils.on_event, M_SERIALNO)
+    """Register a callback to the event that the module's serial number status changes."""
+
     on_version_number_change = functools.partialmethod(utils.on_event, M_VERSIONNO)
+    """Register a callback to the event that the module's version number status changes."""

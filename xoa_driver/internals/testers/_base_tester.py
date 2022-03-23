@@ -112,9 +112,9 @@ class BaseTester(Generic[TesterStateStorage]):
         return self._local_states.reservation == reserved_status
 
     is_released = functools.partialmethod(__is_reservation, enums.ReservedStatus.RELEASED)
-    """validate if tester is released"""
+    """Validate if the tester is released"""
     is_reserved_by_me = functools.partialmethod(__is_reservation, enums.ReservedStatus.RESERVED_BY_YOU)
-    """validate if my connection is controlling tester"""
+    """Validate if the tester is reserved by my connection."""
 
     @property
     def info(self) -> TesterStateStorage:
@@ -130,7 +130,7 @@ class BaseTester(Generic[TesterStateStorage]):
     # will be less intuitive, and in one case subscription will work in an other don't
 
     def on_disconnected(self, callback: "Callable") -> None:
-        """Subscribe a callback which will be called ar the time when connection will be closed."""
+        """Register a callback which will be called at the time when connection will be closed."""
         self._conn.on_disconnected(callback)
 
     def on_reservation_change(self, callback: "Callable") -> None:

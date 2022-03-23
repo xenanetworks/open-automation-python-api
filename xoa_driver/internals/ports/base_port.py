@@ -11,6 +11,7 @@ from xoa_driver.internals.core.commands import (
     P_RESET,
     P_COMMENT,
     P_INTERFACE,
+    P_RECEIVESYNC,
 )
 from xoa_driver.internals.state_storage import ports_state
 from xoa_driver.internals.core.transporter import funcs
@@ -28,6 +29,7 @@ class BasePort(Generic[PortStateStorage]):
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self._conn = conn
         self.kind = kind.PortKind(module_id, port_id)
+        self.sync_status = P_RECEIVESYNC(conn, module_id, port_id)
         self.interface = P_INTERFACE(conn, module_id, port_id)
         self.reservation = P_RESERVATION(self._conn, *self.kind)
         self.reserved_by = P_RESERVEDBY(self._conn, *self.kind)
@@ -42,14 +44,17 @@ class BasePort(Generic[PortStateStorage]):
 
     async def _setup(self):
         (
+            sync_status_r,
             interface_r,
             reservation_r,
             reserved_by_r,
         ) = await funcs.apply(
+            self.sync_status.get(),
             self.interface.get(),
             self.reservation.get(),
             self.reserved_by.get(),
         )
+        self.local_states.sync_status = sync_status_r.sync_status
         self.local_states.interface = interface_r.interface
         self.local_states.reservation = reservation_r.status
         self.local_states.reserved_by = reserved_by_r.username
@@ -63,6 +68,7 @@ class BasePort(Generic[PortStateStorage]):
         )
     
     def _register_subscriptions(self) -> None:
+        self._conn.subscribe(P_RECEIVESYNC, utils.Update(self.local_states, "sync_status", "sync_status", self._check_identity))
         self._conn.subscribe(P_RESERVEDBY, utils.Update(self.local_states, "reserved_by", "username", self._check_identity))
         self._conn.subscribe(P_RESERVATION, utils.Update(self.local_states, "reservation", "status", self._check_identity))
         self._conn.subscribe(P_INTERFACE, utils.Update(self.local_states, "interface", "interface", self._check_identity))
@@ -84,6 +90,7 @@ class BasePort(Generic[PortStateStorage]):
     
     
     on_reservation_change = functools.partialmethod(utils.on_event, P_RESERVATION)
+    on_receive_sync_change = functools.partialmethod(utils.on_event, P_RECEIVESYNC)
     on_reserved_by_change = functools.partialmethod(utils.on_event, P_RESERVEDBY)
     on_interface_change = functools.partialmethod(utils.on_event, P_INTERFACE)
 

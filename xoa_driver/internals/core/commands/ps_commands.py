@@ -1,4 +1,6 @@
-"""PS_ 	Port Stream"""
+"""
+Port Stream commands
+"""
 from dataclasses import dataclass
 import ipaddress
 import typing
@@ -167,7 +169,7 @@ class PS_ENABLE:
         must not exceed the effective port rate.
 
         :param state: a stream state
-        :type state: enums.OnOffWithSuppress
+        :type state: OnOffWithSuppress
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._stream_xindex], state=state))
 
@@ -363,7 +365,7 @@ class PS_INSERTFCS:
         """Set hether a valid frame checksum is added to the packets of a stream.
 
         :param on_off: whether frame checksums are inserted
-        :type on_off: enums.OnOff
+        :type on_off: OnOff
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._stream_xindex], on_off=on_off))
 
@@ -1043,7 +1045,7 @@ class PS_MODIFIER:
         :param mask: the mask specifying which bits to affect
         :type mask: str
         :param action: which action to perform on the affected bits
-        :type action: enums.ModifierAction
+        :type action: ModifierAction
         :param repetition: how many times to repeat on each packet
         :type repetition: int
         """
@@ -1061,13 +1063,13 @@ class PS_MODIFIER:
             ),
         )
 
-    set_inc = functools.partialmethod(set, ModifierAction.INC)
+    set_inc = functools.partialmethod(set, action=ModifierAction.INC)
     """Set a packet modifier action to incrementing.
     """
-    set_dec = functools.partialmethod(set, ModifierAction.DEC)
+    set_dec = functools.partialmethod(set, action=ModifierAction.DEC)
     """Set a packet modifier action to decrementing.
     """
-    set_random = functools.partialmethod(set, ModifierAction.RANDOM)
+    set_random = functools.partialmethod(set, action=ModifierAction.RANDOM)
     """Set a packet modifier action to random.
     """
 
@@ -1126,7 +1128,7 @@ class PS_PACKETLENGTH:
         and is independent of, the content variation produced by header modifiers.
 
         :param length_type: the kind of distribution of packet length
-        :type length_type: enums.LengthType
+        :type length_type: LengthType
         :param min_val: lower limit on the packet length
         :type min_val: int
         :param max_val: upper limit on the packet length
@@ -1212,7 +1214,7 @@ class PS_PAYLOAD:
         header modifiers.
 
         :param payload_type: the kind of payload content
-        :type payload_type: enums.PayloadType
+        :type payload_type: PayloadType
         :param hex_data: a pattern of bytes to be repeated. The maximum length of the pattern is 18 bytes. Only used if the type is set to PATTERN.
         :type hex_data: str
         """
@@ -1345,7 +1347,7 @@ class PS_BURSTGAP:
         """Get the gap between packets in a burst (inter-packet gap) and the gap after a burst defined in one stream stops until a
         burst defined in the next stream starts (inter-burst gap).
 
-        :return: _description_
+        :return the gap between packets in a burst
         :rtype: Token[GetDataAttr]
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._stream_xindex]))
@@ -1515,9 +1517,6 @@ class PS_INJECTPLDERR:
         receiving Xena chassis will detect the invalid payload based on information in
         the test payload. Traffic must be on for the port, and the stream must be
         enabled and include test payloads.
-
-        :return: _description_
-        :rtype: Token
         """
         return Token(
             self._connection,
@@ -1559,9 +1558,6 @@ class PS_INJECTTPLDERR:
         receiving port, so it will be counted as a no-test-payload packet, and there
         will be a lost packet for the stream. Traffic must be on for the port, and the
         stream must be enabled and include test payloads.
-
-        :return: _description_
-        :rtype: Token
         """
         return Token(
             self._connection,
@@ -1644,7 +1640,7 @@ class PS_MODIFIEREXT:
         :param mask: the mask specifying which bits to affect
         :type mask: str
         :param action: which action to perform on the affected bits,
-        :type action: enums.ModifierAction
+        :type action: ModifierAction
         :param repetition: how many times to repeat on each packet. Note: For now the only value supported is 1.
         :type repetition: int
         """
@@ -1662,13 +1658,13 @@ class PS_MODIFIEREXT:
             ),
         )
 
-    set_inc = functools.partialmethod(set, ModifierAction.INC)
+    set_inc = functools.partialmethod(set, action=ModifierAction.INC)
     """Set modifier action to Incrementing.
     """
-    set_dec = functools.partialmethod(set, ModifierAction.DEC)
+    set_dec = functools.partialmethod(set, action=ModifierAction.DEC)
     """Set modifier action to Decrementing.
     """
-    set_random = functools.partialmethod(set, ModifierAction.RANDOM)
+    set_random = functools.partialmethod(set, action=ModifierAction.RANDOM)
     """Set modifier action to Random.
     """
 

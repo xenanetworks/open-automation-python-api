@@ -10,7 +10,7 @@ from xoa_driver.internals.core.commands import (
 from .l47_tester import L47Tester
 class L47VeTester(L47Tester):
     """
-    Representation of a Level47Tester on virtual chassis.
+    Representation of a virtual Xena Vulcan Tester.
     """
     def __init__(self, host: str, username: str, password: str = "xena", port: int = 22606, *, debug: bool = False ) -> None:
         super().__init__(host=host, username=username, password=password, port=port, debug=debug)

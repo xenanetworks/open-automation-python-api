@@ -1,4 +1,6 @@
-"""PR_ 	Port Reception Statistics"""
+"""
+Port RX Statistics Commands
+"""
 from dataclasses import dataclass
 import typing
 
@@ -74,10 +76,12 @@ class PR_TOTAL:
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning all the packets received on a port.
 
-        :return: number of bits received in the last second, 
-        number of packets received in the last second, 
-        number of bytes received since statistics were cleared, 
-        and number of packets received since statistics were cleared.
+        :return:
+            number of bits received in the last second, 
+            number of packets received in the last second, 
+            number of bytes received since statistics were cleared, 
+            and number of packets received since statistics were cleared.
+
         :rtype: PR_TOTAL.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
@@ -108,10 +112,12 @@ class PR_NOTPLD:
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning the packets without a test payload received on a port.
 
-        :return: number of bits received in the last second, 
-        number of packets received in the last second, 
-        number of bytes received since statistics were cleared, 
-        and number of packets received since statistics were cleared.
+        :return:
+            number of bits received in the last second, 
+            number of packets received in the last second, 
+            number of bytes received since statistics were cleared, 
+            and number of packets received since statistics were cleared.
+
         :rtype: PR_NOTPLD.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
@@ -209,10 +215,12 @@ class PR_TPLDTRAFFIC:
         """Get traffic statistics concerning the packets with a particular test payload
         identifier received on a port.
 
-        :return: number of bits received in the last second,
-        number of packets received in the last second,
-        number of bytes received since statistics were cleared,
-        number of packets received since statistics were cleared
+        :return:
+            number of bits received in the last second,
+            number of packets received in the last second,
+            number of bytes received since statistics were cleared,
+            number of packets received since statistics were cleared
+
         :rtype: PR_TPLDTRAFFIC.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._test_payload_xindex]))
@@ -250,9 +258,11 @@ class PR_TPLDERRORS:
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning errors in the packets with a particular test payload id received on a port.
 
-        :return: number of non-incrementing-sequence-number events,
-        number of swapped-sequence-number misorder events,
-        number of packets with non-incrementing payload content
+        :return:
+            number of non-incrementing-sequence-number events,
+            number of swapped-sequence-number misorder events,
+            number of packets with non-incrementing payload content
+
         :rtype: PR_TPLDERRORS.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._test_payload_xindex]))
@@ -323,10 +333,12 @@ class PR_FILTER:
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning the packets satisfying the condition of a particular filter for a port
 
-        :return: number of bits received in the last second,
-        number of packets received in the last second,
-        number of bytes received since statistics were cleared,
-        number of packets received since statistics were cleared
+        :return:
+            number of bits received in the last second,
+            number of packets received in the last second,
+            number of bytes received since statistics were cleared,
+            number of packets received since statistics were cleared
+
         :rtype: PR_FILTER.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._filter_xindex]))
@@ -511,10 +523,12 @@ class PR_FLOWTOTAL:
     def get(self) -> "Token[GetDataAttr]":
         """(Chimera only) Get statistics concerning all the packets received from a flow between this receive port and its partner TX port.
 
-        :return: number of bits received at layer 2 in the last second for the flow,
-        number of packets received in the last second for the flow,
-        number of bytes received since statistics were cleared for the flow,
-        number of packets received since statistics were cleared for the flow
+        :return:
+            number of bits received at layer 2 in the last second for the flow,
+            number of packets received in the last second for the flow,
+            number of bytes received since statistics were cleared for the flow,
+            number of packets received since statistics were cleared for the flow
+            
         :rtype: PR_FLOWTOTAL.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))

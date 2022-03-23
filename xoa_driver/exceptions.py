@@ -1,4 +1,6 @@
-"""All exception classes which can be propogated to upper level."""
+"""
+All exception classes which can be propagated to the upper level.
+"""
 from .internals.exceptions import *
 from .internals.core.transporter.exceptions import EstablishConnectionError, BadStatus
 

@@ -46,6 +46,7 @@ if typing.TYPE_CHECKING:
 
 
 class License:
+    """License management for Vulcan"""
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.demo_info = M_LICENSE_DEMO_INFO(conn, module_id)
         self.management_info = M_LICENSE_MAINTENANCE_INFO(conn, module_id)
@@ -56,7 +57,8 @@ class License:
         self.online_mode = M_LICENSE_ONLINE(conn, module_id)
 
 
-class ReplayParse:
+class CaptureParse:
+    """Parse a captured pcap file"""
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.start = M4_REPLAY_PARSE_START(conn, module_id)
         self.stop = M4_REPLAY_PARSE_STOP(conn, module_id)
@@ -65,28 +67,32 @@ class ReplayParse:
 
 
 class ReplayFile:
+    """The pcap files to replay"""
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.list_bson = M4_REPLAY_FILE_LIST_BSON(conn, module_id)
         self.list = M4_REPLAY_FILE_LIST(conn, module_id)
-        # self.info_bson = M4_REPLAY_FILE_INFO_BSON(conn, module_id) # TODO: need to implment
+        # self.info_bson = M4_REPLAY_FILE_INFO_BSON(conn, module_id) # TODO: need to implement
         self.delete = M4_REPLAY_FILE_DELETE(conn, module_id)
 
 
 class Replay:
+    """PCAP replay"""
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
-        self.parse = ReplayParse(conn, module_id)
         self.file = ReplayFile(conn, module_id)
 
 
 class Capture:
+    """Captured pcap file"""
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.size = M4_CAPTURE_SIZE(conn, module_id)
         self.file_list_bson = M4_CAPTURE_FILE_LIST_BSON(conn, module_id)
         self.file_list = M4_CAPTURE_FILE_LIST(conn, module_id)
         self.file_delete = M4_CAPTURE_FILE_DELETE(conn, module_id)
+        self.parse = CaptureParse(conn, module_id)
 
 
 class PacketEngine:
+    """Packet engine"""
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.license_info = M4_LICENSE_INFO(conn, module_id)
         self.reserve = M4E_RESERVE(conn, module_id)
@@ -94,6 +100,7 @@ class PacketEngine:
 
 
 class ModuleSystem:
+    """L47 module info"""
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.id = M4_SYSTEMID(conn, module_id)
         self.status = M4_SYSTEM_STATUS(conn, module_id)
@@ -101,7 +108,7 @@ class ModuleSystem:
 
 class ModuleL47(bm.BaseModule):
     """
-    Representation of a Level47Module on genuine tester.
+    Representation of a Vulcan module on physical tester.
     """
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
@@ -134,6 +141,13 @@ class ModuleL47(bm.BaseModule):
         return self
 
     on_license_demo_info_change = functools.partialmethod(utils.on_event, M_LICENSE_DEMO_INFO)
+    """Demo license info change event."""
+
     on_license_maintenance_info_change = functools.partialmethod(utils.on_event, M_LICENSE_MAINTENANCE_INFO)
+    """Maintenane license info change event."""
+
     on_replay_parse_state_change = functools.partialmethod(utils.on_event, M4_REPLAY_PARSE_STATE)
+    """Parse state of a captured pcap file change event."""
+
     on_license_info_change = functools.partialmethod(utils.on_event, M4_LICENSE_INFO)
+    """L47 license info change event."""

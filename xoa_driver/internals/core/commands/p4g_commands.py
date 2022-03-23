@@ -1,4 +1,6 @@
-"""P4G_ 	Port L47 Connection Group"""
+"""
+Port L47 Connection Group Commands
+"""
 from dataclasses import dataclass
 import ipaddress
 import typing
@@ -1563,8 +1565,8 @@ class P4G_L2_CLIENT_MAC:
     def set(self, mac_address: str, mode: EmbedIP) -> "Token":
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], mac_address=mac_address, mode=mode))
 
-    set_dont_embed_ip = functools.partialmethod(set, EmbedIP.DONT_EMBED_IP)
-    set_embed_ip = functools.partialmethod(set, EmbedIP.EMBED_IP)
+    set_dont_embed_ip = functools.partialmethod(set, mode=EmbedIP.DONT_EMBED_IP)
+    set_embed_ip = functools.partialmethod(set, mode=EmbedIP.EMBED_IP)
 
 
 @register_command
@@ -1600,8 +1602,8 @@ class P4G_L2_SERVER_MAC:
     def set(self, mac_address: str, mode: EmbedIP) -> "Token":
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], mac_address=mac_address, mode=mode))
 
-    set_dont_embed_ip = functools.partialmethod(set, EmbedIP.DONT_EMBED_IP)
-    set_embed_ip = functools.partialmethod(set, EmbedIP.EMBED_IP)
+    set_dont_embed_ip = functools.partialmethod(set, mode=EmbedIP.DONT_EMBED_IP)
+    set_embed_ip = functools.partialmethod(set, mode=EmbedIP.EMBED_IP)
 
 
 @register_command
@@ -1902,20 +1904,20 @@ class P4G_RAW_PAYLOAD:
     class SetDataAttr:
         offset: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the offset in the payload buffer where data is to be written
         length: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of bytes to write
-        payload: XmpField[XmpHexList] = XmpField(XmpHexList)  # list of hex bytes, specifying the payload
+        content: XmpField[XmpHexList] = XmpField(XmpHexList)  # list of hex bytes, specifying the payload
 
     @dataclass(frozen=True)
     class GetDataAttr:
         offset: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the offset in the payload buffer where data is to be written
         length: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of bytes to write
-        payload: XmpField[XmpHexList] = XmpField(XmpHexList)  # list of hex bytes, specifying the payload
+        content: XmpField[XmpHexList] = XmpField(XmpHexList)  # list of hex bytes, specifying the payload
 
     def get(self) -> "Token[GetDataAttr]":
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
 
-    def set(self, offset: int, length: int, payload: str) -> "Token":
+    def set(self, offset: int, length: int, content: str) -> "Token":
         return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], offset=offset, length=length, payload=payload)
+            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], offset=offset, length=length, content=content)
         )
 
 

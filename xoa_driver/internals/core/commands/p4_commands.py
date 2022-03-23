@@ -1,4 +1,6 @@
-"""P4_ 	Port L47"""
+"""
+Port L47 Commands
+"""
 from dataclasses import dataclass
 import typing
 import functools

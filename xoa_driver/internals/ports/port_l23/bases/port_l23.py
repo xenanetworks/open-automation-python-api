@@ -4,9 +4,7 @@ from xoa_driver.internals.ports import base_port
 from xoa_driver.internals.core.commands import (
     P_CAPABILITIES,
     P_SPEED,
-    P_RECEIVESYNC,
     P_SPEEDREDUCTION,
-    P_SPEEDS_SUPPORTED,
     P_INTERFRAMEGAP,
     P_MACADDRESS,
     P_IPADDRESS,
@@ -153,7 +151,7 @@ class BasePortL23(base_port.BasePort[ports_state.PortL23LocalState]):
         self.loop_back = P_LOOPBACK(conn, module_id, port_id)
         self.capture = P_CAPTURE(conn, module_id, port_id)
         self.errors_count = P_ERRORS(conn, module_id, port_id)
-        self.sync_status = P_RECEIVESYNC(conn, module_id, port_id)
+        
 
         self.interframe_gap = P_INTERFRAMEGAP(conn, module_id, port_id)
         self.max_header_length = P_MAXHEADERLENGTH(conn, module_id, port_id)
@@ -197,27 +195,22 @@ class BasePortL23(base_port.BasePort[ports_state.PortL23LocalState]):
         await super()._setup()
         (
             capabilities_r,
-            sync_status_r,
             traffic_state_r,
         ) = await funcs.apply(
             self.capabilities.get(),
-            self.sync_status.get(),
             self.traffic.state.get()
         )
         self.local_states.capabilities = capabilities_r
-        self.local_states.sync_status = sync_status_r.sync_status
         self.local_states.traffic_state = traffic_state_r.on_off
         return self
 
     def _register_subscriptions(self) -> None:
         super()._register_subscriptions()
-        self._conn.subscribe(P_RECEIVESYNC, utils.Update(self.local_states, "sync_status", "sync_status", self._check_identity))
         self._conn.subscribe(P_TRAFFIC, utils.Update(self.local_states, "traffic_state", "on_off", self._check_identity))
 
     on_speed_change = functools.partialmethod(utils.on_event, P_SPEED)
     on_speed_reduction_change = functools.partialmethod(utils.on_event, P_SPEEDREDUCTION)
     on_traffic_change = functools.partialmethod(utils.on_event, P_TRAFFIC)
-    on_receive_sync_change = functools.partialmethod(utils.on_event, P_RECEIVESYNC)
     on_capture_change = functools.partialmethod(utils.on_event, P_CAPTURE)
     on_tx_enable_change = functools.partialmethod(utils.on_event, P_TXENABLE)
     on_interframe_gap_change = functools.partialmethod(utils.on_event, P_INTERFRAMEGAP)

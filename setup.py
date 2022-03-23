@@ -10,10 +10,15 @@ def rm(path: str):
         shutil.rmtree(path)
 
 if __name__ == '__main__':
+    with open("README.md", "r", encoding="utf-8") as fh:
+        long_description = fh.read()
+
     setuptools.setup(
         name="xoa-driver",
-        version="1.0b2",
+        version="1.0b3",
         description="Xena OpenAutomation high-level and low-level Python APIs and code examples for Xena TGA testers.",
+        long_description=long_description,
+        long_description_content_type="text/markdown",
         author="Artem Constantinov, Ron Ding, Leonard Yu",
         author_email="aco@xenanetworks.com, rdi@xenanetworks.com, hyu@xenanetworks.com",
         maintainer="Xena Networks",

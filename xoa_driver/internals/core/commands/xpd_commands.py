@@ -1,4 +1,6 @@
-"""XP_ 	TSN Extension - Histogram"""
+"""
+Port TSN Extension Histogram Commands
+"""
 from dataclasses import dataclass
 import typing
 import functools
@@ -27,13 +29,14 @@ class XPD_TSNCREATE:
     _connection: "interfaces.IConnection"
     _module: int
     _port: int
+    _dataset_xindex: int
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        dataset_id: XmpField[XmpInt] = XmpField(XmpInt)  # integer, Index of dataset to create.
+        pass
 
     def set(self, dataset_id: int) -> "Token":
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, dataset_id=dataset_id))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._dataset_xindex]))
 
 
 @register_command
@@ -87,27 +90,26 @@ class XPD_TSNSOURCE:
     _connection: "interfaces.IConnection"
     _module: int
     _port: int
+    _dataset_xindex: int
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        dataset_id: XmpField[XmpInt] = XmpField(XmpInt)  # integer, index of an already created dataset.
         source: XmpField[XmpInt] = XmpField(XmpInt, choices=TSNSource)  # coded byte, index of an already created dataset.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        dataset_id: XmpField[XmpInt] = XmpField(XmpInt)  # integer, index of an already created dataset.
         source: XmpField[XmpInt] = XmpField(XmpInt, choices=TSNSource)  # coded byte, index of an already created dataset.
 
     def get(self) -> "Token[GetDataAttr]":
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._dataset_xindex]))
 
-    def set(self, dataset_id: int, source: TSNSource) -> "Token":
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, dataset_id=dataset_id, source=source))
+    def set(self, source: TSNSource) -> "Token":
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._dataset_xindex], source=source))
 
-    set_drift = functools.partialmethod(set, TSNSource.DRIFT)
-    set_driftpre = functools.partialmethod(set, TSNSource.DRIFTPRE)
-    set_pdelay = functools.partialmethod(set, TSNSource.PDELAY)
-    set_nrr = functools.partialmethod(set, TSNSource.NRR)
+    set_drift = functools.partialmethod(set, source=TSNSource.DRIFT)
+    set_driftpre = functools.partialmethod(set, source=TSNSource.DRIFTPRE)
+    set_pdelay = functools.partialmethod(set, source=TSNSource.PDELAY)
+    set_nrr = functools.partialmethod(set, source=TSNSource.NRR)
 
 
 @register_command
@@ -123,26 +125,25 @@ class XPD_TSNRANGE:
     _connection: "interfaces.IConnection"
     _module: int
     _port: int
+    _dataset_xindex: int
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        dataset_id: XmpField[XmpInt] = XmpField(XmpInt)  # integer, index of an already created dataset.
         start: XmpField[XmpInt] = XmpField(XmpInt)  # long integer, First value going into the second bucket. Any data less than start go to bucket 0. Signed long.
         step: XmpField[XmpInt] = XmpField(XmpInt)  # integer, Span of each bucket (except first and last): Power of two: 16, 32, 64, ..., 1048576, 2097152
         count: XmpField[XmpInt] = XmpField(XmpInt)  # integer, Number of buckets, including first + last. Must be greater than 2.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        dataset_id: XmpField[XmpInt] = XmpField(XmpInt)  # integer, index of an already created dataset.
         start: XmpField[XmpInt] = XmpField(XmpInt)  # long integer, First value going into the second bucket. Any data less than start go to bucket 0. Signed long.
         step: XmpField[XmpInt] = XmpField(XmpInt)  # integer, Span of each bucket (except first and last): Power of two: 16, 32, 64, ..., 1048576, 2097152
         count: XmpField[XmpInt] = XmpField(XmpInt)  # integer, Number of buckets, including first + last. Must be greater than 2.
 
     def get(self) -> "Token[GetDataAttr]":
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._dataset_xindex]))
 
-    def set(self, dataset_id: int, start: int, step: int, count: int) -> "Token":
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, dataset_id=dataset_id, start=start, step=step, count=count))
+    def set(self, start: int, step: int, count: int) -> "Token":
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._dataset_xindex], start=start, step=step, count=count))
 
 
 @register_command
@@ -158,22 +159,21 @@ class XPD_TSNENABLE:
     _connection: "interfaces.IConnection"
     _module: int
     _port: int
+    _dataset_xindex: int
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        dataset_id: XmpField[XmpInt] = XmpField(XmpInt)  # integer, index of an already created dataset.
         on_off: XmpField[XmpByte] = XmpField(XmpByte)  # coded byte, on/off dataset configuration on a port.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        dataset_id: XmpField[XmpInt] = XmpField(XmpInt)  # integer, index of an already created dataset.
         on_off: XmpField[XmpByte] = XmpField(XmpByte)  # coded byte, on/off dataset configuration on a port.
 
     def get(self) -> "Token[GetDataAttr]":
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._dataset_xindex]))
 
-    def set(self, dataset_id: int, on_off: int) -> "Token":
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, dataset_id=dataset_id, on_off=on_off))
+    def set(self, on_off: int) -> "Token":
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._dataset_xindex], on_off=on_off))
 
 
 @register_command
@@ -215,12 +215,13 @@ class XPD_TSNDELETE:
     _connection: "interfaces.IConnection"
     _module: int
     _port: int
+    _dataset_xindex: int
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        dataset_id: XmpField[XmpInt] = XmpField(XmpInt)  # integer, Index of dataset to delete.
+        pass
 
     def set(self, dataset_id: int) -> "Token":
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, dataset_id=dataset_id))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._dataset_xindex]))
 
 
