@@ -11,6 +11,7 @@ from xoa_driver.internals.core.commands import (
 
 from xoa_driver.internals.utils.indices import observer # import IndicesObserver, IndexEvents
 class CustomDistribution:
+    """Custom distribution"""
     def __init__(self, observer: "observer.IndicesObserver", conn: "itf.IConnection", module_id: int, port_id: int, custom_distribution_index: int) -> None:
         self.__observer = observer
         self.__conn = conn
@@ -35,6 +36,7 @@ class CustomDistribution:
 
 
 class CustomDistributions:
+    """Custom distributions"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.__conn = conn
         self.__module_id = module_id

@@ -46,17 +46,20 @@ from xoa_driver.internals.core.commands import (
 
 
 class PcsPmaAlarms:
+    """PCS/PMA alarms"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.errors = PP_ALARMS_ERRORS(conn, module_id, port_id)
         self.clear = PP_ALARMS_ERRORS_CLEAR(conn, module_id, port_id)
 
 class PcsPmaTransceiver:
+    """PCS/PMA transceivers"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.tx_laser_power = PP_TXLASERPOWER(conn, module_id, port_id)
         self.rx_laser_power = PP_RXLASERPOWER(conn, module_id, port_id)
 
 
 class PcsPmaRxLaneStatus:
+    """PCS/PMA lane status"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, lane_idx: int) -> None:
         self.lane_errors = PP_RXLANEERRORS(conn, module_id, port_id, lane_idx)
         self.lock = PP_RXLANELOCK(conn, module_id, port_id, lane_idx)
@@ -65,27 +68,32 @@ class PcsPmaRxLaneStatus:
 
 
 class PcsPmaTxLaneErrorInjection:
+    """PCS/PMA TX lane error injection"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, lane_idx: int) -> None:
         self.inject = PP_TXLANEINJECT(conn, module_id, port_id, lane_idx)
 
 
 class PcsPmaTxErrorGeneration:
+    """PCS/PMA TX error generation"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.error_rate = PP_TXERRORRATE(conn, module_id, port_id)
         self.inject_one = PP_TXINJECTONE(conn, module_id, port_id)
 
 class PcsPmaTxLaneConfig:
+    """PCS/PMA TX lane configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, lane_idx: int) -> None:
         self.config = PP_TXLANECONFIG(conn, module_id, port_id, lane_idx)
         self.tx_config = PP_TXPRBSCONFIG(conn, module_id, port_id, lane_idx)
 
 class PcsPmaRx:
+    """PCS/PMA RX"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.total_status = PP_RXTOTALSTATS(conn, module_id, port_id)
         self.fec_status = PP_RXFECSTATS(conn, module_id, port_id)
         self.clear = PP_RXCLEAR(conn, module_id, port_id)
 
 class PcsPmaPhy:
+    """PCS/PMA PHY settings"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.auto_neg = PP_PHYAUTONEG(conn, module_id, port_id)
         self.signal_status = PP_PHYSIGNALSTATUS(conn, module_id, port_id)
@@ -93,12 +101,14 @@ class PcsPmaPhy:
 
 
 class Lane:
+    """Lane config"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, lane_idx: int) -> None:
         self.rx_status = PcsPmaRxLaneStatus(conn, module_id, port_id, lane_idx)
         self.tx_error_inject = PcsPmaTxLaneErrorInjection(conn, module_id, port_id, lane_idx)
         self.tx_config = PcsPmaTxLaneConfig(conn, module_id, port_id, lane_idx)
 
 class PcsPma:
+    """PCS/PMA"""
     def __init__(self, conn: "itf.IConnection", port) -> None:
         self._conn = conn
         self.__port = port
@@ -115,12 +125,14 @@ class PcsPma:
         )
 
 class PRBSConfig:
+    """PRBS configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.type = PP_PRBSTYPE(conn, module_id, port_id)
         self.tx_type = PP_TXPRBSTYPE(conn, module_id, port_id)
         self.rx_type = PP_RXPRBSTYPE(conn, module_id, port_id)
 
 class SDEyeDiagram:
+    """Serdes eye diagram"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, serdes_xindex: int) -> None:
         self.__conn = conn
         self.__module_id = module_id
@@ -150,6 +162,7 @@ class SDEyeDiagram:
         return self
 
 class SDPhy:
+    """Serdes PHY config"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, serdes_xindex: int) -> None:
         self.tx_equalizer = PP_PHYTXEQ(conn, module_id, port_id, serdes_xindex)
         self.rx_equalizer = PP_PHYRXEQ(conn, module_id, port_id, serdes_xindex)
@@ -157,6 +170,7 @@ class SDPhy:
         self.autotune = PP_PHYAUTOTUNE(conn, module_id, port_id, serdes_xindex)
 
 class SerDes:
+    """Serdes config"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, serdes_xindex: int) -> None:
         self.phy = SDPhy(conn, module_id, port_id, serdes_xindex)
         self.eye_diagram = SDEyeDiagram(conn, module_id, port_id, serdes_xindex)
