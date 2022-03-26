@@ -15,12 +15,8 @@ Table of Content
    :maxdepth: 3
    
    introduction
-   installation
-   api_structure
-   test_resource_struct
-   command_grouping
+   xoa_python_api
    high_level_api_guide
-   code_diff_hli_cli
    low_level_api_guide
    xoa_driver_package
 

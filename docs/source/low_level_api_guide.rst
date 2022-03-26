@@ -1,9 +1,11 @@
-Low-Level API User Guide
+.. _ll_api:
+
+Low-Level API (LL-PYTHON)
 ===========================
 
-Low-level API gives the developer the complete direct control of the tester since the name of the API is the same as what is defined in the CLI. But sometimes it is difficult to remember all the arguments, resulting a waste of time reading the length class definition. 
+The LL-PYTHON gives the developer the complete direct control of the tester since the name of the API is the same as what is defined in the CLI. But sometimes it is difficult to remember all the arguments, resulting a waste of time reading the length class definition. 
 
-However, if the developer needs to migrate a CLI script to XOA Python API script, the low-level API can explicitly show the command name, which may speed up the migration process.
+However, if the developer needs to migrate a CLI script to XOA Python API script, the LL-PYTHON can explicitly show the command name, which may speed up the migration process.
 
 Code API Notation and Namings
 -------------------------------
@@ -63,10 +65,12 @@ Each tester class is represented as an `awaitable object <https://docs.python.or
 A tester instance also can be created without awaiting the connection establishment for more flexible manipulation of instances in user code.
 
 **Creating a connection to the tester**
+
 .. literalinclude:: code_example/low_level/create_conn_to_tester.py
 
 
 **Create multiple connections**
+
 .. literalinclude:: code_example/low_level/create_multiple_conns.py
 
 
@@ -74,10 +78,12 @@ Obtain Resources
 ^^^^^^^^^^^^^^^^^^^^^^
 
 **Obtain one module**
+
 .. literalinclude:: code_example/low_level/obtain_one_module.py
 
 
 **Obtain multiple modules**
+
 .. literalinclude:: code_example/low_level/obtain_multiple_modules.py
 
 

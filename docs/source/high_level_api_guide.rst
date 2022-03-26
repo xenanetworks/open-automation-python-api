@@ -1,10 +1,16 @@
-High-Level API User Guide
-===========================
+.. _hl_api:
+
+
+High-Level Python API (HL-PYTHON)
+===================================
+
+The HL-PYTHON provides abstraction that helps developers to quickly develop scripts or program in an object-oriented fashion with explicit definition of commands of different *tester*, *module*, *port* types. In addition, the HL-PYTHON layer provides functionalities such as *auto connection keep-alive*, *auto index management*, *resources identification tracking for push notification*, etc. 
+
 
 Code API Notation and Namings
 -------------------------------
 
-High-level API aims to be semantic in function name patterns to avoid expectation conflicts, as well as avoiding methods which can return values of a different kind. The key rule is: **One Method One Action**:
+HL-PYTHON aims to be semantic in function name patterns to avoid expectation conflicts, as well as avoiding methods which can return values of a different kind. The key rule is: **One Method One Action**:
 
 .. note::
 
@@ -170,20 +176,24 @@ Each tester contains a *Module Manager*, which can be accessed through attribute
     A Module Manager can contain modules of different *Module Types*. This is because there can be various test modules installed in a physical tester. On the other hand, a Port Manager contains ports of the same *Port Type*. This is because the ports on a module are of the same type.
 
 Methods to retrieve a module or a port from a resource manager:
+
 .. code-block:: python
 
     obtain(<module_slot_number> | <port_index>)
 
 Code example:
+
 .. literalinclude:: code_example/high_level/obtain_one_module.py
 
 
 Methods to retrieve _multiple_ resources from a resource manager:
+
 .. code-block:: python
 
     obtain_multiple(<module_index> | <port_index>, ...)
 
 Code example:
+
 .. literalinclude:: code_example/high_level/obtain_multiple_module.py
 
 
@@ -259,10 +269,12 @@ Available tester types are  ``L23Tester | L47Tester | L47VeTester``.
 
 
 **Create a tester instance by using context manager**
+
 .. literalinclude:: code_example/high_level/create_a_tester_contextm.py
 
 
 **Create multiple tester instances**
+
 .. literalinclude:: code_example/high_level/create_multi_testers.py
 
 
@@ -273,14 +285,17 @@ Obtain Resources
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **Obtain one module**
+
 .. literalinclude:: code_example/high_level/obtain_one_module.py
 
 
 **Obtain multiple modules**
+
 .. literalinclude:: code_example/high_level/obtain_multiple_module.py
 
 
 **Process operation on all modules**
+
 .. literalinclude:: code_example/high_level/oper_on_all_modules.py
 
 **Obtain multiple ports**
@@ -318,3 +333,41 @@ Statistics collection, such as latency and jitter, TX/RX rate, frame count, etc.
 
 .. literalinclude:: code_example/high_level/stats_collection.py
 
+
+HL-PYTHON and CLI Comparison
+------------------------------------------------
+
+If you are already very familiar with Xena CLI, the code comparison below will help you understand the coding differences between a XOA Python script and a Xena CLI script, which are doing the same thing.
+
+* The CLI Script consists of two files: ``cli_script.py`` and ``config.txt``. Click to download the dependencies `TestUtilsL23 <https://github.com/xenadevel/xenascriptlibs/blob/master/layer23/python3/testutils/TestUtilsL23.py>`_. and `SocketDrivers <https://github.com/xenadevel/xenascriptlibs/blob/master/layer23/python3/testutils/SocketDrivers.py>`_.
+* The XOA Python API script consists of three files: ``xoa_script.py``, ``config.py``, and ``config.txt``.
+
+Both scripts result in the same port/stream configuration.
+
+CLI Code Example
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+`cli_script.py`
+
+.. literalinclude:: code_example/diff_with_cli/cli_script.py
+
+
+`config.txt`
+
+.. literalinclude:: code_example/diff_with_cli/config.txt
+
+
+XOA HL-PYTHON Example
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+`xoa_script.py`
+
+.. literalinclude:: code_example/diff_with_cli/xoa_script.py
+
+`config.py`
+
+.. literalinclude:: code_example/diff_with_cli/config.py
+
+`config.txt`
+
+.. literalinclude:: code_example/diff_with_cli/config.txt
