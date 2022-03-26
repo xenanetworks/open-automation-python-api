@@ -90,7 +90,14 @@ class BasePort(Generic[PortStateStorage]):
     
     
     on_reservation_change = functools.partialmethod(utils.on_event, P_RESERVATION)
+    """Register a callback to the event that the port's reservation status changes."""
+
     on_receive_sync_change = functools.partialmethod(utils.on_event, P_RECEIVESYNC)
+    """Register a callback to the event that the port's SYNC status changes."""
+
     on_reserved_by_change = functools.partialmethod(utils.on_event, P_RESERVEDBY)
+    """Register a callback to the event that the port's reservation ownership changes."""
+
     on_interface_change = functools.partialmethod(utils.on_event, P_INTERFACE)
+    """Register a callback to the event that the port's physical interface type changes."""
 

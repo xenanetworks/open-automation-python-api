@@ -1331,7 +1331,7 @@ class P_UAT_FLR:
 @dataclass
 class P_MIXWEIGHTS:
     """
-    Allow changing the distribution of the MIX packet size length by specifying the
+    Allow changing the distribution of the MIX packet length by specifying the
     percentage of each of the 16 possible frame sizes used in the MIX.  The sum of
     the percentage values specified must be 100. The command will affect the mix-
     distribution for all streams on the port. The possible 16 frame sizes are: 56
