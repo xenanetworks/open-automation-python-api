@@ -1,46 +1,74 @@
 from enum import IntEnum
 class ReservedStatus(IntEnum):
+    """Test resource reservation status"""
     RELEASED = 0
+    """Test resource is released."""
     RESERVED_BY_YOU = 1
+    """Test resource is reserved by you."""
     RESERVED_BY_OTHER = 2
+    """Test resource is reserved by another user."""
 
 
 class ReservedAction(IntEnum):
+    """Reservation actions."""
     RELEASE = 0
+    """Release the test resource."""
     RESERVE = 1
+    """Reserve the test resource."""
     RELINQUISH = 2
+    """Force release other's ownership of the test resource."""
 
 
 class ChassisShutdownAction(IntEnum):
+    """Chassis shutdown actions."""
     RESTART = 1
+    """Restart after shutdown."""
     POWEROFF = 2
+    """Keep power-off after shutdown."""
 
 
 class OnOff(IntEnum):
+    """On or Off."""
     OFF = 0
+    """Off"""
     ON = 1
+    """On"""
 
 
 class RESTControlAction(IntEnum):
+    """Controls of Valkyrie REST server."""
     START = 0
+    """Start the REST server on the chassis."""
     STOP = 1
+    """Stop the REST server on the chassis."""
     RESTART = 2
+    """Restart the REST server on the chassis."""
 
 
 class ServiceStatus(IntEnum):
+    """Service status."""
     SERVICE_OFF = 0
+    """Service is off."""
     SERVICE_ON = 1
+    """Service is on."""
 
 
 class ChassisSessionType(IntEnum):
+    """The type of the session between the client and the chassis."""
     MANAGER = 1
+    """Connection on port 22606 running binary command (used by ValkyrieManager & VulcanManager)."""
     SCRIPT = 2
+    """Connection on port 22611, running CLI command."""
 
 
 class TimeSyncMode(IntEnum):
+    """Module's time sync mode."""
     CHASSIS = 0
+    """Module syncs to chassis's clock."""
     EXTERNAL = 1
+    """Module syncs to an external clock."""
     MODULE = 2
+    """Module syncs to its own clock."""
 
 
 class CFPState(IntEnum):

@@ -1,5 +1,5 @@
 """
-All avaliable enums which are used by commands, as values or response statuses
+Avaliable enums used by commands abd response status.
 """
 
 from .internals.core.commands.enums import *
