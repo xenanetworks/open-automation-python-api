@@ -20,7 +20,7 @@ class Fault:
         self.status = P_FAULTSTATUS(conn, module_id, port_id)
 
 
-class FamelyG(BasePortL23Genuine):
+class FamilyG(BasePortL23Genuine):
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         super().__init__(conn, module_id, port_id)
         self.dynamic = P_DYNAMIC(conn, module_id, port_id)
@@ -39,12 +39,12 @@ class FamelyG(BasePortL23Genuine):
 
 
 
-class PLoki100G3S1P(FamelyG):
+class PLoki100G3S1P(FamilyG):
     ...
 
-class PLoki100G3S1P_b(FamelyG):
+class PLoki100G3S1P_b(FamilyG):
     ...
 
-class PLoki100G3S1PSE(FamelyG):
+class PLoki100G3S1PSE(FamilyG):
     ...
 

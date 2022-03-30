@@ -3,20 +3,20 @@ All avaliable module types.
 """
 
 from .internals.modules.modules_l23.module_l23_base import ModuleL23
-from .internals.modules.modules_l23.famely_d import (
+from .internals.modules.modules_l23.family_d import (
     MOdin1G3S2PT,
     MOdin1G3S6P,
     MOdin1G3S6PE,
     MOdin1G3S6P_b
 )
-from .internals.modules.modules_l23.famely_e import (
+from .internals.modules.modules_l23.family_e import (
     MOdin10G3S2PCU,
     MOdin10G3S6PCU,
     MOdin10G5S6PCU,
     MOdin10G5S6PCU_b,
     MOdin5G4S6PCU,
 )
-from .internals.modules.modules_l23.famely_f import (
+from .internals.modules.modules_l23.family_f import (
     MOdin10G1S12P,
     MOdin10G1S2P,
     MOdin10G1S2P_b,
@@ -26,21 +26,21 @@ from .internals.modules.modules_l23.famely_f import (
     MOdin10G1S6P,
     MOdin10G1S6P_b,
 )
-from .internals.modules.modules_l23.famely_g import (
+from .internals.modules.modules_l23.family_g import (
     MLoki100G3S1P,
     MLoki100G3S1P_b,
     MLoki100G3S1PSE,
 )
-from .internals.modules.modules_l23.famely_h import MLoki100G5S1P
-from .internals.modules.modules_l23.famely_i import MLoki100G5S2P
-from .internals.modules.modules_l23.famely_j import MThor100G5S4P
-from .internals.modules.modules_l23.famely_k import MThor400G7S1P
-from .internals.modules.modules_l23.famely_l import (
+from .internals.modules.modules_l23.family_h import MLoki100G5S1P
+from .internals.modules.modules_l23.family_i import MLoki100G5S2P
+from .internals.modules.modules_l23.family_j import MThor100G5S4P
+from .internals.modules.modules_l23.family_k import MThor400G7S1P
+from .internals.modules.modules_l23.family_l import (
     MThor400G7S1P_b,
     MThor400G7S1P_c,
 )
-from .internals.modules.modules_l23.famely_m import MOdin1G3S6PT1RJ45
-from .internals.modules.modules_l23.famely_n import MOdin40G2S2P
+from .internals.modules.modules_l23.family_m import MOdin1G3S6PT1RJ45
+from .internals.modules.modules_l23.family_n import MOdin40G2S2P
 
 from .internals.modules.module_l23ve import ModuleL23VE
 from .internals.modules.module_chimera import ModuleChimera

@@ -9,28 +9,23 @@ from xoa_driver.internals.core.commands import (
 from xoa_driver.internals.utils import attributes as utils
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
-
 from ..pcs_pma_ijkl_chimera import PcsPma as PcsPma1
 from ..pcs_pma_ghijkl import (
     PcsPma as PcsPma2,
     SerDes,
 )
-from ..pcs_pma_l import PcsPma as PcsPma3
 
-
-class PcsPma(PcsPma1, PcsPma2, PcsPma3):
+class PcsPma(PcsPma1, PcsPma2):
     def __init__(self, conn: "itf.IConnection", port) -> None:
         PcsPma1.__init__(self, conn, port)
         PcsPma2.__init__(self, conn, port)
-        PcsPma3.__init__(self, conn, port)
-
 
 class Fault:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.signaling = P_FAULTSIGNALING(conn, module_id, port_id)
         self.status = P_FAULTSTATUS(conn, module_id, port_id)
 
-class FamelyL(BasePortL23Genuine):
+class FamilyI(BasePortL23Genuine):
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         super().__init__(conn, module_id, port_id)
         self.dynamic = P_DYNAMIC(conn, module_id, port_id)
@@ -46,9 +41,5 @@ class FamelyL(BasePortL23Genuine):
 
     on_fault_signaling_change = functools.partialmethod(utils.on_event, P_FAULTSIGNALING)
     on_dynamic_change = functools.partialmethod(utils.on_event, P_DYNAMIC)
-
-class PThor400G7S1P_b(FamelyL):
-    ...
-
-class PThor400G7S1P_c(FamelyL):
+class PLoki100G5S2P(FamilyI):
     ...

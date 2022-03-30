@@ -25,7 +25,7 @@ class LowPowerMode:
         self.rx_power = P_LPRXPOWER(conn, module_id, port_id)
 
 
-class FamelyE(BasePortL23Genuine):
+class FamilyE(BasePortL23Genuine):
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         super().__init__(conn, module_id, port_id)
         self.autonneg_selection = P_AUTONEGSELECTION(conn, module_id, port_id)
@@ -38,17 +38,17 @@ class FamelyE(BasePortL23Genuine):
 
 
 
-class POdin5G4S6PCU(FamelyE):
+class POdin5G4S6PCU(FamilyE):
     ...
 
-class POdin10G5S6PCU(FamelyE):
+class POdin10G5S6PCU(FamilyE):
     ...
 
-class POdin10G5S6PCU_b(FamelyE):
+class POdin10G5S6PCU_b(FamilyE):
     ...
 
-class POdin10G3S6PCU(FamelyE):
+class POdin10G3S6PCU(FamilyE):
     ...
 
-class POdin10G3S2PCU(FamelyE):
+class POdin10G3S2PCU(FamilyE):
     ...

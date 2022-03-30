@@ -16,7 +16,7 @@ valkyrie_modules = {
     "Odin-10G-3S-6P-CU": modules.MOdin10G3S6PCU,
     "Odin-10G-3S-2P-CU": modules.MOdin10G3S2PCU,
     
-    # famely_f
+    # family_f
     "Odin-10G-1S-2P": modules.MOdin10G1S2P,
     "Odin-10G-1S-2P[b]": modules.MOdin10G1S2P_b,
     "Odin-10G-1S-2P[c]": modules.MOdin10G1S2P_c,

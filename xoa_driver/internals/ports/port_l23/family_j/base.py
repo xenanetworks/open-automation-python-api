@@ -28,7 +28,7 @@ class Fault:
         self.signaling = P_FAULTSIGNALING(conn, module_id, port_id)
         self.status = P_FAULTSTATUS(conn, module_id, port_id)
 
-class FamelyJ(BasePortL23Genuine):
+class FamilyJ(BasePortL23Genuine):
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         super().__init__(conn, module_id, port_id)
         self.dynamic = P_DYNAMIC(conn, module_id, port_id)
@@ -45,5 +45,5 @@ class FamelyJ(BasePortL23Genuine):
     on_fault_signaling_change = functools.partialmethod(utils.on_event, P_FAULTSIGNALING)
     on_dynamic_change = functools.partialmethod(utils.on_event, P_DYNAMIC)
 
-class PThor100G5S4P(FamelyJ):
+class PThor100G5S4P(FamilyJ):
     ...
