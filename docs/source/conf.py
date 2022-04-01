@@ -14,6 +14,8 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath('../../'))
+sys.path.insert(0, os.path.abspath('../../xoa_driver/internals/core/commands'))
+print(sys.path)
 
 # import pkg_resources
 
@@ -45,6 +47,15 @@ extensions = [
     'sphinx.ext.coverage',
     'sphinx.ext.viewcode',
 ]
+add_module_names = False
+autodoc_default_options = {
+    'member-order': 'bysource',
+    'private-members': False,
+    'undoc-members': False
+}
+autodoc_typehints = 'none'
+autodoc_typehints_format = 'short'
+
 
 # The suffix(es) of source filenames.
 # source_suffix = ['.rst', '.md']
