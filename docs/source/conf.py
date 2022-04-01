@@ -99,7 +99,7 @@ intersphinx_disabled_domains = ['std']
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'xoadriverdoc', title + ' ' + release, author, 'xoadriverdoc', 'Xena OpenAutomation high-level and low-level Python APIs and code examples for Xena TGA testers.', 'Miscellaneous'),
+    (master_doc, 'xoadriverdoc', title, author, 'xoadriverdoc', 'Xena OpenAutomation high-level and low-level Python APIs and code examples for Xena TGA testers.', 'Miscellaneous'),
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -137,7 +137,7 @@ latex_logo = './_static/xoa_image.png'
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'xoadriverdoc', title + ' ' + release, [author], 1)
+    (master_doc, 'xoadriverdoc', title, [author], 1)
 ]
 
 
