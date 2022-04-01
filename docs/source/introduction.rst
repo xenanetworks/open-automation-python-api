@@ -1,7 +1,8 @@
 .. _introduction:
 
+****************************
 Introduction
-===============
+****************************
 
 Xena OpenAutomation Python API (XOA Python API) Documentation provides Xena Python Application Programming Interface (API) functions. It also provides descriptions of how to use these functions along with examples of creating and running test configurations.
 
@@ -13,7 +14,7 @@ software. Users of this manual should have the following knowledge and experienc
 * Working knowledge of data communications theory and practice.
 
 About Xena OpenAutomation Python API
---------------------------------------
+===========================================
 
 Many of our customers choose to develop their own test scripts, where they automate performance verification, regression test, development verification, and so on.
 
@@ -23,7 +24,7 @@ The cornerstone component of Xena OpenAutomation is its Python API, which contai
 
 
 About This Documentation
---------------------------------------
+===========================================
 
 :ref:`Introduction <introduction>` provides an overview of XOA Python API and the use of this document.
 

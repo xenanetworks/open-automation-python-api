@@ -1,54 +1,60 @@
 .. _command_ref:
 
+****************************
 API Function Reference
-==================================
+****************************
 
-High-Level Modules
---------------------------
+This section includes the Python module references of both XOA :ref:`HL-PYTHON <hl_api>` and :ref:`LL-PYTHON <ll_api>`.
+
+High-Level Python Modules
+=============================
 
 ``testers`` module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------
 
 .. automodule:: xoa_driver.testers
    :members:
 
 
 ``modules`` module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------
 
 .. automodule:: xoa_driver.modules
    :members:
 
 
 ``ports`` module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------
 
 .. automodule:: xoa_driver.ports
    :members:
 
 
 ``utils`` module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------
 
 .. automodule:: xoa_driver.utils
    :members:
 
 
 ``enums`` module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------
 
 .. automodule:: xoa_driver.enums
    :members:
 
 
 ``exceptions`` module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------
 
 .. automodule:: xoa_driver.exceptions
    :members:
 
 
-Low-Level Modules (L23 - Basic)
+Low-Level Python Modules
+=============================
+
+L23 - Basic
 ----------------------------------
 
 .. automodule:: xoa_driver.lli
@@ -172,7 +178,7 @@ Low-Level Modules (L23 - Basic)
    :exclude-members: GetDataAttr, SetDataAttr
 
 
-Low-level Modules (L23 - TSN)
+L23 - TSN
 ----------------------------------
 
 ``xp_commands`` module
@@ -193,7 +199,7 @@ Low-level Modules (L23 - TSN)
    :exclude-members: GetDataAttr, SetDataAttr
 
 
-Low-level Modules (L47)
+L47 - Basic
 --------------------------
 
 ``m4_commands`` module
@@ -241,7 +247,7 @@ Low-level Modules (L47)
    :exclude-members: GetDataAttr, SetDataAttr
 
 
-Low-level Modules (Impairment)
+Impairment - Basic
 -------------------------------
 
 ``pe_commands`` module

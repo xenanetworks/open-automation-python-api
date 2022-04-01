@@ -1,13 +1,15 @@
 .. _xoa_python_api:
 
+*********************************
 Xena OpenAutomation Python API
-================================
+*********************************
+
 
 Installation
-----------------------
+==============================
 
 Install Using pip
-^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------
 
 Make sure Python ``pip`` is installed on you system. If you are using virtualenv, then pip is already installed into environments created by virtualenv, and using sudo is not needed. If you do not have pip installed, download this file: https://bootstrap.pypa.io/get-pip.py and run ``python get-pip.py``.
 
@@ -26,7 +28,7 @@ To upgrade to the latest, use pip to upgrade from pypi:
 
 
 Install From Source
-^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------
 
 Make sure packages ``wheel``, ``setuptools`` are installed  on your system.
 
@@ -53,7 +55,7 @@ Then you can build ``.whl`` file for distribution:
 
 
 API Structure
-----------------
+==============================
 
 XOA Python API consists of two layers on top of the tester proprietary binary commands, as shown in the diagram below.
 
@@ -95,10 +97,10 @@ For example, to change the description of a tester by, the LL-PYTHON is:
 
 
 Test Resource Structure and Management Rules
-----------------------------------------------
+==============================================================
 
 Rules for Test Resource Management
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------------------
 
 1. To do ``set`` on a test resource, i.e. ``Tester``, ``Module``, or ``Port``, you must reserve the resource under your username.
 2. To do ``get`` on a test resource or configuration, you don't need to reserve.
@@ -107,7 +109,7 @@ Rules for Test Resource Management
 
 
 Valkyrie (L23) Tester (Physical)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------------------
 
 Valkyrie Tester (physical) has the following hierarchical structure.
 
@@ -161,7 +163,7 @@ Everything below Valkyrie Port is virtual resources that can be created, deleted
 
 
 Vulcan (L47) Tester (Physical and Virtual)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------------------------------
 
 Vulcan Tester (physical) has the following hierarchical structure.
 
@@ -218,7 +220,7 @@ Everything below Vulcan Port is virtual resources that can be created, deleted, 
 
 
 Chimera (Network Impairment) Emulator (Physical)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------------------------------------------------------
 
 Chimera Emulator (physical) has the following hierarchical structure.
 
@@ -270,7 +272,7 @@ Sending commands one by one using CLI is extremely slow in terms of execution sp
 XOA Python API provides two ways to group commands together to send to testers, which greatly increase commands execution speed. This is very useful, when the developer has many ports and many streams to configure, as well as querying the port and stream statistics as quickly as possible.
 
 Parallel Grouping
-^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------
 
 ``asyncio.gather`` groups commands in a parallel way. Commands are sent out in parallel (with neglectable delay between each other). This is very useful when you want to send commands to different test resources, e.g. two different ports on the same tester, or two different ports on different testers.
 
@@ -285,7 +287,7 @@ Parallel Grouping
 
 
 Sequential Grouping
-^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------
 
 ``utils.apply`` groups commands in a sequential way. Commands are sent out in one large batch to the tester. This is very useful when you want to send many commands to the same test resource, e.g. a port on a tester.
 
@@ -318,7 +320,7 @@ However, abusing this function can cause memory issue on your computer. This is 
 
 
 Sending Command One by One
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------
 
 If you prefer sending commands in the old fashion like using CLI, you can certainly have only one command in the grouping, for example:
 
