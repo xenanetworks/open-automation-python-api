@@ -83,7 +83,7 @@ htmlhelp_basename = 'xoadriverdoc'
 html_title = title
 
 # The path to the HTML logo image in the static path, or URL to the logo, or ''.
-logo_url = './_static/xoa_image05.png'
+logo_url = './_static/xoa_image200w.png'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
