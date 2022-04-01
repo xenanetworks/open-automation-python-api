@@ -64,7 +64,6 @@ L23 - Basic
 ``c_commands`` module
 """"""""""""""""""""""""""""""""""""
 
-
 .. automodule:: xoa_driver.internals.core.commands.c_commands
    :members:
    :no-undoc-members:

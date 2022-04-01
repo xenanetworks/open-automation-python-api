@@ -1159,7 +1159,7 @@ class PFCMode(IntEnum):
     """VLAN PCP"""
 
 
-lass PRBSOnOff(IntEnum):
+class PRBSOnOff(IntEnum):
     """PRBS Status"""
     PRBSOFF = 0
     """PRBS Off"""
