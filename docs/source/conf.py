@@ -96,7 +96,7 @@ intersphinx_disabled_domains = ['std']
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'xoadriverdoc', title, author, 'xoadriverdoc', 'Xena OpenAutomation high-level and low-level Python APIs and code examples for Xena TGA testers.', 'Miscellaneous'),
+    (master_doc, 'xoadriverdoc', title + ' ' + release, author, 'xoadriverdoc', 'Xena OpenAutomation high-level and low-level Python APIs and code examples for Xena TGA testers.', 'Miscellaneous'),
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -122,7 +122,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
-latex_documents = [(master_doc, 'xoadriverdoc.tex', title, author, 'manual'),
+latex_documents = [(master_doc, 'xoadriverdoc.tex', title + ' ' + release, author, 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -134,12 +134,12 @@ latex_logo = './_static/xoa_image.png'
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'xoadriverdoc', title, [author], 1)
+    (master_doc, 'xoadriverdoc', title + ' ' + release, [author], 1)
 ]
 
 
 # -- Options for EPUB output -----------------------------------------------------
-epub_title = title
+epub_title = title + ' ' + release
 epub_author = author
 epub_publisher = 'http://xenanetworks.com'
 epub_copyright = copyright
