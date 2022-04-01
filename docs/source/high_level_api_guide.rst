@@ -220,6 +220,7 @@ Session
 A ``session`` will be created automatically after a TCP connection is established between the client and the tester.
 
 Three attributes of a ``session`` are exposed:
+
 * ``is_online`` - property to validate if the TCP connection is alive.
 * ``logoff()`` - async method for gracefully closing the TCP connection to the tester.
 * ``sessions_info()`` - async method for getting information of the current active sessions on a tester.

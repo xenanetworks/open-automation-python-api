@@ -8,6 +8,7 @@ Xena OpenAutomation Python API (XOA Python API) Documentation provides Xena Pyth
 
 The target audience is test automation specialists who develop automated test scripts/programs using Xena hardware and
 software. Users of this manual should have the following knowledge and experience:
+
 * Ability to program with Python language.
 * Familiarity with the operating system of your development environment.
 * Familiarity with test equipment.
