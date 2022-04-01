@@ -1431,19 +1431,19 @@ class PEF_MODE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        sid: XmpField[XmpByte] = XmpField(XmpByte, choices=Flow)  # integer, the sub-index value of the flow definition.
+        sid: XmpField[XmpByte] = XmpField(XmpByte, choices=FlowMode)  # integer, the sub-index value of the flow definition.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        sid: XmpField[XmpByte] = XmpField(XmpByte, choices=Flow)  # integer, the sub-index value of the flow definition.
+        sid: XmpField[XmpByte] = XmpField(XmpByte, choices=FlowMode)  # integer, the sub-index value of the flow definition.
 
     def get(self) -> "Token[GetDataAttr]":
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
 
-    def set(self, sid: Flow) -> "Token":
+    def set(self, sid: FlowMode) -> "Token":
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], sid=sid))
 
-    set_basic = functools.partialmethod(set, Flow.BASIC)
-    set_extended = functools.partialmethod(set, Flow.EXTENDED)
+    set_basic = functools.partialmethod(set, FlowMode.BASIC)
+    set_extended = functools.partialmethod(set, FlowMode.EXTENDED)
 
 

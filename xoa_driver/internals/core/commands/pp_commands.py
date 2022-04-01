@@ -1614,16 +1614,16 @@ class PP_AUTONEG:
     class SetDataAttr:
         mode: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegMode)  # coded byte, mode
         tec_ability: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegTecAbility)  # coded byte, technical ability.
-        fec_capable: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegFecOption)  # coded byte, FEC capable.
-        fec_requested: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegFecOption)  # coded byte, FEC requested.
+        fec_capable: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegFECOption)  # coded byte, FEC capable.
+        fec_requested: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegFECOption)  # coded byte, FEC requested.
         pause_mode: XmpField[XmpInt] = XmpField(XmpInt, choices=PauseMode)  # coded byte, pause mode.
 
     @dataclass(frozen=True)
     class GetDataAttr:
         mode: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegMode)  # coded byte, mode
         tec_ability: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegTecAbility)  # coded byte, technical ability.
-        fec_capable: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegFecOption)  # coded byte, FEC capable.
-        fec_requested: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegFecOption)  # coded byte, FEC requested.
+        fec_capable: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegFECOption)  # coded byte, FEC capable.
+        fec_requested: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegFECOption)  # coded byte, FEC requested.
         pause_mode: XmpField[XmpInt] = XmpField(XmpInt, choices=PauseMode)  # coded byte, pause mode.
 
     def get(self) -> "Token[GetDataAttr]":
@@ -1634,7 +1634,7 @@ class PP_AUTONEG:
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, mode: AutoNegMode, tec_ability: AutoNegTecAbility, fec_capable: AutoNegFecOption, fec_requested: AutoNegFecOption, pause_mode: PauseMode) -> "Token":
+    def set(self, mode: AutoNegMode, tec_ability: AutoNegTecAbility, fec_capable: AutoNegFECOption, fec_requested: AutoNegFECOption, pause_mode: PauseMode) -> "Token":
         """Set the auto-negotiation settings of the PHY.
 
         :param mode: auto neg mode
@@ -1676,8 +1676,8 @@ class PP_AUTONEGSTATUS:
         fec: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegFECType)  # codec byte, FEC.
         auto_state: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegStatus)  # coded byte, autonegotiation state.
         tec_ability: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegTecAbility)  # coded byte, technical ability.
-        fec_capable: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegStatusFEC)  # coded byte, FEC capable partner.
-        fec_requested: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegStatusFEC)  # coded byte, FEC requested partner.
+        fec_capable: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegFECStatus)  # coded byte, FEC capable partner.
+        fec_requested: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegFECStatus)  # coded byte, FEC requested partner.
         pause_mode: XmpField[XmpInt] = XmpField(XmpInt, choices=PauseMode)  # coded byte, pause mode.
 
     def get(self) -> "Token[GetDataAttr]":
@@ -1706,7 +1706,7 @@ class PP_LINKTRAIN:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=LinkTrainMode)  # coded byte, link training mode
+        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=LinkTrainingMode)  # coded byte, link training mode
         pam4_frame_size: XmpField[XmpByte] = XmpField(XmpByte, choices=PAM4FrameSize)  # codec byte, PAM4 frame size.
         nrz_pam4_init_cond: XmpField[XmpByte] = XmpField(XmpByte, choices=LinkTrainingInitCondition)  # coded byte, link training init condition.
         nrz_preset: XmpField[XmpByte] = XmpField(XmpByte, choices=NRZPreset)  # coded byte, NRZ preset.
@@ -1714,7 +1714,7 @@ class PP_LINKTRAIN:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=LinkTrainMode)  # coded byte, link training mode
+        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=LinkTrainingMode)  # coded byte, link training mode
         pam4_frame_size: XmpField[XmpByte] = XmpField(XmpByte, choices=PAM4FrameSize)  # codec byte, PAM4 frame size.
         nrz_pam4_init_cond: XmpField[XmpByte] = XmpField(XmpByte, choices=LinkTrainingInitCondition)  # coded byte, link training init condition.
         nrz_preset: XmpField[XmpByte] = XmpField(XmpByte, choices=NRZPreset)  # coded byte, NRZ preset.
@@ -1729,7 +1729,7 @@ class PP_LINKTRAIN:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
     def set(
-        self, mode: LinkTrainMode, pam4_frame_size: PAM4FrameSize, nrz_pam4_init_cond: LinkTrainingInitCondition, nrz_preset: NRZPreset, timeout_mode: TimeoutMode
+        self, mode: LinkTrainingMode, pam4_frame_size: PAM4FrameSize, nrz_pam4_init_cond: LinkTrainingInitCondition, nrz_preset: NRZPreset, timeout_mode: TimeoutMode
     ) -> "Token":
         """Set the link training settings of the port.
 
@@ -1777,9 +1777,9 @@ class PP_LINKTRAINSTATUS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=LinkTrainingMode)  # coded byte, link training mode
-        status: XmpField[XmpByte] = XmpField(XmpByte, choices=LinkTrainStatus)  # coded byte, lane status.
-        failure: XmpField[XmpByte] = XmpField(XmpByte, choices=LinkTrainFailureType)  # coded byte, failure type.
+        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=LinkTrainingStatusMode)  # coded byte, link training mode
+        status: XmpField[XmpByte] = XmpField(XmpByte, choices=LinkTrainingStatus)  # coded byte, lane status.
+        failure: XmpField[XmpByte] = XmpField(XmpByte, choices=LinkTrainingFailureType)  # coded byte, failure type.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get link training status of a lane of a port.

@@ -32,16 +32,16 @@ class P4_TRAFFIC:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        traffic_state: XmpField[XmpByte] = XmpField(XmpByte, choices=TrafficState)  # coded byte, the traffic state command issued to the port.
+        traffic_state: XmpField[XmpByte] = XmpField(XmpByte, choices=L47TrafficState)  # coded byte, the traffic state command issued to the port.
 
-    def set(self, traffic_state: TrafficState) -> "Token":
+    def set(self, traffic_state: L47TrafficState) -> "Token":
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, traffic_state=traffic_state))
 
-    set_off = functools.partialmethod(set, TrafficState.OFF)
-    set_on = functools.partialmethod(set, TrafficState.ON)
-    set_stop = functools.partialmethod(set, TrafficState.STOP)
-    set_prepare = functools.partialmethod(set, TrafficState.PREPARE)
-    set_prerun = functools.partialmethod(set, TrafficState.PRERUN)
+    set_off = functools.partialmethod(set, L47TrafficState.OFF)
+    set_on = functools.partialmethod(set, L47TrafficState.ON)
+    set_stop = functools.partialmethod(set, L47TrafficState.STOP)
+    set_prepare = functools.partialmethod(set, L47TrafficState.PREPARE)
+    set_prerun = functools.partialmethod(set, L47TrafficState.PRERUN)
 
 
 @register_command
@@ -60,7 +60,7 @@ class P4_STATE:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        state: XmpField[XmpByte] = XmpField(XmpByte, choices=PortState)  # coded byte, specifying the current state for this port.
+        state: XmpField[XmpByte] = XmpField(XmpByte, choices=L47PortState)  # coded byte, specifying the current state for this port.
 
     def get(self) -> "Token[GetDataAttr]":
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
@@ -1211,28 +1211,28 @@ class P4_SPEEDSELECTION:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        speed: XmpField[XmpByte] = XmpField(XmpByte, choices=PortSpeed)  # coded byte, specifies the speed of the port
+        speed: XmpField[XmpByte] = XmpField(XmpByte, choices=L47PortSpeed)  # coded byte, specifies the speed of the port
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        speed: XmpField[XmpByte] = XmpField(XmpByte, choices=PortSpeed)  # coded byte, specifies the speed of the port
+        speed: XmpField[XmpByte] = XmpField(XmpByte, choices=L47PortSpeed)  # coded byte, specifies the speed of the port
 
     def get(self) -> "Token[GetDataAttr]":
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, speed: PortSpeed) -> "Token":
+    def set(self, speed: L47PortSpeed) -> "Token":
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, speed=speed))
 
-    set_auto = functools.partialmethod(set, PortSpeed.AUTO)
-    set_f100m = functools.partialmethod(set, PortSpeed.F100M)
-    set_f1g = functools.partialmethod(set, PortSpeed.F1G)
-    set_f2_5g = functools.partialmethod(set, PortSpeed.F2_5G)
-    set_f5g = functools.partialmethod(set, PortSpeed.F5G)
-    set_f10g = functools.partialmethod(set, PortSpeed.F10G)
-    set_f25g = functools.partialmethod(set, PortSpeed.F25G)
-    set_f40g = functools.partialmethod(set, PortSpeed.F40G)
-    set_f50g = functools.partialmethod(set, PortSpeed.F50G)
-    set_f100g = functools.partialmethod(set, PortSpeed.F100G)
+    set_auto = functools.partialmethod(set, L47PortSpeed.AUTO)
+    set_f100m = functools.partialmethod(set, L47PortSpeed.F100M)
+    set_f1g = functools.partialmethod(set, L47PortSpeed.F1G)
+    set_f2_5g = functools.partialmethod(set, L47PortSpeed.F2_5G)
+    set_f5g = functools.partialmethod(set, L47PortSpeed.F5G)
+    set_f10g = functools.partialmethod(set, L47PortSpeed.F10G)
+    set_f25g = functools.partialmethod(set, L47PortSpeed.F25G)
+    set_f40g = functools.partialmethod(set, L47PortSpeed.F40G)
+    set_f50g = functools.partialmethod(set, L47PortSpeed.F50G)
+    set_f100g = functools.partialmethod(set, L47PortSpeed.F100G)
 
 
 @register_command

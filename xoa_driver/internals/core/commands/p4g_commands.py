@@ -741,21 +741,21 @@ class P4G_IP_DS_TYPE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        ds_type: XmpField[XmpByte] = XmpField(XmpByte, choices=MssType)  # coded byte, specifying how to fill out the DS field
+        ds_type: XmpField[XmpByte] = XmpField(XmpByte, choices=MSSType)  # coded byte, specifying how to fill out the DS field
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        ds_type: XmpField[XmpByte] = XmpField(XmpByte, choices=MssType)  # coded byte, specifying how to fill out the DS field
+        ds_type: XmpField[XmpByte] = XmpField(XmpByte, choices=MSSType)  # coded byte, specifying how to fill out the DS field
 
     def get(self) -> "Token[GetDataAttr]":
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
 
-    def set(self, ds_type: MssType) -> "Token":
+    def set(self, ds_type: MSSType) -> "Token":
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], ds_type=ds_type))
 
-    set_fixed = functools.partialmethod(set, MssType.FIXED)
-    set_increment = functools.partialmethod(set, MssType.INCREMENT)
-    set_random = functools.partialmethod(set, MssType.RANDOM)
+    set_fixed = functools.partialmethod(set, MSSType.FIXED)
+    set_increment = functools.partialmethod(set, MSSType.INCREMENT)
+    set_random = functools.partialmethod(set, MSSType.RANDOM)
 
 
 @register_command
@@ -908,21 +908,21 @@ class P4G_TCP_MSS_TYPE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        mss_type: XmpField[XmpByte] = XmpField(XmpByte, choices=MssType)  # coded byte, specifying how MSS is set
+        mss_type: XmpField[XmpByte] = XmpField(XmpByte, choices=MSSType)  # coded byte, specifying how MSS is set
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mss_type: XmpField[XmpByte] = XmpField(XmpByte, choices=MssType)  # coded byte, specifying how MSS is set
+        mss_type: XmpField[XmpByte] = XmpField(XmpByte, choices=MSSType)  # coded byte, specifying how MSS is set
 
     def get(self) -> "Token[GetDataAttr]":
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
 
-    def set(self, mss_type: MssType) -> "Token":
+    def set(self, mss_type: MSSType) -> "Token":
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], mss_type=mss_type))
 
-    set_fixed = functools.partialmethod(set, MssType.FIXED)
-    set_increment = functools.partialmethod(set, MssType.INCREMENT)
-    set_random = functools.partialmethod(set, MssType.RANDOM)
+    set_fixed = functools.partialmethod(set, MSSType.FIXED)
+    set_increment = functools.partialmethod(set, MSSType.INCREMENT)
+    set_random = functools.partialmethod(set, MSSType.RANDOM)
 
 
 @register_command
@@ -1107,14 +1107,14 @@ class P4G_TCP_RTO:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        rto_type: XmpField[XmpByte] = XmpField(XmpByte, choices=RtoType)  # coded byte, specifying RTO type
+        rto_type: XmpField[XmpByte] = XmpField(XmpByte, choices=RTOType)  # coded byte, specifying RTO type
         retrans_timeout: XmpField[XmpInt] = XmpField(XmpInt)  # integer, retransmission timeout [milliseconds] - must be larger than 0
         retry_count: XmpField[XmpByte] = XmpField(XmpByte)  # byte, maximum retransmission retries - must be larger than 0
         GetDataAttroff: XmpField[XmpByte] = XmpField(XmpByte)  # byte, maximum retransmission GetDataAttroff
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        type: XmpField[XmpByte] = XmpField(XmpByte, choices=RtoType)  # coded byte, specifying RTO type
+        type: XmpField[XmpByte] = XmpField(XmpByte, choices=RTOType)  # coded byte, specifying RTO type
         retrans_timeout: XmpField[XmpInt] = XmpField(XmpInt)  # integer, retransmission timeout [milliseconds] - must be larger than 0
         retry_count: XmpField[XmpByte] = XmpField(XmpByte)  # byte, maximum retransmission retries - must be larger than 0
         GetDataAttroff: XmpField[XmpByte] = XmpField(XmpByte)  # byte, maximum retransmission GetDataAttroff
@@ -1122,7 +1122,7 @@ class P4G_TCP_RTO:
     def get(self) -> "Token[GetDataAttr]":
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
 
-    def set(self, rto_type: RtoType, retrans_timeout: int, retry_count: int, GetDataAttroff: int) -> "Token":
+    def set(self, rto_type: RTOType, retrans_timeout: int, retry_count: int, GetDataAttroff: int) -> "Token":
         return Token(
             self._connection,
             build_set_request(
@@ -1137,8 +1137,8 @@ class P4G_TCP_RTO:
             ),
         )
 
-    set_static = functools.partialmethod(set, RtoType.STATIC)
-    set_dynamic = functools.partialmethod(set, RtoType.DYNAMIC)
+    set_static = functools.partialmethod(set, RTOType.STATIC)
+    set_dynamic = functools.partialmethod(set, RTOType.DYNAMIC)
 
 
 @register_command
@@ -1163,21 +1163,21 @@ class P4G_UDP_PACKET_SIZE_TYPE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        packet_size_type: XmpField[XmpByte] = XmpField(XmpByte, choices=MssType)  # coded byte, specifying how UDP packet size is set
+        packet_size_type: XmpField[XmpByte] = XmpField(XmpByte, choices=MSSType)  # coded byte, specifying how UDP packet size is set
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        packet_size_type: XmpField[XmpByte] = XmpField(XmpByte, choices=MssType)  # coded byte, specifying how UDP packet size is set
+        packet_size_type: XmpField[XmpByte] = XmpField(XmpByte, choices=MSSType)  # coded byte, specifying how UDP packet size is set
 
     def get(self) -> "Token[GetDataAttr]":
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
 
-    def set(self, packet_size_type: MssType) -> "Token":
+    def set(self, packet_size_type: MSSType) -> "Token":
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], packet_size_type=packet_size_type))
 
-    set_fixed = functools.partialmethod(set, MssType.FIXED)
-    set_increment = functools.partialmethod(set, MssType.INCREMENT)
-    set_random = functools.partialmethod(set, MssType.RANDOM)
+    set_fixed = functools.partialmethod(set, MSSType.FIXED)
+    set_increment = functools.partialmethod(set, MSSType.INCREMENT)
+    set_random = functools.partialmethod(set, MSSType.RANDOM)
 
 
 @register_command
@@ -2619,20 +2619,20 @@ class P4G_IP_VERSION:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        version_number: XmpField[XmpByte] = XmpField(XmpByte, choices=IPVersion)  # coded byte, IP version
+        version_number: XmpField[XmpByte] = XmpField(XmpByte, choices=L47IPVersion)  # coded byte, IP version
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        version_number: XmpField[XmpByte] = XmpField(XmpByte, choices=IPVersion)  # coded byte, IP version
+        version_number: XmpField[XmpByte] = XmpField(XmpByte, choices=L47IPVersion)  # coded byte, IP version
 
     def get(self) -> "Token[GetDataAttr]":
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
 
-    def set(self, version_number: IPVersion) -> "Token":
+    def set(self, version_number: L47IPVersion) -> "Token":
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], version_number=version_number))
 
-    set_ipv4 = functools.partialmethod(set, IPVersion.IPV4)
-    set_ipv6 = functools.partialmethod(set, IPVersion.IPV6)
+    set_ipv4 = functools.partialmethod(set, L47IPVersion.IPV4)
+    set_ipv6 = functools.partialmethod(set, L47IPVersion.IPV6)
 
 
 @register_command
@@ -2815,20 +2815,20 @@ class P4G_L4_PROTOCOL:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        protocol_type: XmpField[XmpByte] = XmpField(XmpByte, choices=ProtocolType)  # coded byte, layer 4 protocol.
+        protocol_type: XmpField[XmpByte] = XmpField(XmpByte, choices=L47ProtocolType)  # coded byte, layer 4 protocol.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        protocol_type: XmpField[XmpByte] = XmpField(XmpByte, choices=ProtocolType)  # coded byte, layer 4 protocol.
+        protocol_type: XmpField[XmpByte] = XmpField(XmpByte, choices=L47ProtocolType)  # coded byte, layer 4 protocol.
 
     def get(self) -> "Token[GetDataAttr]":
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
 
-    def set(self, protocol_type: ProtocolType) -> "Token":
+    def set(self, protocol_type: L47ProtocolType) -> "Token":
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], protocol_type=protocol_type))
 
-    set_tcp = functools.partialmethod(set, ProtocolType.TCP)
-    set_udp = functools.partialmethod(set, ProtocolType.UDP)
+    set_tcp = functools.partialmethod(set, L47ProtocolType.TCP)
+    set_udp = functools.partialmethod(set, L47ProtocolType.UDP)
 
 
 @register_command

@@ -312,46 +312,46 @@ class P_SPEEDSELECTION:
     """Set the speed mode to auto (all speeds used in auto negotiation).
     """
     set_f10m = functools.partialmethod(set, PortSpeedMode.F10M)
-    """Set the speed mode to 10 Mbps.
+    """Set the speed mode to 10 Mbit/s.
     """
     set_f100m = functools.partialmethod(set, PortSpeedMode.F100M)
-    """Set the speed mode to 100 Mbps.
+    """Set the speed mode to 100 Mbit/s.
     """
     set_f1g = functools.partialmethod(set, PortSpeedMode.F1G)
-    """Set the speed mode to 1 Gbps.
+    """Set the speed mode to 1 Gbit/s.
     """
     set_f10g = functools.partialmethod(set, PortSpeedMode.F10G)
-    """Set the speed mode to 10 Gbps.
+    """Set the speed mode to 10 Gbit/s.
     """
     set_f40g = functools.partialmethod(set, PortSpeedMode.F40G)
-    """Set the speed mode to 40 Gbps.
+    """Set the speed mode to 40 Gbit/s.
     """
     set_f100g = functools.partialmethod(set, PortSpeedMode.F100G)
-    """Set the speed mode to 100 Gbps.
+    """Set the speed mode to 100 Gbit/s.
     """
     set_f10mhdx = functools.partialmethod(set, PortSpeedMode.F10MHDX)
-    """Set the speed mode to 10 Mbps Half Duplex.
+    """Set the speed mode to 10 Mbit/s Half Duplex.
     """
     set_f100mhdx = functools.partialmethod(set, PortSpeedMode.F100MHDX)
-    """Set the speed mode to 100 Mbps Half Duplex.
+    """Set the speed mode to 100 Mbit/s Half Duplex.
     """
     set_f10m100m = functools.partialmethod(set, PortSpeedMode.F10M100M)
-    """Set the speed mode to 10 Mbps/100 Mbps.
+    """Set the speed mode to 10/100 Mbit/s.
     """
     set_f100m1g = functools.partialmethod(set, PortSpeedMode.F100M1G)
-    """Set the speed mode to 100 Mbps/1 Gbps.
+    """Set the speed mode to 100 Mbit/s / 1 Gbit/s.
     """
     set_f100m1g10g = functools.partialmethod(set, PortSpeedMode.F100M1G10G)
-    """Set the speed mode to 100 Mbps/1 Gbps/10 Gbps.
+    """Set the speed mode to 100 Mbit/s / 1 Gbit/s / 10 Gbit/s.
     """
     set_f2500m = functools.partialmethod(set, PortSpeedMode.F2500M)
-    """Set the speed mode to 2500 Mbps.
+    """Set the speed mode to 2500 Mbit/s.
     """
     set_f5g = functools.partialmethod(set, PortSpeedMode.F5G)
-    """Set the speed mode to 5 Gbps.
+    """Set the speed mode to 5 Gbit/s.
     """
     set_f100m1g2500m = functools.partialmethod(set, PortSpeedMode.F100M1G2500M)
-    """Set the speed mode to 100 Mbps/1 Gbps/2500 Mbps.
+    """Set the speed mode to 100 Mbit/s / 1 Gbit/s / 2500 Mbit/s.
     """
     set_unknown = functools.partialmethod(set, PortSpeedMode.UNKNOWN)
     """Set the speed mode to unknown.
@@ -851,11 +851,11 @@ class P_LOOPBACK:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=LoopMode)  # coded byte, specifying the loopback mode of the port.
+        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=LoopbackMode)  # coded byte, specifying the loopback mode of the port.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=LoopMode)  # coded byte, specifying the loopback mode of the port.
+        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=LoopbackMode)  # coded byte, specifying the loopback mode of the port.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the loop back mode of the port.
@@ -865,7 +865,7 @@ class P_LOOPBACK:
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, mode: LoopMode) -> "Token":
+    def set(self, mode: LoopbackMode) -> "Token":
         """Set the loop back mode of the port.
 
         :param mode: the loop back mode of the port
@@ -873,25 +873,25 @@ class P_LOOPBACK:
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, mode=mode))
 
-    set_none = functools.partialmethod(set, LoopMode.NONE)
+    set_none = functools.partialmethod(set, LoopbackMode.NONE)
     """Set the port loop back mode to non-looped.
     """
-    set_l1rx2tx = functools.partialmethod(set, LoopMode.L1RX2TX)
+    set_l1rx2tx = functools.partialmethod(set, LoopbackMode.L1RX2TX)
     """Set the port loop back mode to L1RX2TX, transmit byte-by-byte copy of the incoming packet.
     """
-    set_l2rx2tx = functools.partialmethod(set, LoopMode.L2RX2TX)
+    set_l2rx2tx = functools.partialmethod(set, LoopbackMode.L2RX2TX)
     """Set the port loop back mode to L2RX2TX, swap source and destination MAC addresses.
     """
-    set_l3rx2tx = functools.partialmethod(set, LoopMode.L3RX2TX)
+    set_l3rx2tx = functools.partialmethod(set, LoopbackMode.L3RX2TX)
     """Set the port loop back mode to L3RX2TX, swap source and destination MAC addresses and swap source and destination IP addresses.
     """
-    set_txon2rx = functools.partialmethod(set, LoopMode.TXON2RX)
+    set_txon2rx = functools.partialmethod(set, LoopbackMode.TXON2RX)
     """Set the port loop back mode to TXON2RX, packet is also transmitted from the port.
     """
-    set_txoff2rx = functools.partialmethod(set, LoopMode.TXOFF2RX)
+    set_txoff2rx = functools.partialmethod(set, LoopbackMode.TXOFF2RX)
     """Set the port loop back mode to TXOFF2RX, port transmitter is off.
     """
-    set_port2port = functools.partialmethod(set, LoopMode.PORT2PORT)
+    set_port2port = functools.partialmethod(set, LoopbackMode.PORT2PORT)
     """Set the port loop back mode to PORT2PORT, packets received on one port is sent out again on the neighbor port for inline monitoring.
     """
 
@@ -2084,13 +2084,13 @@ class P_TXMODE:
     @dataclass(frozen=True)
     class SetDataAttr:
         mode: XmpField[XmpByte] = XmpField(
-            XmpByte, choices=LoopbackMode
+            XmpByte, choices=TXMode
         )  # coded byte, containing the loopback mode for the port: NORMAL (interleaved packet scheduling), STRICTUNIFORM (strict uniform mode), SEQUENTIAL (sequential packet scheduling), BURST (burst mode).
 
     @dataclass(frozen=True)
     class GetDataAttr:
         mode: XmpField[XmpByte] = XmpField(
-            XmpByte, choices=LoopbackMode
+            XmpByte, choices=TXMode
         )  # coded byte, containing the loopback mode for the port: NORMAL (interleaved packet scheduling), STRICTUNIFORM (strict uniform mode), SEQUENTIAL (sequential packet scheduling), BURST (burst mode).
 
     def get(self) -> "Token[GetDataAttr]":
@@ -2101,7 +2101,7 @@ class P_TXMODE:
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, mode: LoopbackMode) -> "Token":
+    def set(self, mode: TXMode) -> "Token":
         """Set the the scheduling mode for outgoing traffic from the port.
 
         :param mode: the scheduling mode for outgoing traffic from the port, containing the loopback mode for the port: NORMAL (interleaved packet scheduling), STRICTUNIFORM (strict uniform mode), SEQUENTIAL (sequential packet scheduling), BURST (burst mode).
@@ -2109,16 +2109,16 @@ class P_TXMODE:
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, mode=mode))
 
-    set_normal = functools.partialmethod(set, LoopbackMode.NORMAL)
+    set_normal = functools.partialmethod(set, TXMode.NORMAL)
     """Set the port scheduling mode to Normal.
     """
-    set_strictuniform = functools.partialmethod(set, LoopbackMode.STRICTUNIFORM)
+    set_strictuniform = functools.partialmethod(set, TXMode.STRICTUNIFORM)
     """Set the port scheduling mode to Strict Uniform.
     """
-    set_sequential = functools.partialmethod(set, LoopbackMode.SEQUENTIAL)
+    set_sequential = functools.partialmethod(set, TXMode.SEQUENTIAL)
     """Set the port scheduling mode to Sequential.
     """
-    set_burst = functools.partialmethod(set, LoopbackMode.BURST)
+    set_burst = functools.partialmethod(set, TXMode.BURST)
     """Set the port scheduling mode to Burst.
     """
 
@@ -2368,7 +2368,7 @@ class P_PAYLOADMODE:
 @dataclass
 class P_BRRMODE:
     """
-    Selects the Master/Slave setting of 100 Mbps (requires Valkyrie release 76.1 or higher) and 1000 Mbps (requires Valkyrie release 76.2 or higher) BroadR-Reach copper interfaces.
+    Selects the Master/Slave setting of 100 Mbit/s (requires Valkyrie release 76.1 or higher) and 1000 Mbit/s (requires Valkyrie release 76.2 or higher) BroadR-Reach copper interfaces.
     """
 
     code: typing.ClassVar[int] = 326
