@@ -2141,7 +2141,7 @@ class P_MULTICASTHDR:
     @dataclass(frozen=True)
     class SetDataAttr:
         header_count: XmpField[XmpByte] = XmpField(XmpByte)  # byte, number of additional headers. Currently only 0 or 1 supported.
-        header_format: XmpField[XmpByte] = XmpField(XmpByte, choices=HeaderFormat)  # byte, indicates the header format. 0 = no header, 1 = VLAN
+        header_format: XmpField[XmpByte] = XmpField(XmpByte, choices=MulticastHeaderFormat)  # byte, indicates the header format. 0 = no header, 1 = VLAN
         tag: XmpField[XmpInt] = XmpField(XmpInt)  # integer, VLAN tag (VID)
         pcp: XmpField[XmpByte] = XmpField(XmpByte)  # byte, VLAN Priority code point
         dei: XmpField[XmpByte] = XmpField(XmpByte, choices=OnOff)  # byte, drop-eligible indicator.
@@ -2149,7 +2149,7 @@ class P_MULTICASTHDR:
     @dataclass(frozen=True)
     class GetDataAttr:
         header_count: XmpField[XmpByte] = XmpField(XmpByte)  # byte, number of additional headers. Currently only 0 or 1 supported.
-        header_format: XmpField[XmpByte] = XmpField(XmpByte, choices=HeaderFormat)  # byte, indicates the header format. 0 = no header, 1 = VLAN
+        header_format: XmpField[XmpByte] = XmpField(XmpByte, choices=MulticastHeaderFormat)  # byte, indicates the header format. 0 = no header, 1 = VLAN
         tag: XmpField[XmpInt] = XmpField(XmpInt)  # integer, VLAN tag (VID)
         pcp: XmpField[XmpByte] = XmpField(XmpByte)  # byte, VLAN Priority code point
         dei: XmpField[XmpByte] = XmpField(XmpByte, choices=OnOff)  # byte, drop-eligible indicator
@@ -2162,7 +2162,7 @@ class P_MULTICASTHDR:
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, header_count: int, header_format: HeaderFormat, tag: int, pcp: int, dei: OnOff) -> "Token":
+    def set(self, header_count: int, header_format: MulticastHeaderFormat, tag: int, pcp: int, dei: OnOff) -> "Token":
         """Set the VLAN tag to the IGMPv2 and IGMPv3 packets of the port.
 
         :param header_count: number of additional headers. Currently only 0 or 1 supported

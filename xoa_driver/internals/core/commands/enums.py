@@ -1102,7 +1102,7 @@ class LinkTrainingInitCondition(IntEnum):
 
 
 class NRZPreset(IntEnum):
-    """NRZ Preset"""
+    """Link Training NRZ Preset"""
     NRZ_NO_PRESET = 0
     """NRZ without Preset"""
     NRZ_WITH_PRESET = 1
@@ -1110,13 +1110,19 @@ class NRZPreset(IntEnum):
 
 
 class TimeoutMode(IntEnum):
+    """Link Training Timeout Mode"""
     DEFAULT_TIMEOUT = 0
+    """Default Timeout"""
     TIMEOUT_DISABLED = 255
+    """Timeout Disabled"""
 
 
 class LinkTrainingStatusMode(IntEnum):
+    """Link Training Status Mode"""
     DISABLED = 0
+    """Disabled"""
     ENABLED = 1
+    """Enabled"""
 
 
 class LinkTrainingStatus(IntEnum):
@@ -1139,6 +1145,170 @@ class LinkTrainingFailureType(IntEnum):
     """Timeout Failure"""
 
 
+class MulticastHeaderFormat(IntEnum):
+    """Additional Header to IGMPv2/v3 Packets"""
+    NOHDR = 0
+    """No Header"""
+    VLAN = 1
+    """VLAN"""
+
+
+class PFCMode(IntEnum):
+    """Priority Flow Control (PFC) Mode"""
+    VLAN_PCP = 128
+    """VLAN PCP"""
+
+
+lass PRBSOnOff(IntEnum):
+    """PRBS Status"""
+    PRBSOFF = 0
+    """PRBS Off"""
+    PRBSON = 1
+    """PRBS On"""
+
+
+class ErrorOnOff(IntEnum):
+    """PRBS Error Injection Status"""
+    ERRORSOFF = 0
+    """PRBS Error Injection Off"""
+    ERRORSON = 1
+    """PRBS Error Injection On"""
+
+
+class PRBSPattern(IntEnum):
+    """PRBS Pattern"""
+    PRBS7 = 0
+    """PRBS-7"""
+    PRBS9 = 1
+    """PRBS-9"""
+    PRBS11 = 2
+    """PRBS-11"""
+    PRBS15 = 3
+    """PRBS-15"""
+    PRBS23 = 4
+    """PRBS-23"""
+    PRBS31 = 5
+    """PRBS-31"""
+
+
+class PHYSignalStatus(IntEnum):
+    """PHY Signal Status"""
+    NO_SIGNAL = 0
+    """No Signal"""
+    NO_CDRLOCK = 2
+    """No CDR Lock"""
+    LOCKED = 3
+    """Locked"""
+
+
+class OnOffDefault(IntEnum):
+    """On Off Default Status"""
+    OFF = 0
+    """Off"""
+    ON = 1
+    """On"""
+    DEFAULT = 2
+    """Default"""
+
+
+class TimeKeeperLicenseFileState(IntEnum):
+    """TimeKeeper License File State"""
+    NA = 0
+    """Not Available"""
+    INV = 1
+    """Invalid"""
+    VALID = 2
+    """Valid"""
+
+
+class TimeKeeperLicenseType(IntEnum):
+    """TimeKeeper License Type"""
+    UNDEF = 0
+    """Undefined"""
+    CLIENT = 1
+    """TimeKeeper Client"""
+    SERVER = 2
+    """TimeKeeper Server"""
+
+
+class TimeKeeperLicenseError(IntEnum):
+    """TimeKeeper License Error"""
+    NO_LICENSE_ERROR = 0
+    """No License Error"""
+    INVALID_SERIALNO = 1
+    """Invalid Serial Number"""
+    INVALID_CHASSISTYPE = 2
+    """Invalid Chassis Type"""
+
+
+class SystemUpdateStatus(IntEnum):
+    """System Update Status"""
+    OK = 0
+    """Update OK"""
+    FAILED_SCRIPT = 1
+    """Script Failed"""
+    FAILED_PREP = 10
+    """Preparation Failed"""
+    FAILED_FILENAME = 11
+    """Filename Failed"""
+    FAILED_DECRYPT = 12
+    """Decryption Failed"""
+    FAILED_UNPACK = 13
+    """Unpacking Failed"""
+    FAILED_VERIFY = 14
+    """Verification Failed"""
+    FAILED_MOVE = 15
+    """Moving Failed"""
+
+
+class TimeKeeperServiceStatus(IntEnum):
+    """TimeKeeper Service Status"""
+    STOPPED = 0
+    """Service Stopped"""
+    STARTED = 1
+    """Service Started"""
+    NA = 2
+    """Not Available"""
+
+
+class TimeKeeperServiceAction(IntEnum):
+    """TimeKeeper Service Action"""
+    STOP = 0
+    """Stop"""
+    START = 1
+    """Start"""
+    RESTART = 2
+    """Restart"""
+
+
+class CustomDefaultCommand(IntEnum):
+    """Custom Default Command"""
+    SET = 0
+    """Set Custom Default"""
+    CLEAR = 1
+    """Clear Custom Default"""
+
+
+class CustomDefaultScope(IntEnum):
+    """Custom Default Scope"""
+    ALL = 0
+    """All"""
+    INSTANCE = 1
+    """Instance"""
+
+
+
+class TrafficError(IntEnum):
+    """Traffic Error"""
+    NOT_PREPARED = 0
+    """Not Prepared"""
+    RATE_LENGTH_ERROR = 1
+    """Rate Length Error"""
+    PREPARED_OK = 2
+    """Prepared OK"""
+
+
+# L47 Enums
 class Role(IntEnum):
     CLIENT = 0
     SERVER = 1
@@ -1303,15 +1473,22 @@ class TLSVersion(IntEnum):
     TLS12 = 3
 
 
-class HeaderFormat(IntEnum):
-    NOHDR = 0
-    VLAN = 1
+class ResourceAllocationMode(IntEnum):
+    SIMPLE = 0
+    ADVANCED = 1
 
 
-# class Infinite(IntEnum):
-#     INFINITE = 0
+class ReplaySchedulingMode(IntEnum):
+    BANDWIDTH = 0
+    TIME = 1
 
 
+class ReplaySyncBasedOn(IntEnum):
+    PER_CONN = 0
+    PER_USER = 1
+
+
+# Impairment Enums
 class CorruptionType(IntEnum):
     OFF = 0
     ETH = 1
@@ -1331,7 +1508,7 @@ class EthernetInfo(IntEnum):
     AND = 1
 
 
-class Clude(IntEnum):
+class FilterAction(IntEnum):
     EXCLUDE = 0
     INCLUDE = 1
 
@@ -1357,113 +1534,65 @@ class FlowMode(IntEnum):
     """Extended Mode"""
 
 
-class TimeKeeperLicenseFileState(IntEnum):
-    NA = 0
-    INV = 1
-    VALID = 2
-
-
-class TimeKeeperLicenseType(IntEnum):
-    UNDEF = 0
-    CLIENT = 1
-    SERVER = 2
-
-
-class TimeKeeperLicenseError(IntEnum):
-    NO_LICENSE_ERROR = 0
-    INVALID_SERIALNO = 1
-    INVALID_CHASSISTYPE = 2
-
-
-class SystemUpdateStatus(IntEnum):
-    OK = 0
-    FAILED_SCRIPT = 1
-    FAILED_PREP = 10
-    FAILED_FILENAME = 11
-    FAILED_DECRYPT = 12
-    FAILED_UNPACK = 13
-    FAILED_VERIFY = 14
-    FAILED_MOVE = 15
-
-
-class TimeKeeperServiceStatus(IntEnum):
-    STOPPED = 0
-    STARTED = 1
-    NA = 2
-
-
-class TimeKeeperServiceAction(IntEnum):
-    STOP = 0
-    START = 1
-    RESTART = 2
-
-
-class CustomDefaultCommand(IntEnum):
-    SET = 0
-    CLEAR = 1
-
-
-class CustomDefaultScope(IntEnum):
-    ALL = 0
-    INSTANCE = 1
-
-
 class ImpairmentLatencyMode(IntEnum):
+    """Impairment Latency Mode"""
     NORMAL = 0
+    """Normal"""
     EXTENDED = 1
-
-
-class ResourceAllocationMode(IntEnum):
-    SIMPLE = 0
-    ADVANCED = 1
-
-
-class ReplaySchedulingMode(IntEnum):
-    BANDWIDTH = 0
-    TIME = 1
-
-
-class ReplaySyncBasedOn(IntEnum):
-    PER_CONN = 0
-    PER_USER = 1
-
-
-class TrafficError(IntEnum):
-    NOT_PREPARED = 0
-    RATE_LENGTH_ERROR = 1
-    PREPARED_OK = 2
-
-
-class PRBSOnOff(IntEnum):
-    PRBSOFF = 0
-    PRBSON = 1
-
-
-class ErrorOnOff(IntEnum):
-    ERRORSOFF = 0
-    ERRORSON = 1
-
-
-class PRBSPattern(IntEnum):
-    PRBS7 = 0
-    PRBS9 = 1
-    PRBS11 = 2
-    PRBS15 = 3
-    PRBS23 = 4
-    PRBS31 = 5
-
-
-class PHYSignalStatus(IntEnum):
-    NO_SIGNAL = 0
-    NO_CDRLOCK = 2
-    LOCKED = 3
+    """Extended"""
 
 
 class ShadowWorkingSelection(IntEnum):
+    """Shadow Working Selection"""
     SHADOW = 0
+    """Shadow"""
     WORKING = 1
+    """Working"""
 
 
+class FilterType(IntEnum):
+    """Filter Type for Impairemennt"""
+    SHADOWN = 0 
+    """Shadow Copy"""
+    WORKING = 1
+    """Wokring Copy"""
+
+
+class FilterVlanType(IntEnum):
+    """VLAN PCP Settings for VLAN Filter"""
+    INNER = 0 
+    """VLAN1 (0) (INNER VLAN Tag is specified for the filter – used also when only 1 VLAN), indicates single/inner VLAN-TPID=0x8100"""
+    OUTER = 1 
+    """VLAN2 (1) (OUTER VLAN Tag is specified for the filter), indicates outer VLAN-TPID=0x88A8"""
+
+
+class LatencyTypeCustomDist(IntEnum):
+    """Latency Type for Custom Distribution"""
+    INTERPACKET_DISTRIBUTION = 0
+    """Interpacket Distribution"""
+    LATENCY_DISTRIBUTION = 1
+    """Latency Distribution"""
+
+
+class ImpairmentTypeIndex(IntEnum):
+    """Impairment Type Index"""
+    DROP = 0
+    """Drop"""
+    MISORDER = 1
+    """Misorder"""
+    DELAYJITTER = 2
+    """Delay/Jitter"""
+    DUPLICATION = 3
+    """Duplication"""
+    CORRUPTION = 4
+    """Corruption"""
+    POLICER = 5
+    """Policer"""
+    SHAPER = 6
+    """Shaper"""
+
+
+# TSN
 class TSNConfigProfile(IntEnum):
     AUTOMOTIVE = 0
     IEEE1588V2 = 1
@@ -1502,38 +1631,3 @@ class TSNClearStatistics(IntEnum):
     OFFSET = 2
     PDELAY = 3
     SYNCRATE = 4
-
-
-class PFCMode(IntEnum):
-    VLAN_PCP = 128
-
-
-class OnOffDefault(IntEnum):
-    OFF = 0
-    ON = 1
-    DEFAULT = 2
-
-
-class ImpairmentTypeIndex(IntEnum):
-    DROP = 0
-    MISORDER = 1
-    DELAYJITTER = 2
-    DUPLICATION = 3
-    CORRUPTION = 4
-    POLICER = 5
-    SHAPER = 6
-
-
-class FilterType(IntEnum):
-    SHADOWN = 0  # “shadow-copy”
-    WORKING = 1  # “working-copy”
-
-
-class VlanType(IntEnum):
-    INNER = 0  # VLAN1 (0) (INNER VLAN Tag is specified for the filter – used also when only 1 VLAN), indicates single/inner VLAN-TPID=0x8100
-    OUTER = 1  # VLAN2 (1) (OUTER VLAN Tag is specified for the filter), indicates outer VLAN-TPID=0x88A8
-
-
-class LatencyType(IntEnum):
-    INTERPACKET_DISTRIBUTION = 0
-    LATENCY_DISTRIBUTION = 1

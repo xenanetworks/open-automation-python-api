@@ -3,7 +3,7 @@ if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
 from xoa_driver.internals.core.commands.enums import (
     FilterType, 
-    VlanType,
+    FilterVlanType,
 )
 from xoa_driver.internals.core.commands import (
     PEF_INIT,
@@ -55,15 +55,15 @@ class FEthernet:
 
 
 class FPerVlanType:
-    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int, filter_type: FilterType, vlan_type: VlanType ) -> None:
+    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int, filter_type: FilterType, vlan_type: FilterVlanType ) -> None:
         self.tag = PEF_VLANTAG(conn, module_id, port_id, flow_index, filter_type, vlan_type)
         self.pcp = PEF_VLANPCP(conn, module_id, port_id, flow_index, filter_type, vlan_type)
         
 class FVlan:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int, filter_type: FilterType) -> None:
         self.settings = PEF_VLANSETTINGS(conn, module_id, port_id, flow_index, filter_type)
-        self.inner = FPerVlanType(conn, module_id, port_id, flow_index, filter_type, VlanType.INNER)
-        self.outer = FPerVlanType(conn, module_id, port_id, flow_index, filter_type, VlanType.OUTER)
+        self.inner = FPerVlanType(conn, module_id, port_id, flow_index, filter_type, FilterVlanType.INNER)
+        self.outer = FPerVlanType(conn, module_id, port_id, flow_index, filter_type, FilterVlanType.OUTER)
         
 class FUdp:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int, filter_type: FilterType) -> None:

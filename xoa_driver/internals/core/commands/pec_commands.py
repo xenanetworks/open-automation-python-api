@@ -237,7 +237,7 @@ class PEC_DISTTYPE:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        latency_type: XmpField[XmpByte] = XmpField(XmpByte, choices=LatencyType)  # byte, 0 indicates interpacket distribution, 1 indicates latency distribution.
+        latency_type: XmpField[XmpByte] = XmpField(XmpByte, choices=LatencyTypeCustomDist)  # byte, 0 indicates interpacket distribution, 1 indicates latency distribution.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the latency type of a custom distribution.
