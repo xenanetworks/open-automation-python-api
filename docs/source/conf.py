@@ -82,6 +82,9 @@ logo = './_static/xoa_image.png'
 html_static_path = ['_static']
 
 
+html_show_copyright = True
+
+
 # -- Options for Texinfo output -----------------------------------------------------
 
 # This config value contains the locations and names of other projects that should be linked to in this documentation.
