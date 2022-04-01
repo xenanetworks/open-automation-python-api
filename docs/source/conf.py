@@ -83,7 +83,7 @@ htmlhelp_basename = 'xoadriverdoc'
 html_title = title
 
 # The path to the HTML logo image in the static path, or URL to the logo, or ''.
-logo_url = './_static/xoa_image200w.png'
+logo_url = './_static/xoa_image05.png'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -139,7 +139,7 @@ latex_documents = [(master_doc, 'xoadriverdoc.tex', title, author, 'manual'),
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
-latex_logo = './_static/xoa_image200w.png'
+latex_logo = './_static/xoa_image05.png'
 
 # -- Options for manual page output -----------------------------------------------------
 
