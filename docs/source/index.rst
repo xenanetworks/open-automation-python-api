@@ -3,9 +3,9 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-****************************************************
+
 Xena OpenAutomation (XOA) Python API Documentation
-****************************************************
+=====================================================
 
 Xena OpenAutomation (XOA) Python API is a driver providing user-friendly communication interfaces to Xena's physical and virtual Traffic Generation and Analysis (TGA) testers. It provides a rich collection of programming interfaces that can be used to either write test scripts or develop applications.
 
@@ -22,9 +22,9 @@ Xena OpenAutomation (XOA) Python API is a driver providing user-friendly communi
    xoa_driver_package
 
 
-****************************************************
+
 Indices and Tables
-****************************************************
+=====================================================
 
 * :ref:`genindex`
 * :ref:`modindex`

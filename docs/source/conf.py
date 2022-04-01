@@ -23,7 +23,7 @@ sys.path.insert(0, os.path.abspath('../../'))
 project = u'xoa-driver'
 copyright = u'2022, Xena Networks'
 author = u'Artem Constantinov, Ron Ding, Leonard Yu'
-
+title = u'Xena OpenAutomation (XOA) Python API Documentation'
 
 # The full version, including alpha/beta/rc tags.
 release = '1.0b3'
@@ -68,17 +68,11 @@ htmlhelp_basename = 'xoadriverdoc'
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
-html_title = "Xena OpenAutomation (XOA) Python API Documentation" + release
+html_title = title + ' ' + release
 
-# The name of an image file (within the static path) to use as favicon of the
-# docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
-# pixels large.
-html_favicon = "_static/xoa_image.png"
+# The path to the HTML logo image in the static path, or URL to the logo, or ''.
+logo = "_static/xoa_image.png"
 
-# Add any paths that contain custom static files (such as style sheets) here,
-# relative to this directory. They are copied after the builtin static files,
-# so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
 
 # -- Options for Texinfo output -----------------------------------------------------
 
@@ -94,7 +88,7 @@ intersphinx_disabled_domains = ['std']
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'xoadriverdoc', u'Xena OpenAutomation Python API Documentation', author, 'xoadriverdoc', 'Xena OpenAutomation high-level and low-level Python APIs and code examples for Xena TGA testers.', 'Miscellaneous'),
+    (master_doc, 'xoadriverdoc', title, author, 'xoadriverdoc', 'Xena OpenAutomation high-level and low-level Python APIs and code examples for Xena TGA testers.', 'Miscellaneous'),
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -120,7 +114,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
-latex_documents = [(master_doc, 'xoadriverdoc.tex', u'Xena OpenAutomation Python API Documentation', u'Artem Constantinov, Ron Ding, Leonard Yu', 'manual'),
+latex_documents = [(master_doc, 'xoadriverdoc.tex', title, author, 'manual'),
 ]
 
 
@@ -129,13 +123,13 @@ latex_documents = [(master_doc, 'xoadriverdoc.tex', u'Xena OpenAutomation Python
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'xoadriverdoc', u'Xena OpenAutomation Python API Documentation', [author], 1)
+    (master_doc, 'xoadriverdoc', title, [author], 1)
 ]
 
 
 # -- Options for EPUB output -----------------------------------------------------
-epub_title = 'Xena OpenAutomation Python API Documentation'
-epub_author = 'Artem Constantinov, Ron Ding, Leonard Yum'
+epub_title = title
+epub_author = author
 epub_publisher = 'http://xenanetworks.com'
 epub_copyright = copyright
 epub_show_urls = 'footnote'

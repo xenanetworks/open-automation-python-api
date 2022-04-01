@@ -1,68 +1,68 @@
 .. _command_ref:
 
-****************************
+
 API Function Reference
-****************************
+=============================
 
 This section includes the Python module references of both XOA :ref:`HL-PYTHON <hl_api>` and :ref:`LL-PYTHON <ll_api>`.
 
 High-Level Python Modules
-=============================
+-----------------------------
 
 ``testers`` module
------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: xoa_driver.testers
    :members:
 
 
 ``modules`` module
------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: xoa_driver.modules
    :members:
 
 
 ``ports`` module
------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: xoa_driver.ports
    :members:
 
 
 ``utils`` module
------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: xoa_driver.utils
    :members:
 
 
 ``enums`` module
------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: xoa_driver.enums
    :members:
 
 
 ``exceptions`` module
------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: xoa_driver.exceptions
    :members:
 
 
 Low-Level Python Modules
-=============================
+-----------------------------
 
 L23 - Basic
-----------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: xoa_driver.lli
    :members:
 
 
 ``c_commands`` module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""""""""""""
 
 .. automodule:: xoa_driver.internals.core.commands.c_commands
    :members:
@@ -71,7 +71,7 @@ L23 - Basic
 
 
 ``m_commands`` module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""""""""""""
 
 .. automodule:: xoa_driver.internals.core.commands.m_commands
    :members:
@@ -80,7 +80,7 @@ L23 - Basic
 
 
 ``p_commands`` module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""""""""""""
 
 .. automodule:: xoa_driver.internals.core.commands.p_commands
    :members:
@@ -89,7 +89,7 @@ L23 - Basic
 
 
 ``ps_commands`` module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""""""""""""
 
 .. automodule:: xoa_driver.internals.core.commands.ps_commands
    :members:
@@ -98,7 +98,7 @@ L23 - Basic
 
 
 ``pp_commands`` module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""""""""""""
 
 .. automodule:: xoa_driver.internals.core.commands.pp_commands
    :members:
@@ -107,7 +107,7 @@ L23 - Basic
 
 
 ``pt_commands`` module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""""""""""""
 
 .. automodule:: xoa_driver.internals.core.commands.pt_commands
    :members:
@@ -116,7 +116,7 @@ L23 - Basic
 
 
 ``pr_commands`` module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""""""""""""
 
 .. automodule:: xoa_driver.internals.core.commands.pr_commands
    :members:
@@ -125,7 +125,7 @@ L23 - Basic
 
 
 ``pc_commands`` module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""""""""""""
 
 .. automodule:: xoa_driver.internals.core.commands.pc_commands
    :members:
@@ -134,7 +134,7 @@ L23 - Basic
 
 
 ``pd_commands`` module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""""""""""""
 
 .. automodule:: xoa_driver.internals.core.commands.pd_commands
    :members:
@@ -143,7 +143,7 @@ L23 - Basic
 
 
 ``pf_commands`` module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""""""""""""
 
 .. automodule:: xoa_driver.internals.core.commands.pf_commands
    :members:
@@ -152,7 +152,7 @@ L23 - Basic
 
 
 ``pl_commands`` module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""""""""""""
 
 .. automodule:: xoa_driver.internals.core.commands.pl_commands
    :members:
@@ -161,7 +161,7 @@ L23 - Basic
 
 
 ``pm_commands`` module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""""""""""""
 
 .. automodule:: xoa_driver.internals.core.commands.pm_commands
    :members:
@@ -170,7 +170,7 @@ L23 - Basic
 
 
 ``px_commands`` module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""""""""""""
 
 .. automodule:: xoa_driver.internals.core.commands.px_commands
    :members:
@@ -179,10 +179,10 @@ L23 - Basic
 
 
 L23 - TSN
-----------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ``xp_commands`` module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""""""""""""
 
 .. automodule:: xoa_driver.internals.core.commands.xp_commands
    :members:
@@ -191,7 +191,7 @@ L23 - TSN
 
 
 ``xpd_commands`` module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""""""""""""
 
 .. automodule:: xoa_driver.internals.core.commands.xpd_commands
    :members:
@@ -200,10 +200,10 @@ L23 - TSN
 
 
 L47 - Basic
---------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ``m4_commands`` module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""""""""""""
 
 .. automodule:: xoa_driver.internals.core.commands.m4_commands
    :members:
@@ -212,7 +212,7 @@ L47 - Basic
 
 
 ``m4e_commands`` module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""""""""""""
 
 .. automodule:: xoa_driver.internals.core.commands.m4e_commands
    :members:
@@ -221,7 +221,7 @@ L47 - Basic
 
 
 ``p4_commands`` module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""""""""""""
 
 .. automodule:: xoa_driver.internals.core.commands.p4_commands
    :members:
@@ -230,7 +230,7 @@ L47 - Basic
 
 
 ``p4e_commands`` module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""""""""""""
 
 .. automodule:: xoa_driver.internals.core.commands.p4e_commands
    :members:
@@ -239,7 +239,7 @@ L47 - Basic
 
 
 ``p4g_commands`` module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""""""""""""
 
 .. automodule:: xoa_driver.internals.core.commands.p4g_commands
    :members:
@@ -248,10 +248,10 @@ L47 - Basic
 
 
 Impairment - Basic
--------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ``pe_commands`` module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""""""""""""
 
 .. automodule:: xoa_driver.internals.core.commands.pe_commands
    :members:
@@ -260,7 +260,7 @@ Impairment - Basic
 
 
 ``pec_commands`` module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""""""""""""
 
 .. automodule:: xoa_driver.internals.core.commands.pec_commands
    :members:
@@ -269,7 +269,7 @@ Impairment - Basic
 
 
 ``ped_commands`` module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""""""""""""
 
 .. automodule:: xoa_driver.internals.core.commands.ped_commands
    :members:
@@ -278,7 +278,7 @@ Impairment - Basic
 
 
 ``pef_commands`` module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""""""""""""
 
 .. automodule:: xoa_driver.internals.core.commands.pef_commands
    :members:
