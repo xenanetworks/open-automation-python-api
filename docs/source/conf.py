@@ -71,7 +71,7 @@ htmlhelp_basename = 'xoadriverdoc'
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
-html_title = title + ' ' + release
+html_title = title
 
 # The path to the HTML logo image in the static path, or URL to the logo, or ''.
 logo = './_static/xoa_image.png'
