@@ -23,7 +23,7 @@ sys.path.insert(0, os.path.abspath('../../'))
 project = u'xoa-driver'
 copyright = u'2022, Xena Networks'
 author = u'Artem Constantinov, Ron Ding, Leonard Yu'
-title = u'Xena OpenAutomation (XOA) Python API Documentation'
+title = u'Xena OpenAutomation Python API Documentation'
 
 # The full version, including alpha/beta/rc tags.
 release = '1.0b3'
@@ -58,6 +58,9 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # The master toctree document.
 master_doc = 'index'
 
+# Add any paths that contain templates here, relative to this directory.
+templates_path = ['_templates']
+
 # -- Options for HTML output -----------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.
@@ -71,7 +74,12 @@ htmlhelp_basename = 'xoadriverdoc'
 html_title = title + ' ' + release
 
 # The path to the HTML logo image in the static path, or URL to the logo, or ''.
-logo = "_static/xoa_image.png"
+logo = './_static/xoa_image.png'
+
+# Add any paths that contain custom static files (such as style sheets) here,
+# relative to this directory. They are copied after the builtin static files,
+# so a file named "default.css" will overwrite the builtin "default.css".
+html_static_path = ['_static']
 
 
 # -- Options for Texinfo output -----------------------------------------------------
@@ -117,6 +125,9 @@ latex_elements = {
 latex_documents = [(master_doc, 'xoadriverdoc.tex', title, author, 'manual'),
 ]
 
+# The name of an image file (relative to this directory) to place at the top of
+# the title page.
+latex_logo = './_static/xoa_image.png'
 
 # -- Options for manual page output -----------------------------------------------------
 
