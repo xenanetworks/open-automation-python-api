@@ -9,7 +9,6 @@ Xena OpenAutomation (XOA) Python API Documentation
 Xena OpenAutomation (XOA) Python API is a driver providing user-friendly communication interfaces to Xena's physical and virtual Traffic Generation and Analysis (TGA) testers. It provides a rich collection of programming interfaces that can be used to either write test scripts or develop applications.
 
 Table of Content
---------------------
 
 .. toctree::
    :maxdepth: 4
@@ -23,7 +22,6 @@ Table of Content
 
 
 Indices and tables
---------------------
 
 * :ref:`genindex`
 * :ref:`modindex`
