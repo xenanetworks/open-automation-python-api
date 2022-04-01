@@ -7,6 +7,7 @@ from xoa_driver.internals.core.commands import (
 )
 
 class PacketEngine:
+    """L47 port packet engine settings"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.assign = P4E_ASSIGN(conn, module_id, port_id)
         self.avaliable = P4E_AVAILABLE(conn, module_id, port_id)

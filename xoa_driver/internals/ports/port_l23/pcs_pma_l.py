@@ -13,12 +13,14 @@ from xoa_driver.internals.core.commands import (
 
 
 class AutoNeg:
+    """PCS/PMA auto-negotiation"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.settings = PP_AUTONEG(conn, module_id, port_id)
         self.status = PP_AUTONEGSTATUS(conn, module_id, port_id)
 
 
 class LinkTrain:
+    """PCS/PMA link training"""
     def __init__(self, conn: "itf.IConnection", port) -> None:
         self.settings = PP_LINKTRAIN(conn, *port.kind)
         self.pir_lane_status: Tuple[PP_LINKTRAINSTATUS, ...] = tuple(

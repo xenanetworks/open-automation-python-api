@@ -1,10 +1,16 @@
-High-Level API User Guide
-===========================
+.. _hl_api:
+
+
+High-Level Python API (HL-PYTHON)
+===================================
+
+The HL-PYTHON provides abstraction that helps developers to quickly develop scripts or program in an object-oriented fashion with explicit definition of commands of different *tester*, *module*, *port* types. In addition, the HL-PYTHON layer provides functionalities such as *auto connection keep-alive*, *auto index management*, *resources identification tracking for push notification*, etc. 
+
 
 Code API Notation and Namings
--------------------------------
+--------------------------------
 
-High-level API aims to be semantic in function name patterns to avoid expectation conflicts, as well as avoiding methods which can return values of a different kind. The key rule is: **One Method One Action**:
+HL-PYTHON aims to be semantic in function name patterns to avoid expectation conflicts, as well as avoiding methods which can return values of a different kind. The key rule is: **One Method One Action**:
 
 .. note::
 
@@ -34,7 +40,7 @@ are represented as
 
 
 Attributes and Methods
-------------------------
+--------------------------------
 
 There are only two types of methods for each command, ``get`` and/or ``set``.
 * Method ``get`` is used to **query** the values, status, configuration of the resource.
@@ -54,7 +60,7 @@ To use ``get`` and ``set`` methods, you need to use ``await`` because they are a
 
 
 Event Subscription and Push Notification
-----------------------------------------------
+----------------------------------------------------------------
 
 Structure: ``<resource>.on_<command_oo_name>_change(<async_callback_function>)``
 
@@ -96,7 +102,7 @@ Under the Port level
 
 
 Resource Managers
-----------------------------------------------
+-----------------------
 
 Most of the sublevel resources, which are organized into collections, are handled by resource managers.
 
@@ -161,7 +167,7 @@ An illustration of the the resource managers and test resources are shown below:
 
 
 Module and Port Managers
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Each tester contains a *Module Manager*, which can be accessed through attribute ``modules``. Each module contains a *Port Manager*.
 
@@ -170,20 +176,24 @@ Each tester contains a *Module Manager*, which can be accessed through attribute
     A Module Manager can contain modules of different *Module Types*. This is because there can be various test modules installed in a physical tester. On the other hand, a Port Manager contains ports of the same *Port Type*. This is because the ports on a module are of the same type.
 
 Methods to retrieve a module or a port from a resource manager:
+
 .. code-block:: python
 
     obtain(<module_slot_number> | <port_index>)
 
 Code example:
+
 .. literalinclude:: code_example/high_level/obtain_one_module.py
 
 
 Methods to retrieve _multiple_ resources from a resource manager:
+
 .. code-block:: python
 
     obtain_multiple(<module_index> | <port_index>, ...)
 
 Code example:
+
 .. literalinclude:: code_example/high_level/obtain_multiple_module.py
 
 
@@ -205,47 +215,48 @@ The call of the function ``<index_instance>.delete()`` will remove a resource in
 
 
 Session
----------------
+-------------
 
 A ``session`` will be created automatically after a TCP connection is established between the client and the tester.
 
 Three attributes of a ``session`` are exposed:
+
 * ``is_online`` - property to validate if the TCP connection is alive.
 * ``logoff()`` - async method for gracefully closing the TCP connection to the tester.
 * ``sessions_info()`` - async method for getting information of the current active sessions on a tester.
 
 Session Identification
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 * A tester does not use the tuple (source IP, source port, destination IP, destination port) to identify a session. Instead, it uses the username as the identification of a session. For instance, ``tester = await testers.L23Tester("192.168.1.200", "JonDoe")``, where the username is ``JonDoe``.
 
 Session Recovery and Resource Reallocation
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 * To recover the session, the client only needs to establish a new TCP connection with the same username as the dropped session.
 * All resources of the broken session will be automatically transferred to the new session because they have the same username.
 
 Handling Multiple Same-Username Sessions
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 * If multiple sessions use the same username to connect to a tester after a broken session, the tester will give the control of the resources to a session in a first-come-first-served manner, and the others will be treated as observers. Thus, duplicated username should be avoided at the session level.
 * If the controlling session is disconnected, the tester will automatically pass the control of the resources to the next session in the queue.
 
 Local State
----------------------
+----------------
 
 The access to the local state of a resource is done through property ``<resource>.info``. The info contains current status of the resource and information of its attributes, which cannot be changed during a running ``session``.
 
 
 Code Examples
-----------------------------
+-------------------
 
 The boilerplate code that is used to run all of the examples.
 
 .. literalinclude:: code_example/boilerplate.py
 
 Tester Instance
-^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^
 
 Each tester class is represented as an `awaitable object <https://docs.python.org/3/library/asyncio-task.html#id2>`_. When awaited, it establishes a TCP connection to the tester.
 
@@ -259,10 +270,12 @@ Available tester types are  ``L23Tester | L47Tester | L47VeTester``.
 
 
 **Create a tester instance by using context manager**
+
 .. literalinclude:: code_example/high_level/create_a_tester_contextm.py
 
 
 **Create multiple tester instances**
+
 .. literalinclude:: code_example/high_level/create_multi_testers.py
 
 
@@ -270,17 +283,20 @@ Read more about `await asyncio.gather <https://docs.python.org/3/library/asyncio
 
 
 Obtain Resources
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^
 
 **Obtain one module**
+
 .. literalinclude:: code_example/high_level/obtain_one_module.py
 
 
 **Obtain multiple modules**
+
 .. literalinclude:: code_example/high_level/obtain_multiple_module.py
 
 
 **Process operation on all modules**
+
 .. literalinclude:: code_example/high_level/oper_on_all_modules.py
 
 **Obtain multiple ports**
@@ -292,7 +308,7 @@ The interface of obtaining multiple ports is equivalent to obtaining multiple mo
 
 
 Data Exchange
-^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^
 
 **Querying parameters**
 
@@ -312,9 +328,47 @@ Data Exchange
 
 
 Statistics Collection
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Statistics collection, such as latency and jitter, TX/RX rate, frame count, etc., can be done by Python standard library ``asyncio``. In case you are new to ``asyncio``, the example below may help you understand how to use ``asyncio`` to query counters.
 
 .. literalinclude:: code_example/high_level/stats_collection.py
 
+
+HL-PYTHON and CLI Comparison
+-------------------------------
+
+If you are already very familiar with Xena CLI, the code comparison below will help you understand the coding differences between a XOA Python script and a Xena CLI script, which are doing the same thing.
+
+* The CLI Script consists of two files: ``cli_script.py`` and ``config.txt``. Click to download the dependencies `TestUtilsL23 <https://github.com/xenadevel/xenascriptlibs/blob/master/layer23/python3/testutils/TestUtilsL23.py>`_. and `SocketDrivers <https://github.com/xenadevel/xenascriptlibs/blob/master/layer23/python3/testutils/SocketDrivers.py>`_.
+* The XOA Python API script consists of three files: ``xoa_script.py``, ``config.py``, and ``config.txt``.
+
+Both scripts result in the same port/stream configuration.
+
+CLI Code Example
+^^^^^^^^^^^^^^^^^^^^
+
+`cli_script.py`
+
+.. literalinclude:: code_example/diff_with_cli/cli_script.py
+
+
+`config.txt`
+
+.. literalinclude:: code_example/diff_with_cli/config.txt
+
+
+XOA HL-PYTHON Example
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+`xoa_script.py`
+
+.. literalinclude:: code_example/diff_with_cli/xoa_script.py
+
+`config.py`
+
+.. literalinclude:: code_example/diff_with_cli/config.py
+
+`config.txt`
+
+.. literalinclude:: code_example/diff_with_cli/config.txt

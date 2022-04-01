@@ -1271,11 +1271,11 @@ class M_TXCLOCKSOURCE_NEW:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        tx_clock: XmpField[XmpByte] = XmpField(XmpByte, choices=TXClock)  # coded byte, specifying what drives the port TX rates.
+        tx_clock: XmpField[XmpByte] = XmpField(XmpByte, choices=TXClockSource)  # coded byte, specifying what drives the port TX rates.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        tx_clock: XmpField[XmpByte] = XmpField(XmpByte, choices=TXClock)  # coded byte, specifying what drives the port TX rates.
+        tx_clock: XmpField[XmpByte] = XmpField(XmpByte, choices=TXClockSource)  # coded byte, specifying what drives the port TX rates.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the test module's TX clock source settings.
@@ -1285,7 +1285,7 @@ class M_TXCLOCKSOURCE_NEW:
         """
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, tx_clock: TXClock) -> "Token":
+    def set(self, tx_clock: TXClockSource) -> "Token":
         """Set the test module's TX clock source settings.
 
         :param tx_clock: the test module's TX clock source settings
@@ -1293,34 +1293,34 @@ class M_TXCLOCKSOURCE_NEW:
         """
         return Token(self._connection, build_set_request(self, module=self._module, tx_clock=tx_clock))
 
-    set_modulelocalclock = functools.partialmethod(set, TXClock.MODULELOCALCLOCK)
+    set_modulelocalclock = functools.partialmethod(set, TXClockSource.MODULELOCALCLOCK)
     """Set the test module's TX clock source to Module Local Clock
     """
-    set_smainput = functools.partialmethod(set, TXClock.SMAINPUT)
+    set_smainput = functools.partialmethod(set, TXClockSource.SMAINPUT)
     """Set the test module's TX clock source to SMA Input
     """
-    set_p0rxclk = functools.partialmethod(set, TXClock.P0RXCLK)
+    set_p0rxclk = functools.partialmethod(set, TXClockSource.P0RXCLK)
     """Set the test module's TX clock source to Port 0 RX Clock
     """
-    set_p1rxclk = functools.partialmethod(set, TXClock.P1RXCLK)
+    set_p1rxclk = functools.partialmethod(set, TXClockSource.P1RXCLK)
     """Set the test module's TX clock source to Port 1 RX Clock
     """
-    set_p2rxclk = functools.partialmethod(set, TXClock.P2RXCLK)
+    set_p2rxclk = functools.partialmethod(set, TXClockSource.P2RXCLK)
     """Set the test module's TX clock source to Port 2 RX Clock
     """
-    set_p3rxclk = functools.partialmethod(set, TXClock.P3RXCLK)
+    set_p3rxclk = functools.partialmethod(set, TXClockSource.P3RXCLK)
     """Set the test module's TX clock source to Port 3 RX Clock
     """
-    set_p4rxclk = functools.partialmethod(set, TXClock.P4RXCLK)
+    set_p4rxclk = functools.partialmethod(set, TXClockSource.P4RXCLK)
     """Set the test module's TX clock source to Port 4 RX Clock
     """
-    set_p5rxclk = functools.partialmethod(set, TXClock.P5RXCLK)
+    set_p5rxclk = functools.partialmethod(set, TXClockSource.P5RXCLK)
     """Set the test module's TX clock source to Port 5 RX Clock
     """
-    set_p6rxclk = functools.partialmethod(set, TXClock.P6RXCLK)
+    set_p6rxclk = functools.partialmethod(set, TXClockSource.P6RXCLK)
     """Set the test module's TX clock source to Port 6 RX Clock
     """
-    set_p7rxclk = functools.partialmethod(set, TXClock.P7RXCLK)
+    set_p7rxclk = functools.partialmethod(set, TXClockSource.P7RXCLK)
     """Set the test module's TX clock source to Port 7 RX Clock
     """
 
@@ -1368,11 +1368,11 @@ class M_TXCLOCKFILTER_NEW:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        filter_bandwidth: XmpField[XmpByte] = XmpField(XmpByte, choices=FilterBandwidth)  # coded byte, the loop bandwidth on the TX clock filter.
+        filter_bandwidth: XmpField[XmpByte] = XmpField(XmpByte, choices=LoopBandwidth)  # coded byte, the loop bandwidth on the TX clock filter.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        filter_bandwidth: XmpField[XmpByte] = XmpField(XmpByte, choices=FilterBandwidth)  # coded byte, the loop bandwidth on the TX clock filter.
+        filter_bandwidth: XmpField[XmpByte] = XmpField(XmpByte, choices=LoopBandwidth)  # coded byte, the loop bandwidth on the TX clock filter.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the setting of the loop bandwidth on the TX clock filter.
@@ -1382,7 +1382,7 @@ class M_TXCLOCKFILTER_NEW:
         """
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, filter_bandwidth: FilterBandwidth) -> "Token":
+    def set(self, filter_bandwidth: LoopBandwidth) -> "Token":
         """Set the setting of the loop bandwidth on the TX clock filter.
 
         :param filter_bandwidth: the setting of the loop bandwidth on the TX clock filter
@@ -1390,19 +1390,19 @@ class M_TXCLOCKFILTER_NEW:
         """
         return Token(self._connection, build_set_request(self, module=self._module, filter_bandwidth=filter_bandwidth))
 
-    set_bw103hz = functools.partialmethod(set, FilterBandwidth.BW103HZ)
+    set_bw103hz = functools.partialmethod(set, LoopBandwidth.BW103HZ)
     """Set the loop bandwidth on the TX clock filter to BW = 103 Hz.
     """
-    set_bw207hz = functools.partialmethod(set, FilterBandwidth.BW207HZ)
+    set_bw207hz = functools.partialmethod(set, LoopBandwidth.BW207HZ)
     """Set the loop bandwidth on the TX clock filter to BW = 207 Hz.
     """
-    set_bw416hz = functools.partialmethod(set, FilterBandwidth.BW416HZ)
+    set_bw416hz = functools.partialmethod(set, LoopBandwidth.BW416HZ)
     """Set the loop bandwidth on the TX clock filter to BW = 416 Hz.
     """
-    set_bw1683hz = functools.partialmethod(set, FilterBandwidth.BW1683HZ)
+    set_bw1683hz = functools.partialmethod(set, LoopBandwidth.BW1683HZ)
     """Set the loop bandwidth on the TX clock filter to BW = 1683 Hz.
     """
-    set_bw7019hz = functools.partialmethod(set, FilterBandwidth.BW7019HZ)
+    set_bw7019hz = functools.partialmethod(set, LoopBandwidth.BW7019HZ)
     """Set the loop bandwidth on the TX clock filter to BW = 7019 Hz.
     """
 

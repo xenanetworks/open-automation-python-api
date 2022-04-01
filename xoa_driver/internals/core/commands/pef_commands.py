@@ -143,17 +143,17 @@ class PEF_ETHSETTINGS:
     @dataclass(frozen=True)
     class SetDataAttr:
         usage: XmpField[XmpByte] = XmpField(XmpByte, choices=EthernetInfo)  # coded byte, specifies if Ethernet information is expected.
-        action: XmpField[XmpByte] = XmpField(XmpByte, choices=Clude)  # coded byte, specifies the usage of Ethernet information.
+        action: XmpField[XmpByte] = XmpField(XmpByte, choices=FilterAction)  # coded byte, specifies the usage of Ethernet information.
 
     @dataclass(frozen=True)
     class GetDataAttr:
         usage: XmpField[XmpByte] = XmpField(XmpByte, choices=EthernetInfo)  # coded byte, specifies if Ethernet information is expected.
-        action: XmpField[XmpByte] = XmpField(XmpByte, choices=Clude)  # coded byte, specifies the usage of Ethernet information.
+        action: XmpField[XmpByte] = XmpField(XmpByte, choices=FilterAction)  # coded byte, specifies the usage of Ethernet information.
 
     def get(self) -> "Token[GetDataAttr]":
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
 
-    def set(self, usage: EthernetInfo, action: Clude) -> "Token":
+    def set(self, usage: EthernetInfo, action: FilterAction) -> "Token":
         return Token(
             self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], usage=usage, action=action)
         )
@@ -298,17 +298,17 @@ class PEF_VLANSETTINGS:
     @dataclass(frozen=True)
     class SetDataAttr:
         usage: XmpField[XmpByte] = XmpField(XmpByte, choices=EthernetInfo)  # coded byte, specifies if VLAN information is expected.
-        action: XmpField[XmpByte] = XmpField(XmpByte, choices=Clude)  # coded byte, specifies the usage of VLAN information.
+        action: XmpField[XmpByte] = XmpField(XmpByte, choices=FilterAction)  # coded byte, specifies the usage of VLAN information.
 
     @dataclass(frozen=True)
     class GetDataAttr:
         usage: XmpField[XmpByte] = XmpField(XmpByte, choices=EthernetInfo)  # coded byte, specifies if VLAN information is expected.
-        action: XmpField[XmpByte] = XmpField(XmpByte, choices=Clude)  # coded byte, specifies the usage of VLAN information.
+        action: XmpField[XmpByte] = XmpField(XmpByte, choices=FilterAction)  # coded byte, specifies the usage of VLAN information.
 
     def get(self) -> "Token[GetDataAttr]":
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
 
-    def set(self, usage: EthernetInfo, action: Clude) -> "Token":
+    def set(self, usage: EthernetInfo, action: FilterAction) -> "Token":
         return Token(
             self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], usage=usage, action=action)
         )
@@ -330,7 +330,7 @@ class PEF_VLANTAG:
     _port: int
     _flow_xindex: int
     filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
-    vlan_type: VlanType # coded byte, the sub-index value specifies the VLAN type. VLAN1 (0) (INNER VLAN Tag is specified for the filter – used also when only 1 VLAN) indicates single/inner VLAN-TPID = 0x8100. VLAN2 (1) (OUTER VLAN Tag is specified for the filter) indicates outer VLAN-TPID=0x88A8
+    vlan_type: FilterVlanType # coded byte, the sub-index value specifies the VLAN type. VLAN1 (0) (INNER VLAN Tag is specified for the filter – used also when only 1 VLAN) indicates single/inner VLAN-TPID = 0x8100. VLAN2 (1) (OUTER VLAN Tag is specified for the filter) indicates outer VLAN-TPID=0x88A8
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -374,7 +374,7 @@ class PEF_VLANPCP:
     _port: int
     _flow_xindex: int
     filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
-    vlan_type: VlanType # coded byte, the sub-index value specifies the VLAN type. VLAN1 (0) (INNER VLAN Tag is specified for the filter – used also when only 1 VLAN) indicates single/inner VLAN-TPID = 0x8100. VLAN2 (1) (OUTER VLAN Tag is specified for the filter) indicates outer VLAN-TPID=0x88A8
+    vlan_type: FilterVlanType # coded byte, the sub-index value specifies the VLAN type. VLAN1 (0) (INNER VLAN Tag is specified for the filter – used also when only 1 VLAN) indicates single/inner VLAN-TPID = 0x8100. VLAN2 (1) (OUTER VLAN Tag is specified for the filter) indicates outer VLAN-TPID=0x88A8
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -423,17 +423,17 @@ class PEF_MPLSSETTINGS:
     @dataclass(frozen=True)
     class SetDataAttr:
         usage: XmpField[XmpByte] = XmpField(XmpByte, choices=EthernetInfo)  # coded byte, specifies the usage of MPLS information:
-        action: XmpField[XmpByte] = XmpField(XmpByte, choices=Clude)  # coded byte, specifies the usage of MPLS information:
+        action: XmpField[XmpByte] = XmpField(XmpByte, choices=FilterAction)  # coded byte, specifies the usage of MPLS information:
 
     @dataclass(frozen=True)
     class GetDataAttr:
         usage: XmpField[XmpByte] = XmpField(XmpByte, choices=EthernetInfo)  # coded byte, specifies the usage of MPLS information:
-        action: XmpField[XmpByte] = XmpField(XmpByte, choices=Clude)  # coded byte, specifies the usage of MPLS information:
+        action: XmpField[XmpByte] = XmpField(XmpByte, choices=FilterAction)  # coded byte, specifies the usage of MPLS information:
 
     def get(self) -> "Token[GetDataAttr]":
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
 
-    def set(self, usage: EthernetInfo, action: Clude) -> "Token":
+    def set(self, usage: EthernetInfo, action: FilterAction) -> "Token":
         return Token(
             self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], usage=usage, action=action)
         )
@@ -577,17 +577,17 @@ class PEF_IPV4SETTINGS:
     @dataclass(frozen=True)
     class SetDataAttr:
         usage: XmpField[XmpByte] = XmpField(XmpByte, choices=EthernetInfo)  # coded byte, specifies the usage of IPv4 information.
-        action: XmpField[XmpByte] = XmpField(XmpByte, choices=Clude)  # coded byte, specifies the action of IPv4 information.
+        action: XmpField[XmpByte] = XmpField(XmpByte, choices=FilterAction)  # coded byte, specifies the action of IPv4 information.
 
     @dataclass(frozen=True)
     class GetDataAttr:
         usage: XmpField[XmpByte] = XmpField(XmpByte, choices=EthernetInfo)  # coded byte, specifies the usage of IPv4 information.
-        action: XmpField[XmpByte] = XmpField(XmpByte, choices=Clude)  # coded byte, specifies the action of IPv4 information.
+        action: XmpField[XmpByte] = XmpField(XmpByte, choices=FilterAction)  # coded byte, specifies the action of IPv4 information.
 
     def get(self) -> "Token[GetDataAttr]":
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
 
-    def set(self, usage: EthernetInfo, action: Clude) -> "Token":
+    def set(self, usage: EthernetInfo, action: FilterAction) -> "Token":
         return Token(
             self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], usage=usage, action=action)
         )
@@ -744,17 +744,17 @@ class PEF_IPV6SETTINGS:
     @dataclass(frozen=True)
     class SetDataAttr:
         usage: XmpField[XmpByte] = XmpField(XmpByte, choices=EthernetInfo)  # coded byte, specifies the usage of IPv6 information:
-        action: XmpField[XmpByte] = XmpField(XmpByte, choices=Clude)  # coded byte, specifies the usage of IPv6 information:
+        action: XmpField[XmpByte] = XmpField(XmpByte, choices=FilterAction)  # coded byte, specifies the usage of IPv6 information:
 
     @dataclass(frozen=True)
     class GetDataAttr:
         usage: XmpField[XmpByte] = XmpField(XmpByte, choices=EthernetInfo)  # coded byte, specifies the usage of IPv6 information:
-        action: XmpField[XmpByte] = XmpField(XmpByte, choices=Clude)  # coded byte, specifies the usage of IPv6 information:
+        action: XmpField[XmpByte] = XmpField(XmpByte, choices=FilterAction)  # coded byte, specifies the usage of IPv6 information:
 
     def get(self) -> "Token[GetDataAttr]":
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
 
-    def set(self, usage: EthernetInfo, action: Clude) -> "Token":
+    def set(self, usage: EthernetInfo, action: FilterAction) -> "Token":
         return Token(
             self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], usage=usage, action=action)
         )
@@ -911,17 +911,17 @@ class PEF_UDPSETTINGS:
     @dataclass(frozen=True)
     class SetDataAttr:
         usage: XmpField[XmpByte] = XmpField(XmpByte, choices=EthernetInfo)  # coded byte, specifies the usage of UDP information:
-        action: XmpField[XmpByte] = XmpField(XmpByte, choices=Clude)  # coded byte, specifies the usage of UDP information:
+        action: XmpField[XmpByte] = XmpField(XmpByte, choices=FilterAction)  # coded byte, specifies the usage of UDP information:
 
     @dataclass(frozen=True)
     class GetDataAttr:
         usage: XmpField[XmpByte] = XmpField(XmpByte, choices=EthernetInfo)  # coded byte, specifies the usage of UDP information:
-        action: XmpField[XmpByte] = XmpField(XmpByte, choices=Clude)  # coded byte, specifies the usage of UDP information:
+        action: XmpField[XmpByte] = XmpField(XmpByte, choices=FilterAction)  # coded byte, specifies the usage of UDP information:
 
     def get(self) -> "Token[GetDataAttr]":
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
 
-    def set(self, usage: EthernetInfo, action: Clude) -> "Token":
+    def set(self, usage: EthernetInfo, action: FilterAction) -> "Token":
         return Token(
             self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], usage=usage, action=action)
         )
@@ -1029,17 +1029,17 @@ class PEF_TCPSETTINGS:
     @dataclass(frozen=True)
     class SetDataAttr:
         usage: XmpField[XmpByte] = XmpField(XmpByte, choices=EthernetInfo)  # coded byte, specifies the usage of TCP information.
-        action: XmpField[XmpByte] = XmpField(XmpByte, choices=Clude)  # coded byte, specifies the usage of TCP information.
+        action: XmpField[XmpByte] = XmpField(XmpByte, choices=FilterAction)  # coded byte, specifies the usage of TCP information.
 
     @dataclass(frozen=True)
     class GetDataAttr:
         usage: XmpField[XmpByte] = XmpField(XmpByte, choices=EthernetInfo)  # coded byte, specifies the usage of TCP information.
-        action: XmpField[XmpByte] = XmpField(XmpByte, choices=Clude)  # coded byte, specifies the usage of TCP information.
+        action: XmpField[XmpByte] = XmpField(XmpByte, choices=FilterAction)  # coded byte, specifies the usage of TCP information.
 
     def get(self) -> "Token[GetDataAttr]":
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
 
-    def set(self, usage: EthernetInfo, action: Clude) -> "Token":
+    def set(self, usage: EthernetInfo, action: FilterAction) -> "Token":
         return Token(
             self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], usage=usage, action=action)
         )
@@ -1147,17 +1147,17 @@ class PEF_ANYSETTINGS:
     @dataclass(frozen=True)
     class SetDataAttr:
         usage: XmpField[XmpByte] = XmpField(XmpByte, choices=EthernetInfo)  # coded byte, specifies the usage of ANY field information.
-        action: XmpField[XmpByte] = XmpField(XmpByte, choices=Clude)  # coded byte, specifies the usage of IPv6 information.
+        action: XmpField[XmpByte] = XmpField(XmpByte, choices=FilterAction)  # coded byte, specifies the usage of IPv6 information.
 
     @dataclass(frozen=True)
     class GetDataAttr:
         usage: XmpField[XmpByte] = XmpField(XmpByte, choices=EthernetInfo)  # coded byte, specifies the usage of ANY field information.
-        action: XmpField[XmpByte] = XmpField(XmpByte, choices=Clude)  # coded byte, specifies the usage of IPv6 information.
+        action: XmpField[XmpByte] = XmpField(XmpByte, choices=FilterAction)  # coded byte, specifies the usage of IPv6 information.
 
     def get(self) -> "Token[GetDataAttr]":
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
 
-    def set(self, usage: EthernetInfo, action: Clude) -> "Token":
+    def set(self, usage: EthernetInfo, action: FilterAction) -> "Token":
         return Token(
             self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], usage=usage, action=action)
         )
@@ -1226,20 +1226,20 @@ class PEF_TPLDSETTINGS:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        action: XmpField[XmpByte] = XmpField(XmpByte, choices=Clude)  # coded byte, specifies the usage of TPLD information.
+        action: XmpField[XmpByte] = XmpField(XmpByte, choices=FilterAction)  # coded byte, specifies the usage of TPLD information.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        action: XmpField[XmpByte] = XmpField(XmpByte, choices=Clude)  # coded byte, specifies the usage of TPLD information.
+        action: XmpField[XmpByte] = XmpField(XmpByte, choices=FilterAction)  # coded byte, specifies the usage of TPLD information.
 
     def get(self) -> "Token[GetDataAttr]":
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
 
-    def set(self, action: Clude) -> "Token":
+    def set(self, action: FilterAction) -> "Token":
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], action=action))
 
-    set_exclude = functools.partialmethod(set, Clude.EXCLUDE)
-    set_include = functools.partialmethod(set, Clude.INCLUDE)
+    set_exclude = functools.partialmethod(set, FilterAction.EXCLUDE)
+    set_include = functools.partialmethod(set, FilterAction.INCLUDE)
 
 
 @register_command
@@ -1431,19 +1431,19 @@ class PEF_MODE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        sid: XmpField[XmpByte] = XmpField(XmpByte, choices=Flow)  # integer, the sub-index value of the flow definition.
+        sid: XmpField[XmpByte] = XmpField(XmpByte, choices=FlowMode)  # integer, the sub-index value of the flow definition.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        sid: XmpField[XmpByte] = XmpField(XmpByte, choices=Flow)  # integer, the sub-index value of the flow definition.
+        sid: XmpField[XmpByte] = XmpField(XmpByte, choices=FlowMode)  # integer, the sub-index value of the flow definition.
 
     def get(self) -> "Token[GetDataAttr]":
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
 
-    def set(self, sid: Flow) -> "Token":
+    def set(self, sid: FlowMode) -> "Token":
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], sid=sid))
 
-    set_basic = functools.partialmethod(set, Flow.BASIC)
-    set_extended = functools.partialmethod(set, Flow.EXTENDED)
+    set_basic = functools.partialmethod(set, FlowMode.BASIC)
+    set_extended = functools.partialmethod(set, FlowMode.EXTENDED)
 
 

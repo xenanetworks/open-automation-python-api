@@ -43,6 +43,7 @@ PortDatasetIndices = idx_mgr.IndexManager[PortDatasetIdx]
 
 
 class SpeedMode:
+    """Port's speed mode"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.selection = P_SPEEDSELECTION(conn, module_id, port_id)
         self.supported = P_SPEEDS_SUPPORTED(conn, module_id, port_id)
@@ -53,7 +54,7 @@ class GenuineSpeed(Speed):
         self.mode = SpeedMode(conn, module_id, port_id)
 
 class UnAvailableTime:
-    """Valkyrie1564"""
+    """UnAvailable Time"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.mode = P_UAT_MODE(conn, module_id, port_id)
         self.frame_loss_ratio = P_UAT_FLR(conn, module_id, port_id)
@@ -74,6 +75,7 @@ class GenuineRx:
 
 
 class PortStatistics:
+    """Port statistics"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.rx = GenuinePortReceptionStatistics(conn, module_id, port_id)
         self.tx = PortTransmissionStatistics(conn, module_id, port_id)
@@ -130,12 +132,31 @@ class BasePortL23Genuine(BasePortL23):
         return "T1" in self.local_states.interface
 
     on_speed_selection_change = functools.partialmethod(utils.on_event, P_SPEEDSELECTION)
+    """Register a callback to the event that the port's speed mode changes."""
+
     on_status_change = functools.partialmethod(utils.on_event, P_STATUS)
+    """Register a callback to the event that the port's RX signal level (for optical ports) changes."""
+
     on_lp_support_change = functools.partialmethod(utils.on_event, P_LPSUPPORT)
+    """Register a callback to the event that the port's Energy Efficient Ethernet (EEE) status changes."""
+
     on_uat_mode_change = functools.partialmethod(utils.on_event, P_UAT_MODE)
+    """Register a callback to the event that the port's UnAvailable Time mode changes."""
+
     on_uat_flr_change = functools.partialmethod(utils.on_event, P_UAT_FLR)
+    """Register a callback to the event that the port's threshold for the Frame Loss Ratio changes. Used in connection with UnAvailable Time."""
+
     on_flash_change = functools.partialmethod(utils.on_event, P_FLASH)
+    """Register a callback to the event that the port's flash status changes."""
+    
     on_tx_runt_length_change = functools.partialmethod(utils.on_event, P_TXRUNTLENGTH)
+    """Register a callback to the event that the port's TX runt length setting changes."""
+
     on_rx_runt_length_change = functools.partialmethod(utils.on_event, P_RXRUNTLENGTH)
+    """Register a callback to the event that the port's RX runt length detection changes."""
+
     on_tx_preamble_remove_change = functools.partialmethod(utils.on_event, P_TXPREAMBLE_REMOVE)
+    """Register a callback to the event that the port's preamble removal status changes."""
+
     on_rx_preamble_insert_change = functools.partialmethod(utils.on_event, P_RXPREAMBLE_INSERT)
+    """Register a callback to the event that the port's preamble insertion status changes."""

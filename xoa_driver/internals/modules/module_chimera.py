@@ -69,8 +69,14 @@ class ModuleChimera(bm.BaseModule):
         """Subset of avaliable ports `xoa_driver.internals.utils.ports_manager.PortsManager`"""
 
     on_cfp_type_change = functools.partialmethod(utils.on_event, M_CFPTYPE)
+    """Register a callback to the event that the module's CFP type changes."""
+
     on_cfp_config_change = functools.partialmethod(utils.on_event, M_CFPCONFIG)
+    """Register a callback to the event that the module's CFP configuration changes."""
+
     on_model_change = functools.partialmethod(utils.on_event, M_STATUS)
+    """Register a callback to the event that the module's model changes."""
+
     # on_latency_mode_change = functools.partialmethod(utils.on_event, M_LATENCYMODE)
 
     async def _setup(self):

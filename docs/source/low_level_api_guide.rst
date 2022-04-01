@@ -1,12 +1,15 @@
-Low-Level API User Guide
-===========================
+.. _ll_api:
 
-Low-level API gives the developer the complete direct control of the tester since the name of the API is the same as what is defined in the CLI. But sometimes it is difficult to remember all the arguments, resulting a waste of time reading the length class definition. 
 
-However, if the developer needs to migrate a CLI script to XOA Python API script, the low-level API can explicitly show the command name, which may speed up the migration process.
+Low-Level Python API (LL-PYTHON)
+===================================
+
+The LL-PYTHON gives the developer the complete direct control of the tester since the name of the API is the same as what is defined in the CLI. But sometimes it is difficult to remember all the arguments, resulting a waste of time reading the length class definition. 
+
+However, if the developer needs to migrate a CLI script to XOA Python API script, the LL-PYTHON can explicitly show the command name, which may speed up the migration process.
 
 Code API Notation and Namings
--------------------------------
+-----------------------------------
 
 The API trying to be semantic in function name patterns to avoid expectation conflicts, as well as avoiding methods which can return values of a different kind. The key rule is: **One Method One Action**:
 
@@ -34,7 +37,7 @@ are represented as
 
 
 Attributes and Methods
--------------------------------
+------------------------------
 
 There are only two types of methods for each command, ``get`` and/or ``set``. ``get`` is used to query values, status, configuration of the command. ``set`` is the change.
 
@@ -48,7 +51,7 @@ To use ``get`` and ``set`` methods, you need to use ``await`` because they are a
 
 
 Code Examples
--------------------------------
+--------------------
 
 The boilerplate code that is used to run all of the examples.
 
@@ -56,33 +59,37 @@ The boilerplate code that is used to run all of the examples.
 
 
 Tester Connection
-^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 Each tester class is represented as an `awaitable object <https://docs.python.org/3/library/asyncio-task.html#id2>`_. When awaited, it establishes a TCP connection to the tester.
 
 A tester instance also can be created without awaiting the connection establishment for more flexible manipulation of instances in user code.
 
 **Creating a connection to the tester**
+
 .. literalinclude:: code_example/low_level/create_conn_to_tester.py
 
 
 **Create multiple connections**
+
 .. literalinclude:: code_example/low_level/create_multiple_conns.py
 
 
 Obtain Resources
-^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 **Obtain one module**
+
 .. literalinclude:: code_example/low_level/obtain_one_module.py
 
 
 **Obtain multiple modules**
+
 .. literalinclude:: code_example/low_level/obtain_multiple_modules.py
 
 
 Data Exchange
-^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^
 
 **Querying parameters**
 
@@ -102,7 +109,7 @@ Data Exchange
 
 
 Statistics Collection
-^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 Statistics collection, such as latency and jitter, TX/RX rate, frame count, etc., can be done by Python standard library ``asyncio``. In case you are new to ``asyncio``, the example below may help you understand how to use ``asyncio`` to query counters.
 

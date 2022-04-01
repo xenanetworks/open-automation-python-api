@@ -34,6 +34,7 @@ class PrsTPLD:
 
 
 class PortReceptionStatistics:
+    """Port RX statistics"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.__conn = conn
         self.__module_id = module_id

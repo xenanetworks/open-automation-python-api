@@ -65,12 +65,14 @@ LengthTermIndices = idx_mgr.IndexManager[LengthTermIdx]
 MatchTermIndices = idx_mgr.IndexManager[MatchTermIdx]
 
 class TxSinglePacket:
+    """Single packet transmission"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.send = P_XMITONE(conn, module_id, port_id)
         self.time = P_XMITONETIME(conn, module_id, port_id)
 
 
 class TxConfiguration:
+    """Port TX configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.mode = P_TXMODE(conn, module_id, port_id)
         self.enable = P_TXENABLE(conn, module_id, port_id)
@@ -83,6 +85,7 @@ class TxConfiguration:
 
 
 class Rate:
+    """Port TX rate"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.fraction = P_RATEFRACTION(conn, module_id, port_id)
         self.pps = P_RATEPPS(conn, module_id, port_id)
@@ -90,6 +93,7 @@ class Rate:
 
 
 class Multicast:
+    """Port multicast configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.mode = P_MULTICAST(conn, module_id, port_id)
         self.mode_extended = P_MULTICASTEXT(conn, module_id, port_id)
@@ -98,6 +102,7 @@ class Multicast:
 
 
 class IPv4:
+    """Port IPv4 configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.address = P_IPADDRESS(conn, module_id, port_id)
         self.arp_reply = P_ARPREPLY(conn, module_id, port_id)
@@ -105,6 +110,7 @@ class IPv4:
 
 
 class IPv6:
+    """Port IPv6 configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.address = P_IPV6ADDRESS(conn, module_id, port_id)
         self.arp_reply = P_ARPV6REPLY(conn, module_id, port_id)
@@ -112,6 +118,7 @@ class IPv6:
 
 
 class NetworkConfiguration: # will be extended in genuine ports
+    """Port networking configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.mac_address = P_MACADDRESS(conn, module_id, port_id)
         self.ipv4 = IPv4(conn, module_id, port_id)
@@ -119,11 +126,13 @@ class NetworkConfiguration: # will be extended in genuine ports
 
 
 class LatencyConfiguration:
+    """Port latency configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.offset = P_LATENCYOFFSET(conn, module_id, port_id)
         self.mode = P_LATENCYMODE(conn, module_id, port_id)
 
 class Mix:
+    """Port IMIX configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.weights = P_MIXWEIGHTS(conn, module_id, port_id)
         self.lengths = tuple(
@@ -132,11 +141,13 @@ class Mix:
         ) # TODO: need to add manager for handle specific indices only
 
 class Speed:
+    """Port speed configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.current = P_SPEED(conn, module_id, port_id)
         self.reduction = P_SPEEDREDUCTION(conn, module_id, port_id)
 
 class Traffic:
+    """Port traffic generation"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.state = P_TRAFFIC(conn, module_id, port_id)
         self.error = P_TRAFFICERR(conn, module_id, port_id)
@@ -209,40 +220,115 @@ class BasePortL23(base_port.BasePort[ports_state.PortL23LocalState]):
         self._conn.subscribe(P_TRAFFIC, utils.Update(self.local_states, "traffic_state", "on_off", self._check_identity))
 
     on_speed_change = functools.partialmethod(utils.on_event, P_SPEED)
+    """Register a callback to the event that the port's speed changes."""
+
     on_speed_reduction_change = functools.partialmethod(utils.on_event, P_SPEEDREDUCTION)
+    """Register a callback to the event that the port's speed reduction changes."""
+
     on_traffic_change = functools.partialmethod(utils.on_event, P_TRAFFIC)
+    """Register a callback to the event that the port's traffic status changes."""
+
     on_capture_change = functools.partialmethod(utils.on_event, P_CAPTURE)
+    """Register a callback to the event that the port's capture status changes."""
+
     on_tx_enable_change = functools.partialmethod(utils.on_event, P_TXENABLE)
+    """Register a callback to the event that the port's TX status changes."""
+
     on_interframe_gap_change = functools.partialmethod(utils.on_event, P_INTERFRAMEGAP)
+    """Register a callback to the event that the port's interframe gap configuration changes."""
+
     on_mac_address_change = functools.partialmethod(utils.on_event, P_MACADDRESS)
+    """Register a callback to the event that the port's MAC address changes."""
+
     on_ipv4_address_change = functools.partialmethod(utils.on_event, P_IPADDRESS)
+    """Register a callback to the event that the port's IPv4 address changes."""
+
     on_ipv4_arp_replay_change = functools.partialmethod(utils.on_event, P_ARPREPLY)
+    """Register a callback to the event that the port's ARP reply setting changes."""
+
     on_ipv4_ping_replay_change = functools.partialmethod(utils.on_event, P_PINGREPLY)
+    """Register a callback to the event that the port's PING reply setting changes."""
+
     on_multicast_mode_change = functools.partialmethod(utils.on_event, P_MULTICAST)
+    """Register a callback to the event that the port's multicast configuration changes."""
+
     on_multicast_mode_extended_change = functools.partialmethod(utils.on_event, P_MULTICASTEXT)
+    """Register a callback to the event that the port's extended multicast configuration changes."""
+
     on_multicast_header_change = functools.partialmethod(utils.on_event, P_MULTICASTHDR)
+    """Register a callback to the event that the port's multicast packet header changes."""
+
     on_multicast_source_list_change = functools.partialmethod(utils.on_event, P_MCSRCLIST)
+    """Register a callback to the event that the port's multicast source list changes."""
+
     on_ipv6_address_change = functools.partialmethod(utils.on_event, P_IPV6ADDRESS)
+    """Register a callback to the event that the port's IPv6 address setting changes."""
+
     on_ipv6_arp_reply_change = functools.partialmethod(utils.on_event, P_ARPV6REPLY)
+    """Register a callback to the event that the port's NDP reply setting changes."""
+
     on_ipv6_ping_reply_change = functools.partialmethod(utils.on_event, P_PINGV6REPLY)
+    """Register a callback to the event that the port's PINGv6 reply setting changes."""
+
     on_arp_rx_table_change = functools.partialmethod(utils.on_event, P_ARPRXTABLE)
+    """Register a callback to the event that the port's ARP table changes."""
+
     on_ndp_rx_table_change = functools.partialmethod(utils.on_event, P_NDPRXTABLE)
+    """Register a callback to the event that the port's NDP table changes."""
+
     on_pause_change = functools.partialmethod(utils.on_event, P_PAUSE)
+    """Register a callback to the event that the port's response to pause frame setting changes."""
+
     on_pfc_enable_change = functools.partialmethod(utils.on_event, P_PFCENABLE)
+    """Register a callback to the event that the port's response to PFC setting changes."""
+
     on_random_seed_change = functools.partialmethod(utils.on_event, P_RANDOMSEED)
+    """Register a callback to the event that the port's random seed changes."""
+
     on_latency_offset_change = functools.partialmethod(utils.on_event, P_LATENCYOFFSET)
+    """Register a callback to the event that the port's latency offset changes."""
+
     on_latency_mode_change = functools.partialmethod(utils.on_event, P_LATENCYMODE)
+    """Register a callback to the event that the port's latency measurement mode changes."""
+
     on_tx_time_limit_change = functools.partialmethod(utils.on_event, P_TXTIMELIMIT)
+    """Register a callback to the event that the port's TX time limit changes."""
+
     on_tx_burst_period_change = functools.partialmethod(utils.on_event, P_TXBURSTPERIOD)
+    """Register a callback to the event that the port's TX burst period changes."""
+
     on_tx_packet_limit_change = functools.partialmethod(utils.on_event, P_TXPACKETLIMIT)
+    """Register a callback to the event that the port's TX packet count limit changes."""
+
     on_tx_mode_change = functools.partialmethod(utils.on_event, P_TXMODE)
+    """Register a callback to the event that the port's TX mode changes."""
+
     on_tx_delay_change = functools.partialmethod(utils.on_event, P_TXDELAY)
+    """Register a callback to the event that the port's TX deplay changes."""
+
     on_max_header_length_change = functools.partialmethod(utils.on_event, P_MAXHEADERLENGTH)
+    """Register a callback to the event that the port's maximum packet header length changes."""
+
     on_auto_train_change = functools.partialmethod(utils.on_event, P_AUTOTRAIN)
+    """Register a callback to the event that the port's auto training setting changes."""
+
     on_loop_back_change = functools.partialmethod(utils.on_event, P_LOOPBACK)
+    """Register a callback to the event that the port's loopback mode changes."""
+
     on_checksum_change = functools.partialmethod(utils.on_event, P_CHECKSUM)
+    """Register a callback to the event that the port's extra payload integrity checksum changes."""
+
     on_gap_monitor_change = functools.partialmethod(utils.on_event, P_GAPMONITOR)
+    """Register a callback to the event that the port's gap-start and gap-stop settings change."""
+
     on_mix_weights_change = functools.partialmethod(utils.on_event, P_MIXWEIGHTS)
+    """Register a callback to the event that the port's distribution of the MIX packet length changes."""
+
     on_mix_length_change = functools.partialmethod(utils.on_event, P_MIXLENGTH)
+    """Register a callback to the event that the port's frame sizes defined for each mix weight changes."""
+
     on_tpld_mode_change = functools.partialmethod(utils.on_event, P_TPLDMODE)
+    """Register a callback to the event that the port's TPLD mode changes."""
+
     on_payload_mode_change = functools.partialmethod(utils.on_event, P_PAYLOADMODE)
+    """Register a callback to the event that the port's payload mode changes."""

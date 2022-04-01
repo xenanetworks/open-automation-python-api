@@ -31,4 +31,4 @@ class PortL23LocalState(PortLocalState):
 @dataclass
 class PortL47LocalState(PortLocalState):
     capabilities: "P4_CAPABILITIES.GetDataAttr" = field(init=False)
-    traffic_state: "enums.PortState" = enums.PortState.OFF
+    traffic_state: "enums.L47PortState" = enums.L47PortState.OFF

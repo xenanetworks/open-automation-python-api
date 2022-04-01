@@ -141,13 +141,13 @@ class ModuleL47(bm.BaseModule):
         return self
 
     on_license_demo_info_change = functools.partialmethod(utils.on_event, M_LICENSE_DEMO_INFO)
-    """Demo license info change event."""
+    """Register a callback to the event that the module's demo license info changes."""
 
     on_license_maintenance_info_change = functools.partialmethod(utils.on_event, M_LICENSE_MAINTENANCE_INFO)
-    """Maintenane license info change event."""
+    """Register a callback to the event that the module's maintenane license info changes."""
 
     on_replay_parse_state_change = functools.partialmethod(utils.on_event, M4_REPLAY_PARSE_STATE)
-    """Parse state of a captured pcap file change event."""
+    """Register a callback to the event that the module's parsing state of a captured pcap file changes."""
 
     on_license_info_change = functools.partialmethod(utils.on_event, M4_LICENSE_INFO)
-    """L47 license info change event."""
+    """Register a callback to the event that the module's L47 license info changes."""

@@ -20,15 +20,15 @@ sys.path.insert(0, os.path.abspath('../../'))
 
 # -- Project information -----------------------------------------------------
 
-project = u'xoa-driver'
+project = u'Xena OpenAutomation Python API'
 copyright = u'2022, Xena Networks'
 author = u'Artem Constantinov, Ron Ding, Leonard Yu'
-
+title = u'Xena OpenAutomation Python API Documentation'
 
 # The full version, including alpha/beta/rc tags.
-release = '1.0'
+release = '1.0b4'
 # The short X.Y version.
-version = '1.0b3'
+version = '1.0'
 
 
 # -- General configuration -----------------------------------------------------
@@ -45,6 +45,15 @@ extensions = [
     'sphinx.ext.coverage',
     'sphinx.ext.viewcode',
 ]
+add_module_names = False
+autodoc_default_options = {
+    'member-order': 'bysource',
+    'private-members': False,
+    'undoc-members': False
+}
+autodoc_typehints = 'none'
+autodoc_typehints_format = 'short'
+
 
 # The suffix(es) of source filenames.
 # source_suffix = ['.rst', '.md']
@@ -58,6 +67,9 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # The master toctree document.
 master_doc = 'index'
 
+# Add any paths that contain templates here, relative to this directory.
+templates_path = ['_templates']
+
 # -- Options for HTML output -----------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.
@@ -66,6 +78,20 @@ html_theme = 'sphinx_rtd_theme'
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'xoadriverdoc'
 
+# The name for this set of Sphinx documents.  If None, it defaults to
+# "<project> v<release> documentation".
+html_title = title
+
+# The path to the HTML logo image in the static path, or URL to the logo, or ''.
+logo_url = './_static/xoa_image05.png'
+
+# Add any paths that contain custom static files (such as style sheets) here,
+# relative to this directory. They are copied after the builtin static files,
+# so a file named "default.css" will overwrite the builtin "default.css".
+html_static_path = ['_static']
+
+
+html_show_copyright = True
 
 
 # -- Options for Texinfo output -----------------------------------------------------
@@ -82,7 +108,7 @@ intersphinx_disabled_domains = ['std']
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'xoadriverdoc', u'Xena OpenAutomation Python API Documentation', author, 'xoadriverdoc', 'Xena OpenAutomation high-level and low-level Python APIs and code examples for Xena TGA testers.', 'Miscellaneous'),
+    (master_doc, 'xoadriverdoc', title, author, 'xoadriverdoc', 'Xena OpenAutomation high-level and low-level Python APIs and code examples for Xena TGA testers.', 'Miscellaneous'),
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -108,19 +134,26 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
-latex_documents = [(master_doc, 'xoadriverdoc.tex', u'Xena OpenAutomation Python API Documentation', u'Artem Constantinov, Ron Ding, Leonard Yu', 'manual'),
+latex_documents = [(master_doc, 'xoadriverdoc.tex', title, author, 'manual'),
 ]
 
+# The name of an image file (relative to this directory) to place at the top of
+# the title page.
+latex_logo = './_static/xoa_image05.png'
 
 # -- Options for manual page output -----------------------------------------------------
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'xoadriverdoc', u'Xena OpenAutomation Python API Documentation', [author], 1)
+    (master_doc, 'xoadriverdoc', title, [author], 1)
 ]
 
 
 # -- Options for EPUB output -----------------------------------------------------
+epub_title = title + ' ' + release
+epub_author = author
+epub_publisher = 'http://xenanetworks.com'
+epub_copyright = copyright
 epub_show_urls = 'footnote'
 epub_basename = 'xoadriverdoc'

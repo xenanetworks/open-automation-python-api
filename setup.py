@@ -15,8 +15,8 @@ if __name__ == '__main__':
 
     setuptools.setup(
         name="xoa-driver",
-        version="1.0b3",
-        description="Xena OpenAutomation high-level and low-level Python APIs and code examples for Xena TGA testers.",
+        version="1.0b4",
+        description="Xena OpenAutomation Python APIs.",
         long_description=long_description,
         long_description_content_type="text/markdown",
         author="Artem Constantinov, Ron Ding, Leonard Yu",
