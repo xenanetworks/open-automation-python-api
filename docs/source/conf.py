@@ -26,7 +26,7 @@ author = u'Artem Constantinov, Ron Ding, Leonard Yu'
 title = u'Xena OpenAutomation Python API Documentation'
 
 # The full version, including alpha/beta/rc tags.
-release = '1.0b3'
+release = '1.0b4'
 # The short X.Y version.
 version = '1.0'
 
@@ -139,7 +139,7 @@ latex_documents = [(master_doc, 'xoadriverdoc.tex', title, author, 'manual'),
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
-latex_logo = './_static/xoa_image.png'
+latex_logo = './_static/xoa_image200w.png'
 
 # -- Options for manual page output -----------------------------------------------------
 
