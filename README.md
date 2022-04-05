@@ -11,7 +11,7 @@ The cornerstone component of Xena OpenAutomation is its Python API, which contai
 
 Moving forward, all Xena’s automated test suites will be based on Xena OpenAutomation.
 
-## Key Benefits
+## Key Features
 * Objected-oriented, high-level abstraction, to help users save time on parsing command responses.
 * Supporting sending commands in batches to increase code execution efficiency.
 * Automatically matching command requests and server response, providing clear information in case a command gets an error response.
