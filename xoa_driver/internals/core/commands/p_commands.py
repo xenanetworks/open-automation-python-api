@@ -3207,7 +3207,7 @@ class P_TPLDMODE:
     relatively long headers (like IPv6). It has the following characteristics
     compared to the "normal" TPLD. When the TPLDMODE is changed, it will affect ALL
     streams on the port. 1) Only 6 byte long. 2) Less accurate mechanism to separate
-    Xena generated packets from other packet is the network �C it is recommended not
+    Xena-generated packets from other packets is the network - it is recommended not
     to have too much other traffic going into the receive Xena port, when micro TPLD
     is used. 3) No sequence checking (packet loss or packet misordering). The number
     of received packets for each stream can still be compared to the number of

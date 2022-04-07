@@ -1,7 +1,7 @@
-.. _xoa_python_api:
+.. _getting_started:
 
 
-Xena OpenAutomation Python API
+Getting Started
 ==================================
 
 
@@ -59,7 +59,7 @@ API Structure
 
 XOA Python API consists of two layers on top of the tester proprietary binary commands, as shown in the diagram below.
 
-The XOA High-Level API (HL-PYTHON) provides abstraction that helps developers to quickly develop scripts or program in an object-oriented fashion with explicit definition of commands of different *tester*, *module*, *port* types. In addition, the HL-PYTHON layer provides functionalities such as *auto connection keep-alive*, *auto index management*, *resources identification tracking for push notification*, etc. 
+The XOA High-Level Python API (HL-PYTHON) provides abstraction that helps developers to quickly develop scripts or program in an object-oriented fashion with explicit definition of commands of different *tester*, *module*, *port* types. In addition, the HL-PYTHON layer provides functionalities such as *auto connection keep-alive*, *auto index management*, *resources identification tracking for push notification*, etc. 
 
 For example, to change the description of a tester, the HL-PYTHON is:
 
@@ -68,7 +68,7 @@ For example, to change the description of a tester, the HL-PYTHON is:
     await tester.comment.set(comment="my tester")
 
 
-The XOA Low-Level API (LL-PYTHON) contains the class definition of each command, and gives developers a direct control of the tester. However, the LL-PYTHON does not provide functionalities such as *auto connection keep-alive* and *auto index management*.
+The XOA Low-Level Python API (LL-PYTHON) contains the class definition of each command, and gives developers a direct control of the tester. However, the LL-PYTHON does not provide functionalities such as *auto connection keep-alive* and *auto index management*.
 
 For example, to change the description of a tester by, the LL-PYTHON is:
 
@@ -96,19 +96,28 @@ For example, to change the description of a tester by, the LL-PYTHON is:
     +---------------------------------+
 
 
-Test Resource Structure and Management Rules
+Principle of Test Resource Management
 ----------------------------------------------
 
-Rules for Test Resource Management
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Test resource includes ``Tester``, ``Module``, and ``Port``. To management them, i.e., read, write, create, delete, you must follow the principles below:
 
-1. To do ``set`` on a test resource, i.e. ``Tester``, ``Module``, or ``Port``, you must reserve the resource under your username.
-2. To do ``get`` on a test resource or configuration, you don't need to reserve.
+1. To do ``set`` (write/create) on a test resource, i.e. ``Tester``, ``Module``, or ``Port``, you must reserve the resource under your username.
+2. To do ``get`` (read) on a test resource or configuration, you don't need to reserve.
 3. To reserve a tester, you must make sure all the modules and ports are either released or under your ownership.
 4. To reserve a module, you must make sure all the ports are either released or under your ownership.
 
+.. important::
 
-Valkyrie (L23) Tester (Physical)
+    Starting traffic using ``C_TRAFFIC`` of ``C_TRAFFICSYNC`` does **NOT** require chassis reservation but port reservation, although their command prefix is ``C_``.
+
+
+Hierarchical Structure of Test Resources
+----------------------------------------------
+
+This section helps you understand how testers are internally structured if you are new to Xena.
+
+
+Valkyrie Tester (L23 Physical)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Valkyrie Tester (physical) has the following hierarchical structure.
@@ -162,7 +171,7 @@ Everything below Valkyrie Port is virtual resources that can be created, deleted
         |        |        |        |    
 
 
-Vulcan (L47) Tester (Physical and Virtual)
+Vulcan Tester (L47 Physical and Virtual)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Vulcan Tester (physical) has the following hierarchical structure.
@@ -219,7 +228,7 @@ Everything below Vulcan Port is virtual resources that can be created, deleted, 
 
 
 
-Chimera (Network Impairment) Emulator (Physical)
+Chimera Emulator (Network Impairment Physical)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Chimera Emulator (physical) has the following hierarchical structure.
@@ -264,8 +273,8 @@ Everything below Chimera Port is virtual resources that can be created, deleted,
         |        |        |        |    
 
 
-Commands Grouping
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Increase Performance by Commands Grouping
+--------------------------------------------------------------
 
 Sending commands one by one using CLI is extremely slow in terms of execution speed. This is because the program needs to wait for the response from the tester. More, using CLI it is difficult to group commands together and send them in one round.
 
@@ -339,4 +348,84 @@ If you prefer sending commands in the old fashion like using CLI, you can certai
 Read more about Python `awaitable object`_.
 
 .. _awaitable object: https://docs.python.org/3/library/asyncio-task.html#id2
+
+
+Example
+-------------------
+
+Python code to manage Xena testers:
+
+.. code-block:: python
+
+    import asyncio
+
+    from xoa_driver import testers
+    from xoa_driver import modules
+    from xoa_driver import ports
+    from xoa_driver import enums
+    from xoa_driver import utils
+
+    async def my_awesome_script():
+        # Establish connection with a Valkyrie tester
+        async with testers.L23Tester("10.10.10.10", "JonDoe") as tester:
+            # Get the port 0/0 (module 0)
+            port = await tester.modules.obtain(0).ports.obtain(0)
+
+            # Reserve the port
+            await port.reservation.set_reserve()
+
+            # Reset the port
+            await port.reset.set()
+
+            # Create a stream on the port
+            stream = await port.streams.create()
+
+            # Prepare stream header protocol
+            header_protocol = [enums.ProtocolOption.ETHERNET, enums.ProtocolOption.IP]
+
+            # Batch configure the stream
+            await utils.apply(
+                stream.tpld_id.set(0), # Create the TPLD index of stream
+                stream.packet.length.set(*size), # Configure the packet size
+                stream.packet.header.protocol.set(header_protocol), # Configure the packet type
+                stream.packet.header.data.set(header), # Configure the packet header
+                stream.enable.set_on(), # Enable streams
+                stream.rate.fraction.set(1000000) # Configure the stream rate 100%
+            )
+
+            # Clear statistics
+            await utils.apply(
+                port.statistics.tx.clear.set(),
+                port.statistics.rx.clear.set()
+            )
+
+            # Start traffic on the port
+            await port.traffic.state.set_start()
+
+            # Test duration 10 seconds
+            await asyncio.sleep(10)
+
+            # Query TX statistics
+            tx_result = await port.statistics.tx.total.get()
+            print(f"bit count last second: {tx_result.bit_count_last_sec}")
+            print(f"packet count last second: {tx_result.packet_count_last_sec}")
+            print(f"byte count since cleared: {tx_result.byte_count_since_cleared}")
+            print(f"packet count since cleared: {tx_result.packet_count_since_cleared}")
+
+            # Stop traffic on the port
+            await port.traffic.state.set_stop()
+
+            # Release the port
+            await port.reservation.set_release()
+
+    def main():
+    try:
+        loop = asyncio.get_event_loop()
+        loop.create_task(my_awesome_script())
+        loop.run_forever()
+    except KeyboardInterrupt:
+        pass
+
+    if __name__ == "__main__":
+        main()
 

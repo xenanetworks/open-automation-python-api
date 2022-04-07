@@ -1,7 +1,7 @@
 .. _command_ref:
 
 
-API Function Reference
+API Documentation
 =============================
 
 This section includes the Python module references of both XOA :ref:`HL-PYTHON <hl_api>` and :ref:`LL-PYTHON <ll_api>`.

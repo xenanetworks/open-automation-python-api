@@ -7,7 +7,7 @@ High-Level Python API (HL-PYTHON)
 The HL-PYTHON provides abstraction that helps developers to quickly develop scripts or program in an object-oriented fashion with explicit definition of commands of different *tester*, *module*, *port* types. In addition, the HL-PYTHON layer provides functionalities such as *auto connection keep-alive*, *auto index management*, *resources identification tracking for push notification*, etc. 
 
 
-Code API Notation and Namings
+Notation and Namings
 --------------------------------
 
 HL-PYTHON aims to be semantic in function name patterns to avoid expectation conflicts, as well as avoiding methods which can return values of a different kind. The key rule is: **One Method One Action**:
@@ -335,7 +335,7 @@ Statistics collection, such as latency and jitter, TX/RX rate, frame count, etc.
 .. literalinclude:: code_example/high_level/stats_collection.py
 
 
-HL-PYTHON and CLI Comparison
+Comparison with Legacy CLI
 -------------------------------
 
 If you are already very familiar with Xena CLI, the code comparison below will help you understand the coding differences between a XOA Python script and a Xena CLI script, which are doing the same thing.
