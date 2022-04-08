@@ -94,6 +94,10 @@ html_static_path = ['_static']
 html_show_copyright = True
 html_show_sphinx = False
 
+html_theme_options = {
+    'style_nav_header_background': '#336851'
+}
+
 
 # -- Options for Texinfo output -----------------------------------------------------
 
