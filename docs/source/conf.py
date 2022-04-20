@@ -26,7 +26,7 @@ author = u'Xena Networks'
 title = u'Xena OpenAutomation Python API Documentation'
 
 # The full version, including alpha/beta/rc tags.
-release = '1.0b4'
+release = '1.0b5'
 # The short X.Y version.
 version = '1.0'
 
