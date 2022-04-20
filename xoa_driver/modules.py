@@ -1,6 +1,4 @@
-"""
-All avaliable module types.
-"""
+#: All avaliable test module types.
 
 from .internals.modules.modules_l23.module_l23_base import ModuleL23
 from .internals.modules.modules_l23.family_d import (

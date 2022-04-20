@@ -1,4 +1,7 @@
+#: Enumeration Types 
+
 from enum import IntEnum
+
 class ReservedStatus(IntEnum):
     """Test resource reservation status"""
     RELEASED = 0

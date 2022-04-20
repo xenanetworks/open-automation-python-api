@@ -1,6 +1,5 @@
-"""
-Port Impairment Filter Definition (Chimera only) Commands
-"""
+#: Impairment Port Filter Definition Commands
+
 from dataclasses import dataclass
 import ipaddress
 import typing

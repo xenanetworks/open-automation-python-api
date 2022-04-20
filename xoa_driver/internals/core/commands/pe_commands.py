@@ -1,6 +1,5 @@
-"""
-Port Impairment (Chimera only) Commands
-"""
+#: Impairment Port Commands
+
 from dataclasses import dataclass
 import typing
 import functools

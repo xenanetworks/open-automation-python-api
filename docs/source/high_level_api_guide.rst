@@ -4,7 +4,7 @@
 High-Level Python API (HL-PYTHON)
 ===================================
 
-The HL-PYTHON provides abstraction that helps developers to quickly develop scripts or program in an object-oriented fashion with explicit definition of commands of different *tester*, *module*, *port* types. In addition, the HL-PYTHON layer provides functionalities such as *auto connection keep-alive*, *auto index management*, *resources identification tracking for push notification*, etc. 
+The XOA High-Level Python API (HL-PYTHON) provides abstraction that helps developers to quickly develop scripts or program in an object-oriented fashion with explicit definition of commands of different *tester*, *module*, *port* types. In addition, the HL-PYTHON layer provides functionalities such as *auto connection keep-alive*, *auto index management*, *resources identification tracking for push notification*, etc. 
 
 
 Notation and Namings
@@ -27,6 +27,7 @@ HL-PYTHON aims to be semantic in function name patterns to avoid expectation con
 
 
 .. code-block::
+    :linenos:
 
     P_SPEEDSELECTION
     P_SPEEDS_SUPPORTED
@@ -34,6 +35,7 @@ HL-PYTHON aims to be semantic in function name patterns to avoid expectation con
 are represented as
 
 .. code-block:: python
+    :linenos:
 
     <resource>.speed.selection
     <resource>.speed.supported
@@ -46,9 +48,10 @@ There are only two types of methods for each command, ``get`` and/or ``set``.
 * Method ``get`` is used to **query** the values, status, configuration of the resource.
 * Method ``set`` is used to **change** the values, status, configuration of the resource.
 
-To use ``get`` and ``set`` methods, you need to use ``await`` because they are all made asynchronous. Read more about Python `awaitable object <https://docs.python.org/3/library/asyncio-task.html#id2>`_.
+To use ``get`` and ``set`` methods, you need to use ``await`` because they are all made asynchronous.
 
 .. code-block:: python
+    :linenos:
 
     await <resource>.<command_oo_name>.get()
 
@@ -57,6 +60,10 @@ To use ``get`` and ``set`` methods, you need to use ``await`` because they are a
     await <resource>.<command_oo_name>.set_<variation__name>()
 
     await <resource>.<command_oo_name>.set_<variation__name>(<extra_value>)
+
+.. seealso::
+
+    Read more about Python `awaitable object <https://docs.python.org/3/library/asyncio-task.html#id2>`_.
 
 
 Event Subscription and Push Notification
@@ -178,23 +185,27 @@ Each tester contains a *Module Manager*, which can be accessed through attribute
 Methods to retrieve a module or a port from a resource manager:
 
 .. code-block:: python
+    :linenos:
 
     obtain(<module_slot_number> | <port_index>)
 
 Code example:
 
 .. literalinclude:: code_example/high_level/obtain_one_module.py
+    :linenos:
 
 
 Methods to retrieve _multiple_ resources from a resource manager:
 
 .. code-block:: python
+    :linenos:
 
     obtain_multiple(<module_index> | <port_index>, ...)
 
 Code example:
 
 .. literalinclude:: code_example/high_level/obtain_multiple_module.py
+    :linenos:
 
 
 Index Manager
@@ -254,6 +265,7 @@ Code Examples
 The boilerplate code that is used to run all of the examples.
 
 .. literalinclude:: code_example/boilerplate.py
+    :linenos:
 
 Tester Instance
 ^^^^^^^^^^^^^^^^^^^^
@@ -267,19 +279,24 @@ A tester instance also can be created without awaiting the connection establishm
 Available tester types are  ``L23Tester | L47Tester | L47VeTester``.
 
 .. literalinclude:: code_example/high_level/create_a_tester_from_type.py
+    :linenos:
 
 
 **Create a tester instance by using context manager**
 
 .. literalinclude:: code_example/high_level/create_a_tester_contextm.py
+    :linenos:
 
 
 **Create multiple tester instances**
 
 .. literalinclude:: code_example/high_level/create_multi_testers.py
+    :linenos:
 
 
-Read more about `await asyncio.gather <https://docs.python.org/3/library/asyncio-task.html#asyncio.gather>`_.
+.. seealso::
+    
+    Read more about `await asyncio.gather <https://docs.python.org/3/library/asyncio-task.html#asyncio.gather>`_.
 
 
 Obtain Resources
@@ -288,16 +305,19 @@ Obtain Resources
 **Obtain one module**
 
 .. literalinclude:: code_example/high_level/obtain_one_module.py
+    :linenos:
 
 
 **Obtain multiple modules**
 
 .. literalinclude:: code_example/high_level/obtain_multiple_module.py
+    :linenos:
 
 
 **Process operation on all modules**
 
 .. literalinclude:: code_example/high_level/oper_on_all_modules.py
+    :linenos:
 
 **Obtain multiple ports**
 The interface of obtaining multiple ports is equivalent to obtaining multiple modules with the following exceptions:
@@ -305,6 +325,7 @@ The interface of obtaining multiple ports is equivalent to obtaining multiple mo
 * all ports are aligned from index 0 to ``max_port_count-1``
 
 .. literalinclude:: code_example/high_level/obtain_multiple_ports.py
+    :linenos:
 
 
 Data Exchange
@@ -317,6 +338,7 @@ Data Exchange
     Resource reservation is not required to query information from the tester.
 
 .. literalinclude:: code_example/high_level/query_parameters.py
+    :linenos:
 
 **Setting parameters**
 
@@ -325,6 +347,7 @@ Data Exchange
     Reservation is required to set parameter to: ``Tester | Module | Port``.
 
 .. literalinclude:: code_example/high_level/setting_parameters.py
+    :linenos:
 
 
 Statistics Collection
@@ -333,6 +356,7 @@ Statistics Collection
 Statistics collection, such as latency and jitter, TX/RX rate, frame count, etc., can be done by Python standard library ``asyncio``. In case you are new to ``asyncio``, the example below may help you understand how to use ``asyncio`` to query counters.
 
 .. literalinclude:: code_example/high_level/stats_collection.py
+    :linenos:
 
 
 Comparison with Legacy CLI
@@ -340,35 +364,53 @@ Comparison with Legacy CLI
 
 If you are already very familiar with Xena CLI, the code comparison below will help you understand the coding differences between a XOA Python script and a Xena CLI script, which are doing the same thing.
 
-* The CLI Script consists of two files: ``cli_script.py`` and ``config.txt``. Click to download the dependencies `TestUtilsL23 <https://github.com/xenadevel/xenascriptlibs/blob/master/layer23/python3/testutils/TestUtilsL23.py>`_. and `SocketDrivers <https://github.com/xenadevel/xenascriptlibs/blob/master/layer23/python3/testutils/SocketDrivers.py>`_.
-* The XOA Python API script consists of three files: ``xoa_script.py``, ``config.py``, and ``config.txt``.
+* The CLI script consists of two files:
+   * :ref:`cli_script.py <cli_script>`
+   * :ref:`config.txt <cli_config_txt>`
+   * Click to download the dependencies `TestUtilsL23 <https://github.com/xenadevel/xenascriptlibs/blob/master/layer23/python3/testutils/TestUtilsL23.py>`_ and `SocketDrivers <https://github.com/xenadevel/xenascriptlibs/blob/master/layer23/python3/testutils/SocketDrivers.py>`_.
+* The XOA Python API script consists of three files:
+   * :ref:`xoa_script.py <xoa_script>`
+   * :ref:`config.py <xoa_config>`
+   * :ref:`config.txt <xoa_config_txt>`
 
-Both scripts result in the same port/stream configuration.
+Both scripts generate the same port/stream configuration.
+
 
 CLI Code Example
 ^^^^^^^^^^^^^^^^^^^^
 
-`cli_script.py`
+.. _cli_script:
 
 .. literalinclude:: code_example/diff_with_cli/cli_script.py
+    :caption: cli_script.py
+    :linenos:
 
 
-`config.txt`
+.. _cli_config_txt:
 
 .. literalinclude:: code_example/diff_with_cli/config.txt
+    :caption: config.txt
+    :linenos:
 
 
 XOA HL-PYTHON Example
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-`xoa_script.py`
+.. _xoa_script:
 
 .. literalinclude:: code_example/diff_with_cli/xoa_script.py
+    :caption: xoa_script.py
+    :linenos:
 
-`config.py`
+.. _xoa_config:
 
 .. literalinclude:: code_example/diff_with_cli/config.py
+    :caption: config.py
+    :linenos:
 
-`config.txt`
+
+.. _xoa_config_txt:
 
 .. literalinclude:: code_example/diff_with_cli/config.txt
+    :caption: config.txt
+    :linenos:

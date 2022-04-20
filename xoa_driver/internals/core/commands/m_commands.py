@@ -1,6 +1,5 @@
-"""
-Module Commands
-"""
+#: L23 Module Commands
+
 from dataclasses import dataclass
 import typing
 import functools
@@ -216,7 +215,7 @@ class M_PORTCOUNT:
     regardless of the media configuration. So if a CFP-type module can be set in for
     instance either 1x100G mode or 8x10G mode then this command will always return
     8. If you want the current number of ports for a CFP-type module you need to
-    read the `M_CFPCONFIG` command which returns the number of current ports.
+    read the ``M_CFPCONFIG`` command which returns the number of current ports.
     """
 
     code: typing.ClassVar[int] = 80
@@ -237,7 +236,7 @@ class M_PORTCOUNT:
         regardless of the media configuration. So if a CFP-type module can be set in for
         instance either 1x100G mode or 8x10G mode then this command will always return
         8. If you want the current number of ports for a CFP-type module you need to
-        read the `M_CFPCONFIG` command which returns the number of current ports.
+        read the ``M_CFPCONFIG`` command which returns the number of current ports.
 
         :return: the maximum number of ports on the test module
         :rtype: M_PORTCOUNT.GetDataAttr
@@ -400,7 +399,7 @@ class M_CFPCONFIG:
     type is NOTFLEXIBLE then it reflects the transceiver currently in the CFP cage.
     If the CFP type is FLEXIBLE (or NOTPRESENT) then the configuration can be changed
     explicitly. The following combinations are possible: 4x10G, 8x10G, 1x40G, 2x40G,
-    and 1x100G. (replaced by `M_CFPCONFIGEXT`)
+    and 1x100G. (replaced by ``M_CFPCONFIGEXT``)
     """
 
     code: typing.ClassVar[int] = 85

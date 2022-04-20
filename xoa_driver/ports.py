@@ -1,6 +1,5 @@
-"""
-All avaliable port types.
-"""
+#: All avaliable test port types.
+
 
 import typing
 

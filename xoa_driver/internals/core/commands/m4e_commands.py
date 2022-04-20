@@ -1,5 +1,5 @@
 """
-Module L47 Packet Engine Commands
+L47 Module Packet Engine Commands
 """
 from dataclasses import dataclass
 import typing

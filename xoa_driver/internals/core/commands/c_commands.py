@@ -1,6 +1,5 @@
-"""
-Chassis Commands
-"""
+#: Chassis Commands
+
 from dataclasses import dataclass
 import ipaddress
 import typing
@@ -163,7 +162,7 @@ class C_RESERVATION:
     Reservation will fail if any modules or ports are reserved for other users.
     
     NOTICE: Before reserve Tester need to reserve all the ports on it, otherwise 
-    `<STATUS_NOTVALID>`
+    ``<STATUS_NOTVALID>``
     """
 
     code: typing.ClassVar[int] = 5
@@ -347,7 +346,7 @@ class C_CAPABILITIES:
             - is server capable of upgrading the TimeKeeper application?
             - can server handle custom default values for XMP parameters?
             - can server handle first-to-first latency mode?
-            - max number of ASCII characters in `C_OWNER` name
+            - max number of ASCII characters in ``C_OWNER`` name
             - can the server read out chassis and/or CPU temperatures?
 
         :rtype: C_CAPABILITIES.GetDataAttr
@@ -441,7 +440,7 @@ class C_PORTCOUNTS:
     
     Note: CFP modules return the number 8
     which is the maximum number of 10G ports, but the actual number of ports
-    can be configured dynamically using the `M_CFPCONFIG` command.
+    can be configured dynamically using the ``M_CFPCONFIG`` command.
     """
 
     code: typing.ClassVar[int] = 13
@@ -988,7 +987,7 @@ class C_RESTPORT:
 class C_RESTENABLE:
     """
     Controls whether the chassis will run REST API server or not. The command takes
-    affect only after chassis reset. To start/stop REST API server use `C_RESTCONTROL` command.
+    affect only after chassis reset. To start/stop REST API server use ``C_RESTCONTROL`` command.
     """
 
     code: typing.ClassVar[int] = 33
@@ -1060,7 +1059,7 @@ class C_RESTSTATUS:
     """
     Gets the REST API server operation status - whether it is active (running) or
     not. To get the admin status (whether the server is enabled or disabled) use
-    `C_RESTCONTROL` command.
+    ``C_RESTCONTROL`` command.
     """
 
     code: typing.ClassVar[int] = 35
@@ -1255,8 +1254,8 @@ class C_TKLICSTATE:
 class C_FILESTART:
     """
     Initiates upload of a file to the chassis. This command should be followed by
-    a sequence og `C_FILEDATA` parameters to provide the file content, and finally a
-    `C_FILEFINISH` to commit the new file to the chassis.
+    a sequence og ``C_FILEDATA`` parameters to provide the file content, and finally a
+    ``C_FILEFINISH`` to commit the new file to the chassis.
     """
 
     code: typing.ClassVar[int] = 51
@@ -1384,8 +1383,8 @@ class C_TRAFFIC:
 class C_VERSIONNO_MINOR:
     """
     Gets the minor version number for the chassis firmware. The full version of
-    the chassis firmware is thus where the number is obtained  with the `C_VERSIONNO`
-    command and the number is obtained with the `C_VERSIONNO_MINOR` command.
+    the chassis firmware is thus where the number is obtained  with the ``C_VERSIONNO``
+    command and the number is obtained with the ``C_VERSIONNO_MINOR`` command.
     """
 
     code: typing.ClassVar[int] = 56
@@ -1714,7 +1713,7 @@ class C_TIME:
 @dataclass
 class C_TRAFFICSYNC:
     """
-    Works just as the `C_TRAFFIC` command described above with an additional option to
+    Works just as the ``C_TRAFFIC`` command described above with an additional option to
     specify  a point in time where traffic should be started. This can be used to
     start traffic simultaneously on multiple chassis. The ports are identified by
     pairs of integers (module port).

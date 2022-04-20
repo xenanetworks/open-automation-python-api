@@ -4,7 +4,7 @@
 Low-Level Python API (LL-PYTHON)
 ===================================
 
-The LL-PYTHON gives the developer the complete direct control of the tester since the name of the API is the same as what is defined in the CLI. But sometimes it is difficult to remember all the arguments, resulting a waste of time reading the length class definition. 
+The XOA Low-Level Python API (LL-PYTHON) gives the developer the complete direct control of the tester since the name of the API is the same as what is defined in the CLI. But sometimes it is difficult to remember all the arguments, resulting a waste of time reading the length class definition. 
 
 However, if the developer needs to migrate a CLI script to XOA Python API script, the LL-PYTHON can explicitly show the command name, which may speed up the migration process.
 
@@ -24,6 +24,7 @@ The API trying to be semantic in function name patterns to avoid expectation con
 ``<command_name>`` - the CLI name of the command. Commands of the same access level, which access or modify parameters of the same kind, are grouped under one command group as shown in the example below.
 
 .. code-block::
+    :linenos:
 
     P_SPEEDSELECTION
     P_SPEEDS_SUPPORTED
@@ -31,6 +32,7 @@ The API trying to be semantic in function name patterns to avoid expectation con
 are represented as
 
 .. code-block:: python
+    :linenos:
 
     P_SPEEDSELECTION(TransportationHandler, indices)
     P_SPEEDS_SUPPORTED(TransportationHandler, indices)
@@ -41,14 +43,18 @@ Attributes and Methods
 
 There are only two types of methods for each command, ``get`` and/or ``set``. ``get`` is used to query values, status, configuration of the command. ``set`` is the change.
 
-To use ``get`` and ``set`` methods, you need to use ``await`` because they are all made asynchronous. Read more about Python `awaitable object <https://docs.python.org/3/library/asyncio-task.html#id2>`_.
+To use ``get`` and ``set`` methods, you need to use ``await`` because they are all made asynchronous.
 
 .. code-block:: python
+    :linenos:
 
     await <command_name>(TransportationHandler, indices).get()
 
     await <command_name>(TransportationHandler, indices).set(<values>)
 
+.. seealso::
+    
+    Read more about Python `awaitable object <https://docs.python.org/3/library/asyncio-task.html#id2>`_.
 
 Code Examples
 --------------------
@@ -56,6 +62,7 @@ Code Examples
 The boilerplate code that is used to run all of the examples.
 
 .. literalinclude:: code_example/boilerplate.py
+    :linenos:
 
 
 Tester Connection
@@ -68,11 +75,13 @@ A tester instance also can be created without awaiting the connection establishm
 **Creating a connection to the tester**
 
 .. literalinclude:: code_example/low_level/create_conn_to_tester.py
+    :linenos:
 
 
 **Create multiple connections**
 
 .. literalinclude:: code_example/low_level/create_multiple_conns.py
+    :linenos:
 
 
 Obtain Resources
@@ -81,11 +90,13 @@ Obtain Resources
 **Obtain one module**
 
 .. literalinclude:: code_example/low_level/obtain_one_module.py
+    :linenos:
 
 
 **Obtain multiple modules**
 
 .. literalinclude:: code_example/low_level/obtain_multiple_modules.py
+    :linenos:
 
 
 Data Exchange
@@ -98,6 +109,7 @@ Data Exchange
     Resource reservation is not required to query information from the tester.
 
 .. literalinclude:: code_example/low_level/query_parameters.py
+    :linenos:
 
 **Setting parameters**
 
@@ -106,6 +118,7 @@ Data Exchange
     Reservation is required to set parameter to ``Tester``, ``Module``, and ``Port``.
 
 .. literalinclude:: code_example/low_level/setting_parameters.py
+    :linenos:
 
 
 Statistics Collection
@@ -114,3 +127,4 @@ Statistics Collection
 Statistics collection, such as latency and jitter, TX/RX rate, frame count, etc., can be done by Python standard library ``asyncio``. In case you are new to ``asyncio``, the example below may help you understand how to use ``asyncio`` to query counters.
 
 .. literalinclude:: code_example/low_level/stats_collection.py
+    :linenos:

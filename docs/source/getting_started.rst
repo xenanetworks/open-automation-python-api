@@ -16,6 +16,7 @@ Make sure Python ``pip`` is installed on you system. If you are using virtualenv
 To install the latest, use pip to install from pypi:
 
 .. code-block:: shell
+    :linenos:
     
     ~/> pip install xoa-driver
 
@@ -23,6 +24,7 @@ To install the latest, use pip to install from pypi:
 To upgrade to the latest, use pip to upgrade from pypi:
 
 .. code-block:: shell
+    :linenos:
     
     ~/> pip install xoa-driver --upgrade
 
@@ -35,6 +37,7 @@ Make sure packages ``wheel``, ``setuptools`` are installed  on your system.
 Install ``wheel`` and ``setuptools`` using pip:
 
 .. code-block:: shell
+    :linenos:
     
     ~/> pip install wheel setuptools
 
@@ -42,6 +45,7 @@ Install ``wheel`` and ``setuptools`` using pip:
 Download the source distribution first. Unzip the zip archive and run the ``setup.py`` script to install the package:
 
 .. code-block:: shell
+    :linenos:
     
     /xoa_driver> python setup.py install
 
@@ -49,6 +53,7 @@ Download the source distribution first. Unzip the zip archive and run the ``setu
 Then you can build ``.whl`` file for distribution:
 
 .. code-block:: shell
+    :linenos:
     
     /xoa_driver> python setup.py bdist_wheel
 
@@ -64,6 +69,7 @@ The XOA High-Level Python API (HL-PYTHON) provides abstraction that helps develo
 For example, to change the description of a tester, the HL-PYTHON is:
 
 .. code-block:: python
+    :linenos:
 
     await tester.comment.set(comment="my tester")
 
@@ -73,6 +79,7 @@ The XOA Low-Level Python API (LL-PYTHON) contains the class definition of each c
 For example, to change the description of a tester by, the LL-PYTHON is:
 
 .. code-block:: python
+    :linenos:
 
     await C_COMMENT(handler).set(comment="my tester")
 
@@ -80,10 +87,10 @@ For example, to change the description of a tester by, the LL-PYTHON is:
 ::
 
     +---------------------------------+
-    |           High-Level API        |
+    |      High-Level Python API      |
     +---------------------------------+
     +---------------------------------+
-    |           Low-Level API         |
+    |      Low-Level Python API       |
     +---------------------------------+ 
     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     +---------------------------------+
@@ -286,6 +293,7 @@ Parallel Grouping
 ``asyncio.gather`` groups commands in a parallel way. Commands are sent out in parallel (with neglectable delay between each other). This is very useful when you want to send commands to different test resources, e.g. two different ports on the same tester, or two different ports on different testers.
 
 .. code-block:: python
+    :linenos:
 
     await asyncio.gather(
         command_1,
@@ -301,6 +309,7 @@ Sequential Grouping
 ``utils.apply`` groups commands in a sequential way. Commands are sent out in one large batch to the tester. This is very useful when you want to send many commands to the same test resource, e.g. a port on a tester.
 
 .. code-block:: python
+    :linenos:
 
     commands = [
         command_1,
@@ -317,6 +326,7 @@ However, abusing this function can cause memory issue on your computer. This is 
 ``utils.apply_iter`` does exactly the same thing as ``utils.apply`` except it does not aggregate responses but return them one by one as soon as they are ready. This allows sending large batches commands without causing memory issue.
 
 .. code-block:: python
+    :linenos:
 
     commands = [
         command_1,
@@ -334,6 +344,7 @@ Sending Command One by One
 If you prefer sending commands in the old fashion like using CLI, you can certainly have only one command in the grouping, for example:
 
 .. code-block:: python
+    :linenos:
 
     await command_1
     await command_2
@@ -344,10 +355,9 @@ If you prefer sending commands in the old fashion like using CLI, you can certai
 
     Remember to use ``await`` before the command. Commands are defined as Coroutines and must be awaited.
 
-
-Read more about Python `awaitable object`_.
-
-.. _awaitable object: https://docs.python.org/3/library/asyncio-task.html#id2
+.. seealso::
+    
+    Read more about Python `awaitable object <https://docs.python.org/3/library/asyncio-task.html#id2>`_.
 
 
 Example
@@ -356,6 +366,7 @@ Example
 Python code to manage Xena testers:
 
 .. code-block:: python
+    :linenos:
 
     import asyncio
 

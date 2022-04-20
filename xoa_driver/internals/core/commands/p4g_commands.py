@@ -1,6 +1,5 @@
-"""
-Port L47 Connection Group Commands
-"""
+#: L47 Port Connection Group Commands
+
 from dataclasses import dataclass
 import ipaddress
 import typing

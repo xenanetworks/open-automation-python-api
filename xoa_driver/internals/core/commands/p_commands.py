@@ -1,6 +1,5 @@
-"""
-Port Commands
-"""
+#: L23 Port Commands
+
 from dataclasses import dataclass
 import ipaddress
 import typing
@@ -1535,7 +1534,7 @@ class P_MDIXMODE:
 @dataclass
 class P_TRAFFICERR:
     """
-    Obtain the traffic error which has occurred in the last `*_TRAFFIC` or `C_TRAFFICSYNC` command.
+    Obtain the traffic error which has occurred in the last ``*_TRAFFIC`` or ``C_TRAFFICSYNC`` command.
 
     """
 
@@ -1551,9 +1550,9 @@ class P_TRAFFICERR:
         error: XmpField[XmpInt] = XmpField(XmpInt, choices=TrafficError)  # coded byte, specifies the port traffic error.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get traffic error which has occurred in the last `*_TRAFFIC` or `C_TRAFFICSYNC` command.
+        """Get traffic error which has occurred in the last ``*_TRAFFIC`` or ``C_TRAFFICSYNC`` command.
 
-        :return: traffic error which has occurred in the last `*_TRAFFIC` or `C_TRAFFICSYNC` command
+        :return: traffic error which has occurred in the last ``*_TRAFFIC`` or ``C_TRAFFICSYNC`` command
         :rtype: P_TRAFFICERR.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
