@@ -67,7 +67,7 @@ class XmpByte(int):
         return value
 
     def __bytes__(self) -> bytes:
-        return self.to_bytes(self.size, "big")
+        return self.to_bytes(self.size, "big", signed=False)
 
     def byte_length(self) -> int:
         return self.size
@@ -89,7 +89,7 @@ class XmpLong(int):
         return value
 
     def __bytes__(self) -> bytes:
-        return self.to_bytes(self.size, "big")
+        return self.to_bytes(self.size, "big", signed=True)
 
     def byte_length(self) -> int:
         return self.size
@@ -114,7 +114,7 @@ class XmpInt(int):
 
     def __bytes__(self) -> bytes:
         # return pack("!i", self)
-        return self.to_bytes(self.size, "big")
+        return self.to_bytes(self.size, "big", signed=True)
 
     def byte_length(self) -> int:
         return self.size
@@ -163,7 +163,7 @@ class XmpShort(int):
         return value
 
     def __bytes__(self) -> bytes:
-        return self.to_bytes(self.size, "big")
+        return self.to_bytes(self.size, "big", signed=True)
 
     def byte_length(self) -> int:
         return self.size
