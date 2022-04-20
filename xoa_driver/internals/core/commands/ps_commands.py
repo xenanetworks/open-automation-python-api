@@ -1,6 +1,5 @@
-"""
-Port Stream commands
-"""
+#: L23 Port Stream Commands
+
 from dataclasses import dataclass
 import ipaddress
 import typing
@@ -1347,7 +1346,7 @@ class PS_BURSTGAP:
         """Get the gap between packets in a burst (inter-packet gap) and the gap after a burst defined in one stream stops until a
         burst defined in the next stream starts (inter-burst gap).
 
-        :return the gap between packets in a burst
+        :return: the gap between packets in a burst
         :rtype: Token[GetDataAttr]
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._stream_xindex]))

@@ -22,7 +22,7 @@ sys.path.insert(0, os.path.abspath('../../'))
 
 project = u'Xena OpenAutomation Python API'
 copyright = u'2022, Xena Networks'
-author = u'Artem Constantinov, Ron Ding, Leonard Yu'
+author = u'Xena Networks'
 title = u'Xena OpenAutomation Python API Documentation'
 
 # The full version, including alpha/beta/rc tags.
@@ -83,7 +83,7 @@ htmlhelp_basename = 'xoadriverdoc'
 html_title = title
 
 # The path to the HTML logo image in the static path, or URL to the logo, or ''.
-logo_url = './_static/xoa_image05.png'
+html_logo = './_static/xena_xoa_logo_white.png'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -92,6 +92,11 @@ html_static_path = ['_static']
 
 
 html_show_copyright = True
+html_show_sphinx = False
+
+html_theme_options = {
+    'style_nav_header_background': '#336851'
+}
 
 
 # -- Options for Texinfo output -----------------------------------------------------
@@ -119,10 +124,10 @@ templates_path = ['_templates']
 
 latex_elements = {
 # The paper size ('letterpaper' or 'a4paper').
-#'papersize': 'letterpaper',
+'papersize': 'a4paper',
 
 # The font size ('10pt', '11pt' or '12pt').
-#'pointsize': '10pt',
+'pointsize': '10pt',
 
 # Additional stuff for the LaTeX preamble.
 #'preamble': '',
@@ -139,7 +144,7 @@ latex_documents = [(master_doc, 'xoadriverdoc.tex', title, author, 'manual'),
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
-latex_logo = './_static/xoa_image05.png'
+# latex_logo = './_static/...png'
 
 # -- Options for manual page output -----------------------------------------------------
 

@@ -1,6 +1,5 @@
-"""
-Other types which are used by ports or as a parameter to attribute set method.
-"""
+#: Other types which are used by ports or as a parameter to attribute set method.
+
 
 from .internals.core.transporter.token import Token
 from .internals.core.commands.subtypes import (

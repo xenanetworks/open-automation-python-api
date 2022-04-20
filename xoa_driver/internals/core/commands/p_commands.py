@@ -1,6 +1,5 @@
-"""
-Port Commands
-"""
+#: L23 Port Commands
+
 from dataclasses import dataclass
 import ipaddress
 import typing
@@ -1535,7 +1534,7 @@ class P_MDIXMODE:
 @dataclass
 class P_TRAFFICERR:
     """
-    Obtain the traffic error which has occurred in the last `*_TRAFFIC` or `C_TRAFFICSYNC` command.
+    Obtain the traffic error which has occurred in the last ``*_TRAFFIC`` or ``C_TRAFFICSYNC`` command.
 
     """
 
@@ -1551,9 +1550,9 @@ class P_TRAFFICERR:
         error: XmpField[XmpInt] = XmpField(XmpInt, choices=TrafficError)  # coded byte, specifies the port traffic error.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get traffic error which has occurred in the last `*_TRAFFIC` or `C_TRAFFICSYNC` command.
+        """Get traffic error which has occurred in the last ``*_TRAFFIC`` or ``C_TRAFFICSYNC`` command.
 
-        :return: traffic error which has occurred in the last `*_TRAFFIC` or `C_TRAFFICSYNC` command
+        :return: traffic error which has occurred in the last ``*_TRAFFIC`` or ``C_TRAFFICSYNC`` command
         :rtype: P_TRAFFICERR.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
@@ -3207,7 +3206,7 @@ class P_TPLDMODE:
     relatively long headers (like IPv6). It has the following characteristics
     compared to the "normal" TPLD. When the TPLDMODE is changed, it will affect ALL
     streams on the port. 1) Only 6 byte long. 2) Less accurate mechanism to separate
-    Xena generated packets from other packet is the network �C it is recommended not
+    Xena-generated packets from other packets is the network - it is recommended not
     to have too much other traffic going into the receive Xena port, when micro TPLD
     is used. 3) No sequence checking (packet loss or packet misordering). The number
     of received packets for each stream can still be compared to the number of

@@ -1,6 +1,5 @@
-"""
-Port TX Statistics Commands
-"""
+#: L23 Port TX Statistics Commands
+
 from dataclasses import dataclass
 import typing
 

@@ -18,7 +18,7 @@ from . import exceptions
 
 async def establish_connection(transporter: "TransportationHandler", host: str, port: int = 22606, loop: Optional["AbstractEventLoop"] = None) -> None:
     """
-    Establish connection to provided host and port and assign <TransportationHandler> to it.
+    Establish connection to provided host and port and assign ``<TransportationHandler>`` to it.
     """
     assert isinstance(loop, AbstractEventLoop) or loop is None, "<loop> must be an instance of AbstractEventLoop or None"
     __loop = loop if loop else asyncio.get_event_loop()

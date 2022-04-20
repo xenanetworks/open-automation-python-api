@@ -1,7 +1,7 @@
-.. _introduction:
+.. _overview:
 
 
-Introduction
+Overview
 =====================================================
 
 Xena OpenAutomation Python API (XOA Python API) Documentation provides Xena Python Application Programming Interface (API) functions. It also provides descriptions of how to use these functions along with examples of creating and running test configurations.
@@ -13,6 +13,7 @@ software. Users of this manual should have the following knowledge and experienc
 * Familiarity with the operating system of your development environment.
 * Familiarity with test equipment.
 * Working knowledge of data communications theory and practice.
+
 
 About Xena OpenAutomation Python API
 ----------------------------------------
@@ -27,12 +28,12 @@ The cornerstone component of Xena OpenAutomation is its Python API, which contai
 About This Documentation
 ----------------------------------------
 
-:ref:`Introduction <introduction>` provides an overview of XOA Python API and the use of this document.
+:ref:`Overview <overview>` provides an overview of XOA Python API and the use of this document.
 
-:ref:`Xena OpenAutomation Python API <xoa_python_api>` covers installation instructions, the internal structure of XOA Python API, the principle of using Xena testers, and guidance to increase test execution performance.
+:ref:`Getting Started <getting_started>` covers installation instructions, API structure, the principle of using Xena testers, and guidance to increase test execution performance.
 
 :ref:`High-Level API <hl_api>` covers the notations, terminologies, features, and code examples of XOA High-Level API (HL-PYTHON).  
 
 :ref:`Low-Level API <ll_api>` includes then notations, terminologies, features, and code examples of XOA Low-Level API (LL-PYTHON).  
 
-:ref:`API Function Reference <command_ref>` covers all the HL-PYTHON and LL-PYTHON functions that make up XOA Python API. The description of API functions are automatically generated from the docstring in the source code.
+:ref:`API Documentation <command_ref>` covers all the functions that make up XOA Python API. The description of API functions are automatically generated from the docstring in the source code.

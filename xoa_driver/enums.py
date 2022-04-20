@@ -1,6 +1,4 @@
-"""
-Avaliable enums used by commands abd response status.
-"""
+#: Available enums used by commands and server response status.
 
 from .internals.core.commands.enums import *
 from .internals.core.protocol.constants import CommandStatus

@@ -1,6 +1,5 @@
-"""
-Port Impairment Distribution (Chimera only) Commands
-"""
+#: Impairment Port Distribution Commands
+
 from dataclasses import dataclass
 import typing
 

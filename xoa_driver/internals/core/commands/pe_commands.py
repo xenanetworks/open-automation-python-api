@@ -1,6 +1,5 @@
-"""
-Port Impairment (Chimera only) Commands
-"""
+#: Impairment Port Commands
+
 from dataclasses import dataclass
 import typing
 import functools
@@ -772,12 +771,12 @@ class PE_FLOWDUPTOTAL:
     @dataclass(frozen=True)
     class GetDataAttr:
         pkt_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets duplicated for the flow.
-        ratio: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, ratio of number of packets duplicated for the flow��expressed in ppm.
+        ratio: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, ratio of number of packets duplicated for the flow - expressed in ppm.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning all the packets duplicated in a flow between this receive port and its partner TX port.
 
-        :return: number of packets duplicated for the flow, ratio of number of packets duplicated for the flow��expressed in ppm.
+        :return: number of packets duplicated for the flow, ratio of number of packets duplicated for the flow - expressed in ppm.
         :rtype: PE_FLOWDUPTOTAL.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))

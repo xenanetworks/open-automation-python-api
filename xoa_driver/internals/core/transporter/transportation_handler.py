@@ -117,7 +117,6 @@ class TransportationHandler(asyncio.Protocol):
         except t_ex.RepeatedRequestID as e:
             self.__log.error(f"{e} Original Data: {data}")
         else:
-            
             if response.header.is_pushed:
                 self.__handle_push_response(response)
             else:
@@ -174,7 +173,7 @@ class TransportationHandler(asyncio.Protocol):
             self.__transport.close()
 
     async def prepare_data(self, request: protocol.Request) -> Tuple[bytes, Future]:
-        assert self.is_connected, "Can not add command becousse Socket is Disconnected"
+        assert self.is_connected, "Cannot add command because Socket is disconnected"
         request.header.request_identifier = await self.__req_id.get_avaliable()
         self.__log.request_obj(request)
         return bytes(request), self.cmd_mngr.append(request)

@@ -1,6 +1,4 @@
-"""
-All avaliable tester types.
-"""
+#: All avaliable tester types.
 
 from .internals.testers.l23_tester import L23Tester
 from .internals.testers.l47_tester import L47Tester

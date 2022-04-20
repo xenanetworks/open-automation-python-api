@@ -11,7 +11,7 @@ The cornerstone component of Xena OpenAutomation is its Python API, which contai
 
 Moving forward, all Xena’s automated test suites will be based on Xena OpenAutomation.
 
-## Key Benefits
+## Key Features
 * Objected-oriented, high-level abstraction, to help users save time on parsing command responses.
 * Supporting sending commands in batches to increase code execution efficiency.
 * Automatically matching command requests and server response, providing clear information in case a command gets an error response.
@@ -22,6 +22,40 @@ Moving forward, all Xena’s automated test suites will be based on Xena OpenAut
 ## Documentation
 The user documentation is hosted:
 https://xena-openautomation-python-api.readthedocs.io/en/latest/
+
+
+## Installation
+
+### Install Using `pip`
+Make sure Python `pip` is installed on you system. If you are using virtualenv, then pip is already installed into environments created by virtualenv, and using sudo is not needed. If you do not have pip installed, download this file: https://bootstrap.pypa.io/get-pip.py and run `python get-pip.py`.
+
+To install the latest, use pip to install from pypi:
+``` shell
+~/> pip install xoa-driver
+```
+
+To upgrade to the latest, use pip to upgrade from pypi:
+``` shell
+~/> pip install xoa-driver --upgrade
+```
+
+### Install From Source Code
+Make sure these packages are installed ``wheel``, ``setuptools`` on your system.
+
+Install ``setuptools`` using pip:
+``` shell
+~/> pip install wheel setuptools
+```
+
+To install source of python packages:
+``` shell
+/xoa_driver> python setup.py install
+```
+
+To build ``.whl`` file for distribution:
+``` shell
+/xoa_driver> python setup.py bdist_wheel
+```
 
 
 ## Quick Start
@@ -107,40 +141,6 @@ https://xena-openautomation-python-api.readthedocs.io/en/latest/
     if __name__ == "__main__":
         main()
     ```
-
-
-## Installation
-
-### Install Using `pip`
-Make sure Python `pip` is installed on you system. If you are using virtualenv, then pip is already installed into environments created by virtualenv, and using sudo is not needed. If you do not have pip installed, download this file: https://bootstrap.pypa.io/get-pip.py and run `python get-pip.py`.
-
-To install the latest, use pip to install from pypi:
-``` shell
-~/> pip install xoa-driver
-```
-
-To upgrade to the latest, use pip to upgrade from pypi:
-``` shell
-~/> pip install xoa-driver --upgrade
-```
-
-### Install From Source Code
-Make sure these packages are installed ``wheel``, ``setuptools`` on your system.
-
-Install ``setuptools`` using pip:
-``` shell
-~/> pip install wheel setuptools
-```
-
-To install source of python packages:
-``` shell
-/xoa_driver> python setup.py install
-```
-
-To build ``.whl`` file for distribution:
-``` shell
-/xoa_driver> python setup.py bdist_wheel
-```
 
 
 ***

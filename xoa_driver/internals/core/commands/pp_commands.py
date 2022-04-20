@@ -1,6 +1,5 @@
-"""
-Port (high-speed) Commands
-"""
+#: L23 High-speed Port Commands
+
 from dataclasses import dataclass
 import typing
 import functools
