@@ -11,6 +11,10 @@ The cornerstone component of Xena OpenAutomation is its Python API, which contai
 
 Moving forward, all Xena’s automated test suites will be based on Xena OpenAutomation.
 
+## Documentation
+The user documentation is hosted:
+[Xena OpenAutomation Python API Documentation](https://docs.xoa-python-api.xenanetworks.com/)
+
 ## Key Features
 * Objected-oriented, high-level abstraction, to help users save time on parsing command responses.
 * Supporting sending commands in batches to increase code execution efficiency.
@@ -18,10 +22,6 @@ Moving forward, all Xena’s automated test suites will be based on Xena OpenAut
 * Supporting server-to-client push notification, and event subscription, to reduce user code complexity.
 * Covering commands of Xena testers, including Xena Valkyrie, Vulcan, and Chimera.
 * Supporting IDE auto-complete with built-in class/function/API use manual, to increase development efficiency.
-
-## Documentation
-The user documentation is hosted:
-https://xena-openautomation-python-api.readthedocs.io/en/latest/
 
 
 ## Installation

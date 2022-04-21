@@ -26,7 +26,7 @@ author = u'Xena Networks'
 title = u'Xena OpenAutomation Python API Documentation'
 
 # The full version, including alpha/beta/rc tags.
-release = '1.0b6'
+release = '1.0b7'
 # The short X.Y version.
 version = '1.0'
 
@@ -158,7 +158,7 @@ man_pages = [
 # -- Options for EPUB output -----------------------------------------------------
 epub_title = title + ' ' + release
 epub_author = author
-epub_publisher = 'http://xenanetworks.com'
+epub_publisher = 'https://xenanetworks.com'
 epub_copyright = copyright
 epub_show_urls = 'footnote'
 epub_basename = 'xoadriverdoc'
