@@ -15,7 +15,7 @@ if __name__ == '__main__':
 
     setuptools.setup(
         name="xoa-driver",
-        version="1.0b5",
+        version="1.0b6",
         description="Xena OpenAutomation Python APIs.",
         long_description=long_description,
         long_description_content_type="text/markdown",
