@@ -1,3 +1,4 @@
+import asyncio
 from typing import (
     List,
     Type,
@@ -16,12 +17,15 @@ from .. import kind
 IT = TypeVar("IT", bound="IIndexType")
 
 class IndexManager(Generic[IT]):
+    __slots__ = ("_conn", "_idx_type", "_module_id", "_port_id", "_indices", "_lock", "_observer")
+    
     def __init__(self, conn: "itf.IConnection", idx_type: Type[IT], module_id: int, port_id: int) -> None:
         self._conn = conn
         self._idx_type = idx_type
         self._module_id = module_id
         self._port_id = port_id
         self._indices: List[IT] = []
+        self._lock = asyncio.Lock()
         self._observer: "observer.IndicesObserver" = observer.IndicesObserver()
         self._observer.subscribe(
             observer.IndexEvents.DEL, 
@@ -73,15 +77,16 @@ class IndexManager(Generic[IT]):
         self._indices.remove(index_inst)
 
     async def create(self):
-        index_kind = kind.IndicesKind(
-            self._module_id, 
-            self._port_id, 
-            self.__detect_empty_idx_slot()
-        )
-        index_inst: IT = await self._idx_type._new(self._conn, index_kind, self._observer)
-        assert index_inst, f"Failed to create Index: {len(self)}"
-        self._indices.append(index_inst)
-        return index_inst
+        async with self._lock:
+            index_kind = kind.IndicesKind(
+                self._module_id, 
+                self._port_id, 
+                self.__detect_empty_idx_slot()
+            )
+            index_inst: IT = await self._idx_type._new(self._conn, index_kind, self._observer)
+            assert index_inst, f"Failed to create Index: {len(self)}"
+            self._indices.append(index_inst)
+            return index_inst
 
     async def remove(self, position_idx: int) -> None:
         """Remove indice from port"""
