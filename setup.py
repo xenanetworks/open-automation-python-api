@@ -15,7 +15,7 @@ if __name__ == '__main__':
 
     setuptools.setup(
         name="xoa-driver",
-        version="1.0b7",
+        version="1.0",
         description="Xena OpenAutomation (XOA) Python API is a driver providing user-friendly communication interfaces to Xena's physical and virtual Traffic Generation and Analysis (TGA) testers. It provides a rich collection of programming interfaces that can be used to either write test scripts or develop applications.",
         long_description=long_description,
         long_description_content_type="text/markdown",
@@ -28,7 +28,7 @@ if __name__ == '__main__':
         license='Apache 2.0',
         install_requires = ["loguru"],
         classifiers=[
-            "Development Status :: 4 - Beta",
+            "Development Status :: 5 - Production/Stable",
             "Intended Audience :: Developers",
             "Topic :: Software Development :: Build Tools",
             "License :: OSI Approved :: Apache Software License",
