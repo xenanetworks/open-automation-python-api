@@ -10,6 +10,7 @@ from .module_l23_base import ModuleL23
 
 @typing.final
 class MOdin40G2S2P(ModuleL23):
+    """Test module Odin-40G-2S-2P"""
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
         self.ports: pm.PortsManager[ports.POdin40G2S2P] = pm.PortsManager(
@@ -18,4 +19,5 @@ class MOdin40G2S2P(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
+        """Port index manager of Odin-40G-2S-2P"""
 

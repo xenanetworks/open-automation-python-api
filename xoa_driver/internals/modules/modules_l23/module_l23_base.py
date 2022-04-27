@@ -43,64 +43,155 @@ class TXClock:
     """Advanced timing clock"""
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.source = M_TXCLOCKSOURCE_NEW(conn, module_id)
+        """The source that drives the TX clock rate of the ports on the test module.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_TXCLOCKSOURCE_NEW`
+        """
+
         self.status = M_TXCLOCKSTATUS_NEW(conn, module_id)
+        """TX clock status of the test module.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_TXCLOCKSTATUS_NEW`
+        """
+
         self.filter = M_TXCLOCKFILTER_NEW(conn, module_id)
+        """Loop bandwidth on the TX clock filter of the test module.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_TXCLOCKFILTER_NEW`
+        """
 
 
 class SMA:
     """SMA connector"""
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.input = M_SMAINPUT(conn, module_id)
+        """SMA input of the test module.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_SMAINPUT`
+        """
+
         self.output = M_SMAOUTPUT(conn, module_id)
+        """SMA output of the test module.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_SMAOUTPUT`
+        """
+
         self.status = M_SMASTATUS(conn, module_id)
+        """SMA input status of the test module.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_SMASTATUS`
+        """
 
 
 class CFP:
     """Test module CFP"""
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.type = M_CFPTYPE(conn, module_id)
+        """The transceiver's CFP type currently inserted.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_CFPTYPE`
+        """
         self.config = M_CFPCONFIG(conn, module_id)
+        """The CFP configuration of the test module.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_CFPCONFIG`
+        """
         self.config_extended = M_CFPCONFIGEXT(conn, module_id)
+        """The extended CFP configuration of the test module.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_CFPCONFIGEXT`
+        """
 
 
 class MTime:
     """Test module time"""
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.sync = M_TIMESYNC(conn, module_id)
+        """Time sync controlling of the test module.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_TIMESYNC`
+        """
         self.adjustment = M_TIMEADJUSTMENT(conn, module_id)
+        """Time adjustment controlling of the test module.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_TIMEADJUSTMENT`
+        """
 
 class MUpgrade:
     """Test module upgrade"""
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.start = M_UPGRADE(conn, module_id)
+        """Start the upgrade progress of the test module.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_UPGRADE`
+        """
         self.progress = M_UPGRADEPROGRESS(conn, module_id)
+        """Upgrade progress status of the test module.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_UPGRADEPROGRESS`
+        """
 
 class ModuleL23(bm.BaseModule["modules_state.ModuleL23LocalState"]):
     """
-    Representation of a Level23Module on genuine tester.
+    Representation of a L23 test module on a physical tester.
     """
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
         self.name = M_NAME(conn, self.module_id)
+        """Test module's name.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_NAME`
+        """
+
         self.comment = M_COMMENT(conn, self.module_id)
+        """Test module's description.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_COMMENT`
+        """
+
         self.status = M_STATUS(conn, self.module_id)
+        """Test module's status.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_STATUS`
+        """
+
         self.media = M_MEDIA(conn, self.module_id)
+        """Test module's media configuration.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_MEDIA`
+        """
+
         self.revision = M_REVISION(conn, self.module_id)
+        """Test module's model P/N name.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_REVISION`
+        """
+
         self.clock_ppb = M_CLOCKPPB(conn, self.module_id)
+        """Small adjustment to the local clock of the test module.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_CLOCKPPB`
+        """
+
         self.multiuser = M_MULTIUSER(conn, self.module_id)
+        """If multiple users are allowed to control the same test module.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_MULTIUSER`
+        """
+
         self.reload_fpga_image = M_FPGAREIMAGE(conn, self.module_id)
+        """Reload the FPGA image of the test module.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_FPGAREIMAGE`
+        """
+
         self.capabilities = M_CAPABILITIES(conn, self.module_id)
+        """Test module's capabilities.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_CAPABILITIES`
+        """
+
         self.clock_sync_status = M_CLOCKSYNCSTATUS(conn, self.module_id)
+        """Test module's clock sync status.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_CLOCKSYNCSTATUS`
+        """
 
         self.time = MTime(conn, self.module_id)
+        """Test module's time."""
+
         self.tx_clock = TXClock(conn, self.module_id)
+        """Test module's advanced timing clock."""
+
         self.sma = SMA(conn, self.module_id)
+        """Test module's SMA connector."""
+
         self.cfp = CFP(conn, self.module_id)
+        """Test module's CFP """
+
         self.upgrade = MUpgrade(conn, self.module_id)
+        """Test module's upgrade."""
 
         self._local_states = modules_state.ModuleL23LocalState()
         self.ports: Optional[pm.PortsManager] = None
-        """Subset of avaliable ports `xoa_driver.internals.utils.ports_manager.PortsManager`"""
+        """L23 Port index manager of the test module."""
 
     async def _setup(self):
         m_support_resp, *_ = await asyncio.gather(

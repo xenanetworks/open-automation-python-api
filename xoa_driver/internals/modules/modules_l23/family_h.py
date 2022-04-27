@@ -10,6 +10,7 @@ from .module_l23_base import ModuleL23
 
 @typing.final
 class MLoki100G5S1P(ModuleL23):
+    """Test module Loki-100G-5S-1P"""
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
         self.ports: pm.PortsManager[ports.PLoki100G5S1P] = pm.PortsManager(
@@ -18,3 +19,4 @@ class MLoki100G5S1P(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
+        """Port index manager of Loki-100G-5S-1P"""

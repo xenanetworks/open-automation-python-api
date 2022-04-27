@@ -10,6 +10,7 @@ from .module_l23_base import ModuleL23
 
 @typing.final
 class MThor400G7S1P_b(ModuleL23):
+    """Test module Thor-400G-7S-1P[b]"""
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
         self.ports: pm.PortsManager[ports.PThor400G7S1P_b] = pm.PortsManager(
@@ -18,9 +19,11 @@ class MThor400G7S1P_b(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
+        """Port index manager of Thor-400G-7S-1P[b]"""
 
 @typing.final
 class MThor400G7S1P_c(ModuleL23):
+    """Test module Thor-400G-7S-1P[c]"""
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
         self.ports: pm.PortsManager[ports.PThor400G7S1P_c] = pm.PortsManager(
@@ -29,3 +32,4 @@ class MThor400G7S1P_c(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
+        """Port index manager of Thor-400G-7S-1P[c]"""
