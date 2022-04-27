@@ -49,19 +49,68 @@ class BaseTester(Generic[TesterStateStorage]):
             password=password,
             keepalive=True,
         )
-        """Current connection session"""
+        """Current management session"""
+
         self.name = C_NAME(self._conn)
+        """
+        Tester's name.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_NAME`
+        """
+
         self.comment = C_COMMENT(self._conn)
+        """Description of the tester.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_COMMENT`
+        """
+
         self.model = C_MODEL(self._conn)
+        """Tester's model.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_MODEL`
+        """
+
         self.version_no = C_VERSIONNO(self._conn)
+        """Tester's version number.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_VERSIONNO`
+        """
+
         self.serial_no = C_SERIALNO(self._conn)
+        """Tester's serial number.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_SERIALNO`
+        """
+
         self.reservation = C_RESERVATION(self._conn)
+        """Tester's reservation operation.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_RESERVATION`
+        """
+
         self.reserved_by = C_RESERVEDBY(self._conn)
+        """Tester's reservation status.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_RESERVEDBY`
+        """
+
         self.down = C_DOWN(self._conn)
+        """Shut down the tester.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_DOWN`
+        """
+
         self.password = C_PASSWORD(self._conn)
+        """Tester's password.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_PASSWORD`
+        """
+
         self.time = C_TIME(self._conn)
+        """Tester's time in seconds.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_TIME`
+        """
+
         self.capabilities = C_CAPABILITIES(self._conn)
+        """Tester's capabilities.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_CAPABILITIES`
+        """
+
         self.debug_log = C_DEBUGLOGS(self._conn)
+        """Tester's debug log.
+        High-level representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_DEBUGLOGS`
+        """
 
         self._local_states = testers_state.TesterLocalState(host, port)
         self._register_subscriptions()
@@ -112,33 +161,34 @@ class BaseTester(Generic[TesterStateStorage]):
         return self._local_states.reservation == reserved_status
 
     is_released = functools.partialmethod(__is_reservation, enums.ReservedStatus.RELEASED)
-    """Validate if the tester is released"""
+    """Validate if the tester is released."""
+
     is_reserved_by_me = functools.partialmethod(__is_reservation, enums.ReservedStatus.RESERVED_BY_YOU)
     """Validate if the tester is reserved by my connection."""
 
     @property
     def info(self) -> TesterStateStorage:
-        """Tester info"""
+        """Tester's local information."""
         return self._local_states  # type: ignore
 
 
     # region Events
 
-    # We are nt supporting Subscription on Connection made, coz Connection is happens at Awaiting of instance
-    # but subscription only registered after instance is alreade created, means already connected,
+    # We are not supporting Subscription on Connection made, coz Connection is happens at Awaiting of instance
+    # but subscription only registered after instance is already created, means already connected,
     # means On_connected event will never b called, it's can be twiked, but then Creating process of tester instance
-    # will be less intuitive, and in one case subscription will work in an other don't
+    # will be less intuitive, and in one case subscription will work while in another not.
 
     def on_disconnected(self, callback: "Callable") -> None:
         """Register a callback which will be called at the time when connection will be closed."""
         self._conn.on_disconnected(callback)
 
     def on_reservation_change(self, callback: "Callable") -> None:
-        """Register an callback function to C_RESERVATION event"""
+        """Register an callback function to C_RESERVATION event."""
         self._conn.subscribe(C_RESERVATION, callback)
 
     def on_reserved_by_change(self, callback: "Callable") -> None:
-        """Register an callback function to C_RESERVEDBY event"""
+        """Register an callback function to C_RESERVEDBY event."""
         self._conn.subscribe(C_RESERVEDBY, callback)
 
     # endregion

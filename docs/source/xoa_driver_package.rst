@@ -16,6 +16,7 @@ This module contains the all the available *tester types* supported by XOA Pytho
 
 .. automodule:: xoa_driver.testers
    :members:
+   :inherited-members:
 
 
 Module ``xoa_driver.modules``
@@ -25,6 +26,7 @@ This module contains the all the available *test module types* supported by XOA 
 
 .. automodule:: xoa_driver.modules
    :members:
+   :inherited-members:
 
 
 Module ``xoa_driver.ports``
@@ -34,6 +36,7 @@ This module contains the all the available *test port types* supported by XOA Py
 
 .. automodule:: xoa_driver.ports
    :members:
+   :inherited-members:
 
 
 Module ``xoa_driver.utils``
