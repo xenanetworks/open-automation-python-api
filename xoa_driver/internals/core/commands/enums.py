@@ -2,6 +2,8 @@
 
 from enum import IntEnum
 
+
+#: L23 Enums
 class ReservedStatus(IntEnum):
     """Test resource reservation status"""
     RELEASED = 0
@@ -1311,7 +1313,7 @@ class TrafficError(IntEnum):
     """Prepared OK"""
 
 
-# L47 Enums
+#: L47 Enums
 class Role(IntEnum):
     CLIENT = 0
     SERVER = 1
@@ -1491,46 +1493,71 @@ class ReplaySyncBasedOn(IntEnum):
     PER_USER = 1
 
 
-# Impairment Enums
+#: Impairment Enums
 class CorruptionType(IntEnum):
+    """Impairment corruption type"""
     OFF = 0
+    """Off"""
     ETH = 1
+    """Ethernet"""
     IP = 2
+    """IP"""
     UDP = 3
+    """UDP"""
     TCP = 4
+    """TCP"""
     BER = 5
+    """Bit Error Rate"""
 
 
 class PolicerMode(IntEnum):
+    """Policer mode"""
     L1 = 0
+    """Policer performed at Layer 1 level. I.e. including the preamble and min interpacket gap."""
     L2 = 1
+    """Policer performed at Layer 2 level. I.e. excluding the preamble and min interpacket gap"""
 
 
-class EthernetInfo(IntEnum):
+class FilterUse(IntEnum):
+    """Use of filter."""
     OFF = 0
+    """No filtering will be done"""
     AND = 1
+    """Filtering will be done"""
 
 
-class FilterAction(IntEnum):
+class InfoAction(IntEnum):
+    """Action of filter."""
     EXCLUDE = 0
+    """Matching packets are excluded from the flow"""
     INCLUDE = 1
+    """Matching packets are included from the flow"""
 
 
 class L2PlusPresent(IntEnum):
+    """Presence of Layer-2+ protocols"""
     NA = 0
+    """No Layer 2+ protocols"""
     VLAN1 = 1
+    """One VLAN Tag is present"""
     VLAN2 = 2
+    """Two VLAN Tags are present"""
     MPLS = 3
+    """MPLS label is present"""
 
 
 class L3PlusPresent(IntEnum):
+    """Presence of Layer-3 protocols"""
     NA = 0
+    """No Layer 3 protocols"""
     IP4 = 1
+    """IPv4 is present"""
     IP6 = 2
+    """IPv6 is present"""
 
 
-class FlowMode(IntEnum):
-    """Impairment Flow Mode"""
+class FilterMode(IntEnum):
+    """Impairment Filter Mode"""
     BASIC = 0
     """Basic Mode"""
     EXTENDED = 1
@@ -1595,7 +1622,7 @@ class ImpairmentTypeIndex(IntEnum):
     """Shaper"""
 
 
-# TSN
+#: TSN Enums
 class TSNConfigProfile(IntEnum):
     AUTOMOTIVE = 0
     IEEE1588V2 = 1
