@@ -14,3 +14,4 @@
 *.pyc
 *.log
 *.prof
+**/.DS_Store
