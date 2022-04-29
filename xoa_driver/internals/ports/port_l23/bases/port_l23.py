@@ -65,129 +65,287 @@ LengthTermIndices = idx_mgr.IndexManager[LengthTermIdx]
 MatchTermIndices = idx_mgr.IndexManager[MatchTermIdx]
 
 class TxSinglePacket:
-    """Single packet transmission"""
+    """L23 port single-packet transmission"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.send = P_XMITONE(conn, module_id, port_id)
+        """Send one packet from the L23 port without a stream config.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_XMITONE`
+        """
         self.time = P_XMITONETIME(conn, module_id, port_id)
+        """The time at which the latest packet was transmitted using the :class:`~xoa_driver.internals.core.commands.p_commands.P_XMITONE` command.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_XMITONETIME`
+        """
 
 
 class TxConfiguration:
-    """Port TX configuration"""
+    """L23 port TX configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.mode = P_TXMODE(conn, module_id, port_id)
+        """L23 port TX mode.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_TXMODE`
+        """
         self.enable = P_TXENABLE(conn, module_id, port_id)
+        """Enabling L23 port TX.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_TXENABLE`
+        """
         self.time_limit = P_TXTIMELIMIT(conn, module_id, port_id)
+        """L23 port TX time limit.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_TXTIMELIMIT`
+        """
         self.time = P_TXTIME(conn, module_id, port_id)
+        """L23 port TX time.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_TXTIME`
+        """
         self.repare = P_TXPREPARE(conn, module_id, port_id)
+        """Prepare L23 port for transmission.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_TXPREPARE`
+        """
         self.delay = P_TXDELAY(conn, module_id, port_id)
+        """L23 port TX delay.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_TXDELAY`
+        """
         self.packet_limit = P_TXPACKETLIMIT(conn, module_id, port_id)
+        """L23 port TX packet limit
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_TXPACKETLIMIT`
+        """
         self.burst_period = P_TXBURSTPERIOD(conn, module_id, port_id)
+        """L23 port TX burst period.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_TXBURSTPERIOD`
+        """
 
 
 class Rate:
-    """Port TX rate"""
+    """L23 port TX rate"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.fraction = P_RATEFRACTION(conn, module_id, port_id)
+        """L23 port rate in ppm.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_RATEFRACTION`
+        """
         self.pps = P_RATEPPS(conn, module_id, port_id)
+        """L23 port rate in packets per second.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_RATEPPS`
+        """
         self.l2_bps = P_RATEL2BPS(conn, module_id, port_id)
+        """L23 port rate in L2 bits per second.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_RATEL2BPS`
+        """
 
 
 class Multicast:
-    """Port multicast configuration"""
+    """L23 port multicast configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.mode = P_MULTICAST(conn, module_id, port_id)
+        """L23 port multicast mode.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_MULTICAST`
+        """
         self.mode_extended = P_MULTICASTEXT(conn, module_id, port_id)
+        """L23 port multicast extended mode.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_MULTICASTEXT`
+        """
         self.source_list = P_MCSRCLIST(conn, module_id, port_id)
+        """L23 port multicast source list.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_MCSRCLIST`
+        """
         self.header = P_MULTICASTHDR(conn, module_id, port_id)
+        """L23 port multicast IGMP header.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_MULTICASTHDR`
+        """
 
 
 class IPv4:
-    """Port IPv4 configuration"""
+    """L23 port IPv4 configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.address = P_IPADDRESS(conn, module_id, port_id)
+        """L23 port IPv4 address.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_IPADDRESS`
+        """
         self.arp_reply = P_ARPREPLY(conn, module_id, port_id)
+        """L23 port reply to ARP request.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_ARPREPLY`
+        """
         self.ping_reply = P_PINGREPLY(conn, module_id, port_id)
+        """L23 port reply to PING request.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_PINGREPLY`
+        """
 
 
 class IPv6:
-    """Port IPv6 configuration"""
+    """L23 port IPv6 configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.address = P_IPV6ADDRESS(conn, module_id, port_id)
+        """L23 port IPv6 address.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_IPV6ADDRESS`
+        """
         self.arp_reply = P_ARPV6REPLY(conn, module_id, port_id)
+        """L23 port reply to NDP Neighbor Solicitation.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_ARPV6REPLY`
+        """
         self.ping_reply = P_PINGV6REPLY(conn, module_id, port_id)
+        """L23 port reply to PINGv6 request.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_PINGV6REPLY`
+        """
 
 
 class NetworkConfiguration: # will be extended in genuine ports
-    """Port networking configuration"""
+    """L23 port networking configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.mac_address = P_MACADDRESS(conn, module_id, port_id)
+        """L23 port MAC address.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_MACADDRESS`
+        """
         self.ipv4 = IPv4(conn, module_id, port_id)
+        """L23 port IPv4 address configuration.
+        """
         self.ipv6 = IPv6(conn, module_id, port_id)
+        """L23 port IPv6 address configuration.
+        """
 
 
 class LatencyConfiguration:
-    """Port latency configuration"""
+    """L23 port latency configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.offset = P_LATENCYOFFSET(conn, module_id, port_id)
+        """L23 port latency offset.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_LATENCYOFFSET`
+        """
         self.mode = P_LATENCYMODE(conn, module_id, port_id)
+        """L23 port latency measurement mode.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_LATENCYMODE`
+        """
 
 class Mix:
-    """Port IMIX configuration"""
+    """L23 port IMIX configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.weights = P_MIXWEIGHTS(conn, module_id, port_id)
+        """L23 port IMIX weights
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_MIXWEIGHTS`
+        """
         self.lengths = tuple(
             P_MIXLENGTH(conn, module_id, port_id, idx)
             for idx in range(16)
         ) # TODO: need to add manager for handle specific indices only
+        """L23 port IMIX lengths.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_MIXLENGTH`
+        """
 
 class Speed:
-    """Port speed configuration"""
+    """L23 port speed configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.current = P_SPEED(conn, module_id, port_id)
+        """L23 port current speed in units of Mbps.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_SPEED`
+        """
         self.reduction = P_SPEEDREDUCTION(conn, module_id, port_id)
+        """L23 port speed reduction in ppm.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_SPEEDREDUCTION`
+        """
 
 class Traffic:
-    """Port traffic generation"""
+    """L23 port traffic generation"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.state = P_TRAFFIC(conn, module_id, port_id)
+        """L23 port traffic status and action.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_TRAFFIC`
+        """
         self.error = P_TRAFFICERR(conn, module_id, port_id)
+        """L23 port traffic error.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_TRAFFICERR`
+        """
 
 class BasePortL23(base_port.BasePort[ports_state.PortL23LocalState]):
-    """L23 port layout which relevant to all L23 ports."""
+    """L23 port layout which is relevant to all L23 ports."""
 
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         super().__init__(conn, module_id, port_id)
         self.capabilities = P_CAPABILITIES(conn, module_id, port_id)
+        """L23 port capabilities.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_CAPABILITIES`
+        """
         self.pause = P_PAUSE(conn, module_id, port_id)
+        """L23 port response to Ethernet PAUSE frames.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_PAUSE`
+        """
         self.loop_back = P_LOOPBACK(conn, module_id, port_id)
+        """L23 port loopback mode.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_LOOPBACK`
+        """
         self.capture = P_CAPTURE(conn, module_id, port_id)
+        """L23 port traffic capture.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_CAPTURE`
+        """
         self.errors_count = P_ERRORS(conn, module_id, port_id)
+        """L23 port errors.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_ERRORS`
+        """
         
 
         self.interframe_gap = P_INTERFRAMEGAP(conn, module_id, port_id)
+        """L23 port interframe gap.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_INTERFRAMEGAP`
+        """
         self.max_header_length = P_MAXHEADERLENGTH(conn, module_id, port_id)
+        """L23 port maximum header length.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_MAXHEADERLENGTH`
+        """
         self.tpld_mode = P_TPLDMODE(conn, module_id, port_id)
+        """L23 port test payload mode.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_TPLDMODE`
+        """
         self.pfc_enable = P_PFCENABLE(conn, module_id, port_id)
+        """L23 port Ethernet Priority Flow Control (PFC).
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_PFCENABLE`
+        """
         self.random_seed = P_RANDOMSEED(conn, module_id, port_id)
+        """L23 port seed value.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_RANDOMSEED`
+        """
         self.payload_mode = P_PAYLOADMODE(conn, module_id, port_id)
+        """L23 port payload mode.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_PAYLOADMODE`
+        """
         self.autotrain = P_AUTOTRAIN(conn, module_id, port_id)
+        """L23 port interval between auto training packets.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_AUTOTRAIN`
+        """
         self.gap_monitor = P_GAPMONITOR(conn, module_id, port_id)
+        """L23 port gap monitor.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_GAPMONITOR`
+        """
         self.checksum = P_CHECKSUM(conn, module_id, port_id)
+        """L23 port extra payload integrity checksum.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_CHECKSUM`
+        """
 
         self.arp_rx_table = P_ARPRXTABLE(conn, module_id, port_id)
+        """L23 port ARP table.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_ARPRXTABLE`
+        """
         self.ndp_rx_table = P_NDPRXTABLE(conn, module_id, port_id)
+        """L23 port NDP table.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_NDPRXTABLE`
+        """
 
         self.speed = Speed(conn, module_id, port_id)
+        """L23 port speed configuration."""
         self.traffic = Traffic(conn, module_id, port_id)
+        """L23 port traffic configuration."""
         self.mix = Mix(conn, module_id, port_id)
+        """L23 port IMIX configuration."""
         self.latency_config = LatencyConfiguration(conn, module_id, port_id)
+        """L23 port latency configuration."""
         self.rate = Rate(conn, module_id, port_id)
+        """L23 port rate."""
         self.tx_config = TxConfiguration(conn, module_id, port_id)
+        """L23 port TX configuration."""
         self.tx_single_pkt = TxSinglePacket(conn, module_id, port_id)
+        """L23 port single-packet TX configuration."""
         self.multicast = Multicast(conn, module_id, port_id)
+        """L23 port multicast configuration."""
         self.net_config = NetworkConfiguration(conn, module_id, port_id)
+        """L23 port network configuration."""
 
         self.local_states = ports_state.PortL23LocalState()
+        """L23 port local states."""
 
         self.length_term: LengthTermIndices = idx_mgr.IndexManager(
             conn,
@@ -195,12 +353,15 @@ class BasePortL23(base_port.BasePort[ports_state.PortL23LocalState]):
             module_id,
             port_id
         )
+        """L23 port's length term index manager."""
+
         self.match_term: MatchTermIndices = idx_mgr.IndexManager(
             conn,
             MatchTermIdx,
             module_id,
             port_id
         )
+        """L23 port's match term index manager."""
 
     async def _setup(self):
         await super()._setup()
@@ -243,10 +404,10 @@ class BasePortL23(base_port.BasePort[ports_state.PortL23LocalState]):
     on_ipv4_address_change = functools.partialmethod(utils.on_event, P_IPADDRESS)
     """Register a callback to the event that the port's IPv4 address changes."""
 
-    on_ipv4_arp_replay_change = functools.partialmethod(utils.on_event, P_ARPREPLY)
+    on_ipv4_arp_reply_change = functools.partialmethod(utils.on_event, P_ARPREPLY)
     """Register a callback to the event that the port's ARP reply setting changes."""
 
-    on_ipv4_ping_replay_change = functools.partialmethod(utils.on_event, P_PINGREPLY)
+    on_ipv4_ping_reply_change = functools.partialmethod(utils.on_event, P_PINGREPLY)
     """Register a callback to the event that the port's PING reply setting changes."""
 
     on_multicast_mode_change = functools.partialmethod(utils.on_event, P_MULTICAST)
