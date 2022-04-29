@@ -20,15 +20,15 @@ class ModuleL23VE(bm.BaseModule):
         super().__init__(conn, init_data)
         self.comment = M_COMMENT(conn, self.module_id)
         """Test module's description.
-        High-level representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_COMMENT`
+        Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_COMMENT`
         """
         self.capabilities = M_CAPABILITIES(conn, self.module_id)
         """Test module's capabilities.
-        High-level representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_CAPABILITIES`
+        Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_CAPABILITIES`
         """
         self.multiuser = M_MULTIUSER(conn, self.module_id)
         """If multiple users are allowed to control the same test module.
-        High-level representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_MULTIUSER`
+        Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_MULTIUSER`
         """
         
         self.ports: pm.PortsManager[ports.PortL23VE] = pm.PortsManager(
