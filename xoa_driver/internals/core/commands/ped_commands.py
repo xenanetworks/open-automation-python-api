@@ -74,9 +74,12 @@ class PED_SCHEDULE:
 @dataclass
 class PED_ONESHOTSTATUS:
     """
-    Retrieves the one-shot completion status. Note: The return value is only valid,
-    if the configured distribution is either accumulate & burst (DELAY) or fixed
-    burst (non-DELAY).
+    Retrieves the one-shot completion status.
+    
+    .. note::
+    
+        The return value is only valid, if the configured distribution is either accumulate & burst (DELAY) or fixed burst (non-DELAY).
+
     """
 
     code: typing.ClassVar[int] = 1612
@@ -93,9 +96,7 @@ class PED_ONESHOTSTATUS:
         one_shot_status: XmpField[XmpByte] = XmpField(XmpByte)  # byte, specifies the status.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the one-shot completion status. Note: The return value is only valid,
-        if the configured distribution is either accumulate & burst (DELAY) or fixed
-        burst (non-DELAY).
+        """Get the one-shot completion status.
 
         :return: the one-shot completion status 
         :rtype: PED_ONESHOTSTATUS.GetDataAttr
@@ -145,8 +146,11 @@ class PED_FIXED:
     """
     Configuration of Fixed Rate distribution. This is predictable distribution with
     nearly equal distance between impairments, to match the configured probability.
-    Note: In case of Mis-ordering a special limit applies, probability * (depth + 1)
-    should be less than 1000000.
+
+    .. note::
+    
+        In case of misordering, a special limit applies, probability * (depth + 1) should be less than 1000000.
+
     """
 
     code: typing.ClassVar[int] = 1621
@@ -273,8 +277,12 @@ class PED_BER:
 @dataclass
 class PED_FIXEDBURST:
     """
-    Configuration of Fixed Burst distribution. NOTE: In case of iid = MISO,
-    burstsize is fixed to 1
+    Configuration of Fixed Burst distribution.
+    
+    .. note::
+    
+        In case of ``_impairment_type_xindex`` = ``MISO``, burstsize is fixed to 1.
+
     """
 
     code: typing.ClassVar[int] = 1624
@@ -433,9 +441,12 @@ class PED_GE:
 @dataclass
 class PED_UNI:
     """
-    Configuration of Uniform distribution. Note: If minimum is less than minimum
-    latency, value is set to minimum latency. If minimum is greater than maximum
-    latency, value is set to maximum latency.
+    Configuration of Uniform distribution.
+    
+    .. note::
+    
+        If minimum is less than minimum latency, value is set to minimum latency. If minimum is greater than maximum latency, value is set to maximum latency.
+
     """
 
     code: typing.ClassVar[int] = 1627
@@ -466,9 +477,7 @@ class PED_UNI:
         )  # long, in case of iid != DELAY, specifies the maximum no. of packets. Default value: 0 (Range 0 to 4194288). In case of iid = DELAY, specifies the maximum latency limit. Unit is nanosecond (must be multiples of 100 ns). Default value: minimum latency.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the configuration of Uniform distribution. Note: If minimum is less than minimum
-        latency, value is set to minimum latency. If minimum is greater than maximum
-        latency, value is set to maximum latency.
+        """Get the configuration of Uniform distribution.
 
         :return: the configuration of Uniform distribution.
         :rtype: PED_UNI.GetDataAttr
@@ -476,9 +485,7 @@ class PED_UNI:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
     def set(self, minimum: int, maximum: int) -> "Token":
-        """Set the configuration of Uniform distribution. Note: If minimum is less than minimum
-        latency, value is set to minimum latency. If minimum is greater than maximum
-        latency, value is set to maximum latency.
+        """Set the configuration of Uniform distribution.
 
         :param minimum: in case of iid != DELAY, specifies the minimum no. of packets. Default value: 0 (Range 0 to 4194288). In case of iid = DELAY, specifies the minimum latency limit. Unit is nanosecond (must be multiples of 100 ns). Default value: minimum latency.
         :type minimum: int
@@ -495,13 +502,14 @@ class PED_UNI:
 @dataclass
 class PED_GAUSS:
     """
-    Configuration of Gaussian distribution. Note: In case of iid != DELAY: (1)
-    mean plus 3 times standard deviation should be less than or equal to max allowed
-    (4194288). (2) mean should always be at least 3 times the standard deviation,
-    this to ensure that the impairment distance is always positive. In case of iid =
-    DELAY: (1) mean plus 3 times standard deviation should be less than or equal to
-    the maximum latency. (2) mean minus 3 times the standard deviation should be
-    greater than or equal to minimum latency.
+    Configuration of Gaussian distribution.
+    
+    .. note::
+    
+        In case of ``_impairment_type_xindex != DELAY``: (1) mean plus 3 times standard deviation should be less than or equal to max allowed (4194288). (2) mean should always be at least 3 times the standard deviation, this to ensure that the impairment distance is always positive.
+        
+        In case of ``_impairment_type_xindex = DELAY``: (1) mean plus 3 times standard deviation should be less than or equal to the maximum latency. (2) mean minus 3 times the standard deviation should be greater than or equal to minimum latency.
+
     """
 
     code: typing.ClassVar[int] = 1628
@@ -532,13 +540,7 @@ class PED_GAUSS:
         )  # long, specifies the Gaussian standard deviation. In case of iid != DELAY, specifies the standard deviation as number of packets. Default value: 0 packets (Range 0 to 4194288). In case of iid = DELAY, specifies the the Gaussian standard deviation. Units is nanosecond (must be multiples of 100 ns). Default value: 0 ns.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the configuration of Gaussian distribution. Note: In case of iid != DELAY: (1)
-        mean plus 3 times standard deviation should be less than or equal to max allowed
-        (4194288). (2) mean should always be at least 3 times the standard deviation,
-        this to ensure that the impairment distance is always positive. In case of iid =
-        DELAY: (1) mean plus 3 times standard deviation should be less than or equal to
-        the maximum latency. (2) mean minus 3 times the standard deviation should be
-        greater than or equal to minimum latency.
+        """Get the configuration of Gaussian distribution.
 
         :return: the configuration of Gaussian distribution
         :rtype: PED_GAUSS.GetDataAttr
@@ -546,17 +548,11 @@ class PED_GAUSS:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
     def set(self, mean: int, std_deviation: int) -> "Token":
-        """Set the configuration of Gaussian distribution. Note: In case of iid != DELAY: (1)
-        mean plus 3 times standard deviation should be less than or equal to max allowed
-        (4194288). (2) mean should always be at least 3 times the standard deviation,
-        this to ensure that the impairment distance is always positive. In case of iid =
-        DELAY: (1) mean plus 3 times standard deviation should be less than or equal to
-        the maximum latency. (2) mean minus 3 times the standard deviation should be
-        greater than or equal to minimum latency.
+        """Set the configuration of Gaussian distribution.
 
-        :param mean: specifies the Gaussian mean. In case of iid != DELAY, specifies the Gaussian mean value as number of packets.Default value: 0 packets (Range 0 to 4194288). In case of iid = DELAY, specifies the Gaussian mean value. Units is nanosecond (must be multiples of 100 ns).
+        :param mean: specifies the Gaussian mean. 
         :type mean: int
-        :param std_deviation: specifies the Gaussian standard deviation. In case of iid != DELAY, specifies the standard deviation as number of packets. Default value: 0 packets (Range 0 to 4194288). In case of iid = DELAY, specifies the the Gaussian standard deviation. Units is nanosecond (must be multiples of 100 ns). Default value: 0 ns.
+        :param std_deviation: specifies the Gaussian standard deviation. 
         :type std_deviation: int
         """
         return Token(
@@ -569,11 +565,16 @@ class PED_GAUSS:
 @dataclass
 class PED_POISSON:
     """
-    Configuration of "Poisson" distribution. Note: standard deviation is derived
-    from mean, i.e., standard deviation = SQRT(mean). In case of iid != DELAY, mean
-    plus 3 times standard deviation should be less than or equal to max allowed
-    (4194288). In case of iid = DELAY, mean plus 3 times standard deviation should
-    be less than or equal to the maximum latency.
+    Configuration of "Poisson" distribution.
+    
+    .. note:: 
+    
+        Standard deviation is derived from mean, i.e., standard deviation = SQRT(mean).
+        
+        In case of ``_impairment_type_xindex != DELAY``, mean plus 3 times standard deviation should be less than or equal to max allowed (4194288).
+        
+        In case of ``_impairment_type_xindex = DELAY``, mean plus 3 times standard deviation should be less than or equal to the maximum latency.
+
     """
 
     code: typing.ClassVar[int] = 1629
@@ -598,11 +599,7 @@ class PED_POISSON:
         )  # long, specifies the Poisson mean value. In case of iid = DELAY specifies the Poisson mean. Unit is nanosecond (must be multiples of 100ns). Default value: 0 ns. In case of iid != DELAY specifies the Poisson mean in number of packets packets. Default value: 9 packets (Range 0 to 4194288).
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the configuration of Poisson distribution. Note: standard deviation is derived
-        from mean, i.e., standard deviation = SQRT(mean). In case of iid != DELAY, mean
-        plus 3 times standard deviation should be less than or equal to max allowed
-        (4194288). In case of iid = DELAY, mean plus 3 times standard deviation should
-        be less than or equal to the maximum latency.
+        """Get the configuration of Poisson distribution.
 
         :return: the configuration of Poisson distribution
         :rtype: PED_POISSON.GetDataAttr
@@ -610,13 +607,9 @@ class PED_POISSON:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
     def set(self, mean: int) -> "Token":
-        """Set the configuration of Poisson distribution. Note: standard deviation is derived
-        from mean, i.e., standard deviation = SQRT(mean). In case of iid != DELAY, mean
-        plus 3 times standard deviation should be less than or equal to max allowed
-        (4194288). In case of iid = DELAY, mean plus 3 times standard deviation should
-        be less than or equal to the maximum latency.
+        """Set the configuration of Poisson distribution.
 
-        :param mean: specifies the Poisson mean value. In case of iid = DELAY specifies the Poisson mean. Unit is nanosecond (must be multiples of 100ns). Default value: 0 ns. In case of iid != DELAY specifies the Poisson mean in number of packets packets. Default value: 9 packets (Range 0 to 4194288).
+        :param mean: specifies the Poisson mean value.
         :type mean: int
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], mean=mean))
@@ -626,13 +619,16 @@ class PED_POISSON:
 @dataclass
 class PED_GAMMA:
     """
-    Configuration of Gamma distribution. Note: Mean and Standard deviation are
-    calculated from Shape and Scale parameters and validation is performed using
-    those. standard deviation = [SQRT(shape * scale * scale)]mean = [shape * scale].
-    In case of iid != DELAY, (1) mean plus 4 times standard deviation should be less
-    than or equal to max allowed(4194288). (2)shape and scale should be greater than
-    or equal to 0. In case of iid = DELAY, mean plus 4 times standard deviation
-    should be less than or equal to the maximum latency.
+    Configuration of Gamma distribution.
+    
+    .. note::
+    
+        Mean and Standard deviation are calculated from Shape and Scale parameters and validation is performed using those. standard deviation = [SQRT(shape * scale * scale)]mean = [shape * scale].
+        
+        In case of ``_impairment_type_xindex != DELAY``, (1) mean plus 4 times standard deviation should be less than or equal to max allowed(4194288). (2)shape and scale should be greater than or equal to 0.
+        
+        In case of ``_impairment_type_xindex = DELAY``, mean plus 4 times standard deviation should be less than or equal to the maximum latency.
+
     """
 
     code: typing.ClassVar[int] = 1630
@@ -659,13 +655,7 @@ class PED_GAMMA:
         )  # long, specifies the Gamma function scaleparameter. In case of iid = DELAY, units: nanosecond (must be multiples of 100 ns). Default value: 0 ns. In case of iid != DELAY, units: number of packets.Default value: 0 packets.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the configuration of Gamma distribution. Note: Mean and Standard deviation are
-        calculated from Shape and Scale parameters and validation is performed using
-        those. standard deviation = [SQRT(shape * scale * scale)]mean = [shape * scale].
-        In case of iid != DELAY, (1) mean plus 4 times standard deviation should be less
-        than or equal to max allowed(4194288). (2)shape and scale should be greater than
-        or equal to 0. In case of iid = DELAY, mean plus 4 times standard deviation
-        should be less than or equal to the maximum latency.
+        """Get the configuration of Gamma distribution.
 
         :return: the configuration of Gamma distribution
         :rtype: PED_GAMMA.GetDataAttr
@@ -673,17 +663,11 @@ class PED_GAMMA:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
     def set(self, shape: int, scale: int) -> "Token":
-        """Set the configuration of Gamma distribution. Note: Mean and Standard deviation are
-        calculated from Shape and Scale parameters and validation is performed using
-        those. standard deviation = [SQRT(shape * scale * scale)]mean = [shape * scale].
-        In case of iid != DELAY, (1) mean plus 4 times standard deviation should be less
-        than or equal to max allowed(4194288). (2)shape and scale should be greater than
-        or equal to 0. In case of iid = DELAY, mean plus 4 times standard deviation
-        should be less than or equal to the maximum latency.
+        """Set the configuration of Gamma distribution.
 
         :param shape: specifies the shape. Units: none. Default value: 0.
         :type shape: int
-        :param scale: specifies the Gamma function scaleparameter. In case of iid = DELAY, units: nanosecond (must be multiples of 100 ns). Default value: 0 ns. In case of iid != DELAY, units: number of packets.Default value: 0 packets.
+        :param scale: specifies the Gamma function scaleparameter.
         :type scale: int
         """
         return Token(
@@ -696,13 +680,16 @@ class PED_GAMMA:
 @dataclass
 class PED_CUST:
     """
-    Associate a custom distribution to a flow and impairment type. Before
-    associating a custom distribution, the below validation checks are applied. In
-    case of iid != DELAY, (1) Custom values should be less than or equal to max
-    allowed (4194288). (2) Custom distribution bust contain 512 values. In case of
-    iid = DELAY, (1) Custom values should be less than or equal to the maximum
-    latency. (2) Custom values should be greater than or equal to minimum latency.
-    (3) Custom distribution should contain 1024 values.
+    Associate a custom distribution to a flow and impairment type.
+    
+    .. note:: 
+    
+        Before associating a custom distribution, the below validation checks are applied.
+        
+        In case of ``_impairment_type_xindex != DELAY``, (1) Custom values should be less than or equal to max allowed (4194288). (2) Custom distribution bust contain 512 values. 
+        
+        In case of ``_impairment_type_xindex = DELAY``, (1) Custom values should be less than or equal to the maximum latency. (2) Custom values should be greater than or equal to minimum latency. (3) Custom distribution should contain 1024 values.
+
     """
 
     code: typing.ClassVar[int] = 1631
@@ -731,13 +718,7 @@ class PED_CUST:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
     def set(self, cust_id: int) -> "Token":
-        """Associate a custom distribution to a flow and impairment type. Before
-        associating a custom distribution, the below validation checks are applied. In
-        case of iid != DELAY, (1) Custom values should be less than or equal to max
-        allowed (4194288). (2) Custom distribution bust contain 512 values. In case of
-        iid = DELAY, (1) Custom values should be less than or equal to the maximum
-        latency. (2) Custom values should be greater than or equal to minimum latency.
-        (3) Custom distribution should contain 1024 values. 
+        """Associate a custom distribution to a flow and impairment type.
 
         :param cust_id: custom distribution identifier
         :type cust_id: int
@@ -753,9 +734,11 @@ class PED_CONST:
     """
     Configuration of Constant Delay distribution (DELAY only). Unit is ns (must be
     multiples of 100ns). Default value: Minimum supported per speed and FEC mode.
-    NOTE: If the latency is less than minimum latency, value is set to minimum
-    latency. If the latency is greater than maximum latency, value is set to maximum
-    latency.
+
+    .. note::
+    
+        If the latency is less than minimum latency, value is set to minimum latency. If the latency is greater than maximum latency, value is set to maximum latency.
+
     """
 
     code: typing.ClassVar[int] = 1640
@@ -780,11 +763,7 @@ class PED_CONST:
         )  # long, specifies the constant delay/latency time. Unit is nanosecond (must be multiples of 100 ns). Default value: Minimum supported per speed and FEC mode.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the configuration of Constant Delay distribution (DELAY only). Unit is ns (must be
-        multiples of 100ns). Default value: Minimum supported per speed and FEC mode.
-        NOTE: If the latency is less than minimum latency, value is set to minimum
-        latency. If the latency is greater than maximum latency, value is set to maximum
-        latency.
+        """Get the configuration of Constant Delay distribution (DELAY only).
 
         :return: the configuration of Constant Delay distribution (DELAY only)
         :rtype: PED_CONST.GetDataAttr
@@ -792,11 +771,7 @@ class PED_CONST:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
     def set(self, delay: int) -> "Token":
-        """Set the configuration of Constant Delay distribution (DELAY only). Unit is ns (must be
-        multiples of 100ns). Default value: Minimum supported per speed and FEC mode.
-        NOTE: If the latency is less than minimum latency, value is set to minimum
-        latency. If the latency is greater than maximum latency, value is set to maximum
-        latency. 
+        """Set the configuration of Constant Delay distribution (DELAY only).
 
         :param delay: specifies the constant delay/latency time. Unit is nanosecond (must be multiples of 100 ns). Default value: Minimum supported per speed and FEC mode.
         :type delay: int
@@ -808,9 +783,12 @@ class PED_CONST:
 @dataclass
 class PED_ACCBURST:
     """
-    Configuration of Accumulate & Burst distribution (DELAY only). Note: If the
-    delay is less than minimum latency, value is set to minimum latency. If the
-    delay is greater than maximum latency, value is set to maximum latency.
+    Configuration of Accumulate & Burst distribution (DELAY only).
+    
+    .. note:: 
+        
+        If the delay is less than minimum latency, value is set to minimum latency. If the delay is greater than maximum latency, value is set to maximum latency.
+
     """
 
     code: typing.ClassVar[int] = 1641
@@ -835,9 +813,7 @@ class PED_ACCBURST:
         )  # long, specifies the burst delay time. Units = nanosecond (must multiples of 100 ns). Default value: minimum latency.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the configuration of Accumulate & Burst distribution (DELAY only). Note: If the
-        delay is less than minimum latency, value is set to minimum latency. If the
-        delay is greater than maximum latency, value is set to maximum latency.
+        """Get the configuration of Accumulate & Burst distribution (DELAY only).
 
         :return: the configuration of Accumulate & Burst distribution (DELAY only)
         :rtype: PED_ACCBURST.GetDataAttr
@@ -845,9 +821,7 @@ class PED_ACCBURST:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
     def set(self, delay: int) -> "Token":
-        """Set the configuration of Accumulate & Burst distribution (DELAY only). Note: If the
-        delay is less than minimum latency, value is set to minimum latency. If the
-        delay is greater than maximum latency, value is set to maximum latency.
+        """Set the configuration of Accumulate & Burst distribution (DELAY only).
 
         :param delay: specifies the burst delay time. Units = nanosecond (must multiples of 100 ns). Default value: minimum latency.
         :type delay: int
@@ -859,9 +833,12 @@ class PED_ACCBURST:
 @dataclass
 class PED_STEP:
     """
-    Configuration of Step distribution (DELAY only). Note: If the low/high is less
-    than minimum latency, value is set to minimum latency. If the low/high is
-    greater than maximum latency, value is set to maximum latency.
+    Configuration of Step distribution (DELAY only).
+    
+    .. note:: 
+        
+        If the low/high is less than minimum latency, value is set to minimum latency. If the low/high is greater than maximum latency, value is set to maximum latency.
+
     """
 
     code: typing.ClassVar[int] = 1642
@@ -884,9 +861,7 @@ class PED_STEP:
         high: XmpField[XmpLong] = XmpField(XmpLong)  # long, specifies the packet delay in the 'high' state of the step. Units = nanosecond (must be multiples of 100 ns).
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the configuration of Step distribution (DELAY only). Note: If the low/high is less
-        than minimum latency, value is set to minimum latency. If the low/high is
-        greater than maximum latency, value is set to maximum latency.
+        """Get the configuration of Step distribution (DELAY only).
 
         :return: the configuration of Step distribution (DELAY only)
         :rtype: PED_STEP.GetDataAttr
@@ -894,9 +869,7 @@ class PED_STEP:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
     def set(self, low: int, high: int) -> "Token":
-        """Set the configuration of Step distribution (DELAY only). Note: If the low/high is less
-        than minimum latency, value is set to minimum latency. If the low/high is
-        greater than maximum latency, value is set to maximum latency.
+        """Set the configuration of Step distribution (DELAY only). 
 
         :param low: specifies the packet delay in the 'low' state of the step. Units = nanosecond (must be multiples of 100 ns).
         :type low: int
@@ -912,9 +885,12 @@ class PED_STEP:
 @dataclass
 class PED_ENABLE:
     """
-    Control whether impairment is enabled of disabled. Note: This command is not
-    applicable for PE_BANDPOLICER and PE_BANDSHAPER because they have a separate ON
-    / OFF parameter.
+    Control whether impairment is enabled of disabled.
+    
+    .. note:: 
+    
+        This command is not applicable for :class:`~xoa_driver.internals.core.commands.pe_commands.PE_BANDPOLICER` and :class:`~xoa_driver.internals.core.commands.pe_commands.PE_BANDSHAPER` because they have a separate ``ON / OFF`` parameter.
+
     """
 
     code: typing.ClassVar[int] = 1644
@@ -931,9 +907,7 @@ class PED_ENABLE:
         action: XmpField[XmpByte] = XmpField(XmpByte)  # coded byte, speficying whether impairment is enabled.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get whether impairment is enabled of disabled. Note: This command is not
-        applicable for PE_BANDPOLICER and PE_BANDSHAPER because they have a separate ON
-        / OFF parameter.
+        """Get whether impairment is enabled of disabled.
 
         :return: whether impairment is enabled of disabled
         :rtype: PED_ENABLE.GetDataAttr

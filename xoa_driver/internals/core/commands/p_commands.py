@@ -272,8 +272,11 @@ class P_INTERFACE:
 class P_SPEEDSELECTION:
     """
     The speed mode of an autoneg port with an interface type supporting multiple speeds.
-    Note: this is only a settable command when speed is selected at the port
-    level. Use the M_CFPCONFIG command when speed is selected at the module level.
+
+    .. note::
+    
+        This is only a settable command when speed is selected at the port level. Use the :class:`~xoa_driver.internals.core.commands.m_commands.M_CFPCONFIG` command when speed is selected at the module level.
+
     """
 
     code: typing.ClassVar[int] = 109
@@ -949,11 +952,12 @@ class P_TRAFFIC:
     """
     Whether a port is transmitting packets. When on, the port generates a sequence
     of packets with contributions from each stream that is enabled. The streams are
-    configured using the PS_xxx parameters. NOTE: From Release 57.1, if any of the
-    specified packet sizes cannot fit into the packet generator, this command will
-    return FAILED and not start the traffic. While traffic is on the streams for
-    this port cannot be enabled or disabled, and the configuration of those streams
-    that are enabled cannot be changed.
+    configured using the PS_xxx parameters.
+    
+    .. note::
+    
+        From Release 57.1, if any of the specified packet sizes cannot fit into the packet generator, this command will return FAILED and not start the traffic. While traffic is on the streams for this port cannot be enabled or disabled, and the configuration of those streams that are enabled cannot be changed.
+
     """
 
     code: typing.ClassVar[int] = 124
@@ -1335,8 +1339,12 @@ class P_MIXWEIGHTS:
     the percentage values specified must be 100. The command will affect the mix-
     distribution for all streams on the port. The possible 16 frame sizes are: 56
     (not valid for 40G/100G), 60, 64, 70, 78, 92, 256, 496, 512, 570, 576, 594,
-    1438, 1518, 9216, and 16360. Note: This command requires Xena server version 375
-    or higher.
+    1438, 1518, 9216, and 16360.
+    
+    .. note::
+    
+        This command requires Xena server version 375 or higher.
+
     """
 
     code: typing.ClassVar[int] = 192
@@ -1389,8 +1397,7 @@ class P_MIXWEIGHTS:
         16 possible frame sizes used in the MIX. The sum of the percentage values specified must 
         be 100. The command will affect the mix-distribution for all streams on the port. 
         The possible 16 frame sizes are: 56 (not valid for 40G and above), 60, 64, 70, 78, 92, 
-        256, 496, 512, 570, 576, 594, 1438, 1518, 9216, and 16360. 
-        Note: This command requires Xena server version 375 or higher.
+        256, 496, 512, 570, 576, 594, 1438, 1518, 9216, and 16360.
 
         :return: the percentage of each of the 16 possible frame sizes used in the MIX. 
         :rtype: P_MIXWEIGHTS.GetDataAttr
@@ -1420,8 +1427,7 @@ class P_MIXWEIGHTS:
         16 possible frame sizes used in the MIX. The sum of the percentage values specified must 
         be 100. The command will affect the mix-distribution for all streams on the port. 
         The possible 16 frame sizes are: 56 (not valid for 40G and above), 60, 64, 70, 78, 92, 
-        256, 496, 512, 570, 576, 594, 1438, 1518, 9216, and 16360. 
-        Note: This command requires Xena server version 375 or higher.
+        256, 496, 512, 570, 576, 594, 1438, 1518, 9216, and 16360.
 
         :param weight_56_bytes: specifying the percentage of 56-byte frame sizes
         :type weight_56_bytes: int
@@ -1737,7 +1743,12 @@ class P_MIXLENGTH:
     addition to inspecting these sizes one by one, it also allows changing frame
     size for positions 0, 1, 14 and 15 (default values 56, 60, 9216 and 16360).
     Supported by the following modules: Thor-400G-7S-1P, Thor-100G-5S-4P and
-    Loki-100G-5S-2P. Note: This command requires release 84 or higher.
+    Loki-100G-5S-2P.
+    
+    .. note::
+    
+        This command requires release 84 or higher.
+
     """
 
     code: typing.ClassVar[int] = 305
@@ -2763,8 +2774,12 @@ class P_PINGV6REPLY:
 class P_ERRORS:
     """
     Obtains the total number of errors detected across all streams on the port,
-    including lost packets, misorder events, and payload errors. Note: FCS errors
-    are included, which will typically lead to double-counting of lost packets.
+    including lost packets, misorder events, and payload errors.
+    
+    .. note::
+    
+        FCS errors are included, which will typically lead to double-counting of lost packets.
+
     """
 
     code: typing.ClassVar[int] = 335
@@ -2824,9 +2839,12 @@ class P_TXDELAY:
     """
     Sets a variable delay from a traffic start command received by the port until
     it starts transmitting. The delay is specified in multiples of 64 microseconds.
-    Valid values are 0-31250 (0 to 2.000.000 microseconds). NB: You must use
-    C_TRAFFIC instead of P_TRAFFIC to start traffic for P_TXDELAY to have this
-    effect.
+    Valid values are 0-31250 (0 to 2.000.000 microseconds).
+    
+    .. note:: 
+    
+        You must use :class:`~xoa_driver.internals.core.commands.c_commands.C_TRAFFIC` instead of :class:`~xoa_driver.internals.core.commands.p_commands.P_TRAFFIC` to start traffic for :class:`~xoa_driver.internals.core.commands.p_commands.P_TXDELAY` to have this effect.
+
     """
 
     code: typing.ClassVar[int] = 337
@@ -2846,7 +2864,6 @@ class P_TXDELAY:
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the delay from a traffic start command received by the port until the port starts transmitting packets, in microseconds.
-            The delay is specified in multiples of 64 microseconds.
 
         :return: the delay from a traffic start command received by the port until the port starts transmitting packets, in microseconds.
         :rtype: P_TXDELAY.GetDataAttr
@@ -2855,8 +2872,6 @@ class P_TXDELAY:
 
     def set(self, delay_val: int) -> "Token":
         """Set the delay from a traffic start command received by the port until the port starts transmitting packets, in microseconds.
-            The delay is specified in multiples of 64 microseconds. Valid values are 0-31250 (0 to 2.000.000 microseconds). 
-            NB: You must use C_TRAFFIC instead of P_TRAFFIC to start traffic for P_TXDELAY to have this effect. 
 
         :param delay_val: the delay specified in multiples of 64 microseconds.
         :type delay_val: int
@@ -3169,8 +3184,12 @@ class P_FAULTSIGNALING:
 class P_FAULTSTATUS:
     """
     Shows if a local or remote fault is currently being detected by the
-    Reconciliation Sub-layer of the port. Note: Currently only available on
-    M1CFP100, M2CFP40, M2QSFP+ and M1CFP4QSFP28CXP.
+    Reconciliation Sub-layer of the port.
+    
+    .. note::
+    
+        Currently only available on M1CFP100, M2CFP40, M2QSFP+ and M1CFP4QSFP28CXP.
+
     """
 
     code: typing.ClassVar[int] = 349
@@ -3772,8 +3791,12 @@ class P_SPEEDS_SUPPORTED:
     """
     Read the speeds supported by the port. The speeds supported by a port depends on
     the transceiver inserted into the port. A series of 0/1 values, identifying
-    which speeds are supported by the port. Note: Ports can support zero (in case of
-    e.g. empty cage), one, or multiple speeds.
+    which speeds are supported by the port. 
+    
+    .. note::
+    
+        Ports can support zero (in case of e.g. empty cage), one, or multiple speeds.
+        
     """
 
     code: typing.ClassVar[int] = 396

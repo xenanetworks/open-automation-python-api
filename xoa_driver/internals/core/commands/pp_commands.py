@@ -465,8 +465,11 @@ class PP_LINKFLAP_ENABLE:
 @dataclass
 class PP_PMAERRPUL_PARAMS:
     """
-    The 'PMA pulse error inject'. Note: Period must be > duration. BER will be:
-    coeff * 10exp
+    The 'PMA pulse error inject'.
+    
+    .. note::
+    
+        Period must be > duration. BER will be: coeff * 10exp
     """
 
     code: typing.ClassVar[int] = 289
