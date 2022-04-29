@@ -20,7 +20,9 @@ from xoa_driver.internals.core.commands import (
 )
 
 class TesterSession:
-    """Establishing communication session through connection with ester unit."""
+    """
+    Establishing communication session through connection with ester unit.
+    """
     
     __slots__ = ("_conn", "owner_name", "pwd", "timeout", "keepalive")
     
@@ -56,16 +58,22 @@ class TesterSession:
 
     @property
     def is_online(self) -> bool:
-        """Check if connection is still active"""
+        """
+        Check if connection is still active.
+        """
         return self._conn.is_connected
 
     async def logoff(self) -> None:
-        """Gracefull logoff from the tester"""
+        """
+        Gracefull logoff from the tester.
+        """
         await C_LOGOFF(self._conn).set()
         self._conn.close()
 
     async def sessions_info(self) -> Tuple[C_STATSESSION.GetDataAttr, ...]:
-        """Return information about all active sessions on the tester"""
+        """
+        Return information about all active sessions on the tester.
+        """
         sessions = await C_INDICES(self._conn).get()
         session_ids = sessions.session_ids
         query_sessions = [
