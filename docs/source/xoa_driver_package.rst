@@ -6,13 +6,18 @@ API Documentation
 
 This section includes the Python module references of both XOA :ref:`HL-PYTHON <hl_api>` and :ref:`LL-PYTHON <ll_api>`.
 
-High-Level Python Modules
+High-Level Python APIs
 -----------------------------
+
+.. important::
+
+   High-level API for L23 TSN will be included in a future release.
+
 
 Module ``xoa_driver.testers``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This module contains the all the available *tester types* supported by XOA Python API.
+This module contains all the available *tester types* supported by XOA Python API.
 
 .. automodule:: xoa_driver.testers
    :members:
@@ -22,7 +27,7 @@ This module contains the all the available *tester types* supported by XOA Pytho
 Module ``xoa_driver.modules``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This module contains the all the available *test module types* supported by XOA Python API.
+This module contains all the available *test module types* supported by XOA Python API.
 
 .. automodule:: xoa_driver.modules
    :members:
@@ -32,11 +37,12 @@ This module contains the all the available *test module types* supported by XOA 
 Module ``xoa_driver.ports``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This module contains the all the available *test port types* supported by XOA Python API.
+This module contains all the available *test port types* supported by XOA Python API.
 
 .. automodule:: xoa_driver.ports
    :members:
    :inherited-members:
+   :no-undoc-members:
 
 
 Module ``xoa_driver.utils``
@@ -66,7 +72,7 @@ This module contains all exception classes that can be propagated to the upper l
    :members:
 
 
-Low-Level Python Modules
+Low-Level Python APIs
 -----------------------------
 
 L23 - Basic
@@ -328,6 +334,57 @@ This module contains the **L23 port transceiver commands** that deal with access
    :exclude-members: GetDataAttr, SetDataAttr
 
 
+Impairment
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. note::
+
+   This section is under construction, and will be completed in the next release.
+
+Module ``xoa_driver.lli.commands.pe_commands``
+""""""""""""""""""""""""""""""""""""""""""""""""
+
+This module contains the **impairment port flow commands**.
+
+.. automodule:: xoa_driver.internals.core.commands.pe_commands
+   :members:
+   :no-undoc-members:
+   :exclude-members: GetDataAttr, SetDataAttr
+
+
+Module ``xoa_driver.lli.commands.pec_commands``
+""""""""""""""""""""""""""""""""""""""""""""""""
+
+This module contains the **impairment port custome distribution commands**.
+
+.. automodule:: xoa_driver.internals.core.commands.pec_commands
+   :members:
+   :no-undoc-members:
+   :exclude-members: GetDataAttr, SetDataAttr
+
+
+Module ``xoa_driver.lli.commands.ped_commands``
+""""""""""""""""""""""""""""""""""""""""""""""""
+
+This module contains the **impairment port distribution commands**.
+
+.. automodule:: xoa_driver.internals.core.commands.ped_commands
+   :members:
+   :no-undoc-members:
+   :exclude-members: GetDataAttr, SetDataAttr
+
+
+Module ``xoa_driver.lli.commands.pef_commands``
+""""""""""""""""""""""""""""""""""""""""""""""""
+
+This module contains the **impairment port flow filter commands**.
+
+.. automodule:: xoa_driver.internals.core.commands.pef_commands
+   :members:
+   :no-undoc-members:
+   :exclude-members: GetDataAttr, SetDataAttr
+
+
 Supporting Classes
 """"""""""""""""""""""""""""""""""""
 
@@ -398,6 +455,26 @@ Module ``xoa_driver.lli.commands.p4_commands``
 
 This module contains the **L47 port commands**.
 
+The Xena L47 test execution engine has seven states: ``off``, ``prepare``, ``prepare_rdy``, ``prerun``, ``prerun_rdy``, ``running`` and ``stopped``. Traffic is generated in the ``prerun`` and running states only, and configuration of parameters is only valid in state ``off`` except for a few runtime options. Port traffic commands can be given with :class:`~xoa_driver.internals.core.commands.p4_commands.P4_TRAFFIC` and port state queried by :class:`~xoa_driver.internals.core.commands.p4_commands.P4_STATE`.
+
+* ``off`` - default state. Entered from stopped or prepare on ``OFF`` command. This is the only state that allows configuration commands. :class:`~xoa_driver.internals.core.commands.p4_commands.P4_RESET` is also considered a configuration command. Upon entering off state, some internal ''house cleaning''' is done. For example: freeing TCP Connections, clearing test specific counters etc.
+
+* ``prepare`` - this state is entered from state off on ``PREPARE`` command. Here internal data structures relevant for the test configuration are created.
+
+* ``prepare_rdy`` - entered automatically after activities in prepare have completed successfully.
+
+* ``prepare_fail`` - entered automatically from prepare, if an error occurs. An error could for example be failure to load a configured replay file.
+
+* ``prerun`` - entered from ``prepare_ready`` on ``PRERUN`` command. If enabled, this is where ARP and NDP requests are sent.
+
+* ``prerun_rdy`` - entered automatically after activities in prerun have completed.
+
+* ``running`` - entered either from ``prepare_ready`` or ``prerun_ready`` on ``ON`` command. This is where TCP connections are established, payload is generated and connections are closed again.
+
+* ``stopping`` - entered from ``running``, ``prerun_ready`` or ``prerun`` on ``STOP`` command. Stops Rx/Tx traffic. In the ``stopping`` state, post-test data are calculated and captured packets are saved to files.
+
+* ``stopped`` - entered automatically after activities in ``stopping`` are complete. This is where you can read post-test statistics and extract captured packets.
+
 .. automodule:: xoa_driver.internals.core.commands.p4_commands
    :members:
    :no-undoc-members:
@@ -420,60 +497,35 @@ Module ``xoa_driver.lli.commands.p4g_commands``
 
 This module contains the **L47 connection group commands** that deal with configuration of TCP connections and are specific to L47. The commands have the form ``P4G_<xxx>`` and require a module index id and a port index id, and a connection group index id.
 
+A Connection Group (CG) is the basic building block when creating L47 traffic. A CG consists of a number of TCP connections - between one and millions. A CG has a role, which is either client or server. In order to create TCP connections between two ports on a L47 chassis, two matching CGs must be configured - one on each port - one configured as client and the other configured as server.
+
+The number of connections in a CG, is defined by the server range and the client range. A server/client range is a number of TCP connection endpoints defined by a number of IP addresses and a number of TCP ports. A server/client range is configured by specifying a start IP address, a number of IP addresses, a start TCP port and a number of TCP addresses. The number of clients is the number of client IP addresses times the number of client TCP ports, and the same goes for the number of servers. The number of TCP connections in a CG is the number of clients times the number of servers, that is TCP connections are created from all clients in the CG to all servers in the CG.
+
+.. note::
+
+   Connection Group index must start from 0.
+
+.. note::
+
+   When configuring a CG, both client AND server range must be configured on both CGs - that is, the server CG must also know the client range and vice versa.
+
+The Connection Group must be configured with a Load Profile, which is an envelope over the TCP connection's lifetime. A connection in the connection group goes through three phases. The Load Profile defines a start time and a duration of each of these phases. During the ramp-up phase connections are established at a rate defined by the number of connections divided by the ramp-up duration. During the steady-state phase connections may transmit and receive payload data, depending on the configuration of test application and test scenario for the CG. During the ramp-down phase connections are closed at a rate defined by the number of connections divided by the ramp-up duration, if they were not already closed as a result of the traffic scenario configured.
+
+.. note::
+   
+   Just like client and server range, both the client and server CG must be configured with the Load Profile.
+
+Next the CG must be configured with a test application, which defines what kind of traffic is transported in the TCP payload. Currently there are two kinds of test applications:
+
+* ``NONE``, which means that no payload is sent on the TCP connections. This test application is suitable for a test, where the only purpose is to measure TCP connection open and close rates.
+
+* ``RAW``, which means that the TCP connections transmit and receive user defined raw data. The contents of the raw TCP payload can be configured using the :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_RAW_PAYLOAD` command. Raw TCP payload can also be specified  as random and incrementing data.
+
+Using test application ``RAW``, the CG must also be configured with a test scenario, which defines the data flow between the TCP client and server. Currently the following test scenarios can be configured: ``download``, ``upload``, and ``both``.
+
+By combining several Connection Groups on a port, it is possible to create more complex traffic scenarios and more complex Load Profile shapes than the individual Connection Group allows.
 
 .. automodule:: xoa_driver.internals.core.commands.p4g_commands
    :members:
    :no-undoc-members:
    :exclude-members: GetDataAttr, SetDataAttr
-
-
-Impairment (under construction)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. note::
-
-   This section is under construction, and will be completed in the next release.
-
-Module ``xoa_driver.lli.commands.pe_commands``
-""""""""""""""""""""""""""""""""""""""""""""""""
-
-This module contains the **impairment port flow commands**.
-
-.. automodule:: xoa_driver.internals.core.commands.pe_commands
-   :members:
-   :no-undoc-members:
-   :exclude-members: GetDataAttr, SetDataAttr
-
-
-Module ``xoa_driver.lli.commands.pec_commands``
-""""""""""""""""""""""""""""""""""""""""""""""""
-
-This module contains the **impairment port custome distribution commands**.
-
-.. automodule:: xoa_driver.internals.core.commands.pec_commands
-   :members:
-   :no-undoc-members:
-   :exclude-members: GetDataAttr, SetDataAttr
-
-
-Module ``xoa_driver.lli.commands.ped_commands``
-""""""""""""""""""""""""""""""""""""""""""""""""
-
-This module contains the **impairment port distribution commands**.
-
-.. automodule:: xoa_driver.internals.core.commands.ped_commands
-   :members:
-   :no-undoc-members:
-   :exclude-members: GetDataAttr, SetDataAttr
-
-
-Module ``xoa_driver.lli.commands.pef_commands``
-""""""""""""""""""""""""""""""""""""""""""""""""
-
-This module contains the **impairment port flow filter commands**.
-
-.. automodule:: xoa_driver.internals.core.commands.pef_commands
-   :members:
-   :no-undoc-members:
-   :exclude-members: GetDataAttr, SetDataAttr
-

@@ -1315,32 +1315,51 @@ class TrafficError(IntEnum):
 
 #: L47 Enums
 class Role(IntEnum):
+    """L47 port role"""
     CLIENT = 0
+    """Client"""
     SERVER = 1
+    """Server"""
 
 
 class Timescale(IntEnum):
+    """Time scale"""
     MSECS = 0
+    """Milliseconds"""
     SECONDS = 1
+    """Seconds"""
     MINUTES = 2
+    """Minutes"""
     HOURS = 3
+    """Hours"""
 
 
 class MSSType(IntEnum):
+    """TCP Maximum Segment Type"""
     FIXED = 0
+    """Fixed"""
     INCREMENT = 1
+    """Incrementing"""
     RANDOM = 2
+    """Pseudorandom"""
 
 
 class RTOType(IntEnum):
+    """TCP RTO Type"""
     STATIC = 0
+    """Statis"""
     DYNAMIC = 1
+    """Dynamic"""
 
 
 class CongestionType(IntEnum):
+    """TCP Congestion Control Algorithm"""
     NONE = 0
+    """No TCP Congestion Control"""
     RENO = 1
+    """RENO"""
     NEW_RENO = 2
+    """New RENO"""
 
 
 class IsEnabled(IntEnum):
@@ -1349,9 +1368,13 @@ class IsEnabled(IntEnum):
 
 
 class AlgorithmMethod(IntEnum):
+    """Algorithm to calculate the TCP initial congestion window (ICWND)"""
     RFC5681 = 0
+    """RFC 5681"""
     RFC2581 = 1
+    """RFC 2581"""
     FIXED_FACTOR = 2
+    """Fixed"""
 
 
 class AutoOrManual(IntEnum):
@@ -1360,28 +1383,45 @@ class AutoOrManual(IntEnum):
 
 
 class EmbedIP(IntEnum):
+    """Should Embed IP in MAC"""
     DONT_EMBED_IP = 0
+    """Do not embed"""
     EMBED_IP = 1
+    """Embed IP in MAC"""
 
 
 class ApplicationLayerBehavior(IntEnum):
+    """L47 Test Application Type"""
     NONE = 0
+    """TCP connections are created according to the client and server ranges, and ramped up/down as specified in the load profile. But no payload is transmitted."""
     RAW = 1
+    """Differs from ``NONE`` in that it transmits payload when the TCP connection is established."""
     REPLAY = 2
+    """PCAP replay."""
 
 
 class TrafficScenario(IntEnum):
+    """Traffic direction scenario"""
     DOWNLOAD = 0
+    """Server transmits payload to client."""
     UPLOAD = 1
+    """Client transmits payload to server."""
     BOTH = 2
+    """Payload is transmitted in both directions."""
     ECHO = 3
+    """Client transmits payload to server, server echoes the payload back"""
 
 
 class PayloadGenerationMethod(IntEnum):
+    """Payload generation method."""
     FIXED = 0
+    """Payload has a fixed value."""
     INCREMENT = 1
+    """Payload consist of incrementing bytes."""
     RANDOM = 2
+    """Payload consists of pseudo random bytes with a repeat cycle of 1 MB."""
     LONGRANDOM = 3
+    """Payload consists of pseudo random bytes with a repeat cycle of 4 GB."""
 
 
 class InfiniteOrFinite(IntEnum):
@@ -1390,63 +1430,107 @@ class InfiniteOrFinite(IntEnum):
 
 
 class WhoClose(IntEnum):
+    """How to close TCP connection when all payload has been transmitted."""
     NONE = 0
+    """Keep the connection open after last byte is transmitted"""
     CLIENT = 1
+    """Client closes the connection after last byte is receiver/transmitted"""
     SERVER = 2
+    """Server closes the connection after last byte is transmitted"""
 
 
 class LifecycleMode(IntEnum):
+    """Connection lifecyle mode"""
     ONCE = 0
+    """Connections are established during the ramp-up phase and not closed until the ramp-down phase of the load profile. That is, each configured connection only exists once."""
     IMMORTAL = 1
+    """Connections are established during the ramp-up phase of the load profile, and are closed after the configured lifetime (configured by  P4G_RAW_CONN_LIFETIME). As connections close, new connections are established, attempting to keep the concurrent number of established connections constant. A new connection will have the same IP address as the connection it replaces, but will have a new TCP port number. This will simulate that the user (defined by the client IP address) is living on, and creates new connections as old connections close."""
     REINCARNATE = 2
+    """Connections are established during the ramp-up phase of the load profile, and are closed after the configured lifetime (configured by  P4G_RAW_CONN_LIFETIME). As connections close, new connections are established, attempting to keep the concurrent number of established connections constant. A new connection will have the same TCP port number as the connection it replaces, but will have a new IP address. This will simulate that the user (defined by the client IP address) ceases to exist, and new users appear as old users die."""
 
 
 class L47IPVersion(IntEnum):
+    """IP version of the Connection Group"""
     IPV4 = 4
+    """IPv4"""
     IPV6 = 6
+    """IPv6"""
 
 
 class L47ProtocolType(IntEnum):
+    """L4 protocol of the Connection Group"""
     TCP = 0
+    """TCP"""
     UDP = 1
+    """UDP"""
 
 
 class L47TrafficState(IntEnum):
+    """L47 traffic state"""
     OFF = 0
+    """Off"""
     ON = 1
+    """On"""
     STOP = 2
+    """Stop"""
     PREPARE = 3
+    """Prepare"""
     PRERUN = 4
+    """Prerun"""
 
 
 class L47PortState(IntEnum):
+    """L47 port state"""
     OFF = 0
+    """Off"""
     PREPARE = 1
+    """Prepare"""
     PREPARE_RDY = 2
+    """Prepare Ready"""
     PREPARE_FAIL = 3
+    """Prepare Failed"""
     PRERUN = 4
+    """Prerun"""
     PRERUN_RDY = 5
+    """Prepare Ready"""
     RUNNING = 6
+    """Running"""
     STOPPING = 7
+    """Stopping"""
     STOPPED = 8
+    """Stopped"""
 
 
 class L47PortSpeed(IntEnum):
+    """L47 port speed mode"""
     AUTO = 0
+    """Auto"""
     F100M = 1
+    """100 Mbit/s"""
     F1G = 2
+    """1 Gbit/s"""
     F2_5G = 3
+    """2.5 Gbit/s"""
     F5G = 4
+    """5 Gbit/s"""
     F10G = 5
+    """10 Gbit/s"""
     F25G = 6
+    """25 Gbit/s"""
     F40G = 7
+    """40 Gbit/s"""
     F50G = 8
+    """50 Gbit/s"""
     F100G = 9
+    """100 Gbit/s"""
 
 
 class CaptureSize(IntEnum):
+    """Capture size"""
     FULL = 0
+    """Capture whole packets"""
     SMALL = 1
+    """Capture truncated packets"""
 
 
 class ReplayParserState(IntEnum):
@@ -1472,10 +1556,15 @@ class LicenseSpeed(IntEnum):
 
 
 class TLSVersion(IntEnum):
+    """TLS protocol version"""
     SSLV3 = 0
+    """SSL v3"""
     TLS10 = 1
+    """TLS v1.0"""
     TLS11 = 2
+    """TLS v1.1"""
     TLS12 = 3
+    """TLS v1.2"""
 
 
 class ResourceAllocationMode(IntEnum):
@@ -1624,13 +1713,19 @@ class ImpairmentTypeIndex(IntEnum):
 
 #: TSN Enums
 class TSNConfigProfile(IntEnum):
+    """TSN PTP Configuration profile"""
     AUTOMOTIVE = 0
+    """Defaults suitable for automotive testing"""
     IEEE1588V2 = 1
+    """Defaults suitable for PTP  testing"""
 
 
 class TSNPortRole(IntEnum):
+    """TSN port role"""
     GRANDMASTER = 0
+    """Grandmaster role"""
     SLAVE = 1
+    """Slave role"""
 
 
 class TSNDeviationMode(IntEnum):
@@ -1638,26 +1733,46 @@ class TSNDeviationMode(IntEnum):
 
 
 class TSNTimeSource(IntEnum):
+    """TSN time source"""
     ATOMIC = 0x10
+    """Atomic"""
     GPS = 0x20
+    """GPS"""
     TERRESTRIAL = 0x30
+    """Terrestrial"""
     PTP = 0x40
+    """PTP"""
     NTP = 0x50
+    """NTP"""
     HAND_SET = 0x60
+    """Handset"""
     OTHER = 0x90
+    """Other"""
     INTERNAL_OSC = 0xA0
+    """Internal oscillator"""
 
 
-class TSNSource(IntEnum):
+class TSNHistogramSource(IntEnum):
+    """Data source for TSN histogram"""
     DRIFT = 0
+    """Post-servo offset to Grandmaster"""
     DRIFTPRE = 1
+    """Pre-servo offset to Grandmaster"""
     PDELAY = 2
+    """PDelay data."""
     NRR = 3
+    """Neighbor Rate Ratio data."""
 
 
-class TSNClearStatistics(IntEnum):
+class TSNStatisticsTypes(IntEnum):
+    """TSN Statistics Types"""
     ALL = 0
+    """All."""
     PACKETCOUNT = 1
+    """Packet count."""
     OFFSET = 2
+    """Offset."""
     PDELAY = 3
+    """PDelay."""
     SYNCRATE = 4
+    """Sync rate."""

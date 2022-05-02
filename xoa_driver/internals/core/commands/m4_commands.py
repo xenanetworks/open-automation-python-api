@@ -20,7 +20,7 @@ from .enums import *
 @dataclass
 class M4_SYSTEMID:
     """
-    Return the system identifier of a L47 module
+    Return the system identifier of a L47 module.
     """
 
     code: typing.ClassVar[int] = 803
@@ -34,6 +34,11 @@ class M4_SYSTEMID:
         system_id: XmpField[XmpStr] = XmpField(XmpStr)  # string, module system identifier.
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get the system identifier of a L47 module.
+
+        :return: the system identifier of a L47 module.
+        :rtype: M4_SYSTEMID.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -57,6 +62,11 @@ class M4_VERSIONNO:
         version_string: XmpField[XmpStr] = XmpField(XmpStr)  # string, module version string.
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get a version string containing a combination of information regarding the software version and the build environment.
+
+        :return: a version string containing a combination of information regarding the software version and the build environment
+        :rtype: M4_VERSIONNO.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -78,6 +88,11 @@ class M4_SYSTEM_STATUS:
         status_string: XmpField[XmpStr] = XmpField(XmpStr)  # string, module status string.
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get the L47 module system status in a text string
+
+        :return: the L47 module system status in a text string
+        :rtype: M4_SYSTEM_STATUS.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -106,6 +121,11 @@ class M4_COMPATIBLE_CLIENT_VERSION:
         required_minor_3: XmpField[XmpInt] = XmpField(XmpInt)  # string, required minor 3 version.
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get the recommended and required VulcanMananger client version.
+
+        :return: the recommended and required VulcanMananger client version.
+        :rtype: M4_COMPATIBLE_CLIENT_VERSION.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -127,6 +147,11 @@ class M4_TIME:
         time_now: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get the module time in millisecond.
+
+        :return: the module time in millisecond.
+        :rtype: M4_TIME.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -162,9 +187,29 @@ class M4_SYSTEM_TIME:
         second: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the second.
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get the modules system time in UTC.
+
+        :return: the modules system time in UTC.
+        :rtype: M4_SYSTEM_TIME.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module))
 
     def set(self, year: int, month: int, day: int, hour: int, minute: int, second: int) -> "Token":
+        """Set the modules system time in UTC.
+
+        :param year: the year
+        :type year: int
+        :param month: the month
+        :type month: int
+        :param day: the day of the month
+        :type day: int
+        :param hour: the hour
+        :type hour: int
+        :param minute: the minute
+        :type minute: int
+        :param second: the second
+        :type second: int
+        """
         return Token(self._connection, build_set_request(self, module=self._module, year=year, month=month, day=day, hour=hour, minute=minute, second=second))
 
 
@@ -172,7 +217,7 @@ class M4_SYSTEM_TIME:
 @dataclass
 class M4_MEM_INFO:
     """
-    Return the system memory inforamtion.
+    Return the system memory information.
     """
 
     code: typing.ClassVar[int] = 809
@@ -187,6 +232,11 @@ class M4_MEM_INFO:
         month: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, free memory.
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get the system memory information.
+
+        :return: the system memory information.
+        :rtype: M4_MEM_INFO.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -213,20 +263,32 @@ class M4_CAPTURE_SIZE:
         size: XmpField[XmpByte] = XmpField(XmpByte, choices=CaptureSize)  # coded byte, specifying whether to capture whole packets or truncated packets.
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get whether to capture whole packets(large) or truncated packets.
+
+        :return: whether to capture whole packets(large) or truncated packets.
+        :rtype: M4_CAPTURE_SIZE.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module))
 
     def set(self, size: CaptureSize) -> "Token":
+        """Set whether to capture whole packets(large) or truncated packets.
+
+        :param size: specifying whether to capture whole packets or truncated packets.
+        :type size: CaptureSize
+        """
         return Token(self._connection, build_set_request(self, module=self._module, size=size))
 
     set_full = functools.partialmethod(set, CaptureSize.FULL)
+    """Capture whole packets"""
     set_small = functools.partialmethod(set, CaptureSize.SMALL)
+    """Capture truncated packets"""
 
 
 @register_command
 @dataclass
 class M4_LICENSE_INFO:
     """
-    Returns number of available and free PE licenses. Only 'available' number of PEs
+    Returns the number of available and free PE licenses. Only 'available' number of PEs
     can simultaneously be assigned to reserved ports.
     """
 
@@ -260,6 +322,11 @@ class M4_LICENSE_INFO:
         )  # integer, number of free 40G speed licenses on the module 1G available: integer, number of 1G licenses on the module, that can be used simultaneously.
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get the number of available and free PE licenses.
+
+        :return: the number of available and free PE licenses
+        :rtype: M4_LICENSE_INFO.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -293,6 +360,11 @@ class M4_REPLAY_PARSE_START:
         filename: XmpField[XmpStr] = XmpField(XmpStr)  # string, filename (including relative path and excluding the '.pcap' extension).
 
     def set(self, filename: str) -> "Token":
+        """Start parsing an uploaded Capture File
+
+        :param filename: filename (including relative path and excluding the '.pcap' extension).
+        :type filename: str
+        """
         return Token(self._connection, build_set_request(self, module=self._module, filename=filename))
 
 
@@ -315,6 +387,8 @@ class M4_REPLAY_PARSE_STOP:
         pass
 
     def set(self) -> "Token":
+        """Stop parsing a Capture File.
+        """
         return Token(
             self._connection,
             build_set_request(
@@ -344,6 +418,11 @@ class M4_REPLAY_PARSE_STATE:
         state: XmpField[XmpByte] = XmpField(XmpByte, choices=ReplayParserState)  # coded byte, state of the replay parser
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get capture file parsing state.
+
+        :return: capture file parsing state
+        :rtype: M4_REPLAY_PARSE_STATE.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -369,9 +448,19 @@ class M4_REPLAY_PARSER_PARAMS:
         tcp_port: XmpField[XmpInt] = XmpField(XmpInt)  # integer, server TCP Port of dummy TCP connection inserted in UDP only replay files
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get the configuration of parameters for the parsing of pcap files.
+
+        :return: the configuration of parameters for the parsing of pcap files
+        :rtype: M4_REPLAY_PARSER_PARAMS.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module))
 
     def set(self, tcp_port: int) -> "Token":
+        """Set the configuration of parameters for the parsing of pcap files.
+
+        :param tcp_port: server-side TCP port of the dummy TCP connection inserted in UDP.
+        :type tcp_port: int
+        """
         return Token(self._connection, build_set_request(self, module=self._module, tcp_port=tcp_port))
 
 
@@ -379,7 +468,7 @@ class M4_REPLAY_PARSER_PARAMS:
 @dataclass
 class M4_REPLAY_FILE_LIST_BSON:
     """
-    Works as M4_REPLAY_FILE_LIST, but returns the file list formatted as a BSON
+    Works as ``M4_REPLAY_FILE_LIST``, but returns the file list formatted as a BSON
     document.
     """
 
@@ -394,6 +483,11 @@ class M4_REPLAY_FILE_LIST_BSON:
         bson: XmpField[XmpByteList] = XmpField(XmpByteList)  # list of hex bytes, bson document containing the file list
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get the replay file list in BSON document format.
+
+        :return: the replay file list in BSON format
+        :rtype: M4_REPLAY_FILE_LIST_BSON.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -401,8 +495,8 @@ class M4_REPLAY_FILE_LIST_BSON:
 @dataclass
 class M4_REPLAY_FILE_LIST:
     """
-    Returns a list of Replay Files ('.bson' files) in the 'user' Replay File
-    directory (/var/ftp/pub/replay/bson/user/).
+    Returns a list of Replay Files (``.bson`` files) in the 'user' Replay File
+    directory (``/var/ftp/pub/replay/bson/user/``).
     """
 
     code: typing.ClassVar[int] = 841
@@ -416,6 +510,11 @@ class M4_REPLAY_FILE_LIST:
         file_list: XmpField[XmpStr] = XmpField(XmpStr)  # string, comma separated list of filenames excluding the '.bson' extension.
 
     def get(self) -> "Token[GetDataAttr]":
+        """Generate a list of Replay Files in BSON document on the tester.
+
+        :return: a list of Replay Files in BSON document on the tester
+        :rtype: M4_REPLAY_FILE_LIST.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -423,7 +522,7 @@ class M4_REPLAY_FILE_LIST:
 @dataclass
 class M4_CAPTURE_FILE_LIST_BSON:
     """
-    Works as M4_CAPTURE_FILE_LIST, but returns the file list formatted as a BSON
+    Works as ``M4_CAPTURE_FILE_LIST``, but returns the file list formatted as a BSON
     document.
     """
 
@@ -438,6 +537,11 @@ class M4_CAPTURE_FILE_LIST_BSON:
         bson: XmpField[XmpByteList] = XmpField(XmpByteList)  # list of hex bytes, bson document containing the file list
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get the capture file list in BSON document.
+
+        :return: the capture file list in BSON document
+        :rtype: M4_CAPTURE_FILE_LIST_BSON.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -445,8 +549,8 @@ class M4_CAPTURE_FILE_LIST_BSON:
 @dataclass
 class M4_CAPTURE_FILE_LIST:
     """
-    Returns a list of Capture Files ('.pcap' files) in the 'user' Capture File
-    directory (/var/ftp/pub/replay/pcap/user/).
+    Returns a list of Capture Files (``.pcap`` files) in the 'user' Capture File
+    directory (``/var/ftp/pub/replay/pcap/user/``).
     """
 
     code: typing.ClassVar[int] = 843
@@ -460,6 +564,11 @@ class M4_CAPTURE_FILE_LIST:
         file_list: XmpField[XmpStr] = XmpField(XmpStr)  # string, comma separated list of filenames excluding the '.pcap' extension.
 
     def get(self) -> "Token[GetDataAttr]":
+        """Generate a list of Capture Files in BSON document on the tester.
+
+        :return: list of Capture Files in BSON document on the tester
+        :rtype: M4_CAPTURE_FILE_LIST.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -467,8 +576,8 @@ class M4_CAPTURE_FILE_LIST:
 @dataclass
 class M4_REPLAY_FILE_DELETE:
     """
-    Command to delete a Replay File ('.bson' file) in the Replay File directory
-    (/var/ftp/pub/replay/bson/). For information about the location and directory
+    Command to delete a Replay File (``.bson`` file) in the Replay File directory
+    (``/var/ftp/pub/replay/bson/``). For information about the location and directory
     structure for the Replay Files, see: M4_REPLAY_PARSE_START
     """
 
@@ -483,6 +592,11 @@ class M4_REPLAY_FILE_DELETE:
         filename: XmpField[XmpStr] = XmpField(XmpStr)  # string, file name (including relative path and excluding the '.bson' extension).
 
     def set(self, filename: str) -> "Token":
+        """Delete a Replay File in the Replay File directory.
+
+        :param filename: file name (including relative path and excluding the ``.bson`` extension).
+        :type filename: str
+        """
         return Token(self._connection, build_set_request(self, module=self._module, filename=filename))
 
 
@@ -490,8 +604,8 @@ class M4_REPLAY_FILE_DELETE:
 @dataclass
 class M4_CAPTURE_FILE_DELETE:
     """
-    Command to delete a Capture File ('.pcap' file) in the Capture File directory
-    (/var/ftp/pub/replay/pcap/). For information about the location and directory
+    Command to delete a Capture File (``.pcap`` file) in the Capture File directory
+    (``/var/ftp/pub/replay/pcap/``). For information about the location and directory
     structure for the Capture Files, see: M4_REPLAY_PARSE_START
     """
 
@@ -506,6 +620,11 @@ class M4_CAPTURE_FILE_DELETE:
         filename: XmpField[XmpStr] = XmpField(XmpStr)  # string, file name (including relative path and excluding the '.pcap' extension).
 
     def set(self, filename: str) -> "Token":
+        """Delete a Capture File in the Capture File directory.
+
+        :param filename: file name (including relative path and excluding the ``.pcap`` extension).
+        :type filename: str
+        """
         return Token(self._connection, build_set_request(self, module=self._module, filename=filename))
 
 
@@ -527,6 +646,11 @@ class M4_TLS_CIPHER_SUITES:
         cipher_suites: XmpField[XmpHexList] = XmpField(XmpHexList)  # list of hex bytes, list of IANA values of supported cipher suites
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get a list of supported TLS Cipher Suites.
+
+        :return: list of IANA values of supported cipher suites
+        :rtype: M4_TLS_CIPHER_SUITES.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
