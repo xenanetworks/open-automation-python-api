@@ -75,7 +75,18 @@ This module contains all exception classes that can be propagated to the upper l
 Low-Level Python APIs
 -----------------------------
 
-L23 - Basic
+The low-level Python APIs are categorized into five groups:
+
+* :ref:`L23 Basic <l23_basic>` (Valkyrie)
+* :ref:`L23 TSN <l23_tsn>` (Valkyrie)
+* :ref:`L47 <l47>` (Vulcan)
+* :ref:`Impairment <impairment>` (Chimera)
+* :ref:`Supporting <Supporting>`
+
+
+.. _l23_basic:
+
+L23 Basic
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Module ``xoa_driver.lli.commands.c_commands``
@@ -334,70 +345,10 @@ This module contains the **L23 port transceiver commands** that deal with access
    :exclude-members: GetDataAttr, SetDataAttr
 
 
-Impairment
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. _l23_tsn:
 
-.. note::
-
-   This section is under construction, and will be completed in the next release.
-
-Module ``xoa_driver.lli.commands.pe_commands``
-""""""""""""""""""""""""""""""""""""""""""""""""
-
-This module contains the **impairment port flow commands**.
-
-.. automodule:: xoa_driver.internals.core.commands.pe_commands
-   :members:
-   :no-undoc-members:
-   :exclude-members: GetDataAttr, SetDataAttr
-
-
-Module ``xoa_driver.lli.commands.pec_commands``
-""""""""""""""""""""""""""""""""""""""""""""""""
-
-This module contains the **impairment port custome distribution commands**.
-
-.. automodule:: xoa_driver.internals.core.commands.pec_commands
-   :members:
-   :no-undoc-members:
-   :exclude-members: GetDataAttr, SetDataAttr
-
-
-Module ``xoa_driver.lli.commands.ped_commands``
-""""""""""""""""""""""""""""""""""""""""""""""""
-
-This module contains the **impairment port distribution commands**.
-
-.. automodule:: xoa_driver.internals.core.commands.ped_commands
-   :members:
-   :no-undoc-members:
-   :exclude-members: GetDataAttr, SetDataAttr
-
-
-Module ``xoa_driver.lli.commands.pef_commands``
-""""""""""""""""""""""""""""""""""""""""""""""""
-
-This module contains the **impairment port flow filter commands**.
-
-.. automodule:: xoa_driver.internals.core.commands.pef_commands
-   :members:
-   :no-undoc-members:
-   :exclude-members: GetDataAttr, SetDataAttr
-
-
-Supporting Classes
-""""""""""""""""""""""""""""""""""""
-
-.. automodule:: xoa_driver.lli
-   :members:
-
-
-L23 - TSN (under construction)
+L23 TSN
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. note::
-
-   This section is under construction, and will be completed in the next release.
 
 Module ``xoa_driver.lli.commands.xp_commands``
 """"""""""""""""""""""""""""""""""""""""""""""""
@@ -421,12 +372,10 @@ This module contains the **TSN extension for L23 port histogram commands**.
    :exclude-members: GetDataAttr, SetDataAttr
 
 
-L47 (under construction)
+.. _l47:
+
+L47
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. note::
-
-   This section is under construction, and will be completed in the next release.
 
 Module ``xoa_driver.lli.commands.m4_commands``
 """"""""""""""""""""""""""""""""""""""""""""""""
@@ -529,3 +478,67 @@ By combining several Connection Groups on a port, it is possible to create more 
    :members:
    :no-undoc-members:
    :exclude-members: GetDataAttr, SetDataAttr
+
+
+.. _impairment:
+
+Impairment
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Module ``xoa_driver.lli.commands.pe_commands``
+""""""""""""""""""""""""""""""""""""""""""""""""
+
+This module contains the **impairment port flow commands**.
+
+.. automodule:: xoa_driver.internals.core.commands.pe_commands
+   :members:
+   :no-undoc-members:
+   :exclude-members: GetDataAttr, SetDataAttr
+
+
+Module ``xoa_driver.lli.commands.pec_commands``
+""""""""""""""""""""""""""""""""""""""""""""""""
+
+This module contains the **impairment port custome distribution commands**.
+
+.. automodule:: xoa_driver.internals.core.commands.pec_commands
+   :members:
+   :no-undoc-members:
+   :exclude-members: GetDataAttr, SetDataAttr
+
+
+Module ``xoa_driver.lli.commands.ped_commands``
+""""""""""""""""""""""""""""""""""""""""""""""""
+
+This module contains the **impairment port distribution commands**.
+
+.. automodule:: xoa_driver.internals.core.commands.ped_commands
+   :members:
+   :no-undoc-members:
+   :exclude-members: GetDataAttr, SetDataAttr
+
+
+Module ``xoa_driver.lli.commands.pef_commands``
+""""""""""""""""""""""""""""""""""""""""""""""""
+
+This module contains the **impairment port flow filter commands**.
+
+.. automodule:: xoa_driver.internals.core.commands.pef_commands
+   :members:
+   :no-undoc-members:
+   :exclude-members: GetDataAttr, SetDataAttr
+
+
+.. _supporting:
+
+Supporting
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Module ``xoa_driver.lli``
+""""""""""""""""""""""""""""""""""""""""""""""""
+
+This module contains some *helper functions*.
+
+.. automodule:: xoa_driver.lli
+   :members:
+   :no-undoc-members:

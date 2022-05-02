@@ -26,7 +26,7 @@ author = u'Xena Networks'
 title = u'Xena OpenAutomation Python API Documentation'
 
 # The full version, including alpha/beta/rc tags.
-release = '1.0.1'
+release = '1.0.2'
 # The short X.Y version.
 version = '1.0'
 
@@ -44,6 +44,7 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinx.ext.coverage',
     'sphinx.ext.viewcode',
+    'sphinx.ext.intersphinx',
 ]
 add_module_names = False
 autodoc_default_options = {

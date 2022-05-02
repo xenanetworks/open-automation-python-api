@@ -935,8 +935,9 @@ class XP_TSNPDELAY:
 @dataclass
 class XP_TSNNRR:
     """
-    Neighbor Rate Ration (NRR). An NRR value is an integer scaling of the unsigned
-    floating-point Neighbor Rate Ratio: nrr_float * 1,000,000,000.
+    Neighbor Rate Ration (NRR).
+    
+    An NRR value is an integer scaling of the unsigned floating-point Neighbor Rate Ratio: ``nrr_float * 1,000,000,000``.
     
     For example, NRR = 0.999876543 is represented as 999876543. Slave port only.
     """
