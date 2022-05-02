@@ -214,8 +214,12 @@ class PE_LATENCYRANGE:
 @dataclass
 class PE_CORRUPT:
     """
-    Configures impairment corruption type. NOTE: IP / TCP / UDP corruption modes are
-    not supported on default flow (0)
+    Configures impairment corruption type.
+    
+    .. note::
+        
+        IP / TCP / UDP corruption modes are not supported on default flow (0)
+
     """
 
     code: typing.ClassVar[int] = 1660
@@ -243,8 +247,7 @@ class PE_CORRUPT:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
 
     def set(self, corruption_type: CorruptionType) -> "Token":
-        """Set the impairment corruption type. NOTE: IP / TCP / UDP corruption modes are
-        not supported on default flow (0)
+        """Set the impairment corruption type.
 
         :param corruption_type: corruption type
         :type corruption_type: CorruptionType
@@ -275,8 +278,11 @@ class PE_CORRUPT:
 @dataclass
 class PE_MISORDER:
     """
-    Configures the misordering depth in number of packets. Note: probability [see
-    PED_FIXED] * (depth + 1) should be less than 1,000,000.
+    Configures the misordering depth in number of packets.
+    
+    .. note::
+        probability [see :class:`~xoa_driver.internals.core.commands.ped_commands.PED_FIXED`] * (depth + 1) should be less than 1,000,000.
+        
     """
 
     code: typing.ClassVar[int] = 1661
@@ -302,7 +308,7 @@ class PE_MISORDER:
     def get(self) -> "Token[GetDataAttr]":
         """Get the misordering depth in number of packets of a flow.
 
-        :return: the misordering depth (Range 1 - 32). Default value. Note: probability [see PED_FIXED] * (depth + 1) should be less than 1,000,000.
+        :return: the misordering depth (Range 1 - 32). Default value. 
         :rtype: PE_MISORDER.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
@@ -311,7 +317,7 @@ class PE_MISORDER:
         """Set the misordering depth in number of packets of a flow. Note: probability [see
         PED_FIXED] * (depth + 1) should be less than 1,000,000.
 
-        :param depth: the misordering depth (Range 1 - 32). Default value. Note: probability [see PED_FIXED] * (depth + 1) should be less than 1,000,000.
+        :param depth: the misordering depth (Range 1 - 32). Default value.
         :type depth: int
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], depth=depth))
@@ -376,8 +382,7 @@ class PE_BANDPOLICER:
 class PE_BANDSHAPER:
     """
     Configures the bandwidth shaper. L1 (0) (Shaper performed at Layer 1 level. I.e. including
-    the preamble and min interpacket gap) L2 (1) (Shaper performed at Layer 2 level
-    . I.e. excluding the preamble and min interpacket gap) Default value: L2 (0)
+    the preamble and min interpacket gap) L2 (1) (Shaper performed at Layer 2 level. I.e. excluding the preamble and min interpacket gap) Default value: L2 (0)
     """
 
     code: typing.ClassVar[int] = 1663
@@ -477,8 +482,7 @@ class PE_DROPTOTAL:
 @dataclass
 class PE_LATENCYTOTAL:
     """
-    Obtains statistics concerning all the packets delayed this receive port and its
-    partner TX port.
+    Obtains statistics concerning all the packets delayed this receive port and its partner TX port.
     """
 
     code: typing.ClassVar[int] = 1751

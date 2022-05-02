@@ -32,8 +32,14 @@ class L47Tester(BaseTester["testers_state.TesterLocalState"]):
     def __init__(self, host: str, username: str, password: str = "xena", port: int = 22606, *, debug: bool = False ) -> None:
         super().__init__(host=host, username=username, password=password, port=port, debug=debug)
         self.management_interface = mi.ManagementInterface(self._conn)
+        """
+        Tester management interface that includes IP address, DHCP, MAC address and hostname.
+        """
+
         self.modules: ModulesManager["ml47.ModuleL47"] = ModulesManager(self._conn, get_module_type)
-        """Subset of current modules avaliable on tester `xoa_driver.internals.utils.ports_manager.ModulesManager`"""
+        """
+        Module index manager of the tester.
+        """
 
     async def _setup(self):
         await super()._setup()

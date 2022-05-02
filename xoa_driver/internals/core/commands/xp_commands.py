@@ -35,7 +35,6 @@ class XP_TSNINIT:
 
     def set(self) -> "Token":
         """Initialize shadow configuration to defaults.
-
         """
         return Token(
             self._connection,
@@ -67,7 +66,6 @@ class XP_TSNAPPLY:
 
     def set(self) -> "Token":
         """Apply configuration from shadow configuration onto working configuration.
-
         """
         return Token(
             self._connection,
@@ -102,7 +100,7 @@ class XP_TSNISSHADOWDIRTY:
         """Get whether the shadow configuration matches the working configuration or not.
 
         :return: whether the shadow configuration matches the working configuration or not.
-        :rtype: Token[GetDataAttr]
+        :rtype: XP_TSNISSHADOWDIRTY.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
@@ -137,7 +135,7 @@ class XP_TSNLOADMODE:
         """Get TSN configuration load mode.
 
         :return: TSN configuration load mode
-        :rtype: Token[GetDataAttr]
+        :rtype: XP_TSNLOADMODE.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
@@ -150,7 +148,9 @@ class XP_TSNLOADMODE:
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, mode=mode))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
+    """Disable TSN configuration load."""
     set_on = functools.partialmethod(set, OnOff.ON)
+    """Enable TSN configuration load."""
 
 
 @register_command
@@ -158,6 +158,19 @@ class XP_TSNLOADMODE:
 class XP_TSNPROFILE:
     """
     Select PTP configuration profile.
+
+    * ``AUTOMOTIVE`` = select defaults suitable for automotive testing.
+    
+    * ``IEEE1588V2`` = select defaults suitable for PTP testing.
+
+    .. note::
+    
+        ``IEEE1588V2`` is not supported yet.
+    
+    .. note::
+    
+        Selecting profile configures a number of internal as well as user-settable parameters to default values, so this command should be the first in a configuration after :class:`~xoa_driver.internals.core.commands.xp_commands.XP_TSNINIT`.
+
     """
 
     code: typing.ClassVar[int] = 4006
@@ -181,25 +194,36 @@ class XP_TSNPROFILE:
         )  # coded byte, AUTOMOTIVE = select defaults suitable for automotive testing, IEEE1588V2 = select defaults suitable for PTP testing. Note: Selecting profile configures a number of internal as well as user-settable parameters to default values, so this command should be the first in a configuration after XP_TSNINIT. Note: IEEE1588V2 is not supported yet.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get PTP configuration profile
+        """Get PTP configuration profile.
 
         :return: PTP configuration profile
-        :rtype: Token[GetDataAttr]
+        :rtype: XP_TSNPROFILE.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex]))
 
     def set(self, profile: TSNConfigProfile) -> "Token":
+        """Set PTP configuration profile.
+
+        :param profile: PTP configuration profile
+        :type profile: TSNConfigProfile
+        """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex], profile=profile))
 
     set_automotive = functools.partialmethod(set, profile=TSNConfigProfile.AUTOMOTIVE)
+    """Select defaults suitable for automotive testing."""
     set_ieee1588v2 = functools.partialmethod(set, profile=TSNConfigProfile.IEEE1588V2)
+    """Select defaults suitable for PTP testing."""
 
 
 @register_command
 @dataclass
 class XP_TSNROLE:
     """
-    Port role.
+    The TSN port role.
+
+    * ``GRANDMASTER`` = select Grandmaster role
+    
+    * ``SLAVE`` = select Slave role
     """
 
     code: typing.ClassVar[int] = 4007
@@ -219,13 +243,25 @@ class XP_TSNROLE:
         role: XmpField[XmpByte] = XmpField(XmpByte, choices=TSNPortRole)  # coded byte, GRANDMASTER = select Grandmaster role, SLAVE = select Slave role
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get the TSN port role.
+
+        :return: the TSN port role
+        :rtype: XP_TSNROLE.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex]))
 
     def set(self, role: TSNPortRole) -> "Token":
+        """Set the TSN port role.
+
+        :param role: the TSN port role
+        :type role: TSNPortRole
+        """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex], role=role))
 
     set_grandmaster = functools.partialmethod(set, role=TSNPortRole.GRANDMASTER)
+    """Select Grandmaster role"""
     set_slave = functools.partialmethod(set, role=TSNPortRole.SLAVE)
+    """Select Slave role"""
 
 
 @register_command
@@ -252,9 +288,19 @@ class XP_TSNSYNCINTERVAL:
         exponent: XmpField[XmpByte] = XmpField(XmpByte)  # byte, 2^exponent seconds between SYNC packets. Valid range: -7 (1/128 second) to 5 (32 seconds).
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get the interval between SYNC packets.
+
+        :return: interval between SYNC packets.
+        :rtype: XP_TSNSYNCINTERVAL.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex]))
 
     def set(self, exponent: int) -> "Token":
+        """Set the interval between SYNC packets.
+
+        :param exponent: 2^exponent seconds between SYNC packets. Valid range: -7 (1/128 second) to 5 (32 seconds).
+        :type exponent: int
+        """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex], exponent=exponent))
 
 
@@ -262,7 +308,7 @@ class XP_TSNSYNCINTERVAL:
 @dataclass
 class XP_TSNPDELAYINTERVAL:
     """
-    Interval between PDelay packets
+    Interval between PDelay packets.
     """
 
     code: typing.ClassVar[int] = 4010
@@ -282,9 +328,19 @@ class XP_TSNPDELAYINTERVAL:
         exponent: XmpField[XmpByte] = XmpField(XmpByte)  # byte, 2^exponent seconds between SYNC packets. Valid range: -7 (1/128 second) to 5 (32 seconds).
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get the interval between PDelay packets.
+
+        :return: the interval between PDelay packets.
+        :rtype: XP_TSNPDELAYINTERVAL.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex]))
 
     def set(self, exponent: int) -> "Token":
+        """Set the interval between PDelay packets.
+
+        :param exponent: 2^exponent seconds between SYNC packets. Valid range: -7 (1/128 second) to 5 (32 seconds).
+        :type exponent: int
+        """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex], exponent=exponent))
 
 
@@ -292,7 +348,7 @@ class XP_TSNPDELAYINTERVAL:
 @dataclass
 class XP_TSNDEVIATION:
     """
-    Systematic Grandmaster clock deviation setup
+    Systematic Grandmaster clock deviation setup.
     """
 
     code: typing.ClassVar[int] = 4012
@@ -322,9 +378,25 @@ class XP_TSNDEVIATION:
         interval: XmpField[XmpInt] = XmpField(XmpInt)  # unsigned integer, interval between change of deviation, ms (millisecond)
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get the systematic Grandmaster clock deviation setup.
+
+        :return: systematic Grandmaster clock deviation setup
+        :rtype: class XP_TSNDEVIATION.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex]))
 
     def set(self, mode: TSNDeviationMode, first_clock_offset_dev: int, second_clock_offset_dev: int, interval: int) -> "Token":
+        """Set the systematic Grandmaster clock deviation setup.
+
+        :param mode: deviation mode. ``FIXED`` = fixed-interval, fixed-value deviations. (Future versions may support more modes.)
+        :type mode: TSNDeviationMode
+        :param first_clock_offset_dev: first clock offset deviation, ppm (microseconds)
+        :type first_clock_offset_dev: int
+        :param second_clock_offset_dev: second clock offset deviation, ppm (microseconds)
+        :type second_clock_offset_dev: int
+        :param interval: interval between change of deviation, ms (millisecond)
+        :type interval: int
+        """
         return Token(
             self._connection,
             build_set_request(
@@ -340,6 +412,7 @@ class XP_TSNDEVIATION:
         )
 
     set_fixed = functools.partialmethod(set, mode=TSNDeviationMode.FIXED)
+    """Fixed-interval, fixed-value deviations"""
 
 
 @register_command
@@ -362,6 +435,11 @@ class XP_TSNPORTINFO:
         port_number: XmpField[XmpInt] = XmpField(XmpInt)  # integer, local port number.
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get local TSN port information.
+
+        :return: local TSN port information.
+        :rtype: XP_TSNPORTINFO.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
@@ -369,7 +447,7 @@ class XP_TSNPORTINFO:
 @dataclass
 class XP_TSNPRIORITY:
     """
-    Local clock priority attributes
+    Local clock priority attributes.
     """
 
     code: typing.ClassVar[int] = 4014
@@ -391,9 +469,21 @@ class XP_TSNPRIORITY:
         prio_2: XmpField[XmpByte] = XmpField(XmpByte)  # byte, second priority attribute.
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get local clock priority attributes.
+
+        :return: local clock priority attributes.
+        :rtype: XP_TSNPRIORITY.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex]))
 
     def set(self, prio_1: int, prio_2: int) -> "Token":
+        """Set local clock priority attributes.
+
+        :param prio_1: first priority attribute
+        :type prio_1: int
+        :param prio_2: second priority attribute
+        :type prio_2: int
+        """
         return Token(
             self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex], prio_1=prio_1, prio_2=prio_2)
         )
@@ -423,9 +513,19 @@ class XP_TSNCLOCKCLASS:
         value: XmpField[XmpByte] = XmpField(XmpByte)  # byte, clock class attribute.
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get local clock class attribute.
+
+        :return: local clock class attribute.
+        :rtype: XP_TSNCLOCKCLASS.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex]))
 
     def set(self, value: int) -> "Token":
+        """Set local clock class attribute.
+
+        :param value: clock class attribute.
+        :type value: int
+        """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex], value=value))
 
 
@@ -453,9 +553,19 @@ class XP_TSNCLOCKACCURACY:
         value: XmpField[XmpByte] = XmpField(XmpByte)  # byte, clock accuracy attribute.
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get local clock accuracy attribute.
+
+        :return: local clock accuracy attribute.
+        :rtype: XP_TSNCLOCKACCURACY.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex]))
 
     def set(self, value: int) -> "Token":
+        """Set local clock accuracy attribute.
+
+        :param value: clock accuracy attribute
+        :type value: int
+        """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex], value=value))
 
 
@@ -463,7 +573,7 @@ class XP_TSNCLOCKACCURACY:
 @dataclass
 class XP_TSNTIMESOURCE:
     """
-    Local clock Time Source attribute
+    Local clock Time Source attribute.
     """
 
     code: typing.ClassVar[int] = 4017
@@ -483,26 +593,44 @@ class XP_TSNTIMESOURCE:
         source: XmpField[XmpByte] = XmpField(XmpByte, choices=TSNTimeSource)  # coded byte, a time source value, as specified in the PTP standard.
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get local clock Time Source attribute.
+
+        :return: local clock Time Source attribute
+        :rtype: XP_TSNTIMESOURCE.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex]))
 
     def set(self, source: TSNTimeSource) -> "Token":
+        """Set local clock Time Source attribute.
+
+        :param source:  a time source value, as specified in the PTP standard
+        :type source: TSNTimeSource
+        """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex], source=source))
 
     set_atomic = functools.partialmethod(set, source=TSNTimeSource.ATOMIC)
+    """Set local clock time source to Atomic."""
     set_gps = functools.partialmethod(set, source=TSNTimeSource.GPS)
+    """Set local clock time source to GPS."""
     set_terrestrial = functools.partialmethod(set, source=TSNTimeSource.TERRESTRIAL)
+    """Set local clock time source to Terrestrial."""
     set_ptp = functools.partialmethod(set, source=TSNTimeSource.PTP)
+    """Set local clock time source to PTP."""
     set_ntp = functools.partialmethod(set, source=TSNTimeSource.NTP)
+    """Set local clock time source to NTP."""
     set_hand_set = functools.partialmethod(set, source=TSNTimeSource.HAND_SET)
+    """Set local clock time source to Handset."""
     set_other = functools.partialmethod(set, source=TSNTimeSource.OTHER)
+    """Set local clock time source to Other."""
     set_internal_osc = functools.partialmethod(set, source=TSNTimeSource.INTERNAL_OSC)
+    """Set local clock time source to Internal Oscillator."""
 
 
 @register_command
 @dataclass
 class XP_TSNENABLE:
     """
-    Whether to enable (start) or disable (stop) TSN when XP_TSNAPPLY is called.
+    Whether to enable (start) or disable (stop) TSN when :class:`~xoa_driver.internals.core.commands.xp_commands.XP_TSNAPPLY` is called.
     """
 
     code: typing.ClassVar[int] = 4018
@@ -526,21 +654,32 @@ class XP_TSNENABLE:
         )  # coded byte, OFF = disable TSN when XP_TSNAPPLY is called, ON = enable TSN when XP_TSNAPPLY is called
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get whether to enable (start) or disable (stop) TSN.
+
+        :return: whether to enable (start) or disable (stop) TSN
+        :rtype: XP_TSNENABLE.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex]))
 
     def set(self, on_off: OnOff) -> "Token":
+        """Set whether to enable (start) or disable (stop) TSN.
+
+        :param on_off: whether to enable (start) or disable (stop) TSN
+        :type on_off: OnOff
+        """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._sw_config_xindex], on_off=on_off))
 
     set_off = functools.partialmethod(set, on_off=OnOff.OFF)
+    """Disable TSN when XP_TSNAPPLY is called."""
     set_on = functools.partialmethod(set, on_off=OnOff.ON)
+    """Enable TSN when XP_TSNAPPLY is called."""
 
 
 @register_command
 @dataclass
 class XP_TSNPEERINDICES:
     """
-    Obtain the indices of peers currently known. Details can be retrieved with
-    XP_TSNPEERINFO.
+    Obtain the indices of peers currently known. Details can be retrieved with :class:`~xoa_driver.internals.core.commands.xp_commands.XP_TSNPEERINFO`.
     """
 
     code: typing.ClassVar[int] = 4019
@@ -555,6 +694,11 @@ class XP_TSNPEERINDICES:
         indices: XmpField[XmpIntList] = XmpField(XmpIntList)  # list of integers, indices of a peer record retrievable with XP_TSNPEERINFO
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get the indices of peers currently known.
+
+        :return: the indices of peers currently known
+        :rtype: XP_TSNPEERINDICES.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
@@ -562,8 +706,12 @@ class XP_TSNPEERINDICES:
 @dataclass
 class XP_TSNPEERINFO:
     """
-    Information about a peer node. NOTE: This command is not fully functional due to
-    low-level bug. Only clock_identity and port_number will contain meaningful info
+    Information about a peer node.
+    
+    .. note::
+    
+        This command is not fully functional due to low-level bug. Only clock_identity and port_number will contain meaningful info.
+
     """
 
     code: typing.ClassVar[int] = 4020
@@ -583,6 +731,11 @@ class XP_TSNPEERINFO:
         info_string: XmpField[XmpStr] = XmpField(XmpStr)  # UTF-8 string containing three subvalues separated by ‘;!;’ for readability
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get information about a peer node.
+
+        :return: information about a peer node.
+        :rtype: XP_TSNPEERINFO.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
@@ -590,7 +743,7 @@ class XP_TSNPEERINFO:
 @dataclass
 class XP_TSNPACKETCOUNT:
     """
-    RX and TX counter pairs for PTP message types
+    RX and TX counter pairs for PTP message types.
     """
 
     code: typing.ClassVar[int] = 4021
@@ -625,6 +778,11 @@ class XP_TSNPACKETCOUNT:
         tx_management: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of transmitted Management packets
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get RX and TX counter pairs for PTP message types.
+
+        :return: RX and TX counter pairs for PTP message types.
+        :rtype: XP_TSNPACKETCOUNT.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
@@ -632,8 +790,7 @@ class XP_TSNPACKETCOUNT:
 @dataclass
 class XP_TSNOFFSET:
     """
-    Slave port offset to Grand Master port, pre-servo and post-servo. Slave port
-    only
+    Slave port offset to Grand Master port, pre-servo and post-servo. Slave port only.
     """
 
     code: typing.ClassVar[int] = 4022
@@ -661,6 +818,11 @@ class XP_TSNOFFSET:
         post_ave_1s: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, Post-servo average over the last second, ns
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get Slave port offset to Grand Master port.
+
+        :return: Slave port offset to Grand Master port
+        :rtype: XP_TSNOFFSET.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
@@ -668,7 +830,7 @@ class XP_TSNOFFSET:
 @dataclass
 class XP_TSNRXSYNCRATE:
     """
-    RX SYNC rate. Slave port only
+    RX SYNC rate. Slave port only.
     """
 
     code: typing.ClassVar[int] = 4024
@@ -696,6 +858,11 @@ class XP_TSNRXSYNCRATE:
         arr_average_1s: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, RX interarrival time average over the last second, ns
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get RX SYNC rate.
+
+        :return: RX SYNC rate
+        :rtype: XP_TSNRXSYNCRATE.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
@@ -703,7 +870,7 @@ class XP_TSNRXSYNCRATE:
 @dataclass
 class XP_TSNTXSYNCRATE:
     """
-    TX SYNC rate. Grandmaster port only
+    TX SYNC rate. Grandmaster port only.
     """
 
     code: typing.ClassVar[int] = 4025
@@ -720,6 +887,11 @@ class XP_TSNTXSYNCRATE:
         rate_average: XmpField[XmpInt] = XmpField(XmpInt)  # integer, TX packet rate average since last clear, pps
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get TX SYNC rate.
+
+        :return: TX SYNC rate
+        :rtype: XP_TSNTXSYNCRATE.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
@@ -751,6 +923,11 @@ class XP_TSNPDELAY:
         average_1s: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, Average PDelay value over the last second, ns
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get PDelay, port-to-port link delay.
+
+        :return: PDelay, port-to-port link delay.
+        :rtype: XP_TSNPDELAY.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
@@ -758,9 +935,10 @@ class XP_TSNPDELAY:
 @dataclass
 class XP_TSNNRR:
     """
-    Neighbour Rate Ration (NRR). An NRR value is an Integer scaling of the unsigned
-    floating-point Neighbour Rate Ratio: nrr_float * 1,000,000,000. For example, NRR
-    = 0.999876543 is represented as 999876543. Slave port only.
+    Neighbor Rate Ration (NRR). An NRR value is an integer scaling of the unsigned
+    floating-point Neighbor Rate Ratio: nrr_float * 1,000,000,000.
+    
+    For example, NRR = 0.999876543 is represented as 999876543. Slave port only.
     """
 
     code: typing.ClassVar[int] = 4027
@@ -784,6 +962,11 @@ class XP_TSNNRR:
         average_1s: XmpField[XmpInt] = XmpField(XmpInt)  # integer, Average NRR value over the last second
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get Neighbor Rate Ration (NRR)
+
+        :return: Neighbor Rate Ration (NRR)
+        :rtype: XP_TSNNRR.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
@@ -804,27 +987,41 @@ class XP_TSNCLEAR:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        stats_to_clear: XmpField[XmpByte] = XmpField(XmpByte, choices=TSNClearStatistics)  # coded byte, statistics to clear
+        stats_to_clear: XmpField[XmpByte] = XmpField(XmpByte, choices=TSNStatisticsTypes)  # coded byte, statistics to clear
 
-    def set(self, stats_to_clear: TSNClearStatistics) -> "Token":
+    def set(self, stats_to_clear: TSNStatisticsTypes) -> "Token":
+        """Clear some or all TSN statistics.
+
+        :param stats_to_clear: statistics to clear
+        :type stats_to_clear: TSNStatisticsTypes
+        """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, stats_to_clear=stats_to_clear))
 
-    set_all = functools.partialmethod(set, TSNClearStatistics.ALL)
-    set_packetcount = functools.partialmethod(set, TSNClearStatistics.PACKETCOUNT)
-    set_offset = functools.partialmethod(set, TSNClearStatistics.OFFSET)
-    set_pdelay = functools.partialmethod(set, TSNClearStatistics.PDELAY)
-    set_syncrate = functools.partialmethod(set, TSNClearStatistics.SYNCRATE)
+    set_all = functools.partialmethod(set, TSNStatisticsTypes.ALL)
+    """Clear all TSN statistics."""
+    set_packetcount = functools.partialmethod(set, TSNStatisticsTypes.PACKETCOUNT)
+    """Clear only packet count statistics."""
+    set_offset = functools.partialmethod(set, TSNStatisticsTypes.OFFSET)
+    """Clear only offset statistics."""
+    set_pdelay = functools.partialmethod(set, TSNStatisticsTypes.PDELAY)
+    """Clear only pdelay statistics."""
+    set_syncrate = functools.partialmethod(set, TSNStatisticsTypes.SYNCRATE)
+    """Clear only sync rate statistics."""
 
 
 @register_command
 @dataclass
 class XP_TSNSYNCEVENTS:
     """
-    A sequence of records with three values, each record containing: tsx_s_s:
-    Timestamp of offsetx, seconds, tsx_s_ns: Timestamp of offsetx, ns, offsetx:
-    Offset at time given by timestamp. For a Grandmaster port, this value is always
-    0. From 0 to 640 records are returned in each ‘get’, representing the most
-    recent data available since last ‘get’. The buffer is flushed after each ‘get’.
+    A sequence of sync records with three values, each record containing:
+    
+    * ``tsx_s_s``: Timestamp of ``offsetx``, seconds
+    
+    * ``tsx_s_ns``: Timestamp of ``offsetx``, nanoseconds.
+    
+    * ``offsetx``: Offset at time given by timestamp.
+    
+    For a Grandmaster port, this value is always 0. From 0 to 640 records are returned in each ``get``, representing the most recent data available since last ``get``. The buffer is flushed after each ``get``.
     """
 
     code: typing.ClassVar[int] = 4029
@@ -841,6 +1038,11 @@ class XP_TSNSYNCEVENTS:
         offsetx: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, Offset at time given by timestamp. For a Grandmaster port, this value is always 0.
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get a sequence of sync records.
+
+        :return: a sequence of sync records
+        :rtype: XP_TSNSYNCEVENTS.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
@@ -863,6 +1065,8 @@ class XP_TSNCANCEL:
         pass
 
     def set(self) -> "Token":
+        """Discard all changes to shadow config.
+        """
         return Token(
             self._connection,
             build_set_request(
@@ -892,6 +1096,8 @@ class XP_TSNCLEARPEERINFO:
         pass
 
     def set(self) -> "Token":
+        """Clear all peer info data.
+        """
         return Token(
             self._connection,
             build_set_request(
@@ -906,7 +1112,7 @@ class XP_TSNCLEARPEERINFO:
 @dataclass
 class XP_TSNCAPABILITIES:
     """
-    Return list of TSN-related capabilities for a port
+    Return a list of TSN-related capabilities for a port.
     """
 
     code: typing.ClassVar[int] = 4042
@@ -923,14 +1129,17 @@ class XP_TSNCAPABILITIES:
         max_dev: XmpField[XmpInt] = XmpField(XmpInt)  # integer, Maximum deviation, +/-, in ppm [µs], 0 if deviation is not supported
 
     def get(self) -> "Token[GetDataAttr]":
+        """Get a list of TSN-related capabilities for a port.
+
+        :return: a list of TSN-related capabilities for a port
+        :rtype: XP_TSNCAPABILITIES.GetDataAttr
+        """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
 @register_command
 @dataclass
 class XP_TSNDEBUG:
-    """ """
-
     code: typing.ClassVar[int] = 4050
     pushed: typing.ClassVar[bool] = False
 

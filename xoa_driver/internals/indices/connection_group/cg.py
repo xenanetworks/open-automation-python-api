@@ -49,26 +49,53 @@ class GLoadProfile:
 CG = TypeVar("CG")
 @final
 class ConnectionGroupIdx(BaseIndex):
+    """L47 Connection Group Index Manager"""
     def __init__(self, conn: "itf.IConnection", kind: "kind.IndicesKind", observer: "idx_obs.IndicesObserver") -> None:
         super().__init__(conn, kind, observer)
         
         self.comment = P4G_COMMENT(self._conn, *kind)
+        """
+        Representation of :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_COMMENT`
+        """
         self.status = P4G_ENABLE(self._conn, *kind)
+        """
+        Representation of :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_ENABLE`
+        """
         self.role = P4G_ROLE(self._conn, *kind)
+        """
+        Representation of :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_ROLE`
+        """
         self.layer4_protocol = P4G_L4_PROTOCOL(self._conn, *kind)
+        """
+        Representation of :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_L4_PROTOCOL`
+        """
         self.test_application = P4G_TEST_APPLICATION(self._conn, *kind)
+        """
+        Representation of :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TEST_APPLICATION`
+        """
         
         self.tls = GTls(self._conn, *kind)
+        """TLS configurations."""
         self.l2 = GL2(self._conn, *kind)
+        """L2 configurations."""
         self.raw = GRaw(self._conn, *kind)
+        """Raw configurations."""
         self.tcp = GTcp(self._conn, *kind)
+        """TCP configurations."""
         self.udp = GUdp(self._conn, *kind)
+        """UDP configurations."""
         self.replay = GReplay(self._conn, *kind)
+        """Replay configurations."""
         self.l3 = GL3(self._conn, *kind)
+        """L3 configurations."""
         self.user_state = GUserState(self._conn, *kind)
+        """User state configurations."""
         self.histogram = GHistogram(self._conn, *kind)
+        """Histogram configurations."""
         self.counters = GCounters(self._conn, *kind)
+        """Counters."""
         self.load_profile = GLoadProfile(self._conn, *kind)
+        """Load Profile configurations."""
         
     async def delete(self):
         await P4G_DELETE(self._conn, *self.kind).set()

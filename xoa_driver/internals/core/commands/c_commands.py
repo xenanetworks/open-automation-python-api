@@ -438,9 +438,10 @@ class C_PORTCOUNTS:
     Gets the number of ports in each module slot of the chassis, and indirectly
     the number of slots and modules.
     
-    Note: CFP modules return the number 8
-    which is the maximum number of 10G ports, but the actual number of ports
-    can be configured dynamically using the ``M_CFPCONFIG`` command.
+    .. note::
+    
+        CFP modules return the number 8 which is the maximum number of 10G ports, but the actual number of ports can be configured dynamically using the :class:`~xoa_driver.internals.core.commands.m_commands.M_CFPCONFIG` command.
+
     """
 
     code: typing.ClassVar[int] = 13
@@ -471,12 +472,14 @@ class C_PORTERRORS:
     so that a chassis with a 6-port and a 2-port test module will return eight
     counts regardless of which slots they are in.
     
-    Note:  CFP modules return
-    eight error counts since they can be configured as up to eight 10G ports.
-    When in 100G and 40G mode only the first one or two counts are significant.
+    .. note::
     
-    Note: FCS errors are included, which leads to double-counting for streams
-    detecting lost packets using the test payload mechanism.
+        CFP modules return eight error counts since they can be configured as up to eight 10G ports. When in 100G and 40G mode only the first one or two counts are significant.
+    
+    .. note::
+        
+        FCS errors are included, which leads to double-counting for streams detecting lost packets using the test payload mechanism.
+
     """
 
     code: typing.ClassVar[int] = 16
@@ -494,13 +497,6 @@ class C_PORTERRORS:
         the module in the lowest numbered chassis slot first. Empty slots are skipped
         so that a chassis with a 6-port and a 2-port test module will return eight
         counts regardless of which slots they are in.
-        
-        Note:  CFP modules return
-        eight error counts since they can be configured as up to eight 10G ports.
-        When in 100G and 40G mode only the first one or two counts are significant.
-        
-        Note: FCS errors are included, which leads to double-counting for streams
-        detecting lost packets using the test payload mechanism.
 
         :return: the total number of errors across all streams, and including FCS errors.
         :rtype: C_PORTERRORS.GetDataAttr
@@ -645,8 +641,7 @@ class C_COMMENT:
 @dataclass
 class C_PASSWORD:
     """
-    The password of the chassis, which must be provided when logging on to the
-    chassis.
+    The password of the chassis, which must be provided when logging on to the chassis.
     """
 
     code: typing.ClassVar[int] = 22
@@ -1718,8 +1713,10 @@ class C_TRAFFICSYNC:
     start traffic simultaneously on multiple chassis. The ports are identified by
     pairs of integers (module port).
     
-    Note: This requires that the chassis in question all use the TimeKeeper option to keep their CPU clocks
-    synchronized.
+    .. note::
+    
+        This requires that the chassis in question all use the TimeKeeper option to keep their CPU clocks synchronized.
+
     """
 
     code: typing.ClassVar[int] = 70

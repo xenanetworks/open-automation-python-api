@@ -46,78 +46,146 @@ from xoa_driver.internals.core.commands import (
 
 
 class PcsPmaAlarms:
-    """PCS/PMA alarms"""
+    """L23 high-speed port PCS/PMA alarms"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.errors = PP_ALARMS_ERRORS(conn, module_id, port_id)
+        """Error count of each alarm on a L23 high-speed port.
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_ALARMS_ERRORS`
+        """
         self.clear = PP_ALARMS_ERRORS_CLEAR(conn, module_id, port_id)
+        """Clear all PCS/PMA alarms.
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_ALARMS_ERRORS_CLEAR`
+        """
 
 class PcsPmaTransceiver:
-    """PCS/PMA transceivers"""
+    """L23 high-speed port PCS/PMA transceivers"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.tx_laser_power = PP_TXLASERPOWER(conn, module_id, port_id)
+        """Power of TX laser.
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_TXLASERPOWER`
+        """
         self.rx_laser_power = PP_RXLASERPOWER(conn, module_id, port_id)
+        """Power of RX laser.
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_RXLASERPOWER`
+        """
 
 
 class PcsPmaRxLaneStatus:
-    """PCS/PMA lane status"""
+    """L23 high-speed port PCS/PMA lane status"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, lane_idx: int) -> None:
         self.lane_errors = PP_RXLANEERRORS(conn, module_id, port_id, lane_idx)
+        """RX lane error statistics.
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_RXLANEERRORS`
+        """
         self.lock = PP_RXLANELOCK(conn, module_id, port_id, lane_idx)
+        """RX lane lock.
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_RXLANELOCK`
+        """
         self.status = PP_RXLANESTATUS(conn, module_id, port_id, lane_idx)
+        """RX lane status
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_RXLANESTATUS`
+        """
         self.prbs_status = PP_RXPRBSSTATUS(conn, module_id, port_id, lane_idx)
+        """RX PRBS status on a lane
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_RXPRBSSTATUS`
+        """
 
 
 class PcsPmaTxLaneErrorInjection:
-    """PCS/PMA TX lane error injection"""
+    """L23 high-speed port PCS/PMA TX lane error injection"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, lane_idx: int) -> None:
         self.inject = PP_TXLANEINJECT(conn, module_id, port_id, lane_idx)
+        """Inject CAUI error into a TX lane.
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_TXLANEINJECT`
+        """
 
 
 class PcsPmaTxErrorGeneration:
-    """PCS/PMA TX error generation"""
+    """L23 high-speed port PCS/PMA TX error generation"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.error_rate = PP_TXERRORRATE(conn, module_id, port_id)
+        """The rate of continuous bit-level error injection.
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_TXERRORRATE`
+        """
         self.inject_one = PP_TXINJECTONE(conn, module_id, port_id)
+        """Inject a single bit-level error.
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_TXINJECTONE`
+        """
 
 class PcsPmaTxLaneConfig:
-    """PCS/PMA TX lane configuration"""
+    """L23 high-speed port PCS/PMA TX lane configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, lane_idx: int) -> None:
         self.config = PP_TXLANECONFIG(conn, module_id, port_id, lane_idx)
+        """TX lane configuration.
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_TXLANECONFIG`
+        """
         self.tx_config = PP_TXPRBSCONFIG(conn, module_id, port_id, lane_idx)
+        """TX PRBS configuration of a lane.
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_TXPRBSCONFIG`
+        """
 
 class PcsPmaRx:
-    """PCS/PMA RX"""
+    """L23 high-speed port PCS/PMA RX"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.total_status = PP_RXTOTALSTATS(conn, module_id, port_id)
+        """RX FEC total counters.
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_RXTOTALSTATS`
+        """
         self.fec_status = PP_RXFECSTATS(conn, module_id, port_id)
+        """RX FEC statistics.
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_RXFECSTATS`
+        """
         self.clear = PP_RXCLEAR(conn, module_id, port_id)
+        """Clear all the PCS/PMA receiver statistics.
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_RXCLEAR`
+        """
 
 class PcsPmaPhy:
-    """PCS/PMA PHY settings"""
+    """L23 high-speed port PCS/PMA PHY settings"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.auto_neg = PP_PHYAUTONEG(conn, module_id, port_id)
+        """ Autonegotiation settings of the PHY.
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_PHYAUTONEG`
+        """
         self.signal_status = PP_PHYSIGNALSTATUS(conn, module_id, port_id)
+        """The PHY signal status.
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_PHYSIGNALSTATUS`
+        """
         self.settings = PP_PHYSETTINGS(conn, module_id, port_id)
+        """Low-level PHY settings
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_PHYSETTINGS`
+        """
 
 
 class Lane:
-    """Lane config"""
+    """L23 high-speed port lane config"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, lane_idx: int) -> None:
         self.rx_status = PcsPmaRxLaneStatus(conn, module_id, port_id, lane_idx)
+        """PCS/PMA RX lane status.
+        """
         self.tx_error_inject = PcsPmaTxLaneErrorInjection(conn, module_id, port_id, lane_idx)
+        """PCS/PMA TX lane error injection.
+        """
         self.tx_config = PcsPmaTxLaneConfig(conn, module_id, port_id, lane_idx)
+        """PCS/PMA TX lane configuration.
+        """
 
 class PcsPma:
-    """PCS/PMA"""
+    """L23 high-speed port PCS/PMA"""
     def __init__(self, conn: "itf.IConnection", port) -> None:
         self._conn = conn
         self.__port = port
         
         self.alarms = PcsPmaAlarms(conn, *port.kind)
+        """PCS/PMA alarms"""
         self.transceiver = PcsPmaTransceiver(conn, *port.kind)
+        """PCS/PMA transceiver"""
         self.error_gen = PcsPmaTxErrorGeneration(conn, *port.kind)
+        """PCS/PMA error generation"""
         self.rx = PcsPmaRx(conn, *port.kind)
+        """PCS/PMA RX"""
         self.phy = PcsPmaPhy(conn, *port.kind)
+        """PCS/PMA PHY"""
 
         self.lanes: Tuple["Lane", ...] = tuple(
             Lane(self._conn, *self.__port.kind, lane_idx=idx) 
@@ -125,24 +193,48 @@ class PcsPma:
         )
 
 class PRBSConfig:
-    """PRBS configuration"""
+    """L23 high-speed port PRBS configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.type = PP_PRBSTYPE(conn, module_id, port_id)
+        """PRBS type used when in PRBS mode.
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_PRBSTYPE`
+        """
         self.tx_type = PP_TXPRBSTYPE(conn, module_id, port_id)
+        """TX PRBS type used when in PRBS mode.
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_TXPRBSTYPE`
+        """
         self.rx_type = PP_RXPRBSTYPE(conn, module_id, port_id)
+        """RX PRBS type used when in PRBS mode.
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_RXPRBSTYPE`
+        """
 
 class SDEyeDiagram:
-    """Serdes eye diagram"""
+    """L23 high-speed port serdes eye diagram"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, serdes_xindex: int) -> None:
         self.__conn = conn
         self.__module_id = module_id
         self.__port_id = port_id
         self.__serdes_index = serdes_xindex
         self.measure = PP_EYEMEASURE(conn, module_id, port_id, serdes_xindex)
+        """BER eye measurement.
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_EYEMEASURE`
+        """
         self.resolution = PP_EYERESOLUTION(conn, module_id, port_id, serdes_xindex)
+        """Resolution for BER eye measurement.
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_EYERESOLUTION`
+        """
         self.info = PP_EYEINFO(conn, module_id, port_id, serdes_xindex)
+        """Information of BER eye measurement.
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_EYEINFO`
+        """
         self.ber = PP_EYEBER(conn, module_id, port_id, serdes_xindex)
+        """BER estimation of an eye diagram.
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_EYEBER`
+        """
         self.dwell_bits = PP_EYEDWELLBITS(conn, module_id, port_id, serdes_xindex)
+        """Dwell bits for an eye capture.
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_EYEDWELLBITS`
+        """
         
     def __await__(self):
         return self._setup().__await__()
@@ -162,18 +254,32 @@ class SDEyeDiagram:
         return self
 
 class SDPhy:
-    """Serdes PHY config"""
+    """L23 high-speed port serdes PHY configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, serdes_xindex: int) -> None:
         self.tx_equalizer = PP_PHYTXEQ(conn, module_id, port_id, serdes_xindex)
+        """Equalizer settings of the on-board PHY in the TX direction.
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_PHYTXEQ`
+        """
         self.rx_equalizer = PP_PHYRXEQ(conn, module_id, port_id, serdes_xindex)
+        """Equalizer settings of the on-board PHY in the RX direction.
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_PHYRXEQ`
+        """
         self.retune = PP_PHYRETUNE(conn, module_id, port_id, serdes_xindex)
+        """Retuning of the PHY.
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_PHYRETUNE`
+        """
         self.autotune = PP_PHYAUTOTUNE(conn, module_id, port_id, serdes_xindex)
+        """Autotune of the PHY.
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_PHYAUTOTUNE`
+        """
 
 class SerDes:
-    """Serdes config"""
+    """L23 high-speed port serdes config"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, serdes_xindex: int) -> None:
         self.phy = SDPhy(conn, module_id, port_id, serdes_xindex)
+        """PHY configuration"""
         self.eye_diagram = SDEyeDiagram(conn, module_id, port_id, serdes_xindex)
+        """Eye diagram"""
     
     def __await__(self):
         return self._setup().__await__()

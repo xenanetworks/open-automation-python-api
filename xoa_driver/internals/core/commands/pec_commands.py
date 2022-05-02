@@ -24,11 +24,12 @@ class PEC_INDICES:
     distribution (default values) for each value that is not already in use, and
     deletes each custom distribution that is not mentioned in the list. The same can
     be accomplished one-custom-distribution-at-a-time using the PEC_VAL and
-    PEC_DELETE commands. NOTE: Custom distributions which are currently defined are
-    not affected when mentioned in a PEC_INDICES set command. Custom distributions
-    which are currently assigned to an impairment cannot be deleted and any attempt
-    of deleting such a custom distribution using either PEC_DELETE or PEC_INDICES
-    will result in an error.
+    PEC_DELETE commands.
+    
+    .. note::
+        
+        Custom distributions which are currently defined are not affected when mentioned in a PEC_INDICES set command. Custom distributions which are currently assigned to an impairment cannot be deleted and any attempt of deleting such a custom distribution using either :class:`~xoa_driver.internals.core.commands.pec_commands.PEC_DELETE` or :class:`~xoa_driver.internals.core.commands.pec_commands.PEC_INDICES` will result in an error.
+
     """
 
     code: typing.ClassVar[int] = 1610
@@ -117,7 +118,7 @@ class PEC_VAL:
         :type linear: OnOff
         :param symmetric: reserved for future use, must be set to 0.
         :type symmetric: OnOff
-        :param entry_count: defines the number of entries in "dataX" (allowed value: 512,1024). NOTE: For Latency, 1024 entries are used, and for rest, 512 entries are used)
+        :param entry_count: defines the number of entries in "dataX" (allowed value: 512,1024). For Latency, 1024 entries are used, and for rest, 512 entries are used)
         :type entry_count: int
         :param data_x: array size="num_entries", holds values to be filled in the RAM memory.
         :type data_x: List[int]
@@ -181,10 +182,12 @@ class PEC_COMMENT:
 @dataclass
 class PEC_DELETE:
     """
-    Deletes the custom distribution definition. NOTE: Once a customer has defined a
-    customer distribution using PEC_VAL, it is defined until it is explicitly
-    deleted.Only customer distributions which are not referenced by any impairments,
-    can be deleted.
+    Deletes the custom distribution definition.
+    
+    .. note::
+    
+        Once a customer has defined a customer distribution using :class:`~xoa_driver.internals.core.commands.pec_commands.PEC_VAL`, it is defined until it is explicitly deleted.Only customer distributions which are not referenced by any impairments, can be deleted.
+
     """
 
     code: typing.ClassVar[int] = 1682
@@ -200,10 +203,7 @@ class PEC_DELETE:
         pass
 
     def set(self) -> "Token":
-        """Deletes the custom distribution definition. NOTE: Once a customer has defined a
-        customer distribution using PEC_VAL, it is defined until it is explicitly
-        deleted.Only customer distributions which are not referenced by any impairments,
-        can be deleted.
+        """Deletes the custom distribution definition. 
         """
         return Token(
             self._connection,
@@ -220,10 +220,11 @@ class PEC_DELETE:
 @dataclass
 class PEC_DISTTYPE:
     """
-    Retrieves if a custom distribution is defined for latency or non-latency. NOTE:
-    Using PEC_DISTTYPE as set has no effect. The disttype is determined upon custom
-    distribution creation and cannot be modified later. However, it is legal to
-    issue the PEC_DISTTYPE set command with no effect.
+    Retrieves if a custom distribution is defined for latency or non-latency.
+    
+    .. note::
+    
+        Using :class:`~xoa_driver.internals.core.commands.pec_commands.PEC_DISTTYPE` as set has no effect. The disttype is determined upon custom distribution creation and cannot be modified later. However, it is legal to issue the :class:`~xoa_driver.internals.core.commands.pec_commands.PEC_DISTTYPE` set command with no effect.
     """
 
     code: typing.ClassVar[int] = 1683

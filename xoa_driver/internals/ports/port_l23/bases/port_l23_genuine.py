@@ -43,61 +43,124 @@ PortDatasetIndices = idx_mgr.IndexManager[PortDatasetIdx]
 
 
 class SpeedMode:
-    """Port's speed mode"""
+    """L23 port's speed mode"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.selection = P_SPEEDSELECTION(conn, module_id, port_id)
+        """L23 port speed mode selection.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_SPEEDSELECTION`
+        """
         self.supported = P_SPEEDS_SUPPORTED(conn, module_id, port_id)
+        """L23 port's supported speed modes.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_SPEEDS_SUPPORTED`
+        """
 
 class GenuineSpeed(Speed):
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         super().__init__(conn, module_id, port_id)
         self.mode = SpeedMode(conn, module_id, port_id)
+        """L23 port's speed mode."""
 
 class UnAvailableTime:
     """UnAvailable Time"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.mode = P_UAT_MODE(conn, module_id, port_id)
+        """L23 port's Unvailable Time mode.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_UAT_MODE`
+        """
         self.frame_loss_ratio = P_UAT_FLR(conn, module_id, port_id)
+        """L23 port's Frame Loss Ratio for UAT.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_UAT_FLR`
+        """
 
 
 class GenuineTxConfiguration(TxConfiguration):
+    """L23 port's TX configuration."""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         super().__init__(conn, module_id, port_id)
         self.runt_length = P_TXRUNTLENGTH(conn, module_id, port_id)
+        """L23 port's TX runt length.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_TXRUNTLENGTH`
+        """
         self.preamble_remove = P_TXPREAMBLE_REMOVE(conn, module_id, port_id)
+        """L23 port's removal of preamble from outgoing packets.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_TXPREAMBLE_REMOVE`
+        """
 
 
 class GenuineRx:
+    """L23 port's RX configuration."""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.runt_length = P_RXRUNTLENGTH(conn, module_id, port_id)
+        """L23 port's RX runt length.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_RXRUNTLENGTH`
+        """
         self.preamble_insert = P_RXPREAMBLE_INSERT(conn, module_id, port_id)
+        """L23 port's insertion of preamble into incoming packets.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_RXPREAMBLE_INSERT`
+        """
         self.runt_length_errors = P_RXRUNTLEN_ERRS(conn, module_id, port_id)
+        """L23 port's RX runt length errors..
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_RXRUNTLEN_ERRS`
+        """
 
 
 class PortStatistics:
-    """Port statistics"""
+    """L23 port statistics"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.rx = GenuinePortReceptionStatistics(conn, module_id, port_id)
+        """L23 port's RX statistics."""
         self.tx = PortTransmissionStatistics(conn, module_id, port_id)
+        """L23 port's TX statistics."""
 
 
 class BasePortL23Genuine(BasePortL23):
+    """L23 port basic configuration."""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         super().__init__(conn, module_id, port_id)
         self.flash = P_FLASH(conn, module_id, port_id)
+        """L23 port flashes.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_FLASH`
+        """
         self.status = P_STATUS(conn, module_id, port_id)
+        """L23 port's received optical signal level'.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_STATUS`
+        """
         self.config_load_mode = P_LOADMODE(conn, module_id, port_id)
+        """Chimera Port loading mode.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_LOADMODE`
+        """
         self.lp_support = P_LPSUPPORT(conn, module_id, port_id)
+        """L23 port EEE capabilities.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_LPSUPPORT`
+        """
         self.tcvr_status = P_TCVRSTATUS(conn, module_id, port_id)
+        """L23 port transceiver status information.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_TCVRSTATUS`
+        """
         self.fec_mode = PP_FECMODE(conn, module_id, port_id)
+        """L23 port FEC mode.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.PP_FECMODE`
+        """
 
         self.speed = GenuineSpeed(conn, module_id, port_id)
+        """L23 port speed configuration.
+        """
         self.uat = UnAvailableTime(conn, module_id, port_id)
+        """L23 port UnAvailable Time configuration.
+        """
         self.tx_config = GenuineTxConfiguration(conn, module_id, port_id)
+        """L23 port TX configuration.
+        """
 
         self.transceiver = PortTransceiver(conn, module_id, port_id)
+        """L23 port transceiver configuration.
+        """
         self.capture = PortCapture(conn, module_id, port_id)
+        """L23 port packet capture configuration.
+        """
         self.statistics = PortStatistics(conn, module_id, port_id)
+        """L23 port statistics.
+        """
 
         self.streams: StreamIndices = idx_mgr.IndexManager(
             conn,
@@ -105,18 +168,24 @@ class BasePortL23Genuine(BasePortL23):
             module_id,
             port_id
         )
+        """L23 port stream index manager.
+        """
         self.filters: FilterIndices = idx_mgr.IndexManager(
             conn,
             GenuineFilterIdx,
             module_id,
             port_id
         )
+        """L23 port filter index manager.
+        """
         self.datasets: PortDatasetIndices = idx_mgr.IndexManager(
             conn,
             PortDatasetIdx,
             module_id,
             port_id
         )
+        """L23 port histogram index manager.
+        """
 
     async def _setup(self):
         await super()._setup()
@@ -129,6 +198,11 @@ class BasePortL23Genuine(BasePortL23):
 
     @property
     def is_brr_mode_supported(self) -> bool:
+        """Whether this L23 port supports BRR mode.
+
+        :return: whether this port supports BRR mode.
+        :rtype: bool
+        """
         return "T1" in self.local_states.interface
 
     on_speed_selection_change = functools.partialmethod(utils.on_event, P_SPEEDSELECTION)

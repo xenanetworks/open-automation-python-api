@@ -82,16 +82,45 @@ class L23Tester(BaseTester["testers_state.TesterLocalState"]):
     def __init__(self, host: str, username: str, password: str = "xena", port: int = 22606, *, debug: bool = False) -> None:
         super().__init__(host=host, username=username, password=password, port=port, debug=debug)
         self.management_interface = mi.ManagementInterface(self._conn)
+        """Tester management interface that includes IP address, DHCP, MAC address and hostname.
+        """
+
         self.upload_file = upload_file.UploadFile(self._conn)
+        """File upload functions of the tester.
+        """
+
         self.rest_api_server = rest_api.RestApiServer(self._conn)
+        """REST API server of the tester.
+        """
+
         self.time_keeper = time_keeper.TimeKeeper(self._conn)
+        """TimeKeeper of the tester.
+        """
+
         self.multiuser = C_MULTIUSER(self._conn)
+        """
+        Representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_MULTIUSER`
+        """
+
         self.traffic = C_TRAFFIC(self._conn)
+        """
+        Representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_TRAFFIC`
+        """
+
         self.version_no_minor = C_VERSIONNO_MINOR(self._conn)
+        """
+        Representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_VERSIONNO_MINOR`
+        """
+
         self.build_string = C_BUILDSTRING(self._conn)
+        """
+        Representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_BUILDSTRING`
+        """
 
         self.modules: TypeL23Manager = ModulesManager(self._conn, get_module_type)
-        """Subset of current modules avaliable on tester `xoa_driver.internals.utils.ports_manager.ModulesManager`"""
+        """
+        Module index manager of the L23 tester.
+        """
 
     async def _setup(self):
         await super()._setup()

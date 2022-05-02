@@ -26,7 +26,7 @@ author = u'Xena Networks'
 title = u'Xena OpenAutomation Python API Documentation'
 
 # The full version, including alpha/beta/rc tags.
-release = '1.0'
+release = '1.0.1'
 # The short X.Y version.
 version = '1.0'
 
@@ -49,10 +49,12 @@ add_module_names = False
 autodoc_default_options = {
     'member-order': 'bysource',
     'private-members': False,
-    'undoc-members': False
+    'undoc-members': False,
+    'show-inheritance': True
 }
-autodoc_typehints = 'none'
+autodoc_typehints = 'signature'
 autodoc_typehints_format = 'short'
+autodoc_inherit_docstrings = True
 
 
 # The suffix(es) of source filenames.
@@ -76,7 +78,7 @@ templates_path = ['_templates']
 html_theme = 'sphinx_rtd_theme'
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'xoadriverdoc'
+htmlhelp_basename = 'xoa_driver_doc'
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
@@ -98,6 +100,8 @@ html_theme_options = {
     'style_nav_header_background': '#336851'
 }
 
+html_split_index = True
+
 
 # -- Options for Texinfo output -----------------------------------------------------
 
@@ -113,7 +117,7 @@ intersphinx_disabled_domains = ['std']
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'xoadriverdoc', title, author, 'xoadriverdoc', 'Xena OpenAutomation high-level and low-level Python APIs and code examples for Xena TGA testers.', 'Miscellaneous'),
+    (master_doc, 'xoa_driver_doc', title, author, 'xoa_driver_doc', 'Xena OpenAutomation high-level and low-level Python APIs and code examples for Xena TGA testers.', 'Miscellaneous'),
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -134,12 +138,15 @@ latex_elements = {
 
 # Latex figure (float) alignment
 #'figure_align': 'htbp',
+
+#'printindex': r'\def\twocolumn[#1]{#1}\printindex',
+'makeindex': r'\usepackage[columns=1]{idxlayout}\makeindex',
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
-latex_documents = [(master_doc, 'xoadriverdoc.tex', title, author, 'manual'),
+latex_documents = [(master_doc, 'xoa_driver_doc.tex', title, author, 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -151,7 +158,7 @@ latex_documents = [(master_doc, 'xoadriverdoc.tex', title, author, 'manual'),
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'xoadriverdoc', title, [author], 1)
+    (master_doc, 'xoa_driver_doc', title, [author], 1)
 ]
 
 
@@ -161,4 +168,4 @@ epub_author = author
 epub_publisher = 'https://xenanetworks.com'
 epub_copyright = copyright
 epub_show_urls = 'footnote'
-epub_basename = 'xoadriverdoc'
+epub_basename = 'xoa_driver_doc'

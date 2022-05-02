@@ -20,15 +20,20 @@ from .base_index import BaseIndex
 
 MT = TypeVar("MT")
 class MatchTermIdx(BaseIndex):
+    """L23 Match Term Index Manager"""
     def __init__(self, conn: "itf.IConnection", kind: "kind.IndicesKind", observer: "idx_obs.IndicesObserver") -> None:
         super().__init__(conn, kind, observer)
         
         self.protocol = PM_PROTOCOL(conn, *kind)
+        """Representation of :class:`~xoa_driver.internals.core.commands.pm_commands.PM_PROTOCOL`"""
         self.position = PM_POSITION(conn, *kind)
+        """Representation of :class:`~xoa_driver.internals.core.commands.pm_commands.PM_POSITION`"""
         self.match = PM_MATCH(conn, *kind)
+        """Representation of :class:`~xoa_driver.internals.core.commands.pm_commands.PM_MATCH`"""
     
     async def delete(self):
         await PM_DELETE(self._conn, *self.kind).set()
+        """Representation of :class:`~xoa_driver.internals.core.commands.pm_commands.PM_DELETE`"""
         self._observer.notify(idx_obs.IndexEvents.DEL, self)
     
     @classmethod

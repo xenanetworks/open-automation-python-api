@@ -24,9 +24,11 @@ class M_RESERVATION:
     opposed to its ports). The module must be reserved before its hardware image can
     be upgraded. The owner of the session must already have been specified.
     Reservation will fail if the chassis or any ports are reserved for other users.
-    Note: The reservation parameters are slightly asymmetric with respect to
-    set/get. When querying for the current reservation state, the chassis will use
-    these values
+    
+    .. note::
+    
+        The reservation parameters are slightly asymmetric with respect to set/get. When querying for the current reservation state, the chassis will use these values.
+
     """
 
     code: typing.ClassVar[int] = 72
@@ -210,12 +212,10 @@ class M_PORTCOUNT:
     """
     Gets the maximum number of ports on a module.
     
-    Please note: For a CFP-type
-    module this number refers to the maximum number of ports possible on the module
-    regardless of the media configuration. So if a CFP-type module can be set in for
-    instance either 1x100G mode or 8x10G mode then this command will always return
-    8. If you want the current number of ports for a CFP-type module you need to
-    read the ``M_CFPCONFIG`` command which returns the number of current ports.
+    .. note::
+    
+        For a CFP-type module this number refers to the maximum number of ports possible on the module regardless of the media configuration. So if a CFP-type module can be set in for instance either 1x100G mode or 8x10G mode then this command will always return 8. If you want the current number of ports for a CFP-type module you need to read the :class:`~xoa_driver.internals.core.commands.m_commands.M_CFPCONFIG` command which returns the number of current ports.
+
     """
 
     code: typing.ClassVar[int] = 80
@@ -230,13 +230,6 @@ class M_PORTCOUNT:
 
     def get(self) -> "Token[GetDataAttr]":
         """Gets the maximum number of ports on a module.
-
-        Please note: For a CFP-type
-        module this number refers to the maximum number of ports possible on the module
-        regardless of the media configuration. So if a CFP-type module can be set in for
-        instance either 1x100G mode or 8x10G mode then this command will always return
-        8. If you want the current number of ports for a CFP-type module you need to
-        read the ``M_CFPCONFIG`` command which returns the number of current ports.
 
         :return: the maximum number of ports on the test module
         :rtype: M_PORTCOUNT.GetDataAttr

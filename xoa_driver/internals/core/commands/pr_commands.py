@@ -444,8 +444,7 @@ class PR_UAT_STATUS:
 @dataclass
 class PR_UAT_TIME:
     """
-    This command will show the current UAT (UnAvailable Time) state, which is used
-    in Valkyrie1564.
+    This command will show the current number of unavailable seconds, which is used in Valkyrie1564.
     """
 
     code: typing.ClassVar[int] = 256

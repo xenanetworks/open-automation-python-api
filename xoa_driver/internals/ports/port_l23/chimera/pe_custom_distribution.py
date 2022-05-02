@@ -19,8 +19,17 @@ class CustomDistribution:
         self.__port_id = port_id
         self.__cdi = custom_distribution_index
         self.definition = PEC_VAL(conn, module_id, port_id, custom_distribution_index)
+        """Custom distribution defintion.
+        Representation of :class:`~xoa_driver.internals.core.commands.pec_commands.PEC_VAL`
+        """
         self.comment = PEC_COMMENT(conn, module_id, port_id, custom_distribution_index)
+        """Custom distribution description.
+        Representation of :class:`~xoa_driver.internals.core.commands.pec_commands.PEC_COMMENT`
+        """
         self.type = PEC_DISTTYPE(conn, module_id, port_id, custom_distribution_index)
+        """Custom distribution type.
+        Representation of :class:`~xoa_driver.internals.core.commands.pec_commands.PEC_DISTTYPE`
+        """
     
     async def delete(self) -> None:
         """
@@ -89,7 +98,7 @@ class CustomDistributions:
     async def assign(self, idx_cuantity: int = 0 ) -> None:
         """
         Assign Custom distribution indices, all indices which is out of range will be removed.
-        idx_cuantity permited values is: 0 <= idx_cuantity <= 40
+        ``idx_cuantity`` permitted values is: 0 <= idx_cuantity <= 40
         """
         if not (0 < idx_cuantity < 40):
             raise ValueError("idx_cuantity must be in range of: 0 <= idx_cuantity <= 40")
@@ -97,5 +106,5 @@ class CustomDistributions:
         await self.server_sync()
 
     async def remove(self, position_idx: int) -> None:
-        """Remove indice from port"""
+        """Remove a index from port"""
         await self.__items[position_idx].delete()

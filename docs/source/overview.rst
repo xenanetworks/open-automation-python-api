@@ -34,6 +34,6 @@ About This Documentation
 
 :ref:`High-Level API <hl_api>` covers the notations, terminologies, features, and code examples of XOA High-Level API (HL-PYTHON).  
 
-:ref:`Low-Level API <ll_api>` includes then notations, terminologies, features, and code examples of XOA Low-Level API (LL-PYTHON).  
+:ref:`Low-Level API <ll_api>` includes the notations, terminologies, features, and code examples of XOA Low-Level API (LL-PYTHON).  
 
-:ref:`API Documentation <command_ref>` covers all the functions that make up XOA Python API. The description of API functions are automatically generated from the docstring in the source code.
+:ref:`API Documentation <command_ref>` covers all the functions that make up XOA Python API. The description of API functions is automatically generated from the docstring in the source code.
