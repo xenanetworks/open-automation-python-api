@@ -77,16 +77,15 @@ Low-Level Python APIs
 
 The low-level Python APIs are categorized into five groups:
 
-* :ref:`L23 Basic <l23_basic>` (Valkyrie)
-* :ref:`L23 TSN <l23_tsn>` (Valkyrie)
-* :ref:`L47 <l47>` (Vulcan)
-* :ref:`Impairment <impairment>` (Chimera)
+* :ref:`L23 (Valkyrie) <l23>`
+* :ref:`L47 (Vulcan) <l47>`
+* :ref:`Impairment (Chimera) <impairment>`
 * :ref:`Supporting <Supporting>`
 
 
-.. _l23_basic:
+.. _l23:
 
-L23 Basic
+L23
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Module ``xoa_driver.lli.commands.c_commands``
@@ -340,33 +339,6 @@ Module ``xoa_driver.lli.commands.px_commands``
 This module contains the **L23 port transceiver commands** that deal with access to the register interfaces of the transceiver on a port.
 
 .. automodule:: xoa_driver.internals.core.commands.px_commands
-   :members:
-   :no-undoc-members:
-   :exclude-members: GetDataAttr, SetDataAttr
-
-
-.. _l23_tsn:
-
-L23 TSN
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Module ``xoa_driver.lli.commands.xp_commands``
-""""""""""""""""""""""""""""""""""""""""""""""""
-
-This module contains the **TSN extension for L23 port commands**.
-
-.. automodule:: xoa_driver.internals.core.commands.xp_commands
-   :members:
-   :no-undoc-members:
-   :exclude-members: GetDataAttr, SetDataAttr
-
-
-Module ``xoa_driver.lli.commands.xpd_commands``
-""""""""""""""""""""""""""""""""""""""""""""""""
-
-This module contains the **TSN extension for L23 port histogram commands**.
-
-.. automodule:: xoa_driver.internals.core.commands.xpd_commands
    :members:
    :no-undoc-members:
    :exclude-members: GetDataAttr, SetDataAttr
