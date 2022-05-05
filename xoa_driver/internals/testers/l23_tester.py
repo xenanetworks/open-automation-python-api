@@ -7,6 +7,7 @@ from xoa_driver.internals.core.commands import (
     C_PORTCOUNTS,
     C_MULTIUSER,
     C_TRAFFIC,
+    C_TRAFFICSYNC,
     C_VERSIONNO_MINOR,
     C_BUILDSTRING,
 )
@@ -106,7 +107,11 @@ class L23Tester(BaseTester["testers_state.TesterLocalState"]):
         """
         Representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_TRAFFIC`
         """
-
+        self.traffic_sync = C_TRAFFICSYNC(self._conn)
+        """
+        Representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_TRAFFICSYNC`
+        """
+        
         self.version_no_minor = C_VERSIONNO_MINOR(self._conn)
         """
         Representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_VERSIONNO_MINOR`
