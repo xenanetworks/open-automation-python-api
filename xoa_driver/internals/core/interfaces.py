@@ -6,7 +6,7 @@ if typing.TYPE_CHECKING:
 
 class IsDataclass(typing.Protocol):
     __dataclass_fields__: typing.Dict
-
+    
 
 class ICommand(typing.Protocol):
     code: typing.ClassVar[int]
@@ -16,14 +16,16 @@ class ICommand(typing.Protocol):
 
 class ICmdOnlySet(ICommand, typing.Protocol):
     """A template class which provide only <cmd_set> method."""
-    SetDataAttr: IsDataclass
+    @property
+    def SetDataAttr(self) -> IsDataclass: ...
 
     set: typing.Callable
 
 
 class ICmdOnlyGet(ICommand, typing.Protocol):
     """A template class which provide only <cmd_get> method."""
-    GetDataAttr: IsDataclass
+    @property
+    def GetDataAttr(self) -> IsDataclass: ...
 
     get: typing.Callable
 

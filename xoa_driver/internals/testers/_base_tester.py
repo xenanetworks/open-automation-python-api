@@ -2,7 +2,9 @@ from typing import (
     TypeVar,
     Awaitable,
     Generic,
-    Callable
+    Callable,
+    Generator,
+    Any
 )
 import functools
 from xoa_driver.internals.core.commands import enums
@@ -123,7 +125,10 @@ class BaseTester(Generic[TesterStateStorage]):
     async def __aexit__(self, type, value, traceback) -> None:
         await self.session.logoff()
 
-    def __await__(self: T): # type: ignore
+    def __await__(self: T) -> Generator[Any, None, T]: 
+        if self.session.is_online:
+            async def skip(): return self
+            return skip().__await__()
         return self._setup().__await__()
 
     async def _setup(self: T) -> T:
