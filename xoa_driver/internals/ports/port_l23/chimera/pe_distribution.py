@@ -65,7 +65,7 @@ class ImpairmentDistributionConfig:
         """Uniform distribution configuration.
         Representation of :class:`~xoa_driver.internals.core.commands.ped_commands.PED_UNI`
         """
-        self.gausian = PED_GAUSS(conn, module_id, port_id, flow_index, impairment_type_index)
+        self.gaussian = PED_GAUSS(conn, module_id, port_id, flow_index, impairment_type_index)
         """Gaussian distribution configuration.
         Representation of :class:`~xoa_driver.internals.core.commands.ped_commands.PED_GAUSS`
         """
@@ -102,15 +102,21 @@ class ImpairmentTypeDistribution:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int) -> None:
         self.drop_type_config = ImpairmentDistributionConfig(conn, module_id, port_id, flow_index, ImpairmentTypeIndex.DROP)
         """Impairment distribution configuration of impairment type Drop."""
-        self.misorder_type_config = ImpairmentDistributionConfig(conn, module_id, port_id, flow_index,ImpairmentTypeIndex.MISORDER)
+
+        self.misorder_type_config = ImpairmentDistributionConfig(conn, module_id, port_id, flow_index, ImpairmentTypeIndex.MISORDER)
         """Impairment distribution configuration of impairment type Misorder."""
+
         self.delayjitter_type_config = ImpairmentDistributionConfig(conn, module_id, port_id, flow_index,ImpairmentTypeIndex.DELAYJITTER)
         """Impairment distribution configuration of impairment type Delay Jitter."""
+
         self.duplication_type_config = ImpairmentDistributionConfig(conn, module_id, port_id, flow_index,ImpairmentTypeIndex.DUPLICATION)
         """Impairment distribution configuration of impairment type Duplication."""
+
         self.corruption_type_config = ImpairmentDistributionConfig(conn, module_id, port_id, flow_index,ImpairmentTypeIndex.CORRUPTION)
         """Impairment distribution configuration of impairment type Corruption."""
+
         self.policer_type_config = ImpairmentDistributionConfig(conn, module_id, port_id, flow_index,ImpairmentTypeIndex.POLICER)
         """Impairment distribution configuration of impairment type Policer."""
+        
         self.shaper_type_config = ImpairmentDistributionConfig(conn, module_id, port_id, flow_index,ImpairmentTypeIndex.SHAPER)
         """Impairment distribution configuration of impairment type Shaper."""
