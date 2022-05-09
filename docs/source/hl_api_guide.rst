@@ -77,16 +77,16 @@ To use ``get`` and ``set`` methods, you need to use ``await`` because they are a
 
 **Example**:
 
-    .. code-block:: python
-        :linenos:
+.. code-block:: python
+    :linenos:
 
-        await <Port>.speed.supported.get()
+    await <Port>.speed.supported.get()
 
-        await <Port>.speed.selection.set(mode=PortSpeedMode.AUTO)
+    await <Port>.speed.selection.set(mode=PortSpeedMode.AUTO)
 
-        await <Port>.<resource>.speed.selection.set_auto()
+    await <Port>.<resource>.speed.selection.set_auto()
 
-        await <Stream>.packet.length.set_incrementing(min_val=100, max_val=500)
+    await <Stream>.packet.length.set_incrementing(min_val=100, max_val=500)
 
 .. seealso::
 
@@ -235,15 +235,15 @@ Methods to retrieve _multiple_ resources from a :term:`resource manager`:
 
 **Syntax**:
 
-    .. code-block:: python
+.. code-block:: python
 
-        obtain_multiple(<module-index> | <port-index>, ...)
+    obtain_multiple(<module-index> | <port-index>, ...)
 
 **Example**:
 
-    .. literalinclude:: /code_example/hl/obtain_multiple_module.py
-        :linenos:
-        :emphasize-lines: 10
+.. literalinclude:: /code_example/hl/obtain_multiple_module.py
+    :linenos:
+    :emphasize-lines: 10
 
 
 Index Manager
