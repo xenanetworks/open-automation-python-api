@@ -216,6 +216,9 @@ Each module object contains a :term:`Port Manager`, which can be accessed throug
 
     A :term:`Module Manager` can contain modules of different :term:`Module Types<Module Type>`. This is because there can be various test modules installed in a physical tester. On the other hand, a :term:`Port Manager` contains ports of the same :term:`Port Type`. This is because the ports on a module are of the same type.
 
+Retrieve a single item
+''''''''''''''''''''''''''''''''
+
 Methods to retrieve a module or a port from a :term:`resource manager`:
 
 **Syntax**:
@@ -231,7 +234,10 @@ Methods to retrieve a module or a port from a :term:`resource manager`:
     :emphasize-lines: 9
 
 
-Methods to retrieve _multiple_ resources from a :term:`resource manager`:
+Retrieve a multiple items
+''''''''''''''''''''''''''''''''
+
+Methods to retrieve multiple resources from a :term:`resource manager`:
 
 **Syntax**:
 
@@ -428,7 +434,4 @@ Both scripts are using the configuration text file below:
     .. literalinclude:: /code_example/hl_vs_cli/xoa_script.py
         :caption: xoa_script.py
         :linenos:
-
-
-
 
