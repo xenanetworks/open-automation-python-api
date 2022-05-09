@@ -159,6 +159,7 @@ class PED_FIXED:
     _connection: "interfaces.IConnection"
     _module: int
     _port: int
+    _flow_xindex: int
     _impairment_type_xindex: int
 
     @dataclass(frozen=True)
@@ -175,7 +176,7 @@ class PED_FIXED:
         :return: the fixed probability in ppm. Default value is 0.
         :rtype: PED_FIXED.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._impairment_type_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
     def set(self, probability: int) -> "Token":
         """Set the proability of a Fixed Rate distribution.
@@ -183,7 +184,7 @@ class PED_FIXED:
         :param probability: the fixed probability in ppm. Default value is 0.
         :type probability: int
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._impairment_type_xindex], probability=probability))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], probability=probability))
 
 
 @register_command
@@ -202,6 +203,7 @@ class PED_RANDOM:
     _connection: "interfaces.IConnection"
     _module: int
     _port: int
+    _flow_xindex: int
     _impairment_type_xindex: int
 
     @dataclass(frozen=True)
@@ -218,7 +220,7 @@ class PED_RANDOM:
         :return: specifies the random probability in ppm. Default value is 0.
         :rtype: PED_RANDOM.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._impairment_type_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
     def set(self, probability: int) -> "Token":
         """Set the probability of a Random Rate distribution. 
@@ -226,7 +228,7 @@ class PED_RANDOM:
         :param probability: specifies the random probability in ppm. Default value is 0.
         :type probability: int
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._impairment_type_xindex], probability=probability))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], probability=probability))
 
 
 @register_command
@@ -242,6 +244,7 @@ class PED_BER:
     _connection: "interfaces.IConnection"
     _module: int
     _port: int
+    _flow_xindex: int
     _impairment_type_xindex: int
 
     @dataclass(frozen=True)
@@ -260,7 +263,7 @@ class PED_BER:
         :return: the configuration of Bit Error Rate distribution
         :rtype: PED_BER.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._impairment_type_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
     def set(self, coef: int, exp: int) -> "Token":
         """Set the configuration of Bit Error Rate distribution.
@@ -270,7 +273,7 @@ class PED_BER:
         :param exp: specifies the exponent for BER. Default value: -10 (Range is -18 to -1).
         :type exp: int
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._impairment_type_xindex], coef=coef, exp=exp))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], coef=coef, exp=exp))
 
 
 @register_command
@@ -334,6 +337,7 @@ class PED_RANDOMBURST:
     _connection: "interfaces.IConnection"
     _module: int
     _port: int
+    _flow_xindex: int
     _impairment_type_xindex: int
 
     @dataclass(frozen=True)
@@ -354,7 +358,7 @@ class PED_RANDOMBURST:
         :return: configuration of Random Burst distribution.
         :rtype: PED_RANDOMBURST.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._impairment_type_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
     def set(self, minimum: int, maximum: int, probability: int) -> "Token":
         """Set the configuration of Random Burst distribution.
@@ -368,7 +372,7 @@ class PED_RANDOMBURST:
         """
         return Token(
             self._connection,
-            build_set_request(self, module=self._module, port=self._port, indices=[self._impairment_type_xindex], minimum=minimum, maximum=maximum, probability=probability),
+            build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], minimum=minimum, maximum=maximum, probability=probability),
         )
 
 
@@ -904,7 +908,7 @@ class PED_ENABLE:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        action: XmpField[XmpByte] = XmpField(XmpByte)  # coded byte, speficying whether impairment is enabled.
+        action: XmpField[XmpByte] = XmpField(XmpByte)  # coded byte, specifying whether impairment is enabled.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether impairment is enabled of disabled.
