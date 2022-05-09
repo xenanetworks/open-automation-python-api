@@ -13,14 +13,16 @@ Xena OpenAutomation (XOA) Python API is a driver providing user-friendly communi
 
 .. toctree::
    :maxdepth: 4
-   :numbered:
+   :numbered: 3
    :caption: Table of Contents
 
-   overview
+   introduction
    getting_started
-   high_level_api_guide
-   low_level_api_guide
-   xoa_driver_package
+   general_info
+   hl_api_guide
+   ll_api_guide
+   api_reference
+   glossary
 
 
 

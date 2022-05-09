@@ -1,12 +1,11 @@
-.. _command_ref:
-
+.. _api-documentation-label:
 
 API Documentation
 =============================
 
-This section includes the Python module references of both XOA :ref:`HL-PYTHON <hl_api>` and :ref:`LL-PYTHON <ll_api>`.
+This section includes the Python module references of both XOA :term:`HL-API` and :term:`LL-API`.
 
-High-Level Python APIs
+High-Level API Reference
 -----------------------------
 
 .. important::
@@ -72,7 +71,7 @@ This module contains all exception classes that can be propagated to the upper l
    :members:
 
 
-Low-Level Python APIs
+Low-Level API Reference
 -----------------------------
 
 The low-level Python APIs are categorized into five groups:

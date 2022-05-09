@@ -1,442 +1,199 @@
-.. _getting_started:
-
+.. _getting-started-label:
 
 Getting Started
 ==================================
 
-
 Installation
 --------------------------------
 
-Install Using pip
+Prerequisites
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Make sure Python ``pip`` is installed on you system. If you are using virtualenv, then pip is already installed into environments created by virtualenv, and using sudo is not needed. If you do not have pip installed, download this file: https://bootstrap.pypa.io/get-pip.py and run ``python get-pip.py``.
+Python
+''''''''''''''''
 
-To install the latest, use pip to install from pypi:
+XOA Python API requires that you `install Python <https://realpython.com/installing-python/>`_  on your system.
 
-.. code-block:: shell
-    :linenos:
-    
-    ~/> pip install xoa-driver
+.. note:: 
 
+    XOA Python API requires Python >= 3.8.
 
-To upgrade to the latest, use pip to upgrade from pypi:
+pip
+''''''''''''''''
 
-.. code-block:: shell
-    :linenos:
-    
-    ~/> pip install xoa-driver --upgrade
+Make sure ``pip`` is installed on your system. ``pip`` is the `package installer for Python <https://packaging.python.org/guides/tool-recommendations/>`_ . You can use it to install packages from the `Python Package Index <https://pypi.org/>`_  and other indexes.
 
+Usually, ``pip`` is automatically installed if you are:
 
-Install From Source
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+* working in a `virtual Python environment <https://packaging.python.org/en/latest/tutorials/installing-packages/#creating-and-using-virtual-environments>`_ (`virtualenv <https://virtualenv.pypa.io/en/latest/#>`_ or `venv <https://docs.python.org/3/library/venv.html>`_ ). It is not necessary to use ``sudo pip`` inside a virtual Python environment.
+* using Python downloaded from `python.org <https://www.python.org/>`_ 
 
-Make sure packages ``wheel``, ``setuptools`` are installed  on your system.
+If you don't have ``pip`` installed, you can:
 
-Install ``wheel`` and ``setuptools`` using pip:
+* Download the script, from https://bootstrap.pypa.io/get-pip.py.
+* Open a terminal/command prompt, ``cd`` to the folder containing the ``get-pip.py`` file and run:
 
-.. code-block:: shell
-    :linenos:
-    
-    ~/> pip install wheel setuptools
+.. tab:: Windows
 
+    .. code-block:: doscon
+        :caption: Install pip in Windows environment.
 
-Download the source distribution first. Unzip the zip archive and run the ``setup.py`` script to install the package:
+        > py get-pip.py
 
-.. code-block:: shell
-    :linenos:
-    
-    /xoa_driver> python setup.py install
+.. tab:: macOS/Linux
 
+    .. code-block:: console
+        :caption: Install pip in macOS/Linux environment.
 
-Then you can build ``.whl`` file for distribution:
-
-.. code-block:: shell
-    :linenos:
-    
-    /xoa_driver> python setup.py bdist_wheel
-
-
-
-API Structure
--------------------
-
-XOA Python API consists of two layers on top of the tester proprietary binary commands, as shown in the diagram below.
-
-The XOA High-Level Python API (HL-PYTHON) provides abstraction that helps developers to quickly develop scripts or program in an object-oriented fashion with explicit definition of commands of different *tester*, *module*, *port* types. In addition, the HL-PYTHON layer provides functionalities such as *auto connection keep-alive*, *auto index management*, *resources identification tracking for push notification*, etc. 
-
-For example, to change the description of a tester, the HL-PYTHON is:
-
-.. code-block:: python
-    :linenos:
-
-    await tester.comment.set(comment="my tester")
-
-
-The XOA Low-Level Python API (LL-PYTHON) contains the class definition of each command, and gives developers a direct control of the tester. However, the LL-PYTHON does not provide functionalities such as *auto connection keep-alive* and *auto index management*.
-
-For example, to change the description of a tester by, the LL-PYTHON is:
-
-.. code-block:: python
-    :linenos:
-
-    await C_COMMENT(handler).set(comment="my tester")
-
-
-::
-
-    +---------------------------------+
-    |      High-Level Python API      |
-    +---------------------------------+
-    +---------------------------------+
-    |      Low-Level Python API       |
-    +---------------------------------+ 
-    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-    +---------------------------------+
-    |    Binary Xena Management       |
-    |      Protocol (proprietary)     |
-    +---------------------------------+
-    +---------------------------------+
-    |     Xena Physical / Virtual     |
-    |            Testers              |
-    +---------------------------------+
-
-
-Principle of Test Resource Management
-----------------------------------------------
-
-Test resource includes ``Tester``, ``Module``, and ``Port``. To management them, i.e., read, write, create, delete, you must follow the principles below:
-
-1. To do ``set`` (write/create) on a test resource, i.e. ``Tester``, ``Module``, or ``Port``, you must reserve the resource under your username.
-2. To do ``get`` (read) on a test resource or configuration, you don't need to reserve.
-3. To reserve a tester, you must make sure all the modules and ports are either released or under your ownership.
-4. To reserve a module, you must make sure all the ports are either released or under your ownership.
-
-.. important::
-
-    Starting traffic using ``C_TRAFFIC`` of ``C_TRAFFICSYNC`` does **NOT** require chassis reservation but port reservation, although their command prefix is ``C_``.
-
-
-Hierarchical Structure of Test Resources
-----------------------------------------------
-
-This section helps you understand how testers are internally structured if you are new to Xena.
-
-
-Valkyrie Tester (L23 Physical)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Valkyrie Tester (physical) has the following hierarchical structure.
-
-Valkyrie Tester, Valkyrie Module, and Valkyrie Port are physical resources that correspond to the physical configuration. They cannot be created or deleted.
-
-Everything below Valkyrie Port is virtual resources that can be created, deleted, and configured as needed.
-
-::
-
-    ---------------------
-    |  Valkyrie Tester  |
-    ---------------------
-        |
-        |   -----------------------
-        |---|   Valkyrie Module   |
-        |   -----------------------
-        |        |
-        |        |    ------------------- 
-        |        |----|  Valkyrie Port  | 
-        |        |    ------------------- 
-        |        |        |
-        |        |        |    ************************* 
-        |        |        |----|  Port Statistics      | 
-        |        |        |    ************************* 
-        |        |        |    ************************* 
-        |        |        |----|  Stream               | 
-        |        |        |    ************************* 
-        |        |        |        |
-        |        |        |        |    **********************  
-        |        |        |        |----|  Filter            | 
-        |        |        |        |    **********************  
-        |        |        |        |    **********************  
-        |        |        |        |----|  Modifier          | 
-        |        |        |        |    ********************** 
-        |        |        |        |    **********************  
-        |        |        |        |----|  Histogram         | 
-        |        |        |        |    ********************** 
-        |        |        |        |    ********************** 
-        |        |        |        |----|  Length Term       | 
-        |        |        |        |    ********************** 
-        |        |        |        |    ********************** 
-        |        |        |        |----|  Match Term        | 
-        |        |        |        |    ********************** 
-        |        |        |        |    ********************** 
-        |        |        |        |----|  Test Payload      | 
-        |        |        |        |    ********************** 
-        |        |        |        |    ********************** 
-        |        |        |        |----|  Stream Statistics | 
-        |        |        |        |    **********************
-        |        |        |        |    
-
-
-Vulcan Tester (L47 Physical and Virtual)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Vulcan Tester (physical) has the following hierarchical structure.
-
-Vulcan Tester, Vulcan Module, and Vulcan Port are physical resources that correspond to the physical configuration. They cannot be created or deleted.
-
-Everything below Vulcan Port is virtual resources that can be created, deleted, and configured as needed.
-
-
-::
-
-    ------------------
-    |  Vulcan Tester |
-    ------------------
-        |
-        |   -------------------
-        |---|  Vulcan Module  |
-        |   -------------------
-        |        |
-        |        |    ------------------ 
-        |        |----|  Vulcan Port   | 
-        |        |    ------------------ 
-        |        |        |
-        |        |        |    ************************ 
-        |        |        |----|  Port Statistics     | 
-        |        |        |    ************************
-        |        |        |    ************************ 
-        |        |        |----|  Connection Group    | 
-        |        |        |    ************************
-        |        |        |    
-
-
-::
-
-    ----------------------
-    |  Vulcan VE Tester  |
-    ----------------------
-        |
-        |   ----------------------
-        |---|  Vulcan VE Module  |
-        |   ----------------------
-        |        |
-        |        |    -------------------- 
-        |        |----|  Vulcan VE Port  | 
-        |        |    -------------------- 
-        |        |        |
-        |        |        |    ************************ 
-        |        |        |----|  Port Statistics     | 
-        |        |        |    ************************ 
-        |        |        |    ************************ 
-        |        |        |----|  Connection Group    | 
-        |        |        |    ************************
-        |        |        |    
-
-
-
-Chimera Emulator (Network Impairment Physical)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Chimera Emulator (physical) has the following hierarchical structure.
-
-Chimera Emulator, Chimera Module, and Chimera Port are physical resources that correspond to the physical configuration. They cannot be created or deleted.
-
-Everything below Chimera Port is virtual resources that can be created, deleted, and configured as needed.
-
-::
-
-    ------------------------
-    |  Chimera Emulator    |
-    ------------------------
-        |
-        |   ----------------------
-        |---|  Chimera Module    |
-        |   ----------------------
-        |        |
-        |        |    ----------------------
-        |        |----|  Chimera Port      | 
-        |        |    ----------------------
-        |        |        |
-        |        |        |    ************************* 
-        |        |        |----|  Port Statistics      | 
-        |        |        |    ************************* 
-        |        |        |    *************************
-        |        |        |----|  Flow                 | 
-        |        |        |    *************************
-        |        |        |        |
-        |        |        |        |    ****************************
-        |        |        |        |----|  Filter                  | 
-        |        |        |        |    ****************************
-        |        |        |        |    ****************************
-        |        |        |        |----|  Impairment Config       | 
-        |        |        |        |    ****************************
-        |        |        |        |    ****************************
-        |        |        |        |----|  Impairment Distribution | 
-        |        |        |        |    ****************************
-        |        |        |        |    ****************************
-        |        |        |        |----|  Flow Statistics         | 
-        |        |        |        |    ****************************
-        |        |        |        |    
-
-
-Increase Performance by Commands Grouping
---------------------------------------------------------------
-
-Sending commands one by one using CLI is extremely slow in terms of execution speed. This is because the program needs to wait for the response from the tester. More, using CLI it is difficult to group commands together and send them in one round.
-
-XOA Python API provides two ways to group commands together to send to testers, which greatly increase commands execution speed. This is very useful, when the developer has many ports and many streams to configure, as well as querying the port and stream statistics as quickly as possible.
-
-Parallel Grouping
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-``asyncio.gather`` groups commands in a parallel way. Commands are sent out in parallel (with neglectable delay between each other). This is very useful when you want to send commands to different test resources, e.g. two different ports on the same tester, or two different ports on different testers.
-
-.. code-block:: python
-    :linenos:
-
-    await asyncio.gather(
-        command_1,
-        command_2,
-        command_3,
-        ...
-    )
-
-
-Sequential Grouping
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-``utils.apply`` groups commands in a sequential way. Commands are sent out in one large batch to the tester. This is very useful when you want to send many commands to the same test resource, e.g. a port on a tester.
-
-.. code-block:: python
-    :linenos:
-
-    commands = [
-        command_1,
-        command_2,
-        command_3,
-        ...
-    ]
-    async for response in utils.apply(*commands):
-        print(response)
-
-However, abusing this function can cause memory issue on your computer. This is because the computer needs to store all the grouped commands in the memory until the responses from the testers arrive. To avoid potential grouping abuse, a limit of **200** is place to the maximum number of  commands that you can group sequentially.
-
-
-``utils.apply_iter`` does exactly the same thing as ``utils.apply`` except it does not aggregate responses but return them one by one as soon as they are ready. This allows sending large batches commands without causing memory issue.
-
-.. code-block:: python
-    :linenos:
-
-    commands = [
-        command_1,
-        command_2,
-        command_3,
-        ...
-    ]
-    async for response in utils.apply_iter(*commands):
-        print(response)
-
-
-Sending Command One by One
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-If you prefer sending commands in the old fashion like using CLI, you can certainly have only one command in the grouping, for example:
-
-.. code-block:: python
-    :linenos:
-
-    await command_1
-    await command_2
-    await command_3
-
-
-.. note::
-
-    Remember to use ``await`` before the command. Commands are defined as Coroutines and must be awaited.
+        $ python3 get-pip.py
 
 .. seealso::
+
+    Read more details about this script in `pypa/get-pip <https://github.com/pypa/get-pip>`_.
+
+    Read more about installation of ``pip`` in `pip installation <https://pip.pypa.io/en/stable/installation/>`_.
+
+
+Installing from PyPi using pip
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+``pip`` is the recommended installer for XOA Python API. The most common usage of ``pip`` is to install from the `Python Package Index <https://pypi.org/>`_ using `Requirement Specifiers <https://pip.pypa.io/en/stable/cli/pip_install/#requirement-specifiers>`_.
+
+.. tab:: Windows
+    :new-set:
+
+    .. code-block:: doscon
+        :caption: Install XOA Python API in Windows environment from PyPi.
+
+        > pip install xoa-driver            # latest version
+        > pip install xoa-driver==1.0.3     # specific version
+        > pip install xoa-driver>=1.0.3     # minimum version
+
+.. tab:: macOS/Linux
+
+    .. code-block:: console
+        :caption: Install XOA Python API in macOS/Linux environment from PyPi.
+
+        $ pip install xoa-driver            # latest version
+        $ pip install xoa-driver==1.0.3     # specific version
+        $ pip install xoa-driver>=1.0.3     # minimum version
+
+
+Upgrading from PyPi using pip
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To upgrade XOA Python API package from PyPI:
+
+.. tab:: Windows
+    :new-set:
     
-    Read more about Python `awaitable object <https://docs.python.org/3/library/asyncio-task.html#id2>`_.
+    .. code-block:: doscon
+        :caption: Upgrade XOA Python API in Windows environment from PyPi.
+
+        > pip install xoa-driver --upgrade
+
+.. tab:: macOS/Linux
+
+    .. code-block:: console
+        :caption: Upgrade XOA Python API in macOS/Linux environment from PyPi.
+
+        $ pip install xoa-driver --upgrade
 
 
-Example
+Installing Manually From Source
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If for some reason you need to install XOA Python API manually from source, the steps are:
+
+First, make sure Python packages `wheel <https://wheel.readthedocs.io/en/stable/>`_ and  `setuptools <https://setuptools.pypa.io/en/latest/index.html>`_ are installed on your system. Install ``wheel`` and ``setuptools`` using ``pip``:
+
+.. tab:: Windows
+    :new-set:
+
+    .. code-block:: doscon
+        :caption: Install ``wheel`` and ``setuptools`` in Windows environment.
+
+        > pip install wheel setuptools
+
+.. tab:: macOS/Linux
+
+    .. code-block:: console
+        :caption: Install ``wheel`` and ``setuptools`` in macOS/Linux environment.
+
+        $ pip install wheel setuptools
+
+Then, download the XOA Python API source distribution from `XOA Python API Releases <https://github.com/xenadevel/xena-open-automation-python-api/releases>`_. Unzip the archive and run the ``setup.py`` script to install the package:
+
+.. tab:: Windows
+    :new-set:
+
+    .. code-block:: doscon
+        :caption: Install XOA Python API in Windows environment from source.
+
+        [xoa_driver]> python setup.py install
+
+.. tab:: macOS/Linux
+
+    .. code-block:: console
+        :caption: Install XOA Python API in macOS/Linux environment from source.
+
+        [xoa_driver]$ python3 setup.py install
+
+
+If you want to distribute, you can build ``.whl`` file for distribution from the source:
+
+.. tab:: Windows
+    :new-set:
+
+    .. code-block:: doscon
+        :caption: Build XOA Python API wheel in Windows environment for distribution.
+
+        [xoa_driver]> python setup.py bdist_wheel
+
+.. tab:: macOS/Linux
+
+    .. code-block:: console
+        :caption: Build XOA Python API wheel in macOS/Linux environment for distribution.
+
+        [xoa_driver]$ python3 setup.py bdist_wheel
+
+
+Uninstall using pip
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. tab:: Windows
+    :new-set:
+
+    .. code-block:: doscon
+        :caption: Uninstall XOA Python API in Windows environment.
+
+        > pip uninstall xoa-driver
+
+.. tab:: macOS/Linux
+
+    .. code-block:: console
+        :caption: Uninstall XOA Python API in macOS/Linux environment.
+
+        $ pip uninstall xoa-driver
+
+.. seealso::
+
+    For more information, see the `pip uninstall <https://pip.pypa.io/en/stable/cli/pip_uninstall/#pip-uninstall>`_ reference.
+
+
+Code Example
 -------------------
 
-Python code to manage Xena testers:
+The simple code example below demonstrates how to use XOA Python API to:
 
-.. code-block:: python
+* Establish connection to a Valkyrie tester.
+* Reserve a port.
+* Create a stream on the port.
+* Configure the stream.
+* Start traffic.
+* Collect statistics.
+* Stop traffic
+
+.. literalinclude:: /code_example/manage_tester.py
+    :language: python
     :linenos:
-
-    import asyncio
-
-    from xoa_driver import testers
-    from xoa_driver import modules
-    from xoa_driver import ports
-    from xoa_driver import enums
-    from xoa_driver import utils
-
-    async def my_awesome_script():
-        # Establish connection with a Valkyrie tester
-        async with testers.L23Tester("10.10.10.10", "JonDoe") as tester:
-            # Get the port 0/0 (module 0)
-            port = await tester.modules.obtain(0).ports.obtain(0)
-
-            # Reserve the port
-            await port.reservation.set_reserve()
-
-            # Reset the port
-            await port.reset.set()
-
-            # Create a stream on the port
-            stream = await port.streams.create()
-
-            # Prepare stream header protocol
-            header_protocol = [enums.ProtocolOption.ETHERNET, enums.ProtocolOption.IP]
-
-            # Batch configure the stream
-            await utils.apply(
-                stream.tpld_id.set(0), # Create the TPLD index of stream
-                stream.packet.length.set(*size), # Configure the packet size
-                stream.packet.header.protocol.set(header_protocol), # Configure the packet type
-                stream.packet.header.data.set(header), # Configure the packet header
-                stream.enable.set_on(), # Enable streams
-                stream.rate.fraction.set(1000000) # Configure the stream rate 100%
-            )
-
-            # Clear statistics
-            await utils.apply(
-                port.statistics.tx.clear.set(),
-                port.statistics.rx.clear.set()
-            )
-
-            # Start traffic on the port
-            await port.traffic.state.set_start()
-
-            # Test duration 10 seconds
-            await asyncio.sleep(10)
-
-            # Query TX statistics
-            tx_result = await port.statistics.tx.total.get()
-            print(f"bit count last second: {tx_result.bit_count_last_sec}")
-            print(f"packet count last second: {tx_result.packet_count_last_sec}")
-            print(f"byte count since cleared: {tx_result.byte_count_since_cleared}")
-            print(f"packet count since cleared: {tx_result.packet_count_since_cleared}")
-
-            # Stop traffic on the port
-            await port.traffic.state.set_stop()
-
-            # Release the port
-            await port.reservation.set_release()
-
-    def main():
-    try:
-        loop = asyncio.get_event_loop()
-        loop.create_task(my_awesome_script())
-        loop.run_forever()
-    except KeyboardInterrupt:
-        pass
-
-    if __name__ == "__main__":
-        main()
-

@@ -2,6 +2,7 @@ import asyncio
 
 async def my_awesome_script():
     # my code goes here...
+    ...
 
 def main():
     try:
