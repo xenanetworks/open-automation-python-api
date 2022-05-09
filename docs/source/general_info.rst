@@ -6,7 +6,7 @@ General Information
 API Structure
 -------------------
 
-XOA Python API consists of two layers, High-Level API (:term:`HL-API`) and Low-Level API (:term:`LL-API`), on top of the Xena proprietary binary API, as shown in the diagram below.
+XOA Python API consists of two layers, :term:`High-Level API (HL-API)<HL-API>` and :term:`Low-Level API (LL-API)<LL-API>`, on top of the Xena proprietary binary API, as shown in the diagram below.
 
 ::
     
@@ -25,9 +25,13 @@ XOA Python API consists of two layers, High-Level API (:term:`HL-API`) and Low-L
     +---------------------------------+
 
 
-:term:`HL-API` provides abstraction that helps you quickly develop scripts or program in an object-oriented fashion with explicit definition of commands of different *tester*, *module*, *port* types. In addition, the HL-API layer provides functionalities such as *auto connection keep-alive*, *auto index management*, *resources identification tracking for push notification*, etc. 
+:term:`HL-API` provides abstraction that helps you quickly develop scripts or program in an object-oriented fashion with explicit definition of commands of different *tester*, *module*, *port* types. In addition, the HL-API layer provides functionalities such as:
 
-For example, to change the description of a tester, the HL-API is:
+    * :ref:`Auto connection keep-alive <session_label>`
+    * :ref:`Auto index management <resource_managers_label>`
+    * :ref:`Resources identification tracking for push notification <event_subscription_label>`
+
+For example, to change the description of a tester, the :term:`HL-API` is:
 
 .. code-block:: python
     :linenos:
@@ -35,7 +39,7 @@ For example, to change the description of a tester, the HL-API is:
     await tester.comment.set(comment="my tester")
 
 
-:term:`LL-API` contains the class definition of each command, giving you the direct control of the tester. However, the LL-API does not provide functionalities such as *auto connection keep-alive* and *auto index management*.
+:term:`LL-API` contains the class definition of each command, giving you the direct control of the tester. However, the :term:`LL-API` does not provide functionalities such as *auto connection keep-alive* and *auto index management*.
 
 For example, to change the description of a tester by, the LL-API is:
 
@@ -246,7 +250,7 @@ Management Principle
 
 Xena testers support multiple simultaneous connections from any mixture of Xena clients, such as the `ValkyrieManager <https://xenanetworks.com/product/valkyriemanager/>`_, scripting clients, etc. As soon as a client has successfully established a connection to the chassis, any :term:`test resource` can be inspected. But in order to change the :term:`test resource` configuration, the resource must first be reserved by the client.
 
-To management test resources, i.e., read, write, create, delete, you must follow the principles below:
+To management :term:`test resources<test resource>`, i.e., read, write, create, delete, you must follow the principles below:
 
 1. To do ``set`` (create/update/delete) on a :term:`test resource`, i.e. *tester*, *module*, or *port*, you must reserve the resource under your username.
 2. To do ``get`` (read) on a :term:`test resource`, you don't need to reserve.
@@ -272,7 +276,7 @@ XOA Python API provides two different ways of grouping commands, *Parallel Group
 Parallel Grouping
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-``asyncio.gather`` groups commands in a parallel way. Commands are sent out in parallel (with neglectable delay between each other). This is very useful when you want to send commands to different test resources, e.g. two different ports on the same tester, or two different ports on different testers.
+``asyncio.gather`` groups commands in a parallel way. Commands are sent out in parallel (with neglectable delay between each other). This is very useful when you want to send commands to different :term:`test resources<test resource>`, e.g. two different ports on the same tester, or two different ports on different testers.
 
 .. code-block:: python
     :linenos:

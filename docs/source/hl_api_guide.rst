@@ -68,16 +68,12 @@ To use ``get`` and ``set`` methods, you need to use ``await`` because they are a
     :linenos:
 
     await <resource>.<command_oo_name>.get()
-    # e.g. await <Port>.speed.supported.get()
 
     await <resource>.<command_oo_name>.set(<values>)
-    # e.g. await <Port>.speed.selection.set(mode=PortSpeedMode.AUTO)
 
     await <resource>.<command_oo_name>.set_<variation_name>()
-    # e.g. await <Port>.<resource>.speed.selection.set_auto()
 
     await <resource>.<command_oo_name>.set_<variation_name>(<extra_value>)
-    # e.g. await <Stream>.packet.length.set_incrementing(min_val=100, max_val=500)
 
 **Example**:
 
@@ -148,11 +144,11 @@ Parameters that are passed to your ``<async_callback_function>`` depend on the r
 Resource Managers
 -----------------------
 
-Most of the sublevel resources, which are organized into collections, are handled by resource managers.
+Most of the subtester resources, which are organized into collections, are handled by :term:`Resource Managers<Resource Manager>`.
 
-The most commonly used resource managers are *Module Manager | Port Manager | Index Manager*.
+The most commonly used resource managers are :ref:`Module Manager <hl_api_guide:Module Manager and Port Manager>` | :ref:`Port Manager <hl_api_guide:Module Manager and Port Manager>` | :ref:`Index Manager <hl_api_guide:Index Manager>` .
 
-An illustration of resource managers and test resources are shown below:
+An illustration of resource managers and :term:`test resources<test resource>` are shown below:
 
 ::
 
@@ -206,21 +202,21 @@ An illustration of resource managers and test resources are shown below:
 
 .. note::
 
-    Each resource manager is an `iterable object <https://wiki.python.org/moin/Iterator>`_
+    Each :term:`resource manager` is an `iterable object <https://wiki.python.org/moin/Iterator>`_
 
 
 Module Manager and Port Manager
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Each tester object contains a *Module Manager*, which can be accessed through attribute ``modules``.
+Each tester object contains a :term:`Module Manager`, which can be accessed through attribute ``modules``.
 
-Each module object contains a *Port Manager*, which can be accessed through attribute ``ports``.
+Each module object contains a :term:`Port Manager`, which can be accessed through attribute ``ports``.
 
 .. note::
 
-    A Module Manager can contain modules of different *Module Types*. This is because there can be various test modules installed in a physical tester. On the other hand, a Port Manager contains ports of the same *Port Type*. This is because the ports on a module are of the same type.
+    A :term:`Module Manager` can contain modules of different :term:`Module Types<Module Type>`. This is because there can be various test modules installed in a physical tester. On the other hand, a :term:`Port Manager` contains ports of the same :term:`Port Type`. This is because the ports on a module are of the same type.
 
-Methods to retrieve a module or a port from a resource manager:
+Methods to retrieve a module or a port from a :term:`resource manager`:
 
 **Syntax**:
 
@@ -235,7 +231,7 @@ Methods to retrieve a module or a port from a resource manager:
     :emphasize-lines: 9
 
 
-Methods to retrieve _multiple_ resources from a resource manager:
+Methods to retrieve _multiple_ resources from a :term:`resource manager`:
 
 **Syntax**:
 
@@ -253,13 +249,13 @@ Methods to retrieve _multiple_ resources from a resource manager:
 Index Manager
 ^^^^^^^^^^^^^^^^^^^^
 
-*Index Manager* manages the subport-level resource indices such as stream indices, filter indices, connection group indices, etc. It automatically ensures correct and conflict-free **index assignment**.
+:term:`Index Manager` manages the subport-level resource indices such as stream indices, filter indices, connection group indices, etc. It automatically ensures correct and conflict-free **index assignment**.
 
 .. important::
 
     It is user's responsibility to create, retrieve, and remove those subport-level indices.
 
-Thanks to the index manager of a port, users don't necessarily need to handle the index assignment:
+Thanks to the :term:`index manager` of a port, users don't necessarily need to handle the index assignment:
 
   * To create an index, use method ``create()``.
   * To remove an index, use method ``remove()``. An index also can be removed without accessing the manager but by calling ``<index_instance>.delete()``.
@@ -268,7 +264,7 @@ Thanks to the index manager of a port, users don't necessarily need to handle th
     
     The call of the function ``<index_instance>.delete()`` will remove a resource index from the port, and will automatically notify the index manager of the port about the removal.
 
-The index manager will make sure the freed index is used when the user creates again next time.
+The :term:`index manager` will make sure the freed index is used when the user creates again next time.
 
 .. _session_label:
 
@@ -304,7 +300,7 @@ Handling Multiple Same-Username Sessions
 Local State
 ----------------
 
-The access to the local state of a resource is done through property ``<resource>.info``. The info contains current status of the resource and information of its attributes, which cannot be changed during a running ``session``.
+The access to the *local state* of a resource is done through property ``<resource>.info``. The info contains current status of the resource and information of its attributes, which cannot be changed during a running ``session``.
 
 
 Code Examples
@@ -412,7 +408,7 @@ Statistics collection, such as latency and jitter, TX/RX rate, frame count, etc.
 HL-API vs. CLI
 -------------------------------
 
-If you are already very familiar with :term:`CLI`, the comparison below will help you understand the differences between a XOA HL-API script and a CLI script. Both scripts do the same thing and generate the same port/stream configuration.
+If you are already very familiar with :term:`CLI`, the comparison below will help you understand the differences between a :term:`XOA HL-API<HL-API>` script and a CLI script. Both scripts do the same thing and generate the same port/stream configuration.
 
 Both scripts are using the configuration text file below:
 

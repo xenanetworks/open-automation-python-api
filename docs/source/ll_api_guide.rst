@@ -5,7 +5,7 @@ Low-Level API
 
 :term:`LL-API` gives the developer the complete direct control of the tester since the name of the API is the same as what is defined in the :term:`CLI`. But sometimes it is difficult to remember all the arguments, resulting a waste of time reading the length class definition. 
 
-However, if the developer needs to migrate a :term:`CLI` script to :term:`XOA`, the LL-API can explicitly show the command name, which may speed up the migration process.
+However, if the developer needs to migrate a :term:`CLI` script to :term:`XOA`, the :term:`LL-API` can explicitly show the command name, which may speed up the migration process.
 
 
 API Notation and Namings
