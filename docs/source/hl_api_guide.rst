@@ -146,7 +146,7 @@ Resource Managers
 
 Most of the subtester resources, which are organized into collections, are handled by :term:`Resource Managers<Resource Manager>`.
 
-The most commonly used resource managers are :ref:`Module Manager <hl_api_guide:Module Manager and Port Manager>` | :ref:`Port Manager <hl_api_guide:Module Manager and Port Manager>` | :ref:`Index Manager <hl_api_guide:Index Manager>` .
+The most commonly used resource managers are :ref:`Module Manager <hl_api_guide:Module Manager and Port Manager>` | :ref:`Port Manager <hl_api_guide:Module Manager and Port Manager>` | :ref:`Index Manager <hl_api_guide:Index Manager>`.
 
 An illustration of resource managers and :term:`test resources<test resource>` are shown below:
 
