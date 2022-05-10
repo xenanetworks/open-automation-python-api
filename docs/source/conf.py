@@ -26,7 +26,7 @@ author = u'Xena Networks'
 title = u'Xena OpenAutomation Python API Documentation'
 
 # The full version, including alpha/beta/rc tags.
-release = '1.0.3'
+release = '1.0.4'
 # The short X.Y version.
 version = '1.0'
 
@@ -44,7 +44,10 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinx.ext.coverage',
     'sphinx.ext.viewcode',
-    'sphinx.ext.intersphinx',
+    'sphinx.ext.todo',
+    'sphinx.ext.autosectionlabel',
+    'sphinx.ext.extlinks',
+    "sphinx_inline_tabs",
 ]
 add_module_names = False
 autodoc_default_options = {
@@ -56,7 +59,8 @@ autodoc_default_options = {
 autodoc_typehints = 'signature'
 autodoc_typehints_format = 'short'
 autodoc_inherit_docstrings = True
-
+todo_include_todos = True
+autosectionlabel_prefix_document = True
 
 # The suffix(es) of source filenames.
 # source_suffix = ['.rst', '.md']
@@ -87,6 +91,8 @@ html_title = title
 
 # The path to the HTML logo image in the static path, or URL to the logo, or ''.
 html_logo = './_static/xena_xoa_logo_white.png'
+
+html_favicon = './_static/xoa_favicon_16.png'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

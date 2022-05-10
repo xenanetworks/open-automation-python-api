@@ -1,12 +1,11 @@
-.. _command_ref:
-
+.. _api-documentation-label:
 
 API Documentation
 =============================
 
-This section includes the Python module references of both XOA :ref:`HL-PYTHON <hl_api>` and :ref:`LL-PYTHON <ll_api>`.
+This section includes the Python module references of both XOA :term:`HL-API` and :term:`LL-API`.
 
-High-Level Python APIs
+High-Level API Reference
 -----------------------------
 
 .. important::
@@ -72,7 +71,7 @@ This module contains all exception classes that can be propagated to the upper l
    :members:
 
 
-Low-Level Python APIs
+Low-Level API Reference
 -----------------------------
 
 The low-level Python APIs are categorized into five groups:
@@ -124,7 +123,7 @@ This module contains the **L23 port commands** that deal with basic information 
 Module ``xoa_driver.lli.commands.ps_commands``
 """"""""""""""""""""""""""""""""""""""""""""""
 
-This module contains the **L23 stream commands** deal with configuration of the traffic streams transmitted from a L23 port. The stream command names all have the form ``PS_<xxx>`` and require both a module index id and a port index id, as well as a sub-index id identifying a particular stream.
+This module contains the **L23 stream commands** deal with configuration of the traffic streams transmitted from a L23 port. The stream command names all have the form ``PS_<xxx>`` and require both a module index id and a port index id, as well as a sub-index identifying a particular stream.
 
 .. rubric:: General Information
 
@@ -136,7 +135,7 @@ While the parent port is transmitting, the parameters of any enabled stream cann
 
 *Stream Test Payload Data (TPLD)*
 
-Each Xena test packet contains a special proprietary data area called the *Test Payload Data* (TPLD), which contains various information about the packet. The TPLD is located just before the Ethernet FCS and consists of the following sections:
+Each Xena test packet contains a special proprietary data area called the :term:`Test Payload Data (TPLD)<TPLD>`, which contains various information about the packet and is identified by a :term:`Test Payload ID (TID)<TID>`. The :term:`TPLD` is located just before the Ethernet FCS and consists of the following sections:
 
 .. table:: Default TPLD (20 or 22 bytes)
    :widths: auto
@@ -181,7 +180,7 @@ Each Xena test packet contains a special proprietary data area called the *Test 
 The selection between the default TPLD and the micro-TPLD is done on the parent port. It is thus not possible to use different TPLD types for streams on the same port.
 
 *Disabling TPLD*
-The TPLD function can also be completely disabled for any given stream by setting the Test Payload ID (TID) value for the stream to the value -1.
+The TPLD function can also be completely disabled for any given stream by setting the :term:`Test Payload ID (TID)<TID>` value for the stream to the value -1.
 
 .. rubric:: Minimum Packet Size Considerations
 
@@ -189,7 +188,7 @@ The stream will generally accept any configuration and attempt to transmit packe
 
 The minimum packet size must obviously be large enough to accommodate the defined ``protocol headers + the final Ethernet FCS field``.
 
-If the TPLD function explained above is enabled then each packet must also be able to contain the TPLD area (20, 22 or 6 bytes depending on the configuration).
+If the :term:`TPLD` function explained above is enabled then each packet must also be able to contain the :term:`TPLD` area (20, 22 or 6 bytes depending on the configuration).
 
 If the stream payload type is set to ``Incrementing``, then an additional minimum payload area of 2 bytes is needed. Otherwise excessive payload errors will be reported. This is however not necessary if the ``P_CHECKSUM offset`` (Payload Checksum Offset) option is enabled on the parent port as this will override the payload integrity check implied by the ``Incrementing`` payload type.
 
@@ -207,7 +206,7 @@ This module contains the **L23 high-speed port commands** that provide configura
 
 During transport, the lanes may be swapped and skewed with respect to each other. To deal with this, each lane contains marker words with a virtual lane index id. The commands are indexed with a physical lane index that corresponds to a fixed numbering of the underlying fibers or wavelengths.
 
-The lanes can also be put into Pseudorandom Binary Sequence (PRBS) mode where they transmit a bit pattern used for diagnosing fiber-level problems, and the receiving side can lock to these patterns.
+The lanes can also be put into :term:`Pseudorandom Binary Sequence (PRBS)<PRBS>` mode where they transmit a bit pattern used for diagnosing fiber-level problems, and the receiving side can lock to these patterns.
 
 Errors can be injected both at the CAUI level and at the bit level.
 
@@ -225,7 +224,7 @@ Module ``xoa_driver.lli.commands.pt_commands``
 
 This module contains the **L23 port TX statistics commands** that provide quantitative information about the transmitted packets on a port.
 
-The command names all have the form ``PT_<xxx>`` and require both a module index id and a port index id. Those commands dealing with a specific transmitted stream also have a sub-index id.
+The command names all have the form ``PT_<xxx>`` and require both a module index id and a port index id. Those commands dealing with a specific transmitted stream also have a sub-index.
 
 All bit-and byte-level statistics are at layer-2, so they include the full Ethernet frame, and exclude the inter-frame gap and preamble.
 
@@ -418,9 +417,9 @@ Module ``xoa_driver.lli.commands.p4g_commands``
 
 This module contains the **L47 connection group commands** that deal with configuration of TCP connections and are specific to L47. The commands have the form ``P4G_<xxx>`` and require a module index id and a port index id, and a connection group index id.
 
-A Connection Group (CG) is the basic building block when creating L47 traffic. A CG consists of a number of TCP connections - between one and millions. A CG has a role, which is either client or server. In order to create TCP connections between two ports on a L47 chassis, two matching CGs must be configured - one on each port - one configured as client and the other configured as server.
+A :term:`Connection Group (CG) <CG>` is the basic building block when creating L47 traffic. A :term:`CG` consists of a number of TCP connections - between one and millions. A CG has a role, which is either client or server. In order to create TCP connections between two ports on a L47 chassis, two matching :term:`CGs<CG>` must be configured - one on each port - one configured as client and the other configured as server.
 
-The number of connections in a CG, is defined by the server range and the client range. A server/client range is a number of TCP connection endpoints defined by a number of IP addresses and a number of TCP ports. A server/client range is configured by specifying a start IP address, a number of IP addresses, a start TCP port and a number of TCP addresses. The number of clients is the number of client IP addresses times the number of client TCP ports, and the same goes for the number of servers. The number of TCP connections in a CG is the number of clients times the number of servers, that is TCP connections are created from all clients in the CG to all servers in the CG.
+The number of connections in a :term:`CG`, is defined by the server range and the client range. A server/client range is a number of TCP connection endpoints defined by a number of IP addresses and a number of TCP ports. A server/client range is configured by specifying a start IP address, a number of IP addresses, a start TCP port and a number of TCP addresses. The number of clients is the number of client IP addresses times the number of client TCP ports, and the same goes for the number of servers. The number of TCP connections in a CG is the number of clients times the number of servers, that is TCP connections are created from all clients in the CG to all servers in the :term:`CG`.
 
 .. note::
 
@@ -428,15 +427,15 @@ The number of connections in a CG, is defined by the server range and the client
 
 .. note::
 
-   When configuring a CG, both client AND server range must be configured on both CGs - that is, the server CG must also know the client range and vice versa.
+   When configuring a :term:`CG`, both client AND server range must be configured on both :term:`CGs<CG>` - that is, the server CG must also know the client range and vice versa.
 
-The Connection Group must be configured with a Load Profile, which is an envelope over the TCP connection's lifetime. A connection in the connection group goes through three phases. The Load Profile defines a start time and a duration of each of these phases. During the ramp-up phase connections are established at a rate defined by the number of connections divided by the ramp-up duration. During the steady-state phase connections may transmit and receive payload data, depending on the configuration of test application and test scenario for the CG. During the ramp-down phase connections are closed at a rate defined by the number of connections divided by the ramp-up duration, if they were not already closed as a result of the traffic scenario configured.
+A :term:`CG` must be configured with a :term:`Load Profile`, which is an envelope over the TCP connection's lifetime. A connection in the :term:`CG` goes through three phases. A :term:`load profile` defines a start time and a duration of each of these phases. During the ramp-up phase connections are established at a rate defined by the number of connections divided by the ramp-up duration. During the steady-state phase connections may transmit and receive payload data, depending on the configuration of test application and test scenario for the CG. During the ramp-down phase connections are closed at a rate defined by the number of connections divided by the ramp-up duration, if they were not already closed as a result of the traffic scenario configured.
 
 .. note::
    
-   Just like client and server range, both the client and server CG must be configured with the Load Profile.
+   Just like client and server range, both the client and server :term:`CGs<CG>` must be configured with the :term:`load profile`.
 
-Next the CG must be configured with a test application, which defines what kind of traffic is transported in the TCP payload. Currently there are two kinds of test applications:
+Next the :term:`CG` must be configured with a test application, which defines what kind of traffic is transported in the TCP payload. Currently there are two kinds of test applications:
 
 * ``NONE``, which means that no payload is sent on the TCP connections. This test application is suitable for a test, where the only purpose is to measure TCP connection open and close rates.
 
@@ -444,7 +443,7 @@ Next the CG must be configured with a test application, which defines what kind 
 
 Using test application ``RAW``, the CG must also be configured with a test scenario, which defines the data flow between the TCP client and server. Currently the following test scenarios can be configured: ``download``, ``upload``, and ``both``.
 
-By combining several Connection Groups on a port, it is possible to create more complex traffic scenarios and more complex Load Profile shapes than the individual Connection Group allows.
+By combining several :term:`CGs<CG>` on a port, it is possible to create more complex traffic scenarios and more complex :term:`load profile` shapes than the individual :term:`CG` allows.
 
 .. automodule:: xoa_driver.internals.core.commands.p4g_commands
    :members:

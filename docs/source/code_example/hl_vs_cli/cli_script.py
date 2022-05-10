@@ -1,7 +1,7 @@
 # coding=UTF-8
 import time, json, random, queue, types, sys, socket, math, os
 from binascii import hexlify
-from TestUtilsL23 import XenaScriptTools
+from TestUtilsL23 import XenaScriptTools # Download from https://github.com/xenadevel/xenascriptlibs/tree/master/layer23/python3/testutils
 
 def runtest(xm, ports, rate, size, duration):
 	print("Start the scripting...")

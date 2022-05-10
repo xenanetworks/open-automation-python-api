@@ -1,10 +1,15 @@
 import asyncio
 
+# import available testers
+from xoa_driver import testers
+# import available modules type
+from xoa_driver import modules
+
 async def background_task(tx_port: "ports.GenericL23Port", rx_port: "ports.GenericL23Port"):
     while True:
         print(await tx_port.statistics.tx.total.get())
         print(await rx_port.statistics.rx.total.get())
-        await async.sleep(1)
+        await asyncio.sleep(1)
 
 async def my_awesome_script():
     # my code ...
