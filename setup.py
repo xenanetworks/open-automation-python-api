@@ -1,21 +1,11 @@
 import setuptools
-import os
-import shutil
 
-
-def rm(path: str):
-    if os.path.isfile(path):
-        os.remove(path)
-    elif os.path.isdir(path):
-        shutil.rmtree(path)
-
-if __name__ == '__main__':
+def main():
     with open("README.md", "r", encoding="utf-8") as fh:
         long_description = fh.read()
 
     setuptools.setup(
         name="xoa-driver",
-        version="1.0.4",
         description="Xena OpenAutomation (XOA) Python API is a driver providing user-friendly communication interfaces to Xena's physical and virtual Traffic Generation and Analysis (TGA) testers. It provides a rich collection of programming interfaces that can be used to either write test scripts or develop applications.",
         long_description=long_description,
         long_description_content_type="text/markdown",
@@ -38,6 +28,6 @@ if __name__ == '__main__':
         ],
         python_requires=">=3.8",
     )
-    # rm("./build")
-    # rm("./dist")
-    # rm("./valhalla_bifrost.egg-info")
+
+if __name__ == '__main__':
+    main()
