@@ -17,6 +17,29 @@ sys.path.insert(0, os.path.abspath('../../'))
 
 # import pkg_resources
 
+import codecs
+import os.path
+
+def read(rel_path):
+    here = os.path.abspath(os.path.dirname(__file__))
+    with codecs.open(os.path.join(here, rel_path), 'r') as fp:
+        return fp.read()
+
+def get_version(rel_path):
+    for line in read(rel_path).splitlines():
+        if line.startswith('__version__'):
+            delim = '"' if '"' in line else "'"
+            return line.split(delim)[1]
+    else:
+        raise RuntimeError("Unable to find version string.")
+
+def get_short_version(rel_path):
+    for line in read(rel_path).splitlines():
+        if line.startswith('__short_version__'):
+            delim = '"' if '"' in line else "'"
+            return line.split(delim)[1]
+    else:
+        raise RuntimeError("Unable to find version string.")
 
 # -- Project information -----------------------------------------------------
 
@@ -26,9 +49,10 @@ author = u'Xena Networks'
 title = u'Xena OpenAutomation Python API Documentation'
 
 # The full version, including alpha/beta/rc tags.
-release = '1.0.4'
+release = get_version("../../xoa_driver/__init__.py")
+
 # The short X.Y version.
-version = '1.0'
+version = get_short_version("../../xoa_driver/__init__.py")
 
 
 # -- General configuration -----------------------------------------------------
