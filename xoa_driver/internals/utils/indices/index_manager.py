@@ -34,6 +34,7 @@ class IndexManager(Generic[IT]):
     
     async def server_sync(self) -> None:
         """Sync the indices with xenaserver"""
+        self._indices.clear()
         idxs: List[int] = await self._idx_type._fetch(self._conn, self._module_id, self._port_id)
         for idx_id in idxs:
             index_kind = kind.IndicesKind(
