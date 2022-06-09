@@ -230,6 +230,9 @@ class P_CAPABILITIES:
         is_chimera: XmpField[XmpInt] = XmpField(XmpInt)  # integer, whether this is a Chimera port
         has_p2p_loop_partner: XmpField[XmpInt] = XmpField(XmpInt)  # integer, whether this port currently has a port-to-port loop partner
         p2p_loop_partner: XmpField[XmpInt] = XmpField(XmpInt)  # integer, The port-to-port loop partner for the port. N/A = -1.
+        traffic_engine: XmpField[XmpInt] = XmpField(XmpInt, choices=TrafficEngine)  # integer, Enabled traffic engine on port. 0x01 = TGA, 0x02 = uTGA.
+        reconc_sublayer_support: XmpField[XmpInt] = XmpField(XmpInt, choices=ReconciliationSublayerSupport) # Reconciliation Sublayer support bitmask. 0 = no support; 0x1 = fault signalling (XMP: P_FAULTSTATUS and P_FAULTSIGNALLING)
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the internal limits, aka. capabilities, of the port.

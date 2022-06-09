@@ -150,4 +150,6 @@ __all__ = (
     "FilterVlanType",
     "LatencyTypeCustomDist",
     "CommandStatus",
+    "TrafficEngine",
+    "ReconciliationSublayerSupport",
 )
