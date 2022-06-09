@@ -145,4 +145,4 @@ To build ``.whl`` file for distribution:
 
 ***
 
-Uɴɪғɪᴇᴅ. Oᴘᴇɴ. Iɴᴛᴇɢʀᴀᴛɪᴏɴ.
+FOR TESTING BEYOND THE STANDARD.
