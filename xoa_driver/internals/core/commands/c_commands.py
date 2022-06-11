@@ -1557,13 +1557,16 @@ class C_TKSTATUS:
     def get(self) -> "Token[GetDataAttr]":
         """Get the version and status of TimeKeeper
 
-        :return: Version, TimeKeeper license expiration, and TimeKeeper status. The string is formatted as shown in the example below. Each line is separated by \\n. The format is shown below.
+        :return:
+            Version, TimeKeeper license expiration, and TimeKeeper status. The string is formatted as shown in the example below.
+            
+            The format is shown below.
         
-        TimeKeeper Status\\n
-        ================================================================================\\n
-        TimeKeeper version 8.0.3\\n
-        License expires in 33 days (including grace period)\\n
-        TimeKeeper is not running\\n
+            TimeKeeper Status
+            ================================================================================
+            TimeKeeper version 8.0.3
+            License expires in 33 days (including grace period)
+            TimeKeeper is not running
 
         :rtype: C_TKSTATUS.GetDataAttr
         """
