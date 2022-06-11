@@ -324,7 +324,7 @@ However, abusing this function can cause memory issue on your computer. This is 
         print(response)
 
 
-One-by-One
+One-By-One
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If you prefer sending commands one by one in the same way as using CLI, you can simply place only one command in the group, for example:

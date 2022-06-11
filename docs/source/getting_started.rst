@@ -54,7 +54,7 @@ If you don't have ``pip`` installed, you can:
     Read more about installation of ``pip`` in `pip installation <https://pip.pypa.io/en/stable/installation/>`_.
 
 
-Installing from PyPi using pip
+Installing From PyPi Using pip
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ``pip`` is the recommended installer for XOA Python API. The most common usage of ``pip`` is to install from the `Python Package Index <https://pypi.org/>`_ using `Requirement Specifiers <https://pip.pypa.io/en/stable/cli/pip_install/#requirement-specifiers>`_.
@@ -79,7 +79,7 @@ Installing from PyPi using pip
         $ pip install xoa-driver>=1.0.3     # minimum version
 
 
-Upgrading from PyPi using pip
+Upgrading From PyPi Using pip
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To upgrade XOA Python API package from PyPI:
@@ -158,7 +158,7 @@ If you want to distribute, you can build ``.whl`` file for distribution from the
         [xoa_driver]$ python3 setup.py bdist_wheel
 
 
-Uninstall using pip
+Uninstall Using pip
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. tab:: Windows
