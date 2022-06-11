@@ -162,10 +162,10 @@ latex_elements = {
 'papersize': 'a4paper',
 
 # The font size ('10pt', '11pt' or '12pt').
-'pointsize': '10pt',
+'pointsize': '12pt',
 
 # Additional stuff for the LaTeX preamble.
-#'preamble': '',
+#'preamble': r'',
 
 # Latex figure (float) alignment
 #'figure_align': 'htbp',
@@ -182,7 +182,7 @@ latex_documents = [(master_doc, 'xoa_driver_doc.tex', title, author, 'manual'),
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
-# latex_logo = './_static/...png'
+latex_logo = './_static/pdf_logo.png'
 
 # -- Options for manual page output -----------------------------------------------------
 
