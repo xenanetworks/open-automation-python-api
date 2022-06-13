@@ -72,6 +72,8 @@ extensions = [
     'sphinx.ext.autosectionlabel',
     'sphinx.ext.extlinks',
     "sphinx_inline_tabs",
+    'sphinx_copybutton',
+    "sphinx_remove_toctrees",
 ]
 add_module_names = False
 autodoc_default_options = {
@@ -85,6 +87,7 @@ autodoc_typehints_format = 'short'
 autodoc_inherit_docstrings = True
 todo_include_todos = True
 autosectionlabel_prefix_document = True
+autosummary_generate = True
 
 # The suffix(es) of source filenames.
 # source_suffix = ['.rst', '.md']
@@ -104,7 +107,7 @@ templates_path = ['_templates']
 # -- Options for HTML output -----------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.
-html_theme = 'sphinx_rtd_theme'
+html_theme = 'sphinx_book_theme'
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'xoa_driver_doc'
@@ -114,7 +117,7 @@ htmlhelp_basename = 'xoa_driver_doc'
 html_title = title
 
 # The path to the HTML logo image in the static path, or URL to the logo, or ''.
-html_logo = './_static/xena_xoa_logo_white.png'
+html_logo = './_static/xoa_logo.png'
 
 html_favicon = './_static/xoa_favicon_16.png'
 
@@ -128,7 +131,9 @@ html_show_copyright = True
 html_show_sphinx = False
 
 html_theme_options = {
-    'style_nav_header_background': '#336851'
+    "repository_url": "https://github.com/xenanetworks/open-automation-python-api",
+    "use_repository_button": True,
+    "home_page_in_toc": True,
 }
 
 html_split_index = True
@@ -200,3 +205,6 @@ epub_publisher = 'https://xenanetworks.com'
 epub_copyright = copyright
 epub_show_urls = 'footnote'
 epub_basename = 'xoa_driver_doc'
+
+# Remove auto-generated API docs from sidebars. They take too long to build.
+remove_from_toctrees = ["api_doc/_autosummary/*"]

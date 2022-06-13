@@ -1,6 +1,6 @@
-.. _low-level-api-label:
+.. _low_level_api_label:
 
-Low-Level API
+Low-Level API Guide
 ===================================
 
 :term:`LL-API` gives the developer the complete direct control of the tester since the name of the API is the same as what is defined in the :term:`CLI`. But sometimes it is difficult to remember all the arguments, resulting a waste of time reading the length class definition. 

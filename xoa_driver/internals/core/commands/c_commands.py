@@ -1563,7 +1563,6 @@ class C_TKSTATUS:
             The format is shown below.
         
             TimeKeeper Status
-            ================================================================================
             TimeKeeper version 8.0.3
             License expires in 33 days (including grace period)
             TimeKeeper is not running
