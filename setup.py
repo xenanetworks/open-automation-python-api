@@ -13,7 +13,7 @@ def main():
         author_email="aco@xenanetworks.com, rdi@xenanetworks.com, hyu@xenanetworks.com",
         maintainer="Xena Networks",
         maintainer_email="support@xenanetworks.com",
-        url="https://github.com/XenaNetworks/open-automation-python-api",
+        url="https://github.com/xenanetworks/open-automation-python-api",
         packages=setuptools.find_packages(),
         license='Apache 2.0',
         install_requires = ["loguru"],
