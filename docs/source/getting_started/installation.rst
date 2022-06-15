@@ -1,16 +1,15 @@
-.. _getting-started-label:
+Installing XOA Python API
+=========================
 
-Getting Started
-==================================
-
-Installation
---------------------------------
+XOA Python API is available to install via the `Python Package Index <https://pypi.org/>`_. You can also install from the source file.
 
 Prerequisites
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------
+
+Before installing XOA Python API, please make sure your environment has installed `Python <https://www.python.org/>`_ and ``pip``.
 
 Python
-''''''''''''''''
+^^^^^^^
 
 XOA Python API requires that you `install Python <https://realpython.com/installing-python/>`_  on your system.
 
@@ -18,8 +17,8 @@ XOA Python API requires that you `install Python <https://realpython.com/install
 
     XOA Python API requires Python >= 3.8.
 
-pip
-''''''''''''''''
+``pip``
+^^^^^^^
 
 Make sure ``pip`` is installed on your system. ``pip`` is the `package installer for Python <https://packaging.python.org/guides/tool-recommendations/>`_ . You can use it to install packages from the `Python Package Index <https://pypi.org/>`_  and other indexes.
 
@@ -54,8 +53,8 @@ If you don't have ``pip`` installed, you can:
     Read more about installation of ``pip`` in `pip installation <https://pip.pypa.io/en/stable/installation/>`_.
 
 
-Installing from PyPi using pip
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Installing From PyPi Using ``pip``
+--------------------------------------------
 
 ``pip`` is the recommended installer for XOA Python API. The most common usage of ``pip`` is to install from the `Python Package Index <https://pypi.org/>`_ using `Requirement Specifiers <https://pip.pypa.io/en/stable/cli/pip_install/#requirement-specifiers>`_.
 
@@ -79,8 +78,8 @@ Installing from PyPi using pip
         $ pip install xoa-driver>=1.0.3     # minimum version
 
 
-Upgrading from PyPi using pip
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Upgrading From PyPi Using ``pip``
+--------------------------------------------
 
 To upgrade XOA Python API package from PyPI:
 
@@ -101,7 +100,7 @@ To upgrade XOA Python API package from PyPI:
 
 
 Installing Manually From Source
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------------
 
 If for some reason you need to install XOA Python API manually from source, the steps are:
 
@@ -122,7 +121,7 @@ First, make sure Python packages `wheel <https://wheel.readthedocs.io/en/stable/
 
         $ pip install wheel setuptools
 
-Then, download the XOA Python API source distribution from `XOA Python API Releases <https://github.com/xenadevel/xena-open-automation-python-api/releases>`_. Unzip the archive and run the ``setup.py`` script to install the package:
+Then, download the XOA Python API source distribution from `XOA Python API Releases <https://github.com/xenanetworks/open-automation-python-api/releases>`_. Unzip the archive and run the ``setup.py`` script to install the package:
 
 .. tab:: Windows
     :new-set:
@@ -158,8 +157,8 @@ If you want to distribute, you can build ``.whl`` file for distribution from the
         [xoa_driver]$ python3 setup.py bdist_wheel
 
 
-Uninstall using pip
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Uninstall Using ``pip``
+------------------------
 
 .. tab:: Windows
     :new-set:
@@ -181,19 +180,4 @@ Uninstall using pip
     For more information, see the `pip uninstall <https://pip.pypa.io/en/stable/cli/pip_uninstall/#pip-uninstall>`_ reference.
 
 
-Code Example
--------------------
 
-The simple code example below demonstrates how to use XOA Python API to:
-
-* Establish connection to a Valkyrie tester.
-* Reserve a port.
-* Create a stream on the port.
-* Configure the stream.
-* Start traffic.
-* Collect statistics.
-* Stop traffic
-
-.. literalinclude:: /code_example/manage_tester.py
-    :language: python
-    :linenos:
