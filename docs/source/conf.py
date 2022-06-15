@@ -87,7 +87,6 @@ autodoc_typehints_format = 'short'
 autodoc_inherit_docstrings = True
 todo_include_todos = True
 autosectionlabel_prefix_document = True
-autosummary_generate = True
 
 # The suffix(es) of source filenames.
 # source_suffix = ['.rst', '.md']
