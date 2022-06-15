@@ -134,6 +134,9 @@ html_theme_options = {
     "repository_url": "https://github.com/xenanetworks/open-automation-python-api",
     "use_repository_button": True,
     "home_page_in_toc": True,
+    "show_toc_level": 2,
+    "use_download_button": True,
+    "show_navbar_depth": 2,
 }
 
 html_split_index = True
