@@ -1313,6 +1313,22 @@ class TrafficError(IntEnum):
     """Prepared OK"""
 
 
+class TrafficEngine(IntEnum):
+    """Traffic Engine"""
+    TGA = 1
+    """Normal TGA"""
+    MICRO_TGA = 2
+    """Micro TGA"""
+
+
+class ReconciliationSublayerSupport(IntEnum):
+    """Reconciliation Sublayer support"""
+    NOT_SUPPORTED = 0
+    """Not supported"""
+    FAULT_SIGNALING = 1
+    """Fault signalling, commands P_FAULTSTATUS and P_FAULTSIGNALLING can be used"""
+
+
 #: L47 Enums
 class Role(IntEnum):
     """L47 port role"""
