@@ -7,7 +7,7 @@ High-Level API Reference
 
 
 Tester APIs ``xoa_driver.testers``
---------------------------------
+-------------------------------------
 
 This module contains all the available *tester types* supported by XOA Python API.
 
@@ -17,7 +17,7 @@ This module contains all the available *tester types* supported by XOA Python AP
 
 
 Module APIs ``xoa_driver.modules``
---------------------------------
+-------------------------------------
 
 This module contains all the available *test module types* supported by XOA Python API.
 
@@ -56,7 +56,7 @@ This module contains available enumeration types and server response statuses.
 
 
 Exceptions ``xoa_driver.exceptions``
---------------------------------
+--------------------------------------
 
 This module contains all exception classes that can be propagated to the upper level.
 
