@@ -1,7 +1,10 @@
 Installing XOA Python API
 =========================
 
-XOA Python API is available to install via the `Python Package Index <https://pypi.org/>`_. You can also install from the source file.
+XOA Python API is available to install and upgrade via the `Python Package Index <https://pypi.org/>`_. Alternatively, you can also install and upgrade from the source file.
+
+* If you prefer installing/upgrading/uninstalling automatically, go to Section `From PyPi Using pip`_.
+* If you prefer installing/upgrading manually, go to Section `Manually From Source`_.
 
 Prerequisites
 -------------
@@ -53,8 +56,11 @@ If you don't have ``pip`` installed, you can:
     Read more about installation of ``pip`` in `pip installation <https://pip.pypa.io/en/stable/installation/>`_.
 
 
-Installing From PyPi Using ``pip``
---------------------------------------------
+From PyPi Using ``pip``
+------------------------
+
+Install
+^^^^^^^^
 
 ``pip`` is the recommended installer for XOA Python API. The most common usage of ``pip`` is to install from the `Python Package Index <https://pypi.org/>`_ using `Requirement Specifiers <https://pip.pypa.io/en/stable/cli/pip_install/#requirement-specifiers>`_.
 
@@ -65,8 +71,8 @@ Installing From PyPi Using ``pip``
         :caption: Install XOA Python API in Windows environment from PyPi.
 
         > pip install xoa-driver            # latest version
-        > pip install xoa-driver==1.0.3     # specific version
-        > pip install xoa-driver>=1.0.3     # minimum version
+        > pip install xoa-driver==1.0.7     # specific version
+        > pip install xoa-driver>=1.0.7     # minimum version
 
 .. tab:: macOS/Linux
 
@@ -74,12 +80,11 @@ Installing From PyPi Using ``pip``
         :caption: Install XOA Python API in macOS/Linux environment from PyPi.
 
         $ pip install xoa-driver            # latest version
-        $ pip install xoa-driver==1.0.3     # specific version
-        $ pip install xoa-driver>=1.0.3     # minimum version
+        $ pip install xoa-driver==1.0.7     # specific version
+        $ pip install xoa-driver>=1.0.7     # minimum version
 
-
-Upgrading From PyPi Using ``pip``
---------------------------------------------
+Upgrade
+^^^^^^^^
 
 To upgrade XOA Python API package from PyPI:
 
@@ -99,10 +104,39 @@ To upgrade XOA Python API package from PyPI:
         $ pip install xoa-driver --upgrade
 
 
-Installing Manually From Source
---------------------------------------------
+Uninstall
+^^^^^^^^^^^
 
-If for some reason you need to install XOA Python API manually from source, the steps are:
+To uninstall XOA Python API using ``pip``:
+
+.. tab:: Windows
+    :new-set:
+
+    .. code-block:: doscon
+        :caption: Uninstall XOA Python API in Windows environment.
+
+        > pip uninstall xoa-driver
+
+.. tab:: macOS/Linux
+
+    .. code-block:: console
+        :caption: Uninstall XOA Python API in macOS/Linux environment.
+
+        $ pip uninstall xoa-driver
+
+.. seealso::
+
+    For more information, see the `pip uninstall <https://pip.pypa.io/en/stable/cli/pip_uninstall/#pip-uninstall>`_ reference.
+
+
+
+Manually From Source
+----------------------
+
+Install or Upgrade
+^^^^^^^^^^^^^^^^^^^
+
+If for some reason you need to install or upgrade XOA Python API manually from source, the steps are:
 
 First, make sure Python packages `wheel <https://wheel.readthedocs.io/en/stable/>`_ and  `setuptools <https://setuptools.pypa.io/en/latest/index.html>`_ are installed on your system. Install ``wheel`` and ``setuptools`` using ``pip``:
 
@@ -129,14 +163,14 @@ Then, download the XOA Python API source distribution from `XOA Python API Relea
     .. code-block:: doscon
         :caption: Install XOA Python API in Windows environment from source.
 
-        [xoa_driver]> python setup.py install
+        > python setup.py install
 
 .. tab:: macOS/Linux
 
     .. code-block:: console
         :caption: Install XOA Python API in macOS/Linux environment from source.
 
-        [xoa_driver]$ python3 setup.py install
+        $ python3 setup.py install
 
 
 If you want to distribute, you can build ``.whl`` file for distribution from the source:
@@ -147,37 +181,11 @@ If you want to distribute, you can build ``.whl`` file for distribution from the
     .. code-block:: doscon
         :caption: Build XOA Python API wheel in Windows environment for distribution.
 
-        [xoa_driver]> python setup.py bdist_wheel
+        > python setup.py bdist_wheel
 
 .. tab:: macOS/Linux
 
     .. code-block:: console
         :caption: Build XOA Python API wheel in macOS/Linux environment for distribution.
 
-        [xoa_driver]$ python3 setup.py bdist_wheel
-
-
-Uninstall Using ``pip``
-------------------------
-
-.. tab:: Windows
-    :new-set:
-
-    .. code-block:: doscon
-        :caption: Uninstall XOA Python API in Windows environment.
-
-        > pip uninstall xoa-driver
-
-.. tab:: macOS/Linux
-
-    .. code-block:: console
-        :caption: Uninstall XOA Python API in macOS/Linux environment.
-
-        $ pip uninstall xoa-driver
-
-.. seealso::
-
-    For more information, see the `pip uninstall <https://pip.pypa.io/en/stable/cli/pip_uninstall/#pip-uninstall>`_ reference.
-
-
-
+        $ python3 setup.py bdist_wheel

@@ -14,8 +14,8 @@ The low-level Python APIs are categorized into five groups:
 L23 Group (Valkyrie)
 --------------------
 
-Module ``xoa_driver.lli.commands.c_commands``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Chassis APIs ``xoa_driver.lli.commands.c_commands``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
 This module contains the **chassis commands** that deal with basic information and configuration of the chassis itself (rather than its modules and test ports), as well as overall control of the scripting session. The chassis command names all have the form ``C_xxxx`` and use neither a module index nor a port index.
@@ -26,8 +26,8 @@ This module contains the **chassis commands** that deal with basic information a
    :exclude-members: GetDataAttr, SetDataAttr
 
 
-Module ``xoa_driver.lli.commands.m_commands``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+L23 Module APIs ``xoa_driver.lli.commands.m_commands``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This module contains the **L23 module commands** that deal with basic information about, and configuration of the test modules. The module command names all have the form ``M_<xxx>`` and require a module index id.
 
@@ -37,8 +37,8 @@ This module contains the **L23 module commands** that deal with basic informatio
    :exclude-members: GetDataAttr, SetDataAttr
 
 
-Module ``xoa_driver.lli.commands.p_commands``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+L23 Port APIs ``xoa_driver.lli.commands.p_commands``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This module contains the **L23 port commands** that deal with basic information about, and configuration of L23 test ports. The L23 port command names all have the form ``P_<xxx>`` and require a module index id and a port index id. In general, port commands cannot be changed while traffic is on. Additionally, every stream must be disabled before changing parameters that affect the bandwidth of the port.
 
@@ -48,8 +48,8 @@ This module contains the **L23 port commands** that deal with basic information 
    :exclude-members: GetDataAttr, SetDataAttr
 
 
-Module ``xoa_driver.lli.commands.ps_commands``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+L23 Stream APIs ``xoa_driver.lli.commands.ps_commands``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This module contains the **L23 stream commands** deal with configuration of the traffic streams transmitted from a L23 port. The stream command names all have the form ``PS_<xxx>`` and require both a module index id and a port index id, as well as a sub-index identifying a particular stream.
 
@@ -127,8 +127,8 @@ If the stream payload type is set to ``Incrementing``, then an additional minimu
    :exclude-members: GetDataAttr, SetDataAttr
 
 
-Module ``xoa_driver.lli.commands.pp_commands``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+L23 High-Speed Port APIs ``xoa_driver.lli.commands.pp_commands``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This module contains the **L23 high-speed port commands** that provide configuration and status for the Gigabit Attachment Unit Interface (CAUI) physical coding sublayer used by 40G, 50G, 100G, 200G, 400G and 800G ports. The data is broken down into a number of lower-speed lanes. For 40G there are 4 lanes of 10 Gbps each. For 100G there are 20 lanes of 5 Gbps each. Within each lane the data is broken down into 66-bit code-words.
 
@@ -147,8 +147,8 @@ The high-speed port command names all have the form ``PP_<xxx>`` and require a m
    :exclude-members: GetDataAttr, SetDataAttr
 
 
-Module ``xoa_driver.lli.commands.pt_commands``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+L23 Port TX Statistics APIs ``xoa_driver.lli.commands.pt_commands``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This module contains the **L23 port TX statistics commands** that provide quantitative information about the transmitted packets on a port.
 
@@ -162,8 +162,8 @@ All bit-and byte-level statistics are at layer-2, so they include the full Ether
    :exclude-members: GetDataAttr, SetDataAttr
 
 
-Module ``xoa_driver.lli.commands.pr_commands``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+L23 Port RX Statistics APIs ``xoa_driver.lli.commands.pr_commands``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This module contains the **L23 port RX statistics commands** that provide quantitative information about the received packets on a port.
 
@@ -177,8 +177,8 @@ All bit-and byte-level statistics are at layer-2, so they include the full Ether
    :exclude-members: GetDataAttr, SetDataAttr
 
 
-Module ``xoa_driver.lli.commands.pc_commands``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+L23 Port Capture APIs ``xoa_driver.lli.commands.pc_commands``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This module contains the **L23 port capture commands** that deal with configuration of the capture criteria and inspection of the captured data from a port.
 
@@ -192,8 +192,8 @@ The capture command names all have the form ``PC_<xxx>`` and require both a modu
    :exclude-members: GetDataAttr, SetDataAttr
 
 
-Module ``xoa_driver.lli.commands.pd_commands``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+L23 Port Histogram APIs ``xoa_driver.lli.commands.pd_commands``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This module contains the **L23 port histogram commands** that deal with configuration of data collection and retrieval of samples from a port.
 
@@ -209,8 +209,8 @@ While a histogram is actively collecting samples its parameters cannot be change
    :exclude-members: GetDataAttr, SetDataAttr
 
 
-Module ``xoa_driver.lli.commands.pf_commands``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+L23 Port Filter APIss ``xoa_driver.lli.commands.pf_commands``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This module contains the **L23 port filter commands** that deal with configuration of the filters on the received traffic of a port.
 
@@ -226,8 +226,8 @@ While a filter is enabled, neither its condition nor the definition of each matc
    :exclude-members: GetDataAttr, SetDataAttr
 
 
-Module ``xoa_driver.lli.commands.pl_commands``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+L23 Port Length Term APIss ``xoa_driver.lli.commands.pl_commands``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This module contains the **L23 port length term commands** that deal with configuration of the length term on the received traffic of a port.
 
@@ -243,8 +243,8 @@ While a filter is enabled, neither its condition nor the definition of each matc
    :exclude-members: GetDataAttr, SetDataAttr
 
 
-Module ``xoa_driver.lli.commands.pm_commands``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+L23 Port Match Term APIss ``xoa_driver.lli.commands.pm_commands``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This module contains the **L23 port match term commands** that deal with configuration of the length term on the received traffic of a port.
 
@@ -260,8 +260,8 @@ While a filter is enabled, neither its condition nor the definition of each matc
    :exclude-members: GetDataAttr, SetDataAttr
 
 
-Module ``xoa_driver.lli.commands.px_commands``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+L23 Port Transceiver APIs ``xoa_driver.lli.commands.px_commands``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This module contains the **L23 port transceiver commands** that deal with access to the register interfaces of the transceiver on a port.
 
@@ -276,8 +276,8 @@ This module contains the **L23 port transceiver commands** that deal with access
 L47 Group (Vulcan)
 --------------------
 
-Module ``xoa_driver.lli.commands.m4_commands``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+L47 Module APIs ``xoa_driver.lli.commands.m4_commands``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This module contains the **L47 module commands**.
 
@@ -287,8 +287,8 @@ This module contains the **L47 module commands**.
    :exclude-members: GetDataAttr, SetDataAttr
 
 
-Module ``xoa_driver.lli.commands.m4e_commands``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+L47 Module Packet Engine APIs ``xoa_driver.lli.commands.m4e_commands``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This module contains the **L47 module packet engine commands**.
 
@@ -298,8 +298,8 @@ This module contains the **L47 module packet engine commands**.
    :exclude-members: GetDataAttr, SetDataAttr
 
 
-Module ``xoa_driver.lli.commands.p4_commands``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+L47 Port APIs ``xoa_driver.lli.commands.p4_commands``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This module contains the **L47 port commands**.
 
@@ -329,8 +329,8 @@ The Xena L47 test execution engine has seven states: ``off``, ``prepare``, ``pre
    :exclude-members: GetDataAttr, SetDataAttr
 
 
-Module ``xoa_driver.lli.commands.p4e_commands``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+L47 Port Packet Engine APIs ``xoa_driver.lli.commands.p4e_commands``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This module contains the **L47 port packet engine commands**.
 
@@ -340,8 +340,8 @@ This module contains the **L47 port packet engine commands**.
    :exclude-members: GetDataAttr, SetDataAttr
 
 
-Module ``xoa_driver.lli.commands.p4g_commands``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+L47 Connection Group APIs ``xoa_driver.lli.commands.p4g_commands``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This module contains the **L47 connection group commands** that deal with configuration of TCP connections and are specific to L47. The commands have the form ``P4G_<xxx>`` and require a module index id and a port index id, and a connection group index id.
 
@@ -384,8 +384,8 @@ By combining several :term:`CGs<CG>` on a port, it is possible to create more co
 Impairment Group (Chimera)
 --------------------------
 
-Module ``xoa_driver.lli.commands.pe_commands``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Impairment Flow APIs ``xoa_driver.lli.commands.pe_commands``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This module contains the **impairment port flow commands**.
 
@@ -395,10 +395,10 @@ This module contains the **impairment port flow commands**.
    :exclude-members: GetDataAttr, SetDataAttr
 
 
-Module ``xoa_driver.lli.commands.pec_commands``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Impairment Custom Distribution APIs ``xoa_driver.lli.commands.pec_commands``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This module contains the **impairment port custome distribution commands**.
+This module contains the **impairment port custom distribution commands**.
 
 .. automodule:: xoa_driver.internals.core.commands.pec_commands
    :members:
@@ -406,8 +406,8 @@ This module contains the **impairment port custome distribution commands**.
    :exclude-members: GetDataAttr, SetDataAttr
 
 
-Module ``xoa_driver.lli.commands.ped_commands``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Impairment Distribution APIs ``xoa_driver.lli.commands.ped_commands``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This module contains the **impairment port distribution commands**.
 
@@ -417,8 +417,8 @@ This module contains the **impairment port distribution commands**.
    :exclude-members: GetDataAttr, SetDataAttr
 
 
-Module ``xoa_driver.lli.commands.pef_commands``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Impairment Flow Filter APIs ``xoa_driver.lli.commands.pef_commands``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This module contains the **impairment port flow filter commands**.
 
@@ -433,7 +433,7 @@ This module contains the **impairment port flow filter commands**.
 Supporting Group
 -----------------
 
-Module ``xoa_driver.lli``
+Helper APIs ``xoa_driver.lli``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This module contains some *helper functions*.
