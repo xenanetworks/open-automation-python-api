@@ -1005,7 +1005,7 @@ class P_CAPTURE:
     """
     Whether a port is capturing packets. When on, the port retains the received
     packets and makes them available for inspection. The capture criteria are
-    configured using the PC_xxxparameters. While capture is on the capture
+    configured using the PC_xxx parameters. While capture is on the capture
     parameters cannot be changed.
     """
 

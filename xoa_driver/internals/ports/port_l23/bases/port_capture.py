@@ -5,6 +5,7 @@ from typing import (
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
 from xoa_driver.internals.core.commands import (
+    P_CAPTURE,
     PC_TRIGGER,
     PC_KEEP,
     PC_STATS,
@@ -30,7 +31,10 @@ class PortCapture:
         self.__conn = conn
         self.__module_id = module_id
         self.__port_id = port_id
-        
+        self.state = P_CAPTURE(conn, module_id, port_id)
+        """L23 port traffic capture.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_CAPTURE`
+        """
         self.trigger = PC_TRIGGER(conn, module_id, port_id)
         """L23 port packet capture triggering criteria.
         Representation of :class:`~xoa_driver.internals.core.commands.pc_commands.PC_TRIGGER`

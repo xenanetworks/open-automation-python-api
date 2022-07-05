@@ -61,6 +61,8 @@ from xoa_driver.internals.state_storage import ports_state
 from xoa_driver.internals.indices.length_term import LengthTermIdx
 from xoa_driver.internals.indices.match_term import MatchTermIdx
 
+from .port_capture import PortCapture
+
 LengthTermIndices = idx_mgr.IndexManager[LengthTermIdx]
 MatchTermIndices = idx_mgr.IndexManager[MatchTermIdx]
 
@@ -269,15 +271,11 @@ class BasePortL23(base_port.BasePort[ports_state.PortL23LocalState]):
         """L23 port loopback mode.
         Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_LOOPBACK`
         """
-        self.capture = P_CAPTURE(conn, module_id, port_id)
-        """L23 port traffic capture.
-        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_CAPTURE`
-        """
+        
         self.errors_count = P_ERRORS(conn, module_id, port_id)
         """L23 port errors.
         Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_ERRORS`
         """
-        
 
         self.interframe_gap = P_INTERFRAMEGAP(conn, module_id, port_id)
         """L23 port interframe gap.
@@ -325,6 +323,8 @@ class BasePortL23(base_port.BasePort[ports_state.PortL23LocalState]):
         Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_NDPRXTABLE`
         """
 
+        self.capturer = PortCapture(conn, module_id, port_id)
+        """L23 port capturer configuration."""
         self.speed = Speed(conn, module_id, port_id)
         """L23 port speed configuration."""
         self.traffic = Traffic(conn, module_id, port_id)
@@ -389,8 +389,8 @@ class BasePortL23(base_port.BasePort[ports_state.PortL23LocalState]):
     on_traffic_change = functools.partialmethod(utils.on_event, P_TRAFFIC)
     """Register a callback to the event that the port's traffic status changes."""
 
-    on_capture_change = functools.partialmethod(utils.on_event, P_CAPTURE)
-    """Register a callback to the event that the port's capture status changes."""
+    on_capturer_state_change = functools.partialmethod(utils.on_event, P_CAPTURE)
+    """Register a callback to the event that the port's capturer state changes."""
 
     on_tx_enable_change = functools.partialmethod(utils.on_event, P_TXENABLE)
     """Register a callback to the event that the port's TX status changes."""

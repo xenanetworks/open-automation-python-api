@@ -33,7 +33,6 @@ from .port_l23 import (
 )
 from .speed_detector import SpeedDetector
 from .port_transceiver import PortTransceiver
-from .port_capture import PortCapture
 from .port_reception_statistics import GenuinePortReceptionStatistics
 from .port_transmission_statistics import PortTransmissionStatistics
 
@@ -155,9 +154,7 @@ class BasePortL23Genuine(BasePortL23):
         self.transceiver = PortTransceiver(conn, module_id, port_id)
         """L23 port transceiver configuration.
         """
-        self.capture = PortCapture(conn, module_id, port_id)
-        """L23 port packet capture configuration.
-        """
+    
         self.statistics = PortStatistics(conn, module_id, port_id)
         """L23 port statistics.
         """
