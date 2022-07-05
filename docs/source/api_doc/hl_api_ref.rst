@@ -6,8 +6,8 @@ High-Level API Reference
    High-level API for L23 TSN will be included in a future release.
 
 
-Module ``xoa_driver.testers``
---------------------------------
+Tester APIs ``xoa_driver.testers``
+-------------------------------------
 
 This module contains all the available *tester types* supported by XOA Python API.
 
@@ -16,8 +16,8 @@ This module contains all the available *tester types* supported by XOA Python AP
    :inherited-members:
 
 
-Module ``xoa_driver.modules``
---------------------------------
+Module APIs ``xoa_driver.modules``
+-------------------------------------
 
 This module contains all the available *test module types* supported by XOA Python API.
 
@@ -26,7 +26,7 @@ This module contains all the available *test module types* supported by XOA Pyth
    :inherited-members:
 
 
-Module ``xoa_driver.ports``
+Port APIs ``xoa_driver.ports``
 --------------------------------
 
 This module contains all the available *test port types* supported by XOA Python API.
@@ -37,7 +37,7 @@ This module contains all the available *test port types* supported by XOA Python
    :no-undoc-members:
 
 
-Module ``xoa_driver.utils``
+Utils ``xoa_driver.utils``
 --------------------------------
 
 This module contains some *helper functions*.
@@ -46,7 +46,7 @@ This module contains some *helper functions*.
    :members:
 
 
-Module ``xoa_driver.enums``
+Enums ``xoa_driver.enums``
 --------------------------------
 
 This module contains available enumeration types and server response statuses.
@@ -55,8 +55,8 @@ This module contains available enumeration types and server response statuses.
    :members:
 
 
-Module ``xoa_driver.exceptions``
---------------------------------
+Exceptions ``xoa_driver.exceptions``
+--------------------------------------
 
 This module contains all exception classes that can be propagated to the upper level.
 

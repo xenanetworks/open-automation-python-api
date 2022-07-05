@@ -13,4 +13,3 @@ The simple code example below demonstrates how to use XOA Python API to:
 
 .. literalinclude:: ../code_example/manage_tester.py
     :language: python
-    :linenos:
