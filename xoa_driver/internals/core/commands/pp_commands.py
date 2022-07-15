@@ -34,6 +34,7 @@ class PP_ALARMS_ERRORS:
     class GetDataAttr:
         total_alarms: XmpField[XmpInt] = XmpField(XmpInt)  # integer, total number of triggered alarms
         valid_mask: XmpField[XmpHex8] = XmpField(XmpHex8)  # 8 hex bytes, mask of valid alarms
+        los_error_cournt: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of no-sync alarms
         total_pcs_error_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of errors of PCS error alarm
         total_fec_error_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of errors of FEC error alarm
         total_header_error_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of errors of header error alarm
@@ -165,7 +166,7 @@ class PP_TXLANEINJECT:
 @dataclass
 class PP_TXPRBSCONFIG:
     """
-    The PRBS configuration for a particular lane. When PRBS is enabled for any lane
+    The PRBS configuration for a particular SerDes. When PRBS is enabled for any SerDes
     then the overall link is compromised and drops out of sync.
     """
 
@@ -175,43 +176,43 @@ class PP_TXPRBSCONFIG:
     _connection: "interfaces.IConnection"
     _module: int
     _port: int
-    _lane_xindex: int
+    _serdes_xindex: int
 
     @dataclass(frozen=True)
     class SetDataAttr:
         prbs_seed: XmpField[XmpInt] = XmpField(XmpInt)  # integer, PRBS seed value.
-        prbs_on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=PRBSOnOff)  # code byte, whether this lane is transmitting PRBS data.
-        error_on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=ErrorOnOff)  # code byte, whether bit-level errors are injected into this lane.
+        prbs_on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=PRBSOnOff)  # code byte, whether this SerDes is transmitting PRBS data.
+        error_on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=ErrorOnOff)  # code byte, whether bit-level errors are injected into this SerDes.
 
     @dataclass(frozen=True)
     class GetDataAttr:
         prbs_seed: XmpField[XmpInt] = XmpField(XmpInt)  # integer, PRBS seed value.
-        prbs_on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=PRBSOnOff)  # code byte, whether this lane is transmitting PRBS data.
-        error_on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=ErrorOnOff)  # code byte, whether bit-level errors are injected into this lane.
+        prbs_on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=PRBSOnOff)  # code byte, whether this SerDes is transmitting PRBS data.
+        error_on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=ErrorOnOff)  # code byte, whether bit-level errors are injected into this SerDes.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the PRBS configuration for a particular lane. When PRBS is enabled for any lane
+        """Get the PRBS configuration for a particular SerDes. When PRBS is enabled for any SerDes
         then the overall link is compromised and drops out of sync.
 
-        :return: the PRBS configuration for a particular lane
+        :return: the PRBS configuration for a particular SerDes
         :rtype: PP_TXPRBSCONFIG.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._lane_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex]))
 
     def set(self, prbs_seed: int, prbs_on_off: PRBSOnOff, error_on_off: ErrorOnOff) -> "Token":
-        """Set the PRBS configuration for a particular lane.
+        """Set the PRBS configuration for a particular SerDes.
 
-        :param prbs_seed: PRBS seed value
+        :param prbs_seed: not used, set to 0.
         :type prbs_seed: int
-        :param prbs_on_off: whether this lane is transmitting PRBS data.
+        :param prbs_on_off: whether this SerDes is transmitting PRBS data.
         :type prbs_on_off: PRBSOnOff
-        :param error_on_off: whether bit-level errors are injected into this lane
+        :param error_on_off: whether bit-level errors are injected into this SerDes
         :type error_on_off: ErrorOnOff
         """
         return Token(
             self._connection,
             build_set_request(
-                self, module=self._module, port=self._port, indices=[self._lane_xindex], prbs_seed=prbs_seed, prbs_on_off=prbs_on_off, error_on_off=error_on_off
+                self, module=self._module, port=self._port, indices=[self._serdes_xindex], prbs_seed=prbs_seed, prbs_on_off=prbs_on_off, error_on_off=error_on_off
             ),
         )
 
@@ -221,7 +222,7 @@ class PP_TXPRBSCONFIG:
 class PP_TXERRORRATE:
     """
     The rate of continuous bit-level error injection. Errors are injected evenly
-    across the lanes where injection is enabled.
+    across the SerDes where injection is enabled.
     """
 
     code: typing.ClassVar[int] = 283
@@ -241,7 +242,7 @@ class PP_TXERRORRATE:
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the rate of continuous bit-level error injection. Errors are injected evenly
-        across the lanes where injection is enabled.
+        across the SerDes where injection is enabled.
 
         :return: the number of bits between each error. 0, no error injection
         :rtype: PP_TXERRORRATE.GetDataAttr
@@ -250,7 +251,7 @@ class PP_TXERRORRATE:
 
     def set(self, rate: int) -> "Token":
         """Set the rate of continuous bit-level error injection. Errors are injected evenly
-        across the lanes where injection is enabled. 
+        across the SerDes where injection is enabled. 
 
         :param rate: the number of bits between each error. 0, no error injection
         :type rate: int
@@ -262,8 +263,7 @@ class PP_TXERRORRATE:
 @dataclass
 class PP_TXINJECTONE:
     """
-    Inject a single bit-level error into one of the lanes where injection is
-    enabled.
+    Inject a single bit-level error into the SerDes where injection has been enabled.
     """
 
     code: typing.ClassVar[int] = 284
@@ -278,7 +278,7 @@ class PP_TXINJECTONE:
         pass
 
     def set(self) -> "Token":
-        """Inject a single bit-level error into one of the lanes where injection is
+        """Inject a single bit-level error into one of the SerDes where injection is
         enabled.
         """
         return Token(
@@ -623,7 +623,7 @@ class PP_RXLANEERRORS:
 class PP_RXPRBSSTATUS:
     """
     Statistics about PRBS pattern detection on the data received on a specified
-    physical lane.
+    SerDes.
     """
 
     code: typing.ClassVar[int] = 293
@@ -632,7 +632,7 @@ class PP_RXPRBSSTATUS:
     _connection: "interfaces.IConnection"
     _module: int
     _port: int
-    _lane_xindex: int
+    _serdex_xindex: int
 
     @dataclass(frozen=True)
     class GetDataAttr:
@@ -642,12 +642,12 @@ class PP_RXPRBSSTATUS:
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the statistics about PRBS pattern detection on the data received on a specified
-        physical lane.
+        SerDes.
 
-        :return: the number of bytes received while in PRBS lock, the number of errors detected while in PRBS lock, and whether this lane is in PRBS lock.
+        :return: the number of bytes received while in PRBS lock, the number of errors detected while in PRBS lock, and whether this SerDes is in PRBS lock.
         :rtype: PP_RXPRBSSTATUS.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._lane_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdex_xindex]))
 
 
 @register_command
@@ -1790,5 +1790,3 @@ class PP_LINKTRAINSTATUS:
         :rtype: PP_LINKTRAINSTATUS.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._lane_xindex]))
-
-
