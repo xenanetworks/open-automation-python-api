@@ -146,7 +146,7 @@ Resource Managers
 
 Most of the subtester resources, which are organized into collections, are handled by :term:`Resource Managers<Resource Manager>`.
 
-The most commonly used resource managers are `Module Manager and Port Manager`_ | `Index Manager`_.
+The most commonly used resource managers are `Module Manager and Port Manager`_ | `Index Managers`_.
 
 An illustration of resource managers and :term:`test resources<test resource>` are shown below:
 
@@ -168,15 +168,15 @@ An illustration of resource managers and :term:`test resources<test resource>` a
         |    |   port manager  |
         |    *******************
         |        |
-        |        |    --------------   *****************
-        |        |----|  Port 0    | - | index manager |
-        |        |    --------------   *****************
-        |        |    --------------   *****************
-        |        |----|  Port 1    | - | index manager |
-        |        |    --------------   *****************
-        |        |    --------------   *****************
-        |        |----|  Port N-1  | - | index manager |
-        |             --------------   *****************
+        |        |    --------------   ******************
+        |        |----|  Port 0    | - | index managers |
+        |        |    --------------   ******************
+        |        |    --------------   ******************
+        |        |----|  Port 1    | - | index managers |
+        |        |    --------------   ******************
+        |        |    --------------   ******************
+        |        |----|  Port N-1  | - | index managers |
+        |             --------------   ******************
         |
         |   --------------
         |---|  Module 1  |
@@ -186,15 +186,15 @@ An illustration of resource managers and :term:`test resources<test resource>` a
         |    |   port manager  |
         |    *******************
         |        |
-        |        |    --------------   *****************
-        |        |----|  Port 0    | - | index manager |
-        |        |    --------------   *****************
-        |        |    --------------   *****************
-        |        |----|  Port 1    | - | index manager |
-        |        |    --------------   *****************
-        |        |    --------------   *****************
-        |        |----|  Port N-1  | - | index manager |
-        |             --------------   *****************
+        |        |    --------------   ******************
+        |        |----|  Port 0    | - | index managers |
+        |        |    --------------   ******************
+        |        |    --------------   ******************
+        |        |----|  Port 1    | - | index managers |
+        |        |    --------------   ******************
+        |        |    --------------   ******************
+        |        |----|  Port N-1  | - | index managers |
+        |             --------------   ******************
         |
         |   --------------
         |---| Module N-1 |
@@ -208,15 +208,16 @@ An illustration of resource managers and :term:`test resources<test resource>` a
 Module Manager and Port Manager
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Each tester object contains a :term:`Module Manager`, which can be accessed through attribute ``modules``.
+Each tester object contains a :term:`Module Manager`, which can be accessed through attribute ``modules``. Each module object contains a :term:`Port Manager`, which can be accessed through attribute ``ports``.
 
-Each module object contains a :term:`Port Manager`, which can be accessed through attribute ``ports``.
 
-.. note::
+.. important::
+
+    Modules and ports are test resources that cannot be created or deleted, unless the tester is reconfigured either physically or virtually. Thus, in XOA Python API, there is no "create" or "delete" methods for these two types of objects. What we can do is to `obtain` the object that represents the underlying test resource. 
 
     A :term:`Module Manager` can contain modules of different :term:`Module Types<Module Type>`. This is because there can be various test modules installed in a physical tester. On the other hand, a :term:`Port Manager` contains ports of the same :term:`Port Type`. This is because the ports on a module are of the same type.
 
-Retrieve a single item
+Obtain a single object
 ''''''''''''''''''''''''''''''''
 
 Methods to retrieve a module or a port from a :term:`resource manager`:
@@ -234,7 +235,7 @@ Methods to retrieve a module or a port from a :term:`resource manager`:
     :emphasize-lines: 9
 
 
-Retrieve a multiple items
+Obtain multiple objects
 ''''''''''''''''''''''''''''''''
 
 Methods to retrieve multiple resources from a :term:`resource manager`:
@@ -252,23 +253,22 @@ Methods to retrieve multiple resources from a :term:`resource manager`:
     :emphasize-lines: 10
 
 
-Index Manager
+Index Managers
 ^^^^^^^^^^^^^^^^^^^^
 
-:term:`Index Manager` manages the subport-level resource indices such as stream indices, filter indices, connection group indices, etc. It automatically ensures correct and conflict-free **index assignment**.
+:term:`Index Managers` manages the subport-level resource indices such as stream indices, filter indices, connection group indices, etc. It automatically ensures correct and conflict-free **index assignment**.
 
 .. important::
 
-    It is user's responsibility to create, retrieve, and remove those subport-level indices.
+    Streams, connection groups, filters, modifiers, etc. are virtual. They can be created and deleted. Thus in XOA Python API, there are `create` and `delete` methods for you to manage these virtual resources.
 
-Thanks to the :term:`index manager` of a port, users don't necessarily need to handle the index assignment:
+    It is user's responsibility to create, retrieve, and delete those subport-level indices. Index managers only takes care of the index assignment.
 
-  * To create an index, use method ``create()``.
-  * To remove an index, use method ``remove()``. An index also can be removed without accessing the manager but by calling ``<index_instance>.delete()``.
+Thanks to the :term:`index managers` of a port, users don't necessarily need to handle the index assignment:
 
-.. hint::
-    
-    The call of the function ``<index_instance>.delete()`` will remove a resource index from the port, and will automatically notify the index manager of the port about the removal.
+  * To create an index, use method ``<index_manager>.create()``, e.g. ``my_stream = await my_port.streams.create()``.
+  * To delete an index, use method ``<index_instance>.delete()``, e.g. ``await my_stream.delete()``. The call of the function ``<index_instance>.delete()`` will delete the index from the port, and will automatically notify the index manager about the deletion.
+  * An index can also be removed without accessing its index manager by calling ``<index_manager>.remove(<index>)``, e.g. ``await my_port.streams.remove(0)``.
 
 The :term:`index manager` will make sure the freed index is used when the user creates again next time.
 
@@ -317,7 +317,7 @@ The boilerplate code that is used to run the examples in this section:
 .. literalinclude:: /code_example/boilerplate.py
     :linenos:
 
-Tester Instance
+Connect to Testers
 ^^^^^^^^^^^^^^^^^^^^
 
 Each tester class is represented as an `awaitable object <https://docs.python.org/3/library/asyncio-task.html#id2>`_. When awaited, it establishes a TCP connection to the tester.
