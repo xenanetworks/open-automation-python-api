@@ -167,7 +167,7 @@ class PEF_ETHSETTINGS:
         action: XmpField[XmpByte] = XmpField(XmpByte, choices=InfoAction)  # coded byte, specifies the action of Ethernet information.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the filter action settings on Ethernet header. 
+        """Get the filter action settings on Ethernet header.
 
         :return: Filter setting
         :rtype: PEF_ETHSETTINGS.GetDataAttr
@@ -178,9 +178,9 @@ class PEF_ETHSETTINGS:
         """Set the filter action settings on Ethernet header.
 
         :param use: specifies if Ethernet information is expected
-        :type use: EthernetInfo
+        :type use: FilterUse
         :param action: specifies the use of Ethernet information.
-        :type action: FilterAction
+        :type action: InfoAction
         """
         return Token(
             self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], use=use, action=action)
@@ -192,9 +192,9 @@ class PEF_ETHSETTINGS:
 class PEF_ETHSRCADDR:
     """
     Defines the Ethernet Source Address settings for the Ethernet filter.
-    
+
     .. note::
-    
+
         For SET, the only allowed ``filter_type`` is ``shadow-copy``
 
     """
@@ -255,7 +255,7 @@ class PEF_ETHDESTADDR:
     Defines the Ethernet Destination Address settings for the Ethernet filter.
 
     .. note::
-    
+
         For SET, the only allowed ``filter_type`` is ``shadow-copy``
 
     """
@@ -314,9 +314,9 @@ class PEF_ETHDESTADDR:
 class PEF_L2PUSE:
     """
     Defines what Layer 2+ protocols that are present and may be used for the filter.
-    
+
     .. note::
-    
+
         For SET, the only allowed ``filter_type`` is ``shadow-copy``
 
     """
@@ -371,7 +371,7 @@ class PEF_VLANSETTINGS:
     Defines what filter action is performed on the VLAN header.
 
     .. note::
-    
+
         For SET, the only allowed ``filter_type`` is ``shadow-copy``
 
     """
@@ -407,9 +407,9 @@ class PEF_VLANSETTINGS:
         """Set filter action settings on VLAN header.
 
         :param use: specifies if VLAN information is expected
-        :type use: EthernetInfo
+        :type use: FilterUse
         :param action: specifies the action of VLAN information
-        :type action: FilterAction
+        :type action: InfoAction
         """
         return Token(
             self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], use=use, action=action)
@@ -421,11 +421,11 @@ class PEF_VLANSETTINGS:
 class PEF_VLANTAG:
     """
     Basic mode only. Defines the VLAN TAG settings for the VLAN filter.
-    
+
     .. note::
-    
+
         For SET, the only allowed ``filter_type`` is ``shadow-copy``
-        
+
     """
 
     code: typing.ClassVar[int] = 1708
@@ -488,7 +488,7 @@ class PEF_VLANPCP:
     Basic mode only. Defines the VLAN PCP settings for the VLAN filter.
 
     .. note::
-    
+
         For SET, the only allowed ``filter_type`` is ``shadow-copy``
 
     """
@@ -584,9 +584,9 @@ class PEF_MPLSSETTINGS:
         """Set the filter action settings on the MPLS header.
 
         :param use: specifies the use of MPLS information
-        :type use: EthernetInfo
+        :type use: FilterUse
         :param action: specifies specifies if MPLS information is expected
-        :type action: FilterAction
+        :type action: InfoAction
         """
         return Token(
             self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], use=use, action=action)
@@ -598,9 +598,9 @@ class PEF_MPLSSETTINGS:
 class PEF_MPLSLABEL:
     """
     Basic mode only. Defines the MPLS label settings for the filter.
-    
+
     .. note::
-    
+
         For SET, the only allowed ``filter_type`` is ``shadow-copy``
 
     """
@@ -659,9 +659,9 @@ class PEF_MPLSLABEL:
 class PEF_MPLSTOC:
     """
     Basic mode only. Defines the MPLS TOC settings for the filter.
-    
+
     .. note::
-    
+
         For SET, the only allowed ``filter_type`` is ``shadow-copy``
 
     """
@@ -673,7 +673,7 @@ class PEF_MPLSTOC:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1). 
+    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -723,7 +723,7 @@ class PEF_L3USE:
     for the filter.
 
     .. note::
-    
+
         For SET, the only allowed ``filter_type`` is ``shadow-copy``
 
     """
@@ -776,7 +776,7 @@ class PEF_IPV4SETTINGS:
     Basic mode only. Defines what filter action is performed on the IPv4 header.
 
     .. note::
-    
+
         For SET, the only allowed ``filter_type`` is ``shadow-copy``
 
     """
@@ -812,9 +812,9 @@ class PEF_IPV4SETTINGS:
         """Set the filter action settings on IPv4 header.
 
         :param use: specifies the use of IPv4 information
-        :type use: EthernetInfo
+        :type use: FilterUse
         :param action: specifies the action of IPv4 information
-        :type action: FilterAction
+        :type action: InfoAction
         """
         return Token(
             self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], use=use, action=action)
@@ -826,9 +826,9 @@ class PEF_IPV4SETTINGS:
 class PEF_IPV4SRCADDR:
     """
     Basic mode only. Defines the IPv4 Source Address settings for the IPv4 filter.
-    
+
     .. note::
-    
+
         For SET, the only allowed ``filter_type`` is ``shadow-copy``
 
     """
@@ -889,7 +889,7 @@ class PEF_IPV4DESTADDR:
     Basic mode only. Defines the IPv4 Destination Address settings for the IPv4 filter.
 
     .. note::
-    
+
         For SET, the only allowed ``filter_type`` is ``shadow-copy``
 
     """
@@ -950,7 +950,7 @@ class PEF_IPV4DSCP:
     Basic mode only. Defines if IPv4 DSCP/TOS settings used for the IPv4 filter.
 
     .. note::
-    
+
         For SET, the only allowed ``filter_type`` is ``shadow-copy``
 
     """
@@ -1019,7 +1019,7 @@ class PEF_IPV6SETTINGS:
     Basic mode only. Defines what filter action is performed on the IPv6 header.
 
     .. note::
-    
+
         For SET, the only allowed ``filter_type`` is ``shadow-copy``
 
     """
@@ -1055,9 +1055,9 @@ class PEF_IPV6SETTINGS:
         """Set filter action settings on the IPv6 header.
 
         :param use: specifies the use of IPv6 header
-        :type use: EthernetInfo
+        :type use: FilterUse
         :param action: specifies the action of IPv6 header
-        :type action: FilterAction
+        :type action: InfoAction
         """
         return Token(
             self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], use=use, action=action)
@@ -1069,9 +1069,9 @@ class PEF_IPV6SETTINGS:
 class PEF_IPV6SRCADDR:
     """
     Basic mode only. Defines the IPv6 Source Address settings for the IPv6 filter.
-    
+
     .. note::
-    
+
         For SET, the only allowed ``filter_type`` is ``shadow-copy``
 
     """
@@ -1132,7 +1132,7 @@ class PEF_IPV6DESTADDR:
     Basic mode only. Defines the IPv6 Destination Address settings for the IPv6 filter.
 
     .. note::
-    
+
         For SET, the only allowed ``filter_type`` is ``shadow-copy``
 
     """
@@ -1191,9 +1191,9 @@ class PEF_IPV6DESTADDR:
 class PEF_IPV6TC:
     """
     Basic mode only. Defines the IPv6 Traffic Class settings used for the filter.
-    
+
     .. note::
-    
+
         For SET, the only allowed ``filter_type`` is ``shadow-copy``
 
     """
@@ -1260,9 +1260,9 @@ class PEF_IPV6TC:
 class PEF_UDPSETTINGS:
     """
     Basic mode only. Controls if UDP packet information is used for flow filtering.
-    
+
     .. note::
-    
+
         For SET, the only allowed ``filter_type`` is ``shadow-copy``
 
     """
@@ -1298,9 +1298,9 @@ class PEF_UDPSETTINGS:
         """Set filter settings on the UDP header.
 
         :param use: specifies the use of UDP information.
-        :type use: EthernetInfo
+        :type use: FilterUse
         :param action: specifies the action of UDP information.
-        :type action: FilterAction
+        :type action: InfoAction
         """
         return Token(
             self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], use=use, action=action)
@@ -1312,9 +1312,9 @@ class PEF_UDPSETTINGS:
 class PEF_UDPSRCPORT:
     """
     Basic mode only. Defines UDP Source Port settings used for the filter.
-    
+
     .. note::
-    
+
         For SET, the only allowed ``filter_type`` is ``shadow-copy``
 
     """
@@ -1375,7 +1375,7 @@ class PEF_UDPDESTPORT:
     Basic mode only. Defines UDP Destination Port settings used for the filter.
 
     .. note::
-    
+
         For SET, the only allowed ``filter_type`` is ``shadow-copy``.
     """
 
@@ -1436,7 +1436,7 @@ class PEF_TCPSETTINGS:
     filtering.
 
     .. note::
-    
+
         For SET, the only allowed ``filter_type`` is ``shadow-copy``.
 
     """
@@ -1472,9 +1472,9 @@ class PEF_TCPSETTINGS:
         """Set filter action settings on the TCP header.
 
         :param use: specifies the use of TCP information.
-        :type use: EthernetInfo
+        :type use: FilterUse
         :param action: specifies the action of TCP information.
-        :type action: FilterAction
+        :type action: InfoAction
         """
         return Token(
             self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], use=use, action=action)
@@ -1488,9 +1488,9 @@ class PEF_TCPSRCPORT:
     Basic mode only. Defines TCP Source Port settings used for the filter.
 
     .. note::
-    
+
         For SET, the only allowed ``filter_type`` is ``shadow-copy``.
-        
+
     """
 
     code: typing.ClassVar[int] = 1726
@@ -1547,9 +1547,9 @@ class PEF_TCPSRCPORT:
 class PEF_TCPDESTPORT:
     """
     Basic mode only. Defines TCP Destination Port settings used for the filter.
-    
+
     .. note::
-    
+
         For SET, the only allowed ``filter_type`` is ``shadow-copy``.
 
     """
@@ -1610,7 +1610,7 @@ class PEF_ANYSETTINGS:
     Basic mode only. Defines if filtering on ANY field in a packet is used for flow filtering.
 
     .. note::
-    
+
         For SET, the only allowed ``filter_type`` is ``shadow-copy``.
 
     """
@@ -1646,9 +1646,9 @@ class PEF_ANYSETTINGS:
         """Set the settings of filtering state on ANY field in a packet.
 
         :param use: specifies the use of ANY field information.
-        :type use: EthernetInfo
+        :type use: FilterUse
         :param action:  specifies the action of ANY field information.
-        :type action: FilterAction
+        :type action: InfoAction
         """
         return Token(
             self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], use=use, action=action)
@@ -1665,7 +1665,7 @@ class PEF_ANYCONFIG:
     6 bytes.
 
     .. note::
-    
+
         For SET, the only allowed ``filter_type`` is ``shadow-copy``.
 
     """
@@ -1725,7 +1725,7 @@ class PEF_TPLDSETTINGS:
     generators. For each flow filter, can the filter be based on 16 TPLD ID values.
 
     .. note::
-    
+
         For SET, the only allowed ``filter_type`` is ``shadow-copy``.
 
     """
@@ -1761,7 +1761,7 @@ class PEF_TPLDSETTINGS:
         """Set the settings of filtering on TPLD field in a packet.
 
         :param use: specifies the use of TPLD information.
-        :type use: InfoUse
+        :type use: FilterUse
         :param action: specifies the action of TPLD information.
         :type action: InfoAction
         """
@@ -1773,9 +1773,9 @@ class PEF_TPLDSETTINGS:
 class PEF_TPLDCONFIG:
     """
     Defines the TPLD filter configuration. There are only 16 TPLD filter, thus the index values are from 0 to 15.
-    
+
     .. note::
-    
+
         For SET, the only allowed ``filter_type`` is ``shadow-copy``.
 
     """
@@ -1841,7 +1841,7 @@ class PEF_VALUE:
     E.g. if :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_PROTOCOL` is set to ETHERNET then only
     12 bytes can be set. In order to set the full 128 bytes, either specify a
     detailed segment list, or use the raw segment type. This specifies 12 + 116 = 128 bytes.
-    
+
     If segment_index is non-zero, only the bytes covered by that segment are manipulated, so if :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_PROTOCOL` is set to ``ETHERNET VLAN ETHERTYPE eCPRI``, then segment_index = 4 selects the 8
     bytes of the eCPRI header starting at byte position (12 + 2 + 4) = 18. For ``set``
     commands where fewer value bytes are provided than specified by the protocol
@@ -1889,7 +1889,7 @@ class PEF_MASK:
     """
     Extended mode only. Defines the mask byte values that select the values specified by :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_VALUE`. For a chosen ``segment_index`` the first byte in the value masks the
     first byte of the corresponding :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_VALUE`, and so on.
-    
+
     ``get/set`` semantics are similar to :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_VALUE`.
     """
 

@@ -274,7 +274,7 @@ class P_SPEEDSELECTION:
     The speed mode of an autoneg port with an interface type supporting multiple speeds.
 
     .. note::
-    
+
         This is only a settable command when speed is selected at the port level. Use the :class:`~xoa_driver.internals.core.commands.m_commands.M_CFPCONFIG` command when speed is selected at the module level.
 
     """
@@ -488,7 +488,7 @@ class P_SPEEDREDUCTION:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
     def set(self, ppm: int) -> "Token":
-        """Set the speed reduction ppm value of the test port. 
+        """Set the speed reduction ppm value of the test port.
 
         :param ppm: the speed reduction ppm value of the test port
         :type ppm: int
@@ -520,7 +520,7 @@ class P_INTERFRAMEGAP:
         min_byte_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer, specifying the minimum number of byte-times between generated packets.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the mimimum gap between packets in the traffic generated for a port. The gap includes the Ethernet preamble. 
+        """Get the mimimum gap between packets in the traffic generated for a port. The gap includes the Ethernet preamble.
 
         :return: the mimimum gap between packets in the traffic generated for a port. The gap includes the Ethernet preamble.
         :rtype: P_INTERFRAMEGAP.GetDataAttr
@@ -528,7 +528,7 @@ class P_INTERFRAMEGAP:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
     def set(self, min_byte_count: int) -> "Token":
-        """Set the mimimum gap between packets in the traffic generated for a port. The gap includes the Ethernet preamble. 
+        """Set the mimimum gap between packets in the traffic generated for a port. The gap includes the Ethernet preamble.
 
         :param min_byte_count: the mimimum gap between packets in the traffic generated for a port. The gap includes the Ethernet preamble.
         :type min_byte_count: int
@@ -871,7 +871,7 @@ class P_LOOPBACK:
         """Set the loop back mode of the port.
 
         :param mode: the loop back mode of the port
-        :type mode: LoopMode
+        :type mode: LoopbackMode
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, mode=mode))
 
@@ -931,7 +931,7 @@ class P_FLASH:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
     def set(self, on_off: OnOff) -> "Token":
-        """Set the status of the LED flashing status of the port. 
+        """Set the status of the LED flashing status of the port.
 
         :param on_off: the status of the LED flashing status of the port.
         :type on_off: OnOff
@@ -953,9 +953,9 @@ class P_TRAFFIC:
     Whether a port is transmitting packets. When on, the port generates a sequence
     of packets with contributions from each stream that is enabled. The streams are
     configured using the PS_xxx parameters.
-    
+
     .. note::
-    
+
         From Release 57.1, if any of the specified packet sizes cannot fit into the packet generator, this command will return FAILED and not start the traffic. While traffic is on the streams for this port cannot be enabled or disabled, and the configuration of those streams that are enabled cannot be changed.
 
     """
@@ -984,7 +984,7 @@ class P_TRAFFIC:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
     def set(self, on_off: StartOrStop) -> "Token":
-        """Set the traffic generation status of the port. 
+        """Set the traffic generation status of the port.
 
         :param on_off: the traffic generation status of the port.
         :type on_off: StartOrStop
@@ -1069,7 +1069,7 @@ class P_XMITONE:
         hex_data: XmpField[XmpHexList] = XmpField(XmpHexList)  # list of hex bytes, the data content of the packet to be transmitted.
 
     def set(self, hex_data: str) -> "Token":
-        """Transmits a single packet from a port, independent of the stream definitions, and independent of whether traffic is on. A valid Frame Check Sum is written into the final four bytes. 
+        """Transmits a single packet from a port, independent of the stream definitions, and independent of whether traffic is on. A valid Frame Check Sum is written into the final four bytes.
 
         :param hex_data: raw bytes of the packet in hex to transmit
         :rtype: List[str]
@@ -1126,20 +1126,20 @@ class P_LATENCYMODE:
     transmitted, and relating it to the time when the packet is received. There are
     four separate modes for calculating the latency:
 
-        1)  Last-bit-out to last-bit-in, which measures basic bit-transit time, 
-            independent of packet length. 
-        2)  First-bit-out to last-bit-in, which adds the time taken to transmit the 
+        1)  Last-bit-out to last-bit-in, which measures basic bit-transit time,
+            independent of packet length.
+        2)  First-bit-out to last-bit-in, which adds the time taken to transmit the
             packet itself.
         3)  Last-bit-out to first-bit-in, which subtracts the time taken to transmit the
             packet itself. The same latency mode must be configured for the transmitting
             port and the receiving port; otherwise invalid measurements will occur.
-        4)  First-bit-out to first-bit-in, which adds the time taken to transmit the 
-            packet itself, and subtracts the time taken to transmit the packet itself. 
+        4)  First-bit-out to first-bit-in, which adds the time taken to transmit the
+            packet itself, and subtracts the time taken to transmit the packet itself.
             The same latency mode must be configured for the transmitting
             port and the receiving port; otherwise invalid measurements will occur.
 
     """
-    
+
 
     code: typing.ClassVar[int] = 128
     pushed: typing.ClassVar[bool] = True
@@ -1165,7 +1165,7 @@ class P_LATENCYMODE:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
     def set(self, mode: LatencyMode) -> "Token":
-        """Set the latency measurement mode of the port. 
+        """Set the latency measurement mode of the port.
 
         :param mode: the latency measurement mode of the port
         :type mode: LatencyMode
@@ -1270,7 +1270,7 @@ class P_UAT_MODE:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
     def set(self, mode: OnOff, delay: int) -> "Token":
-        """Set the UAT mode of the port. 
+        """Set the UAT mode of the port.
 
         :param mode: the state of the affected stream counters
         :type mode: OnOff
@@ -1322,7 +1322,7 @@ class P_UAT_FLR:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
     def set(self, frame_loss_ratio: int) -> "Token":
-        """Set the the threshold for the Frame Loss Ratio, where a second is declared as a Severely Errored Second (SES). 
+        """Set the the threshold for the Frame Loss Ratio, where a second is declared as a Severely Errored Second (SES).
 
         :param frame_loss_ratio: Frame Loss Ratio specified as a number times 1/100, 0..100
         :type frame_loss_ratio: int
@@ -1340,9 +1340,9 @@ class P_MIXWEIGHTS:
     distribution for all streams on the port. The possible 16 frame sizes are: 56
     (not valid for 40G/100G), 60, 64, 70, 78, 92, 256, 496, 512, 570, 576, 594,
     1438, 1518, 9216, and 16360.
-    
+
     .. note::
-    
+
         This command requires Xena server version 375 or higher.
 
     """
@@ -1393,13 +1393,13 @@ class P_MIXWEIGHTS:
         weight_16360_bytes: XmpField[XmpInt] = XmpField(XmpInt)  # integer, specifying the percentage of 16360-byte frame sizes.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the percentage of each of the 
-        16 possible frame sizes used in the MIX. The sum of the percentage values specified must 
-        be 100. The command will affect the mix-distribution for all streams on the port. 
-        The possible 16 frame sizes are: 56 (not valid for 40G and above), 60, 64, 70, 78, 92, 
+        """Get the percentage of each of the
+        16 possible frame sizes used in the MIX. The sum of the percentage values specified must
+        be 100. The command will affect the mix-distribution for all streams on the port.
+        The possible 16 frame sizes are: 56 (not valid for 40G and above), 60, 64, 70, 78, 92,
         256, 496, 512, 570, 576, 594, 1438, 1518, 9216, and 16360.
 
-        :return: the percentage of each of the 16 possible frame sizes used in the MIX. 
+        :return: the percentage of each of the 16 possible frame sizes used in the MIX.
         :rtype: P_MIXWEIGHTS.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
@@ -1423,10 +1423,10 @@ class P_MIXWEIGHTS:
         weight_9216_bytes: int,
         weight_16360_bytes: int,
     ) -> "Token":
-        """Set the percentage of each of the 
-        16 possible frame sizes used in the MIX. The sum of the percentage values specified must 
-        be 100. The command will affect the mix-distribution for all streams on the port. 
-        The possible 16 frame sizes are: 56 (not valid for 40G and above), 60, 64, 70, 78, 92, 
+        """Set the percentage of each of the
+        16 possible frame sizes used in the MIX. The sum of the percentage values specified must
+        be 100. The command will affect the mix-distribution for all streams on the port.
+        The possible 16 frame sizes are: 56 (not valid for 40G and above), 60, 64, 70, 78, 92,
         256, 496, 512, 570, 576, 594, 1438, 1518, 9216, and 16360.
 
         :param weight_56_bytes: specifying the percentage of 56-byte frame sizes
@@ -1518,7 +1518,7 @@ class P_MDIXMODE:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
     def set(self, mode: MDIXMode) -> "Token":
-        """Set the MDI/MDIX mode of the port. 
+        """Set the MDI/MDIX mode of the port.
 
         :param mode: the MDI/MDIX mode of the port.
         :type mode: MDIXMode
@@ -1647,8 +1647,8 @@ class P_CHECKSUM:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
     def set(self, offset: int) -> "Token":
-        """Set the offset in the packet where the calculation of the extra checksum is started from. Set to OFF or 0 to disable. Valid enable range is [8 .. 127, ON]. 
-        Please observe that ON equals the value 14. Please also observe that P_CHECKSUM ? will return OFF if set to 0 (or OFF) and that P_CHECKSUM ? will return ON if set to 14 (or ON). 
+        """Set the offset in the packet where the calculation of the extra checksum is started from. Set to OFF or 0 to disable. Valid enable range is [8 .. 127, ON].
+        Please observe that ON equals the value 14. Please also observe that P_CHECKSUM ? will return OFF if set to 0 (or OFF) and that P_CHECKSUM ? will return ON if set to 14 (or ON).
 
         :param offset:  the offset in the packet where the calculation of the extra checksum is started from
         :type offset: int
@@ -1682,7 +1682,7 @@ class P_STATUS:
         optical_power: XmpField[XmpIntList] = XmpField(XmpIntList)  # list of integers, received signal level for optical ports, in nanowatts, -1 when not available.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the received signal level for optical ports, in nanowatts, -1 when not available. 
+        """Get the received signal level for optical ports, in nanowatts, -1 when not available.
 
         :return: the received signal level for optical ports, in nanowatts, -1 when not available
         :rtype: P_STATUS.GetDataAttr
@@ -1744,9 +1744,9 @@ class P_MIXLENGTH:
     size for positions 0, 1, 14 and 15 (default values 56, 60, 9216 and 16360).
     Supported by the following modules: Thor-400G-7S-1P, Thor-100G-5S-4P and
     Loki-100G-5S-2P.
-    
+
     .. note::
-    
+
         This command requires release 84 or higher.
 
     """
@@ -1768,7 +1768,7 @@ class P_MIXLENGTH:
         frame_size: XmpField[XmpInt] = XmpField(XmpInt)  # integer, frame size of the position
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get frame sizes defined for each position of the P_MIXWEIGHTS command. 
+        """Get frame sizes defined for each position of the P_MIXWEIGHTS command.
         By default, the 16 frame sizes are: 56 (not valid for 40G/100G), 60,
         64, 70, 78, 92, 256, 496, 512, 570, 576, 594, 1438, 1518, 9216, and 16360.
 
@@ -1812,18 +1812,18 @@ class P_ARPRXTABLE:
         """Get the port's ARP table used to reply to incoming ARP requests.
 
         :return: the port's ARP table used to reply to incoming ARP requests.
-            * IP address to match to the Target IP address in the ARP requests, 
-            * The prefix used for address matching, 
-            * Whether the target MAC address will be patched with the part of the IP address that is not masked by the prefix, 
+            * IP address to match to the Target IP address in the ARP requests,
+            * The prefix used for address matching,
+            * Whether the target MAC address will be patched with the part of the IP address that is not masked by the prefix,
             * The target MAC address to return in the ARP reply
         :rtype: P_ARPRXTABLE.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
     def set(self, chunks: typing.List[subtypes.ArpChunk]) -> "Token":
-        """Set the port's ARP table used to reply to incoming ARP requests. 
+        """Set the port's ARP table used to reply to incoming ARP requests.
 
-        :param chunks: 
+        :param chunks:
             * IP address to match to the Target IP address in the ARP requests
             * The prefix used for address matching
             * Whether the target MAC address will be patched with the part of the IP address that is not masked by the prefix
@@ -1870,7 +1870,7 @@ class P_NDPRXTABLE:
     def set(self, chunks: typing.List[subtypes.NdpChunk]) -> "Token":
         """Set the port's NDP table used to reply to incoming NDP Neighbor Solication.
 
-        :param chunks: 
+        :param chunks:
             * IP address to match to the Target IP address in the NDP Neighbor Solication
             * The prefix used for address matching
             * Whether the target MAC address will be patched with the part of the IP address that is not masked by the prefix
@@ -2073,13 +2073,13 @@ class P_TXMODE:
     more packets, before continuing to the next stream, in a cyclical pattern. The
     count of packets for each stream is obtained from the PS_PACKETLIMIT command
     value for the stream. The individual rates for each stream are ignored, and
-    instead the overall rate is determined at the port-level. This in turn determines 
-    the rates for each stream, taking into account their packet lengths and counts. 
-    The maximum number of packets in a cycle (i.e. the sum of PS_PACKETLIMIT for all 
-    enabled streams) is 500. If the packet number is larger than 500,  will be returned 
-    when attempting to start the traffic (P_TRAFFIC ON). Burst*: When this mode is selected, 
-    frames from the streams on a port are sent as bursts as depicted below:  
-    The Burst Period is defined in the P_TXBURSTPERIOD command. For the individual streams 
+    instead the overall rate is determined at the port-level. This in turn determines
+    the rates for each stream, taking into account their packet lengths and counts.
+    The maximum number of packets in a cycle (i.e. the sum of PS_PACKETLIMIT for all
+    enabled streams) is 500. If the packet number is larger than 500,  will be returned
+    when attempting to start the traffic (P_TRAFFIC ON). Burst*: When this mode is selected,
+    frames from the streams on a port are sent as bursts as depicted below:
+    The Burst Period is defined in the P_TXBURSTPERIOD command. For the individual streams
     the number of packets in a burst is defined by the PS_BURST command, while the Inter
     Packet Gap and the Inter Burst Gap are defined by the PS_BURSTGAP command.
     """
@@ -2115,7 +2115,7 @@ class P_TXMODE:
         """Set the the scheduling mode for outgoing traffic from the port.
 
         :param mode: the scheduling mode for outgoing traffic from the port, containing the loopback mode for the port: NORMAL (interleaved packet scheduling), STRICTUNIFORM (strict uniform mode), SEQUENTIAL (sequential packet scheduling), BURST (burst mode).
-        :type mode: LoopbackMode
+        :type mode: TXMode
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, mode=mode))
 
@@ -2178,7 +2178,7 @@ class P_MULTICASTHDR:
         :param header_count: number of additional headers. Currently only 0 or 1 supported
         :type header_count: int
         :param header_format: indicates the header format
-        :type header_format: HeaderFormat
+        :type header_format: MulticastHeaderFormat
         :param tag: VLAN tag (VID)
         :type tag: int
         :param pcp: VLAN Priority code point
@@ -2218,7 +2218,7 @@ class P_RATEFRACTION:
         port_rate_ppm: XmpField[XmpInt] = XmpField(XmpInt)  # integer, port rate expressed as a value between 0 and 1,000,000.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the port-level rate of the traffic transmitted for a port in sequential tx mode, expressed in millionths of the effective rate for the port. 
+        """Get the port-level rate of the traffic transmitted for a port in sequential tx mode, expressed in millionths of the effective rate for the port.
 
         :return: the port-level rate of the traffic transmitted for a port in sequential tx mode, expressed in millionths of the effective rate for the port.
         :rtype: P_RATEFRACTION.GetDataAttr
@@ -2226,7 +2226,7 @@ class P_RATEFRACTION:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
     def set(self, port_rate_ppm: int) -> "Token":
-        """Set the port-level rate of the traffic transmitted for a port in sequential tx mode, expressed in millionths of the effective rate for the port.  
+        """Set the port-level rate of the traffic transmitted for a port in sequential tx mode, expressed in millionths of the effective rate for the port.
 
         :param port_rate_ppm: the port-level rate of the traffic transmitted for a port in sequential tx mode, expressed in millionths of the effective rate for the port
         :type port_rate_ppm: int
@@ -2356,7 +2356,7 @@ class P_PAYLOADMODE:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
     def set(self, mode: PayloadMode) -> "Token":
-        """Set the port's payload mode, i.e. normal, extend payload, and custom payload field, for ALL streams on this port. 
+        """Set the port's payload mode, i.e. normal, extend payload, and custom payload field, for ALL streams on this port.
 
         :param mode: the port's payload mode, i.e. normal, extend payload, and custom payload field, for ALL streams on this port
         :type mode: PayloadMode
@@ -2505,7 +2505,7 @@ class P_MAXHEADERLENGTH:
         """Set the maximum number of header content bytes that can be freely specified for each generated stream on the port. Possible values: 128 (default), 256, 512, 1024, 2048.
 
         :param max_header_length: the maximum number of header content bytes that can be freely specified for each generated stream on the port
-        :type max_header_length: int.
+        :type max_header_length: int
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, max_header_length=max_header_length))
 
@@ -2705,9 +2705,9 @@ class P_ARPV6REPLY:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
     def set(self, on_off: OnOff) -> "Token":
-        """Set whether the port replies to NDP Neighbor Solicitations. 
+        """Set whether the port replies to NDP Neighbor Solicitations.
 
-        :param on_off: whether the port replies to NDP Neighbor Solicitations. 
+        :param on_off: whether the port replies to NDP Neighbor Solicitations.
         :type on_off: OnOff
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, on_off=on_off))
@@ -2756,7 +2756,7 @@ class P_PINGV6REPLY:
     def set(self, on_off: OnOff) -> "Token":
         """Set whether the port replies to incoming PINGv6.
 
-        :param on_off: whether the port replies to incoming PINGv6. 
+        :param on_off: whether the port replies to incoming PINGv6.
         :type on_off: OnOff
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, on_off=on_off))
@@ -2775,9 +2775,9 @@ class P_ERRORS:
     """
     Obtains the total number of errors detected across all streams on the port,
     including lost packets, misorder events, and payload errors.
-    
+
     .. note::
-    
+
         FCS errors are included, which will typically lead to double-counting of lost packets.
 
     """
@@ -2840,9 +2840,9 @@ class P_TXDELAY:
     Sets a variable delay from a traffic start command received by the port until
     it starts transmitting. The delay is specified in multiples of 64 microseconds.
     Valid values are 0-31250 (0 to 2.000.000 microseconds).
-    
-    .. note:: 
-    
+
+    .. note::
+
         You must use :class:`~xoa_driver.internals.core.commands.c_commands.C_TRAFFIC` instead of :class:`~xoa_driver.internals.core.commands.p_commands.P_TRAFFIC` to start traffic for :class:`~xoa_driver.internals.core.commands.p_commands.P_TXDELAY` to have this effect.
 
     """
@@ -3158,7 +3158,7 @@ class P_FAULTSIGNALING:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
     def set(self, fault_signaling: FaultSignaling) -> "Token":
-        """Set the remote/local fault signaling behavior of the port (performed by the Reconciliation Sub-layer). 
+        """Set the remote/local fault signaling behavior of the port (performed by the Reconciliation Sub-layer).
 
         :param fault_signaling: remote/local fault signaling behavior of the port
         :type fault_signaling: FaultSignaling
@@ -3185,9 +3185,9 @@ class P_FAULTSTATUS:
     """
     Shows if a local or remote fault is currently being detected by the
     Reconciliation Sub-layer of the port.
-    
+
     .. note::
-    
+
         Currently only available on M1CFP100, M2CFP40, M2QSFP+ and M1CFP4QSFP28CXP.
 
     """
@@ -3264,7 +3264,7 @@ class P_TPLDMODE:
         :type mode: TPLDMode
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, mode=mode))
-    
+
     set_normal = functools.partialmethod(set, TPLDMode.NORMAL)
     """Set the Test Payload mode of the port to Normal.
     """
@@ -3336,7 +3336,7 @@ class P_TXPACKETLIMIT:
 
     def set(self, packet_count_limit: int) -> "Token":
         """Set the number of packets that will be transmitted from the port when traffic is started on the port.
-            A value of 0 or -1 makes the port transmit continuously. 
+            A value of 0 or -1 makes the port transmit continuously.
             Traffic from the streams on the port can however also be set to stop after transmitting a number of packets.
 
         :param packet_count_limit: the number of packets that will be transmitted from the port when traffic is started on the port
@@ -3645,7 +3645,7 @@ class P_RXRUNTLEN_ERRS:
         :rtype: P_RXRUNTLEN_ERRS.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
-        
+
 
 @register_command
 @dataclass
@@ -3791,12 +3791,12 @@ class P_SPEEDS_SUPPORTED:
     """
     Read the speeds supported by the port. The speeds supported by a port depends on
     the transceiver inserted into the port. A series of 0/1 values, identifying
-    which speeds are supported by the port. 
-    
+    which speeds are supported by the port.
+
     .. note::
-    
+
         Ports can support zero (in case of e.g. empty cage), one, or multiple speeds.
-        
+
     """
 
     code: typing.ClassVar[int] = 396

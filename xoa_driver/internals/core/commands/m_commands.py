@@ -24,9 +24,9 @@ class M_RESERVATION:
     opposed to its ports). The module must be reserved before its hardware image can
     be upgraded. The owner of the session must already have been specified.
     Reservation will fail if the chassis or any ports are reserved for other users.
-    
+
     .. note::
-    
+
         The reservation parameters are slightly asymmetric with respect to set/get. When querying for the current reservation state, the chassis will use these values.
 
     """
@@ -211,9 +211,9 @@ class M_STATUS:
 class M_PORTCOUNT:
     """
     Gets the maximum number of ports on a module.
-    
+
     .. note::
-    
+
         For a CFP-type module this number refers to the maximum number of ports possible on the module regardless of the media configuration. So if a CFP-type module can be set in for instance either 1x100G mode or 8x10G mode then this command will always return 8. If you want the current number of ports for a CFP-type module you need to read the :class:`~xoa_driver.internals.core.commands.m_commands.M_CFPCONFIG` command which returns the number of current ports.
 
     """
@@ -422,8 +422,8 @@ class M_CFPCONFIG:
         return Token(self._connection, build_get_request(self, module=self._module))
 
     def set(self, port_count: int, port_speed: int) -> "Token":
-        """Set the current number of ports and their speed of a CFP test module. 
-        
+        """Set the current number of ports and their speed of a CFP test module.
+
         :param port_count: number of ports
         :type port_count: int
         :param port_speed: port speed, in Gbps
@@ -504,7 +504,7 @@ class M_TIMEADJUSTMENT:
         return Token(self._connection, build_get_request(self, module=self._module))
 
     def set(self, adjust: int) -> "Token":
-        """Set the time adjustment value for the module clock. This value should be a multiple of 8 as it will be converted to a number of 125 MHz clocks. 
+        """Set the time adjustment value for the module clock. This value should be a multiple of 8 as it will be converted to a number of 125 MHz clocks.
 
         :param adjust: the time adjustment value for the module clock
         :type adjust: int
@@ -553,7 +553,7 @@ class M_CAPABILITIES:
 @dataclass
 class M_MEDIASUPPORT:
     """
-    This command shows the available speeds on a module. The structure of the returned value is 
+    This command shows the available speeds on a module. The structure of the returned value is
     [<cage_type> <available_speed_count> [<ports_per_speed> <speed>] ].
     [<ports_per_speed> <speed>] are repeated until all speeds supported by the <cage_type> has been listed.
     [<cage_type> <available_speed_count>] are repeated for all cage types on the module
@@ -571,7 +571,7 @@ class M_MEDIASUPPORT:
         media_info_list: XmpField[XmpIntList] = XmpField(XmpIntList) # coded integer, media information
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the 
+        """Get the
 
         :return:
             a list of integers. The structure of the returned value is [<cage_type> <available_speed_count>[<ports_per_speed> <speed>] ]. [<ports_per_speed> <speed>] are repeated until all speeds supported by the <cage_type> has been listed. [<cage_type> <available_speed_count>] are repeated for all cage types on the module including the related <ports_per_speed> <speed> information.
@@ -636,7 +636,7 @@ class M_MULTIUSER:
         on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=OnOff)  # coded byte, enable or disable multiple sessions to control the same module.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the status of multiple sessions controling the same module. 
+        """Get the status of multiple sessions controling the same module.
 
         :return: the status of multiple sessions controling the same module
         :rtype: M_MULTIUSER.GetDataAttr
@@ -971,7 +971,7 @@ class M_MEDIA:
         :rtype: M_MEDIA.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module))
-    
+
     def set(self, media_type: MediaType) -> "Token":
         """Set the media type of the test module.
 
@@ -1281,7 +1281,7 @@ class M_TXCLOCKSOURCE_NEW:
         """Set the test module's TX clock source settings.
 
         :param tx_clock: the test module's TX clock source settings
-        :type tx_clock: TXClock
+        :type tx_clock: TXClockSource
         """
         return Token(self._connection, build_set_request(self, module=self._module, tx_clock=tx_clock))
 
@@ -1378,7 +1378,7 @@ class M_TXCLOCKFILTER_NEW:
         """Set the setting of the loop bandwidth on the TX clock filter.
 
         :param filter_bandwidth: the setting of the loop bandwidth on the TX clock filter
-        :type filter_bandwidth: FilterBandwidth
+        :type filter_bandwidth: LoopBandwidth
         """
         return Token(self._connection, build_set_request(self, module=self._module, filter_bandwidth=filter_bandwidth))
 
