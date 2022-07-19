@@ -251,7 +251,7 @@ class PP_TXERRORRATE:
 
     def set(self, rate: int) -> "Token":
         """Set the rate of continuous bit-level error injection. Errors are injected evenly
-        across the SerDes where injection is enabled. 
+        across the SerDes where injection is enabled.
 
         :param rate: the number of bits between each error. 0, no error injection
         :type rate: int
@@ -321,10 +321,10 @@ class PP_RXTOTALSTATS:
             1. total corrected FEC symbols count.
             2. total uncorrectable FEC blocks count.
             3. total pre-FEC BER estimate sent as "total_pre_ber = received_bits / total_corfecerrs".
-                To get the real total pre-BER, calculate the inverse: 1/total_pre_ber. 
+                To get the real total pre-BER, calculate the inverse: 1/total_pre_ber.
                 If zero physical bit errors have been detected, the negative value "-received_bits" is provided, which can be used to generate the "< BER" value.
-            4. total post-FEC BER estimate sent as "total_post_ber = received_bits / total_estimated_uncorrectable_errors". 
-                To get the real total post-BER, calculate the inverse: 1/total_post_ber. 
+            4. total post-FEC BER estimate sent as "total_post_ber = received_bits / total_estimated_uncorrectable_errors".
+                To get the real total post-BER, calculate the inverse: 1/total_post_ber.
                 If zero physical bit errors have been detected, the negative value "-received_bits" is provided, which can be used to generate the "< BER" value.
 
         :return: total corrected FEC symbols count, total uncorrectable FEC blocks count, total pre-FEC BER estimate sent, and Total post-FEC BER estimate sent.
@@ -360,7 +360,7 @@ class PP_RXFECSTATS:
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics on how many FEC blocks have been seen with a given number of symbol errors.
 
-        :return: stats type (currently always 0), number of values in correction_stats, array of length value_count-1. 
+        :return: stats type (currently always 0), number of values in correction_stats, array of length value_count-1.
             The correction_stats array shows how many FEC blocks have been seen with [0, 1, 2, 3....15, >15] symbol errors, and the number of received uncorrectable code words
 
         :rtype: PP_RXFECSTATS.GetDataAttr
@@ -466,9 +466,9 @@ class PP_LINKFLAP_ENABLE:
 class PP_PMAERRPUL_PARAMS:
     """
     The 'PMA pulse error inject'.
-    
+
     .. note::
-    
+
         Period must be > duration. BER will be: coeff * 10exp
     """
 
@@ -632,7 +632,7 @@ class PP_RXPRBSSTATUS:
     _connection: "interfaces.IConnection"
     _module: int
     _port: int
-    _serdex_xindex: int
+    _serdes_xindex: int
 
     @dataclass(frozen=True)
     class GetDataAttr:
@@ -647,7 +647,7 @@ class PP_RXPRBSSTATUS:
         :return: the number of bytes received while in PRBS lock, the number of errors detected while in PRBS lock, and whether this SerDes is in PRBS lock.
         :rtype: PP_RXPRBSSTATUS.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdex_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex]))
 
 
 @register_command
@@ -733,7 +733,7 @@ class PP_TXLASERPOWER:
         nanowatts: XmpField[XmpIntList] = XmpField(XmpIntList)  # list of integers, received signal level, in nanowatts. 0, when no signal.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the reading of the optical power level of the transmission signal. 
+        """Get the reading of the optical power level of the transmission signal.
 
         :return: received signal level, in nanowatts. 0, when no signal.
         :rtype: PP_TXLASERPOWER.GetDataAttr
@@ -764,7 +764,7 @@ class PP_PMAERRPUL_ENABLE:
         on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=OnOff)  # coded byte, whether PMA pulse error inject is enabled.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the status of 'PMA pulse error inject'. 
+        """Get the status of 'PMA pulse error inject'.
 
         :return: whether PMA pulse error inject is enabled
         :rtype: PP_PMAERRPUL_ENABLE.GetDataAttr
@@ -772,7 +772,7 @@ class PP_PMAERRPUL_ENABLE:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
     def set(self, on_off: OnOff) -> "Token":
-        """Set the status of 'PMA pulse error inject'. 
+        """Set the status of 'PMA pulse error inject'.
 
         :param on_off: whether PMA pulse error inject is enabled
         :type on_off: OnOff
@@ -822,7 +822,7 @@ class PP_EYEMEASURE:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex]))
 
     def set(self, status: StartOrStop, dummy: typing.List[int]) -> "Token":
-        """Start/stop a new BER eye-measure on a 25G serdes. 
+        """Start/stop a new BER eye-measure on a 25G serdes.
 
         :param status: status of the serdes
         :type status: StartOrStop
@@ -873,7 +873,7 @@ class PP_EYERESOLUTION:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex]))
 
     def set(self, x_resolution: int, y_resolution: int) -> "Token":
-        """Set the resolution used for the next BER eye-measurement. 
+        """Set the resolution used for the next BER eye-measurement.
 
         :param x_resolution: number of columns, must be between 9 and 65 and be in the form 2^n+1
         :type x_resolution: int
@@ -917,7 +917,7 @@ class PP_EYEREAD:
         )  # list of integers, showing the number of bit errors measured out of a total of 1M bits at each of the individual sampling points (x=timeaxis, y = 0/1 threshold).
 
     def get(self) -> "Token[GetDataAttr]":
-        """Read a single column of a measured BER eye on a 25G serdes. 
+        """Read a single column of a measured BER eye on a 25G serdes.
 
         :return: x resolution, y resolution, number of valid columns, and the number of bit errors measured out of a total of 1M bits at each of the individual sampling points (x=timeaxis, y = 0/1 threshold).
         :rtype: PP_EYEREAD.GetDataAttr
@@ -1088,7 +1088,7 @@ class PP_PHYAUTOTUNE:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex]))
 
     def set(self, on_off: OnOff) -> "Token":
-        """Enable/disable automatic receiving PHY retuning. Default is enabled. 
+        """Enable/disable automatic receiving PHY retuning. Default is enabled.
 
         :param on_off: Enable/disable automatic receiving PHY retuning. Default is enabled
         :type on_off: OnOff
@@ -1337,13 +1337,13 @@ class PP_FECMODE:
     set_off = functools.partialmethod(set, FECMode.OFF) # Turn FEC off.
     """Turn FEC off.
     """
-    set_rs_fec = functools.partialmethod(set, FECMode.RS_FEC) # Turn RS FEC on, either RS-FEC KR or RS-FEC KP, automatically selected based on the FEC modes supported by the port. 
+    set_rs_fec = functools.partialmethod(set, FECMode.RS_FEC) # Turn RS FEC on, either RS-FEC KR or RS-FEC KP, automatically selected based on the FEC modes supported by the port.
     """Turn RS FEC on, either RS-FEC KR or RS-FEC KP, automatically selected based on the FEC modes supported by the port.
     """
     set_fc_fec = functools.partialmethod(set, FECMode.FC_FEC) # Turn Firecode FEC on.
     """Turn Firecode FEC on.
     """
-    # set_on = functools.partialmethod(set, FECMode.ON) # Turn RS FEC on, either RS-FEC KR or RS-FEC KP, automatically selected based on the FEC modes supported by the port. 
+    # set_on = functools.partialmethod(set, FECMode.ON) # Turn RS FEC on, either RS-FEC KR or RS-FEC KP, automatically selected based on the FEC modes supported by the port.
     # set_rs_fec_kr = functools.partialmethod(set, FECMode.RS_FEC_KR) # Explicitly turn RS-FEC KR on.
     # set_rs_fec_kp = functools.partialmethod(set, FECMode.RS_FEC_KP) # Explicitly turn RS-FEC KP on.
 
@@ -1536,12 +1536,12 @@ class PP_PHYSETTINGS:
         return Token(
             self._connection,
             build_set_request(
-                self, 
-                module=self._module, 
-                port=self._port, 
-                link_training_on_off=link_training_on_off, 
-                precode_on_off=precode_on_off, 
-                graycode_on_off=graycode_on_off, 
+                self,
+                module=self._module,
+                port=self._port,
+                link_training_on_off=link_training_on_off,
+                precode_on_off=precode_on_off,
+                graycode_on_off=graycode_on_off,
                 pam4_msb_lsb_swap=pam4_msb_lsb_swap
             ),
         )
@@ -1644,9 +1644,9 @@ class PP_AUTONEG:
         :param tec_ability: technical ability
         :type tec_ability: AutoNegTecAbility
         :param fec_capable: FEC capable
-        :type fec_capable: AutoNegFecOption
+        :type fec_capable: AutoNegFECOption
         :param fec_requested: FEC requested
-        :type fec_requested: AutoNegFecOption
+        :type fec_requested: AutoNegFECOption
         :param pause_mode: pause mode
         :type pause_mode: PauseMode
         """
@@ -1736,7 +1736,7 @@ class PP_LINKTRAIN:
         """Set the link training settings of the port.
 
         :param mode: link training mode
-        :type mode: LinkTrainMode
+        :type mode: LinkTrainingMode
         :param pam4_frame_size: PAM4 frame size
         :type pam4_frame_size: PAM4FrameSize
         :param nrz_pam4_init_cond: link training init condition
@@ -1790,3 +1790,5 @@ class PP_LINKTRAINSTATUS:
         :rtype: PP_LINKTRAINSTATUS.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._lane_xindex]))
+
+
