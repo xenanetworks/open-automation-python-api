@@ -41,10 +41,6 @@ from xoa_driver.internals.core.commands import (
 )
 
 
-
-
-
-
 class PcsPmaAlarms:
     """L23 high-speed port PCS/PMA alarms"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
@@ -73,7 +69,7 @@ class PcsPmaTransceiver:
 class PcsPmaRxLaneStatus:
     """L23 high-speed port PCS/PMA lane status"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, lane_idx: int) -> None:
-        self.lane_errors = PP_RXLANEERRORS(conn, module_id, port_id, lane_idx)
+        self.errors = PP_RXLANEERRORS(conn, module_id, port_id, lane_idx)
         """RX lane error statistics.
         Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_RXLANEERRORS`
         """
@@ -85,23 +81,10 @@ class PcsPmaRxLaneStatus:
         """RX lane status
         Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_RXLANESTATUS`
         """
-        self.prbs_status = PP_RXPRBSSTATUS(conn, module_id, port_id, lane_idx)
-        """RX PRBS status on a lane
-        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_RXPRBSSTATUS`
-        """
-
-
-class PcsPmaTxLaneErrorInjection:
-    """L23 high-speed port PCS/PMA TX lane error injection"""
-    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, lane_idx: int) -> None:
-        self.inject = PP_TXLANEINJECT(conn, module_id, port_id, lane_idx)
-        """Inject CAUI error into a TX lane.
-        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_TXLANEINJECT`
-        """
 
 
 class PcsPmaTxErrorGeneration:
-    """L23 high-speed port PCS/PMA TX error generation"""
+    """L23 high-speed port PCS/PMA TX error generation."""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.error_rate = PP_TXERRORRATE(conn, module_id, port_id)
         """The rate of continuous bit-level error injection.
@@ -112,17 +95,6 @@ class PcsPmaTxErrorGeneration:
         Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_TXINJECTONE`
         """
 
-class PcsPmaTxLaneConfig:
-    """L23 high-speed port PCS/PMA TX lane configuration"""
-    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, lane_idx: int) -> None:
-        self.config = PP_TXLANECONFIG(conn, module_id, port_id, lane_idx)
-        """TX lane configuration.
-        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_TXLANECONFIG`
-        """
-        self.tx_config = PP_TXPRBSCONFIG(conn, module_id, port_id, lane_idx)
-        """TX PRBS configuration of a lane.
-        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_TXPRBSCONFIG`
-        """
 
 class PcsPmaRx:
     """L23 high-speed port PCS/PMA RX"""
@@ -141,7 +113,7 @@ class PcsPmaRx:
         """
 
 class PcsPmaPhy:
-    """L23 high-speed port PCS/PMA PHY settings"""
+    """L23 high-speed port PCS/PMA PHY settings."""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.auto_neg = PP_PHYAUTONEG(conn, module_id, port_id)
         """ Autonegotiation settings of the PHY.
@@ -158,16 +130,18 @@ class PcsPmaPhy:
 
 
 class Lane:
-    """L23 high-speed port lane config"""
+    """L23 high-speed port lane configuration and status."""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, lane_idx: int) -> None:
         self.rx_status = PcsPmaRxLaneStatus(conn, module_id, port_id, lane_idx)
         """PCS/PMA RX lane status.
         """
-        self.tx_error_inject = PcsPmaTxLaneErrorInjection(conn, module_id, port_id, lane_idx)
-        """PCS/PMA TX lane error injection.
+        self.tx_error_inject = PP_TXLANEINJECT(conn, module_id, port_id, lane_idx)
+        """Inject CAUI error into a TX lane.
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_TXLANEINJECT`
         """
-        self.tx_config = PcsPmaTxLaneConfig(conn, module_id, port_id, lane_idx)
-        """PCS/PMA TX lane configuration.
+        self.tx_config = PP_TXLANECONFIG(conn, module_id, port_id, lane_idx)
+        """TX lane configuration.
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_TXLANECONFIG`
         """
 
 class PcsPma:
@@ -193,7 +167,7 @@ class PcsPma:
         )
 
 class PRBSConfig:
-    """L23 high-speed port PRBS configuration"""
+    """L23 high-speed port PRBS configuration."""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.type = PP_PRBSTYPE(conn, module_id, port_id)
         """PRBS type used when in PRBS mode.
@@ -209,7 +183,7 @@ class PRBSConfig:
         """
 
 class SDEyeDiagram:
-    """L23 high-speed port serdes eye diagram"""
+    """L23 high-speed port SerDes eye diagram."""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, serdes_xindex: int) -> None:
         self.__conn = conn
         self.__module_id = module_id
@@ -254,7 +228,7 @@ class SDEyeDiagram:
         return self
 
 class SDPhy:
-    """L23 high-speed port serdes PHY configuration"""
+    """L23 high-speed port SerDes PHY configuration and status."""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, serdes_xindex: int) -> None:
         self.tx_equalizer = PP_PHYTXEQ(conn, module_id, port_id, serdes_xindex)
         """Equalizer settings of the on-board PHY in the TX direction.
@@ -273,9 +247,25 @@ class SDPhy:
         Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_PHYAUTOTUNE`
         """
 
-class SerDes:
-    """L23 high-speed port serdes config"""
+
+class Prbs:
+    """L23 high-speed port SerDes PRBS configuration and status."""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, serdes_xindex: int) -> None:
+        self.tx_config = PP_TXPRBSCONFIG(conn, module_id, port_id, serdes_xindex)
+        """TX PRBS configuration of a SerDes.
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_TXPRBSCONFIG`
+        """
+        self.status = PP_RXPRBSSTATUS(conn, module_id, port_id, serdes_xindex)
+        """RX PRBS status on a SerDes
+        Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_RXPRBSSTATUS`
+        """
+
+
+class SerDes:
+    """L23 high-speed port SerDes configuration and status."""
+    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, serdes_xindex: int) -> None:
+        self.prbs = Prbs(conn, module_id, port_id, serdes_xindex)
+        """PRBS configuration"""
         self.phy = SDPhy(conn, module_id, port_id, serdes_xindex)
         """PHY configuration"""
         self.eye_diagram = SDEyeDiagram(conn, module_id, port_id, serdes_xindex)
