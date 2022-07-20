@@ -1,5 +1,3 @@
-import asyncio
-
 # import available testers
 from xoa_driver import testers
 # import available modules type
@@ -7,21 +5,27 @@ from xoa_driver import modules
 
 from xoa_driver import utils, enums
 
-async def background_task(tx_port: "ports.GenericL23Port", rx_port: "ports.GenericL23Port"):
-    while True:
-        print(await tx_port.statistics.tx.total.get())
-        print(await rx_port.statistics.rx.total.get())
-        await asyncio.sleep(1)
-
 async def my_awesome_script():
-    # my code ...
-    tester = await testers.L23Tester("192.168.1.200", "JonDoe") # create tester instance and establish connection
+    # create tester instance and establish connection
+    tester = await testers.L23Tester("192.168.1.200", "JonDoe") 
+
+    # access module 0 on the tester
     my_module = tester.modules.obtain(0)
 
     if isinstance(my_module, modules.ModuleChimera):
         return None # commands which used in this example are not supported by Chimera Module
 
-    ( tx_port, rx_port ) = resources = my_module.ports.obtain_multiple(0, 1)
+    # access port 0 on the module as the TX port
+    tx_port = my_module.ports.obtain(0)
+
+    # check TX port's reservation's status, and reserve it
+    if tx_port.is_released():
+        await tx_port.reservation.set_reserve() # set reservation , means port will be controlled by our session
+    elif not tx_port.is_reserved_by_me():
+        await tx_port.reservation.set_relinquish() # send relinquish the port
+        await tx_port.reservation.set_reserve() # set reservation , means port will be controlled by our session
+    
+    await tx_port.reset.set()
 
     my_stream = await tx_port.streams.create() # Create one stream on the port
     my_stream_2 = await tx_port.streams.create() # Create one stream on the port
@@ -37,26 +41,6 @@ async def my_awesome_script():
         my_stream_2.rate.fraction.set(stream_rate_ppm=500000), # Configure the stream rate
     )
 
-    # clear Tx port statistics
-    await utils.apply(
-        tx_port.statistics.tx.clear(),
-        tx_port.statistics.rx.clear()
-    )
+    my_stream_2.delete() # delete a stream
 
-    # clear Rx port statistics
-    await utils.apply(
-        rx_port.statistics.tx.clear(),
-        rx_port.statistics.rx.clear()
-    )
-    
-    asyncio.create_task(background_task(tx_port, rx_port)) # put function to work in the background
-    print("Task working in background")
-
-    # start traffic on the Tx port
-    await tx_port.traffic.state.set_start()
-
-    # let traffic runs for 10 seconds
-    await asyncio.sleep(10)
-
-    # stop traffic on the Tx port
-    await tx_port.traffic.state.set_stop()
+    # other code ...
