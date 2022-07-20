@@ -110,7 +110,7 @@ class PortL47(base_port.BasePort["ports_state.PortL47LocalState"]):
         
         self.local_states = ports_state.PortL47LocalState()
         
-        self.conection_groups: "im.IndexManager[ConnectionGroupIdx]" = im.IndexManager(
+        self.connection_groups: "im.IndexManager[ConnectionGroupIdx]" = im.IndexManager(
             self._conn, 
             ConnectionGroupIdx, 
             module_id, 

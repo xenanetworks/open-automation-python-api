@@ -23,7 +23,7 @@ class PM_INDICES:
     matching of packets received for the port. Setting the value of this parameter
     creates a new empty match term for each value that is not already in use, and
     deletes each match term that is not mentioned in the list. The same can be
-    accomplished onematch-term-at-a-time using the PM_CREATE and PM_DELETE commands.
+    accomplished one match-term-at-a-time using the PM_CREATE and PM_DELETE commands.
     """
 
     code: typing.ClassVar[int] = 200
@@ -257,5 +257,3 @@ class PM_MATCH:
         :type value: str
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._match_term_xindex], mask=mask, value=value))
-
-

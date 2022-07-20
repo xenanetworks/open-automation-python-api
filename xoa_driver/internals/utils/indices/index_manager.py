@@ -90,5 +90,5 @@ class IndexManager(Generic[IT]):
             return index_inst
 
     async def remove(self, position_idx: int) -> None:
-        """Remove indice from port"""
+        """Remove an index from the port"""
         await self._indices[position_idx].delete()

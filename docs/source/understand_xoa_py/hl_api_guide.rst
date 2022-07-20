@@ -146,7 +146,7 @@ Resource Managers
 
 Most of the subtester resources, which are organized into collections, are handled by :term:`Resource Managers<Resource Manager>`.
 
-The most commonly used resource managers are `Module Manager and Port Manager`_ | `Index Manager`_.
+The most commonly used resource managers are `Module Manager and Port Manager`_ | `Index Managers`_.
 
 An illustration of resource managers and :term:`test resources<test resource>` are shown below:
 
@@ -168,15 +168,15 @@ An illustration of resource managers and :term:`test resources<test resource>` a
         |    |   port manager  |
         |    *******************
         |        |
-        |        |    --------------   *****************
-        |        |----|  Port 0    | - | index manager |
-        |        |    --------------   *****************
-        |        |    --------------   *****************
-        |        |----|  Port 1    | - | index manager |
-        |        |    --------------   *****************
-        |        |    --------------   *****************
-        |        |----|  Port N-1  | - | index manager |
-        |             --------------   *****************
+        |        |    --------------   ******************
+        |        |----|  Port 0    | - | index managers |
+        |        |    --------------   ******************
+        |        |    --------------   ******************
+        |        |----|  Port 1    | - | index managers |
+        |        |    --------------   ******************
+        |        |    --------------   ******************
+        |        |----|  Port N-1  | - | index managers |
+        |             --------------   ******************
         |
         |   --------------
         |---|  Module 1  |
@@ -186,15 +186,15 @@ An illustration of resource managers and :term:`test resources<test resource>` a
         |    |   port manager  |
         |    *******************
         |        |
-        |        |    --------------   *****************
-        |        |----|  Port 0    | - | index manager |
-        |        |    --------------   *****************
-        |        |    --------------   *****************
-        |        |----|  Port 1    | - | index manager |
-        |        |    --------------   *****************
-        |        |    --------------   *****************
-        |        |----|  Port N-1  | - | index manager |
-        |             --------------   *****************
+        |        |    --------------   ******************
+        |        |----|  Port 0    | - | index managers |
+        |        |    --------------   ******************
+        |        |    --------------   ******************
+        |        |----|  Port 1    | - | index managers |
+        |        |    --------------   ******************
+        |        |    --------------   ******************
+        |        |----|  Port N-1  | - | index managers |
+        |             --------------   ******************
         |
         |   --------------
         |---| Module N-1 |
@@ -208,15 +208,16 @@ An illustration of resource managers and :term:`test resources<test resource>` a
 Module Manager and Port Manager
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Each tester object contains a :term:`Module Manager`, which can be accessed through attribute ``modules``.
+Each tester object contains a :term:`Module Manager`, which can be accessed through attribute ``modules``, e.g. ``my_tester.modules``.
+Each module object contains a :term:`Port Manager`, which can be accessed through attribute ``ports``, e.g. ``my_module.ports``.
 
-Each module object contains a :term:`Port Manager`, which can be accessed through attribute ``ports``.
+.. important::
 
-.. note::
+    Modules and ports are test resources that cannot be created or deleted, unless the tester is reconfigured either physically or virtually. Thus, in XOA Python API, there is no "create" or "delete" methods for these two types of objects. What we can do is to `obtain` the object that represents the underlying test resource. 
 
     A :term:`Module Manager` can contain modules of different :term:`Module Types<Module Type>`. This is because there can be various test modules installed in a physical tester. On the other hand, a :term:`Port Manager` contains ports of the same :term:`Port Type`. This is because the ports on a module are of the same type.
 
-Retrieve a single item
+Obtain a single object
 ''''''''''''''''''''''''''''''''
 
 Methods to retrieve a module or a port from a :term:`resource manager`:
@@ -234,7 +235,7 @@ Methods to retrieve a module or a port from a :term:`resource manager`:
     :emphasize-lines: 9
 
 
-Retrieve a multiple items
+Obtain multiple objects
 ''''''''''''''''''''''''''''''''
 
 Methods to retrieve multiple resources from a :term:`resource manager`:
@@ -252,25 +253,35 @@ Methods to retrieve multiple resources from a :term:`resource manager`:
     :emphasize-lines: 10
 
 
-Index Manager
+Index Managers
 ^^^^^^^^^^^^^^^^^^^^
 
-:term:`Index Manager` manages the subport-level resource indices such as stream indices, filter indices, connection group indices, etc. It automatically ensures correct and conflict-free **index assignment**.
+Each port object contains several :term:`Index Managers<Index Manager>` that manage the subport-level resource indices such as stream indices, filter indices, connection group indices, modifier indices, etc. It automatically ensures correct and conflict-free **index assignment**.
+    
+    For L23:
+    * `Stream Index Manager` can be accessed through attribute ``streams``, e.g. ``my_l23_port.streams``.
+    * `Filter Index Manager` can be accessed through attribute ``filters``, e.g. ``my_l23_port.filters``.
+    * `Match Term Index Manager` can be accessed through attribute ``match_terms``, e.g. ``my_l23_port.match_terms``.
+    * `Length Term Index Manager` can be accessed through attribute ``length_terms``, e.g. ``my_l23_port.length_terms``.
+    * `Histogram Dataset Index Manager` can be accessed through attribute ``datasets``, e.g. ``my_l23_port.datasets``.
+    * `Modifier Index Manager` can be accessed through attribute ``modifiers`` under ``packet.header`` of a stream object, e.g. ``my_stream.packet.header.modifiers``
+
+    For L47:
+    * `Connection Group Index Manager` can be accessed through attribute ``streams``, e.g. ``my_l47_port.connection_groups``.
 
 .. important::
 
-    It is user's responsibility to create, retrieve, and remove those subport-level indices.
+    Streams, connection groups, filters, modifiers, etc. are virtual. They can be created and deleted. Thus in XOA Python API, there are `create`, `delete`, and `remove` methods for you to manage these virtual resources.
 
-Thanks to the :term:`index manager` of a port, users don't necessarily need to handle the index assignment:
+    It is user's responsibility to create, retrieve, and delete those subport-level indices. Index Managers only takes care of the index assignment.
 
-  * To create an index, use method ``create()``.
-  * To remove an index, use method ``remove()``. An index also can be removed without accessing the manager but by calling ``<index_instance>.delete()``.
+When you create an index instance under a port, e.g. a stream, the Stream Index Manager will pick an available value and assign it to the stream as the stream index. When you delete an index instance, the index manager will mark that index value as available. When you create an index instance again, the index manager will take the freed values first instead of creating a new one. This makes sure when the index manager cannot create more index instances is only because of the port capability, not because of the wasted index values.  
 
-.. hint::
-    
-    The call of the function ``<index_instance>.delete()`` will remove a resource index from the port, and will automatically notify the index manager of the port about the removal.
+Thanks to the index assignment mechanism, you don't necessarily need to handle the index assignment but concentrating on the test logic. Methods to manage subport-level instances:
 
-The :term:`index manager` will make sure the freed index is used when the user creates again next time.
+  * To create an index, use the method ``<index_manager>.create()`` under the index manager, e.g. ``my_stream = await my_port.streams.create()``.
+  * To delete an index, you can use the method ``<index_manager>.remove(<index>)`` under the index manager, e.g. ``await my_port.streams.remove(0)``. However, the method ``remove`` expects the index value of the instance.
+  * An easier way to delete an index is using method ``<index_instance>.delete()`` directly on the index instance, e.g. ``await my_stream.delete()``. The call of the function ``<index_instance>.delete()`` will delete the index from the port, and will automatically notify the index manager about the deletion.
 
 .. _session_label:
 
@@ -317,7 +328,7 @@ The boilerplate code that is used to run the examples in this section:
 .. literalinclude:: /code_example/boilerplate.py
     :linenos:
 
-Tester Instance
+Connect to Testers
 ^^^^^^^^^^^^^^^^^^^^
 
 Each tester class is represented as an `awaitable object <https://docs.python.org/3/library/asyncio-task.html#id2>`_. When awaited, it establishes a TCP connection to the tester.
@@ -330,18 +341,21 @@ Available tester types are  ``L23Tester | L47Tester | L47VeTester``.
 
 .. literalinclude:: /code_example/hl/create_a_tester_from_type.py
     :linenos:
+    :emphasize-lines: 5
 
 
 **Create a tester instance by using context manager**
 
 .. literalinclude:: /code_example/hl/create_a_tester_context.py
     :linenos:
+    :emphasize-lines: 5
 
 
 **Create multiple tester instances**
 
 .. literalinclude:: /code_example/hl/create_multi_testers.py
     :linenos:
+    :emphasize-lines: 21
 
 
 .. seealso::
@@ -349,27 +363,38 @@ Available tester types are  ``L23Tester | L47Tester | L47VeTester``.
     `Learn more about await asyncio.gather <https://docs.python.org/3/library/asyncio-task.html#asyncio.gather>`_.
 
 
-Obtain Resources
-^^^^^^^^^^^^^^^^^^^^
+Access Modules and Ports
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**Obtain one module**
+**Access a single module**
 
 .. literalinclude:: /code_example/hl/obtain_one_module.py
     :linenos:
+    :emphasize-lines: 10
 
 
-**Obtain multiple modules**
+**Access multiple modules**
 
 .. literalinclude:: /code_example/hl/obtain_multiple_module.py
     :linenos:
+    :emphasize-lines: 11
 
 
-**Process operation on all modules**
+**Access all modules**
 
 .. literalinclude:: /code_example/hl/oper_on_all_modules.py
     :linenos:
+    :emphasize-lines: 11
+    
 
-**Obtain multiple ports**
+**Access a single port**
+
+.. literalinclude:: /code_example/hl/obtain_one_port.py
+    :linenos:
+    :emphasize-lines: 17
+
+
+**Access multiple ports**
 
 The interface of obtaining multiple ports is equivalent to obtaining multiple modules with the following exceptions:
 
@@ -378,10 +403,17 @@ The interface of obtaining multiple ports is equivalent to obtaining multiple mo
 
 .. literalinclude:: /code_example/hl/obtain_multiple_ports.py
     :linenos:
+    :emphasize-lines: 13
+
+**Access all ports**
+
+.. literalinclude:: /code_example/hl/oper_on_all_portsy.py
+    :linenos:
+    :emphasize-lines: 13
 
 
-Data Exchange
-^^^^^^^^^^^^^^^^^^^^
+Querying and Setting Parameters 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **Querying parameters**
 
@@ -391,6 +423,7 @@ Data Exchange
 
 .. literalinclude:: /code_example/hl/query_parameters.py
     :linenos:
+    :emphasize-lines: 14, 19, 20
 
 **Setting parameters**
 
@@ -400,15 +433,52 @@ Data Exchange
 
 .. literalinclude:: /code_example/hl/setting_parameters.py
     :linenos:
+    :emphasize-lines: 26, 27, 31, 32
 
 
-Statistics Collection
-^^^^^^^^^^^^^^^^^^^^^^^^^
+Create/Delete Streams
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. note::
+    
+    Reservation is required to create streams on ``Port``.
+
+.. literalinclude:: /code_example/hl/streams.py
+    :linenos:
+    :emphasize-lines: 30, 31, 44
+
+
+
+Create/Delete Modifiers
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. note::
+    
+    Port reservation is required to create modifiers on streams.
+
+.. note::
+    
+    The mechanism of creating and deleting modifiers is different from streams. In order to change the modifiers on a stream packet header, you need to re-configure all the modifiers again. An abstraction will be added to the HL Python API to provide users with the same API syntax, i.e. ``create()``. ``delete()``, and ``remove()`` in a future release of XOA Python API.
+
+.. note::
+    
+    An easy way to configure the packet header content will be added to the HL Python API in a future release.
+
+
+.. literalinclude:: /code_example/hl/modifiers.py
+    :linenos:
+    :emphasize-lines: 51, 52, 58, 59, 61, 65, 70, 71, 73, 78, 79
+
+
+
+Start/Stop Traffic and Collect Statistics
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Statistics collection, such as latency and jitter, TX/RX rate, frame count, etc., can be done by Python standard library ``asyncio``. In case you are new to ``asyncio``, the example below may help you understand how to use ``asyncio`` to query counters.
 
 .. literalinclude:: /code_example/hl/stats_collection.py
     :linenos:
+    :emphasize-lines: 10, 56, 62, 52
 
 
 HL-API vs. CLI

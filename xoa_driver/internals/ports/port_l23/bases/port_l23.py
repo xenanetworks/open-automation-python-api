@@ -347,7 +347,7 @@ class BasePortL23(base_port.BasePort[ports_state.PortL23LocalState]):
         self.local_states = ports_state.PortL23LocalState()
         """L23 port local states."""
 
-        self.length_term: LengthTermIndices = idx_mgr.IndexManager(
+        self.length_terms: LengthTermIndices = idx_mgr.IndexManager(
             conn,
             LengthTermIdx,
             module_id,
@@ -355,7 +355,7 @@ class BasePortL23(base_port.BasePort[ports_state.PortL23LocalState]):
         )
         """L23 port's length term index manager."""
 
-        self.match_term: MatchTermIndices = idx_mgr.IndexManager(
+        self.match_terms: MatchTermIndices = idx_mgr.IndexManager(
             conn,
             MatchTermIdx,
             module_id,

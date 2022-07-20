@@ -5,10 +5,18 @@ from xoa_driver import modules
 
 async def my_awesome_script():
     tester = await testers.L23Tester("192.168.1.200", "JonDoe") # create tester instance and establish connection
-    my_test_module = tester.modules.obtain(0)
-    if isinstance(my_test_module, modules.ModuleChimera):
+
+    my_module = tester.modules.obtain(0)
+
+    if isinstance(my_module, modules.ModuleChimera):
         return None # commands which used in this example are not supported by Chimera Module
-    ( tx_port, rx_port ) = resources = my_test_module.ports.obtain_multiple(0, 1)
+
+    print(await my_module.media.get()) # Querying module current media configuration
+
+    ( tx_port, rx_port ) = resources = my_module.ports.obtain_multiple(0, 1)
+
     for port in resources:
-        print(await port.speed.supported.get()) # Querying port supported speeds
+        print(await port.speed.mode.supported.get()) # Querying port supported speed modes
+        print(await port.speed.mode.selection.get()) # Querying port current speed mode
+
     # other code ...
