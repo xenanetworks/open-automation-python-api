@@ -67,7 +67,6 @@ To build ``.whl`` file for distribution:
     `pip install xoa-driver -U`
 
 * Write Python code to manage with Xena testers:
-    `python`
     ```python
     import asyncio
 
@@ -131,12 +130,12 @@ To build ``.whl`` file for distribution:
             await port.reservation.set_release()
 
     def main():
-    try:
-        loop = asyncio.get_event_loop()
-        loop.create_task(my_awesome_script())
-        loop.run_forever()
-    except KeyboardInterrupt:
-        pass
+        try:
+            loop = asyncio.get_event_loop()
+            loop.create_task(my_awesome_script())
+            loop.run_forever()
+        except KeyboardInterrupt:
+            pass
 
     if __name__ == "__main__":
         main()
