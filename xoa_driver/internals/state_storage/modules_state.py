@@ -20,7 +20,7 @@ class ModuleSpeed:
 
 @dataclass(frozen=True)
 class MediaInfo:
-    cage_type: "enums.MediaType"
+    cage_type: "enums.MediaConfigurationType"
     avaliable_speeds: List["ModuleSpeed"] = field(default_factory=list)
 
 @dataclass
@@ -36,7 +36,7 @@ class ModuleL23LocalState(ModuleLocalState):
         self.__media_info_list.clear()
         _vs = value[:]
         while _vs:
-            cage_type = enums.MediaType(_vs.pop(0))
+            cage_type = enums.MediaConfigurationType(_vs.pop(0))
             available_speeds_count = _vs.pop(0)
             mi = MediaInfo(
                 cage_type,
