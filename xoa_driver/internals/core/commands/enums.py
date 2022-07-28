@@ -1322,6 +1322,14 @@ class TrafficError(IntEnum):
     """Prepared OK"""
 
 
+class TrafficEngine(IntEnum):
+    """Traffic Engine"""
+    TGA = 1
+    """Normal TGA"""
+    MICRO_TGA = 2
+    """Micro TGA"""
+
+
 #: L47 Enums
 class Role(IntEnum):
     """L47 port role"""
