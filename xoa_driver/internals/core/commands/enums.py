@@ -76,7 +76,7 @@ class TimeSyncMode(IntEnum):
     """Module syncs to its own clock."""
 
 
-class CFPState(IntEnum):
+class MediaCFPState(IntEnum):
     """Modules' CFP state"""
     NOTCFP = 0
     """This is not a CFP-based test module."""
@@ -88,8 +88,8 @@ class CFPState(IntEnum):
     """Transceiver present, supporting flexible speed and port-count"""
 
 
-class CFPType(IntEnum):
-    """Type of CFP"""
+class MediaCFPType(IntEnum):
+    """Module's Media CFP Type. What kind of transceiver, may have multiple ports"""
     CFP_UNKNOWN = 0
     """CFP unknown"""
     CFP_INVALID = 1
@@ -760,34 +760,43 @@ class LoopBandwidth(IntEnum):
     """Loop Bandwidth = 7019 Hz"""
 
 
-class MediaType(IntEnum):
-    """Module Media Type"""
+class MediaConfigurationType(IntEnum):
+    """Module Media Configuration Type"""
     CFP4 = 0
     """CFP4"""
     QSFP28 = 1
-    """QSFP28"""
+    """QSFP28 (NRZ)"""
     CXP = 2
     """CXP"""
     SFP28 = 3
     """SFP28"""
     QSFP56 = 4
-    """QSFP56"""
+    """QSFP56 (PAM4)"""
     QSFP_DD = 5
-    """QSFP DD"""
+    """QSFP-DD (PAM4)"""
     SFP56 = 6
     """SFP56"""
     SFP_DD = 7
-    """SFP DD"""
+    """SFP-DD"""
+    SFP112 = 8
+    """SFP112"""
     QSFP_DD_NRZ = 9
-    """QSFP DD (NRZ)"""
+    """QSFP-DD (NRZ)"""
     QSFP28_PAM4 = 10
-    """QSFP DD (PAM4)"""
+    """QSFP28 (PAM4)"""
     CFP = 99
     """CFP"""
     BASE_T1 = 100
     """BASE-T1"""
     BASE_T1S = 101
     """BASE-T1S"""
+    QSFPDD800 = 110
+    """QSFP-DD800"""
+    QSFP112 = 111
+    """QSFP112"""
+    OSFP800 = 112
+    """OSFP800"""
+    UNKNOWN = 255
 
 
 class TXHState(IntEnum):
