@@ -111,7 +111,7 @@ __all__ = (
     "LicenseSpeed",
     "TLSVersion",
     "MulticastHeaderFormat",
-    "Infinite",
+    # "Infinite",
     "CorruptionType",
     "PolicerMode",
     "FilterUse",
