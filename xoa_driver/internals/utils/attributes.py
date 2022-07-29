@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from typing import (
+    Any,
     Callable, 
     Type,
     TYPE_CHECKING,
@@ -14,13 +15,14 @@ class Update:
     property_name: str
     response_key: str
     condition: Callable[["Response"], bool] = lambda _: True
+    format: Callable[[Any], Any] = lambda a: a # TODO: will be removed in future
 
     # keep it Async just for consistant interface of event_observer
     async def __call__(self, response: "Response") -> None:
         if not self.condition(response):
             return None
         v = getattr(response.values, self.response_key)
-        setattr(self.inst, self.property_name, v)
+        setattr(self.inst, self.property_name, self.format(v))
 
 
 

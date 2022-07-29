@@ -124,6 +124,9 @@ class ModuleL23(bm.BaseModule["modules_state.ModuleL23LocalState"]):
     """
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
+        
+        self._local_states = modules_state.ModuleL23LocalState()
+        
         self.name = M_NAME(conn, self.module_id)
         """Test module's name.
         Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_NAME`
@@ -189,24 +192,22 @@ class ModuleL23(bm.BaseModule["modules_state.ModuleL23LocalState"]):
         self.upgrade = MUpgrade(conn, self.module_id)
         """Test module's upgrade."""
 
-        self._local_states = modules_state.ModuleL23LocalState()
         self.ports: Optional[pm.PortsManager] = None
         """L23 port index manager of the test module."""
 
+    @property
+    def info(self) -> modules_state.ModuleL23LocalState:
+        return self._local_states
+    
     async def _setup(self):
-        m_support_resp, *_ = await asyncio.gather(
-            M_MEDIASUPPORT(self._conn, self.module_id).get(),
-            super()._setup(),
-        )
-        self._local_states.media_info_list = m_support_resp.media_info_list # type: ignore
         if self.ports is None:
             raise NotImplementedError("Ports manager type are not defined.") # Maybe can be better solution then this...
-        await self.ports.fill()
+        await asyncio.gather(
+            self._local_states.initiate(self),
+            self.ports.fill()
+        )
+        self._local_states.register_subscriptions(self)
         return self
-
-    def _register_subscriptions(self) -> None:
-        super()._register_subscriptions()
-        self._conn.subscribe(M_MEDIASUPPORT, utils.Update(self._local_states, "media_info_list", "media_info_list", self._check_identity))
 
     on_cfp_type_change = functools.partialmethod(utils.on_event, M_CFPTYPE)
     """Register a callback to the event that the module's CFP type changes."""

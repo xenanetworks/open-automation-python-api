@@ -31,7 +31,6 @@ from xoa_driver.internals.core.commands import (
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
 
-from xoa_driver.internals.core.transporter import funcs
 from xoa_driver.internals.state_storage import ports_state
 from xoa_driver.internals.utils import attributes as utils
 from xoa_driver.internals.utils.indices import index_manager as im
@@ -52,6 +51,8 @@ class PortL47(base_port.BasePort["ports_state.PortL47LocalState"]):
     """L47 Port"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         super().__init__(conn, module_id, port_id)
+        
+        self._local_states = ports_state.PortL47LocalState()
         
         self.traffic = P4_TRAFFIC(self._conn, module_id, port_id)
         """Representation of :class:`~xoa_driver.internals.core.commands.p4_commands.P4_TRAFFIC`"""
@@ -108,8 +109,6 @@ class PortL47(base_port.BasePort["ports_state.PortL47LocalState"]):
         self.packet_engine = PacketEngine(self._conn, module_id, port_id)
         """L47 packet engine"""
         
-        self.local_states = ports_state.PortL47LocalState()
-        
         self.connection_groups: "im.IndexManager[ConnectionGroupIdx]" = im.IndexManager(
             self._conn, 
             ConnectionGroupIdx, 
@@ -118,25 +117,14 @@ class PortL47(base_port.BasePort["ports_state.PortL47LocalState"]):
         )
         """L47 connection group index manager."""
     
+    @property
+    def info(self) -> ports_state.PortL47LocalState:
+        return self._local_states
+    
     async def _setup(self):
-        await super()._setup()
-        (
-            sync_status_r,
-            traffic_state_r,
-            capabilities_r
-        ) = await funcs.apply(
-            self.sync_status.get(),
-            self.state.get(),
-            self.capabilities.get(),
-        )
-        self.local_states.capabilities = capabilities_r
-        self.local_states.sync_status = sync_status_r.sync_status
-        self.local_states.traffic_state = traffic_state_r.state
+        await self._local_states.initiate(self)
+        self._local_states.register_subscriptions(self)
         return self
-
-    def _register_subscriptions(self) -> None:
-        super()._register_subscriptions()
-        self._conn.subscribe(P4_STATE, utils.Update(self.local_states, "traffic_state", "state", self._check_identity))
     
     on_capabilities_change = functools.partialmethod(utils.on_event, P4_CAPABILITIES)
     """Register a callback to the event that the L47 port's capabilities change."""

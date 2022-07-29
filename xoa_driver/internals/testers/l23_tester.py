@@ -21,8 +21,8 @@ from .genuine.l_23 import (
 )
 if TYPE_CHECKING:
     from xoa_driver import modules
-    from xoa_driver.internals.state_storage import testers_state
 
+from xoa_driver.internals.state_storage import testers_state
 from xoa_driver.internals import revisions
 from xoa_driver.internals import exceptions
 
@@ -76,12 +76,15 @@ def get_module_type(revision: str) -> Type:
         )
     return module_type
 
-class L23Tester(BaseTester["testers_state.TesterLocalState"]):
+class L23Tester(BaseTester["testers_state.GenuineTesterLocalState"]):
     """
     Representation of a physical Xena Valkyrie Tester.
     """
     def __init__(self, host: str, username: str, password: str = "xena", port: int = 22606, *, debug: bool = False) -> None:
         super().__init__(host=host, username=username, password=password, port=port, debug=debug)
+        
+        self._local_states = testers_state.GenuineTesterLocalState(host, port)
+        
         self.management_interface = mi.ManagementInterface(self._conn)
         """Tester management interface that includes IP address, DHCP, MAC address and hostname.
         """
@@ -126,9 +129,16 @@ class L23Tester(BaseTester["testers_state.TesterLocalState"]):
         """
         Module index manager of the L23 tester.
         """
-
+    
+    @property
+    def info(self) -> testers_state.GenuineTesterLocalState:
+        return self._local_states
+    
     async def _setup(self):
         await super()._setup()
+        await self._local_states.initiate(self)
+        self._local_states.register_subscriptions(self)
+        
         ft_pc = await C_PORTCOUNTS(self._conn).get()
         port_counts = ft_pc.port_counts
         await self.modules.fill_l23(port_counts)
