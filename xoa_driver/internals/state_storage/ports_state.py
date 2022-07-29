@@ -77,6 +77,7 @@ class PortL23LocalState(PortLocalState):
     
     def __init__(self) -> None:
         self.traffic_state: "enums.TrafficOnOff" = enums.TrafficOnOff.OFF
+        
     
     async def initiate(self, port) -> None:
         capabilities, traffic_state_r, _ = await asyncio.gather(
@@ -85,6 +86,7 @@ class PortL23LocalState(PortLocalState):
             super().initiate(port)
         )
         self.capabilities = capabilities
+        self.traffic_state = enums.TrafficOnOff(traffic_state_r.on_off)
     
     def register_subscriptions(self, port) -> None:
         super().register_subscriptions(port)
