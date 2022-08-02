@@ -83,7 +83,7 @@ GenericL23Module = typing.Union[
         # "MFreya800G1S1POSFP_a",
         # "MFreya800G4S1P",
         # "MFreya800G4S1POSFP",
-        # "MOdin1G3S6PT1RJ45",
+        "MOdin1G3S6PT1RJ45",
     ]
 
 GenericAnyModule = typing.Union[
