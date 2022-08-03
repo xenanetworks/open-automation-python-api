@@ -818,8 +818,8 @@ class M_SMAOUTPUT:
     def set(self, sma_out: SMAOutputFunction) -> "Token":
         """Set the function of the SMA (SubMiniature version A) output of the module
 
-        :param sma_in: the function of the SMA (SubMiniature version A) output of the module
-        :type sma_in: SMAOutputFunction
+        :param sma_out: the function of the SMA (SubMiniature version A) output of the module
+        :type sma_out: SMAOutputFunction
         """
         return Token(self._connection, build_set_request(self, module=self._module, sma_out=sma_out))
 
