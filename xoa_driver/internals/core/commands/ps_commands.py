@@ -1975,8 +1975,8 @@ class PS_PFCPRIORITY:
     def set(self, pcp: PFCMode) -> "Token":
         """Set the Priority Flow Control (PFC) mode of a stream.
 
-        :param hex_data: the Priority Flow Control mode of the stream
-        :type hex_data: str
+        :param pcp: the Priority Flow Control mode of the stream
+        :type pcp: str
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._stream_xindex], pcp=pcp))
 
