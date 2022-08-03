@@ -38,6 +38,7 @@ from xoa_driver.internals.core.commands import (
 )
 from xoa_driver.internals.utils import attributes as utils
 from xoa_driver.internals.utils import ports_manager as pm
+from xoa_driver.internals.state_storage import modules_state
 from xoa_driver.ports import PortL47
 from . import base_module as bm
 if typing.TYPE_CHECKING:
@@ -156,13 +157,15 @@ class ModuleSystem:
         """Representation of :class:`~xoa_driver.internals.core.commands.m4_commands.M4_SYSTEM_TIME`
         """
 
-class ModuleL47(bm.BaseModule):
+class ModuleL47(bm.BaseModule["modules_state.ModuleLocalState"]):
     """
     Representation of a L47 test module on a physical tester.
     """
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
-
+        
+        self._local_states = modules_state.ModuleLocalState()
+        
         self.version_number = M4_VERSIONNO(conn, self.module_id)
         """Representation of :class:`~xoa_driver.internals.core.commands.m4_commands.M4_VERSIONNO`
         """
@@ -198,11 +201,16 @@ class ModuleL47(bm.BaseModule):
         )
         """L47 Port index manager of this test module."""
 
+    @property
+    def info(self) -> modules_state.ModuleLocalState:
+        return self._local_states
+    
     async def _setup(self):
         await asyncio.gather(
-            super()._setup(),
+            self._local_states.initiate(self),
             self.ports.fill()
         )
+        self._local_states.register_subscriptions(self)
         return self
 
     on_license_demo_info_change = functools.partialmethod(utils.on_event, M_LICENSE_DEMO_INFO)

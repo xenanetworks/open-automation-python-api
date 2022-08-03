@@ -15,6 +15,7 @@ from xoa_driver.internals.utils import attributes as utils
 from xoa_driver.internals.utils.indices import index_manager as idx_mgr
 from xoa_driver.internals.indices.streams.base_stream import BaseStreamIdx
 from xoa_driver.internals.indices.filter.base_filter import BaseFilterIdx
+from xoa_driver.internals.state_storage import ports_state
 
 VEStreamIndices = idx_mgr.IndexManager[BaseStreamIdx]
 VEFilterIndices = idx_mgr.IndexManager[BaseFilterIdx]
@@ -38,12 +39,16 @@ class PortL23VE(BasePortL23):
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         super().__init__(conn, module_id, port_id)
 
+        self._local_states = ports_state.PortL23LocalState()
+        
         self.mdix_mode = P_MDIXMODE(conn, module_id, port_id)
         """MDI/MDIX mode.
         Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_MDIXMODE`
         """
 
         self.engine = Engine(conn, module_id, port_id)
+        """Engine is not supported yet."""
+        
         self.statistics = PortStatistics(conn, module_id, port_id)
         
         self.streams: VEStreamIndices = idx_mgr.IndexManager(
@@ -61,6 +66,15 @@ class PortL23VE(BasePortL23):
             port_id
         )
         """L23 VE port's filter index manager."""
+    
+    @property
+    def info(self) -> ports_state.PortL23LocalState:
+        return self._local_states
+    
+    async def _setup(self):
+        await self._local_states.initiate(self)
+        self._local_states.register_subscriptions(self)
+        return self
     
     on_mdix_mode_change = functools.partialmethod(utils.on_event, P_MDIXMODE)
     """Register a callback to the event that the port's MDI/MDIX mode changes."""

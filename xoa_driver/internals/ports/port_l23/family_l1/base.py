@@ -1,5 +1,6 @@
+
 import functools
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Tuple
 from ..bases.port_l23_genuine import BasePortL23Genuine
 from xoa_driver.internals.core.commands import (
     P_FAULTSIGNALING,
@@ -15,16 +16,20 @@ from ..pcs_pma_ghijkl import (
     PcsPma as PcsPma2,
     SerDes,
 )
+from ..pcs_pma_l import PcsPmaL1 as PcsPma3 # PcsPmaL1 for current version is different if compare to L family
 
 
-class PcsPma(PcsPma1, PcsPma2):
+class PcsPma(PcsPma1, PcsPma2, PcsPma3):
     def __init__(self, conn: "itf.IConnection", port) -> None:
         PcsPma1.__init__(self, conn, port)
         PcsPma2.__init__(self, conn, port)
+        PcsPma3.__init__(self, conn, port)
 
 
-
-class FamilyK(BasePortL23Genuine):
+class FamilyL1(BasePortL23Genuine):
+    pcs_pma: PcsPma
+    ser_des: Tuple[SerDes, ...]
+    
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         super().__init__(conn, module_id, port_id)
         self.dynamic = P_DYNAMIC(conn, module_id, port_id)
@@ -47,7 +52,25 @@ class FamilyK(BasePortL23Genuine):
     on_dynamic_change = functools.partialmethod(utils.on_event, P_DYNAMIC)
     """Register a callback to the event that the port's dynamic traffic setting changes."""
 
-class PThor400G7S1P(FamilyK):
-    """L23 port on Thor-400G-7S-1P module.
+
+
+class PFreya800G1S1P_a(FamilyL1):
+    """L23 port on Freya-800G-1S-1P[a] module.
     """
     ...
+
+class PFreya800G1S1POSFP_a(FamilyL1):
+    """L23 port on Freya-800G-1S-1P-OSFP[a] module.
+    """
+    ...
+
+class PFreya800G4S1P(FamilyL1):
+    """L23 port on Freya-800G-4S-1P module.
+    """
+    ...
+
+class PFreya800G4S1POSFP(FamilyL1):
+    """L23 port on Freya-800G-4S-1P-OSFP module.
+    """
+    ...
+

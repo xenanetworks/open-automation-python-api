@@ -6,6 +6,10 @@ from typing import (
     Generator,
     Any
 )
+from abc import (
+    ABC, 
+    abstractmethod,
+)
 import functools
 from xoa_driver.internals.core.commands import enums
 from xoa_driver.internals.core.commands import (
@@ -22,7 +26,6 @@ from xoa_driver.internals.core.commands import (
     C_SERIALNO,
     C_RESERVEDBY,
 )
-from xoa_driver.internals.utils import attributes as utils
 
 import xoa_driver.internals.testers._tester_session as session
 from xoa_driver.internals.state_storage import testers_state
@@ -31,8 +34,6 @@ from xoa_driver.internals.core.transporter import (
     establish_connection,
     TransportationHandler,
 )
-from xoa_driver.internals.core.transporter import funcs
-
 
 
 T = TypeVar('T', bound="BaseTester")
@@ -40,7 +41,7 @@ TesterStateStorage = TypeVar('TesterStateStorage', bound="testers_state.TesterLo
 
 # ToDo: lately update imports to correct style
 # min version = 83.2
-class BaseTester(Generic[TesterStateStorage]):
+class BaseTester(ABC, Generic[TesterStateStorage]):
     def __init__(self, host: str, username: str, password: str = "xena", port: int = 22606, *, debug: bool = False) -> None:
         self.__host = host
         self.__port = port
@@ -116,9 +117,6 @@ class BaseTester(Generic[TesterStateStorage]):
         Representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_DEBUGLOGS`
         """
 
-        self._local_states = testers_state.TesterLocalState(host, port)
-        self._register_subscriptions()
-
     async def __aenter__(self: Awaitable[T]) -> T:
         return await self
 
@@ -134,38 +132,11 @@ class BaseTester(Generic[TesterStateStorage]):
     async def _setup(self: T) -> T:
         await establish_connection(self._conn, self.__host, self.__port)
         await self.session
-
-        (
-            capabilities_resp,
-            model_res,
-            v_major_res,
-            serial_res,
-            reserved_by_res,
-            reservation_resp,
-        ) = await funcs.apply(
-            self.capabilities.get(),
-            self.model.get(),
-            self.version_no.get(),
-            self.serial_no.get(),
-            self.reserved_by.get(),
-            self.reservation.get(),
-        )
-        self._local_states.reserved_by = reserved_by_res.username
-        self._local_states.model = model_res.model
-        self._local_states.driver_version = v_major_res.pci_driver_version
-        self._local_states.version_major = v_major_res.chassis_major_version
-        self._local_states.serial_number = serial_res.serial_number
-        self._local_states.reservation = reservation_resp.operation
-        self._local_states.capabilities = capabilities_resp
         return self
-
-    def _register_subscriptions(self) -> None:
-        self._conn.subscribe(C_RESERVEDBY, utils.Update(self._local_states, "reserved_by", "username"))
-        self._conn.subscribe(C_RESERVATION, utils.Update(self._local_states, "reservation", "operation"))
 
 
     def __is_reservation(self, reserved_status: enums.ReservedStatus) -> bool:
-        return self._local_states.reservation == reserved_status
+        return self.info.reservation == reserved_status
 
     is_released = functools.partialmethod(__is_reservation, enums.ReservedStatus.RELEASED)
     """Validate if the tester is released.
@@ -176,11 +147,12 @@ class BaseTester(Generic[TesterStateStorage]):
     """
 
     @property
+    @abstractmethod
     def info(self) -> TesterStateStorage:
         """
         Tester's local information.
         """
-        return self._local_states  # type: ignore
+        raise NotImplementedError()
 
 
     # region Events

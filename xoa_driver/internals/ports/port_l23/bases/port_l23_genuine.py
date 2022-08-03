@@ -17,7 +17,6 @@ from xoa_driver.internals.core.commands import (
     P_TXPREAMBLE_REMOVE,
     P_RXPREAMBLE_INSERT,
     P_LOADMODE,
-
     PP_FECMODE,
 )
 from xoa_driver.internals.utils import attributes as utils
@@ -25,13 +24,14 @@ from xoa_driver.internals.utils.indices import index_manager as idx_mgr
 from xoa_driver.internals.indices.streams.genuine_stream import GenuineStreamIdx
 from xoa_driver.internals.indices.filter.genuine_filter import GenuineFilterIdx
 from xoa_driver.internals.indices.port_dataset import PortDatasetIdx
+from xoa_driver.internals.state_storage import ports_state
 
 from .port_l23 import (
     BasePortL23,
     Speed,
     TxConfiguration,
 )
-from .speed_detector import SpeedDetector
+
 from .port_transceiver import PortTransceiver
 from .port_reception_statistics import GenuinePortReceptionStatistics
 from .port_transmission_statistics import PortTransmissionStatistics
@@ -116,6 +116,9 @@ class BasePortL23Genuine(BasePortL23):
     """L23 port basic configuration."""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         super().__init__(conn, module_id, port_id)
+        
+        self._local_states = ports_state.PortL23GenuineLocalState()
+        
         self.flash = P_FLASH(conn, module_id, port_id)
         """L23 port flashes.
         Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_FLASH`
@@ -184,24 +187,15 @@ class BasePortL23Genuine(BasePortL23):
         """L23 port histogram index manager.
         """
 
-    async def _setup(self):
-        await super()._setup()
-        speed_detector = SpeedDetector(
-            self.local_states.capabilities,
-            self.local_states.interface
-        )
-        self.local_states.port_possible_speed_modes = speed_detector.find_port_possible_speed()
-        return self
-
     @property
-    def is_brr_mode_supported(self) -> bool:
-        """Whether this L23 port supports BRR mode.
-
-        :return: whether this port supports BRR mode.
-        :rtype: bool
-        """
-        return "T1" in self.local_states.interface
-
+    def info(self) -> ports_state.PortL23GenuineLocalState:
+        return self._local_states
+    
+    async def _setup(self):
+        await self._local_states.initiate(self)
+        self._local_states.register_subscriptions(self)
+        return self
+    
     on_speed_selection_change = functools.partialmethod(utils.on_event, P_SPEEDSELECTION)
     """Register a callback to the event that the port's speed mode changes."""
 

@@ -370,8 +370,8 @@ class M_CFPTYPE:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        state: XmpField[XmpByte] = XmpField(XmpByte, choices=CFPState)  # coded byte, specifying the CFP state.
-        type: XmpField[XmpByte] = XmpField(XmpByte, choices=CFPType)  # coded byte, specifying the CFP type.
+        state: XmpField[XmpByte] = XmpField(XmpByte, choices=MediaCFPState)  # coded byte, specifying the CFP state.
+        type: XmpField[XmpByte] = XmpField(XmpByte, choices=MediaCFPType)  # coded byte, specifying the CFP type.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get CFP type information about the transceiver currently inserted into the cage.
@@ -958,11 +958,11 @@ class M_MEDIA:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        media_type: XmpField[XmpByte] = XmpField(XmpByte, choices=MediaType)  # coded byte, specifying the active front port: CFP4, QSFP28, CXP, SFP28.
+        media_config_type: XmpField[XmpByte] = XmpField(XmpByte, choices=MediaConfigurationType)  # coded byte, specifying the active front port: CFP4, QSFP28, CXP, SFP28.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        media_type: XmpField[XmpByte] = XmpField(XmpByte, choices=MediaType)  # coded byte, specifying the active front port: CFP4, QSFP28, CXP, SFP28.
+        media_config_type: XmpField[XmpByte] = XmpField(XmpByte, choices=MediaConfigurationType)  # coded byte, specifying the active front port: CFP4, QSFP28, CXP, SFP28.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the media type of the test module.
@@ -972,7 +972,7 @@ class M_MEDIA:
         """
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, media_type: MediaType) -> "Token":
+    def set(self, media_type: MediaConfigurationType) -> "Token":
         """Set the media type of the test module.
 
         :param media_type: the media type of the test module

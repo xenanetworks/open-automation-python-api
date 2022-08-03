@@ -34,7 +34,7 @@ An example of :term:`HL-API` notation and namings based on the corresponding :te
 
 .. code-block::
     :caption: CLI command names
-    :linenos:
+    
 
     P_SPEEDSELECTION
     P_SPEEDS_SUPPORTED
@@ -43,7 +43,7 @@ are represented as
 
 .. code-block:: python
     :caption: Corresponding HL-API naming
-    :linenos:
+    
 
     <resource>.speed.selection
     <resource>.speed.supported
@@ -60,12 +60,14 @@ There are only two types of methods for each command, ``get`` and/or ``set``:
 * Method ``get`` is used to **query** the values, status, configuration of the resource.
 * Method ``set`` is used to **change** the values, status, configuration of the resource.
 
-To use ``get`` and ``set`` methods, you need to use ``await`` because they are all made asynchronous.
+.. attention::
+
+    To use ``get`` and ``set`` methods, you need to use ``await`` because they are all made asynchronous.
 
 **Syntax**:
 
 .. code-block:: python
-    :linenos:
+    
 
     await <resource>.<command_oo_name>.get()
 
@@ -78,7 +80,7 @@ To use ``get`` and ``set`` methods, you need to use ``await`` because they are a
 **Example**:
 
 .. code-block:: python
-    :linenos:
+    
 
     await <Port>.speed.supported.get()
 
@@ -111,7 +113,7 @@ Periodical querying of test resource information, such as port sync statue, is l
 **Example**:
 
 .. code-block:: python
-    :linenos:
+    
     
     port.on_traffic_change(my_calllback_function)
 
@@ -121,7 +123,7 @@ Periodical querying of test resource information, such as port sync statue, is l
 
 .. important::
     
-    The ``<async_callback_function>`` must be an `coroutine function <https://docs.python.org/3/library/asyncio-task.html#id1>`_
+    The ``<async_callback_function>`` must be a `coroutine function <https://docs.python.org/3/library/asyncio-task.html#id1>`_
     
 Parameters that are passed to your ``<async_callback_function>`` depend on the resource it is affiliated:
 
@@ -217,6 +219,11 @@ Each module object contains a :term:`Port Manager`, which can be accessed throug
 
     A :term:`Module Manager` can contain modules of different :term:`Module Types<Module Type>`. This is because there can be various test modules installed in a physical tester. On the other hand, a :term:`Port Manager` contains ports of the same :term:`Port Type`. This is because the ports on a module are of the same type.
 
+.. attention::
+
+    ``obtain()`` is not a `coroutine function <https://docs.python.org/3/library/asyncio-task.html#id1>`_, so don't use ``await`` with it.
+    
+
 Obtain a single object
 ''''''''''''''''''''''''''''''''
 
@@ -232,7 +239,7 @@ Methods to retrieve a module or a port from a :term:`resource manager`:
 
 .. literalinclude:: /code_example/hl/obtain_one_module.py
     :linenos:
-    :emphasize-lines: 9
+    :emphasize-lines: 10
 
 
 Obtain multiple objects
@@ -250,7 +257,7 @@ Methods to retrieve multiple resources from a :term:`resource manager`:
 
 .. literalinclude:: /code_example/hl/obtain_multiple_module.py
     :linenos:
-    :emphasize-lines: 10
+    :emphasize-lines: 11
 
 
 Index Managers
@@ -259,6 +266,7 @@ Index Managers
 Each port object contains several :term:`Index Managers<Index Manager>` that manage the subport-level resource indices such as stream indices, filter indices, connection group indices, modifier indices, etc. It automatically ensures correct and conflict-free **index assignment**.
     
     For L23:
+
     * `Stream Index Manager` can be accessed through attribute ``streams``, e.g. ``my_l23_port.streams``.
     * `Filter Index Manager` can be accessed through attribute ``filters``, e.g. ``my_l23_port.filters``.
     * `Match Term Index Manager` can be accessed through attribute ``match_terms``, e.g. ``my_l23_port.match_terms``.
@@ -267,6 +275,7 @@ Each port object contains several :term:`Index Managers<Index Manager>` that man
     * `Modifier Index Manager` can be accessed through attribute ``modifiers`` under ``packet.header`` of a stream object, e.g. ``my_stream.packet.header.modifiers``
 
     For L47:
+    
     * `Connection Group Index Manager` can be accessed through attribute ``streams``, e.g. ``my_l47_port.connection_groups``.
 
 .. important::
@@ -326,7 +335,7 @@ Code Examples
 The boilerplate code that is used to run the examples in this section:
 
 .. literalinclude:: /code_example/boilerplate.py
-    :linenos:
+    
 
 Connect to Testers
 ^^^^^^^^^^^^^^^^^^^^
@@ -363,38 +372,38 @@ Available tester types are  ``L23Tester | L47Tester | L47VeTester``.
     `Learn more about await asyncio.gather <https://docs.python.org/3/library/asyncio-task.html#asyncio.gather>`_.
 
 
-Access Modules and Ports
+Obtain Modules and Ports
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**Access a single module**
+**Obtain a single module**
 
 .. literalinclude:: /code_example/hl/obtain_one_module.py
     :linenos:
     :emphasize-lines: 10
 
 
-**Access multiple modules**
+**Obtain multiple modules**
 
 .. literalinclude:: /code_example/hl/obtain_multiple_module.py
     :linenos:
     :emphasize-lines: 11
 
 
-**Access all modules**
+**Obtain all modules**
 
 .. literalinclude:: /code_example/hl/oper_on_all_modules.py
     :linenos:
     :emphasize-lines: 11
     
 
-**Access a single port**
+**Obtain a single port**
 
 .. literalinclude:: /code_example/hl/obtain_one_port.py
     :linenos:
     :emphasize-lines: 17
 
 
-**Access multiple ports**
+**Obtain multiple ports**
 
 The interface of obtaining multiple ports is equivalent to obtaining multiple modules with the following exceptions:
 
@@ -405,7 +414,7 @@ The interface of obtaining multiple ports is equivalent to obtaining multiple mo
     :linenos:
     :emphasize-lines: 13
 
-**Access all ports**
+**Obtain all ports**
 
 .. literalinclude:: /code_example/hl/oper_on_all_portsy.py
     :linenos:
@@ -490,18 +499,18 @@ Both scripts are using the configuration text file below:
 
 .. literalinclude:: /code_example/hl_vs_cli/config.txt
     :caption: config.txt
-    :linenos:
+    
 
 
 .. tab:: CLI
 
     .. literalinclude:: /code_example/hl_vs_cli/cli_script.py
         :caption: cli_script.py
-        :linenos:
+        
 
 .. tab:: HL-API
 
     .. literalinclude:: /code_example/hl_vs_cli/xoa_script.py
         :caption: xoa_script.py
-        :linenos:
+        
 

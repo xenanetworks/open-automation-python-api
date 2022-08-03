@@ -363,23 +363,6 @@ class BasePortL23(base_port.BasePort[ports_state.PortL23LocalState]):
         )
         """L23 port's match term index manager."""
 
-    async def _setup(self):
-        await super()._setup()
-        (
-            capabilities_r,
-            traffic_state_r,
-        ) = await funcs.apply(
-            self.capabilities.get(),
-            self.traffic.state.get()
-        )
-        self.local_states.capabilities = capabilities_r
-        self.local_states.traffic_state = traffic_state_r.on_off
-        return self
-
-    def _register_subscriptions(self) -> None:
-        super()._register_subscriptions()
-        self._conn.subscribe(P_TRAFFIC, utils.Update(self.local_states, "traffic_state", "on_off", self._check_identity))
-
     on_speed_change = functools.partialmethod(utils.on_event, P_SPEED)
     """Register a callback to the event that the port's speed changes."""
 

@@ -7,17 +7,21 @@ from xoa_driver.internals.core.commands import (
 )
 from xoa_driver import ports
 from xoa_driver.internals.utils import ports_manager as pm
+from xoa_driver.internals.state_storage import modules_state
 from . import base_module as bm
 if typing.TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
     from . import __interfaces as m_itf
 
-class ModuleL23VE(bm.BaseModule):
+class ModuleL23VE(bm.BaseModule["modules_state.ModuleLocalState"]):
     """
     Representation of a L23 test module on virtual tester. 
     """
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
+        
+        self._local_states = modules_state.ModuleLocalState()
+        
         self.comment = M_COMMENT(conn, self.module_id)
         """Test module's description.
         Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_COMMENT`
@@ -39,9 +43,14 @@ class ModuleL23VE(bm.BaseModule):
         )
         """L23 VE Port index manager of this test module."""
     
+    @property
+    def info(self) -> modules_state.ModuleLocalState:
+        return self._local_states
+    
     async def _setup(self):
         await asyncio.gather(
-            super()._setup(),
+            self._local_states.initiate(self),
             self.ports.fill()
         )
+        self._local_states.register_subscriptions(self)
         return self

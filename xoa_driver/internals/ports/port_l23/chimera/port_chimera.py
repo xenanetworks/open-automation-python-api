@@ -1,5 +1,4 @@
 import asyncio
-from loguru import logger
 import functools
 from typing import TYPE_CHECKING
 from xoa_driver.internals.ports import base_port
@@ -19,10 +18,11 @@ if TYPE_CHECKING:
 from xoa_driver.internals.state_storage import ports_state
 from ..pcs_pma_ijkl_chimera import PcsPma
 from .pe_custom_distribution import CustomDistributions
-
 from .port_emulation import ChimeraPE
+
 class PortChimera(base_port.BasePort[ports_state.PortChimeraLocalState]):
     """Chimera port for traffic impairment."""
+
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         super().__init__(conn, module_id, port_id)
         self.capabilities = P_CAPABILITIES(conn, module_id, port_id)
@@ -45,28 +45,32 @@ class PortChimera(base_port.BasePort[ports_state.PortChimeraLocalState]):
         """Load mode of the Chimera port.
         Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_LOADMODE`
         """
+        self.emulation = ChimeraPE(self._conn, *self.kind)
+        
         self.emulate = P_EMULATE(conn, module_id, port_id)
         """Chimera port emulation control.
         Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_EMULATE`
         """
         self.custom_distributions = CustomDistributions(conn, module_id, port_id)
         """Custom distributions."""
+        
         self.pcs_pma = PcsPma(conn, self)
         """"PCS/PMA settings."""
         
-        self.local_states = ports_state.PortChimeraLocalState()
+        self._local_states = ports_state.PortChimeraLocalState()
         """Local states of the Chimera port."""
     
+    @property
+    def info(self) -> ports_state.PortChimeraLocalState:
+        return self._local_states
     
     async def _setup(self):
-        *_, capabilities, emulation =  await asyncio.gather(
-            super()._setup(),
+        await asyncio.gather(
+            self._local_states.initiate(self),
             self.custom_distributions.server_sync(),
-            self.capabilities.get(),
-            ChimeraPE(self._conn, *self.kind),
+            self.emulation
         )
-        self.local_states.capabilities = capabilities # type: ignore
-        self.emulation = emulation
+        self._local_states.register_subscriptions(self)
         return self
     
     on_interface_change = functools.partialmethod(utils.on_event, P_INTERFACE)

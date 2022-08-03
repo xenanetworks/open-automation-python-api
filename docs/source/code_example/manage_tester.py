@@ -10,58 +10,105 @@ async def my_awesome_script():
     # Establish connection to a Valkyrie tester 10.10.10.10 with username JonDoe.
     async with testers.L23Tester("10.10.10.10", "JonDoe") as tester:
         
-        # Get the port 0/0 (module 0)
-        my_port = await tester.modules.obtain(0).ports.obtain(0)
+        # Get the port 0/0 as TX port
+        my_tx_port = tester.modules.obtain(0).ports.obtain(0)
+        # Get the port 0/0 as RX port
+        my_rx_port = tester.modules.obtain(0).ports.obtain(1)
 
-        # Reserve the port
-        if my_port.is_released():
-            await my_port.reservation.set_reserve()
-        elif my_port.is_reserved_by_others():
-            await my_port.reservation.set_relinquish()
-            await my_port.reservation.set_reserve()
+        # Reserve the TX port and reset it.
+        if my_tx_port.is_reserved_by_me():
+            await my_tx_port.reservation.set_release()
+        elif not my_tx_port.is_released():
+            await my_tx_port.reservation.set_relinquish()
+        await utils.apply(
+            my_tx_port.reservation.set_reserve(),
+            my_tx_port.reset.set()
+        )
 
-        # Reset the port
-        await my_port.reset.set()
+        # Reserve the RX port and reset it.
+        if my_rx_port.is_reserved_by_me():
+            await my_rx_port.reservation.set_release()
+        elif not my_rx_port.is_released():
+            await my_rx_port.reservation.set_relinquish()
+        await utils.apply(
+            my_rx_port.reservation.set_reserve(),
+            my_rx_port.reset.set()
+        )
 
-        # Create a stream on the port
-        my_stream = await my_port.streams.create()
+        # Create a stream on the TX port
+        my_stream = await my_tx_port.streams.create()
+        my_tpld_value = 0
 
         # Prepare stream header protocol
         header_protocol = [enums.ProtocolOption.ETHERNET, enums.ProtocolOption.IP]
 
-        # Batch configure the stream
+        # Simple batch configure the stream on the TX port
         await utils.apply(
-            my_stream.tpld_id.set(0), # Create the TPLD index of stream
+            my_stream.tpld_id.set(my_tpld_value), # Create the TPLD index of stream
             my_stream.packet.length.set(length_type=enums.LengthType.FIXED, min_val=1000, max_val=1000), # Configure the packet size to fixed 1000 bytes
             my_stream.packet.header.protocol.set(header_protocol), # Configure the packet type
             my_stream.enable.set_on(), # Enable streams
             my_stream.rate.fraction.set(1000000) # Configure the stream rate 100% (1,000,000 ppm)
         )
 
-        # Batch Ccear statistics
-        await utils.apply(
-            my_port.statistics.tx.clear.set(),
-            my_port.statistics.rx.clear.set()
+        # Batch clear statistics on TX and RX ports
+        await asyncio.gather(
+            my_tx_port.statistics.tx.clear.set(),
+            my_tx_port.statistics.rx.clear.set(),
+            my_rx_port.statistics.tx.clear.set(),
+            my_rx_port.statistics.rx.clear.set()
         )
 
-        # Start traffic on the port
-        await my_port.traffic.state.set_start()
+        # Start traffic on the TX port
+        await my_tx_port.traffic.state.set_start()
 
         # Test duration 10 seconds
         await asyncio.sleep(10)
 
-        # Stop traffic on the port
-        await my_port.traffic.state.set_stop()
+        # Stop traffic on the TX port
+        await my_tx_port.traffic.state.set_stop()
+
+        # Wait 2 seconds for the counters to finish
+        await asyncio.sleep(2)
 
         # Query TX statistics
-        tx_result = await my_port.statistics.tx.total.get()
-        print(f"TX bit count in the last second: {tx_result.bit_count_last_sec}")
-        print(f"TX packet count lin the ast second: {tx_result.packet_count_last_sec}")
-        print(f"TX byte count since cleared: {tx_result.byte_count_since_cleared}")
-        print(f"TX packet count since cleared: {tx_result.packet_count_since_cleared}")
+        tx_results = list(await utils.apply(
+            my_tx_port.statistics.tx.total.get(),
+            my_tx_port.statistics.tx.obtain_from_stream(my_stream).get()
+        ))
+        print(f"Total TX byte count since cleared: {tx_results[0].byte_count_since_cleared}")
+        print(f"Total TX packet count since cleared: {tx_results[0].packet_count_since_cleared}")
+        print(f"Stream 0 TX byte count since cleared: {tx_results[1].byte_count_since_cleared}")
+        print(f"Stream 0 TX packet count since cleared: {tx_results[1].packet_count_since_cleared}")
 
-        # Release the port
-        await my_port.reservation.set_release()
+        tpld_obj = my_rx_port.statistics.rx.access_tpld(my_tpld_value)
+        rx_results = list(await utils.apply(
+            my_rx_port.statistics.rx.total.get(),
+            my_rx_port.statistics.rx.access_tpld(tpld_obj).traffic.get(),
+            my_rx_port.statistics.rx.access_tpld(tpld_obj).latency.get(),
+            my_rx_port.statistics.rx.access_tpld(tpld_obj).jitter.get(),
+            my_rx_port.statistics.rx.access_tpld(tpld_obj).errors.get()
+        ))
+
+        print(f"Total RX byte count since cleared: {rx_results[0].byte_count_since_cleared}")
+        print(f"Total RX packet count since cleared: {rx_results[0].packet_count_since_cleared}")
+        print(f"Stream 0 RX byte count since cleared: {rx_results[1].byte_count_since_cleared}")
+        print(f"Stream 0 RX packet count since cleared: {rx_results[1].packet_count_since_cleared}")
+        print(f"Stream 0 RX min latency: {rx_results[2].min_val}")
+        print(f"Stream 0 RX max latency: {rx_results[2].max_val}")
+        print(f"Stream 0 RX avg latency: {rx_results[2].avg_val}")
+        print(f"Stream 0 RX min jitter: {rx_results[3].min_val}")
+        print(f"Stream 0 RX max jitter: {rx_results[3].max_val}")
+        print(f"Stream 0 RX avg jitter: {rx_results[3].avg_val}")
+        print(f"Stream 0 RX number of non-incrementing-sequence-number events: {rx_results[4].non_incre_seq_event_count}")
+        print(f"Stream 0 RX number of swapped-sequence-number misorder events: {rx_results[4].swapped_seq_misorder_event_count}")
+        print(f"Stream 0 RX number of packets with non-incrementing payload content: {rx_results[4].non_incre_payload_packet_count}")
+
+        # Release the ports
+        await asyncio.gather(
+            my_tx_port.reservation.set_release(),
+            my_rx_port.reservation.set_release()
+        )
 
 def main():
     try:

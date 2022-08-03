@@ -18,6 +18,7 @@ from xoa_driver.internals.core.commands import (
 
 from xoa_driver.internals.utils import ports_manager as pm
 from xoa_driver.internals.utils import attributes as utils
+from xoa_driver.internals.state_storage import modules_state
 from xoa_driver import ports
 from . import base_module as bm
 if TYPE_CHECKING:
@@ -74,12 +75,15 @@ class ChUpgrade:
         Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_UPGRADEPROGRESS`
         """
 
-class ModuleChimera(bm.BaseModule):
+class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
     """
     Representation of a Chimera module on physical tester.
     """
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
+        
+        self._local_states = modules_state.ModuleLocalState()
+        
         self.tx_clock = ChTXClock(conn, self.module_id)
         """
         Advanced timing feature (Chimera).
@@ -132,6 +136,18 @@ class ModuleChimera(bm.BaseModule):
         """
         Port index manager of the Chimera module.
         """
+    
+    @property
+    def info(self) -> modules_state.ModuleLocalState:
+        return self._local_states
+    
+    async def _setup(self):
+        await asyncio.gather(
+            self._local_states.initiate(self),
+            self.ports.fill()
+        )
+        self._local_states.register_subscriptions(self)
+        return self
 
     on_cfp_type_change = functools.partialmethod(utils.on_event, M_CFPTYPE)
     """
@@ -149,10 +165,3 @@ class ModuleChimera(bm.BaseModule):
     """
 
     # on_latency_mode_change = functools.partialmethod(utils.on_event, M_LATENCYMODE)
-
-    async def _setup(self):
-        await asyncio.gather(
-            super()._setup(),
-            self.ports.fill()
-        )
-        return self
