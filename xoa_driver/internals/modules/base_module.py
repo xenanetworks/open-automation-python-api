@@ -26,7 +26,7 @@ if TYPE_CHECKING:
     from xoa_driver.internals.state_storage import modules_state
 
 T = TypeVar('T', bound="modules_state.ModuleLocalState")
-# SelfType = TypeVar("SelfType", bound="BaseModule")
+
 class BaseModule(ABC, Generic[T]):
     """
     Representation of a Valkyrie module on a physical tester.
@@ -64,10 +64,6 @@ class BaseModule(ABC, Generic[T]):
         """Max port count of the test module.
         Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_PORTCOUNT`
         """
-        
-        # self._local_states: T = modules_state.ModuleLocalState()
-        
-        # self._register_subscriptions()
     
     @property
     @abstractmethod
@@ -86,11 +82,6 @@ class BaseModule(ABC, Generic[T]):
 
     def _check_identity(self, request) -> bool:
         return self.module_id == request.header.module_index
-    
-    # def _register_subscriptions(self) -> None:
-    #     self._conn.subscribe(M_RESERVEDBY, utils.Update(self._local_states, "reserved_by", "username", self._check_identity))
-    #     self._conn.subscribe(M_RESERVATION, utils.Update(self._local_states, "reservation", "operation", self._check_identity))
-    #     self._conn.subscribe(M_MODEL, utils.Update(self._local_states, "model", "model", self._check_identity))
     
     def __is_reservation(self, reserved_status: enums.ReservedStatus) -> bool:
         return self.info.reservation == reserved_status

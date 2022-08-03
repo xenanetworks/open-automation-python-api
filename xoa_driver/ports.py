@@ -49,12 +49,12 @@ from xoa_driver.internals.ports.port_l23.family_l.base import (
     PThor400G7S1P_b,
     PThor400G7S1P_c,
 )
-from xoa_driver.internals.ports.port_l23.family_l1.base import (
-    # PFreya800G1S1P_a,
-    # PFreya800G1S1POSFP_a,
-    # PFreya800G4S1P,
-    # PFreya800G4S1POSFP,
-)
+# from xoa_driver.internals.ports.port_l23.family_l1.base import (
+#     PFreya800G1S1P_a,
+#     PFreya800G1S1POSFP_a,
+#     PFreya800G4S1P,
+#     PFreya800G4S1POSFP,
+# )
 from xoa_driver.internals.ports.port_l23.family_m.base import POdin1G3S6PT1RJ45
 
 
