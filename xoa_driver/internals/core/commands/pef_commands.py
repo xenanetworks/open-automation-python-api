@@ -1844,8 +1844,8 @@ class PEF_VALUE:
 
     If segment_index is non-zero, only the bytes covered by that segment are manipulated, so if :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_PROTOCOL` is set to ``ETHERNET VLAN ETHERTYPE eCPRI``, then segment_index = 4 selects the 8
     bytes of the eCPRI header starting at byte position (12 + 2 + 4) = 18. For ``set``
-    commands where fewer value bytes are provided than specified by the protocol
-    segment, those unspecified bytes are set to zero. The ``get`` commands always returns
+    command where fewer value bytes are provided than specified by the protocol
+    segment, those unspecified bytes are set to zero. The ``get`` command always returns
     the number of bytes specified by the segment.
     """
 
@@ -1874,7 +1874,7 @@ class PEF_VALUE:
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
 
-    def set(self, pid: int, value: str) -> "Token":
+    def set(self, value: str) -> "Token":
         """Set the byte values that can be matched if selected by :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_MASK`.
 
         :param value: the raw bytes comprising the packet header
