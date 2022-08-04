@@ -67,12 +67,12 @@ class PP_ALARMS_ERRORS_CLEAR:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        pass
+        dummy: XmpField[XmpInt] = XmpField(XmpInt)  # integer, always 0
 
-    def set(self, dummy: int) -> "Token":
+    def set(self) -> "Token":
         """Clear all PCS/PMA alarms.
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, dummy=0))
 
 
 @register_command
@@ -806,12 +806,12 @@ class PP_EYEMEASURE:
     @dataclass(frozen=True)
     class SetDataAttr:
         status: XmpField[XmpByte] = XmpField(XmpByte, choices=StartOrStop)  # coded byte, status of the serdes.
-        dummy: XmpField[XmpByteList] = XmpField(XmpByteList)  # list of bytes, reserved for future expansion.
+        dummy: XmpField[XmpByteList] = XmpField(XmpByteList)  # list of bytes, should always be 0, reserved for future expansion.
 
     @dataclass(frozen=True)
     class GetDataAttr:
         status: XmpField[XmpByte] = XmpField(XmpByte, choices=SerdesStatus)  # coded byte, status of the serdes.
-        dummy: XmpField[XmpByteList] = XmpField(XmpByteList)  # list of bytes, reserved for future expansion.
+        dummy: XmpField[XmpByteList] = XmpField(XmpByteList)  # list of bytes, should always be 0, reserved for future expansion.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the status of the BER eye-measure data gathering process.
@@ -821,15 +821,13 @@ class PP_EYEMEASURE:
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex]))
 
-    def set(self, status: StartOrStop, dummy: typing.List[int]) -> "Token":
+    def set(self, status: StartOrStop) -> "Token":
         """Start/stop a new BER eye-measure on a 25G serdes.
 
         :param status: status of the serdes
         :type status: StartOrStop
-        :param dummy: reserved for future expansion
-        :type dummy: int
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], status=status, dummy=dummy))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], status=status, dummy=[0]))
 
     set_stop = functools.partialmethod(set, StartOrStop.STOP)
     """Start a new BER eye-measure on a 25G serdes.
