@@ -467,12 +467,15 @@ class PE_DROPTOTAL:
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning all the packets dropped between this receive port and its partner TX port. 
 
-        :return: total number of packets dropped in all flows,
+        :return:
+            total number of packets dropped in all flows,
             total number of packets dropped as programmed in all flows,
             total number of packets dropped due to bandwidth control in all flows,
             total number of packets dropped for other reasons in all flows,
             ratio of number of packets dropped in all flows, expressed in ppm,
-            ratio of number of packets dropped as programmed in all flows, expressed in ppm
+            ratio of number of packets dropped as programmed in all flows, expressed in ppm,
+            ratio of number of packets dropped due to bandwidth control in all flows, expressed in ppm,
+            ratio of number of packets dropped for other reasons in all flows, expressed in ppm.
         :rtype: PE_DROPTOTAL.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
