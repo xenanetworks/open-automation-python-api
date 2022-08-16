@@ -1,3 +1,5 @@
+import asyncio
+
 import typing
 # import available testers
 from xoa_driver import testers
@@ -21,3 +23,14 @@ async def my_awesome_script():
     await asyncio.gather(*testers_pool) # we also can use asyncio.gather for await all testers at once in concurrent mode
     print(testers_pool[0].session.is_online)
     # other code ...
+
+def main():
+    try:
+        loop = asyncio.get_event_loop()
+        loop.create_task(my_awesome_script())
+        loop.run_forever()
+    except KeyboardInterrupt:
+        pass
+
+if __name__ == "__main__":
+    main()

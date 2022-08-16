@@ -1,3 +1,5 @@
+import asyncio
+
 # import available testers
 from xoa_driver import testers
 # import available modules type
@@ -44,3 +46,15 @@ async def my_awesome_script():
     my_stream_2.delete() # delete a stream
 
     # other code ...
+
+
+def main():
+    try:
+        loop = asyncio.get_event_loop()
+        loop.create_task(my_awesome_script())
+        loop.run_forever()
+    except KeyboardInterrupt:
+        pass
+
+if __name__ == "__main__":
+    main()

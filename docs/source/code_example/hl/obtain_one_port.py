@@ -1,4 +1,4 @@
-# Obtain one port
+import asyncio
 
 # import available testers
 from xoa_driver import testers
@@ -18,3 +18,14 @@ async def my_awesome_script():
         print(my_port.comment.get())
 
         # other code ...
+
+def main():
+    try:
+        loop = asyncio.get_event_loop()
+        loop.create_task(my_awesome_script())
+        loop.run_forever()
+    except KeyboardInterrupt:
+        pass
+
+if __name__ == "__main__":
+    main()
