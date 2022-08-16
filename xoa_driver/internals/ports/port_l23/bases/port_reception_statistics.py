@@ -96,7 +96,7 @@ class PortReceptionStatistics:
 
         :param tpld_id: TPLD value.
         :type tpld_id: int
-        :return: L23 port's TPLD traffic statisttics
+        :return: L23 port's TPLD traffic statistics
         :rtype: PrsTPLD
         """
         return PrsTPLD(self.__conn, self.__module_id, self.__port_id, tpld_id)
