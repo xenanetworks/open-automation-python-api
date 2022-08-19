@@ -13,7 +13,7 @@ Moving forward, all Xena’s automated test suites will be based on Xena OpenAut
 
 ## Documentation
 The user documentation is hosted:
-[Xena OpenAutomation Python API Documentation](https://docs.xoa-python-api.xenanetworks.com/)
+[Xena OpenAutomation Python API Documentation](https://docs.xenanetworks.com/projects/xoa-python-api)
 
 ## Key Features
 * Objected-oriented, high-level abstraction, to help users save time on parsing command responses.
