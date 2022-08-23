@@ -67,7 +67,7 @@ class PC_TRIGGER:
         :param start_criteria_filter: the index of a particular filter for the start criteria
         :type start_criteria_filter: int
         :param stop_criteria: the criteria for stopping the actual packet capture
-        :type stop_criteria: int
+        :type stop_criteria: StopTrigger
         :param stop_criteria_filter: the index of a particular filter for the stop criteria
         :type stop_criteria_filter: int
         """

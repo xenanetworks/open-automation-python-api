@@ -1450,6 +1450,8 @@ class P_MIXWEIGHTS:
         :type weight_512_bytes: int
         :param weight_570_bytes: specifying the percentage of 570-byte frame sizes
         :type weight_570_bytes: int
+        :param weight_576_bytes: specifying the percentage of 576-byte frame sizes
+        :type weight_576_bytes: int
         :param weight_594_bytes: specifying the percentage of 594-byte frame sizes
         :type weight_594_bytes: int
         :param weight_1438_bytes: specifying the percentage of 1438-byte frame sizes

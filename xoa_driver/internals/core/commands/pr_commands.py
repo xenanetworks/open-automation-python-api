@@ -258,6 +258,7 @@ class PR_TPLDERRORS:
         """Get statistics concerning errors in the packets with a particular test payload id received on a port.
 
         :return:
+            dummy value not in use,
             number of non-incrementing-sequence-number events,
             number of swapped-sequence-number misorder events,
             number of packets with non-incrementing payload content

@@ -118,9 +118,9 @@ class PEC_VAL:
         :type linear: OnOff
         :param symmetric: reserved for future use, must be set to 0.
         :type symmetric: OnOff
-        :param entry_count: defines the number of entries in "dataX" (allowed value: 512,1024). For Latency, 1024 entries are used, and for rest, 512 entries are used)
+        :param entry_count: defines the number of entries in "data_x" (allowed value: 512,1024). For Latency, 1024 entries are used, and for rest, 512 entries are used.
         :type entry_count: int
-        :param data_x: array size="num_entries", holds values to be filled in the RAM memory.
+        :param data_x: array size equals to "entry_count", holds values to be filled in the RAM memory.
         :type data_x: List[int]
         """
         return Token(
