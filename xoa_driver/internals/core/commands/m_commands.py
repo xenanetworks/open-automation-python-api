@@ -533,6 +533,8 @@ class M_CAPABILITIES:
         require_multi_image: XmpField[XmpInt] = XmpField(XmpInt, choices=YesNo)  # coded integer, does this module switch images during runtime?
         is_chimera: XmpField[XmpInt] = XmpField(XmpInt, choices=YesNo)  # coded integer, is this a Chimera module?
         max_clock_ppm: XmpField[XmpInt] = XmpField(XmpInt)  # integer, maximum supported absolute +- clock ppm setting.
+        can_tsn: XmpField[XmpInt] = XmpField(XmpInt, choices=YesNo)  # coded integer, does this module support Time Sensitive Networking (TSN) ?
+        can_ppm_sweep: XmpField[XmpInt] = XmpField(XmpInt, choices=YesNo)  # coded integer, does this module support Local Clock Adjustment/Sweep (aka. PPM Sweep) ?
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the test module capabilities.
@@ -544,6 +546,9 @@ class M_CAPABILITIES:
             - does this module switch images during runtime?
             - is this a Chimera module?
             - maximum supported absolute +- clock ppm setting.
+            - does this module support Time Sensitive Networking (TSN) ?
+            - does this module support Local Clock Adjustment/Sweep (aka. PPM Sweep) ?
+            
         :rtype: M_CAPABILITIES.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module))
