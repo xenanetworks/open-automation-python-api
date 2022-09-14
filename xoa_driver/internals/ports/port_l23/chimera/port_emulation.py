@@ -147,7 +147,7 @@ class CFlow:
         self.distribution = ImpairmentTypeDistribution(conn, module_id, port_id, flow_idx)
         """Impairment type's distribution."""
 
-        self.shadow_copy = FilterDefinition(conn, module_id, port_id, flow_idx, FilterType.SHADOWN)
+        self.shadow_copy = FilterDefinition(conn, module_id, port_id, flow_idx, FilterType.SHADOW)
         """Shadow copy."""
         self.working_copy = FilterDefinition(conn, module_id, port_id, flow_idx, FilterType.WORKING)
         """Working copy."""

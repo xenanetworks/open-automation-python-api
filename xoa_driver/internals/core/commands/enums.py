@@ -1688,7 +1688,7 @@ class ShadowWorkingSelection(IntEnum):
 
 class FilterType(IntEnum):
     """Filter Type for Impairemennt"""
-    SHADOWN = 0 
+    SHADOW = 0 
     """Shadow Copy"""
     WORKING = 1
     """Wokring Copy"""
