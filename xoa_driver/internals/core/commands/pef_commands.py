@@ -1833,7 +1833,9 @@ class PEF_TPLDCONFIG:
 @dataclass
 class PEF_VALUE:
     """
-    Extended mode only. Defines the byte values that can be matched if selected by :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_MASK`.
+    This command is valid only for ``Extended filter mode`` (check :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_MODE`).
+    
+    Defines the byte values that can be matched if selected by :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_MASK`.
 
     If ``<protocol_segment_index> = 0``, the maximum number of match value
     bytes that can be set is determined by the total length of the protocol segments
@@ -1889,7 +1891,9 @@ class PEF_VALUE:
 @dataclass
 class PEF_MASK:
     """
-    Extended mode only. Defines the mask byte values that select the values specified by :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_VALUE`.
+    This command is valid only for ``Extended filter mode`` (check :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_MODE`).
+    
+    Defines the mask byte values that select the values specified by :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_VALUE`.
     
     For a chosen ``<protocol_segment_index>`` the first byte in the value masks the
     first byte of the corresponding :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_VALUE`, and so on.
@@ -1946,7 +1950,9 @@ class PEF_MASK:
 @dataclass
 class PEF_PROTOCOL:
     """
-    Extended mode only. Defines the sequence of protocol segments that can be
+    This command is valid only for ``Extended filter mode`` (check :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_MODE`).
+    
+    Defines the sequence of protocol segments that can be
     matched. The total length of the specified segments cannot exceed 128 bytes. If
     an existing sequence of segments is changed (using PEF_PROTOCOL) the underlying
     value and mask bytes remain unchanged, even though the semantics of those bytes
