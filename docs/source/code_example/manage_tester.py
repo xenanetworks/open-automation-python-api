@@ -74,6 +74,8 @@ async def my_awesome_script():
         # Query TX statistics
         tx_results = list(await utils.apply(
             my_tx_port.statistics.tx.total.get(),
+
+            # let the resource manager tell you the stream index so you don't have to remember it
             my_tx_port.statistics.tx.obtain_from_stream(my_stream).get()
         ))
         print(f"Total TX byte count since cleared: {tx_results[0].byte_count_since_cleared}")
@@ -81,13 +83,17 @@ async def my_awesome_script():
         print(f"Stream 0 TX byte count since cleared: {tx_results[1].byte_count_since_cleared}")
         print(f"Stream 0 TX packet count since cleared: {tx_results[1].packet_count_since_cleared}")
 
-        tpld_obj = my_rx_port.statistics.rx.access_tpld(my_tpld_value)
+        # if you have forgot what TPLD ID assigned to a stream, you can query it 
+        tpld_obj = await my_stream.tpld_id.get()
+        # then access the RX stat object
+        rx_stats_obj = my_rx_port.statistics.rx.access_tpld(tpld_obj.test_payload_identifier)
+        # then query each stats of a TPLD ID
         rx_results = list(await utils.apply(
             my_rx_port.statistics.rx.total.get(),
-            my_rx_port.statistics.rx.access_tpld(tpld_obj).traffic.get(),
-            my_rx_port.statistics.rx.access_tpld(tpld_obj).latency.get(),
-            my_rx_port.statistics.rx.access_tpld(tpld_obj).jitter.get(),
-            my_rx_port.statistics.rx.access_tpld(tpld_obj).errors.get()
+            rx_stats_obj.traffic.get(),
+            rx_stats_obj.latency.get(),
+            rx_stats_obj.jitter.get(),
+            rx_stats_obj.errors.get()
         ))
 
         print(f"Total RX byte count since cleared: {rx_results[0].byte_count_since_cleared}")

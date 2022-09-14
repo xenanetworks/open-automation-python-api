@@ -65,9 +65,18 @@ async def my_awesome_script():
 
     # collect statistics
     print("------------------------------------------------------------")
+
+    # port level TX stats
     tx_port_stats =  await tx_port.statistics.tx.total.get()
-    tx_stream0_stats = await tx_port.statistics.tx.obtain_from_stream(0).get()
-    tx_stream1_stats = await tx_port.statistics.tx.obtain_from_stream(1).get()
+
+    # # let the resource manager tell you the stream index so you don't have to remember it:
+    tx_stream0_stats = await tx_port.statistics.tx.obtain_from_stream(my_stream).get()
+    tx_stream1_stats = await tx_port.statistics.tx.obtain_from_stream(my_stream_2).get()
+
+    # if you want, you can also simply use the index value as shown below:
+    # tx_stream0_stats = await tx_port.statistics.tx.obtain_from_stream(0).get()
+    # tx_stream1_stats = await tx_port.statistics.tx.obtain_from_stream(1).get()
+
     print(f"TX Port.Byte_Count: {tx_port_stats.byte_count_since_cleared}")
     print(f"TX Port.Packet_Count: {tx_port_stats.packet_count_since_cleared}")
     print(f"TX Stream[0].Byte_Count: {tx_stream0_stats.byte_count_since_cleared}")
@@ -76,8 +85,19 @@ async def my_awesome_script():
     print(f"TX Stream[1].Packet_Count: {tx_stream1_stats.packet_count_since_cleared}")
 
     rx_port_stats = await rx_port.statistics.rx.total.get()
-    rx_stream0_stats = await rx_port.statistics.rx.access_tpld(0).traffic.get()
-    rx_stream1_stats = await rx_port.statistics.rx.access_tpld(1).traffic.get()
+    
+    # if you have forgot what TPLD ID assigned to a stream, you can query it 
+    rx_stream0_tpld_obj = await my_stream.tpld_id.get()
+    rx_stream1_tpld_obj = await my_stream_2.tpld_id.get()
+
+    # after fetching the TPLD object of the stream, you can access it value and use it to query the port's RX counter of that stream.
+    rx_stream0_stats = await rx_port.statistics.rx.access_tpld(rx_stream0_tpld_obj.test_payload_identifier).traffic.get()
+    rx_stream1_stats = await rx_port.statistics.rx.access_tpld(rx_stream1_tpld_obj.test_payload_identifier).traffic.get()
+
+    # if you know the TPLD ID of the stream that you want to get the RX counters, you can also simply provide the TPLD ID value: 
+    # rx_stream0_stats = await rx_port.statistics.rx.access_tpld(0).traffic.get()
+    # rx_stream1_stats = await rx_port.statistics.rx.access_tpld(1).traffic.get()
+
     print(f"RX Port.Byte_Count: {rx_port_stats.byte_count_since_cleared}")
     print(f"RX Port.Packet_Count: {rx_port_stats.packet_count_since_cleared}")
     print(f"RX Stream[0].Byte_Count: {rx_stream0_stats.byte_count_since_cleared}")
