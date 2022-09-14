@@ -22,15 +22,19 @@ class PEF_INIT:
     """
     Prepares for setting up a filter definition.  When called, all filter
     definitions in the shadow-set which are not applied are discarded and replaced
-    with the default values (DEFAULT).  NOTE: There are 2 register copies used to
-    configure the filters:      (1) Shadow copy (type = 0), temporary copy
-    configured by SW.          Values stored in "shadow registers" have no immediate
-    effect on the flow filters.          "PEF_APPLY" API will pass the values from
-    the "shadow copy" to the "working copy".      (2) Working registers (type = 1),
-    reflects what is currently used for filtering in the FPGA. Working registers
-    cannot be written directly C only using the "shadow copy".      (3) All SETs are
-    performed on shadow registers ONLY.      (4) Only when PEF_APPLY is called,
-    working registers and FPGA are updated with values from the "shadow copy".
+    with the default values (DEFAULT). 
+    
+    .. note::
+    
+        There are 2 register copies used to configure the filters:
+        
+            (1) ``Shadow-copy (type value = 0)``, temporary copy configured by sever. Values stored in ``shadow-copy`` have no immediate effect on the flow filters. `PEF_APPLY`_ will pass the values from the ``shadow-copy`` to the ``working-copy``.
+
+            (2) ``Working-copy (type value = 1)``, reflects what is currently used for filtering in the FPGA. ``Working-copy`` cannot be written directly. Only ``shadow-copy`` allows direct write.
+
+            (3) All ``set`` actions are performed on ``shadow-copy`` ONLY.
+
+            (4) Only when `PEF_APPLY`_ is called, ``working-copy`` and FPGA are updated with values from the ``shadow-copy``.
     """
 
     code: typing.ClassVar[int] = 1700
@@ -63,7 +67,7 @@ class PEF_INIT:
 @dataclass
 class PEF_APPLY:
     """
-    Applies filter definitions from "shadow-registers" to "working-registers". This
+    Applies filter definitions from "shadow-copy" to "working-copy". This
     also pushes these settings to the FPGA.
     """
 
@@ -80,7 +84,7 @@ class PEF_APPLY:
         pass
 
     def set(self) -> "Token":
-        """Applies filter definitions from "shadow-registers" to "working-registers"."""
+        """Applies filter definitions from "shadow-copy" to "working-copy"."""
         return Token(
             self._connection,
             build_set_request(
@@ -97,6 +101,11 @@ class PEF_APPLY:
 class PEF_ENABLE:
     """
     Defines if filtering is enabled for the flow.
+
+    .. note::
+
+        For SET, the only allowed ``filter_type`` is ``shadow-copy``
+
     """
 
     code: typing.ClassVar[int] = 1702
@@ -145,6 +154,11 @@ class PEF_ENABLE:
 class PEF_ETHSETTINGS:
     """
     Defines what filter action is performed on the Ethernet header.
+
+    .. note::
+
+        For SET, the only allowed ``filter_type`` is ``shadow-copy``
+
     """
 
     code: typing.ClassVar[int] = 1703
