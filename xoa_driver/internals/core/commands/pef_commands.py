@@ -1835,18 +1835,19 @@ class PEF_VALUE:
     """
     Extended mode only. Defines the byte values that can be matched if selected by :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_MASK`.
 
-    If segment_index is zero, the maximum number of match value
-    bytes that can be set is determined by the total length of the segments
+    If ``<protocol_segment_index> = 0``, the maximum number of match value
+    bytes that can be set is determined by the total length of the protocol segments
     specified with :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_PROTOCOL`.
     E.g. if :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_PROTOCOL` is set to ETHERNET then only
     12 bytes can be set. In order to set the full 128 bytes, either specify a
-    detailed segment list, or use the raw segment type. This specifies 12 + 116 = 128 bytes.
+    detailed protocol segment list, or use the raw protocol segment type. This specifies 12 + 116 = 128 bytes.
 
-    If segment_index is non-zero, only the bytes covered by that segment are manipulated, so if :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_PROTOCOL` is set to ``ETHERNET VLAN ETHERTYPE eCPRI``, then segment_index = 4 selects the 8
-    bytes of the eCPRI header starting at byte position (12 + 2 + 4) = 18. For ``set``
-    command where fewer value bytes are provided than specified by the protocol
-    segment, those unspecified bytes are set to zero. The ``get`` command always returns
-    the number of bytes specified by the segment.
+    If ``<protocol_segment_index> != 0``, only the bytes covered by that segment are manipulated, so if :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_PROTOCOL` is set to ``ETHERNET VLAN ETHERTYPE eCPRI``, then ``<protocol_segment_index> = 4`` selects the 8
+    bytes of the eCPRI header starting at byte position (12 + 2 + 4) = 18.
+    
+    For ``set`` command where fewer value bytes are provided than specified by the protocol segment, those unspecified bytes are set to zero.
+    
+    The ``get`` command always returns the number of bytes specified by the protocol segment.
     """
 
     code: typing.ClassVar[int] = 1777
@@ -1857,6 +1858,7 @@ class PEF_VALUE:
     _port: int
     _flow_xindex: int
     filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    protocol_segment_index: int # integer, if 0, the server receives/sends the value of all protocol segments when called. If > 0, the server receives/sends only the indicated index protocol segment.
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1872,7 +1874,7 @@ class PEF_VALUE:
         :return: the byte values that can be matched if selected by :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_MASK`
         :rtype: PEF_VALUE.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type, self.protocol_segment_index]))
 
     def set(self, value: str) -> "Token":
         """Set the byte values that can be matched if selected by :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_MASK`.
@@ -1880,15 +1882,27 @@ class PEF_VALUE:
         :param value: the raw bytes comprising the packet header
         :type value: str
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], value=value))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type, self.protocol_segment_index], value=value))
 
 
 @register_command
 @dataclass
 class PEF_MASK:
     """
-    Extended mode only. Defines the mask byte values that select the values specified by :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_VALUE`. For a chosen ``segment_index`` the first byte in the value masks the
+    Extended mode only. Defines the mask byte values that select the values specified by :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_VALUE`.
+    
+    For a chosen ``<protocol_segment_index>`` the first byte in the value masks the
     first byte of the corresponding :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_VALUE`, and so on.
+
+    If ``<protocol_segment_index> = 0``, the maximum number of match value
+    bytes that can be set is determined by the total length of the protocol segments
+    specified with :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_PROTOCOL`.
+    E.g. if :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_PROTOCOL` is set to ETHERNET then only
+    12 bytes can be set. In order to set the full 128 bytes, either specify a
+    detailed protocol segment list, or use the raw protocol segment type. This specifies 12 + 116 = 128 bytes.
+
+    If ``<protocol_segment_index> != 0``, only the bytes covered by that segment are manipulated, so if :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_PROTOCOL` is set to ``ETHERNET VLAN ETHERTYPE eCPRI``, then ``<protocol_segment_index> = 4`` selects the 8
+    bytes of the eCPRI header starting at byte position (12 + 2 + 4) = 18.
 
     ``get/set`` semantics are similar to :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_VALUE`.
     """
@@ -1901,6 +1915,7 @@ class PEF_MASK:
     _port: int
     _flow_xindex: int
     filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    protocol_segment_index: int # integer, if 0, the server receives/sends the value of all protocol segments when called. If > 0, the server receives/sends only the indicated index protocol segment.
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1916,7 +1931,7 @@ class PEF_MASK:
         :return: the mask byte values that select the values specified by :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_VALUE`.
         :rtype: PEF_MASK.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type, self.protocol_segment_index]))
 
     def set(self, masks: str) -> "Token":
         """Set the mask byte values that select the values specified by :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_VALUE`.
@@ -1924,7 +1939,7 @@ class PEF_MASK:
         :param masks: mask byte values
         :type masks: str
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], masks=masks))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type, self.protocol_segment_index], masks=masks))
 
 
 @register_command
@@ -1948,6 +1963,7 @@ class PEF_PROTOCOL:
     _module: int
     _port: int
     _flow_xindex: int
+    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1967,7 +1983,7 @@ class PEF_PROTOCOL:
         :return: the sequence of protocol segments that can be matched.
         :rtype: PEF_PROTOCOL.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
 
     def set(self, segment_list: typing.List[ProtocolOption]) -> "Token":
         """Set the sequence of protocol segments that can be matched.
@@ -1975,7 +1991,7 @@ class PEF_PROTOCOL:
         :param segment_list: specifying the list of protocol segment types in the order they are expected in a frame. First segment type must be ``ETHERNET``; the following can be chosen freely.
         :type segment_list: typing.List[ProtocolOption]
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], segment_list=segment_list))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], segment_list=segment_list))
 
 
 @register_command
