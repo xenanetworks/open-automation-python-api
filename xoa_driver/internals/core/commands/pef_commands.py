@@ -104,7 +104,7 @@ class PEF_ENABLE:
 
     .. note::
 
-        For SET, the only allowed ``filter_type`` is ``shadow-copy``
+        For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
     """
 
@@ -115,7 +115,7 @@ class PEF_ENABLE:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -131,7 +131,7 @@ class PEF_ENABLE:
         :return: filter state
         :rtype: PEF_ENABLE.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, state: OnOff) -> "Token":
         """Set the filter state.
@@ -139,7 +139,7 @@ class PEF_ENABLE:
         :param state: state of the filter
         :type state: OnOff
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], state=state))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], state=state))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """Set the filter state to OFF.
@@ -157,7 +157,7 @@ class PEF_ETHSETTINGS:
 
     .. note::
 
-        For SET, the only allowed ``filter_type`` is ``shadow-copy``
+        For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
     """
 
@@ -168,7 +168,7 @@ class PEF_ETHSETTINGS:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -186,7 +186,7 @@ class PEF_ETHSETTINGS:
         :return: Filter setting
         :rtype: PEF_ETHSETTINGS.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: FilterUse, action: InfoAction) -> "Token":
         """Set the filter action settings on Ethernet header.
@@ -197,7 +197,7 @@ class PEF_ETHSETTINGS:
         :type action: InfoAction
         """
         return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], use=use, action=action)
+            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, action=action)
         )
 
 
@@ -209,7 +209,7 @@ class PEF_ETHSRCADDR:
 
     .. note::
 
-        For SET, the only allowed ``filter_type`` is ``shadow-copy``
+        For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
     """
 
@@ -220,7 +220,7 @@ class PEF_ETHSRCADDR:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -240,7 +240,7 @@ class PEF_ETHSRCADDR:
         :return: the Ethernet Source Address settings for the Ethernet filter
         :rtype: PEF_ETHSRCADDR.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: OnOff, value: str, mask: str) -> "Token":
         """Set the Ethernet Source Address settings for the Ethernet filter.
@@ -253,7 +253,7 @@ class PEF_ETHSRCADDR:
         :type mask: str
         """
         return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], use=use, value=value, mask=mask)
+            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask)
         )
 
     set_off = functools.partialmethod(set, OnOff.OFF)
@@ -270,7 +270,7 @@ class PEF_ETHDESTADDR:
 
     .. note::
 
-        For SET, the only allowed ``filter_type`` is ``shadow-copy``
+        For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
     """
 
@@ -281,7 +281,7 @@ class PEF_ETHDESTADDR:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -301,7 +301,7 @@ class PEF_ETHDESTADDR:
         :return: the Ethernet Destination Address settings for the Ethernet filter.
         :rtype: PEF_ETHDESTADDR.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: OnOff, value: str, mask: str) -> "Token":
         """Set the Ethernet Destination Address settings for the Ethernet filter.
@@ -314,7 +314,7 @@ class PEF_ETHDESTADDR:
         :type mask: str
         """
         return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], use=use, value=value, mask=mask)
+            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask)
         )
 
     set_off = functools.partialmethod(set, OnOff.OFF)
@@ -331,7 +331,7 @@ class PEF_L2PUSE:
 
     .. note::
 
-        For SET, the only allowed ``filter_type`` is ``shadow-copy``
+        For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
     """
 
@@ -342,7 +342,7 @@ class PEF_L2PUSE:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -358,7 +358,7 @@ class PEF_L2PUSE:
         :return: the Layer 2+ protocols settings for the filter
         :rtype: PEF_L2PUSE.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: L2PlusPresent) -> "Token":
         """Set the Layer 2+ protocols settings for the filter.
@@ -366,7 +366,7 @@ class PEF_L2PUSE:
         :param use:  specifies the presence of Layer 2+ protocols.
         :type use: L2PlusPresent
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], use=use))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use))
 
     set_na = functools.partialmethod(set, L2PlusPresent.NA)
     """Set the presence of Layer 2+ protocols to NA."""
@@ -386,7 +386,7 @@ class PEF_VLANSETTINGS:
 
     .. note::
 
-        For SET, the only allowed ``filter_type`` is ``shadow-copy``
+        For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
     """
 
@@ -397,7 +397,7 @@ class PEF_VLANSETTINGS:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -415,7 +415,7 @@ class PEF_VLANSETTINGS:
         :return: filter action settings on VLAN header
         :rtype: PEF_VLANSETTINGS.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: FilterUse, action: InfoAction) -> "Token":
         """Set filter action settings on VLAN header.
@@ -426,7 +426,7 @@ class PEF_VLANSETTINGS:
         :type action: InfoAction
         """
         return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], use=use, action=action)
+            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, action=action)
         )
 
 
@@ -438,7 +438,7 @@ class PEF_VLANTAG:
 
     .. note::
 
-        For SET, the only allowed ``filter_type`` is ``shadow-copy``
+        For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
     """
 
@@ -449,7 +449,7 @@ class PEF_VLANTAG:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
     vlan_type: FilterVlanType # coded byte, the sub-index value specifies the VLAN type. VLAN1 (0) (INNER VLAN Tag is specified for the filter – used also when only 1 VLAN) indicates single/inner VLAN-TPID = 0x8100. VLAN2 (1) (OUTER VLAN Tag is specified for the filter) indicates outer VLAN-TPID=0x88A8
 
     @dataclass(frozen=True)
@@ -470,7 +470,7 @@ class PEF_VLANTAG:
         :return: the VLAN TAG settings for the VLAN filter
         :rtype: PEF_VLANTAG.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type, self.vlan_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type, self.vlan_type]))
 
     def set(self, use: OnOff, value: int, mask: str) -> "Token":
         """Set the VLAN TAG settings for the VLAN filter.
@@ -485,7 +485,7 @@ class PEF_VLANTAG:
         return Token(
             self._connection,
             build_set_request(
-                self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type, self.vlan_type], use=use, value=value, mask=mask
+                self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type, self.vlan_type], use=use, value=value, mask=mask
             ),
         )
 
@@ -503,7 +503,7 @@ class PEF_VLANPCP:
 
     .. note::
 
-        For SET, the only allowed ``filter_type`` is ``shadow-copy``
+        For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
     """
 
@@ -514,7 +514,7 @@ class PEF_VLANPCP:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
     vlan_type: FilterVlanType # coded byte, the sub-index value specifies the VLAN type. VLAN1 (0) (INNER VLAN Tag is specified for the filter – used also when only 1 VLAN) indicates single/inner VLAN-TPID = 0x8100. VLAN2 (1) (OUTER VLAN Tag is specified for the filter) indicates outer VLAN-TPID=0x88A8
 
     @dataclass(frozen=True)
@@ -535,7 +535,7 @@ class PEF_VLANPCP:
         :return: the VLAN PCP settings for the VLAN filter
         :rtype: PEF_VLANPCP.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type, self.vlan_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type, self.vlan_type]))
 
     def set(self, use: OnOff, value: int, mask: str) -> "Token":
         """Set the VLAN PCP settings for the VLAN filter.
@@ -550,7 +550,7 @@ class PEF_VLANPCP:
         return Token(
             self._connection,
             build_set_request(
-                self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type, self.vlan_type], use=use, value=value, mask=mask
+                self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type, self.vlan_type], use=use, value=value, mask=mask
             ),
         )
 
@@ -574,7 +574,7 @@ class PEF_MPLSSETTINGS:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -592,7 +592,7 @@ class PEF_MPLSSETTINGS:
         :return: the filter action settings on the MPLS header
         :rtype: PEF_MPLSSETTINGS.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: FilterUse, action: InfoAction) -> "Token":
         """Set the filter action settings on the MPLS header.
@@ -603,7 +603,7 @@ class PEF_MPLSSETTINGS:
         :type action: InfoAction
         """
         return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], use=use, action=action)
+            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, action=action)
         )
 
 
@@ -615,7 +615,7 @@ class PEF_MPLSLABEL:
 
     .. note::
 
-        For SET, the only allowed ``filter_type`` is ``shadow-copy``
+        For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
     """
 
@@ -626,7 +626,7 @@ class PEF_MPLSLABEL:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -646,7 +646,7 @@ class PEF_MPLSLABEL:
         :return: the MPLS label settings for the filter
         :rtype: PEF_MPLSLABEL.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: OnOff, value: int, mask: str) -> "Token":
         """Set the MPLS label settings for the filter.
@@ -659,7 +659,7 @@ class PEF_MPLSLABEL:
         :type mask: str
         """
         return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], use=use, value=value, mask=mask)
+            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask)
         )
 
     set_off = functools.partialmethod(set, OnOff.OFF)
@@ -676,7 +676,7 @@ class PEF_MPLSTOC:
 
     .. note::
 
-        For SET, the only allowed ``filter_type`` is ``shadow-copy``
+        For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
     """
 
@@ -687,7 +687,7 @@ class PEF_MPLSTOC:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -707,7 +707,7 @@ class PEF_MPLSTOC:
         :return: the MPLS TOC settings for the filter
         :rtype: PEF_MPLSTOC.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: OnOff, value: int, mask: str) -> "Token":
         """Set the MPLS TOC settings for the filter.
@@ -720,7 +720,7 @@ class PEF_MPLSTOC:
         :type mask: str
         """
         return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], use=use, value=value, mask=mask)
+            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask)
         )
 
     set_off = functools.partialmethod(set, OnOff.OFF)
@@ -738,7 +738,7 @@ class PEF_L3USE:
 
     .. note::
 
-        For SET, the only allowed ``filter_type`` is ``shadow-copy``
+        For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
     """
 
@@ -749,7 +749,7 @@ class PEF_L3USE:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -765,7 +765,7 @@ class PEF_L3USE:
         :return: Layer 3 protocols settings for the filter.
         :rtype: PEF_L3USE.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: L3PlusPresent) -> "Token":
         """Set Layer 3 protocols settings for the filter.
@@ -773,7 +773,7 @@ class PEF_L3USE:
         :param use: specifies the presence of Layer 3 protocols
         :type use: L3PlusPresent
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], use=use))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use))
 
     set_na = functools.partialmethod(set, L3PlusPresent.NA)
     """Set Layer 3 protocol presence to NA."""
@@ -791,7 +791,7 @@ class PEF_IPV4SETTINGS:
 
     .. note::
 
-        For SET, the only allowed ``filter_type`` is ``shadow-copy``
+        For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
     """
 
@@ -802,7 +802,7 @@ class PEF_IPV4SETTINGS:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -820,7 +820,7 @@ class PEF_IPV4SETTINGS:
         :return: the filter action settings on IPv4 header
         :rtype: PEF_IPV4SETTINGS.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: FilterUse, action: InfoAction) -> "Token":
         """Set the filter action settings on IPv4 header.
@@ -831,7 +831,7 @@ class PEF_IPV4SETTINGS:
         :type action: InfoAction
         """
         return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], use=use, action=action)
+            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, action=action)
         )
 
 
@@ -843,7 +843,7 @@ class PEF_IPV4SRCADDR:
 
     .. note::
 
-        For SET, the only allowed ``filter_type`` is ``shadow-copy``
+        For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
     """
 
@@ -854,7 +854,7 @@ class PEF_IPV4SRCADDR:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -874,7 +874,7 @@ class PEF_IPV4SRCADDR:
         :return: the IPv4 Source Address settings for the IPv4 filter
         :rtype: PEF_IPV4SRCADDR.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: OnOff, value: typing.Union[str, int, ipaddress.IPv4Address], mask: str) -> "Token":
         """Set the IPv4 Source Address settings for the IPv4 filter.
@@ -887,7 +887,7 @@ class PEF_IPV4SRCADDR:
         :type mask: str
         """
         return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], use=use, value=value, mask=mask)
+            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask)
         )
 
     set_off = functools.partialmethod(set, OnOff.OFF)
@@ -904,7 +904,7 @@ class PEF_IPV4DESTADDR:
 
     .. note::
 
-        For SET, the only allowed ``filter_type`` is ``shadow-copy``
+        For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
     """
 
@@ -915,7 +915,7 @@ class PEF_IPV4DESTADDR:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -935,7 +935,7 @@ class PEF_IPV4DESTADDR:
         :return: the IPv4 Destination Address settings for the IPv4 filter
         :rtype: PEF_IPV4DESTADDR.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: OnOff, value: typing.Union[str, int, ipaddress.IPv4Address], mask: str) -> "Token":
         """Set the IPv4 Destination Address settings for the IPv4 filter.
@@ -948,7 +948,7 @@ class PEF_IPV4DESTADDR:
         :type mask: str
         """
         return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], use=use, value=value, mask=mask)
+            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask)
         )
 
     set_off = functools.partialmethod(set, OnOff.OFF)
@@ -965,7 +965,7 @@ class PEF_IPV4DSCP:
 
     .. note::
 
-        For SET, the only allowed ``filter_type`` is ``shadow-copy``
+        For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
     """
 
@@ -976,7 +976,7 @@ class PEF_IPV4DSCP:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1004,7 +1004,7 @@ class PEF_IPV4DSCP:
         :return: IPv4 DSCP/TOS settings for the filter.
         :rtype: PEF_IPV4DSCP.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: OnOff, value: int, mask: str) -> "Token":
         """Set IPv4 DSCP/TOS settings for the filter.
@@ -1017,7 +1017,7 @@ class PEF_IPV4DSCP:
         :type mask: str
         """
         return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], use=use, value=value, mask=mask)
+            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask)
         )
 
     set_off = functools.partialmethod(set, OnOff.OFF)
@@ -1034,7 +1034,7 @@ class PEF_IPV6SETTINGS:
 
     .. note::
 
-        For SET, the only allowed ``filter_type`` is ``shadow-copy``
+        For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
     """
 
@@ -1045,7 +1045,7 @@ class PEF_IPV6SETTINGS:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1063,7 +1063,7 @@ class PEF_IPV6SETTINGS:
         :return: specifies the use of IPv6 header
         :rtype: PEF_IPV6SETTINGS.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: FilterUse, action: InfoAction) -> "Token":
         """Set filter action settings on the IPv6 header.
@@ -1074,7 +1074,7 @@ class PEF_IPV6SETTINGS:
         :type action: InfoAction
         """
         return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], use=use, action=action)
+            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, action=action)
         )
 
 
@@ -1086,7 +1086,7 @@ class PEF_IPV6SRCADDR:
 
     .. note::
 
-        For SET, the only allowed ``filter_type`` is ``shadow-copy``
+        For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
     """
 
@@ -1097,7 +1097,7 @@ class PEF_IPV6SRCADDR:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1117,7 +1117,7 @@ class PEF_IPV6SRCADDR:
         :return: the IPv6 Source Address settings for the IPv6 filter
         :rtype: PEF_IPV6SRCADDR.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: OnOff, value: str, mask: str) -> "Token":
         """Set the IPv6 Source Address settings for the IPv6 filter.
@@ -1130,7 +1130,7 @@ class PEF_IPV6SRCADDR:
         :type mask: str
         """
         return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], use=use, value=value, mask=mask)
+            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask)
         )
 
     set_off = functools.partialmethod(set, OnOff.OFF)
@@ -1147,7 +1147,7 @@ class PEF_IPV6DESTADDR:
 
     .. note::
 
-        For SET, the only allowed ``filter_type`` is ``shadow-copy``
+        For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
     """
 
@@ -1158,7 +1158,7 @@ class PEF_IPV6DESTADDR:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1178,7 +1178,7 @@ class PEF_IPV6DESTADDR:
         :return: IPv6 Destination Address settings for the IPv6 filter
         :rtype: PEF_IPV6DESTADDR.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: OnOff, value: str, mask: str) -> "Token":
         """Set the IPv6 Destination Address settings for the IPv6 filter.
@@ -1191,7 +1191,7 @@ class PEF_IPV6DESTADDR:
         :type mask: str
         """
         return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], use=use, value=value, mask=mask)
+            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask)
         )
 
     set_off = functools.partialmethod(set, OnOff.OFF)
@@ -1208,7 +1208,7 @@ class PEF_IPV6TC:
 
     .. note::
 
-        For SET, the only allowed ``filter_type`` is ``shadow-copy``
+        For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
     """
 
@@ -1219,7 +1219,7 @@ class PEF_IPV6TC:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1247,7 +1247,7 @@ class PEF_IPV6TC:
         :return: IPv6 Traffic Class settings used for the filter
         :rtype: PEF_IPV6TC.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: OnOff, value: int, mask: str) -> "Token":
         """Set IPv6 Traffic Class settings used for the filter.
@@ -1260,7 +1260,7 @@ class PEF_IPV6TC:
         :type mask: str
         """
         return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], use=use, value=value, mask=mask)
+            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask)
         )
 
     set_off = functools.partialmethod(set, OnOff.OFF)
@@ -1277,7 +1277,7 @@ class PEF_UDPSETTINGS:
 
     .. note::
 
-        For SET, the only allowed ``filter_type`` is ``shadow-copy``
+        For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
     """
 
@@ -1288,7 +1288,7 @@ class PEF_UDPSETTINGS:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1306,7 +1306,7 @@ class PEF_UDPSETTINGS:
         :return: filter action settings on the UDP header
         :rtype: PEF_UDPSETTINGS.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: FilterUse, action: InfoAction) -> "Token":
         """Set filter settings on the UDP header.
@@ -1317,7 +1317,7 @@ class PEF_UDPSETTINGS:
         :type action: InfoAction
         """
         return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], use=use, action=action)
+            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, action=action)
         )
 
 
@@ -1329,7 +1329,7 @@ class PEF_UDPSRCPORT:
 
     .. note::
 
-        For SET, the only allowed ``filter_type`` is ``shadow-copy``
+        For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
     """
 
@@ -1340,7 +1340,7 @@ class PEF_UDPSRCPORT:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1360,7 +1360,7 @@ class PEF_UDPSRCPORT:
         :return: UDP Source Port settings used for the filter.
         :rtype: PEF_UDPSRCPORT.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: OnOff, value: int, mask: str) -> "Token":
         """Set UDP Source Port settings used for the filter.
@@ -1373,7 +1373,7 @@ class PEF_UDPSRCPORT:
         :type mask: str
         """
         return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], use=use, value=value, mask=mask)
+            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask)
         )
 
     set_off = functools.partialmethod(set, OnOff.OFF)
@@ -1390,7 +1390,7 @@ class PEF_UDPDESTPORT:
 
     .. note::
 
-        For SET, the only allowed ``filter_type`` is ``shadow-copy``.
+        For SET, the only allowed ``_filter_type`` is ``shadow-copy``.
     """
 
     code: typing.ClassVar[int] = 1724
@@ -1400,7 +1400,7 @@ class PEF_UDPDESTPORT:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1420,7 +1420,7 @@ class PEF_UDPDESTPORT:
         :return: UDP Destination Port settings used for the filter.
         :rtype: PEF_UDPDESTPORT.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: OnOff, value: int, mask: str) -> "Token":
         """Set UDP Destination Port settings used for the filter.
@@ -1433,7 +1433,7 @@ class PEF_UDPDESTPORT:
         :type mask: str
         """
         return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], use=use, value=value, mask=mask)
+            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask)
         )
 
     set_off = functools.partialmethod(set, OnOff.OFF)
@@ -1451,7 +1451,7 @@ class PEF_TCPSETTINGS:
 
     .. note::
 
-        For SET, the only allowed ``filter_type`` is ``shadow-copy``.
+        For SET, the only allowed ``_filter_type`` is ``shadow-copy``.
 
     """
 
@@ -1462,7 +1462,7 @@ class PEF_TCPSETTINGS:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1480,7 +1480,7 @@ class PEF_TCPSETTINGS:
         :return: filter action settings on the TCP header.
         :rtype: PEF_TCPSETTINGS.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: FilterUse, action: InfoAction) -> "Token":
         """Set filter action settings on the TCP header.
@@ -1491,7 +1491,7 @@ class PEF_TCPSETTINGS:
         :type action: InfoAction
         """
         return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], use=use, action=action)
+            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, action=action)
         )
 
 
@@ -1503,7 +1503,7 @@ class PEF_TCPSRCPORT:
 
     .. note::
 
-        For SET, the only allowed ``filter_type`` is ``shadow-copy``.
+        For SET, the only allowed ``_filter_type`` is ``shadow-copy``.
 
     """
 
@@ -1514,7 +1514,7 @@ class PEF_TCPSRCPORT:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1534,7 +1534,7 @@ class PEF_TCPSRCPORT:
         :return: TCP Source Port settings used for the filter.
         :rtype: PEF_TCPSRCPORT.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: OnOff, value: int, mask: str) -> "Token":
         """Set TCP Source Port settings used for the filter.
@@ -1547,7 +1547,7 @@ class PEF_TCPSRCPORT:
         :type mask: str
         """
         return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], use=use, value=value, mask=mask)
+            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask)
         )
 
     set_off = functools.partialmethod(set, OnOff.OFF)
@@ -1564,7 +1564,7 @@ class PEF_TCPDESTPORT:
 
     .. note::
 
-        For SET, the only allowed ``filter_type`` is ``shadow-copy``.
+        For SET, the only allowed ``_filter_type`` is ``shadow-copy``.
 
     """
 
@@ -1575,7 +1575,7 @@ class PEF_TCPDESTPORT:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1595,7 +1595,7 @@ class PEF_TCPDESTPORT:
         :return: TCP Destination Port settings used for the filter.
         :rtype: PEF_TCPDESTPORT.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: OnOff, value: int, mask: str) -> "Token":
         """Set TCP Destination Port settings used for the filter.
@@ -1608,7 +1608,7 @@ class PEF_TCPDESTPORT:
         :type mask: str
         """
         return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], use=use, value=value, mask=mask)
+            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask)
         )
 
     set_off = functools.partialmethod(set, OnOff.OFF)
@@ -1625,7 +1625,7 @@ class PEF_ANYSETTINGS:
 
     .. note::
 
-        For SET, the only allowed ``filter_type`` is ``shadow-copy``.
+        For SET, the only allowed ``_filter_type`` is ``shadow-copy``.
 
     """
 
@@ -1636,7 +1636,7 @@ class PEF_ANYSETTINGS:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1654,7 +1654,7 @@ class PEF_ANYSETTINGS:
         :return: settings of filtering state on ANY field in a packet.
         :rtype: PEF_ANYSETTINGS.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: FilterUse, action: InfoAction) -> "Token":
         """Set the settings of filtering state on ANY field in a packet.
@@ -1665,7 +1665,7 @@ class PEF_ANYSETTINGS:
         :type action: InfoAction
         """
         return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], use=use, action=action)
+            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, action=action)
         )
 
 
@@ -1680,7 +1680,7 @@ class PEF_ANYCONFIG:
 
     .. note::
 
-        For SET, the only allowed ``filter_type`` is ``shadow-copy``.
+        For SET, the only allowed ``_filter_type`` is ``shadow-copy``.
 
     """
 
@@ -1691,7 +1691,7 @@ class PEF_ANYCONFIG:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1711,7 +1711,7 @@ class PEF_ANYCONFIG:
         :return: the ANY field filter configuration
         :rtype: PEF_ANYCONFIG.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, position: int, value: str, mask: str) -> "Token":
         """Set the ANY field filter configuration
@@ -1725,7 +1725,7 @@ class PEF_ANYCONFIG:
         """
         return Token(
             self._connection,
-            build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], position=position, value=value, mask=mask),
+            build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], position=position, value=value, mask=mask),
         )
 
 
@@ -1740,7 +1740,7 @@ class PEF_TPLDSETTINGS:
 
     .. note::
 
-        For SET, the only allowed ``filter_type`` is ``shadow-copy``.
+        For SET, the only allowed ``_filter_type`` is ``shadow-copy``.
 
     """
 
@@ -1751,7 +1751,7 @@ class PEF_TPLDSETTINGS:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1769,7 +1769,7 @@ class PEF_TPLDSETTINGS:
         :return: the settings of filtering on TPLD field in a packet.
         :rtype: PEF_TPLDSETTINGS.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: FilterUse, action: InfoAction) -> "Token":
         """Set the settings of filtering on TPLD field in a packet.
@@ -1779,7 +1779,7 @@ class PEF_TPLDSETTINGS:
         :param action: specifies the action of TPLD information.
         :type action: InfoAction
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], use=use, action=action))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, action=action))
 
 
 @register_command
@@ -1790,7 +1790,7 @@ class PEF_TPLDCONFIG:
 
     .. note::
 
-        For SET, the only allowed ``filter_type`` is ``shadow-copy``.
+        For SET, the only allowed ``_filter_type`` is ``shadow-copy``.
 
     """
 
@@ -1801,8 +1801,8 @@ class PEF_TPLDCONFIG:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
-    test_payload_filter_index: int # integer, the sub-index value which indicates the tpld filter index (range 0 to 15)
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _test_payload_filter_index: int # integer, the sub-index value which indicates the tpld filter index (range 0 to 15)
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1821,7 +1821,7 @@ class PEF_TPLDCONFIG:
         :rtype: PEF_TPLDCONFIG.GetDataAttr
         """
         return Token(
-            self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type, self.test_payload_filter_index])
+            self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type, self._test_payload_filter_index])
         )
 
     def set(self, use: OnOff, id: int) -> "Token":
@@ -1834,7 +1834,7 @@ class PEF_TPLDCONFIG:
         """
         return Token(
             self._connection,
-            build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type, self.test_payload_filter_index], use=use, id=id),
+            build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type, self._test_payload_filter_index], use=use, id=id),
         )
 
     set_off = functools.partialmethod(set, OnOff.OFF)
@@ -1873,8 +1873,8 @@ class PEF_VALUE:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
-    protocol_segment_index: int # integer, if 0, the server receives/sends the value of all protocol segments when called. If > 0, the server receives/sends only the indicated index protocol segment.
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _protocol_segment_index: int # integer, if 0, the server receives/sends the value of all protocol segments when called. If > 0, the server receives/sends only the indicated index protocol segment.
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1890,7 +1890,7 @@ class PEF_VALUE:
         :return: the byte values that can be matched if selected by :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_MASK`
         :rtype: PEF_VALUE.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type, self.protocol_segment_index]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type, self._protocol_segment_index]))
 
     def set(self, value: str) -> "Token":
         """Set the byte values that can be matched if selected by :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_MASK`.
@@ -1898,7 +1898,7 @@ class PEF_VALUE:
         :param value: the raw bytes comprising the packet header
         :type value: str
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type, self.protocol_segment_index], value=value))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type, self._protocol_segment_index], value=value))
 
 
 @register_command
@@ -1932,8 +1932,8 @@ class PEF_MASK:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
-    protocol_segment_index: int # integer, if 0, the server receives/sends the value of all protocol segments when called. If > 0, the server receives/sends only the indicated index protocol segment.
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _protocol_segment_index: int # integer, if 0, the server receives/sends the value of all protocol segments when called. If > 0, the server receives/sends only the indicated index protocol segment.
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1949,7 +1949,7 @@ class PEF_MASK:
         :return: the mask byte values that select the values specified by :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_VALUE`.
         :rtype: PEF_MASK.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type, self.protocol_segment_index]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type, self._protocol_segment_index]))
 
     def set(self, masks: str) -> "Token":
         """Set the mask byte values that select the values specified by :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_VALUE`.
@@ -1957,7 +1957,7 @@ class PEF_MASK:
         :param masks: mask byte values
         :type masks: str
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type, self.protocol_segment_index], masks=masks))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type, self._protocol_segment_index], masks=masks))
 
 
 @register_command
@@ -1983,7 +1983,7 @@ class PEF_PROTOCOL:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -2003,7 +2003,7 @@ class PEF_PROTOCOL:
         :return: the sequence of protocol segments that can be matched.
         :rtype: PEF_PROTOCOL.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, segment_list: typing.List[ProtocolOption]) -> "Token":
         """Set the sequence of protocol segments that can be matched.
@@ -2011,7 +2011,7 @@ class PEF_PROTOCOL:
         :param segment_list: specifying the list of protocol segment types in the order they are expected in a frame. First segment type must be ``ETHERNET``; the following can be chosen freely.
         :type segment_list: typing.List[ProtocolOption]
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], segment_list=segment_list))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], segment_list=segment_list))
 
 
 @register_command
@@ -2026,7 +2026,7 @@ class PEF_MODE:
     _module: int
     _port: int
     _flow_xindex: int
-    filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -2042,7 +2042,7 @@ class PEF_MODE:
         :return: the filter mode
         :rtype: PEF_MODE.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, mode: FilterMode) -> "Token":
         """Set the filter mode.
@@ -2050,7 +2050,7 @@ class PEF_MODE:
         :param mode: the mode of the filter.
         :type sid: FlowMode
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self.filter_type], mode=mode))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], mode=mode))
 
     set_basic = functools.partialmethod(set, FilterMode.BASIC)
     """Set the filter mode to Basic."""

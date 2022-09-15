@@ -225,11 +225,11 @@ class FilterDefinition:
         """Apply filter defintion.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_APPLY`
         """
-        self.protocol = PEF_PROTOCOL(conn, module_id, port_id, flow_index)
+        self.protocol = PEF_PROTOCOL(conn, module_id, port_id, flow_index, filter_type)
         """Protocol segments match for the filter.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_PROTOCOL`
         """
-        self.mode = PEF_MODE(conn, module_id, port_id, flow_index)
+        self.mode = PEF_MODE(conn, module_id, port_id, flow_index, filter_type)
         """Filter mode.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_MODE`
         """

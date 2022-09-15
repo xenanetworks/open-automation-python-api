@@ -45,7 +45,7 @@ class PortChimera(base_port.BasePort[ports_state.PortChimeraLocalState]):
         """Load mode of the Chimera port.
         Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_LOADMODE`
         """
-        self.emulation = ChimeraPE(self._conn, *self.kind)
+        self.emulation = ChimeraPE(self._conn, *self.kind) # TODO: Missing description 
         
         self.emulate = P_EMULATE(conn, module_id, port_id)
         """Chimera port emulation control.
