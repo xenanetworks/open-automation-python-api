@@ -217,6 +217,8 @@ class FilterDefinition:
     """Filter definition."""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int, filter_type: FilterType) -> None:
         # TODO: check if possible to make an transparent way of setting values base on <mode> and <fid_type>
+        
+        # ONLY FOR SHADOW
         self.initiating = PEF_INIT(conn, module_id, port_id, flow_index)
         """Preparing filter definition.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_INIT`
@@ -225,19 +227,18 @@ class FilterDefinition:
         """Apply filter defintion.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_APPLY`
         """
-        self.protocol = PEF_PROTOCOL(conn, module_id, port_id, flow_index, filter_type)
-        """Protocol segments match for the filter.
-        Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_PROTOCOL`
+        self.enable = PEF_ENABLE(conn, module_id, port_id, flow_index, filter_type)
+        """Enabling the filter.
+        Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_ENABLE`
         """
         self.mode = PEF_MODE(conn, module_id, port_id, flow_index, filter_type)
         """Filter mode.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_MODE`
         """
         
-        self.enable = PEF_ENABLE(conn, module_id, port_id, flow_index, filter_type)
-        """Enabling the filter.
-        Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_ENABLE`
-        """
+
+
+        # ONLY FOR BASIC
         self.l2plus_use = PEF_L2PUSE(conn, module_id, port_id, flow_index, filter_type)
         """L2 protocol to use.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_L2PUSE`
@@ -246,15 +247,6 @@ class FilterDefinition:
         """L3 protocol to use.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_L3USE`
         """
-        self.value = PEF_VALUE(conn, module_id, port_id, flow_index, filter_type)
-        """Value bytes match for the filter.
-        Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_VALUE`
-        """
-        self.mask = PEF_MASK(conn, module_id, port_id, flow_index, filter_type)
-        """Mask byte value.
-        Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_MASK`
-        """
-        
         self.any = FAny(conn, module_id, port_id, flow_index, filter_type)
         """Filter for any field."""
         self.tpld = FTpld(conn, module_id, port_id, flow_index, filter_type)
@@ -271,3 +263,22 @@ class FilterDefinition:
         """Filter for VLAN field."""
         self.ethernet = FEthernet(conn, module_id, port_id, flow_index, filter_type)
         """Filter for Ethernet field."""
+
+
+
+
+        ## ONLY EXTENDED
+        self.protocol = PEF_PROTOCOL(conn, module_id, port_id, flow_index, filter_type)
+        """Protocol segments match for the filter.
+        Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_PROTOCOL`
+        """
+        self.value = PEF_VALUE(conn, module_id, port_id, flow_index, filter_type)
+        """Value bytes match for the filter.
+        Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_VALUE`
+        """
+        self.mask = PEF_MASK(conn, module_id, port_id, flow_index, filter_type)
+        """Mask byte value.
+        Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_MASK`
+        """
+        
+        
