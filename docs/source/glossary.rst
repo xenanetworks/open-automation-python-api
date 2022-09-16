@@ -62,3 +62,6 @@ Glossary of Terms
 
     Load Profile
         A load profile defines a start time and a duration of each of the ramp-up, steady, and ramp-down phases of a connection group.
+
+    I2C
+        I\ :sup:`2`\C (Inter-Integrated Circuit, eye-squared-C), alternatively known as I2C or IIC, is a synchronous, multi-controller/multi-target (controller/target), packet switched, single-ended, serial communication bus.
