@@ -1,5 +1,8 @@
 import asyncio
 from typing import (
+    Any,
+    Callable,
+    Coroutine,
     Type, 
     TypeVar,
     Protocol,
@@ -45,3 +48,36 @@ class PortsManager(ResourcesBaseManager[PT]):
         assert not self._lock, "Method <fill> can be called only once."
         coros = list(self._items.values())
         await asyncio.gather(*coros) # type: ignore
+
+
+class PortResolver(Protocol):
+    async def __call__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> Type:
+        ...
+
+class PortsCombiManager(ResourcesBaseManager[PT]):
+    
+    __slots__ = ("_conn", "_resolver", "_ports_count", "_module_id", )
+    
+    def __init__(self, conn: "itf.IConnection", module_id: int, resolver: PortResolver, ports_count: int) -> None:
+        super().__init__()
+        self._conn = conn
+        self._resolver = resolver
+        self._ports_count = ports_count
+        self._module_id = module_id
+        self._items: OrderedDict[int, PT] = OrderedDict()
+
+    async def fill(self) -> None:
+        """Method for create and fill in."""
+        assert not self._lock, "Method <fill> can be called only once."
+        coros = [
+            self._resolver(
+                conn=self._conn,
+                module_id=self._module_id,
+                port_id=port_id,
+            )
+            for port_id in range(self._ports_count)
+        ]
+        ports = await asyncio.gather(*coros)
+        self._items = OrderedDict(
+            (port.kind.port_id, port) for port in ports
+        )

@@ -43,6 +43,11 @@ from .internals.modules.modules_l23.family_l import (
 )
 from .internals.modules.modules_l23.family_m import MOdin1G3S6PT1RJ45
 from .internals.modules.modules_l23.family_n import MOdin40G2S2P
+from .internals.modules.modules_l23.family_combi import (
+    MOdin10G4S2PCombi,
+    MOdin10G4S2PCombi_b,
+)
+
 
 from .internals.modules.module_l23ve import ModuleL23VE
 from .internals.modules.module_chimera import ModuleChimera
@@ -84,6 +89,8 @@ GenericL23Module = typing.Union[
         # "MFreya800G4S1P",
         # "MFreya800G4S1POSFP",
         "MOdin1G3S6PT1RJ45",
+        "MOdin10G4S2PCombi",
+        "MOdin10G4S2PCombi_b",
     ]
 
 GenericAnyModule = typing.Union[
@@ -128,6 +135,8 @@ __all__ = (
     # "MFreya800G4S1P",
     # "MFreya800G4S1POSFP",
     "MOdin1G3S6PT1RJ45",
+    "MOdin10G4S2PCombi",
+    "MOdin10G4S2PCombi_b",
     "ModuleL23VE",
     "ModuleChimera",
     "ModuleL47",

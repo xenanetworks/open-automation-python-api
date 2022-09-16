@@ -42,3 +42,8 @@ class POdin1G3S2PT(FamilyD):
     """L23 port on Odin-1G-3S-2P-T module.
     """
     ...
+
+class POdin1G4S4PCombi(FamilyD):
+    """L23 port on Odin-1G-4S-4P-Combi module.
+    """
+    ...

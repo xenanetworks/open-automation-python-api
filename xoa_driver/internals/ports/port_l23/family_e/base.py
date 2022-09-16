@@ -88,3 +88,8 @@ class POdin10G3S2PCU(FamilyE):
     """L23 port on Odin-10G-3S-2P-CU module.
     """
     ...
+
+class POdin1G4S4PCombi_b(FamilyE):
+    """L23 port on Odin-1G-4S-4P-Combi_b module.
+    """
+    ...

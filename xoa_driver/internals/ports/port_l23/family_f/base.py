@@ -112,3 +112,8 @@ class POdin40G2S2P(FamilyF):
     on_dynamic_change = functools.partialmethod(utils.on_event, P_DYNAMIC)
     """Register a callback to the event that the port's dynamic traffic setting changes."""
 
+
+class POdin10G4S2PCombi(FamilyF):
+    """L23 port on Odin-10G-4S-2P-Combi module.
+    """
+    ...
