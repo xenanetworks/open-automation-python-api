@@ -43,7 +43,7 @@ async def my_awesome_script():
         my_stream_2.rate.fraction.set(stream_rate_ppm=500000), # Configure the stream rate
     )
 
-    my_stream_2.delete() # delete a stream
+    await my_stream_2.delete() # delete a stream
 
     # other code ...
 
