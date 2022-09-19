@@ -13,13 +13,15 @@ from .module_l23_base import ModuleL23
 
 # D_FAMELY_ID = CapID(1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0) # definition from BXMP matrix
 D_FAMELY_ID = CapID(1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0) # workable 
-E_FAMELY_ID = CapID(1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+# E_FAMELY_ID = CapID(1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 F_FAMELY_ID = CapID(0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
 PORTS_MAP = {
     D_FAMELY_ID.to_int(): ports.POdin1G4S4PCombi,
-    E_FAMELY_ID.to_int(): ports.POdin1G4S4PCombi_b,
+    D_FAMELY_ID.to_int(): ports.POdin1G4S4PCombi_b,
+    # E_FAMELY_ID.to_int(): ports.POdin1G4S4PCombi_b,
     F_FAMELY_ID.to_int(): ports.POdin10G4S2PCombi,
+    F_FAMELY_ID.to_int(): ports.POdin10G4S2PCombi_b,
 }
 
 CombiTypes = typing.Union[
