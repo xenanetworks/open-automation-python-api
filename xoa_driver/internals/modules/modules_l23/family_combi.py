@@ -12,19 +12,18 @@ if typing.TYPE_CHECKING:
 from .module_l23_base import ModuleL23
 
 D_FAMELY_ID = CapID(1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-E_FAMELY_ID = CapID(1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 F_FAMELY_ID = CapID(0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
 PORTS_MAP = {
     D_FAMELY_ID: ports.POdin1G4S4PCombi,
-    E_FAMELY_ID: ports.POdin1G4S4PCombi_b,
     F_FAMELY_ID: ports.POdin10G4S2PCombi,
 }
 
 CombiTypes = typing.Union[
     ports.POdin1G4S4PCombi, 
     ports.POdin1G4S4PCombi_b, 
-    ports.POdin10G4S2PCombi
+    ports.POdin10G4S2PCombi,
+    ports.POdin10G4S2PCombi_b,
 ]
 
 async def _port_resolver(conn: "itf.IConnection", module_id: int, port_id: int) -> typing.Coroutine[typing.Any, typing.Any, CombiTypes]:
