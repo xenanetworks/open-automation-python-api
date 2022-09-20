@@ -1,4 +1,4 @@
-#: All avaliable test port types.
+#: All available test port types.
 
 
 import typing

@@ -49,7 +49,7 @@ class PortCapture:
         """
     
     async def obtain_captured(self) -> List[ObtainCaptured]:
-        # TODO: check better title for this operation
+        #TODO: check better title for this operation
         stats = await self.stats.get()
         return [
             ObtainCaptured(self.__conn, self.__module_id, self.__port_id, idx)

@@ -13,7 +13,7 @@ ON_EVT_DISCONNECTED: Final[int] = -1
 
 CB = Callable[..., Coroutine[Any, None, None]]
 
-# ToDo: add type anntation for callback funcion
+#TODO: add type annotation for callback function
 class EventsObserver:
 
     __slots__ = ( "__events", "__loop" )

@@ -225,7 +225,7 @@ class Mix:
         self.lengths = tuple(
             P_MIXLENGTH(conn, module_id, port_id, idx)
             for idx in range(16)
-        ) # TODO: need to add manager for handle specific indices only
+        ) #TODO: need to add manager for handle specific indices only
         """L23 port IMIX lengths.
         Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_MIXLENGTH`
         """

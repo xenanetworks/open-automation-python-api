@@ -13,7 +13,7 @@ from xoa_driver.internals.core.commands import (
     M_TXCLOCKSOURCE_NEW,
     M_TXCLOCKSTATUS_NEW,
     M_EMULBYPASS,
-    # M_LATENCYMODE, # TODO: wait for val-90 to assign the correct command code
+    # M_LATENCYMODE, #TODO: wait for val-90 to assign the correct command code
 )
 
 from xoa_driver.internals.utils import ports_manager as pm

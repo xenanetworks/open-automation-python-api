@@ -9,9 +9,9 @@ from xoa_driver.internals.core.commands import (
     M_LICENSE_UPDATE_STATUS,
     M_LICENSE_LIST_BSON,
     M_LICENSE_ONLINE,
-    # M4_INT, # TODO: need to implment
-    # M4_STRING, # TODO: need to implment
-    # M4_HEX, # TODO: need to implment
+    # M4_INT, #TODO: need to implement
+    # M4_STRING, #TODO: need to implement
+    # M4_HEX, #TODO: need to implement
     M4_SYSTEMID,
     M4_VERSIONNO,
     M4_SYSTEM_STATUS,
@@ -29,7 +29,7 @@ from xoa_driver.internals.core.commands import (
     M4_REPLAY_FILE_LIST,
     M4_CAPTURE_FILE_LIST_BSON,
     M4_CAPTURE_FILE_LIST,
-    # M4_REPLAY_FILE_INFO_BSON, # TODO: need to implment
+    # M4_REPLAY_FILE_INFO_BSON, #TODO: need to implement
     M4_REPLAY_FILE_DELETE,
     M4_CAPTURE_FILE_DELETE,
     M4E_MODE,
@@ -98,7 +98,7 @@ class ReplayFile:
         self.list = M4_REPLAY_FILE_LIST(conn, module_id)
         """Representation of :class:`~xoa_driver.internals.core.commands.m4_commands.M4_REPLAY_FILE_LIST`
         """
-        # self.info_bson = M4_REPLAY_FILE_INFO_BSON(conn, module_id) # TODO: need to implement
+        # self.info_bson = M4_REPLAY_FILE_INFO_BSON(conn, module_id) #TODO: need to implement
         self.delete = M4_REPLAY_FILE_DELETE(conn, module_id)
         """Representation of :class:`~xoa_driver.internals.core.commands.m4_commands.M4_REPLAY_FILE_DELETE`
         """

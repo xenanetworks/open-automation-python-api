@@ -89,7 +89,7 @@ class GL3:
         """L3 IPv6 Configurations"""
         self.diffserv = GDifferentialServiceL3(conn, module_id, port_id, group_idx)
         """L3 IPv6 DS Configurations"""
-        self.nat = P4G_NAT(conn, module_id, port_id, group_idx) # TODO: maybe to add extra logic for this command based on the description
+        self.nat = P4G_NAT(conn, module_id, port_id, group_idx) #TODO: maybe to add extra logic for this command based on the description
         """
         Representation of :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_NAT`
         """
