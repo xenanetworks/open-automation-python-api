@@ -21,11 +21,17 @@ CombiTypes = typing.Union[
     ports.POdin10G4S2PCombi,
 ]
 
+CombiTypesB = typing.Union[
+    ports.POdin1G4S4PCombi_b, 
+    ports.POdin10G4S2PCombi_b,
+]
+
 async def _port_resolver(conn: "itf.IConnection", module_id: int, port_id: int, port_map: typing.Dict[int, typing.Type]) -> typing.Coroutine[typing.Any, typing.Any, CombiTypes]:
     cap = await P_CAPABILITIES(conn, module_id, port_id).get()
     current_port_id = CapID.create_from_capabilities(cap)
     port_type = port_map[current_port_id.to_int()]
     return await port_type(conn, module_id, port_id)
+
 
 @typing.final
 class MOdin10G4S2PCombi(ModuleL23):
@@ -55,7 +61,7 @@ class MOdin10G4S2PCombi_b(ModuleL23):
             D_FAMELY_ID.to_int(): ports.POdin1G4S4PCombi_b,
             F_FAMELY_ID.to_int(): ports.POdin10G4S2PCombi_b,
         }
-        self.ports: pm.PortsCombiManager[CombiTypes] = pm.PortsCombiManager(
+        self.ports: pm.PortsCombiManager[CombiTypesB] = pm.PortsCombiManager(
             conn=conn, 
             resolver=functools.partial(_port_resolver,  port_map=PORTS_MAP), 
             module_id=self.module_id,
