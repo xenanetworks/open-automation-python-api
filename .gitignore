@@ -15,4 +15,3 @@
 *.log
 *.prof
 **/.DS_Store
-playground.py
