@@ -1,7 +1,7 @@
 
 import functools
 from typing import TYPE_CHECKING, Tuple
-from ..bases.port_l23_genuine import BasePortL23Genuine
+from .bases.port_l23_genuine import BasePortL23Genuine
 from xoa_driver.internals.core.commands import (
     P_FAULTSIGNALING,
     P_DYNAMIC,
@@ -10,13 +10,13 @@ from xoa_driver.internals.utils import attributes as utils
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
 
-from ..fault_jkl import Fault
-from ..pcs_pma_ijkl_chimera import PcsPma as PcsPma1
-from ..pcs_pma_ghijkl import (
+from .fault_jkl import Fault
+from .pcs_pma_ijkl_chimera import PcsPma as PcsPma1
+from .pcs_pma_ghijkl import (
     PcsPma as PcsPma2,
     SerDes,
 )
-from ..pcs_pma_l import PcsPmaL1 as PcsPma3 # PcsPmaL1 for current version is different if compare to L family
+from .pcs_pma_l import PcsPmaL1 as PcsPma3 # PcsPmaL1 for current version is different if compare to L family
 
 
 class PcsPma(PcsPma1, PcsPma2, PcsPma3):

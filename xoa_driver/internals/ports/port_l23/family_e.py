@@ -1,6 +1,6 @@
 import functools
 from typing import TYPE_CHECKING
-from ..bases.port_l23_genuine import BasePortL23Genuine
+from .bases.port_l23_genuine import BasePortL23Genuine
 from xoa_driver.internals.core.commands import (
     P_AUTONEGSELECTION, # questinable which ports are electrical
     P_LPENABLE,

@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 from xoa_driver.internals.core.commands import P_BRRMODE
 from xoa_driver.internals.utils import attributes as utils
 
-from ..bases.port_l23_genuine import BasePortL23Genuine
+from .bases.port_l23_genuine import BasePortL23Genuine
 
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf

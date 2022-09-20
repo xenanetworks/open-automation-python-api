@@ -1,37 +1,44 @@
 import functools
 from typing import TYPE_CHECKING
-from ..bases.port_l23_genuine import BasePortL23Genuine
+from .bases.port_l23_genuine import BasePortL23Genuine
 from xoa_driver.internals.core.commands import (
     P_FAULTSIGNALING,
+    P_FAULTSTATUS,
     P_DYNAMIC,
 )
 from xoa_driver.internals.utils import attributes as utils
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
-
-from ..fault_jkl import Fault
-from ..pcs_pma_ijkl_chimera import PcsPma as PcsPma1
-from ..pcs_pma_ghijkl import (
+from .pcs_pma_ijkl_chimera import PcsPma as PcsPma1
+from .pcs_pma_ghijkl import (
     PcsPma as PcsPma2,
     SerDes,
 )
-
 
 class PcsPma(PcsPma1, PcsPma2):
     def __init__(self, conn: "itf.IConnection", port) -> None:
         PcsPma1.__init__(self, conn, port)
         PcsPma2.__init__(self, conn, port)
 
+class Fault:
+    """L23 port fault settings."""
+    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
+        self.signaling = P_FAULTSIGNALING(conn, module_id, port_id)
+        """L23 port fault signaling.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_FAULTSIGNALING`
+        """
+        self.status = P_FAULTSTATUS(conn, module_id, port_id)
+        """L23 port fault status.
+        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_FAULTSTATUS`
+        """
 
-
-class FamilyK(BasePortL23Genuine):
+class FamilyI(BasePortL23Genuine):
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         super().__init__(conn, module_id, port_id)
         self.dynamic = P_DYNAMIC(conn, module_id, port_id)
         """L23 port's dynamic traffic change.
         Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_DYNAMIC`
         """
-        self.fault = Fault(conn, module_id, port_id)
 
     async def _setup(self):
         await super()._setup()
@@ -47,7 +54,7 @@ class FamilyK(BasePortL23Genuine):
     on_dynamic_change = functools.partialmethod(utils.on_event, P_DYNAMIC)
     """Register a callback to the event that the port's dynamic traffic setting changes."""
 
-class PThor400G7S1P(FamilyK):
-    """L23 port on Thor-400G-7S-1P module.
+class PLoki100G5S2P(FamilyI):
+    """L23 port on Loki-100G-5S-2P module.
     """
     ...

@@ -1,6 +1,6 @@
 import functools
 from typing import TYPE_CHECKING
-from ..bases.port_l23_genuine import BasePortL23Genuine
+from .bases.port_l23_genuine import BasePortL23Genuine
 from xoa_driver.internals.core.commands import (
     P_MDIXMODE,
     P_AUTONEGSELECTION,
@@ -40,15 +40,5 @@ class POdin1G3S6PE(FamilyD):
     ...
 class POdin1G3S2PT(FamilyD):
     """L23 port on Odin-1G-3S-2P-T module.
-    """
-    ...
-
-class POdin1G4S4PCombi(FamilyD):
-    """L23 port on Odin-1G-4S-2P-Combi module.
-    """
-    ...
-
-class POdin1G4S4PCombi_b(FamilyD):
-    """L23 port on Odin-1G-4S-2P-Combi_b module.
     """
     ...
