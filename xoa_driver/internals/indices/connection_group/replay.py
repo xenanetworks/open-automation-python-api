@@ -9,8 +9,8 @@ from xoa_driver.internals.core.commands import (
     P4G_REPLAY_USER_INCARNATION,
     P4G_REPLAY_USER_REPETITIONS,
     P4G_APP_REPLAY_COUNTERS,
-    # P4G_REPLAY_SCHEDULING, # TODO: need to implment
-    # P4G_REPLAY_SYNCHRONIZATION, # TODO: need to implment
+    # P4G_REPLAY_SCHEDULING, #TODO: need to implement
+    # P4G_REPLAY_SYNCHRONIZATION, #TODO: need to implement
 )
 
 class GFilesReplay:
@@ -25,7 +25,7 @@ class GFilesReplay:
         Representation of :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_REPLAY_FILE_INDICES`
         """
 
-    def name(self, replay_file_idx: int) -> "P4G_REPLAY_FILE_NAME": # TODO: Not sure about function name
+    def name(self, replay_file_idx: int) -> "P4G_REPLAY_FILE_NAME": #TODO: Not sure about function name
         """
         Representation of :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_REPLAY_FILE_NAME`
         """

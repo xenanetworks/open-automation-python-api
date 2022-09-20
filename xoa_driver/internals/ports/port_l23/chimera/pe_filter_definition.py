@@ -38,8 +38,8 @@ from xoa_driver.internals.core.commands import (
     PEF_ANYCONFIG,
     PEF_TPLDSETTINGS,
     PEF_TPLDCONFIG,
-    # PEF_ISSHADOWDIRTY, # TODO: need to implment
-    # PEF_CANCEL, # TODO: need to implment
+    # PEF_ISSHADOWDIRTY, #TODO: need to implement
+    # PEF_CANCEL, #TODO: need to implement
     PEF_VALUE,
     PEF_MASK,
     PEF_PROTOCOL,
@@ -216,7 +216,7 @@ class FAny:
 class FilterDefinition:
     """Filter definition."""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int, filter_type: FilterType) -> None:
-        # TODO: check if possible to make an transparent way of setting values base on <mode> and <fid_type>
+        #TODO: check if possible to make an transparent way of setting values base on <mode> and <fid_type>
         self.initiating = PEF_INIT(conn, module_id, port_id, flow_index)
         """Preparing filter definition.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_INIT`

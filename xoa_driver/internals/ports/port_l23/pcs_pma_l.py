@@ -34,7 +34,7 @@ class LinkTrain:
         """
         self.per_lane_status: Tuple[PP_LINKTRAINSTATUS, ...] = tuple(
             PP_LINKTRAINSTATUS(conn, *port.kind, _lane_xindex=idx)
-            for idx in range(port.info.capabilities.lane_count) # TODO: need to fix, currently port.info.capabilities must be none coz virtual_lanes created before awaiting the port
+            for idx in range(port.info.capabilities.lane_count) #TODO: need to fix, currently port.info.capabilities must be none because virtual_lanes are created before awaiting the port
         )
         """Link training status.
         Representation of :class:`~xoa_driver.internals.core.commands.pp_commands.PP_LINKTRAINSTATUS`

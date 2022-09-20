@@ -1,6 +1,6 @@
 from xoa_driver import modules
 
-# region Vlkyrie Modules
+# region Valkyrie Modules
 
 valkyrie_modules = {
     # family_d
@@ -56,14 +56,27 @@ valkyrie_modules = {
     
     # family_n
     "Odin-40G-2S-2P": modules.MOdin40G2S2P,
+    
+    # family_combi
+    "Odin-10G-4S-2P-Combi": modules.MOdin10G4S2PCombi,
+    "Odin-10G-4S-2P-Combi[b]": modules.MOdin10G4S2PCombi_b,
+    
 }
 
 # endregion
+
+# region Chimera Modules
 
 chimera_modules = {
     "Chimera-100G-5S-2P": modules.ModuleChimera,
 }
 
+# endregion
+
+# region Vulcan Modules
+
 vulcan_modules = {
     "Xena L47 Module": modules.ModuleL47,
 }
+
+# endregion

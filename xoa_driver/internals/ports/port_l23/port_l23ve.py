@@ -6,8 +6,8 @@ from .bases.port_transmission_statistics import PortTransmissionStatistics
 
 from xoa_driver.internals.core.commands import (
     P_MDIXMODE,
-    # P_ENGINENAMES, # TODO: need to implment
-    # P_ENGINELOAD, # TODO: need to implment
+    # P_ENGINENAMES, #TODO: need to implement
+    # P_ENGINELOAD, #TODO: need to implement
 )
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf

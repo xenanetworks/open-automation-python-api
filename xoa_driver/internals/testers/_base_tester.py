@@ -39,7 +39,7 @@ from xoa_driver.internals.core.transporter import (
 T = TypeVar('T', bound="BaseTester")
 TesterStateStorage = TypeVar('TesterStateStorage', bound="testers_state.TesterLocalState")
 
-# ToDo: lately update imports to correct style
+#TODO: lately update imports to correct style
 # min version = 83.2
 class BaseTester(ABC, Generic[TesterStateStorage]):
     def __init__(self, host: str, username: str, password: str = "xena", port: int = 22606, *, debug: bool = False) -> None:

@@ -102,7 +102,7 @@ class PortReceptionStatistics:
         return PrsTPLD(self.__conn, self.__module_id, self.__port_id, tpld_id)
     
     async def obtain_available_tplds(self) -> Dict[int, "PrsTPLD"]:
-        # TODO: need to check usecase if this is enaough, otherwise to extend by give possibility manually specify indices
+        #TODO: need to check use case if this is enough, otherwise to extend by give possibility manually specify indices
         tplds = await self.__tpld_ids.get()
         return {
             idx:

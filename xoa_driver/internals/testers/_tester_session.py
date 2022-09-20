@@ -48,7 +48,7 @@ class TesterSession:
                 raise WrongTesterPasswordError(self.pwd) from None
             raise e
         if self.keepalive:
-            asyncio.create_task(self.__do_keepalive(), name="keepalive") # TODO: need to handle this task on interuption
+            asyncio.create_task(self.__do_keepalive(), name="keepalive") #TODO: need to handle this task on interruption
         return self
 
     async def __do_keepalive(self) -> None:

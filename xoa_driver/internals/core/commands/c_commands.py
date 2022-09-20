@@ -1189,11 +1189,11 @@ class C_TKLICFILE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        license_content: XmpField[XmpByteList] = XmpField(XmpByteList)  # ToDo: probably wrong type
+        license_content: XmpField[XmpByteList] = XmpField(XmpByteList)  #TODO: probably wrong type
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        license_content: XmpField[XmpByteList] = XmpField(XmpByteList)  # ToDo: probably wrong type
+        license_content: XmpField[XmpByteList] = XmpField(XmpByteList)  #TODO: probably wrong type
 
     def get(self) -> "Token[GetDataAttr]":
         """Get Xena TimeKeeper license file content. 

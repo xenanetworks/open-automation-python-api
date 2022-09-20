@@ -1,6 +1,6 @@
 import functools
 from typing import TYPE_CHECKING
-from ..bases.port_l23_genuine import BasePortL23Genuine
+from .bases.port_l23_genuine import BasePortL23Genuine
 
 from xoa_driver.internals.core.commands import (
     P_FAULTSIGNALING,
@@ -10,7 +10,7 @@ from xoa_driver.internals.core.commands import (
 from xoa_driver.internals.utils import attributes as utils
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
-from ..pcs_pma_ghijkl import (
+from .pcs_pma_ghijkl import (
     PcsPma,
     SerDes,
 )
