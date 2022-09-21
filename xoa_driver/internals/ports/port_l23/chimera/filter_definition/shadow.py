@@ -41,7 +41,7 @@ class FilterDefinitionShadow:
         self._module_id = module_id
         self._port_id = port_id
         self._flow_index = flow_index
-        self._filter_type = FilterType.SHADOWN
+        self._filter_type = FilterType.SHADOW
         
         
         self.initiating = PEF_INIT(conn, module_id, port_id, flow_index)
