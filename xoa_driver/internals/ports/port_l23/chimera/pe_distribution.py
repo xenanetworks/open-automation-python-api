@@ -106,7 +106,7 @@ class ImpairmentTypeDistribution:
         self.misorder_type_config = ImpairmentDistributionConfig(conn, module_id, port_id, flow_index, ImpairmentTypeIndex.MISORDER)
         """Impairment distribution configuration of impairment type Misorder."""
 
-        self.delayjitter_type_config = ImpairmentDistributionConfig(conn, module_id, port_id, flow_index,ImpairmentTypeIndex.DELAYJITTER)
+        self.latency_jitter_type_config = ImpairmentDistributionConfig(conn, module_id, port_id, flow_index,ImpairmentTypeIndex.DELAYJITTER)
         """Impairment distribution configuration of impairment type Delay Jitter."""
 
         self.duplication_type_config = ImpairmentDistributionConfig(conn, module_id, port_id, flow_index,ImpairmentTypeIndex.DUPLICATION)
