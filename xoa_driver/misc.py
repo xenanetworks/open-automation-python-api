@@ -17,7 +17,7 @@ from .internals.indices.match_term import MatchTermIdx as MatchTerm
 from .internals.indices.port_dataset import PortDatasetIdx as PortDataset
 from .internals.indices.streams.base_stream import BaseStreamIdx as BaseStream
 from .internals.indices.streams.genuine_stream import GenuineStreamIdx as GenuineStream
-from .internals.ports.port_l23.chimera.port_emulation import CFlow as Flow
+from .internals.ports.port_l23.chimera.port_emulation import CFlow as ImpairmentFlow
 
 
 __all__ = (
@@ -33,5 +33,5 @@ __all__ = (
     "PortDataset",
     "BaseStream",
     "GenuineStream",
-    "Flow",
+    "ImpairmentFlow",
 )
