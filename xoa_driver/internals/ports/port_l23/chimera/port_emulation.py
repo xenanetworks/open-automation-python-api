@@ -36,7 +36,10 @@ from xoa_driver.internals.core.commands import (
 from .reception_statistics import ReceptionStatistics
 from .transmission_statistics import TransmissionStatistics
 from .pe_distribution import ImpairmentTypeDistribution
-from .pe_filter_definition import FilterDefinition
+from .filter_definition import (
+    shadow, 
+    working,
+)
 
 class CTotalFlow:
     """Total flow statistics."""
@@ -147,9 +150,9 @@ class CFlow:
         self.distribution = ImpairmentTypeDistribution(conn, module_id, port_id, flow_idx)
         """Impairment type's distribution."""
 
-        self.shadow_copy = FilterDefinition(conn, module_id, port_id, flow_idx, FilterType.SHADOWN)
+        self.shadow_copy = shadow.FilterDefinitionShadow(conn, module_id, port_id, flow_idx)
         """Shadow copy."""
-        self.working_copy = FilterDefinition(conn, module_id, port_id, flow_idx, FilterType.WORKING)
+        self.working_copy = working.FilterDefinitionWorking(conn, module_id, port_id, flow_idx)
         """Working copy."""
         
         

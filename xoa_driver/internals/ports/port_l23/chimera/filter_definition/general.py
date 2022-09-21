@@ -1,14 +1,19 @@
-from typing import TYPE_CHECKING
+from typing import (
+    Dict,
+    Tuple,
+    Type,
+    TypeVar,
+    TYPE_CHECKING
+)
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
 from xoa_driver.internals.core.commands.enums import (
     FilterType, 
     FilterVlanType,
+    ProtocolOption,
+    FilterMode,
 )
 from xoa_driver.internals.core.commands import (
-    PEF_INIT,
-    PEF_APPLY,
-    PEF_ENABLE,
     PEF_ETHSETTINGS,
     PEF_ETHSRCADDR,
     PEF_ETHDESTADDR,
@@ -45,41 +50,42 @@ from xoa_driver.internals.core.commands import (
     PEF_PROTOCOL,
     PEF_MODE,
 )
+from ._utils import prevent_set
 
 class FEthernet:
     """Filter for Ethernet field."""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int, filter_type: FilterType) -> None:
-        self.settings = PEF_ETHSETTINGS(conn, module_id, port_id, flow_index, filter_type)
+        self.settings = prevent_set(PEF_ETHSETTINGS(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """Filter action on Ethernet field.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_ETHSETTINGS`
         """
-        self.src_address = PEF_ETHSRCADDR(conn, module_id, port_id, flow_index, filter_type)
+        self.src_address = prevent_set(PEF_ETHSRCADDR(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """Ethernet source address settings for the filter.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_ETHSRCADDR`
         """
-        self.dest_address = PEF_ETHDESTADDR(conn, module_id, port_id, flow_index, filter_type)
+        self.dest_address = prevent_set(PEF_ETHDESTADDR(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """Ethernet destination address settings for the filter.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_ETHDESTADDR`
         """
 
 
-
 class FPerVlanType:
     """Filter for VLAN tag."""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int, filter_type: FilterType, vlan_type: FilterVlanType ) -> None:
-        self.tag = PEF_VLANTAG(conn, module_id, port_id, flow_index, filter_type, vlan_type)
+        self.tag = prevent_set(PEF_VLANTAG(conn, module_id, port_id, flow_index, filter_type, vlan_type), filter_type)
         """VLAN tag setting for the filter.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_VLANTAG`
         """
-        self.pcp = PEF_VLANPCP(conn, module_id, port_id, flow_index, filter_type, vlan_type)
+        self.pcp = prevent_set(PEF_VLANPCP(conn, module_id, port_id, flow_index, filter_type, vlan_type), filter_type)
         """VLAN PCP setting for the filter.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_VLANPCP`
         """
-        
+
+
 class FVlan:
     """Filter for VLAN field."""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int, filter_type: FilterType) -> None:
-        self.settings = PEF_VLANSETTINGS(conn, module_id, port_id, flow_index, filter_type)
+        self.settings = prevent_set(PEF_VLANSETTINGS(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """Filter action on VLAN field.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_VLANSETTINGS`
         """
@@ -87,19 +93,19 @@ class FVlan:
         """Filter for inner VLAN tag."""
         self.outer = FPerVlanType(conn, module_id, port_id, flow_index, filter_type, FilterVlanType.OUTER)
         """Filter for outer VLAN tag."""
-        
+
 class FUdp:
     """Filer for UDP field."""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int, filter_type: FilterType) -> None:
-        self.settings = PEF_UDPSETTINGS(conn, module_id, port_id, flow_index, filter_type)
+        self.settings = prevent_set(PEF_UDPSETTINGS(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """Filter action on UDP field.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_UDPSETTINGS`
         """
-        self.src_port = PEF_UDPSRCPORT(conn, module_id, port_id, flow_index, filter_type)
+        self.src_port = prevent_set(PEF_UDPSRCPORT(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """UDP source port settings for the filter.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_UDPSRCPORT`
         """
-        self.dest_port = PEF_UDPDESTPORT(conn, module_id, port_id, flow_index, filter_type)
+        self.dest_port = prevent_set(PEF_UDPDESTPORT(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """UDP destination port settings for the filter.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_UDPDESTPORT`
         """
@@ -107,15 +113,15 @@ class FUdp:
 class FTcp:
     """Filter for TCP."""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int, filter_type: FilterType) -> None:
-        self.settings = PEF_TCPSETTINGS(conn, module_id, port_id, flow_index, filter_type)
+        self.settings = prevent_set(PEF_TCPSETTINGS(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """Filter action on TCP field.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_TCPSETTINGS`
         """
-        self.src_port = PEF_TCPSRCPORT(conn, module_id, port_id, flow_index, filter_type)
+        self.src_port = prevent_set(PEF_TCPSRCPORT(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """TCP source port settings for the filter.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_TCPSRCPORT`
         """
-        self.dest_port = PEF_TCPDESTPORT(conn, module_id, port_id, flow_index, filter_type)
+        self.dest_port = prevent_set(PEF_TCPDESTPORT(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """TCP destination port settings for the filter.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_TCPDESTPORT`
         """
@@ -123,43 +129,43 @@ class FTcp:
 class FIPv4:
     """Filter for IPv4 field."""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int, filter_type: FilterType) -> None:
-        self.settings = PEF_IPV4SETTINGS(conn, module_id, port_id, flow_index, filter_type)
+        self.settings = prevent_set(PEF_IPV4SETTINGS(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """Filter action on IPv4 field.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_IPV4SETTINGS`
         """
-        self.src_address = PEF_IPV4SRCADDR(conn, module_id, port_id, flow_index, filter_type)
+        self.src_address = prevent_set(PEF_IPV4SRCADDR(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """IPv4 source address settings for the filter.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_IPV4SRCADDR`
         """
-        self.dest_address = PEF_IPV4DESTADDR(conn, module_id, port_id, flow_index, filter_type)
+        self.dest_address = prevent_set(PEF_IPV4DESTADDR(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """IPv4 destination address settings for the filter.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_IPV4DESTADDR`
         """
-        self.dscp = PEF_IPV4DSCP(conn, module_id, port_id, flow_index, filter_type)
+        self.dscp = prevent_set(PEF_IPV4DSCP(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """IPv4 DSCP/TOS settings for the filter.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_IPV4DSCP`
         """
-        
+
 class FIPv6:
     """Filter for IPv6 field."""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int, filter_type: FilterType) -> None:
-        self.settings = PEF_IPV6SETTINGS(conn, module_id, port_id, flow_index, filter_type)
+        self.settings = prevent_set(PEF_IPV6SETTINGS(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """Filter action on IPv6 field.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_IPV6SETTINGS`
         """
-        self.src_address = PEF_IPV6SRCADDR(conn, module_id, port_id, flow_index, filter_type)
+        self.src_address = prevent_set(PEF_IPV6SRCADDR(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """IPv6 source address settings for the filter.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_IPV6SRCADDR`
         """
-        self.dest_address = PEF_IPV6DESTADDR(conn, module_id, port_id, flow_index, filter_type)
+        self.dest_address = prevent_set(PEF_IPV6DESTADDR(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """IPv6 destination address settings for the filter.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_IPV6DESTADDR`
         """
-        self.traffic_class = PEF_IPV6TC(conn, module_id, port_id, flow_index, filter_type)
+        self.traffic_class = prevent_set(PEF_IPV6TC(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """IPv6 traffic class settings for the filter.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_IPV6TC`
         """
-        
+
 
 class FIp:
     """Filter for IP field."""
@@ -172,15 +178,15 @@ class FIp:
 class FMpls:
     """Filter for MPLS field."""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int, filter_type: FilterType) -> None:
-        self.settings = PEF_MPLSSETTINGS(conn, module_id, port_id, flow_index, filter_type)
+        self.settings = prevent_set(PEF_MPLSSETTINGS(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """Filter action on MPLS field.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_MPLSSETTINGS`
         """
-        self.label = PEF_MPLSLABEL(conn, module_id, port_id, flow_index, filter_type)
+        self.label = prevent_set(PEF_MPLSLABEL(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """MPLS label settings for the filter.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_MPLSLABEL`
         """
-        self.toc = PEF_MPLSTOC(conn, module_id, port_id, flow_index, filter_type)
+        self.toc = prevent_set(PEF_MPLSTOC(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """"MPLS TOC settings for the filter.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_MPLSTOC`
         """
@@ -188,12 +194,12 @@ class FMpls:
 class FTpld:
     """Filter for Xena TPLD field."""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int, filter_type: FilterType) -> None:
-        self.settings = PEF_TPLDSETTINGS(conn, module_id, port_id, flow_index, filter_type)
+        self.settings = prevent_set(PEF_TPLDSETTINGS(conn, module_id, port_id, flow_index, filter_type))
         """Filter action on Xena TPLD field.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_TPLDSETTINGS`
         """
         self.test_payload_filters_config = tuple( 
-            PEF_TPLDCONFIG(conn, module_id, port_id, flow_index, filter_type, test_payload_filter_index) 
+            prevent_set(PEF_TPLDCONFIG(conn, module_id, port_id, flow_index, filter_type, test_payload_filter_index), filter_type) 
             for test_payload_filter_index in range(16) # range need to put to the constants place
         )
         """TPLS filter configurations.
@@ -204,57 +210,26 @@ class FTpld:
 class FAny:
     """Filter for any field."""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int, filter_type: FilterType) -> None:
-        self.settings = PEF_ANYSETTINGS(conn, module_id, port_id, flow_index, filter_type)
+        self.settings = prevent_set(PEF_ANYSETTINGS(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """Filter action on any field.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_ANYSETTINGS`
         """
-        self.config = PEF_ANYCONFIG(conn, module_id, port_id, flow_index, filter_type)
+        self.config = prevent_set(PEF_ANYCONFIG(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """Any field's filter configurations.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_ANYCONFIG`
         """
 
-class FilterDefinition:
-    """Filter definition."""
+
+class ModeBasic:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int, filter_type: FilterType) -> None:
-        # TODO: check if possible to make an transparent way of setting values base on <mode> and <fid_type>
-        self.initiating = PEF_INIT(conn, module_id, port_id, flow_index)
-        """Preparing filter definition.
-        Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_INIT`
-        """
-        self.apply = PEF_APPLY(conn, module_id, port_id, flow_index)
-        """Apply filter defintion.
-        Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_APPLY`
-        """
-        self.protocol = PEF_PROTOCOL(conn, module_id, port_id, flow_index)
-        """Protocol segments match for the filter.
-        Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_PROTOCOL`
-        """
-        self.mode = PEF_MODE(conn, module_id, port_id, flow_index)
-        """Filter mode.
-        Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_MODE`
-        """
-        
-        self.enable = PEF_ENABLE(conn, module_id, port_id, flow_index, filter_type)
-        """Enabling the filter.
-        Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_ENABLE`
-        """
-        self.l2plus_use = PEF_L2PUSE(conn, module_id, port_id, flow_index, filter_type)
+        self.l2plus_use = prevent_set(PEF_L2PUSE(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """L2 protocol to use.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_L2PUSE`
         """
-        self.l3_use = PEF_L3USE(conn, module_id, port_id, flow_index, filter_type)
+        self.l3_use = prevent_set(PEF_L3USE(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """L3 protocol to use.
         Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_L3USE`
         """
-        self.value = PEF_VALUE(conn, module_id, port_id, flow_index, filter_type)
-        """Value bytes match for the filter.
-        Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_VALUE`
-        """
-        self.mask = PEF_MASK(conn, module_id, port_id, flow_index, filter_type)
-        """Mask byte value.
-        Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_MASK`
-        """
-        
         self.any = FAny(conn, module_id, port_id, flow_index, filter_type)
         """Filter for any field."""
         self.tpld = FTpld(conn, module_id, port_id, flow_index, filter_type)
@@ -271,3 +246,74 @@ class FilterDefinition:
         """Filter for VLAN field."""
         self.ethernet = FEthernet(conn, module_id, port_id, flow_index, filter_type)
         """Filter for Ethernet field."""
+
+
+class ProtocolSegment:
+    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int, filter_type: FilterType, protocol_segment_index: int, segment_type: ProtocolOption) -> None:
+        self.segment_type = segment_type
+        
+        self.value = prevent_set(PEF_VALUE(conn, module_id, port_id, flow_index, filter_type, protocol_segment_index), filter_type)
+        """Value bytes match for the filter.
+        Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_VALUE`
+        """
+        self.mask = prevent_set(PEF_MASK(conn, module_id, port_id, flow_index, filter_type, protocol_segment_index), filter_type)
+        """Mask byte value.
+        Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_MASK`
+        """
+
+class ModeExtended:
+    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int, filter_type: FilterType) -> None:
+        self._conn = conn
+        self._module_id = module_id
+        self._port_id = port_id
+        self._flow_index = flow_index
+        self._filter_type = filter_type
+                
+        # self.protocol = prevent_set(PEF_PROTOCOL(conn, module_id, port_id, flow_index, filter_type))
+        # """Protocol segments match for the filter.
+        # Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_PROTOCOL`
+        # """
+        
+    async def get_protocol_segments(self) -> Tuple[ProtocolSegment, ...]:
+        segments_raw = (
+            await PEF_PROTOCOL(
+                self._conn, 
+                self._module_id, 
+                self._port_id, 
+                self._flow_index, 
+                self._filter_type
+            ).get()
+        ).segment_list
+        return tuple( 
+            ProtocolSegment(
+                self._conn, 
+                self._module_id, 
+                self._port_id, 
+                self._flow_index, 
+                self._filter_type,
+                idx, # TODO: need to discute with Leo
+                ProtocolOption(segment_type)
+            ) 
+            for idx, segment_type in enumerate(segments_raw) 
+        )
+
+T = TypeVar("T")
+async def get_mode(conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int, filter_type: FilterType, mode_types: Dict[FilterMode, Type[T]] ) -> T:
+    mode_raw = (
+        await PEF_MODE(
+            conn, 
+            module_id, 
+            port_id, 
+            flow_index, 
+            filter_type,
+        ).get()
+    ).mode
+    mode_type = mode_types[FilterMode(mode_raw)]
+    return mode_type(
+        conn, 
+        module_id, 
+        port_id, 
+        flow_index, 
+        filter_type,
+    )
+

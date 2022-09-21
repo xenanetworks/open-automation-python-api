@@ -1,4 +1,7 @@
-from typing import TYPE_CHECKING, List
+from typing import (
+    TYPE_CHECKING,
+    List,
+)
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
 from xoa_driver.internals.core.commands import (
@@ -9,7 +12,7 @@ from xoa_driver.internals.core.commands import (
     PEC_DISTTYPE,
 )
 
-from xoa_driver.internals.utils.indices import observer # import IndicesObserver, IndexEvents
+from xoa_driver.internals.utils.indices import observer
 class CustomDistribution:
     """Custom distribution"""
     def __init__(self, observer: "observer.IndicesObserver", conn: "itf.IConnection", module_id: int, port_id: int, custom_distribution_index: int) -> None:
@@ -100,7 +103,7 @@ class CustomDistributions:
         Assign Custom distribution indices, all indices which is out of range will be removed.
         ``idx_cuantity`` permitted values is: 0 <= idx_cuantity <= 40
         """
-        if not (0 < idx_cuantity < 40):
+        if not (0 <= idx_cuantity <= 40):
             raise ValueError("idx_cuantity must be in range of: 0 <= idx_cuantity <= 40")
         await PEC_INDICES(self.__conn, self.__module_id, self.__port_id).set([i for i in range(idx_cuantity) ])
         await self.server_sync()

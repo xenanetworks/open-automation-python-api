@@ -136,7 +136,7 @@ __all__ = (
     "ErrorOnOff",
     "PRBSPattern",
     "PHYSignalStatus",
-    "ShadowWorkingSelection",
+    # "ShadowWorkingSelection",
     "TSNConfigProfile",
     "TSNPortRole",
     "TSNDeviationMode",
