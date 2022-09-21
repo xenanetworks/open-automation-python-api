@@ -1677,14 +1677,6 @@ class ImpairmentLatencyMode(IntEnum):
     EXTENDED = 1
     """Extended"""
 
-# TODO: sims like not in use
-# class ShadowWorkingSelection(IntEnum):
-#     """Shadow Working Selection"""
-#     SHADOW = 0
-#     """Shadow"""
-#     WORKING = 1
-#     """Working"""
-
 
 class FilterType(IntEnum):
     """Filter Type for Impairemennt"""
