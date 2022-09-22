@@ -626,8 +626,10 @@ class AlignLockStatus(IntEnum):
     """Alignment Lock Off"""
     ALIGNON = 1
     """Alignment Lock On"""
-    ALIGNUNSTABLE = 3
-    """Alignment Lock Unstable"""
+    ALIGNOFFUNSTABLE = 2
+    """Alignment Lock Off and Unstable"""
+    ALIGNONUNSTABLE = 3
+    """Alignment Lock On but Unstable"""
 
 
 class PRBSLockStatus(IntEnum):
