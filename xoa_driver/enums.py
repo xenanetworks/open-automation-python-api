@@ -150,5 +150,8 @@ __all__ = (
     "FilterVlanType",
     "LatencyTypeCustomDist",
     "CommandStatus",
-    "TrafficEngine"
+    "TrafficEngine",
+    "FaultSignaling",
+    "PPMSweepStatus",
+    "PPMSweepMode"
 )
