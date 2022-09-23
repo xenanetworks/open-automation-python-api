@@ -1793,3 +1793,18 @@ class TSNStatisticsTypes(IntEnum):
     """PDelay."""
     SYNCRATE = 4
     """Sync rate."""
+
+
+class PPMSweepMode(IntEnum):
+    """Module clock PPM Sweep Modes"""
+    OFF = 0
+    """Off"""
+    TRIANGLE = 1
+    """Triangle sweeping"""
+
+class PPMSweepStatus(IntEnum):
+    """Module clock PPM Sweep Status"""
+    OFF = 0
+    """Off"""
+    SWEEPING = 1
+    """The module is sweeping"""
