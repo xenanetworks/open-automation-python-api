@@ -11,15 +11,17 @@ if TYPE_CHECKING:
 
 class FamilyD(BasePortL23Genuine):
     """L23 ports that supports MDI/MDIX and """
+
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         super().__init__(conn, module_id, port_id)
         self.mdix_mode = P_MDIXMODE(conn, module_id, port_id)
         """L23 port's MDI/MDIX mode.
-        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_MDIXMODE`
+        Representation of P_MDIXMODE
         """
+        
         self.autoneg_selection = P_AUTONEGSELECTION(conn, module_id, port_id)
         """L23 port's auto-negotiation selection.
-        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_AUTONEGSELECTION`
+        Representation of P_AUTONEGSELECTION
         """
 
     on_autoneg_selection = functools.partialmethod(utils.on_event, P_AUTONEGSELECTION)

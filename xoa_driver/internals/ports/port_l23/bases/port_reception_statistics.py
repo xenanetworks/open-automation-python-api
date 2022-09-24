@@ -27,27 +27,32 @@ from xoa_driver.internals.core.commands import (
 # region All Ports
 class PrsTPLD:
     """L23 port's TPLD traffic statisttics."""
+
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, tpld_idx: int) -> None:
         self.traffic = PR_TPLDTRAFFIC(conn, module_id, port_id, tpld_idx)
         """L23 port's statistics of traffic with TPLD.
-        Representation of :class:`~xoa_driver.internals.core.commands.pr_commands.PR_TPLDTRAFFIC`
+        Representation of PR_TPLDTRAFFIC
         """
+        
         self.errors = PR_TPLDERRORS(conn, module_id, port_id, tpld_idx)
         """L23 port's error statistics of traffic with TPLD.
-        Representation of :class:`~xoa_driver.internals.core.commands.pr_commands.PR_TPLDERRORS`
+        Representation of PR_TPLDERRORS
         """
+        
         self.latency= PR_TPLDLATENCY(conn, module_id, port_id, tpld_idx)
         """L23 port's latency statistics of traffic with TPLD.
-        Representation of :class:`~xoa_driver.internals.core.commands.pr_commands.PR_TPLDLATENCY`
+        Representation of PR_TPLDLATENCY
         """
+        
         self.jitter = PR_TPLDJITTER(conn, module_id, port_id, tpld_idx)
         """L23 port's jitter statistics of traffic with TPLD.
-        Representation of :class:`~xoa_driver.internals.core.commands.pr_commands.PR_TPLDJITTER`
+        Representation of PR_TPLDJITTER
         """
 
 
 class PortReceptionStatistics:
     """Port RX statistics"""
+    
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.__conn = conn
         self.__module_id = module_id
@@ -57,23 +62,28 @@ class PortReceptionStatistics:
         
         self.total = PR_TOTAL(conn, module_id, port_id)
         """L23 port's total traffic statistics.
-        Representation of :class:`~xoa_driver.internals.core.commands.pr_commands.PR_TOTAL`
+        Representation of PR_TOTAL
         """
+        
         self.no_tpld = PR_NOTPLD(conn, module_id, port_id)
         """L23 port's statistics of traffic without TPLD.
-        Representation of :class:`~xoa_driver.internals.core.commands.pr_commands.PR_NOTPLD`
+        Representation of PR_NOTPLD
         """
+        
         self.extra = PR_EXTRA(conn, module_id, port_id)
         """L23 port's extra traffic statistics.
-        Representation of :class:`~xoa_driver.internals.core.commands.pr_commands.PR_EXTRA`
+        Representation of PR_EXTRA
         """
+        
         self.pfc_packets = PR_PFCSTATS(conn, module_id, port_id)
         """L23 port's statistics of received PFC packets.
-        Representation of :class:`~xoa_driver.internals.core.commands.pr_commands.PR_PFCSTATS`
+        Representation of PR_PFCSTATS
         """
+        
+        
         self.clear = PR_CLEAR(conn, module_id, port_id)
         """Clear all RX statistics on the L23 port.
-        Representation of :class:`~xoa_driver.internals.core.commands.pr_commands.PR_CLEAR`
+        Representation of PR_CLEAR
         """
     
     def obtain_filter_statistics(self, filter: int) -> "PR_FILTER":
@@ -84,6 +94,7 @@ class PortReceptionStatistics:
         :return: filtered traffic statistics
         :rtype: PR_FILTER
         """
+        
         return PR_FILTER(
             self.__conn, 
             self.__module_id, 
@@ -99,6 +110,7 @@ class PortReceptionStatistics:
         :return: L23 port's TPLD traffic statistics
         :rtype: PrsTPLD
         """
+        
         return PrsTPLD(self.__conn, self.__module_id, self.__port_id, tpld_id)
     
     async def obtain_available_tplds(self) -> Dict[int, "PrsTPLD"]:
@@ -116,24 +128,28 @@ class PortReceptionStatistics:
 # region Genuine Ports
 class GPrsUat():
     """L23 port UAT info."""
+
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.status = PR_UAT_STATUS(conn, module_id, port_id)
         """L23 port UAT status.
-        Representation of :class:`~xoa_driver.internals.core.commands.pr_commands.PR_UAT_STATUS`
+        Representation of PR_UAT_STATUS
         """
+        
         self.time = PR_UAT_TIME(conn, module_id, port_id)
         """L23 port number of unavailable seconds.
-        Representation of :class:`~xoa_driver.internals.core.commands.pr_commands.PR_UAT_TIME`
+        Representation of PR_UAT_TIME
         """
 
 class GenuinePortReceptionStatistics(PortReceptionStatistics):
     """L23 port RX statistics."""
+
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         super().__init__(conn, module_id, port_id)
         self.calibrate = PR_CALIBRATE(conn, module_id, port_id)
         """L23 port calibration of latency for received packets.
-        Representation of :class:`~xoa_driver.internals.core.commands.pr_commands.PR_CALIBRATE`
+        Representation of PR_CALIBRATE
         """
+        
         self.uat = GPrsUat(conn, module_id, port_id)
         """L23 port UAT info.
         """

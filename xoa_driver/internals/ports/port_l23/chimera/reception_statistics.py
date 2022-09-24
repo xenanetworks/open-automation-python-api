@@ -9,12 +9,14 @@ from xoa_driver.internals.core.commands import (
 
 class ReceptionStatistics:
     """Chimera RX statistics."""
+
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_idx: int) -> None:
         self.total = PR_FLOWTOTAL(conn, module_id, port_id, flow_idx)
         """RX statistics of a flow.
-        Representation of :class:`~xoa_driver.internals.core.commands.pr_commands.PR_FLOWTOTAL`
+        Representation of PR_FLOWTOTAL
         """
+        
         self.clear = PR_FLOWCLEAR(conn, module_id, port_id, flow_idx)
         """Clear RX statistics of a flow.
-        Representation of :class:`~xoa_driver.internals.core.commands.pr_commands.PR_FLOWCLEAR`
+        Representation of PR_FLOWCLEAR
         """

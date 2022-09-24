@@ -24,15 +24,15 @@ class ModuleL23VE(bm.BaseModule["modules_state.ModuleLocalState"]):
         
         self.comment = M_COMMENT(conn, self.module_id)
         """Test module's description.
-        Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_COMMENT`
+        Representation of M_COMMENT
         """
         self.capabilities = M_CAPABILITIES(conn, self.module_id)
         """Test module's capabilities.
-        Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_CAPABILITIES`
+        Representation of M_CAPABILITIES
         """
         self.multiuser = M_MULTIUSER(conn, self.module_id)
         """If multiple users are allowed to control the same test module.
-        Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_MULTIUSER`
+        Representation of M_MULTIUSER
         """
         
         self.ports: pm.PortsManager[ports.PortL23VE] = pm.PortsManager(

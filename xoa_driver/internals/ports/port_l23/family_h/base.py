@@ -16,15 +16,18 @@ from ..pcs_pma_ghijkl import (
 )
 class Fault:
     """L23 port fault settings."""
+
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.signaling = P_FAULTSIGNALING(conn, module_id, port_id)
         """L23 port fault signaling.
-        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_FAULTSIGNALING`
+        Representation of P_FAULTSIGNALING
         """
+        
         self.status = P_FAULTSTATUS(conn, module_id, port_id)
         """L23 port fault status.
-        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_FAULTSTATUS`
+        Representation of P_FAULTSTATUS
         """
+        
         self.pcs_pma = PcsPma(conn, self)
         """PCS/PMA settings."""
 
@@ -33,7 +36,7 @@ class FamilyH(BasePortL23Genuine):
         super().__init__(conn, module_id, port_id)
         self.dynamic = P_DYNAMIC(conn, module_id, port_id)
         """L23 port's dynamic traffic change.
-        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_DYNAMIC`
+        Representation of P_DYNAMIC
         """
 
     async def _setup(self):
@@ -46,6 +49,7 @@ class FamilyH(BasePortL23Genuine):
 
     on_fault_signaling_change = functools.partialmethod(utils.on_event, P_FAULTSIGNALING)
     """Register a callback to the event that the port's fault signalling changes."""
+    
     on_dynamic_change = functools.partialmethod(utils.on_event, P_DYNAMIC)
     """Register a callback to the event that the port's dynamic traffic setting changes."""
     

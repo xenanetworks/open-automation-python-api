@@ -50,25 +50,25 @@ class License:
     """License management for Vulcan"""
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.demo_info = M_LICENSE_DEMO_INFO(conn, module_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_LICENSE_DEMO_INFO`
+        """Representation of M_LICENSE_DEMO_INFO
         """
         self.management_info = M_LICENSE_MAINTENANCE_INFO(conn, module_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_LICENSE_MAINTENANCE_INFO`
+        """Representation of M_LICENSE_MAINTENANCE_INFO
         """
         self.clock_windback = M_LICENSE_CWB_DETECTED(conn, module_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_LICENSE_CWB_DETECTED`
+        """Representation of M_LICENSE_CWB_DETECTED
         """
         self.update = M_LICENSE_UPDATE(conn, module_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_LICENSE_UPDATE`
+        """Representation of M_LICENSE_UPDATE
         """
         self.update_status = M_LICENSE_UPDATE_STATUS(conn, module_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_LICENSE_UPDATE_STATUS`
+        """Representation of M_LICENSE_UPDATE_STATUS
         """
         self.list_bson = M_LICENSE_LIST_BSON(conn, module_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_LICENSE_LIST_BSON`
+        """Representation of M_LICENSE_LIST_BSON
         """
         self.online_mode = M_LICENSE_ONLINE(conn, module_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_LICENSE_ONLINE`
+        """Representation of M_LICENSE_ONLINE
         """
 
 
@@ -76,16 +76,16 @@ class CaptureParse:
     """Parse a captured pcap file"""
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.start = M4_REPLAY_PARSE_START(conn, module_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.m4_commands.M4_REPLAY_PARSE_START`
+        """Representation of :class:~xoa_driver.internals.core.commands.m4_commands.M4_REPLAY_PARSE_START
         """
         self.stop = M4_REPLAY_PARSE_STOP(conn, module_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.m4_commands.M4_REPLAY_PARSE_STOP`
+        """Representation of :class:~xoa_driver.internals.core.commands.m4_commands.M4_REPLAY_PARSE_STOP
         """
         self.state = M4_REPLAY_PARSE_STATE(conn, module_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.m4_commands.M4_REPLAY_PARSE_STATE`
+        """Representation of :class:~xoa_driver.internals.core.commands.m4_commands.M4_REPLAY_PARSE_STATE
         """
         self.parser_params = M4_REPLAY_PARSER_PARAMS(conn, module_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.m4_commands.M4_REPLAY_PARSER_PARAMS`
+        """Representation of :class:~xoa_driver.internals.core.commands.m4_commands.M4_REPLAY_PARSER_PARAMS
         """
 
 
@@ -93,14 +93,14 @@ class ReplayFile:
     """The pcap files to replay"""
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.list_bson = M4_REPLAY_FILE_LIST_BSON(conn, module_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.m4_commands.M4_REPLAY_FILE_LIST_BSON`
+        """Representation of :class:~xoa_driver.internals.core.commands.m4_commands.M4_REPLAY_FILE_LIST_BSON
         """
         self.list = M4_REPLAY_FILE_LIST(conn, module_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.m4_commands.M4_REPLAY_FILE_LIST`
+        """Representation of :class:~xoa_driver.internals.core.commands.m4_commands.M4_REPLAY_FILE_LIST
         """
         # self.info_bson = M4_REPLAY_FILE_INFO_BSON(conn, module_id) # TODO: need to implement
         self.delete = M4_REPLAY_FILE_DELETE(conn, module_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.m4_commands.M4_REPLAY_FILE_DELETE`
+        """Representation of :class:~xoa_driver.internals.core.commands.m4_commands.M4_REPLAY_FILE_DELETE
         """
 
 
@@ -115,16 +115,16 @@ class Capture:
     """Captured pcap file"""
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.size = M4_CAPTURE_SIZE(conn, module_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.m4_commands.M4_CAPTURE_SIZE`
+        """Representation of :class:~xoa_driver.internals.core.commands.m4_commands.M4_CAPTURE_SIZE
         """
         self.file_list_bson = M4_CAPTURE_FILE_LIST_BSON(conn, module_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.m4_commands.M4_CAPTURE_FILE_LIST_BSON`
+        """Representation of :class:~xoa_driver.internals.core.commands.m4_commands.M4_CAPTURE_FILE_LIST_BSON
         """
         self.file_list = M4_CAPTURE_FILE_LIST(conn, module_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.m4_commands.M4_CAPTURE_FILE_LIST`
+        """Representation of :class:~xoa_driver.internals.core.commands.m4_commands.M4_CAPTURE_FILE_LIST
         """
         self.file_delete = M4_CAPTURE_FILE_DELETE(conn, module_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.m4_commands.M4_CAPTURE_FILE_DELETE`
+        """Representation of :class:~xoa_driver.internals.core.commands.m4_commands.M4_CAPTURE_FILE_DELETE
         """
         self.parse = CaptureParse(conn, module_id)
         """Parse a captured pcap file."""
@@ -134,13 +134,13 @@ class PacketEngine:
     """Packet engine"""
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.license_info = M4_LICENSE_INFO(conn, module_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.m4_commands.M4_LICENSE_INFO`
+        """Representation of :class:~xoa_driver.internals.core.commands.m4_commands.M4_LICENSE_INFO
         """
         self.reserve = M4E_RESERVE(conn, module_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.m4e_commands.M4E_RESERVE`
+        """Representation of :class:~xoa_driver.internals.core.commands.m4e_commands.M4E_RESERVE
         """
         self.mode = M4E_MODE(conn, module_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.m4e_commands.M4E_MODE`
+        """Representation of :class:~xoa_driver.internals.core.commands.m4e_commands.M4E_MODE
         """
 
 
@@ -148,13 +148,13 @@ class ModuleSystem:
     """L47 module info"""
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.id = M4_SYSTEMID(conn, module_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.m4_commands.M_COMMEM4_SYSTEMIDNT`
+        """Representation of :class:~xoa_driver.internals.core.commands.m4_commands.M_COMMEM4_SYSTEMIDNT
         """
         self.status = M4_SYSTEM_STATUS(conn, module_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.m4_commands.M4_SYSTEM_STATUS`
+        """Representation of :class:~xoa_driver.internals.core.commands.m4_commands.M4_SYSTEM_STATUS
         """
         self.time = M4_SYSTEM_TIME(conn, module_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.m4_commands.M4_SYSTEM_TIME`
+        """Representation of :class:~xoa_driver.internals.core.commands.m4_commands.M4_SYSTEM_TIME
         """
 
 class ModuleL47(bm.BaseModule["modules_state.ModuleLocalState"]):
@@ -167,19 +167,19 @@ class ModuleL47(bm.BaseModule["modules_state.ModuleLocalState"]):
         self._local_states = modules_state.ModuleLocalState()
         
         self.version_number = M4_VERSIONNO(conn, self.module_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.m4_commands.M4_VERSIONNO`
+        """Representation of :class:~xoa_driver.internals.core.commands.m4_commands.M4_VERSIONNO
         """
         self.compatible_client_version = M4_COMPATIBLE_CLIENT_VERSION(conn, self.module_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.m4_commands.M4_COMPATIBLE_CLIENT_VERSION`
+        """Representation of :class:~xoa_driver.internals.core.commands.m4_commands.M4_COMPATIBLE_CLIENT_VERSION
         """
         self.time = M4_TIME(conn, self.module_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.m4_commands.M4_TIME`
+        """Representation of :class:~xoa_driver.internals.core.commands.m4_commands.M4_TIME
         """
         self.tls_chiper = M4_TLS_CIPHER_SUITES(conn, self.module_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.m4_commands.M4_TLS_CIPHER_SUITES`
+        """Representation of :class:~xoa_driver.internals.core.commands.m4_commands.M4_TLS_CIPHER_SUITES
         """
         self.memory_info = M4_MEM_INFO(conn, self.module_id) # Not sure if suppose to be here, maybe under ModuleSystem
-        """Representation of :class:`~xoa_driver.internals.core.commands.m4_commands.M4_MEM_INFO`
+        """Representation of :class:~xoa_driver.internals.core.commands.m4_commands.M4_MEM_INFO
         """
 
         self.module_system = ModuleSystem(conn, self.module_id)

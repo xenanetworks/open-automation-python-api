@@ -29,15 +29,15 @@ class GCountersTlsState:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, group_idx: int) -> None:
         self.current = P4G_TLS_STATE_CURRENT(conn, module_id, port_id, group_idx)
         """
-        Representation of :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TLS_STATE_CURRENT`
+        Representation of P4G_TLS_STATE_CURRENT
         """
         self.total = P4G_TLS_STATE_TOTAL(conn, module_id, port_id, group_idx)
         """
-        Representation of :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TLS_STATE_TOTAL`
+        Representation of P4G_TLS_STATE_TOTAL
         """
         self.rate = P4G_TLS_STATE_RATE(conn, module_id, port_id, group_idx)
         """
-        Representation of :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TLS_STATE_RATE`
+        Representation of P4G_TLS_STATE_RATE
         """
 
 
@@ -46,11 +46,11 @@ class GCountersTlsAlert:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, group_idx: int) -> None:
         self.warning = P4G_TLS_ALERT_WARNING_COUNTERS(conn, module_id, port_id, group_idx)
         """
-        Representation of :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TLS_ALERT_WARNING_COUNTERS`
+        Representation of P4G_TLS_ALERT_WARNING_COUNTERS
         """
         self.fatal = P4G_TLS_ALERT_FATAL_COUNTERS(conn, module_id, port_id, group_idx)
         """
-        Representation of :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TLS_ALERT_FATAL_COUNTERS`
+        Representation of P4G_TLS_ALERT_FATAL_COUNTERS
         """
 
 
@@ -59,11 +59,11 @@ class GCountersTlsPayload:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, group_idx: int) -> None:
         self.rx = P4G_TLS_RX_PAYLOAD_COUNTERS(conn, module_id, port_id, group_idx)
         """
-        Representation of :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TLS_RX_PAYLOAD_COUNTERS`
+        Representation of P4G_TLS_RX_PAYLOAD_COUNTERS
         """
         self.tx = P4G_TLS_TX_PAYLOAD_COUNTERS(conn, module_id, port_id, group_idx)
         """
-        Representation of :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TLS_TX_PAYLOAD_COUNTERS`
+        Representation of P4G_TLS_TX_PAYLOAD_COUNTERS
         """
 
 
@@ -83,11 +83,11 @@ class GHistogramTlsPayload:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, group_idx: int) -> None:
         self.rx_bytes = P4G_TLS_RX_PAYLOAD_BYTES_HIST(conn, module_id, port_id, group_idx)
         """
-        Representation of :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TLS_RX_PAYLOAD_BYTES_HIST`
+        Representation of P4G_TLS_RX_PAYLOAD_BYTES_HIST
         """
         self.tx_bytes = P4G_TLS_TX_PAYLOAD_BYTES_HIST(conn, module_id, port_id, group_idx)
         """
-        Representation of :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TLS_TX_PAYLOAD_BYTES_HIST`
+        Representation of P4G_TLS_TX_PAYLOAD_BYTES_HIST
         """
 
 
@@ -96,7 +96,7 @@ class GHistogramTls:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, group_idx: int) -> None:
         self.handshake = P4G_TLS_HANDSHAKE_HIST(conn, module_id, port_id, group_idx)
         """
-        Representation of :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TLS_HANDSHAKE_HIST`
+        Representation of P4G_TLS_HANDSHAKE_HIST
         """
         self.payload = GHistogramTlsPayload(conn, module_id, port_id, group_idx)
         """TLS payload histogram"""
@@ -107,11 +107,11 @@ class GProtocolTls:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, group_idx: int) -> None:
         self.version = P4G_TLS_PROTOCOL_VER(conn, module_id, port_id, group_idx)
         """
-        Representation of :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TLS_PROTOCOL_VER`
+        Representation of P4G_TLS_PROTOCOL_VER
         """
         self.min_required_version = P4G_TLS_MIN_REQ_PROTOCOL_VER(conn, module_id, port_id, group_idx)
         """
-        Representation of :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TLS_MIN_REQ_PROTOCOL_VER`
+        Representation of P4G_TLS_MIN_REQ_PROTOCOL_VER
         """
 
 
@@ -120,15 +120,15 @@ class GFileTls:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, group_idx: int) -> None:
         self.certificate_path = P4G_TLS_CERTIFICATE_FILENAME(conn, module_id, port_id, group_idx)
         """
-        Representation of :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TLS_CERTIFICATE_FILENAME`
+        Representation of P4G_TLS_CERTIFICATE_FILENAME
         """
         self.private_key_path = P4G_TLS_PRIVATE_KEY_FILENAME(conn, module_id, port_id, group_idx)
         """
-        Representation of :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TLS_PRIVATE_KEY_FILENAME`
+        Representation of P4G_TLS_PRIVATE_KEY_FILENAME
         """
         self.dhparams_path = P4G_TLS_DHPARAMS_FILENAME(conn, module_id, port_id, group_idx)
         """
-        Representation of :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TLS_DHPARAMS_FILENAME`
+        Representation of P4G_TLS_DHPARAMS_FILENAME
         """
 
 
@@ -137,23 +137,23 @@ class GTls:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, group_idx: int) -> None:
         self.enable = P4G_TLS_ENABLE(conn, module_id, port_id, group_idx)
         """
-        Representation of :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TLS_ENABLE`
+        Representation of P4G_TLS_ENABLE
         """
         self.server_name = P4G_TLS_SERVER_NAME(conn, module_id, port_id, group_idx)
         """
-        Representation of :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TLS_SERVER_NAME`
+        Representation of P4G_TLS_SERVER_NAME
         """
         self.close_notify = P4G_TLS_CLOSE_NOTIFY(conn, module_id, port_id, group_idx)
         """
-        Representation of :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TLS_CLOSE_NOTIFY`
+        Representation of P4G_TLS_CLOSE_NOTIFY
         """
         self.cipher_suites = P4G_TLS_CIPHER_SUITES(conn, module_id, port_id, group_idx)
         """
-        Representation of :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TLS_CIPHER_SUITES`
+        Representation of P4G_TLS_CIPHER_SUITES
         """
         self.max_record_size = P4G_TLS_MAX_RECORD_SIZE(conn, module_id, port_id, group_idx)
         """
-        Representation of :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TLS_MAX_RECORD_SIZE`
+        Representation of P4G_TLS_MAX_RECORD_SIZE
         """
         
         self.file = GFileTls(conn, module_id, port_id, group_idx)

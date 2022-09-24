@@ -31,8 +31,9 @@ class FamilyL(BasePortL23Genuine):
         super().__init__(conn, module_id, port_id)
         self.dynamic = P_DYNAMIC(conn, module_id, port_id)
         """L23 port's dynamic traffic change.
-        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_DYNAMIC`
+        Representation of P_DYNAMIC
         """
+        
         self.fault = Fault(conn, module_id, port_id)
 
     async def _setup(self):
@@ -46,6 +47,7 @@ class FamilyL(BasePortL23Genuine):
 
     on_fault_signaling_change = functools.partialmethod(utils.on_event, P_FAULTSIGNALING)
     """Register a callback to the event that the port's fault signalling changes."""
+    
     on_dynamic_change = functools.partialmethod(utils.on_event, P_DYNAMIC)
     """Register a callback to the event that the port's dynamic traffic setting changes."""
 

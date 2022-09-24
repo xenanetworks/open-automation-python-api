@@ -14,7 +14,7 @@ class FamilyM(BasePortL23Genuine):
         super().__init__(conn, module_id, port_id)
         self.brr_mode = P_BRRMODE(conn, module_id, port_id)
         """BRR mode.
-        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_BRRMODE`
+        Representation of P_BRRMODE
         """
 
     on_brr_mode_change = functools.partialmethod(utils.on_event, P_BRRMODE)

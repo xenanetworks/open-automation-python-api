@@ -37,32 +37,32 @@ class BaseModule(ABC, Generic[T]):
         self.ports_count = init_data.ports_count
         self.reservation = M_RESERVATION(self._conn, self.module_id)
         """Test module's reservation action.
-        Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_RESERVATION`
+        Representation of M_RESERVATION
         """
 
         self.reserved_by = M_RESERVEDBY(self._conn, self.module_id)
         """Test module's reservation status.
-        Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_RESERVEDBY`
+        Representation of M_RESERVEDBY
         """
 
         self.model = M_MODEL(self._conn, self.module_id)
         """Test module's model.
-        Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_MODEL`
+        Representation of M_MODEL
         """
 
         self.serial_number = M_SERIALNO(self._conn, self.module_id)
         """Test module's serial number.
-        Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_SERIALNO`
+        Representation of M_SERIALNO
         """
 
         self.version_number = M_VERSIONNO(self._conn, self.module_id)
         """Test module's version number.
-        Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_VERSIONNO`
+        Representation of M_VERSIONNO
         """
 
         self.port_count = M_PORTCOUNT(self._conn, self.module_id)
         """Max port count of the test module.
-        Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_PORTCOUNT`
+        Representation of M_PORTCOUNT
         """
     
     @property

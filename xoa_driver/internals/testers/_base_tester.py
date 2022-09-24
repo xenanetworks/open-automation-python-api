@@ -59,62 +59,62 @@ class BaseTester(ABC, Generic[TesterStateStorage]):
         self.name = C_NAME(self._conn)
         """
         Tester's name.
-        Representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_NAME`
+        Representation of C_NAME
         """
 
         self.comment = C_COMMENT(self._conn)
         """Description of the tester.
-        Representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_COMMENT`
+        Representation of C_COMMENT
         """
 
         self.model = C_MODEL(self._conn)
         """Tester's model.
-        Representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_MODEL`
+        Representation of C_MODEL
         """
 
         self.version_no = C_VERSIONNO(self._conn)
         """Tester's version number.
-        Representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_VERSIONNO`
+        Representation of C_VERSIONNO
         """
 
         self.serial_no = C_SERIALNO(self._conn)
         """Tester's serial number.
-        Representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_SERIALNO`
+        Representation of C_SERIALNO
         """
 
         self.reservation = C_RESERVATION(self._conn)
         """Tester's reservation operation.
-        Representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_RESERVATION`
+        Representation of C_RESERVATION
         """
 
         self.reserved_by = C_RESERVEDBY(self._conn)
         """Tester's reservation status.
-        Representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_RESERVEDBY`
+        Representation of C_RESERVEDBY
         """
 
         self.down = C_DOWN(self._conn)
         """Shut down the tester.
-        Representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_DOWN`
+        Representation of C_DOWN
         """
 
         self.password = C_PASSWORD(self._conn)
         """Tester's password.
-        Representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_PASSWORD`
+        Representation of C_PASSWORD
         """
 
         self.time = C_TIME(self._conn)
         """Tester's time in seconds.
-        Representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_TIME`
+        Representation of C_TIME
         """
 
         self.capabilities = C_CAPABILITIES(self._conn)
         """Tester's capabilities.
-        Representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_CAPABILITIES`
+        Representation of C_CAPABILITIES
         """
 
         self.debug_log = C_DEBUGLOGS(self._conn)
         """Tester's debug log.
-        Representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_DEBUGLOGS`
+        Representation of C_DEBUGLOGS
         """
 
     async def __aenter__(self: Awaitable[T]) -> T:
@@ -152,6 +152,7 @@ class BaseTester(ABC, Generic[TesterStateStorage]):
         """
         Tester's local information.
         """
+        
         raise NotImplementedError()
 
 
@@ -166,18 +167,21 @@ class BaseTester(ABC, Generic[TesterStateStorage]):
         """
         Register a callback which will be called at the time when connection will be closed.
         """
+
         self._conn.on_disconnected(callback)
 
     def on_reservation_change(self, callback: "Callable") -> None:
         """
         Register an callback function to C_RESERVATION event.
         """
+
         self._conn.subscribe(C_RESERVATION, callback)
 
     def on_reserved_by_change(self, callback: "Callable") -> None:
         """
         Register an callback function to C_RESERVEDBY event.
         """
+
         self._conn.subscribe(C_RESERVEDBY, callback)
 
     # endregion
