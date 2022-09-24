@@ -6,7 +6,7 @@ from xoa_driver import ports
 from xoa_driver import enums
 from xoa_driver import utils
 
-async def my_awesome_script():
+async def my_awesome_func():
     # Establish connection to a Valkyrie tester 10.10.10.10 with username JonDoe.
     async with testers.L23Tester("10.10.10.10", "JonDoe") as tester:
         
@@ -113,7 +113,7 @@ async def my_awesome_script():
 def main():
     try:
         loop = asyncio.get_event_loop()
-        loop.create_task(my_awesome_script())
+        loop.create_task(my_awesome_func())
         loop.run_forever()
     except KeyboardInterrupt:
         pass

@@ -1,13 +1,21 @@
 import asyncio
-
 import typing
-# import available testers
 from xoa_driver import testers
+
+# region high-level functions
+
+# --------------------------------------------------------------------------------------#
+# function name: create_testers                                                         #
+# This function creates multiple tester instances.                                      #
+#                                                                                       #
+# --------------------------------------------------------------------------------------#
 
 def create_testers(hosts: typing.List[str], username: str) -> typing.List["testers.GenericAnyTester"]:
     return [ testers.L23Tester(host, username) for host in hosts ]
 
-async def my_awesome_script():
+# endregion
+
+async def my_awesome_func():
     known_hosts = [
         "192.168.1.195",
         "192.168.1.196",
@@ -27,7 +35,7 @@ async def my_awesome_script():
 def main():
     try:
         loop = asyncio.get_event_loop()
-        loop.create_task(my_awesome_script())
+        loop.create_task(my_awesome_func())
         loop.run_forever()
     except KeyboardInterrupt:
         pass
