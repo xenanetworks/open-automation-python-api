@@ -111,7 +111,6 @@ __all__ = (
     "LicenseSpeed",
     "TLSVersion",
     "MulticastHeaderFormat",
-    "Infinite",
     "CorruptionType",
     "PolicerMode",
     "FilterUse",
@@ -151,7 +150,7 @@ __all__ = (
     "LatencyTypeCustomDist",
     "CommandStatus",
     "TrafficEngine",
-    "FaultSignaling",
+    "ReconciliationSublayerSupport",
     "PPMSweepStatus",
     "PPMSweepMode"
 )
