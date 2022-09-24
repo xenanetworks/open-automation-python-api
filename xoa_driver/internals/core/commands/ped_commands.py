@@ -1,6 +1,7 @@
 #: Impairment Port Distribution Commands
 
 from dataclasses import dataclass
+import functools
 import typing
 
 from ..protocol.command_builders import (
@@ -885,11 +886,12 @@ class PED_STEP:
         )
 
 
+# TODO: add descriptions
 @register_command
 @dataclass
 class PED_ENABLE:
     """
-    Control whether impairment is enabled of disabled.
+    Control whether this impairment distribution is enabled.
     
     .. note:: 
     
@@ -908,14 +910,32 @@ class PED_ENABLE:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        action: XmpField[XmpByte] = XmpField(XmpByte)  # coded byte, specifying whether impairment is enabled.
+        action: XmpField[XmpByte] = XmpField(XmpByte, choices=OnOff)  # coded byte, specifying whether impairment is enabled.
+    
+    @dataclass(frozen=True)
+    class SetDataAttr:
+        action: XmpField[XmpByte] = XmpField(XmpByte, choices=OnOff)  # coded byte, specifying whether impairment is enabled.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get whether impairment is enabled of disabled.
+        """Get the status of this impairment distribution.
 
-        :return: whether impairment is enabled of disabled
+        :return: the status of this impairment distribution
         :rtype: PED_ENABLE.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
+    
+    def set(self, action: OnOff) -> "Token[GetDataAttr]":
+        """Set the status of this impairment distribution.
+
+        :param action: the status of this impairment distribution
+        :type action: OnOff
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], action=action))
+    
+    
+    set_off = functools.partialmethod(set, OnOff.OFF)
+    """Disable impairment distribution"""
+    set_on = functools.partialmethod(set, OnOff.ON)
+    """Enable impairment distribution"""
 
 

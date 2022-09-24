@@ -626,8 +626,10 @@ class AlignLockStatus(IntEnum):
     """Alignment Lock Off"""
     ALIGNON = 1
     """Alignment Lock On"""
-    ALIGNUNSTABLE = 3
-    """Alignment Lock Unstable"""
+    ALIGNOFFUNSTABLE = 2
+    """Alignment Lock Off and Unstable"""
+    ALIGNONUNSTABLE = 3
+    """Alignment Lock On but Unstable"""
 
 
 class PRBSLockStatus(IntEnum):
@@ -1678,17 +1680,9 @@ class ImpairmentLatencyMode(IntEnum):
     """Extended"""
 
 
-class ShadowWorkingSelection(IntEnum):
-    """Shadow Working Selection"""
-    SHADOW = 0
-    """Shadow"""
-    WORKING = 1
-    """Working"""
-
-
 class FilterType(IntEnum):
     """Filter Type for Impairemennt"""
-    SHADOWN = 0 
+    SHADOW = 0 
     """Shadow Copy"""
     WORKING = 1
     """Wokring Copy"""

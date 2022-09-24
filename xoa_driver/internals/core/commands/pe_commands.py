@@ -198,8 +198,8 @@ class PE_LATENCYRANGE:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        min_latency: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, minimum configurable latency per flow in nanoseconds.
-        max_latency: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, maximum configurable latency per flow in nanoseconds.
+        min: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, minimum configurable latency per flow in nanoseconds.
+        max: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, maximum configurable latency per flow in nanoseconds.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the minimum and maximum configurable latency per flow in nanoseconds.
