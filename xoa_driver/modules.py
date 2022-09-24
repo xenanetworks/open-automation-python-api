@@ -1,4 +1,4 @@
-#: All avaliable test module types.
+#: All available test module types.
 
 from .internals.modules.modules_l23.module_l23_base import ModuleL23
 from .internals.modules.modules_l23.family_d import (
@@ -37,9 +37,10 @@ from .internals.modules.modules_l23.family_l import (
     MThor400G7S1P_b,
     MThor400G7S1P_c,
     MFreya800G1S1P_a,
+    MFreya800G1S1P_b,
     MFreya800G1S1POSFP_a,
-    MFreya800G4S1P,
-    MFreya800G4S1POSFP,
+    MFreya800G4S1P_a,
+    MFreya800G4S1POSFP_a,
 )
 from .internals.modules.modules_l23.family_m import MOdin1G3S6PT1RJ45
 from .internals.modules.modules_l23.family_n import MOdin40G2S2P
@@ -80,9 +81,10 @@ GenericL23Module = typing.Union[
         "MThor400G7S1P_b",
         "MThor400G7S1P_c",
         "MFreya800G1S1P_a",
+        "MFreya800G1S1P_b",
         "MFreya800G1S1POSFP_a",
-        "MFreya800G4S1P",
-        "MFreya800G4S1POSFP",
+        "MFreya800G4S1P_a",
+        "MFreya800G4S1POSFP_a",
         "MOdin1G3S6PT1RJ45",
     ]
 
@@ -124,9 +126,10 @@ __all__ = (
     "MThor400G7S1P_b",
     "MThor400G7S1P_c",
     "MFreya800G1S1P_a",
+    "MFreya800G1S1P_b",
     "MFreya800G1S1POSFP_a",
-    "MFreya800G4S1P",
-    "MFreya800G4S1POSFP",
+    "MFreya800G4S1P_a",
+    "MFreya800G4S1POSFP_a",
     "MOdin1G3S6PT1RJ45",
     "ModuleL23VE",
     "ModuleChimera",
