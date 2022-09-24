@@ -231,7 +231,7 @@ class P_CAPABILITIES:
         has_p2p_loop_partner: XmpField[XmpInt] = XmpField(XmpInt)  # integer, whether this port currently has a port-to-port loop partner
         p2p_loop_partner: XmpField[XmpInt] = XmpField(XmpInt)  # integer, The port-to-port loop partner for the port. N/A = -1.
         traffic_engine: XmpField[XmpInt] = XmpField(XmpInt, choices=TrafficEngine)  # integer, Enabled traffic engine on port. 0x01 = TGA, 0x02 = uTGA.
-        reconc_sublayer: XmpField[XmpInt] = XmpField(XmpInt, choices=FaultSignaling) # integer, Reconcilliation Sublayer support, bitmask, 0 = fault signalling not support; 1 = fault signalling supported (XMP: P_FAULTSTATUS/P_FAULTSIGNALLING)
+        reconc_sublayer: XmpField[XmpInt] = XmpField(XmpInt, choices=ReconciliationSublayerSupport) # integer, Reconciliation Sublayer support, bitmask, 0 = fault signalling not support; 1 = fault signalling supported (XMP: P_FAULTSTATUS/P_FAULTSIGNALLING)
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the internal limits, aka. capabilities, of the port.
@@ -277,7 +277,7 @@ class P_SPEEDSELECTION:
 
     .. note::
 
-        This is only a settable command when speed is selected at the port level. Use the :class:`~xoa_driver.internals.core.commands.m_commands.M_CFPCONFIG` command when speed is selected at the module level.
+        This is only a settable command when speed is selected at the port level. Use the M_CFPCONFIG` command when speed is selected at the module level.
 
     """
 

@@ -1809,9 +1809,9 @@ class PPMSweepStatus(IntEnum):
     SWEEPING = 1
     """The module is sweeping"""
 
-class FaultSignaling(IntEnum):
-    """Reconcilliation Sublayer Support"""
-    NOT_SUPPORTED = 0
+class ReconciliationSublayerSupport (IntEnum):
+    """Reconciliation Sublayer Support"""
+    NO_SUPPORT = 0
     """Not Supported"""
-    SUPPORTED = 1
+    FAULT_SIGNALING = 1
     """Supported, which means P_FAULTSTATUS and P_FAULTSIGNALLING are supported by the port."""
