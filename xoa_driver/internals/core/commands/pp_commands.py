@@ -53,30 +53,6 @@ class PP_ALARMS_ERRORS:
 
 @register_command
 @dataclass
-class PP_ALARMS_ERRORS_CLEAR:
-    """
-    Clear all PCS/PMA alarms.
-    """
-
-    code: typing.ClassVar[int] = 273
-    pushed: typing.ClassVar[bool] = False
-
-    _connection: "interfaces.IConnection"
-    _module: int
-    _port: int
-
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        dummy: XmpField[XmpInt] = XmpField(XmpInt)  # integer, always 0
-
-    def set(self) -> "Token":
-        """Clear all PCS/PMA alarms.
-        """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, dummy=0))
-
-
-@register_command
-@dataclass
 class PP_TXLANECONFIG:
     """
     The virtual lane index and artificial skew for data transmitted on a specified
@@ -515,7 +491,7 @@ class PP_PMAERRPUL_PARAMS:
         :param coeff: (0.01 < coeff < 9.99) * 100
         :type coeff: int
         :param exp: -3 < exp < -17
-        :type exp: Infinite
+        :type exp: int
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, duration=duration, period=period, repetition=repetition, coeff=coeff, exp=exp))
 
