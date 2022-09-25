@@ -1817,30 +1817,3 @@ class C_TKSTATUSEXT:
         :rtype: C_TKSTATUSEXT.GetDataAttr
         """
         return Token(self._connection, build_get_request(self))
-
-
-@register_command
-@dataclass
-class C_EXTNAME:
-    """
-    Get the chassis extension name.
-    """
-
-    code: typing.ClassVar[int] = 450
-    pushed: typing.ClassVar[bool] = False
-
-    _connection: "interfaces.IConnection"
-
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        ext_name: XmpField[XmpStr] = XmpField(XmpStr)  # string, chassis extension name
-
-    def get(self) -> "Token[GetDataAttr]":
-        """Get the chassis extension name.
-
-        :return: chassis extension name
-        :rtype: C_EXTNAME.GetDataAttr
-        """
-        return Token(self._connection, build_get_request(self))
-
-
