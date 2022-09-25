@@ -14,6 +14,7 @@ from xoa_driver.internals.ports.port_l23.family_combi import (
     POdin10G4S2PCombi,
     POdin10G4S2PCombi_b,
 )
+
 from xoa_driver.internals.ports.port_l23.family_d import (
     POdin1G3S6P,
     POdin1G3S6P_b,
@@ -56,14 +57,16 @@ from xoa_driver.internals.ports.port_l23.family_l import (
     PThor400G7S1P_b,
     PThor400G7S1P_c,
 )
-from xoa_driver.internals.ports.port_l23.family_l1.base import (
+
+from xoa_driver.internals.ports.port_l23.family_l1 import (
     PFreya800G1S1P_a,
     PFreya800G1S1P_b,
     PFreya800G1S1POSFP_a,
     PFreya800G4S1P_a,
     PFreya800G4S1POSFP_a,
 )
-from xoa_driver.internals.ports.port_l23.family_m.base import POdin1G3S6PT1RJ45
+
+from xoa_driver.internals.ports.port_l23.family_m import POdin1G3S6PT1RJ45
 
 
 

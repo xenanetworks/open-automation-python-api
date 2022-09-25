@@ -112,7 +112,7 @@ class CustomDistributions:
         ``idx_cuantity`` permitted values is: 0 <= idx_cuantity <= 40
         """
         
-        if not (0 < idx_cuantity < 40):
+        if not (0 <= idx_cuantity <= 40):
             raise ValueError("idx_cuantity must be in range of: 0 <= idx_cuantity <= 40")
         await PEC_INDICES(self.__conn, self.__module_id, self.__port_id).set([i for i in range(idx_cuantity) ])
         await self.server_sync()
