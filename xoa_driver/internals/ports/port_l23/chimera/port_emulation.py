@@ -156,24 +156,24 @@ class CFlow:
         Representation of PE_LATENCYRANGE
         """
         
-        self.impairment_corruption = PE_CORRUPT(conn, module_id, port_id, flow_idx)
+        self.corruption = PE_CORRUPT(conn, module_id, port_id, flow_idx)
         """Corruption type.
         Representation of PE_CORRUPT
         """
         
         
-        self.misordering_depth = PE_MISORDER(conn, module_id, port_id, flow_idx)
+        self.misordering = PE_MISORDER(conn, module_id, port_id, flow_idx)
         """Misordering depth
         Representation of PE_MISORDER
         """
 
-        self.bandwidth = CBandwidth(conn, module_id, port_id, flow_idx)
+        self.bandwidth_control = CBandwidth(conn, module_id, port_id, flow_idx)
         """Bandwidth configuration."""
 
         self.statistics = CFlowStatistics(conn, module_id, port_id, flow_idx)
         """Flow statistics."""
 
-        self.distribution = ImpairmentTypeDistribution(conn, module_id, port_id, flow_idx)
+        self.impairment_distribution = ImpairmentTypeDistribution(conn, module_id, port_id, flow_idx)
         """Impairment type's distribution."""
 
         self.shadow_filter = shadow.FilterDefinitionShadow(conn, module_id, port_id, flow_idx)
