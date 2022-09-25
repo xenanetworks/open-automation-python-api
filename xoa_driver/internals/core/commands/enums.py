@@ -1680,6 +1680,13 @@ class ImpairmentLatencyMode(IntEnum):
     """Extended"""
 
 
+class ShadowWorkingSelection(IntEnum):
+    """Shadow Working Selection"""
+    SHADOW = 0
+    """Shadow"""
+    WORKING = 1
+    """Working"""
+
 class FilterType(IntEnum):
     """Filter Type for Impairemennt"""
     SHADOW = 0 
