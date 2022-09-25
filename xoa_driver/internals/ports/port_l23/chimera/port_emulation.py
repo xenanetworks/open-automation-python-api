@@ -36,10 +36,7 @@ from xoa_driver.internals.core.commands import (
 from .reception_statistics import ReceptionStatistics
 from .transmission_statistics import TransmissionStatistics
 from .pe_distribution import ImpairmentTypeDistribution
-from .filter_definition import (
-    shadow, 
-    working,
-)
+from .pe_filter_definition import FilterDefinition
 
 class CTotalFlow:
     """Total flow statistics."""
