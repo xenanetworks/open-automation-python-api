@@ -27,30 +27,36 @@ class PortChimera(base_port.BasePort[ports_state.PortChimeraLocalState]):
         super().__init__(conn, module_id, port_id)
         self.capabilities = P_CAPABILITIES(conn, module_id, port_id)
         """Chimera port capabilities.
-        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_CAPABILITIES`
+        Representation of P_CAPABILITIES
         """
+
         self.interface = P_INTERFACE(conn, module_id, port_id)
         """Physical interface type of the Chimera port.
-        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_INTERFACE`
+        Representation of P_INTERFACE
         """
+
         self.status = P_STATUS(conn, module_id, port_id)
         """Chimera port's received optical signal level'.
-        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_STATUS`
+        Representation of P_STATUS
         """
+
         self.tx_enable = P_TXENABLE(conn, module_id, port_id)
         """Enabling Chimera port TX.
-        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_TXENABLE`
+        Representation of P_TXENABLE
         """
+
         self.load_mode = P_LOADMODE(conn, module_id, port_id)
         """Load mode of the Chimera port.
-        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_LOADMODE`
+        Representation of P_LOADMODE
         """
-        self.emulation = ChimeraPE(self._conn, *self.kind)
+
+        self.emulation = ChimeraPE(self._conn, *self.kind) # TODO: Missing description 
         
         self.emulate = P_EMULATE(conn, module_id, port_id)
         """Chimera port emulation control.
-        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_EMULATE`
+        Representation of P_EMULATE
         """
+
         self.custom_distributions = CustomDistributions(conn, module_id, port_id)
         """Custom distributions."""
         
@@ -75,9 +81,12 @@ class PortChimera(base_port.BasePort[ports_state.PortChimeraLocalState]):
     
     on_interface_change = functools.partialmethod(utils.on_event, P_INTERFACE)
     """Register a callback to the event that the port's interface type changes."""
+
     on_status_change = functools.partialmethod(utils.on_event, P_STATUS)
     """Register a callback to the event that the port's optical signal level changes."""
+
     on_emulate_change = functools.partialmethod(utils.on_event, P_EMULATE)
     """Register a callback to the event that the port's emulation state changes."""
+    
     on_tx_enable_change = functools.partialmethod(utils.on_event, P_TXENABLE)
     """Register a callback to the event that the port's TX status changes."""

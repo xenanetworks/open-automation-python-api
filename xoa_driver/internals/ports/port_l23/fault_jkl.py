@@ -8,12 +8,14 @@ if TYPE_CHECKING:
     
 class Fault:
     """L23 port fault settings."""
+
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.signaling = P_FAULTSIGNALING(conn, module_id, port_id)
         """L23 port fault signaling.
-        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_FAULTSIGNALING`
+        Representation ofP_FAULTSIGNALING
         """
+        
         self.status = P_FAULTSTATUS(conn, module_id, port_id)
         """L23 port fault status.
-        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_FAULTSTATUS`
+        Representation of P_FAULTSTATUS
         """

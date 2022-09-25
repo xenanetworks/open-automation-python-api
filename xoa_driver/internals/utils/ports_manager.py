@@ -45,6 +45,7 @@ class PortsManager(ResourcesBaseManager[PT]):
 
     async def fill(self) -> None:
         """Method for create and fill in."""
+        
         assert not self._lock, "Method <fill> can be called only once."
         coros = list(self._items.values())
         await asyncio.gather(*coros) # type: ignore

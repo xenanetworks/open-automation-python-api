@@ -11,32 +11,39 @@ from xoa_driver.internals.core.commands import (
 
 class TimeKeeper:
     """TimeKeeper of Valkyrie."""
+
     def __init__(self, conn: "itf.IConnection") -> None:
         self.license_file = C_TKLICFILE(conn)
         """TimeKeeper license file content.
-        Representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_TKLICFILE`
+        Representation of C_TKLICFILE
         """
+
         self.license_state = C_TKLICSTATE(conn)
         """State of TimeKeeper license file content.
-        Representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_TKLICSTATE`
+        Representation of C_TKLICSTATE
         """
+
         self.status = C_TKSTATUS(conn)
         """Version and status of TimeKeeper.
-        Representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_TKSTATUS`
+        Representation of C_TKSTATUS
         """
+
         self.status_extended = C_TKSTATUSEXT(conn)
         """Version and status of TimeKeeper (extended).
-        Representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_TKSTATUSEXT`
+        Representation of C_TKSTATUSEXT
         """
+
         self.svc_state = C_TKSVCSTATE(conn)
         """TimeKeeper service state.
-        Representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_TKSVCSTATE`
+        Representation of C_TKSVCSTATE
         """
+
         self.gps_state = C_TKGPSSTATE(conn)
         """TimeKeeper GPS state.
-        Representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_TKGPSSTATE`
+        Representation of C_TKGPSSTATE
         """
+        
         self.config_file = C_TKCONFIG(conn)
         """TimeKeeper configuration file content.
-        Representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_TKCONFIG`
+        Representation of C_TKCONFIG
         """

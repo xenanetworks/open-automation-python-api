@@ -53,6 +53,7 @@ class L23Tester(BaseTester["testers_state.GenuineTesterLocalState"]):
     """
     Representation of a physical Xena Valkyrie Tester.
     """
+    
     def __init__(self, host: str, username: str, password: str = "xena", port: int = 22606, *, debug: bool = False) -> None:
         super().__init__(host=host, username=username, password=password, port=port, debug=debug)
         
@@ -76,26 +77,26 @@ class L23Tester(BaseTester["testers_state.GenuineTesterLocalState"]):
 
         self.multiuser = C_MULTIUSER(self._conn)
         """
-        Representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_MULTIUSER`
+        Representation of C_MULTIUSER
         """
 
         self.traffic = C_TRAFFIC(self._conn)
         """
-        Representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_TRAFFIC`
+        Representation of C_TRAFFIC
         """
         self.traffic_sync = C_TRAFFICSYNC(self._conn)
         """
-        Representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_TRAFFICSYNC`
+        Representation of C_TRAFFICSYNC
         """
         
         self.version_no_minor = C_VERSIONNO_MINOR(self._conn)
         """
-        Representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_VERSIONNO_MINOR`
+        Representation of C_VERSIONNO_MINOR
         """
 
         self.build_string = C_BUILDSTRING(self._conn)
         """
-        Representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_BUILDSTRING`
+        Representation of C_BUILDSTRING
         """
 
         self.modules: TypeL23Manager = ModulesManager(self._conn, get_module_type)

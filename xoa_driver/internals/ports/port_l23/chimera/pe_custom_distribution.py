@@ -15,6 +15,7 @@ from xoa_driver.internals.core.commands import (
 from xoa_driver.internals.utils.indices import observer
 class CustomDistribution:
     """Custom distribution"""
+
     def __init__(self, observer: "observer.IndicesObserver", conn: "itf.IConnection", module_id: int, port_id: int, custom_distribution_index: int) -> None:
         self.__observer = observer
         self.__conn = conn
@@ -23,21 +24,25 @@ class CustomDistribution:
         self.__cdi = custom_distribution_index
         self.definition = PEC_VAL(conn, module_id, port_id, custom_distribution_index)
         """Custom distribution defintion.
-        Representation of :class:`~xoa_driver.internals.core.commands.pec_commands.PEC_VAL`
+        Representation of PEC_VAL
         """
+        
         self.comment = PEC_COMMENT(conn, module_id, port_id, custom_distribution_index)
         """Custom distribution description.
-        Representation of :class:`~xoa_driver.internals.core.commands.pec_commands.PEC_COMMENT`
+        Representation of PEC_COMMENT
         """
+        
         self.type = PEC_DISTTYPE(conn, module_id, port_id, custom_distribution_index)
         """Custom distribution type.
-        Representation of :class:`~xoa_driver.internals.core.commands.pec_commands.PEC_DISTTYPE`
+        Representation of PEC_DISTTYPE
         """
     
     async def delete(self) -> None:
         """
+        
         Deleting an existing Custom Distribution
         """
+        
         await PEC_DELETE(
             self.__conn, 
             self.__module_id,
@@ -49,6 +54,7 @@ class CustomDistribution:
 
 class CustomDistributions:
     """Custom distributions"""
+
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.__conn = conn
         self.__module_id = module_id
@@ -62,6 +68,7 @@ class CustomDistributions:
     
     async def server_sync(self) -> None:
         """Sync the indices with xenaserver"""
+        
         _resp = await PEC_INDICES(self.__conn, self.__module_id, self.__port_id).get()
         self.__items = [
             CustomDistribution(
@@ -76,6 +83,7 @@ class CustomDistributions:
 
     def __len__(self) -> int:
         """Return the number of existing indices"""
+        
         return len(self.__items)
 
     def __iter__(self):
@@ -103,11 +111,13 @@ class CustomDistributions:
         Assign Custom distribution indices, all indices which is out of range will be removed.
         ``idx_cuantity`` permitted values is: 0 <= idx_cuantity <= 40
         """
-        if not (0 <= idx_cuantity <= 40):
+        
+        if not (0 < idx_cuantity < 40):
             raise ValueError("idx_cuantity must be in range of: 0 <= idx_cuantity <= 40")
         await PEC_INDICES(self.__conn, self.__module_id, self.__port_id).set([i for i in range(idx_cuantity) ])
         await self.server_sync()
 
     async def remove(self, position_idx: int) -> None:
         """Remove a index from port"""
+        
         await self.__items[position_idx].delete()

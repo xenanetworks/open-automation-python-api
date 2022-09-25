@@ -3,5 +3,5 @@ Getting Started
 
 .. toctree::
 
-    installation
-    code_example
+    installing_xoa_python
+    example

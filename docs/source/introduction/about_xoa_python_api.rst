@@ -5,6 +5,6 @@ Many test specialists choose to develop their own test scripts, where they autom
 
 The foundation of Xena OpenAutomation is its Python API (XOA Python API) that provides interfaces for engineers to manage Xena hardware and virtual test equipment. Although we have open-sourced XOA Python API, it doesn't mean it will lack of support from Xena. On the contrary, our attitude toward XOA Python API is extremely serious because all of our test suites depend on XOA Python API.
 
-Fundamentally different from :term:`CLI`, XOA Python API is **object-oriented** and is designed based on Xena's proprietary binary chassis management protocol from the ground up. This has brought tremendous advantages over :term:`CLI`, enabling engineers to develop not only test scripts but also high-performance applications.
+Fundamentally different from :term:`XOA CLI`, XOA Python API is **object-oriented** and is designed based on Xena's proprietary binary chassis management protocol from the ground up. This has brought tremendous advantages over :term:`XOA CLI`, enabling engineers to develop not only test scripts but also high-performance applications.
 
 XOA Python API contains more than 600 commands, from basic streams creation to advance eye diagrams measurement. With this rich collection of programming interfaces, we empower our customers to either write test scripts or develop applications with almost limitless possibilities.

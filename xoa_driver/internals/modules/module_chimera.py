@@ -33,12 +33,12 @@ class ChTXClock:
         self.source = M_TXCLOCKSOURCE_NEW(conn, module_id)
         """
         The source that drives the TX clock rate of the ports on the test module.
-        Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_TXCLOCKSOURCE_NEW`
+        Representation of M_TXCLOCKSOURCE_NEW
         """
         self.status = M_TXCLOCKSTATUS_NEW(conn, module_id)
         """
         TX clock status of the test module.
-        Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_TXCLOCKSTATUS_NEW`
+        Representation of M_TXCLOCKSTATUS_NEW
         """
 
 
@@ -50,12 +50,12 @@ class ChCFP:
         self.type = M_CFPTYPE(conn, module_id)
         """
         The transceiver's CFP type currently inserted.
-        Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_CFPTYPE`
+        Representation of M_CFPTYPE
         """
         self.config = M_CFPCONFIG(conn, module_id)
         """
         The CFP configuration of the test module.
-        Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_CFPCONFIG`
+        Representation of M_CFPCONFIG
         """
 
 
@@ -67,12 +67,12 @@ class ChUpgrade:
         self.start = M_UPGRADE(conn, module_id)
         """
         Start the upgrade progress of the test module.
-        Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_UPGRADE`
+        Representation of M_UPGRADE
         """
         self.progress = M_UPGRADEPROGRESS(conn, module_id)
         """
         Upgrade progress status of the test module.
-        Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_UPGRADEPROGRESS`
+        Representation of M_UPGRADEPROGRESS
         """
 
 class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
@@ -100,31 +100,31 @@ class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
         self.capabilities = M_CAPABILITIES(conn, self.module_id)
         """
         Test module's capabilities.
-        Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_CAPABILITIES`
+        Representation of M_CAPABILITIES
         """
 
         self.comment = M_COMMENT(conn, self.module_id)
         """
         Test module's description.
-        Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_COMMENT`
+        Representation of M_COMMENT
         """
 
         self.status = M_STATUS(conn, self.module_id)
         """
         Test module's status.
-        Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_STATUS`
+        Representation of M_STATUS
         """
 
         self.clock_ppb = M_CLOCKPPB(conn, self.module_id)
         """
         Test module's local clock adjustment.
-        Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_CLOCKPPB`
+        Representation of M_CLOCKPPB
         """
 
         self.emulator_bypass_mode = M_EMULBYPASS(conn, self.module_id)
         """
         Bypass mode of the Chimera module.
-        Representation of :class:`~xoa_driver.internals.core.commands.m_commands.M_EMULBYPASS`
+        Representation of M_EMULBYPASS
         """
 
         self.ports: pm.PortsManager["ports.PortChimera"] = pm.PortsManager(

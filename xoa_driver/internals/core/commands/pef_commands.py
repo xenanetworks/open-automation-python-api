@@ -28,13 +28,13 @@ class PEF_INIT:
     
         There are 2 register copies used to configure the filters:
         
-            (1) ``Shadow-copy (type value = 0)``, temporary copy configured by sever. Values stored in ``shadow-copy`` have no immediate effect on the flow filters. `PEF_APPLY`_ will pass the values from the ``shadow-copy`` to the ``working-copy``.
+            (1) ``Shadow-copy (type value = 0)``, temporary copy configured by sever. Values stored in ``shadow-copy`` have no immediate effect on the flow filters. PEF_APPLY will pass the values from the ``shadow-copy`` to the ``working-copy``.
 
             (2) ``Working-copy (type value = 1)``, reflects what is currently used for filtering in the FPGA. ``Working-copy`` cannot be written directly. Only ``shadow-copy`` allows direct write.
 
             (3) All ``set`` actions are performed on ``shadow-copy`` ONLY.
 
-            (4) Only when `PEF_APPLY`_ is called, ``working-copy`` and FPGA are updated with values from the ``shadow-copy``.
+            (4) Only when PEF_APPLY is called, ``working-copy`` and FPGA are updated with values from the ``shadow-copy``.
     """
 
     code: typing.ClassVar[int] = 1700

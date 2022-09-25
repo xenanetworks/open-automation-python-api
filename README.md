@@ -76,7 +76,7 @@ To build ``.whl`` file for distribution:
     from xoa_driver import enums
     from xoa_driver import utils
 
-    async def my_awesome_script():
+    async def my_awesome_func():
         # Establish connection with a Valkyrie tester
         async with testers.L23Tester("10.10.10.10", "JonDoe") as tester:
             # Get the port 0/0 (module 0)
@@ -132,7 +132,7 @@ To build ``.whl`` file for distribution:
     def main():
         try:
             loop = asyncio.get_event_loop()
-            loop.create_task(my_awesome_script())
+            loop.create_task(my_awesome_func())
             loop.run_forever()
         except KeyboardInterrupt:
             pass

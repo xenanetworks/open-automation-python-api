@@ -9,8 +9,8 @@ Glossary of Terms
     Test Resource
         Test chassis, test module, and test port, both hardware and virtual are referred to as test resources. A user must have the ownership of a test resource before be able to perform testing.
 
-    CLI
-        Command-Line Interface. Xena provides a rich set of CLI commands for users to administer test chassis for test automation. `Read more here <https://xenanetworks.com/?knowledge-base=knowledge-base/automation/scripting-for-valkyrie-vantage-chimera/valkyrie-vantage-chimera-cli-scripting-guide/overview/intro>`_.
+    XOA CLI
+        XOA Command-Line Interface. Xena provides a rich set of CLI commands for users to administer test chassis for test automation. `Read more here <https://xenanetworks.com/?knowledge-base=knowledge-base/automation/scripting-for-valkyrie-vantage-chimera/valkyrie-vantage-chimera-cli-scripting-guide/overview/intro>`_.
 
     API 
         Application Programming Interface.
@@ -62,3 +62,9 @@ Glossary of Terms
 
     Load Profile
         A load profile defines a start time and a duration of each of the ramp-up, steady, and ramp-down phases of a connection group.
+
+    I2C
+        I\ :sup:`2`\C (Inter-Integrated Circuit, eye-squared-C), alternatively known as I2C or IIC, is a synchronous, multi-controller/multi-target (controller/target), packet switched, single-ended, serial communication bus.
+
+    CRUD 
+        Create, read, update, and delete operations

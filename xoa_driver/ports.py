@@ -56,13 +56,14 @@ from xoa_driver.internals.ports.port_l23.family_l import (
     PThor400G7S1P_b,
     PThor400G7S1P_c,
 )
-# from xoa_driver.internals.ports.port_l23.family_l1 import (
-#     PFreya800G1S1P_a,
-#     PFreya800G1S1POSFP_a,
-#     PFreya800G4S1P,
-#     PFreya800G4S1POSFP,
-# )
-from xoa_driver.internals.ports.port_l23.family_m import POdin1G3S6PT1RJ45
+from xoa_driver.internals.ports.port_l23.family_l1.base import (
+    PFreya800G1S1P_a,
+    PFreya800G1S1P_b,
+    PFreya800G1S1POSFP_a,
+    PFreya800G4S1P_a,
+    PFreya800G4S1POSFP_a,
+)
+from xoa_driver.internals.ports.port_l23.family_m.base import POdin1G3S6PT1RJ45
 
 
 
@@ -94,10 +95,11 @@ GenericL23Port = typing.Union[
         "PThor400G7S1P",
         "PThor400G7S1P_b",
         "PThor400G7S1P_c",
-        # "PFreya800G1S1P_a",
-        # "PFreya800G1S1POSFP_a",
-        # "PFreya800G4S1P",
-        # "PFreya800G4S1POSFP",
+        "PFreya800G1S1P_a",
+        "PFreya800G1S1P_b",
+        "PFreya800G1S1POSFP_a",
+        "PFreya800G4S1P_a",
+        "PFreya800G4S1POSFP_a",
         "POdin1G3S6PT1RJ45",
         "POdin1G4S4PCombi",
         "POdin1G4S4PCombi_b",
@@ -141,10 +143,11 @@ __all__ = (
     "PThor400G7S1P",
     "PThor400G7S1P_b",
     "PThor400G7S1P_c",
-    # "PFreya800G1S1P_a",
-    # "PFreya800G1S1POSFP_a",
-    # "PFreya800G4S1P",
-    # "PFreya800G4S1POSFP",
+    "PFreya800G1S1P_a",
+    "PFreya800G1S1P_b",
+    "PFreya800G1S1POSFP_a",
+    "PFreya800G4S1P_a",
+    "PFreya800G4S1POSFP_a",
     "POdin1G3S6PT1RJ45",
     "POdin1G4S4PCombi",
     "POdin1G4S4PCombi_b",

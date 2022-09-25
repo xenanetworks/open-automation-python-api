@@ -29,32 +29,33 @@ PortStateStorage = TypeVar('PortStateStorage', bound="ports_state.PortLocalState
 
 class BasePort(ABC, Generic[PortStateStorage]):
     """Layout which is relevant to all ports."""
+    
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self._conn = conn
         self.kind = kind.PortKind(module_id, port_id)
         self.sync_status = P_RECEIVESYNC(conn, module_id, port_id)
         """Port sync status.
-        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_RECEIVESYNC`
+        Representation of P_RECEIVESYNC
         """
         self.interface = P_INTERFACE(conn, module_id, port_id)
         """Physical interface type of the port.
-        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_INTERFACE`
+        Representation of P_INTERFACE
         """
         self.reservation = P_RESERVATION(self._conn, *self.kind)
         """Port reservation action.
-        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_RESERVATION`
+        Representation of P_RESERVATION
         """
         self.reserved_by = P_RESERVEDBY(self._conn, *self.kind)
         """Port reservation status.
-        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_RESERVEDBY`
+        Representation of P_RESERVEDBY
         """
         self.reset = P_RESET(self._conn, *self.kind)
         """Port reset action.
-        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_RESET`
+        Representation of P_RESET
         """
         self.comment = P_COMMENT(self._conn, *self.kind)
         """Port description.
-        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_COMMENT`
+        Representation of P_COMMENT
         """
     
     def __await__(self):
@@ -77,8 +78,10 @@ class BasePort(ABC, Generic[PortStateStorage]):
 
     is_released = functools.partialmethod(__is_reservation, enums.ReservedStatus.RELEASED)
     """Check if port is released"""
+
     is_reserved_by_me = functools.partialmethod(__is_reservation, enums.ReservedStatus.RESERVED_BY_YOU)
     """Check if port is released by me"""
+
     is_reserved_by_others = functools.partialmethod(__is_reservation, enums.ReservedStatus.RESERVED_BY_OTHER)
     """Check if port is released by others"""
     

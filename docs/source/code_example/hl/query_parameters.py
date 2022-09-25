@@ -5,7 +5,7 @@ from xoa_driver import testers
 # import available modules type
 from xoa_driver import modules
 
-async def my_awesome_script():
+async def my_awesome_func():
     tester = await testers.L23Tester("192.168.1.200", "JonDoe") # create tester instance and establish connection
 
     my_module = tester.modules.obtain(0)
@@ -26,7 +26,7 @@ async def my_awesome_script():
 def main():
     try:
         loop = asyncio.get_event_loop()
-        loop.create_task(my_awesome_script())
+        loop.create_task(my_awesome_func())
         loop.run_forever()
     except KeyboardInterrupt:
         pass
