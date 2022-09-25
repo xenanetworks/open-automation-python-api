@@ -13,6 +13,12 @@ The target audience of this document is test specialists who develop and run aut
 * Familiarity with Xena test equipment.
 * Working knowledge of data communications theory and practice.
 
+.. important::
+
+   To read about :term:`XOA CLI` commands, please go to `Xena OpenAutomation CLI Command Documentation <https://docs.xenanetworks.com/projects/xoa-cli>`_. 
+
+-----------
+
 
 .. toctree::
    :maxdepth: 1
@@ -21,8 +27,9 @@ The target audience of this document is test specialists who develop and run aut
    introduction/about_xoa_python_api
    getting_started/index
    general_info/index
-   understand_xoa_py/index
-   api_doc/index   
+   understand_xoa_python/index
+   code_example/index
+   api_ref/index   
    glossary
 
 

@@ -9,13 +9,14 @@ from xoa_driver.internals.core.commands import (
 
 class PortTransceiver:
     """L23 port transceiver."""
+
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.__conn = conn
         self.__module_id = module_id
         self.__port_id = port_id
         self.temperature = PX_TEMPERATURE(conn, module_id, port_id)
         """Transceiver temperature in Celsius.
-        Representation of :class:`~xoa_driver.internals.core.commands.px_commands.PX_TEMPERATURE`
+        Representation of PX_TEMPERATURE
         """
     
     def access_rw(self, page_address: int, register_address: int) -> "PX_RW":
@@ -28,6 +29,7 @@ class PortTransceiver:
         :return: transceiver register values
         :rtype: PX_RW
         """
+        
         return PX_RW(
             self.__conn, 
             self.__module_id, 

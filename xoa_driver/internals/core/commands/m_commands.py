@@ -214,7 +214,7 @@ class M_PORTCOUNT:
 
     .. note::
 
-        For a CFP-type module this number refers to the maximum number of ports possible on the module regardless of the media configuration. So if a CFP-type module can be set in for instance either 1x100G mode or 8x10G mode then this command will always return 8. If you want the current number of ports for a CFP-type module you need to read the :class:`~xoa_driver.internals.core.commands.m_commands.M_CFPCONFIG` command which returns the number of current ports.
+        For a CFP-type module this number refers to the maximum number of ports possible on the module regardless of the media configuration. So if a CFP-type module can be set in for instance either 1x100G mode or 8x10G mode then this command will always return 8. If you want the current number of ports for a CFP-type module you need to read the M_CFPCONFIG` command which returns the number of current ports.
 
     """
 
@@ -533,6 +533,8 @@ class M_CAPABILITIES:
         require_multi_image: XmpField[XmpInt] = XmpField(XmpInt, choices=YesNo)  # coded integer, does this module switch images during runtime?
         is_chimera: XmpField[XmpInt] = XmpField(XmpInt, choices=YesNo)  # coded integer, is this a Chimera module?
         max_clock_ppm: XmpField[XmpInt] = XmpField(XmpInt)  # integer, maximum supported absolute +- clock ppm setting.
+        can_tsn: XmpField[XmpInt] = XmpField(XmpInt, choices=YesNo)  # coded integer, does this module support Time Sensitive Networking (TSN) ?
+        can_ppm_sweep: XmpField[XmpInt] = XmpField(XmpInt, choices=YesNo)  # coded integer, does this module support Local Clock Adjustment/Sweep (aka. PPM Sweep) ?
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the test module capabilities.
@@ -544,6 +546,9 @@ class M_CAPABILITIES:
             - does this module switch images during runtime?
             - is this a Chimera module?
             - maximum supported absolute +- clock ppm setting.
+            - does this module support Time Sensitive Networking (TSN) ?
+            - does this module support Local Clock Adjustment/Sweep (aka. PPM Sweep) ?
+            
         :rtype: M_CAPABILITIES.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module))
@@ -1397,6 +1402,93 @@ class M_TXCLOCKFILTER_NEW:
     set_bw7019hz = functools.partialmethod(set, LoopBandwidth.BW7019HZ)
     """Set the loop bandwidth on the TX clock filter to BW = 7019 Hz.
     """
+
+
+@register_command
+@dataclass
+class M_CLOCKPPBSWEEP:
+    """
+    Start and stop deviation sweep the local clock of the test module, which drives the TX rate of the test ports.
+
+    Note: The sweep is independent of the M_CLOCKPPB parameter, i.e. the sweep uses the deviation set by M_CLOCKPPB as its zero point.
+    """
+
+    code: typing.ClassVar[int] = 413
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: "interfaces.IConnection"
+    _module: int
+
+    @dataclass(frozen=True)
+    class SetDataAttr:
+        mode: XmpField[XmpInt] = XmpField(XmpInt, choices=PPMSweepMode)  # coded byte, specifying the sweeping function: OFF or TRIANGLE
+        ppb_step: XmpField[XmpInt] = XmpField(XmpInt)  # integer >=0, the numeric clock adjustment in ppb per step of the sweep. If set to 0, the sweep will use as small steps as possible, creating a "linear" sweep of the clock rate.
+        step_delay:  XmpField[XmpInt] = XmpField(XmpInt) #integer >0 the delay in µs between each step in the sweep. If ppb_step is 0: The total time in µs to sweep linearly from 0 to max_ppb.
+        max_ppb: XmpField[XmpInt] = XmpField(XmpInt) # integer != 0, the numeric maximum clock adjustment. The sign of max_ppb determines if the sweep will start with positive or negative offsets. When the next step would exceed the limit set by max_ppb, the sweep changes direction. I.e. the deviation will sweep from 0 to max_ppb, to (-max_ppb), and back to 0.
+        loops: XmpField[XmpInt] = XmpField(XmpInt) # integer >=0, the number of full sweeps performed. 0 means "indefinitely".
+
+    @dataclass(frozen=True)
+    class GetDataAttr:
+        mode: XmpField[XmpInt] = XmpField(XmpInt, choices=PPMSweepMode)  # coded byte, specifying the sweeping function.
+        ppb_step: XmpField[XmpInt] = XmpField(XmpInt)  # integer >=0, the numeric clock adjustment in ppb per step of the sweep. If set to 0, the sweep will use as small steps as possible, creating a "linear" sweep of the clock rate.
+        step_delay:  XmpField[XmpInt] = XmpField(XmpInt) #integer >0 the delay in µs between each step in the sweep. If ppb_step is 0: The total time in µs to sweep linearly from 0 to max_ppb.
+        max_ppb: XmpField[XmpInt] = XmpField(XmpInt) # integer != 0, the numeric maximum clock adjustment. The sign of max_ppb determines if the sweep will start with positive or negative offsets. When the next step would exceed the limit set by max_ppb, the sweep changes direction. I.e. the deviation will sweep from 0 to max_ppb, to (-max_ppb), and back to 0.
+        loops: XmpField[XmpInt] = XmpField(XmpInt) # integer >=0, the number of full sweeps performed. 0 means "indefinitely".
+
+    def get(self) -> "Token[GetDataAttr]":
+        """Get the PPM sweep parameters from the module.
+
+        :return: the PPM sweep parameters from the module.
+        :rtype: M_CLOCKPPBSWEEP.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module))
+
+    def set(self, mode: PPMSweepMode, ppb_step: int, step_delay: int, max_ppb: int, loops: int) -> "Token":
+        """Set the PPM sweep parameters of the module.
+
+        :param mode: specifying the sweeping function: OFF or TRIANGLE.
+        :type mode: PPMSweepMode
+        :param ppb_step: >=0, the numeric clock adjustment in ppb per step of the sweep. If set to 0, the sweep will use as small steps as possible, creating a "linear" sweep of the clock rate.
+        :type ppb_step: int
+        :param step_delay: >0 the delay in µs between each step in the sweep. If ppb_step is 0: The total time in µs to sweep linearly from 0 to max_ppb.
+        :type step_delay: int
+        :param max_ppb: != 0, the numeric maximum clock adjustment. The sign of max_ppb determines if the sweep will start with positive or negative offsets. When the next step would exceed the limit set by max_ppb, the sweep changes direction. I.e. the deviation will sweep from 0 to max_ppb, to (-max_ppb), and back to 0.
+        :type max_ppb: int
+        :param loops: >=0, the number of full sweeps performed. 0 means "indefinitely".
+        :type loops: int
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, mode=mode, ppb_step=ppb_step, step_delay=step_delay, max_ppb=max_ppb, loops=loops))
+
+
+@register_command
+@dataclass
+class M_CLOCKSWEEPSTATUS:
+    """
+    Return the current status of the M_CLOCKPPBSWEEP function.
+    """
+
+    code: typing.ClassVar[int] = 414
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: "interfaces.IConnection"
+    _module: int
+
+    @dataclass(frozen=True)
+    class GetDataAttr:
+        state: XmpField[XmpByte] = XmpField(XmpByte, choices=PPMSweepStatus)  # coded byte, specifying if a sweep is active: OFF or SWEEPING
+
+        curr_sweep: XmpField[XmpInt] = XmpField(XmpInt)  #  integer >=0, the current full sweep number, counting from 0.
+        curr_step:  XmpField[XmpInt] = XmpField(XmpInt) # integer >=0 the current step number inside the sweep, counting from 0.
+
+        max_steps: XmpField[XmpInt] = XmpField(XmpInt) # integer, >0, the total number of steps comprising a full sweep. For "linear" sweeps (ppb_step=0, see M_CLOCKPPBSWEEP) this number is determined by the chassis. In other cases, the number is implicitly given by the M_CLOCKPPBSWEEP parameters.
+
+    def get(self) -> "Token[GetDataAttr]":
+        """Get the current status of the M_CLOCKPPBSWEEP function.
+
+        :return: the current status of the M_CLOCKPPBSWEEP function.
+        :rtype: M_CLOCKSWEEPSTATUS.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module))
 
 
 @register_command

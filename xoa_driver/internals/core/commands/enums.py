@@ -1680,6 +1680,13 @@ class ImpairmentLatencyMode(IntEnum):
     """Extended"""
 
 
+class ShadowWorkingSelection(IntEnum):
+    """Shadow Working Selection"""
+    SHADOW = 0
+    """Shadow"""
+    WORKING = 1
+    """Working"""
+
 class FilterType(IntEnum):
     """Filter Type for Impairemennt"""
     SHADOW = 0 
@@ -1787,3 +1794,25 @@ class TSNStatisticsTypes(IntEnum):
     """PDelay."""
     SYNCRATE = 4
     """Sync rate."""
+
+
+class PPMSweepMode(IntEnum):
+    """Module clock PPM Sweep Modes"""
+    OFF = 0
+    """Off"""
+    TRIANGLE = 1
+    """Triangle sweeping"""
+
+class PPMSweepStatus(IntEnum):
+    """Module clock PPM Sweep Status"""
+    OFF = 0
+    """Off"""
+    SWEEPING = 1
+    """The module is sweeping"""
+
+class ReconciliationSublayerSupport (IntEnum):
+    """Reconciliation Sublayer Support"""
+    NO_SUPPORT = 0
+    """Not Supported"""
+    FAULT_SIGNALING = 1
+    """Supported, which means P_FAULTSTATUS and P_FAULTSIGNALLING are supported by the port."""

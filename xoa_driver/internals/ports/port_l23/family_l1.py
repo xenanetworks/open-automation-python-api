@@ -34,8 +34,9 @@ class FamilyL1(BasePortL23Genuine):
         super().__init__(conn, module_id, port_id)
         self.dynamic = P_DYNAMIC(conn, module_id, port_id)
         """L23 port's dynamic traffic change.
-        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_DYNAMIC`
+        Representation of P_DYNAMIC
         """
+        
         self.fault = Fault(conn, module_id, port_id)
 
     async def _setup(self):
@@ -49,6 +50,7 @@ class FamilyL1(BasePortL23Genuine):
 
     on_fault_signaling_change = functools.partialmethod(utils.on_event, P_FAULTSIGNALING)
     """Register a callback to the event that the port's fault signalling changes."""
+    
     on_dynamic_change = functools.partialmethod(utils.on_event, P_DYNAMIC)
     """Register a callback to the event that the port's dynamic traffic setting changes."""
 
@@ -59,18 +61,23 @@ class PFreya800G1S1P_a(FamilyL1):
     """
     ...
 
+class PFreya800G1S1P_b(FamilyL1):
+    """L23 port on Freya-800G-1S-1P[b] module.
+    """
+    ...
+
 class PFreya800G1S1POSFP_a(FamilyL1):
     """L23 port on Freya-800G-1S-1P-OSFP[a] module.
     """
     ...
 
-class PFreya800G4S1P(FamilyL1):
-    """L23 port on Freya-800G-4S-1P module.
+class PFreya800G4S1P_a(FamilyL1):
+    """L23 port on Freya-800G-4S-1P[a] module.
     """
     ...
 
-class PFreya800G4S1POSFP(FamilyL1):
-    """L23 port on Freya-800G-4S-1P-OSFP module.
+class PFreya800G4S1POSFP_a(FamilyL1):
+    """L23 port on Freya-800G-4S-1P-OSFP[a] module.
     """
     ...
 

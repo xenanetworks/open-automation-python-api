@@ -12,6 +12,7 @@ from .module_l23_base import ModuleL23
 @typing.final
 class MOdin1G3S6P(ModuleL23):
     """Test module Odin-1G-3S-6P"""
+
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
         self.ports: pm.PortsManager[ports.POdin1G3S6P] = pm.PortsManager(
@@ -25,6 +26,7 @@ class MOdin1G3S6P(ModuleL23):
 @typing.final
 class MOdin1G3S6P_b(ModuleL23):
     """Test module Odin-1G-3S-6P[b]"""
+
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
         self.ports: pm.PortsManager[ports.POdin1G3S6P_b] = pm.PortsManager(
@@ -38,6 +40,7 @@ class MOdin1G3S6P_b(ModuleL23):
 @typing.final
 class MOdin1G3S6PE(ModuleL23):
     """Test module Odin-1G-3S-6P-E"""
+
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
         self.ports: pm.PortsManager[ports.POdin1G3S6PE] = pm.PortsManager(
@@ -51,6 +54,7 @@ class MOdin1G3S6PE(ModuleL23):
 @typing.final
 class MOdin1G3S2PT(ModuleL23):
     """Test module Odin-1G-3S-2P-T"""
+
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
         self.ports: pm.PortsManager[ports.POdin1G3S2PT] = pm.PortsManager(

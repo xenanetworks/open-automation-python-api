@@ -1,7 +1,7 @@
 Command Grouping
 ===================================
 
-Using :term:`CLI` to configure ports and streams is slow because a CLI script must wait for a chassis response to before sending the next command. Such a one-by-one fashion results in *N round trip time* (*N-RTT*), where *N* is the number of commands to send.
+Using :term:`XOA CLI` to configure ports and streams is slow because a CLI script must wait for a chassis response to before sending the next command. Such a one-by-one fashion results in *N round trip time* (*N-RTT*), where *N* is the number of commands to send.
 
 Because of the abovementioned N-RTT problem, it is difficult for a CLI script to collect traffic statistics of different ports at the same time (using for loops in the script is far from solving the problem). As a result, this will cause a wrong understanding of the test results.
 
@@ -15,7 +15,7 @@ Parallel Grouping
 ``asyncio.gather`` groups commands in a parallel way. Commands are sent out in parallel (with neglectable delay between each other). This is very useful when you want to send commands to different :term:`test resources<test resource>`, e.g. two different ports on the same tester, or two different ports on different testers.
 
 .. code-block:: python
-    :linenos:
+    
 
     await asyncio.gather(
         command_1,
@@ -31,7 +31,7 @@ Sequential Grouping
 ``utils.apply`` groups commands in a sequential way. Commands are sent out in one large batch to the tester. This is very useful when you want to send many commands to the same :term:`test resource`, e.g. a port on a tester.
 
 .. code-block:: python
-    :linenos:
+    
 
     commands = [
         command_1,
@@ -48,7 +48,7 @@ However, abusing this function can cause memory issue on your computer. This is 
 ``utils.apply_iter`` does exactly the same thing as ``utils.apply`` except it does not aggregate responses but return them one by one as soon as they are ready. This allows sending large batches commands without causing memory issue.
 
 .. code-block:: python
-    :linenos:
+    
 
     commands = [
         command_1,
@@ -66,7 +66,7 @@ One-By-One
 If you prefer sending commands one by one in the same way as using CLI, you can simply place only one command in the group, for example:
 
 .. code-block:: python
-    :linenos:
+    
 
     await command_1
     await command_2

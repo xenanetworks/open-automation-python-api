@@ -28,14 +28,17 @@ class Engine:
 
 class PortStatistics:
     """L23 VE port statistics"""
+
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.rx = PortReceptionStatistics(conn, module_id, port_id)
         """L23 VE port's RX statistics."""
+        
         self.rx = PortTransmissionStatistics(conn, module_id, port_id)
         """L23 VE port's TX statistics."""
 
 class PortL23VE(BasePortL23):
     """L23 VE port"""
+
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         super().__init__(conn, module_id, port_id)
 
@@ -43,7 +46,7 @@ class PortL23VE(BasePortL23):
         
         self.mdix_mode = P_MDIXMODE(conn, module_id, port_id)
         """MDI/MDIX mode.
-        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_MDIXMODE`
+        Representation of P_MDIXMODE
         """
 
         self.engine = Engine(conn, module_id, port_id)

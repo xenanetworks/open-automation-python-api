@@ -80,13 +80,14 @@ autodoc_default_options = {
     'member-order': 'bysource',
     'private-members': False,
     'undoc-members': False,
-    'show-inheritance': True
+    'show-inheritance': False
 }
-autodoc_typehints = 'signature'
+autoclass_content ='both'
 autodoc_typehints_format = 'short'
-autodoc_inherit_docstrings = True
 todo_include_todos = True
 autosectionlabel_prefix_document = True
+autodoc_inherit_docstrings =False
+autodoc_typehints = "none"
 
 # The suffix(es) of source filenames.
 # source_suffix = ['.rst', '.md']
@@ -155,7 +156,7 @@ intersphinx_disabled_domains = ['std']
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'xoa_driver_doc', title, author, 'xoa_driver_doc', 'Xena OpenAutomation high-level and low-level Python APIs and code examples for Xena TGA testers.', 'Miscellaneous'),
+    (master_doc, 'xoa_driver_doc', title, author, 'xoa_driver_doc', 'Xena OpenAutomation Python API Documentation', 'Miscellaneous'),
 ]
 
 # Add any paths that contain templates here, relative to this directory.

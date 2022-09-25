@@ -48,6 +48,19 @@ class MFreya800G1S1P_a(ModuleL23):
         """Port index manager of Freya-800G-1S-1P[a]"""
 
 @typing.final
+class MFreya800G1S1P_b(ModuleL23):
+    """Test module Freya-800G-1S-1P[b]"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.PFreya800G1S1P_b] = pm.PortsManager(
+            conn=conn, 
+            ports_type=ports.PFreya800G1S1P_b, 
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port index manager of Freya-800G-1S-1P[b]"""
+
+@typing.final
 class MFreya800G1S1POSFP_a(ModuleL23):
     """Test module Freya-800G-1S-1P-OSFP[a]"""
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
@@ -62,27 +75,27 @@ class MFreya800G1S1POSFP_a(ModuleL23):
 
 
 @typing.final
-class MFreya800G4S1P(ModuleL23):
-    """Test module Freya-800G-4S-1P"""
+class MFreya800G4S1P_a(ModuleL23):
+    """Test module Freya-800G-4S-1P[a]"""
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
-        self.ports: pm.PortsManager[ports.PFreya800G4S1P] = pm.PortsManager(
+        self.ports: pm.PortsManager[ports.PFreya800G4S1P_a] = pm.PortsManager(
             conn=conn, 
-            ports_type=ports.PFreya800G4S1P, 
+            ports_type=ports.PFreya800G4S1P_a, 
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Freya-800G-4S-1P"""
+        """Port index manager of Freya-800G-4S-1P[a]"""
 
 @typing.final
-class MFreya800G4S1POSFP(ModuleL23):
-    """Test module Freya-800G-4S-1P-OSFP"""
+class MFreya800G4S1POSFP_a(ModuleL23):
+    """Test module Freya-800G-4S-1P-OSFP[a]"""
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
-        self.ports: pm.PortsManager[ports.PFreya800G4S1POSFP] = pm.PortsManager(
+        self.ports: pm.PortsManager[ports.PFreya800G4S1POSFP_a] = pm.PortsManager(
             conn=conn, 
-            ports_type=ports.PFreya800G4S1POSFP, 
+            ports_type=ports.PFreya800G4S1POSFP_a, 
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Freya-800G-4S-1P-OSFP"""
+        """Port index manager of Freya-800G-4S-1P-OSFP[a]"""

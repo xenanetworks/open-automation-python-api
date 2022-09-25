@@ -61,12 +61,14 @@ class TesterSession:
         """
         Check if connection is still active.
         """
+
         return self._conn.is_connected
 
     async def logoff(self) -> None:
         """
-        Gracefull logoff from the tester.
+        Gracefully log off from the tester.
         """
+
         await C_LOGOFF(self._conn).set()
         self._conn.close()
 
@@ -74,6 +76,7 @@ class TesterSession:
         """
         Return information about all active sessions on the tester.
         """
+
         sessions = await C_INDICES(self._conn).get()
         session_ids = sessions.session_ids
         query_sessions = [

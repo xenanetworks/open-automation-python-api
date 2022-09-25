@@ -30,6 +30,7 @@ class L47Tester(BaseTester["testers_state.GenuineTesterLocalState"]):
     """
     Representation of a physical Xena Vulcan Tester.
     """
+    
     def __init__(self, host: str, username: str, password: str = "xena", port: int = 22606, *, debug: bool = False ) -> None:
         super().__init__(host=host, username=username, password=password, port=port, debug=debug)
         
@@ -37,7 +38,7 @@ class L47Tester(BaseTester["testers_state.GenuineTesterLocalState"]):
         
         self.build_string = C_BUILDSTRING(self._conn)
         """
-        Representation of :class:`~xoa_driver.internals.core.commands.c_commands.C_BUILDSTRING`
+        Representation of C_BUILDSTRING
         """
         
         self.management_interface = mi.ManagementInterface(self._conn)

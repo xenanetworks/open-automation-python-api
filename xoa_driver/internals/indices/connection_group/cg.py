@@ -55,23 +55,23 @@ class ConnectionGroupIdx(BaseIndex):
         
         self.comment = P4G_COMMENT(self._conn, *kind)
         """
-        Representation of :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_COMMENT`
+        Representation of p4g_commands.P4G_COMMENT
         """
         self.status = P4G_ENABLE(self._conn, *kind)
         """
-        Representation of :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_ENABLE`
+        Representation of p4g_commands.P4G_ENABLE
         """
         self.role = P4G_ROLE(self._conn, *kind)
         """
-        Representation of :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_ROLE`
+        Representation of p4g_commands.P4G_ROLE
         """
         self.layer4_protocol = P4G_L4_PROTOCOL(self._conn, *kind)
         """
-        Representation of :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_L4_PROTOCOL`
+        Representation of p4g_commands.P4G_L4_PROTOCOL
         """
         self.test_application = P4G_TEST_APPLICATION(self._conn, *kind)
         """
-        Representation of :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TEST_APPLICATION`
+        Representation of p4g_commands.P4G_TEST_APPLICATION
         """
         
         self.tls = GTls(self._conn, *kind)

@@ -17,30 +17,35 @@ if TYPE_CHECKING:
 
 class LowPowerMode:
     """L23 port low power mode."""
+
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.enable = P_LPENABLE(conn, module_id, port_id)
         """Energy Efficiency Ethernet.
-        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_LPENABLE`
+        Representation of P_LPENABLE
         """
+        
         self.mode = P_LPTXMODE(conn, module_id, port_id)
         """Low power TX mode.
-        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_LPTXMODE`
+        Representation of P_LPTXMODE
         """
         self.status = P_LPSTATUS(conn, module_id, port_id)
         """Low power status.
-        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_LPSTATUS`
+        Representation of P_LPSTATUS
         """
+
         self.partner_autonegotiation = P_LPPARTNERAUTONEG(conn, module_id, port_id)
         """EEE capabilities advertised during autonegotiation by the far side.
-        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_LPPARTNERAUTONEG`
+        Representation of P_LPPARTNERAUTONEG
         """
+
         self.snr_margin = P_LPSNRMARGIN(conn, module_id, port_id)
         """SNR margin on the four link channels by the PHY.
-        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_LPSNRMARGIN`
+        Representation of P_LPSNRMARGIN
         """
+
         self.rx_power = P_LPRXPOWER(conn, module_id, port_id)
         """RX power recorded during training for the four channels.
-        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_LPRXPOWER`
+        Representation of P_LPRXPOWER
         """
 
 
@@ -49,16 +54,19 @@ class FamilyE(BasePortL23Genuine):
         super().__init__(conn, module_id, port_id)
         self.autoneg_selection = P_AUTONEGSELECTION(conn, module_id, port_id)
         """L23 port's auto-negotiation selection.
-        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_AUTONEGSELECTION`
+        Representation of P_AUTONEGSELECTION
         """
+
         self.eee = LowPowerMode(conn, module_id, port_id)
         """L23 port Low Power mode settings."""
 
 
     on_autoneg_selection_change = functools.partialmethod(utils.on_event, P_AUTONEGSELECTION)
     """Register a callback to the event that the L23 port's auto-negotiation selection changes."""
+
     on_low_power_mode_enable_change = functools.partialmethod(utils.on_event, P_LPENABLE)
     """Register a callback to the event that the L23 port's low power status changes."""
+
     on_low_power_mode_change = functools.partialmethod(utils.on_event, P_LPTXMODE)
     """Register a callback to the event that the L23 port's low power mode changes."""
 

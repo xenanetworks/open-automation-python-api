@@ -111,7 +111,6 @@ __all__ = (
     "LicenseSpeed",
     "TLSVersion",
     "MulticastHeaderFormat",
-    # "Infinite",
     "CorruptionType",
     "PolicerMode",
     "FilterUse",
@@ -136,7 +135,7 @@ __all__ = (
     "ErrorOnOff",
     "PRBSPattern",
     "PHYSignalStatus",
-    # "ShadowWorkingSelection",
+    "ShadowWorkingSelection",
     "TSNConfigProfile",
     "TSNPortRole",
     "TSNDeviationMode",
@@ -150,5 +149,8 @@ __all__ = (
     "FilterVlanType",
     "LatencyTypeCustomDist",
     "CommandStatus",
-    "TrafficEngine"
+    "TrafficEngine",
+    "ReconciliationSublayerSupport",
+    "PPMSweepStatus",
+    "PPMSweepMode"
 )

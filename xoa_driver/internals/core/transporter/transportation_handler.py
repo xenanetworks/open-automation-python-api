@@ -84,6 +84,7 @@ class TransportationHandler(asyncio.Protocol):
 
     def data_received(self, data: bytes) -> None:
         """Process received data from xenaserver."""
+
         self.aggregate.extend(data)
         while len(self.aggregate) > 0:
             packet_position = self.read_data_with_magic_word(self.aggregate)
@@ -124,6 +125,7 @@ class TransportationHandler(asyncio.Protocol):
 
     async def __serialize_to_response(self, header, data: bytearray) -> protocol.Response:
         """Applying received bytes to structured representation."""
+
         command_idx: Optional[int] = (
             header.cmd_code
             if header.is_pushed
@@ -160,8 +162,9 @@ class TransportationHandler(asyncio.Protocol):
     def send(self, requests: Union[bytes, bytearray]) -> None:
         """
         Send applied commands from sending queue to
-        xenaserver and eliberate sending queue.
+        xenaserver and liberate the sending queue.
         """
+
         if self.__transport is None:
             raise BrokenPipeError("No socket!")
         self.__transport.write(requests)
@@ -169,6 +172,7 @@ class TransportationHandler(asyncio.Protocol):
 
     def close(self) -> None:
         """Close connection with xenaserver."""
+        
         if self.__transport is not None and not self.__transport.is_closing():
             self.__transport.close()
 

@@ -20,6 +20,7 @@ async def establish_connection(transporter: "TransportationHandler", host: str, 
     """
     Establish connection to provided host and port and assign ``<TransportationHandler>`` to it.
     """
+
     assert isinstance(loop, AbstractEventLoop) or loop is None, "<loop> must be an instance of AbstractEventLoop or None"
     __loop = loop if loop else asyncio.get_event_loop()
     try:
@@ -32,6 +33,7 @@ async def apply_iter(*cmd_tokens: "Token") -> AsyncGenerator[Any, None]:
     """
     Main interface for chunking the commands which need to be send to one or multiple testers at the same time.
     """
+
     aggregator: Dict["interfaces.IConnection", bytearray] = defaultdict(bytearray)
     queue: asyncio.Queue[asyncio.Future] = asyncio.Queue()
     for t in cmd_tokens:
@@ -51,5 +53,6 @@ async def apply(*cmd_tokens: "Token") -> List[Any]:
     """
     Main interface for chunking the commands which need to be send to one or multiple testers at the same time.
     """
+    
     assert len(cmd_tokens) <= 200, "Number of the commands is bigger then 200 for one aggregation, please use function <apply_iter> instead"
     return [ f async for f in apply_iter(*cmd_tokens) ]

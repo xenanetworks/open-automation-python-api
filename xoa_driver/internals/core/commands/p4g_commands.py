@@ -1056,7 +1056,7 @@ class P4G_IP_DS_MASK:
 class P4G_IP_DS_MINMAX:
     """
     Configure the min and max values of the range for the calculated part of the DS
-    value. Both values are included in the range. Relevant when :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_IP_DS_TYPE` is set to ``INCREMENT`` or ``RANDOM``.
+    value. Both values are included in the range. Relevant when P4G_IP_DS_TYPE` is set to ``INCREMENT`` or ``RANDOM``.
     """
 
     code: typing.ClassVar[int] = 623
@@ -1101,7 +1101,7 @@ class P4G_IP_DS_MINMAX:
 class P4G_IP_DS_STEP:
     """
     Specifies the incrementing step size for the calculated part of the DS value.
-    Relevant when :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_IP_DS_TYPE` is set to ``INCREMENT``.
+    Relevant when P4G_IP_DS_TYPE` is set to ``INCREMENT``.
     """
 
     code: typing.ClassVar[int] = 624
@@ -1145,7 +1145,7 @@ class P4G_TCP_MSS_TYPE:
     either be fixed size identical for all connections in the Connection Group,
     incrementing or random. The individual MSS for a specific connection is always
     constant once the incrementing or random value has been created. Refer to
-    :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TCP_MSS_MINMAX` 
+    P4G_TCP_MSS_MINMAX` 
     command for information on how to configure min and max values.
     """
 
@@ -1485,7 +1485,7 @@ class P4G_UDP_PACKET_SIZE_TYPE:
     be fixed size identical for all connections in the Connection Group,
     incrementing or random. The individual packet size for a specific connection is
     always constant once the incrementing or random value has been created. Refer to
-    :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_UDP_PACKET_SIZE_MINMAX` command for information on how to configure min and max values.
+    P4G_UDP_PACKET_SIZE_MINMAX` command for information on how to configure min and max values.
     """
 
     code: typing.ClassVar[int] = 632
@@ -1966,7 +1966,7 @@ class P4G_TCP_ACK_FREQUENCY:
 class P4G_TCP_ACK_TIMEOUT:
     """
     Delayed ACK timeout in microsecondsA pure ACK for the last RX packet will be
-    sent after :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TCP_ACK_TIMEOUT` microseconds in case it cannot be sent by other means, ie. a number of packets received since last ACK is less than :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TCP_ACK_FREQUENCY` and there is no TX packets to sent (to piggy-back an ACK)
+    sent after P4G_TCP_ACK_TIMEOUT` microseconds in case it cannot be sent by other means, ie. a number of packets received since last ACK is less than P4G_TCP_ACK_FREQUENCY` and there is no TX packets to sent (to piggy-back an ACK)
     """
 
     code: typing.ClassVar[int] = 642
@@ -2430,7 +2430,7 @@ class P4G_RAW_PAYLOAD_TYPE:
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], gen_method=gen_method))
 
     set_fixed = functools.partialmethod(set, PayloadGenerationMethod.FIXED)
-    """Payload has a fixed value - as specified by the :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_RAW_PAYLOAD` command."""
+    """Payload has a fixed value - as specified by the P4G_RAW_PAYLOAD` command."""
     set_increment = functools.partialmethod(set, PayloadGenerationMethod.INCREMENT)
     """Payload consist of incrementing bytes."""
     set_random = functools.partialmethod(set, PayloadGenerationMethod.RANDOM)
@@ -2543,9 +2543,9 @@ class P4G_RAW_PAYLOAD:
 @dataclass
 class P4G_RAW_PAYLOAD_REPEAT_LEN:
     """
-    Specify the length of the raw payload, which is defined by one or more :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_RAW_PAYLOAD` commands, to repeat.
+    Specify the length of the raw payload, which is defined by one or more P4G_RAW_PAYLOAD` commands, to repeat.
     
-    :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_RAW_PAYLOAD_REPEAT_LEN` number of bytes will be repeated until :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_RAW_PAYLOAD_TOTAL_LEN` bytes are transmitted on the connection.
+    P4G_RAW_PAYLOAD_REPEAT_LEN` number of bytes will be repeated until P4G_RAW_PAYLOAD_TOTAL_LEN` bytes are transmitted on the connection.
     """
 
     code: typing.ClassVar[int] = 655
@@ -2589,7 +2589,7 @@ class P4G_RAW_HAS_DOWNLOAD_REQ:
     
     .. note::
     
-        This parameter is N/A when :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_L4_PROTOCOL` is configured as UDP.
+        This parameter is N/A when P4G_L4_PROTOCOL` is configured as UDP.
 
     """
 
@@ -2643,13 +2643,13 @@ class P4G_RAW_CLOSE_CONN:
     
     In raw test scenario ``BOTH`` (bidirectional), this parameter is N/A and will be ignored.
     
-    In a transaction scenario, where :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_RAW_HAS_DOWNLOAD_REQ` is set to ``YES``, both client and server can close the connection, when the last transaction has been completed.
+    In a transaction scenario, where P4G_RAW_HAS_DOWNLOAD_REQ` is set to ``YES``, both client and server can close the connection, when the last transaction has been completed.
     
-    When :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_RAW_CONN_INCARNATION` is set to ``IMMORTAL`` or ``REINCARNATE``, and this command is set to ``NONE``, connections will be closed after 'connection lifetime', set by :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_RAW_CONN_LIFETIME`.
+    When P4G_RAW_CONN_INCARNATION` is set to ``IMMORTAL`` or ``REINCARNATE``, and this command is set to ``NONE``, connections will be closed after 'connection lifetime', set by P4G_RAW_CONN_LIFETIME`.
     
     .. note::
     
-        This parameter is N/A when :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_L4_PROTOCOL` is configured as UDP.
+        This parameter is N/A when P4G_L4_PROTOCOL` is configured as UDP.
 
     """
 
@@ -2846,7 +2846,7 @@ class P4G_RAW_TX_DURING_RAMP:
 @dataclass
 class P4G_RAW_TX_TIME_OFFSET:
     """
-    Specify a time offset to the transmit start and stop time, if :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TX_DURING_RAMP` is set to ``NO`` for ramp-up and ramp-down respectively.
+    Specify a time offset to the transmit start and stop time, if P4G_TX_DURING_RAMP` is set to ``NO`` for ramp-up and ramp-down respectively.
     """
 
     code: typing.ClassVar[int] = 661
@@ -3071,7 +3071,7 @@ class P4G_VLAN_TCI:
 @dataclass
 class P4G_TIME_HIST_CONF:
     """
-    Sets the start value and the interval size for the time histograms (:class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TCP_ESTABLISH_HIST` and :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TCP_CLOSE_HIST`).
+    Sets the start value and the interval size for the time histograms (P4G_TCP_ESTABLISH_HIST` and P4G_TCP_CLOSE_HIST`).
     """
 
     code: typing.ClassVar[int] = 666
@@ -3159,7 +3159,7 @@ class P4G_PAYLOAD_HIST_CONF:
 @dataclass
 class P4G_TRANSACTION_HIST_CONF:
     """
-    Sets the start value and the interval size for the transaction histogram (:class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_APP_TRANSACTION_HIST`).
+    Sets the start value and the interval size for the transaction histogram (P4G_APP_TRANSACTION_HIST`).
     """
 
     code: typing.ClassVar[int] = 668
@@ -3203,11 +3203,11 @@ class P4G_TRANSACTION_HIST_CONF:
 @dataclass
 class P4G_RAW_RX_PAYLOAD_LEN:
     """
-    Specify the length of the payload the Client should expect to receive before sending the next download request to the Server. Should be configured identical to the :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_RAW_PAYLOAD_TOTAL_LEN` for the Server. If mode is set to INFINITE, effectively no request/response repetitions will be performed.
+    Specify the length of the payload the Client should expect to receive before sending the next download request to the Server. Should be configured identical to the P4G_RAW_PAYLOAD_TOTAL_LEN` for the Server. If mode is set to INFINITE, effectively no request/response repetitions will be performed.
     
     .. note::
     
-        This parameter is N/A when :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_L4_PROTOCOL` is configured as UDP.
+        This parameter is N/A when P4G_L4_PROTOCOL` is configured as UDP.
 
     """
 
@@ -3261,11 +3261,11 @@ class P4G_RAW_RX_PAYLOAD_LEN:
 @dataclass
 class P4G_RAW_REQUEST_REPEAT:
     """
-    Specify the number of request/response transactions to perform - if :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_RAW_HAS_DOWNLOAD_REQ` is set to ``YES``.
+    Specify the number of request/response transactions to perform - if P4G_RAW_HAS_DOWNLOAD_REQ` is set to ``YES``.
     
     .. note::
         
-        This parameter is N/A when :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_L4_PROTOCOL` is configured as UDP.
+        This parameter is N/A when P4G_L4_PROTOCOL` is configured as UDP.
 
     """
 
@@ -3353,9 +3353,9 @@ class P4G_RAW_CONN_INCARNATION:
     set_once = functools.partialmethod(set, LifecycleMode.ONCE)
     """Connections are established during the ramp-up phase and not closed until the ramp-down phase of the load profile. That is, each configured connection only exists once."""
     set_immortal = functools.partialmethod(set, LifecycleMode.IMMORTAL)
-    """Connections are established during the ramp-up phase of the load profile, and are closed after the configured lifetime (configured by :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_RAW_CONN_LIFETIME`). As connections close, new connections are established, attempting to keep the concurrent number of established connections constant. A new connection will have the same IP address as the connection it replaces, but will have a new TCP port number. This will simulate that the user (defined by the client IP address) is living on, and creates new connections as old connections close."""
+    """Connections are established during the ramp-up phase of the load profile, and are closed after the configured lifetime (configured by P4G_RAW_CONN_LIFETIME`). As connections close, new connections are established, attempting to keep the concurrent number of established connections constant. A new connection will have the same IP address as the connection it replaces, but will have a new TCP port number. This will simulate that the user (defined by the client IP address) is living on, and creates new connections as old connections close."""
     set_reincarnate = functools.partialmethod(set, LifecycleMode.REINCARNATE)
-    """Connections are established during the ramp-up phase of the load profile, and are closed after the configured lifetime (configured by :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_RAW_CONN_LIFETIME`). As connections close, new connections are established, attempting to keep the concurrent number of established connections constant. A new connection will have the same TCP port number as the connection it replaces, but will have a new IP address. This will simulate that the user (defined by the client IP address) ceases to exist, and new users appear as old users die."""
+    """Connections are established during the ramp-up phase of the load profile, and are closed after the configured lifetime (configured by P4G_RAW_CONN_LIFETIME`). As connections close, new connections are established, attempting to keep the concurrent number of established connections constant. A new connection will have the same TCP port number as the connection it replaces, but will have a new IP address. This will simulate that the user (defined by the client IP address) ceases to exist, and new users appear as old users die."""
 
 
 @register_command
@@ -3363,7 +3363,7 @@ class P4G_RAW_CONN_INCARNATION:
 class P4G_RAW_CONN_REPETITIONS:
     """
     Defines how many times a new connection should be created, after an old
-    connection has been closed, when :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_RAW_CONN_INCARNATION` is set to ``IMMORTAL`` or
+    connection has been closed, when P4G_RAW_CONN_INCARNATION` is set to ``IMMORTAL`` or
     ``REINCARNATE``.
     """
 
@@ -3415,7 +3415,7 @@ class P4G_RAW_CONN_REPETITIONS:
 @dataclass
 class P4G_RAW_CONN_LIFETIME:
     """
-    Defines the lifetime of a connection, when :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_RAW_CONN_INCARNATION` is set to ``IMMORTAL`` or ``REINCARNATE``.
+    Defines the lifetime of a connection, when P4G_RAW_CONN_INCARNATION` is set to ``IMMORTAL`` or ``REINCARNATE``.
     """
 
     code: typing.ClassVar[int] = 673
@@ -3775,7 +3775,7 @@ class P4G_L4_PROTOCOL:
 @dataclass
 class P4G_TCP_ESTABLISH_HIST:
     """
-    Returns a histogram over TCP connection establish times, with start and interval values as configured by :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TIME_HIST_CONF`.
+    Returns a histogram over TCP connection establish times, with start and interval values as configured by P4G_TIME_HIST_CONF`.
     """
 
     code: typing.ClassVar[int] = 741
@@ -3840,7 +3840,7 @@ class P4G_TCP_ESTABLISH_HIST:
 @dataclass
 class P4G_TCP_CLOSE_HIST:
     """
-    Returns a histogram over TCP connection close times, with start and interval values as configured by :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TIME_HIST_CONF`.
+    Returns a histogram over TCP connection close times, with start and interval values as configured by P4G_TIME_HIST_CONF`.
     """
 
     code: typing.ClassVar[int] = 742
@@ -3905,7 +3905,7 @@ class P4G_TCP_CLOSE_HIST:
 @dataclass
 class P4G_TCP_RX_TOTAL_BYTES_HIST:
     """
-    Returns a histogram over number of total TCP bytes received, with start and interval values as configured by :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_PAYLOAD_HIST_CONF`.
+    Returns a histogram over number of total TCP bytes received, with start and interval values as configured by P4G_PAYLOAD_HIST_CONF`.
     """
 
     code: typing.ClassVar[int] = 743
@@ -3970,7 +3970,7 @@ class P4G_TCP_RX_TOTAL_BYTES_HIST:
 @dataclass
 class P4G_TCP_RX_GOOD_BYTES_HIST:
     """
-    Returns a histogram over number of good TCP bytes received, with start and interval values as configured by :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_PAYLOAD_HIST_CONF`.
+    Returns a histogram over number of good TCP bytes received, with start and interval values as configured by P4G_PAYLOAD_HIST_CONF`.
     """
 
     code: typing.ClassVar[int] = 744
@@ -4035,7 +4035,7 @@ class P4G_TCP_RX_GOOD_BYTES_HIST:
 @dataclass
 class P4G_TCP_TX_TOTAL_BYTES_HIST:
     """
-    Returns a histogram over number of total TCP bytes transmitted, with start and interval values as configured by :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_PAYLOAD_HIST_CONF`.
+    Returns a histogram over number of total TCP bytes transmitted, with start and interval values as configured by P4G_PAYLOAD_HIST_CONF`.
     """
 
     code: typing.ClassVar[int] = 745
@@ -4100,7 +4100,7 @@ class P4G_TCP_TX_TOTAL_BYTES_HIST:
 @dataclass
 class P4G_TCP_TX_GOOD_BYTES_HIST:
     """
-    Returns a histogram over number of good TCP bytes transmitted, with start and interval values as configured by :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_PAYLOAD_HIST_CONF`.
+    Returns a histogram over number of good TCP bytes transmitted, with start and interval values as configured by P4G_PAYLOAD_HIST_CONF`.
     """
 
     code: typing.ClassVar[int] = 746
@@ -4227,7 +4227,7 @@ class P4G_APP_TRANSACTION_COUNTERS:
 class P4G_APP_TRANSACTION_HIST:
     """
     Returns a histogram over completed request/response transactions per connection,
-    with start and interval values as configured by :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TRANSACTION_HIST_CONF`.
+    with start and interval values as configured by P4G_TRANSACTION_HIST_CONF`.
     """
 
     code: typing.ClassVar[int] = 754
@@ -4474,7 +4474,7 @@ class P4G_UDP_TX_PAYLOAD_COUNTERS:
 @dataclass
 class P4G_UDP_RX_BYTES_HIST:
     """
-    Returns a histogram over number of UDP bytes received, with start and interval values as configured by :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_PAYLOAD_HIST_CONF`.
+    Returns a histogram over number of UDP bytes received, with start and interval values as configured by P4G_PAYLOAD_HIST_CONF`.
     """
 
     code: typing.ClassVar[int] = 761
@@ -4539,7 +4539,7 @@ class P4G_UDP_RX_BYTES_HIST:
 @dataclass
 class P4G_UDP_TX_BYTES_HIST:
     """
-    Returns a histogram over number of UDP bytes transmitted, with start and interval values as configured by :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_PAYLOAD_HIST_CONF`.
+    Returns a histogram over number of UDP bytes transmitted, with start and interval values as configured by P4G_PAYLOAD_HIST_CONF`.
     """
 
     code: typing.ClassVar[int] = 762
@@ -4761,7 +4761,7 @@ class P4G_CLEAR_POST_STAT:
 @dataclass
 class P4G_RECALC_TIME_HIST:
     """
-    Recalculates connection time histograms (retrieved with: :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TCP_ESTABLISH_HIST` and :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TCP_CLOSE_HIST`). Used in case time histogram configuration has been changed (using :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TIME_HIST_CONF`).
+    Recalculates connection time histograms (retrieved with: P4G_TCP_ESTABLISH_HIST` and P4G_TCP_CLOSE_HIST`). Used in case time histogram configuration has been changed (using P4G_TIME_HIST_CONF`).
     """
 
     code: typing.ClassVar[int] = 791
@@ -4794,8 +4794,8 @@ class P4G_RECALC_TIME_HIST:
 @dataclass
 class P4G_RECALC_PAYLOAD_HIST:
     """
-    Recalculates connection payload histograms (retrieved with: :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TCP_RX_TOTAL_BYTES_HIST`, :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TCP_RX_GOOD_BYTES_HIST`, :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TCP_TX_TOTAL_BYTES_HIST` and :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TCP_TX_GOOD_BYTES_HIST`). Used in case
-    payload histogram configuration has been changed (using :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_PAYLOAD_HIST_CONF`)
+    Recalculates connection payload histograms (retrieved with: P4G_TCP_RX_TOTAL_BYTES_HIST`, P4G_TCP_RX_GOOD_BYTES_HIST`, P4G_TCP_TX_TOTAL_BYTES_HIST` and P4G_TCP_TX_GOOD_BYTES_HIST`). Used in case
+    payload histogram configuration has been changed (using P4G_PAYLOAD_HIST_CONF`)
     """
 
     code: typing.ClassVar[int] = 792
@@ -4828,8 +4828,8 @@ class P4G_RECALC_PAYLOAD_HIST:
 @dataclass
 class P4G_RECALC_TRANSACTION_HIST:
     """
-    Recalculates transaction histograms (retrieved with: :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_APP_TRANSACTION_HIST`).
-    Used in case transaction histogram configuration has been changed (using :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_TRANSACTION_HIST_CONF`)
+    Recalculates transaction histograms (retrieved with: P4G_APP_TRANSACTION_HIST`).
+    Used in case transaction histogram configuration has been changed (using P4G_TRANSACTION_HIST_CONF`)
     """
 
     code: typing.ClassVar[int] = 793
@@ -4863,7 +4863,7 @@ class P4G_RECALC_TRANSACTION_HIST:
 class P4G_REPLAY_FILE_INDICES:
     """
     Returns an index list of configured Replay Files for this Connection Group.
-    These are the Replay File Index that are used for :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_REPLAY_FILE_NAME` and :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_REPLAY_FILE_CLEAR` commands.  More than one Replay File can be configured for a Connection Group. When configuring a Replay File for a Connection Group, it must have an index.
+    These are the Replay File Index that are used for P4G_REPLAY_FILE_NAME` and P4G_REPLAY_FILE_CLEAR` commands.  More than one Replay File can be configured for a Connection Group. When configuring a Replay File for a Connection Group, it must have an index.
     """
 
     code: typing.ClassVar[int] = 900
@@ -5058,7 +5058,7 @@ class P4G_REPLAY_USER_INCARNATION:
 @dataclass
 class P4G_REPLAY_USER_REPETITIONS:
     """
-    Defines how many times a new user should be created after an old user has been destroyed, when :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_REPLAY_USER_INCARNATION` is set to ``IMMORTAL`` or ``REINCARNATE``.
+    Defines how many times a new user should be created after an old user has been destroyed, when P4G_REPLAY_USER_INCARNATION` is set to ``IMMORTAL`` or ``REINCARNATE``.
     """
 
     code: typing.ClassVar[int] = 905
@@ -5867,7 +5867,7 @@ class P4G_TLS_TX_PAYLOAD_COUNTERS:
 class P4G_TLS_RX_PAYLOAD_BYTES_HIST:
     """
     Returns a histogram over number of TLS Payload bytes received, with start and
-    interval values as configured by :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_PAYLOAD_HIST_CONF`.
+    interval values as configured by P4G_PAYLOAD_HIST_CONF`.
     """
 
     code: typing.ClassVar[int] = 1114
@@ -5933,7 +5933,7 @@ class P4G_TLS_RX_PAYLOAD_BYTES_HIST:
 class P4G_TLS_TX_PAYLOAD_BYTES_HIST:
     """
     Returns a histogram over number of TLS Payload bytes transmitted, with start and
-    interval values as configured by :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_PAYLOAD_HIST_CONF`.
+    interval values as configured by P4G_PAYLOAD_HIST_CONF`.
     """
 
     code: typing.ClassVar[int] = 1115
@@ -5999,7 +5999,7 @@ class P4G_TLS_TX_PAYLOAD_BYTES_HIST:
 class P4G_TLS_HANDSHAKE_HIST:
     """
     Returns a histogram over TLS connection handshake times, with start and interval
-    values as configured by :class:`~xoa_driver.internals.core.commands.p4g_commands.P4G_PAYLOAD_HIST_CONF`.
+    values as configured by P4G_PAYLOAD_HIST_CONF`.
     """
 
     code: typing.ClassVar[int] = 1116

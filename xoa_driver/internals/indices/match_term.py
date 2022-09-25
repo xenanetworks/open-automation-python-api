@@ -25,15 +25,15 @@ class MatchTermIdx(BaseIndex):
         super().__init__(conn, kind, observer)
         
         self.protocol = PM_PROTOCOL(conn, *kind)
-        """Representation of :class:`~xoa_driver.internals.core.commands.pm_commands.PM_PROTOCOL`"""
+        """Representation of pm_commands.PM_PROTOCOL"""
         self.position = PM_POSITION(conn, *kind)
-        """Representation of :class:`~xoa_driver.internals.core.commands.pm_commands.PM_POSITION`"""
+        """Representation of pm_commands.PM_POSITION"""
         self.match = PM_MATCH(conn, *kind)
-        """Representation of :class:`~xoa_driver.internals.core.commands.pm_commands.PM_MATCH`"""
+        """Representation of pm_commands.PM_MATCH"""
     
     async def delete(self):
         await PM_DELETE(self._conn, *self.kind).set()
-        """Representation of :class:`~xoa_driver.internals.core.commands.pm_commands.PM_DELETE`"""
+        """Representation of pm_commands.PM_DELETE"""
         self._observer.notify(idx_obs.IndexEvents.DEL, self)
     
     @classmethod
