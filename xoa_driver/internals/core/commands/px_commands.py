@@ -153,8 +153,8 @@ class PX_TEMPERATURE:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        temperature_msb: XmpField[XmpByte] = XmpField(XmpByte)  # byte, temperature value before the decimal digit.
-        temperature_decimal_fraction: XmpField[XmpByte] = XmpField(XmpByte)  # byte, 1/256th of a degree Celsius after the decimal digit.
+        integral_part: XmpField[XmpByte] = XmpField(XmpByte)  # byte, temperature value before the decimal digit.
+        fractional_part: XmpField[XmpByte] = XmpField(XmpByte)  # byte, 1/256th of a degree Celsius after the decimal digit.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get transceiver temperature in degrees Celsius.
