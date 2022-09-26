@@ -32,11 +32,10 @@ async def my_awesome_script():
 
         await asyncio.sleep(10)
 
-        temperature = await port.transceiver.temperature.get()
-        print(f"Transceiver temperature: {temperature.integral_part + temperature.fractional_part/256} degress Celcius.")
+        # Read transceiver's temperature
+        temperature = await port.transceiver.access_temperature.get()
+        print(f"Transceiver temperature: {temperature.integral_part + temperature.fractional_part/256} degrees Celsius.")
         
-        
-
         # Read transceiver's register value (single read)
         rx_power_lsb = await port.transceiver.access_rw(page_address=162, register_address=105).get()
         print(rx_power_lsb)

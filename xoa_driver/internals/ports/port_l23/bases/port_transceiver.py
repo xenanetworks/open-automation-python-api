@@ -15,10 +15,19 @@ class PortTransceiver:
         self.__conn = conn
         self.__module_id = module_id
         self.__port_id = port_id
-        self.temperature = PX_TEMPERATURE(conn, module_id, port_id)
+        
+    def access_temperature(self):
         """Transceiver temperature in Celsius.
-        Representation of PX_TEMPERATURE
+
+        :return: Transceiver temperature integral and decimal parts 
+        :rtype: PX_TEMPERATURE
         """
+
+        return PX_TEMPERATURE(
+            self.__conn, 
+            self.__module_id, 
+            self.__port_id, 
+        )
     
     def access_rw(self, page_address: int, register_address: int) -> "PX_RW":
         """Access to register interface by the transceiver.
