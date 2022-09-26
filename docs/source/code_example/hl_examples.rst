@@ -165,3 +165,10 @@ Traffic Drop and Latency/Jitter Impairment
     :caption: Traffic drop and latency/jitter impairment
     
 
+Read/Write Transceiver
+--------------------------------------------
+
+The example demonstrates how to read/write transceiver register of different types in different ways, as well as reading transceiver temperature.
+
+.. literalinclude:: hl/transceiver_reg.py
+    :caption: Read/write transceiver values
