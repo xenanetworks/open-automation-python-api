@@ -16,29 +16,28 @@ from xoa_driver.internals.ports.port_l23.family_combi import (
 )
 
 from xoa_driver.internals.ports.port_l23.family_d import (
+    POdin1G3S2PT,
     POdin1G3S6P,
     POdin1G3S6P_b,
     POdin1G3S6PE,
-    POdin1G3S2PT,
-    
 )
 
 from xoa_driver.internals.ports.port_l23.family_e import (
     POdin5G4S6PCU,
-    POdin10G5S6PCU,
-    POdin10G5S6PCU_b,
-    POdin10G3S6PCU,
     POdin10G3S2PCU,
+    POdin10G3S6PCU,
+    POdin10G5S6PCU,
+    POdin10G5S6PCU_b,   
 )
 
 from xoa_driver.internals.ports.port_l23.family_f import (
     POdin10G1S2P,
     POdin10G1S2P_b,
     POdin10G1S2P_c,
+    POdin10G1S2P_d,
+    POdin10G1S2PT,
     POdin10G1S6P,
     POdin10G1S6P_b,
-    POdin10G1S2PT,
-    POdin10G1S2P_d,
     POdin10G1S12P,
     POdin40G2S2P,
 )
