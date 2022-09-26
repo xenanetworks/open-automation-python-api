@@ -5,6 +5,7 @@ from xoa_driver.internals.core.commands import (
     PX_RW,
     PX_MII,
     PX_TEMPERATURE,
+    PX_RW_SEQ,
 )
 
 class PortTransceiver:
@@ -51,4 +52,25 @@ class PortTransceiver:
             self.__module_id, 
             self.__port_id,
             register_address
+        )
+
+    def access_rw_seq(self, page_address: int, register_address: int, byte_count: int) -> "PX_RW_SEQ":
+        """Sequential read/write a number of bytes to the  register interface supported by the media-independent interface (MII) transceiver.
+
+        :param page_address: page address (0-255)
+        :type page_address: int
+        :param register_address: register address (0-255)
+        :type register_address: int
+        :param byte_count: the number of bytes to read/write
+        :type byte_count: int
+        :return: transceiver register values
+        :rtype: PX_RW_SEQ
+        """
+        return PX_RW_SEQ(
+            self.__conn, 
+            self.__module_id, 
+            self.__port_id,
+            page_address, 
+            register_address,
+            byte_count
         )
