@@ -66,7 +66,7 @@ class ChassisSessionType(IntEnum):
     """Connection on port 22611, running CLI command."""
 
 
-class TimeSyncMode(IntEnum):
+class TimingSource(IntEnum):
     """Module's time sync mode."""
     CHASSIS = 0
     """Module syncs to chassis's clock."""

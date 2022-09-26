@@ -76,6 +76,17 @@ class SMA:
         Representation of M_SMASTATUS
         """
 
+class AdvancedTiming:
+    """Advanced Timing config and control"""
+    def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
+        self.clock_tx = TXClock(conn, module_id)
+        """Advanced timing clock config and status
+        """
+
+        self.sma = SMA(conn, module_id)
+        """SMA connector 
+        """
+
 
 class CFP:
     """Test module CFP"""
@@ -84,26 +95,34 @@ class CFP:
         """The transceiver's CFP type currently inserted.
         Representation of M_CFPTYPE
         """
+        
         self.config = M_CFPCONFIG(conn, module_id)
         """The CFP configuration of the test module.
         Representation of M_CFPCONFIG
         """
+        
         self.config_extended = M_CFPCONFIGEXT(conn, module_id)
         """The extended CFP configuration of the test module.
         Representation of M_CFPCONFIGEXT
         """
 
 
-class MTime:
-    """Test module time"""
+class MTiming:
+    """Test module timing and clock configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
-        self.sync = M_TIMESYNC(conn, module_id)
-        """Time sync controlling of the test module.
+        self.source = M_TIMESYNC(conn, module_id)
+        """Timing source of the test module.
         Representation of M_TIMESYNC
         """
-        self.adjustment = M_TIMEADJUSTMENT(conn, module_id)
-        """Time adjustment controlling of the test module.
-        Representation of M_TIMEADJUSTMENT
+        
+        self.clock_local_adjust = M_CLOCKPPB(conn, module_id)
+        """Time adjustment controlling of the local clock of the test module, which drives the TX rate of the test ports.
+        Representation of M_CLOCKPPB
+        """
+
+        self.clock_sync_status = M_CLOCKSYNCSTATUS(conn, module_id)
+        """Test module's clock sync status.
+        Representation of M_CLOCKSYNCSTATUS
         """
 
 class MUpgrade:
@@ -113,10 +132,17 @@ class MUpgrade:
         """Start the upgrade progress of the test module.
         Representation of M_UPGRADE
         """
+        
         self.progress = M_UPGRADEPROGRESS(conn, module_id)
         """Upgrade progress status of the test module.
         Representation of M_UPGRADEPROGRESS
         """
+
+        self.reload_image = M_FPGAREIMAGE(conn, module_id)
+        """Reload the FPGA image of the test module.
+        Representation of M_FPGAREIMAGE
+        """
+
 
 class ModuleL23(bm.BaseModule["modules_state.ModuleL23LocalState"]):
     """
@@ -152,19 +178,9 @@ class ModuleL23(bm.BaseModule["modules_state.ModuleL23LocalState"]):
         Representation of M_REVISION
         """
 
-        self.clock_ppb = M_CLOCKPPB(conn, self.module_id)
-        """Small adjustment to the local clock of the test module.
-        Representation of M_CLOCKPPB
-        """
-
         self.multiuser = M_MULTIUSER(conn, self.module_id)
         """If multiple users are allowed to control the same test module.
         Representation of M_MULTIUSER
-        """
-
-        self.reload_fpga_image = M_FPGAREIMAGE(conn, self.module_id)
-        """Reload the FPGA image of the test module.
-        Representation of M_FPGAREIMAGE
         """
 
         self.capabilities = M_CAPABILITIES(conn, self.module_id)
@@ -172,19 +188,11 @@ class ModuleL23(bm.BaseModule["modules_state.ModuleL23LocalState"]):
         Representation of M_CAPABILITIES
         """
 
-        self.clock_sync_status = M_CLOCKSYNCSTATUS(conn, self.module_id)
-        """Test module's clock sync status.
-        Representation of M_CLOCKSYNCSTATUS
-        """
+        self.timing = MTiming(conn, self.module_id)
+        """Test module's timing configuration."""
 
-        self.time = MTime(conn, self.module_id)
-        """Test module's time settings."""
-
-        self.tx_clock = TXClock(conn, self.module_id)
-        """Test module's advanced timing clock."""
-
-        self.sma = SMA(conn, self.module_id)
-        """Test module's SMA connector."""
+        self.advanced_timing = AdvancedTiming(conn, self.module_id)
+        """Test module's advanced timing ."""
 
         self.cfp = CFP(conn, self.module_id)
         """Test module's CFP """
@@ -218,9 +226,6 @@ class ModuleL23(bm.BaseModule["modules_state.ModuleL23LocalState"]):
     on_cfp_config_extended_change = functools.partialmethod(utils.on_event, M_CFPCONFIGEXT)
     """Register a callback to the event that the module's CFP extended configuration changes."""
 
-    on_tx_clock_status_change = functools.partialmethod(utils.on_event, M_TXCLOCKSTATUS_NEW)
-    """Register a callback to the event that the module's TX clock status changes."""
-
     on_status_change = functools.partialmethod(utils.on_event, M_STATUS)
     """Register a callback to the event that the module's status changes."""
 
@@ -230,8 +235,23 @@ class ModuleL23(bm.BaseModule["modules_state.ModuleL23LocalState"]):
     on_name_change = functools.partialmethod(utils.on_event, M_NAME)
     """Register a callback to the event that the module's name changes."""
 
-    on_sma_status_change = functools.partialmethod(utils.on_event, M_SMASTATUS)
+    on_adv_timing_clock_tx_status_change = functools.partialmethod(utils.on_event, M_TXCLOCKSTATUS_NEW)
+    """Register a callback to the event that the module's TX clock status changes."""
+
+    on_adv_timing_clock_tx_source_change = functools.partialmethod(utils.on_event, M_TXCLOCKSOURCE_NEW)
+    """Register a callback to the event that the module's clock that drives the port TX rates changes."""
+
+    on_adv_timing_clock_tx_filter_change = functools.partialmethod(utils.on_event, M_TXCLOCKFILTER_NEW)
+    """Register a callback to the event that the module's loop bandwidth on the TX clock filter changes."""
+
+    on_adv_timing_sma_status_change = functools.partialmethod(utils.on_event, M_SMASTATUS)
     """Register a callback to the event that the module's SMA status changes."""
+
+    on_adv_timing_sma_input_change = functools.partialmethod(utils.on_event, M_SMAINPUT)
+    """Register a callback to the event that the module's SMA input function changes."""
+
+    on_adv_timing_sma_output_change = functools.partialmethod(utils.on_event, M_SMAOUTPUT)
+    """Register a callback to the event that the module's SMA output function changes."""
 
     on_media_support_change = functools.partialmethod(utils.on_event, M_MEDIASUPPORT)
     """Register a callback to the event that the module's supported media changes."""
@@ -242,21 +262,9 @@ class ModuleL23(bm.BaseModule["modules_state.ModuleL23LocalState"]):
     on_comment_change = functools.partialmethod(utils.on_event, M_COMMENT)
     """Register a callback to the event that the module's description changes."""
 
-    on_time_sync_change = functools.partialmethod(utils.on_event, M_TIMESYNC)
+    on_timing_source_change = functools.partialmethod(utils.on_event, M_TIMESYNC)
     """Register a callback to the event that the module's timesync mode changes."""
 
-    on_clock_ppb_change = functools.partialmethod(utils.on_event, M_CLOCKPPB)
-    """Register a callback to the event that the module's clock adjustment ppb changes."""
-
-    on_sma_input_change = functools.partialmethod(utils.on_event, M_SMAINPUT)
-    """Register a callback to the event that the module's SMA input function changes."""
-
-    on_sma_output_change = functools.partialmethod(utils.on_event, M_SMAOUTPUT)
-    """Register a callback to the event that the module's SMA output function changes."""
-
-    on_tx_clock_source_change = functools.partialmethod(utils.on_event, M_TXCLOCKSOURCE_NEW)
-    """Register a callback to the event that the module's clock that drives the port TX rates changes."""
-
-    on_tx_clock_sfilter_change = functools.partialmethod(utils.on_event, M_TXCLOCKFILTER_NEW)
-    """Register a callback to the event that the module's loop bandwidth on the TX clock filter changes."""
+    on_timing_clock_local_adjust_change = functools.partialmethod(utils.on_event, M_CLOCKPPB)
+    """Register a callback to the event that the module's clock adjustment ppb changes."""    
 

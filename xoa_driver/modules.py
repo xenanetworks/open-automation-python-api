@@ -36,6 +36,13 @@ from .internals.modules.modules_l23.family_k import MThor400G7S1P
 from .internals.modules.modules_l23.family_l import (
     MThor400G7S1P_b,
     MThor400G7S1P_c,
+    # MFreya800G1S1P_a,
+    # MFreya800G1S1P_b,
+    # MFreya800G1S1POSFP_a,
+    # MFreya800G4S1P_a,
+    # MFreya800G4S1POSFP_a,
+)
+from .internals.modules.modules_l23.family_l1 import (
     MFreya800G1S1P_a,
     MFreya800G1S1P_b,
     MFreya800G1S1POSFP_a,

@@ -11,7 +11,7 @@ __all__ = (
     "RESTControlAction",
     "ServiceStatus",
     "ChassisSessionType",
-    "TimeSyncMode",
+    "TimingSource",
     "MediaCFPState",
     "MediaCFPType",
     "SMAInputFunction",

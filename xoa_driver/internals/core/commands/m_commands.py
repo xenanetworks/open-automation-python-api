@@ -322,11 +322,11 @@ class M_TIMESYNC:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=TimeSyncMode)  # coded byte, selecting the time sync mode.
+        source: XmpField[XmpByte] = XmpField(XmpByte, choices=TimingSource)  # coded byte, selecting the time sync mode.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=TimeSyncMode)  # coded byte, selecting the time sync mode.
+        source: XmpField[XmpByte] = XmpField(XmpByte, choices=TimingSource)  # coded byte, selecting the time sync mode.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the time sync mode of the test module timestamp clock.
@@ -336,21 +336,21 @@ class M_TIMESYNC:
         """
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, mode: TimeSyncMode) -> "Token":
+    def set(self, source: TimingSource) -> "Token":
         """Set the time sync mode of the test module timestamp clock.
 
         :param mode: the time sync mode of the test module timestamp clock
         :type mode: TimeSyncMode
         """
-        return Token(self._connection, build_set_request(self, module=self._module, mode=mode))
+        return Token(self._connection, build_set_request(self, module=self._module, source=source))
 
-    set_chassis = functools.partialmethod(set, TimeSyncMode.CHASSIS)
+    set_chassis = functools.partialmethod(set, TimingSource.CHASSIS)
     """Set the time sync mode of the test module to Chassis Mode.
     """
-    set_external = functools.partialmethod(set, TimeSyncMode.EXTERNAL)
+    set_external = functools.partialmethod(set, TimingSource.EXTERNAL)
     """Set the time sync mode of the test module to External Mode.
     """
-    set_module = functools.partialmethod(set, TimeSyncMode.MODULE)
+    set_module = functools.partialmethod(set, TimingSource.MODULE)
     """Set the time sync mode of the test module to Module Mode.
     """
 
