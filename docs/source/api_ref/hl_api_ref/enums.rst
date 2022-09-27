@@ -40,9 +40,9 @@ ChassisSessionType
 .. autoclass:: ChassisSessionType
    :members:
 
-TimeSyncMode
+TimingSource
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-.. autoclass:: TimeSyncMode
+.. autoclass:: TimingSource
    :members:
 
 MediaCFPState

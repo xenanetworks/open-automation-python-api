@@ -107,25 +107,29 @@ PE_BANDSHAPER
     :exclude-members: GetDataAttr, SetDataAttr
 
 
+.. currentmodule:: xoa_driver.internals.core.commands.pp_commands
+
+
 PP_PMAERRPUL_PARAMS
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-See :ref:`PP_PMAERRPUL_PARAMS <pp_pmaerrpul_params>`.
+See :class:`PP_PMAERRPUL_PARAMS`.
+
 
 PP_PMAERRPUL_ENABLE
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-See :ref:`PP_PMAERRPUL_ENABLE <pp_pmaerrpul_enable>`.
+See :class:`PP_PMAERRPUL_ENABLE`.
 
 PP_LINKFLAP_PARAMS
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-See :ref:`PP_LINKFLAP_PARAMS <pp_linkflap_params>`.
+See :class:`PP_LINKFLAP_PARAMS`.
 
 PP_LINKFLAP_ENABLE
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-See :ref:`PP_LINKFLAP_ENABLE <pp_linkflap_enable>`.
+See :class:`PP_LINKFLAP_ENABLE`.
 
 
 The other port commands are the same as :ref:`L23 Port Commands <l23_p_commands>`.

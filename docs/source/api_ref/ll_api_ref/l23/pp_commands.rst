@@ -86,8 +86,6 @@ PP_RXFECSTATS
     :exclude-members: GetDataAttr, SetDataAttr
 
 
-.. _pp_linkflap_params:
-
 PP_LINKFLAP_PARAMS
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -97,8 +95,6 @@ PP_LINKFLAP_PARAMS
     :exclude-members: GetDataAttr, SetDataAttr
 
 
-.. _pp_linkflap_enable:
-
 PP_LINKFLAP_ENABLE
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -107,7 +103,6 @@ PP_LINKFLAP_ENABLE
     :no-undoc-members:
     :exclude-members: GetDataAttr, SetDataAttr
 
-.. _pp_pmaerrpul_params:
 
 PP_PMAERRPUL_PARAMS
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -180,7 +175,6 @@ PP_TXLASERPOWER
     :no-undoc-members:
     :exclude-members: GetDataAttr, SetDataAttr
 
-.. _pp_pmaerrpul_enable:
 
 PP_PMAERRPUL_ENABLE
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -340,7 +340,7 @@ class M_TIMESYNC:
         """Set the time sync mode of the test module timestamp clock.
 
         :param mode: the time sync mode of the test module timestamp clock
-        :type mode: TimeSyncMode
+        :type mode: TimingSource
         """
         return Token(self._connection, build_set_request(self, module=self._module, source=source))
 

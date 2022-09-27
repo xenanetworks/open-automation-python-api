@@ -465,11 +465,3 @@ C_TKSTATUSEXT
     :no-undoc-members:
     :exclude-members: GetDataAttr, SetDataAttr
 
-
-C_EXTNAME
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autoclass:: C_EXTNAME
-    :members:
-    :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
