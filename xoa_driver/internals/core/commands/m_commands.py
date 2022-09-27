@@ -1493,6 +1493,56 @@ class M_CLOCKSWEEPSTATUS:
 
 @register_command
 @dataclass
+class M_LATENCYMODE:
+    """
+    Configures the latency mode for Chimera module. In extended latency mode, the FPGA allows all latency parameters to be 10 times higher, at the cost of reduced latency precision.
+
+    .. note::
+    
+        - When change the latency mode, all latency configurations are reset on all ports in chimera module.
+
+    """
+
+    code: typing.ClassVar[int] = 450
+    pushed: typing.ClassVar[bool] = True
+
+    _connection: "interfaces.IConnection"
+    _module: int
+
+    @dataclass(frozen=True)
+    class SetDataAttr:
+        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=ImpairmentLatencyMode)  # coded byte, specifying latency mode.
+
+    @dataclass(frozen=True)
+    class GetDataAttr:
+        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=ImpairmentLatencyMode)  # coded byte, specifying latency mode.
+
+    def get(self) -> "Token[GetDataAttr]":
+        """Get the latency mode of the Chimera module.
+
+        :return: the latency mode of the Chimera module.
+        :rtype: M_LATENCYMODE.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module))
+
+    def set(self, mode: ImpairmentLatencyMode) -> "Token":
+        """Set the latency mode of the Chimera module.
+
+        :param mode: the bypass mode of the impairment emulator.
+        :type mode: ImpairmentLatencyMode
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, mode=mode))
+
+    set_normal = functools.partialmethod(set, ImpairmentLatencyMode.NORMAL)
+    """Set the latency mode of the Chimera module to NORMAL
+    """
+    set_extended = functools.partialmethod(set, ImpairmentLatencyMode.EXTENDED)
+    """Set the latency mode of the Chimera module to EXTENDED
+    """
+
+
+@register_command
+@dataclass
 class M_EMULBYPASS:
     """
     Set emulator bypass mode. Emulator bypass mode will bypass the entire emulator

@@ -13,7 +13,7 @@ from xoa_driver.internals.core.commands import (
     M_TXCLOCKSOURCE_NEW,
     M_TXCLOCKSTATUS_NEW,
     M_EMULBYPASS,
-    # M_LATENCYMODE, #TODO: wait for val-90 to assign the correct command code
+    M_LATENCYMODE,
 )
 
 from xoa_driver.internals.utils import ports_manager as pm
@@ -88,10 +88,12 @@ class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
         """
         Advanced timing feature (Chimera).
         """
+
         self.cfp = ChCFP(conn, self.module_id)
         """
         CFP test module (Chimera).
         """
+
         self.upgrade = ChUpgrade(conn, self.module_id)
         """
         Upgrade test module (Chimera).
@@ -127,6 +129,12 @@ class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
         Representation of M_EMULBYPASS
         """
 
+        self.latency_mode = M_LATENCYMODE(conn, self.module_id)
+        """
+        Latency mode of the Chimera module.
+        Representation of M_LATENCYMODE
+        """
+
         self.ports: pm.PortsManager["ports.PortChimera"] = pm.PortsManager(
             conn=conn,
             ports_type=ports.PortChimera,
@@ -159,9 +167,12 @@ class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
     Register a callback to the event that the module's CFP configuration changes.
     """
 
-    on_model_change = functools.partialmethod(utils.on_event, M_STATUS)
+    on_status_change = functools.partialmethod(utils.on_event, M_STATUS)
     """
     Register a callback to the event that the module's model changes.
     """
 
-    # on_latency_mode_change = functools.partialmethod(utils.on_event, M_LATENCYMODE)
+    on_latency_mode_change = functools.partialmethod(utils.on_event, M_LATENCYMODE)
+    """
+    Register a callback to the event that the module's latency mode changes.
+    """

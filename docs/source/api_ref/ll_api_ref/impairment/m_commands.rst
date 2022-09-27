@@ -13,3 +13,12 @@ M_EMULBYPASS
     :no-undoc-members:
     :exclude-members: GetDataAttr, SetDataAttr
 
+
+M_LATENCYMODE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: M_LATENCYMODE
+    :members:
+    :no-undoc-members:
+    :exclude-members: GetDataAttr, SetDataAttr
+
