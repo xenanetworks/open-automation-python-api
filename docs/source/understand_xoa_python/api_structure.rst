@@ -42,7 +42,6 @@ For example, to change the description of a tester using :term:`HL-API`:
 
 .. code-block:: python
     
-
     await tester.comment.set(comment="my tester")
 
 
@@ -52,6 +51,5 @@ For example, to change the description of a tester using :term:`LL-API`:
 
 .. code-block:: python
     
-
     await C_COMMENT(handler).set(comment="my tester")
 

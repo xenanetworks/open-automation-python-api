@@ -32,10 +32,9 @@ API Notation and Namings
     
 An example of :term:`HL-API` notation and namings based on the corresponding :term:`XOA CLI` command names:
 
-.. code-block::
+.. code-block:: text
     :caption: CLI command names
     
-
     P_SPEEDSELECTION
     P_SPEEDS_SUPPORTED
 
@@ -44,7 +43,6 @@ are represented as
 .. code-block:: python
     :caption: Corresponding HL-API naming
     
-
     <resource>.speed.selection
     <resource>.speed.supported
 
@@ -68,7 +66,6 @@ There are only two types of methods for each command, ``get`` and/or ``set``:
 
 .. code-block:: python
     
-
     await <resource>.<command_oo_name>.get()
 
     await <resource>.<command_oo_name>.set(<values>)
@@ -81,7 +78,6 @@ There are only two types of methods for each command, ``get`` and/or ``set``:
 
 .. code-block:: python
     
-
     await <Port>.speed.supported.get()
 
     await <Port>.speed.selection.set(mode=PortSpeedMode.AUTO)
@@ -265,7 +261,7 @@ Index Managers
 
 Each port object contains several :term:`Index Managers<Index Manager>` that manage the subport-level resource indices such as stream indices, filter indices, connection group indices, modifier indices, etc. It automatically ensures correct and conflict-free **index assignment**.
     
-    For L23:
+    **For L23:**
 
     * `Stream Index Manager` can be accessed through attribute ``streams``, e.g. ``my_l23_port.streams``.
     * `Filter Index Manager` can be accessed through attribute ``filters``, e.g. ``my_l23_port.filters``.
@@ -274,7 +270,7 @@ Each port object contains several :term:`Index Managers<Index Manager>` that man
     * `Histogram Dataset Index Manager` can be accessed through attribute ``datasets``, e.g. ``my_l23_port.datasets``.
     * `Modifier Index Manager` can be accessed through attribute ``modifiers`` under ``packet.header`` of a stream object, e.g. ``my_stream.packet.header.modifiers``
 
-    For L47:
+    **For L47:**
     
     * `Connection Group Index Manager` can be accessed through attribute ``streams``, e.g. ``my_l47_port.connection_groups``.
 
