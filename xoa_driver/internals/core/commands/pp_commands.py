@@ -1674,7 +1674,7 @@ class PP_LINKTRAIN:
     """
 
     code: typing.ClassVar[int] = 383
-    pushed: typing.ClassVar[bool] = False
+    pushed: typing.ClassVar[bool] = True
 
     _connection: "interfaces.IConnection"
     _module: int
