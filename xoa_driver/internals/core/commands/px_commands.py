@@ -145,7 +145,7 @@ class PX_TEMPERATURE:
     """
 
     code: typing.ClassVar[int] = 538
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int

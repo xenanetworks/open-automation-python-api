@@ -352,7 +352,7 @@ class PP_LINKFLAP_PARAMS:
     """
 
     code: typing.ClassVar[int] = 287
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -399,7 +399,7 @@ class PP_LINKFLAP_ENABLE:
     """
 
     code: typing.ClassVar[int] = 288
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -449,7 +449,7 @@ class PP_PMAERRPUL_PARAMS:
     """
 
     code: typing.ClassVar[int] = 289
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -725,7 +725,7 @@ class PP_PMAERRPUL_ENABLE:
     """
 
     code: typing.ClassVar[int] = 300
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int

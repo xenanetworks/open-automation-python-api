@@ -424,7 +424,7 @@ class P_COMMENT:
     """
 
     code: typing.ClassVar[int] = 112
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -467,7 +467,7 @@ class P_SPEEDREDUCTION:
     """
 
     code: typing.ClassVar[int] = 113
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -507,7 +507,7 @@ class P_INTERFRAMEGAP:
     """
 
     code: typing.ClassVar[int] = 114
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -548,7 +548,7 @@ class P_MACADDRESS:
     """
 
     code: typing.ClassVar[int] = 116
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -589,7 +589,7 @@ class P_IPADDRESS:
     """
 
     code: typing.ClassVar[int] = 117
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -651,7 +651,7 @@ class P_ARPREPLY:
     """
 
     code: typing.ClassVar[int] = 118
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -700,7 +700,7 @@ class P_PINGREPLY:
     """
 
     code: typing.ClassVar[int] = 119
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -746,7 +746,7 @@ class P_PAUSE:
     """
 
     code: typing.ClassVar[int] = 120
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -798,7 +798,7 @@ class P_RANDOMSEED:
     """
 
     code: typing.ClassVar[int] = 121
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -840,14 +840,14 @@ class P_LOOPBACK:
     The loopback mode for a port. Ports can be configured to perform two different
     kinds of loopback: 1) External RX-to-TX loopback, where the received packets
     are re-transmitted immediately. The packets are still processed by the receive
-    logic, and can be captured and analysed. 2) Internal TX-to-RX loopback, where
+    logic, and can be captured and analyzed. 2) Internal TX-to-RX loopback, where
     the transmitted packets are received directly by the port itself. This is mainly
     useful for testing the generated traffic patterns before actual use.
 
     """
 
     code: typing.ClassVar[int] = 122
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -910,7 +910,7 @@ class P_FLASH:
     """
 
     code: typing.ClassVar[int] = 123
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -1012,7 +1012,7 @@ class P_CAPTURE:
     """
 
     code: typing.ClassVar[int] = 125
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -1089,7 +1089,7 @@ class P_LATENCYOFFSET:
     """
 
     code: typing.ClassVar[int] = 127
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -1144,7 +1144,7 @@ class P_LATENCYMODE:
 
 
     code: typing.ClassVar[int] = 128
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -1203,7 +1203,7 @@ class P_AUTOTRAIN:
     """
 
     code: typing.ClassVar[int] = 129
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -1243,7 +1243,7 @@ class P_UAT_MODE:
     """
 
     code: typing.ClassVar[int] = 138
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -1299,7 +1299,7 @@ class P_UAT_FLR:
     """
 
     code: typing.ClassVar[int] = 139
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -1499,7 +1499,7 @@ class P_MDIXMODE:
     """
 
     code: typing.ClassVar[int] = 194
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -1579,7 +1579,7 @@ class P_GAPMONITOR:
     """
 
     code: typing.ClassVar[int] = 301
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -1628,7 +1628,7 @@ class P_CHECKSUM:
     """
 
     code: typing.ClassVar[int] = 302
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -1675,7 +1675,7 @@ class P_STATUS:
     """
 
     code: typing.ClassVar[int] = 303
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -1703,7 +1703,7 @@ class P_AUTONEGSELECTION:
     """
 
     code: typing.ClassVar[int] = 304
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -1756,7 +1756,7 @@ class P_MIXLENGTH:
     """
 
     code: typing.ClassVar[int] = 305
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -1798,7 +1798,7 @@ class P_ARPRXTABLE:
     """
 
     code: typing.ClassVar[int] = 308
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -1845,7 +1845,7 @@ class P_NDPRXTABLE:
     """
 
     code: typing.ClassVar[int] = 309
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -1893,7 +1893,7 @@ class P_MULTICAST:
     """
 
     code: typing.ClassVar[int] = 311
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -1960,7 +1960,7 @@ class P_MULTICASTEXT:
     """
 
     code: typing.ClassVar[int] = 312
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -2027,7 +2027,7 @@ class P_MCSRCLIST:
     """
 
     code: typing.ClassVar[int] = 313
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -2089,7 +2089,7 @@ class P_TXMODE:
     """
 
     code: typing.ClassVar[int] = 320
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -2146,7 +2146,7 @@ class P_MULTICASTHDR:
     """
 
     code: typing.ClassVar[int] = 314
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -2337,7 +2337,7 @@ class P_PAYLOADMODE:
     """
 
     code: typing.ClassVar[int] = 324
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -2386,7 +2386,7 @@ class P_BRRMODE:
     """
 
     code: typing.ClassVar[int] = 326
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -2432,7 +2432,7 @@ class P_TXENABLE:
     """
 
     code: typing.ClassVar[int] = 327
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -2483,7 +2483,7 @@ class P_MAXHEADERLENGTH:
     """
 
     code: typing.ClassVar[int] = 328
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -2524,7 +2524,7 @@ class P_TXTIMELIMIT:
     """
 
     code: typing.ClassVar[int] = 329
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -2621,7 +2621,7 @@ class P_IPV6ADDRESS:
     """
 
     code: typing.ClassVar[int] = 332
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -2686,7 +2686,7 @@ class P_ARPV6REPLY:
     """
 
     code: typing.ClassVar[int] = 333
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -2735,7 +2735,7 @@ class P_PINGV6REPLY:
     """
 
     code: typing.ClassVar[int] = 334
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -2852,7 +2852,7 @@ class P_TXDELAY:
     """
 
     code: typing.ClassVar[int] = 337
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -2891,7 +2891,7 @@ class P_LPENABLE:
     """
 
     code: typing.ClassVar[int] = 340
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -2941,7 +2941,7 @@ class P_LPTXMODE:
     """
 
     code: typing.ClassVar[int] = 341
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -3139,7 +3139,7 @@ class P_FAULTSIGNALING:
     """
 
     code: typing.ClassVar[int] = 348
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -3239,7 +3239,7 @@ class P_TPLDMODE:
     """
 
     code: typing.ClassVar[int] = 350
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -3286,7 +3286,7 @@ class P_LPSUPPORT:
     """
 
     code: typing.ClassVar[int] = 351
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -3316,7 +3316,7 @@ class P_TXPACKETLIMIT:
     """
 
     code: typing.ClassVar[int] = 352
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -3389,7 +3389,7 @@ class P_DYNAMIC:
     """
 
     code: typing.ClassVar[int] = 368
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -3436,7 +3436,7 @@ class P_PFCENABLE:
     """
 
     code: typing.ClassVar[int] = 373
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -3510,7 +3510,7 @@ class P_TXBURSTPERIOD:
     """
 
     code: typing.ClassVar[int] = 377
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -3549,7 +3549,7 @@ class P_TXRUNTLENGTH:
     """
 
     code: typing.ClassVar[int] = 390
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -3589,7 +3589,7 @@ class P_RXRUNTLENGTH:
     """
 
     code: typing.ClassVar[int] = 391
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -3659,7 +3659,7 @@ class P_TXPREAMBLE_REMOVE:
     """
 
     code: typing.ClassVar[int] = 393
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
@@ -3705,7 +3705,7 @@ class P_RXPREAMBLE_INSERT:
     """
 
     code: typing.ClassVar[int] = 394
-    pushed: typing.ClassVar[bool] = True
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
