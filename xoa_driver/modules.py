@@ -63,7 +63,13 @@ from .internals.modules.modules_l23.family_combi import (
 
 
 from .internals.modules.module_l23ve import ModuleL23VE
-from .internals.modules.module_chimera import ModuleChimera
+from .internals.modules.module_chimera import (
+    ModuleChimera,
+    MChi100G5S2P,
+    MChi100G5S2P_b,
+    MChi40G5S2P,
+)
+
 from .internals.modules.module_l47 import ModuleL47
 from .internals.modules.module_l47ve import ModuleL47VE
 
@@ -113,6 +119,9 @@ GenericAnyModule = typing.Union[
     GenericL23Module,
     "ModuleL23VE",
     "ModuleChimera",
+    "MChi100G5S2P",
+    "MChi100G5S2P_b",
+    "MChi40G5S2P",
     "ModuleL47",
     "ModuleL47VE",
 ]
@@ -158,6 +167,9 @@ __all__ = (
     "MOdin10G4S2PCombi_b",
     "ModuleL23VE",
     "ModuleChimera",
+    "MChi100G5S2P",
+    "MChi100G5S2P_b",
+    "MChi40G5S2P",
     "ModuleL47",
     "ModuleL47VE",
     "GenericL23Module",

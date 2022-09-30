@@ -6,7 +6,13 @@ import typing
 from .internals.ports.port_l47.main import PortL47
 
 from .internals.ports.port_l23.port_l23ve import PortL23VE
-from .internals.ports.port_l23.chimera.port_chimera import PortChimera
+from .internals.ports.port_l23.chimera.port_chimera import (
+    PortChimera,
+    PChi100G5S2P,
+    PChi100G5S2P_b,
+    PChi40G5S2P,
+)
+
 from .internals.ports.port_l23.bases.port_l23 import BasePortL23
 from xoa_driver.internals.ports.port_l23.family_combi import (
     POdin1G4S4PCombi,
@@ -123,6 +129,9 @@ GenericAnyPort = typing.Union[
     "PortL47",
     "PortL23VE",
     "PortChimera",
+    "PChi100G5S2P",
+    "PChi100G5S2P_b",
+    "PChi40G5S2P",
 ]
 
 __all__ = (
@@ -170,6 +179,9 @@ __all__ = (
     "PortL47",
     "PortL23VE",
     "PortChimera",
+    "PChi100G5S2P",
+    "PChi100G5S2P_b",
+    "PChi40G5S2P",
     "GenericL23Port",
     "GenericAnyPort",
 )

@@ -90,3 +90,21 @@ class PortChimera(base_port.BasePort[ports_state.PortChimeraLocalState]):
     
     on_tx_enable_change = functools.partialmethod(utils.on_event, P_TXENABLE)
     """Register a callback to the event that the port's TX status changes."""
+
+
+class PChi100G5S2P(PortChimera):
+    """Impairment port on Chi-100G-5S-2P module.
+    """
+    ...
+
+
+class PChi100G5S2P_b(PortChimera):
+    """Impairment port on Chi-100G-5S-2P[b] module.
+    """
+    ...
+
+
+class PChi40G5S2P(PortChimera):
+    """Impairment port on Chi-40G-5S-2P module.
+    """
+    ...

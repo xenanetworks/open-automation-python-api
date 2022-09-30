@@ -1,3 +1,4 @@
+import typing
 import asyncio
 import functools
 from typing import TYPE_CHECKING
@@ -176,3 +177,45 @@ class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
     """
     Register a callback to the event that the module's latency mode changes.
     """
+
+
+@typing.final
+class MChi100G5S2P(ModuleChimera):
+    """Chimera module Chi-100G-5S-2P"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.PChi100G5S2P] = pm.PortsManager(
+            conn=conn, 
+            ports_type=ports.PChi100G5S2P, 
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port index manager of Chi-100G-5S-2P"""
+
+
+@typing.final
+class MChi100G5S2P_b(ModuleChimera):
+    """Chimera module Chi-100G-5S-2P[b]"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.PChi100G5S2P_b] = pm.PortsManager(
+            conn=conn, 
+            ports_type=ports.PChi100G5S2P_b, 
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port index manager of Chi-100G-5S-2P[b]"""
+
+
+@typing.final
+class MChi40G5S2P(ModuleChimera):
+    """Chimera module Chi-40G-5S-2P"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.PChi40G5S2P] = pm.PortsManager(
+            conn=conn, 
+            ports_type=ports.PChi40G5S2P, 
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port index manager of Chi-40G-5S-2P"""
