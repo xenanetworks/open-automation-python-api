@@ -6,7 +6,6 @@ from dataclasses import astuple
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
 
-from xoa_driver.internals.core.commands.enums import FilterType
 from xoa_driver.internals.core.commands import (
     PE_FCSDROP,
     PE_TPLDMODE,
