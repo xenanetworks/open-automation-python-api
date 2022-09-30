@@ -121,3 +121,17 @@ class POdin40G2S2P(FamilyF):
 
     on_dynamic_change = functools.partialmethod(utils.on_event, P_DYNAMIC)
     """Register a callback to the event that the port's dynamic traffic setting changes."""
+
+
+class POdin40G2S2P_b(FamilyF):
+    """L23 port on Odin-40G-2S-2P[b] module.
+    """
+    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
+        super().__init__(conn, module_id, port_id)
+        self.dynamic = P_DYNAMIC(conn, module_id, port_id)
+        """L23 port's dynamic traffic change.
+        Representation of P_DYNAMIC
+        """
+
+    on_dynamic_change = functools.partialmethod(utils.on_event, P_DYNAMIC)
+    """Register a callback to the event that the port's dynamic traffic setting changes."""

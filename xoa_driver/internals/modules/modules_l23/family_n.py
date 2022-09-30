@@ -21,3 +21,16 @@ class MOdin40G2S2P(ModuleL23):
         )
         """Port index manager of Odin-40G-2S-2P"""
 
+
+@typing.final
+class MOdin40G2S2P_b(ModuleL23):
+    """Test module Odin-40G-2S-2P[b]"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.POdin40G2S2P_b] = pm.PortsManager(
+            conn=conn, 
+            ports_type=ports.POdin40G2S2P_b, 
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port index manager of Odin-40G-2S-2P[b]"""
