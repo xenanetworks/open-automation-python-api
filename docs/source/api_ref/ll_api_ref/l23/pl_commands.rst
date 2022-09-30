@@ -9,6 +9,8 @@ The length terms provide basic true/false indications for each packet received o
 
 While a filter is enabled, neither its condition nor the definition of each match term or length term used by the condition can be changed.
 
+-------
+
 .. currentmodule:: xoa_driver.internals.core.commands.pl_commands
 
 

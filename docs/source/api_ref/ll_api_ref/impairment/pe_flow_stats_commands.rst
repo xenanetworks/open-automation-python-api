@@ -3,6 +3,8 @@ Impairment Statistics (Flow Level)
 
 This module contains the **impairment flow statistics commands**.
 
+-------
+
 .. currentmodule:: xoa_driver.internals.core.commands.pe_commands
 
 PE_FLOWDROPTOTAL

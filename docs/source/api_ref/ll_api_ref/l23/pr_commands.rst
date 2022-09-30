@@ -7,6 +7,8 @@ The command names all have the form ``PR_<xxx>`` and require both a module index
 
 All bit-and byte-level statistics are at layer-2, so they include the full Ethernet frame, and exclude the inter-frame gap and preamble.
 
+-------
+
 .. currentmodule:: xoa_driver.internals.core.commands.pr_commands
 
 

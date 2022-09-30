@@ -3,6 +3,8 @@ Module
 
 This module contains the **L47 module commands**.
 
+-------
+
 .. currentmodule:: xoa_driver.internals.core.commands.m4_commands
 
 M4_SYSTEMID

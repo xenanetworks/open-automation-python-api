@@ -3,6 +3,8 @@ Impairment Statistics (Port Level)
 
 This module contains the **impairment port statistics commands**.
 
+-------
+
 .. currentmodule:: xoa_driver.internals.core.commands.pe_commands
 
 PE_CLEAR

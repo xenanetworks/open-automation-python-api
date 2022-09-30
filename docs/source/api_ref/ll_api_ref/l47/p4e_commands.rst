@@ -3,6 +3,8 @@ Packet Engine  (Port Level)
 
 This module contains the **L47 port packet engine commands**.
 
+-------
+
 .. currentmodule:: xoa_driver.internals.core.commands.p4e_commands
 
 P4E_ASSIGN

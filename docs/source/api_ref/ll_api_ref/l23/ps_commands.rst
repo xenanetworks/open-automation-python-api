@@ -70,7 +70,8 @@ If the :term:`TPLD` function explained above is enabled then each packet must al
 
 If the stream payload type is set to ``Incrementing``, then an additional minimum payload area of 2 bytes is needed. Otherwise excessive payload errors will be reported. This is however not necessary if the ``P_CHECKSUM offset`` (Payload Checksum Offset) option is enabled on the parent port as this will override the payload integrity check implied by the ``Incrementing`` payload type.
 
-.. currentmodule:: xoa_driver.internals.core.commands.ps_commands
+
+-------
 
 PS_INDICES
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

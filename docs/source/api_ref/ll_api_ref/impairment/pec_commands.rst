@@ -3,6 +3,8 @@ Custom Impairment Distribution
 
 This module contains the **impairment custom distribution commands**.
 
+-------
+
 .. currentmodule:: xoa_driver.internals.core.commands.pec_commands
 
 

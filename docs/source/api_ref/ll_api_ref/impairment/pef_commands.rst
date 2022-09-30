@@ -18,6 +18,9 @@ There are 2 register copies used to configure the filters:
 
     Flow filter is only applicable to flow ID from 1 to 7. You cannot place a filter on flow 0.
 
+
+-------
+
 .. currentmodule:: xoa_driver.internals.core.commands.pef_commands
 
 

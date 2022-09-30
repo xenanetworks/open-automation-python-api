@@ -3,6 +3,8 @@ Transceiver
 
 This module contains the **L23 port transceiver commands** that deal with access to the register interfaces of the transceiver on a port.
 
+-------
+
 .. currentmodule:: xoa_driver.internals.core.commands.px_commands
 
 

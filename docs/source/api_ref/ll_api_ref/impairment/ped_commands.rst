@@ -3,6 +3,8 @@ Impairment Distribution
 
 This module contains the **impairment port distribution commands**.
 
+-------
+
 .. currentmodule:: xoa_driver.internals.core.commands.ped_commands
 
 PED_SCHEDULE

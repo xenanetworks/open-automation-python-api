@@ -3,6 +3,8 @@ Port
 
 This module contains the **impairment port commands**.
 
+-------
+
 .. currentmodule:: xoa_driver.internals.core.commands.p_commands
 
 P_EMULATE

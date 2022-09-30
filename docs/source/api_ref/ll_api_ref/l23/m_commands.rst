@@ -4,6 +4,8 @@ Module
 
 This module contains the **L23 module commands** that deal with basic information about, and configuration of the test modules. The module command names all have the form ``M_<xxx>`` and require a module index id.
 
+-------
+
 .. currentmodule:: xoa_driver.internals.core.commands.m_commands
 
 M_RESERVATION

@@ -9,6 +9,8 @@ A histogram has a number of *buckets* and counts the packets transmitted or rece
 
 While a histogram is actively collecting samples its parameters cannot be changed.
 
+-------
+
 .. currentmodule:: xoa_driver.internals.core.commands.pd_commands
 
 PD_INDICES

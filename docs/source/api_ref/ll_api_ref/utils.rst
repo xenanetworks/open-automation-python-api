@@ -3,6 +3,8 @@ Utils
 
 This module contains the **helper functions**.
 
+-------
+
 .. currentmodule:: xoa_driver.internals.core.registry
 
 

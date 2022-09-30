@@ -3,6 +3,8 @@ RX Statistics (Flow Level)
 
 This module contains the **impairment flow RX statistics commands**.
 
+-------
+
 .. currentmodule:: xoa_driver.internals.core.commands.pr_commands
 
 

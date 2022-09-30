@@ -7,6 +7,8 @@ Whether the port is enabled for capturing packets is specified by the ``P_CAPTUR
 
 The capture command names all have the form ``PC_<xxx>`` and require both a module index id and a port index id. The per-packet parameters also use a sub-index identifying a particular packet in the capture buffer.
 
+-------
+
 .. currentmodule:: xoa_driver.internals.core.commands.pc_commands
 
 

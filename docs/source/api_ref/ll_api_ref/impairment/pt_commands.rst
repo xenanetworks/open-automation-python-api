@@ -3,6 +3,8 @@ TX Statistics (Flow Level)
 
 This module contains the **impairment flow TX statistics commands**.
 
+-------
+
 .. currentmodule:: xoa_driver.internals.core.commands.pt_commands
 
 PT_FLOWTOTAL

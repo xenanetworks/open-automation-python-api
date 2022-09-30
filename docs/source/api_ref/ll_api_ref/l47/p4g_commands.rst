@@ -31,6 +31,8 @@ Using test application ``RAW``, the CG must also be configured with a test scena
 
 By combining several :term:`CGs<CG>` on a port, it is possible to create more complex traffic scenarios and more complex :term:`load profile` shapes than the individual :term:`CG` allows.
 
+-------
+
 .. currentmodule:: xoa_driver.internals.core.commands.p4g_commands
 
 

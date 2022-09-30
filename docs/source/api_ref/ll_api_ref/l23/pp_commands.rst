@@ -12,6 +12,8 @@ Errors can be injected both at the CAUI level and at the bit level.
 The high-speed port command names all have the form ``PP_<xxx>`` and require a module index id and a port index id, and most also require a physical lane index id.
 
 
+-------
+
 .. currentmodule:: xoa_driver.internals.core.commands.pp_commands
 
 PP_ALARMS_ERRORS
