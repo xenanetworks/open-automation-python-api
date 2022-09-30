@@ -33,6 +33,8 @@ valkyrie_modules = {
     
     # family_h
     "Loki-100G-5S-1P": modules.MLoki100G5S1P,
+    "Odin-100G-3S-1P": modules.MThor400G7S1P_d,
+    
     
     # family_i
     "Loki-100G-5S-2P": modules.MLoki100G5S2P,
@@ -46,6 +48,8 @@ valkyrie_modules = {
     # family_l
     "Thor-400G-7S-1P[b]": modules.MThor400G7S1P_b,
     "Thor-400G-7S-1P[c]": modules.MThor400G7S1P_c,
+    "Thor-400G-7S-1P[d]": modules.MThor400G7S1P_b,
+    
     "Freya-800G-1S-1P[a]": modules.MFreya800G1S1P_a,
     "Freya-800G-1S-1P[b]": modules.MFreya800G1S1P_b,
     "Freya-800G-1S-1P-OSFP[a]": modules.MFreya800G1S1POSFP_a,

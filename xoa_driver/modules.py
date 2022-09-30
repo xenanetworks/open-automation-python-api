@@ -29,13 +29,18 @@ from .internals.modules.modules_l23.family_g import (
     MLoki100G3S1P_b,
     MLoki100G3S1PSE,
 )
-from .internals.modules.modules_l23.family_h import MLoki100G5S1P
+from .internals.modules.modules_l23.family_h import (
+    MLoki100G5S1P,
+    MOdin100G3S1P,
+)
+
 from .internals.modules.modules_l23.family_i import MLoki100G5S2P
 from .internals.modules.modules_l23.family_j import MThor100G5S4P
 from .internals.modules.modules_l23.family_k import MThor400G7S1P
 from .internals.modules.modules_l23.family_l import (
     MThor400G7S1P_b,
     MThor400G7S1P_c,
+    MThor400G7S1P_d,
     # MFreya800G1S1P_a,
     # MFreya800G1S1P_b,
     # MFreya800G1S1POSFP_a,
@@ -83,6 +88,7 @@ GenericL23Module = typing.Union[
         "MOdin10G1S2P_d",
         "MOdin10G1S12P",
         "MOdin40G2S2P",
+        "MOdin100G3S1P",
         "MLoki100G3S1P",
         "MLoki100G3S1P_b",
         "MLoki100G3S1PSE",
@@ -92,6 +98,7 @@ GenericL23Module = typing.Union[
         "MThor400G7S1P",
         "MThor400G7S1P_b",
         "MThor400G7S1P_c",
+        "MThor400G7S1P_d",
         "MFreya800G1S1P_a",
         "MFreya800G1S1P_b",
         "MFreya800G1S1POSFP_a",
@@ -130,6 +137,7 @@ __all__ = (
     "MOdin10G1S2P_d",
     "MOdin10G1S12P",
     "MOdin40G2S2P",
+    "MOdin100G3S1P",
     "MLoki100G3S1P",
     "MLoki100G3S1P_b",
     "MLoki100G3S1PSE",
@@ -139,6 +147,7 @@ __all__ = (
     "MThor400G7S1P",
     "MThor400G7S1P_b",
     "MThor400G7S1P_c",
+    "MThor400G7S1P_d", 
     "MFreya800G1S1P_a",
     "MFreya800G1S1P_b",
     "MFreya800G1S1POSFP_a",

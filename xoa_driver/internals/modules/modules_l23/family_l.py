@@ -34,6 +34,21 @@ class MThor400G7S1P_c(ModuleL23):
         )
         """Port index manager of Thor-400G-7S-1P[c]"""
 
+
+@typing.final
+class MThor400G7S1P_d(ModuleL23):
+    """Test module Thor-400G-7S-1P[d]"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.PThor400G7S1P_d] = pm.PortsManager(
+            conn=conn, 
+            ports_type=ports.PThor400G7S1P_d, 
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port index manager of Thor-400G-7S-1P[d]"""
+
+
 # @typing.final
 # class MFreya800G1S1P_a(ModuleL23):
 #     """Test module Freya-800G-1S-1P[a]"""

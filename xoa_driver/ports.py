@@ -60,6 +60,7 @@ from xoa_driver.internals.ports.port_l23.family_k import PThor400G7S1P
 from xoa_driver.internals.ports.port_l23.family_l import (
     PThor400G7S1P_b,
     PThor400G7S1P_c,
+    PThor400G7S1P_d,
 )
 
 from xoa_driver.internals.ports.port_l23.family_l1 import (
@@ -104,6 +105,7 @@ GenericL23Port = typing.Union[
         "PThor400G7S1P",
         "PThor400G7S1P_b",
         "PThor400G7S1P_c",
+        "PThor400G7S1P_d",
         "PFreya800G1S1P_a",
         "PFreya800G1S1P_b",
         "PFreya800G1S1POSFP_a",
@@ -154,6 +156,7 @@ __all__ = (
     "PThor400G7S1P",
     "PThor400G7S1P_b",
     "PThor400G7S1P_c",
+    "PThor400G7S1P_d",
     "PFreya800G1S1P_a",
     "PFreya800G1S1P_b",
     "PFreya800G1S1POSFP_a",

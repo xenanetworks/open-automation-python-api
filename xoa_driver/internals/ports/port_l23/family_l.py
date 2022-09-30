@@ -61,4 +61,9 @@ class PThor400G7S1P_c(FamilyL):
     """
     ...
 
+class PThor400G7S1P_d(FamilyL):
+    """L23 port on Thor-400G-7S-1P[d] module.
+    """
+    ...
+
 
