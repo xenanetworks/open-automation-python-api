@@ -48,7 +48,11 @@ from xoa_driver.internals.ports.port_l23.family_g import (
     PLoki100G3S1PSE,
 )
 
-from xoa_driver.internals.ports.port_l23.family_h import PLoki100G5S1P
+from xoa_driver.internals.ports.port_l23.family_h import (
+    PLoki100G5S1P,
+    POdin100G3S1P,
+)
+
 from xoa_driver.internals.ports.port_l23.family_i import PLoki100G5S2P
 from xoa_driver.internals.ports.port_l23.family_j import PThor100G5S4P
 from xoa_driver.internals.ports.port_l23.family_k import PThor400G7S1P
@@ -88,6 +92,7 @@ GenericL23Port = typing.Union[
         "POdin10G1S2P_d",
         "POdin10G1S12P",
         "POdin40G2S2P",
+        "POdin100G3S1P",
         "PLoki100G3S1P",
         "PLoki100G3S1P_b",
         "PLoki100G3S1PSE",
@@ -136,6 +141,7 @@ __all__ = (
     "POdin10G1S2P_d",
     "POdin10G1S12P",
     "POdin40G2S2P",
+    "POdin100G3S1P",
     "PLoki100G3S1P",
     "PLoki100G3S1P_b",
     "PLoki100G3S1PSE",

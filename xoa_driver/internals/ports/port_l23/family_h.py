@@ -36,3 +36,8 @@ class PLoki100G5S1P(FamilyH):
     """L23 port on Loki-100G-5S-1P module.
     """
     ...
+
+class POdin100G3S1P(FamilyH):
+    """L23 port on Odin-100G-3S-1P module.
+    """
+    ...
