@@ -9,8 +9,14 @@ Glossary of Terms
     Test Resource
         Test chassis, test module, and test port, both hardware and virtual are referred to as test resources. A user must have the ownership of a test resource before be able to perform testing.
 
+    XOA Python API
+        The foundation of Xena OpenAutomation is its Python API (XOA Python API) that provides interfaces for engineers to manage Xena hardware and virtual test equipment.
+
     XOA CLI
         XOA Command-Line Interface. Xena provides a rich set of CLI commands for users to administer test chassis for test automation. `Read more here <https://xenanetworks.com/?knowledge-base=knowledge-base/automation/scripting-for-valkyrie-vantage-chimera/valkyrie-vantage-chimera-cli-scripting-guide/overview/intro>`_.
+
+    XOA Core
+        `Xena OpenAutomation Core <https://github.com/xenanetworks/open-automation-core>`_ is an open test suite framework to execute XOA Test Suites as its plugins.
 
     API 
         Application Programming Interface.
