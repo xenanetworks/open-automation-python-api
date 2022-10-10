@@ -1,4 +1,4 @@
-About XOA Python API
+Introduction
 ====================
 
 Many test specialists choose to develop their own test scripts, where they automate performance verification, regression test, development verification, and so on. At Xena Networks, we have always been providing customers with the best tool for test automation. To help our customers achieve a more efficient quality control and continuous development verification, we have developed an open test suite framework **Xena OpenAutomation** (XOA), overlaying various Xena hardware and virtual testers, to offer not only automated test suites but also the power to build programs from simple scripts to advanced applications with endless possibilities.
