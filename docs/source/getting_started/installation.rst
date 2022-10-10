@@ -60,7 +60,7 @@ Installing From PyPI Using ``pip``
 
 .. note::
     
-    If you install XOA Core using ``pip``, XOA Python API (PyPI package name `xoa_driver <https://pypi.org/project/xoa-core/>`_) will be automatically installed.
+    If you install XOA Core using ``pip install xoa-core``, XOA Python API (PyPI package name `xoa_driver <https://pypi.org/project/xoa-python-api/>`_) will be automatically installed.
 
 
 Install to Global Namespace
@@ -141,7 +141,7 @@ To upgrade XOA Python API package from PyPI:
 
 .. note::
     
-    If you upgrade XOA Core using ``pip``, XOA Python API (PyPI package name `xoa_driver <https://pypi.org/project/xoa-core/>`_) will be automatically upgraded.
+    If you upgrade XOA Core using ``pip install --upgrade xoa-core``, XOA Python API (PyPI package name `xoa_driver <https://pypi.org/project/xoa-python-api/>`_) will be automatically upgraded.
 
 
 Installing Manually From Source
@@ -204,7 +204,7 @@ If for some reason you need to install or upgrade XOA Python API manually from s
 
 .. important::
 
-    If you install XOA Core from the source code, you need to install XOA Python API (PyPI package name `xoa_driver <https://pypi.org/project/xoa-core/>`_) separately. This is because XOA Python API is treated as a 3rd-party dependency of XOA Core. You can go to `XOA Python API <https://github.com/xenanetworks/open-automation-python-api>`_ repository to learn how to install it.
+    If you install XOA Core from the source code, you need to install XOA Python API (PyPI package name `xoa_driver <https://pypi.org/project/xoa-python-api/>`_) separately. This is because XOA Python API is treated as a 3rd-party dependency of XOA Core. You can go to `XOA Python API <https://github.com/xenanetworks/open-automation-python-api>`_ repository to learn how to install it.
 
 
 Uninstall and Remove Unused Dependencies
