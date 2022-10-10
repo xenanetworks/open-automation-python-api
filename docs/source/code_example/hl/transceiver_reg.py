@@ -37,25 +37,25 @@ async def my_awesome_script():
         print(f"Transceiver temperature: {temperature.integral_part + temperature.fractional_part/256} degrees Celsius.")
         
         # Read transceiver's register value (single read)
-        rx_power_lsb = await port.transceiver.access_rw(page_address=162, register_address=105).get()
+        rx_power_lsb = await port.transceiver.access_rw(page_address=0xA2, register_address=0x69).get()
         print(rx_power_lsb)
 
         # Write transceiver's register value (single write)
-        await port.transceiver.access_rw(page_address=162, register_address=105).set("0xFFFF")
+        await port.transceiver.access_rw(page_address=0xA2, register_address=0x69).set("0xFFFF")
 
         # Read MII transceiver's register value (single operation)
-        rx_power_lsb = await port.transceiver.access_mii(register_address=105).get()
+        rx_power_lsb = await port.transceiver.access_mii(register_address=0x69).get()
         print(rx_power_lsb)
 
         # Write MII transceiver's register value (single operation)
-        await port.transceiver.access_mii(register_address=105).set("0xFFFF")
+        await port.transceiver.access_mii(register_address=0x69).set("0xFFFF")
 
         # Read transceiver's register value (sequential read)
-        i2c_read = await port.transceiver.access_rw_seq(page_address=162, register_address=105, byte_count=16).get()
+        i2c_read = await port.transceiver.access_rw_seq(page_address=0xA2, register_address=0x69, byte_count=16).get()
         print(i2c_read)
 
         # Write transceiver's register value (sequential write)
-        await port.transceiver.access_rw_seq(page_address=162, register_address=105, byte_count=16).set("0xFFFF")
+        await port.transceiver.access_rw_seq(page_address=0xA2, register_address=0x69, byte_count=16).set("0xFFFF")
 
         # Release the port
         await port.reservation.set_release()
