@@ -15,7 +15,7 @@ The target audience of this document is test specialists who develop and run aut
 
 .. important::
 
-   To read about :term:`XOA CLI` commands, please go to `Xena OpenAutomation CLI Command Documentation <https://docs.xenanetworks.com/projects/xoa-cli>`_. 
+   To learn :term:`XOA CLI` commands, go to `Xena OpenAutomation CLI Command Documentation <https://docs.xenanetworks.com/projects/xoa-cli>`_. 
 
 -----------
 
