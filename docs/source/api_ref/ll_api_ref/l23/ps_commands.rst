@@ -73,6 +73,8 @@ If the stream payload type is set to ``Incrementing``, then an additional minimu
 
 -------
 
+.. currentmodule:: xoa_driver.internals.core.commands.ps_commands
+
 PS_INDICES
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
