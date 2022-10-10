@@ -3,9 +3,6 @@ Installing XOA Python API
 
 XOA Python API is available to install and upgrade via the `Python Package Index <https://pypi.org/>`_. Alternatively, you can also install and upgrade from the source file.
 
-* If you prefer installing/upgrading/uninstalling automatically, go to Section `From PyPi Using pip`_.
-* If you prefer installing/upgrading manually, go to Section `Manually From Source`_.
-
 Prerequisites
 -------------
 
