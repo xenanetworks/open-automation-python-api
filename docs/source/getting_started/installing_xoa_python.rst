@@ -104,10 +104,14 @@ To upgrade XOA Python API package from PyPI:
         $ pip install xoa-driver --upgrade
 
 
-Uninstall
-^^^^^^^^^^^
+Uninstall and Remove Unused Dependencies
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To uninstall XOA Python API using ``pip``:
+``pip uninstall xoa-core`` can uninstall the package itself but not its dependencies. Leaving the package's dependencies in your environment can later create conflicting dependencies problem.
+
+We recommend install and use the `pip-autoremove <https://github.com/invl/pip-autoremove>`_ utility to remove a package plus unused dependencies.
+
+To uninstall ``xoa-driver`` and remove unused dependencies:
 
 .. tab:: Windows
     :new-set:
@@ -115,18 +119,22 @@ To uninstall XOA Python API using ``pip``:
     .. code-block:: doscon
         :caption: Uninstall XOA Python API in Windows environment.
 
-        > pip uninstall xoa-driver
+        > pip install pip-autoremove
+        > pip-autoremove xoa-driver -y
 
 .. tab:: macOS/Linux
 
     .. code-block:: console
         :caption: Uninstall XOA Python API in macOS/Linux environment.
 
-        $ pip uninstall xoa-driver
+        $ pip install pip-autoremove
+        $ pip-autoremove xoa-driver -y
 
 .. seealso::
 
-    For more information, see the `pip uninstall <https://pip.pypa.io/en/stable/cli/pip_uninstall/#pip-uninstall>`_ reference.
+    See the `pip uninstall <https://pip.pypa.io/en/stable/cli/pip_uninstall/#pip-uninstall>`_ reference.
+
+    See `pip-autoremove <https://github.com/invl/pip-autoremove>`_ usage.
 
 
 
