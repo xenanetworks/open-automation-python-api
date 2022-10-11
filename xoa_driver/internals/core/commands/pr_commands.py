@@ -485,7 +485,23 @@ class PR_PFCSTATS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        rx_pfc_packet_count: XmpField[XmpLongList] = XmpField(XmpLongList)  # long integer, the total number of Priority Flow Control (PFC) packets received since statistics were cleared.
+        packet_count: XmpField[XmpLong] = XmpField(XmpLong) # long integer, the total number of Priority Flow Control (PFC) packets received since statistics were cleared.
+        
+        quanta_prio_0: XmpField[XmpLong] = XmpField(XmpLong) # the total number of valid PFC quanta received on the port for priority level 0 since statistics were cleared
+
+        quanta_prio_1: XmpField[XmpLong] = XmpField(XmpLong) # the total number of valid PFC quanta received on the port for priority level 1 since statistics were cleared
+
+        quanta_prio_2: XmpField[XmpLong] = XmpField(XmpLong) # the total number of valid PFC quanta received on the port for priority level 2 since statistics were cleared
+
+        quanta_prio_3: XmpField[XmpLong] = XmpField(XmpLong) # the total number of valid PFC quanta received on the port for priority level 3 since statistics were cleared
+
+        quanta_prio_4: XmpField[XmpLong] = XmpField(XmpLong) # the total number of valid PFC quanta received on the port for priority level 4 since statistics were cleared
+
+        quanta_prio_5: XmpField[XmpLong] = XmpField(XmpLong) # the total number of valid PFC quanta received on the port for priority level 5 since statistics were cleared
+
+        quanta_prio_6: XmpField[XmpLong] = XmpField(XmpLong) # the total number of valid PFC quanta received on the port for priority level 6 since statistics were cleared
+
+        quanta_prio_7: XmpField[XmpLong] = XmpField(XmpLong) # the total number of valid PFC quanta received on the port for priority level 7 since statistics were cleared
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the statistics of received Priority Flow Control (PFC) packets on a port.
