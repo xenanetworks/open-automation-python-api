@@ -24,9 +24,6 @@ class FamilyD(BasePortL23Genuine):
         Representation of P_AUTONEGSELECTION
         """
 
-    on_autoneg_selection = functools.partialmethod(utils.on_event, P_AUTONEGSELECTION)
-    """Register a callback to the event that the L23 port's auto-negotiation selection changes."""
-
 
 class POdin1G3S6P(FamilyD):
     """L23 port on Odin-1G-3S-6P module.

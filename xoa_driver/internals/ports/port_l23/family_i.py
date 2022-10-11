@@ -50,9 +50,6 @@ class FamilyI(BasePortL23Genuine):
             for serdes_xindex in range(self.info.capabilities.serdes_count)
         )
         return self
-
-    on_fault_signaling_change = functools.partialmethod(utils.on_event, P_FAULTSIGNALING)
-    """Register a callback to the event that the port's fault signalling changes."""
     
     on_dynamic_change = functools.partialmethod(utils.on_event, P_DYNAMIC)
     """Register a callback to the event that the port's dynamic traffic setting changes."""

@@ -79,20 +79,7 @@ class POdin10G1S6P_b(FamilyF):
         """Runt settings."""
         
         self.preamble = Preamble(conn, module_id, port_id)
-        """Preamble settnigs."""
-        
-        
-    on_runt_tx_length_change = functools.partialmethod(utils.on_event, P_TXRUNTLENGTH)
-    """Register a callback to the event that the port's TX runt length setting changes."""
-
-    on_runt_rx_length_change = functools.partialmethod(utils.on_event, P_RXRUNTLENGTH)
-    """Register a callback to the event that the port's RX runt length detection changes."""
-
-    on_preamble_tx_remove_change = functools.partialmethod(utils.on_event, P_TXPREAMBLE_REMOVE)
-    """Register a callback to the event that the port's preamble removal status changes."""
-    
-    on_preamble_rx_insert_change = functools.partialmethod(utils.on_event, P_RXPREAMBLE_INSERT)
-    """Register a callback to the event that the port's preamble insertion status changes."""
+        """Preamble settiNgs."""
 
 class POdin10G1S2PT(FamilyF):
     """L23 port on Odin-10G-1S-2P-T module.

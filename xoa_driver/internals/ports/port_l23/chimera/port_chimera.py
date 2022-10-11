@@ -82,14 +82,8 @@ class PortChimera(base_port.BasePort[ports_state.PortChimeraLocalState]):
     on_interface_change = functools.partialmethod(utils.on_event, P_INTERFACE)
     """Register a callback to the event that the port's interface type changes."""
 
-    on_status_change = functools.partialmethod(utils.on_event, P_STATUS)
-    """Register a callback to the event that the port's optical signal level changes."""
-
     on_emulate_change = functools.partialmethod(utils.on_event, P_EMULATE)
     """Register a callback to the event that the port's emulation state changes."""
-    
-    on_tx_enable_change = functools.partialmethod(utils.on_event, P_TXENABLE)
-    """Register a callback to the event that the port's TX status changes."""
 
 
 class PChi100G5S2P(PortChimera):

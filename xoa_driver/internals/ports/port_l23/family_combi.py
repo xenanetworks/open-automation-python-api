@@ -17,9 +17,6 @@ class POdin1G4S4PCombi(BasePortL23Genuine):
         Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_AUTONEGSELECTION`
         """
 
-    on_autoneg_selection = functools.partialmethod(utils.on_event, P_AUTONEGSELECTION)
-    """Register a callback to the event that the L23 port's auto-negotiation selection changes."""
-
 class POdin1G4S4PCombi_b(POdin1G4S4PCombi):
     """L23 port on Odin-1G-4S-2P-Combi_b module.
     """

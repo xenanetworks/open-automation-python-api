@@ -17,9 +17,6 @@ class FamilyM(BasePortL23Genuine):
         Representation of P_BRRMODE
         """
 
-    on_brr_mode_change = functools.partialmethod(utils.on_event, P_BRRMODE)
-    """Register a callback to the event that the port's BRR mode changes."""
-
 class POdin1G3S6PT1RJ45(FamilyM):
     """L23 port on Odin-1G-3S-6P-T1-RJ45 module.
     """

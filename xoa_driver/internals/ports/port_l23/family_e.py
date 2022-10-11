@@ -61,16 +61,6 @@ class FamilyE(BasePortL23Genuine):
         """L23 port Low Power mode settings."""
 
 
-    on_autoneg_selection_change = functools.partialmethod(utils.on_event, P_AUTONEGSELECTION)
-    """Register a callback to the event that the L23 port's auto-negotiation selection changes."""
-
-    on_low_power_mode_enable_change = functools.partialmethod(utils.on_event, P_LPENABLE)
-    """Register a callback to the event that the L23 port's low power status changes."""
-
-    on_low_power_mode_change = functools.partialmethod(utils.on_event, P_LPTXMODE)
-    """Register a callback to the event that the L23 port's low power mode changes."""
-
-
 
 class POdin5G4S6PCU(FamilyE):
     """L23 port on Odin-5G-4S-6P-CU module.

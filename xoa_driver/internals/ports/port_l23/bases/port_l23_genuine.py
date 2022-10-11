@@ -220,30 +220,3 @@ class BasePortL23Genuine(BasePortL23):
     
     on_speed_selection_change = functools.partialmethod(utils.on_event, P_SPEEDSELECTION)
     """Register a callback to the event that the port's speed mode changes."""
-
-    on_status_change = functools.partialmethod(utils.on_event, P_STATUS)
-    """Register a callback to the event that the port's RX signal level (for optical ports) changes."""
-
-    on_lp_support_change = functools.partialmethod(utils.on_event, P_LPSUPPORT)
-    """Register a callback to the event that the port's Energy Efficient Ethernet (EEE) status changes."""
-
-    on_uat_mode_change = functools.partialmethod(utils.on_event, P_UAT_MODE)
-    """Register a callback to the event that the port's UnAvailable Time mode changes."""
-
-    on_uat_flr_change = functools.partialmethod(utils.on_event, P_UAT_FLR)
-    """Register a callback to the event that the port's threshold for the Frame Loss Ratio changes. Used in connection with UnAvailable Time."""
-
-    on_flash_change = functools.partialmethod(utils.on_event, P_FLASH)
-    """Register a callback to the event that the port's flash status changes."""
-    
-    on_tx_runt_length_change = functools.partialmethod(utils.on_event, P_TXRUNTLENGTH)
-    """Register a callback to the event that the port's TX runt length setting changes."""
-
-    on_rx_runt_length_change = functools.partialmethod(utils.on_event, P_RXRUNTLENGTH)
-    """Register a callback to the event that the port's RX runt length detection changes."""
-
-    on_tx_preamble_remove_change = functools.partialmethod(utils.on_event, P_TXPREAMBLE_REMOVE)
-    """Register a callback to the event that the port's preamble removal status changes."""
-
-    on_rx_preamble_insert_change = functools.partialmethod(utils.on_event, P_RXPREAMBLE_INSERT)
-    """Register a callback to the event that the port's preamble insertion status changes."""

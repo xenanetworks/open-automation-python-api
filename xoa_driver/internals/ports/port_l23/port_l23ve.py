@@ -79,5 +79,3 @@ class PortL23VE(BasePortL23):
         self._local_states.register_subscriptions(self)
         return self
     
-    on_mdix_mode_change = functools.partialmethod(utils.on_event, P_MDIXMODE)
-    """Register a callback to the event that the port's MDI/MDIX mode changes."""
