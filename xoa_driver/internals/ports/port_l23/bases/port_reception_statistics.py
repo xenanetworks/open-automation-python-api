@@ -75,7 +75,7 @@ class PortReceptionStatistics:
         Representation of PR_EXTRA
         """
         
-        self.pfc_packets = PR_PFCSTATS(conn, module_id, port_id)
+        self.pfc_stats = PR_PFCSTATS(conn, module_id, port_id)
         """L23 port's statistics of received PFC packets.
         Representation of PR_PFCSTATS
         """
