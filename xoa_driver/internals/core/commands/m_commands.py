@@ -670,11 +670,15 @@ class M_CFPCONFIGEXT:
     """
     This property defines the current number of ports and the speed of each of them
     on a CFP test module. If the CFP type is NOTFLEXIBLE then it reflects the
-    transceiver currently in the CFP cage. If the CFP type is FLEXIBLE(or
+    transceiver currently in the CFP cage. If the CFP type is FLEXIBLE (or
     NOTPRESENT) then the configuration can be changed explicitly. The following
     combinations are possible: 2x10G, 4x10G, 8x10G, 2x25G, 4x25G, 8x25G, 1x40G,
     2x40G, 2x50G, 4x50G, 8x50G, 1x100G, 2x100G, 4x100G, 2x200G, and 1x400G.
     (replaces M_CFPCONFIG)
+
+    .. note::
+
+        <port_count_speeds_list> is a list of integers, where the first element is the number of ports followed by a number of port speeds in Mbps. The number of port speeds equals the value of the number of ports. For example if the configuration is 4x25G, <port_count_speeds_list> will be [4, 25000, 25000, 25000, 25000].
     """
 
     code: typing.ClassVar[int] = 93
@@ -685,14 +689,14 @@ class M_CFPCONFIGEXT:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        portspeed_chunck_list: XmpField[subtypes.PortSpeedChuckList] = XmpField(subtypes.PortSpeedChuckList)
+        port_count_speeds_list: XmpField[XmpIntList] = XmpField(XmpIntList)
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        portspeed_chunck_list: XmpField[subtypes.PortSpeedChuckList] = XmpField(subtypes.PortSpeedChuckList)
+        port_count_speeds_list: XmpField[XmpIntList] = XmpField(XmpIntList)
 
 
-    def get(self) -> "Token[GetDataAttr]": #TODO
+    def get(self) -> "Token[GetDataAttr]":
         """Get a list of port count and corresponding speeds supported by the current module config.
 
         :return: a list of port count and corresponding speeds supported by the current module config

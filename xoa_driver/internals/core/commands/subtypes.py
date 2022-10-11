@@ -30,14 +30,6 @@ class NdpChunkList(XmpDefaultList):
     element_type = NdpChunk # type: ignore
 
 
-@add_on
-@dataclass
-class PortSpeedChuck:
-    port_count: XmpField[XmpInt] = XmpField(XmpInt)   # Number of ports for this speed.
-    port_speed: XmpField[XmpInt] = XmpField(XmpInt)  # Unit is Mbps.
-
-class PortSpeedChuckList(XmpDefaultList):
-    element_type = PortSpeedChuck # type: ignore
 
 
 
