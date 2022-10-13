@@ -66,7 +66,7 @@ class UnAvailableTime:
     
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.mode = P_UAT_MODE(conn, module_id, port_id)
-        """L23 port's Unvailable Time mode.
+        """L23 port's Unavailable Time mode.
         Representation of P_UAT_MODE
         """
         

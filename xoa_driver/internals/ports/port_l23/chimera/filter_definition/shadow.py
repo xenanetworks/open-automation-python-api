@@ -46,19 +46,19 @@ class FilterDefinitionShadow:
         
         self.initiating = PEF_INIT(conn, module_id, port_id, flow_index)
         """Preparing filter definition.
-        Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_INIT`
+        Representation of PEF_INIT
         """
         self.apply = PEF_APPLY(conn, module_id, port_id, flow_index)
-        """Apply filter defintion.
-        Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_APPLY`
+        """Apply filter definition.
+        Representation of PEF_APPLY
         """
         self.enable = PEF_ENABLE(conn, module_id, port_id, flow_index, self._filter_type)
         """Enabling the filter.
-        Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_ENABLE`
+        Representation of PEF_ENABLE
         """
         # self.mode = PEF_MODE(conn, module_id, port_id, flow_index, self._filter_type)
         # """Filter mode.
-        # Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_MODE`
+        # Representation of PEF_MODE`
         # """
     
     async def get_mode(self) -> Union[general.ModeBasic, ModeExtendedS]:

@@ -26,7 +26,7 @@ from xoa_driver.internals.core.commands import (
 
 # region All Ports
 class PrsTPLD:
-    """L23 port's TPLD traffic statisttics."""
+    """L23 port's TPLD traffic statistics."""
 
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, tpld_idx: int) -> None:
         self.traffic = PR_TPLDTRAFFIC(conn, module_id, port_id, tpld_idx)

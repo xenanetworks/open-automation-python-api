@@ -26,14 +26,14 @@ class BaseFilterIdx(BaseIndex):
         super().__init__(conn, kind, observer)
         
         self.comment = PF_COMMENT(conn, *kind)
-        """Representation of :class:`~xoa_driver.internals.core.commands.pf_commands.PF_COMMENT`"""
+        """Representation of PF_COMMENT"""
         self.enable = PF_ENABLE(conn, *kind)
-        """Representation of :class:`~xoa_driver.internals.core.commands.pf_commands.PF_ENABLE`"""
+        """Representation of PF_ENABLE"""
         self.condition = PF_CONDITION(conn, *kind)
-        """Representation of :class:`~xoa_driver.internals.core.commands.pf_commands.PF_CONDITION`"""
+        """Representation of PF_CONDITION"""
     
     async def delete(self):
-        """Representation of :class:`~xoa_driver.internals.core.commands.pf_commands.PF_DELETE`"""
+        """Representation of PF_DELETE"""
         await PF_DELETE(self._conn, *self.kind).set()
         self._observer.notify(idx_obs.IndexEvents.DEL, self)
     

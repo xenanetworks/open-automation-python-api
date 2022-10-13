@@ -54,27 +54,27 @@ class SRate:
     """L23 Stream Rate Configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, stream_idx: int) -> None:
         self.fraction = PS_RATEFRACTION(conn, module_id, port_id, stream_idx)
-        """Representation of :class:`~xoa_driver.internals.core.commands.ps_commands.PS_RATEFRACTION`"""
+        """Representation of PS_RATEFRACTION"""
         self.pps = PS_RATEPPS(conn, module_id, port_id, stream_idx)
-        """Representation of :class:`~xoa_driver.internals.core.commands.ps_commands.PS_RATEPPS`"""
+        """Representation of PS_RATEPPS"""
         self.l2bps = PS_RATEL2BPS(conn, module_id, port_id, stream_idx)
-        """Representation of :class:`~xoa_driver.internals.core.commands.ps_commands.PS_RATEL2BPS`"""
+        """Representation of PS_RATEL2BPS"""
 
 class HModifierExtended:
     """L23 Extended Modifier Configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, stream_idx: int, modifier_idx: int) -> None:
         self.specification = PS_MODIFIEREXT(conn, module_id, port_id, stream_idx, modifier_idx)
-        """Representation of :class:`~xoa_driver.internals.core.commands.ps_commands.PS_MODIFIEREXT`"""
+        """Representation of PS_MODIFIEREXT"""
         self.range = PS_MODIFIEREXTRANGE(conn, module_id, port_id, stream_idx, modifier_idx)
-        """Representation of :class:`~xoa_driver.internals.core.commands.ps_commands.PS_MODIFIEREXTRANGE`"""
+        """Representation of PS_MODIFIEREXTRANGE"""
     
 class HModifier:
     """L23 Modifier Configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, stream_idx: int, modifier_idx: int) -> None:
         self.specification = PS_MODIFIER(conn, module_id, port_id, stream_idx, modifier_idx)
-        """Representation of :class:`~xoa_driver.internals.core.commands.ps_commands.PS_MODIFIEREXTRANGE`"""
+        """Representation of PS_MODIFIEREXTRANGE"""
         self.range = PS_MODIFIERRANGE(conn, module_id, port_id, stream_idx, modifier_idx)
-        """Representation of :class:`~xoa_driver.internals.core.commands.ps_commands.PS_MODIFIERRANGE`"""
+        """Representation of PS_MODIFIERRANGE"""
 
 class SCustomDataField:
     """L23 Custom Data Field Configuration"""
@@ -85,61 +85,61 @@ class SCustomDataField:
         self.__stream_idx = stream_idx
         
         self.offset = PS_CDFOFFSET(conn, module_id, port_id, stream_idx)
-        """Representation of :class:`~xoa_driver.internals.core.commands.ps_commands.PS_CDFOFFSET`"""
+        """Representation of PS_CDFOFFSET"""
         self.count = PS_CDFCOUNT(conn, module_id, port_id, stream_idx)
-        """Representation of :class:`~xoa_driver.internals.core.commands.ps_commands.PS_CDFCOUNT`"""
+        """Representation of PS_CDFCOUNT"""
         
     def data(self, cdf_index: int) -> "PS_CDFDATA":
-        """Representation of :class:`~xoa_driver.internals.core.commands.ps_commands.PS_CDFDATA`"""
+        """Representation of PS_CDFDATA"""
         return PS_CDFDATA(self.__conn, self.__module_id, self.__port_id, self.__stream_idx, cdf_index)
 
 class SInjectError:
     """L23 Error Injection Configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, stream_idx: int) -> None:
         self.sequence = PS_INJECTSEQERR(conn, module_id, port_id, stream_idx)
-        """Representation of :class:`~xoa_driver.internals.core.commands.ps_commands.PS_INJECTSEQERR`"""
+        """Representation of PS_INJECTSEQERR"""
         self.misorder = PS_INJECTMISERR(conn, module_id, port_id, stream_idx)
-        """Representation of :class:`~xoa_driver.internals.core.commands.ps_commands.PS_INJECTMISERR`"""
+        """Representation of PS_INJECTMISERR"""
         self.payload_integrity = PS_INJECTPLDERR(conn, module_id, port_id, stream_idx)
-        """Representation of :class:`~xoa_driver.internals.core.commands.ps_commands.PS_INJECTPLDERR`"""
+        """Representation of PS_INJECTPLDERR"""
         self.test_payload = PS_INJECTTPLDERR(conn, module_id, port_id, stream_idx)
-        """Representation of :class:`~xoa_driver.internals.core.commands.ps_commands.PS_INJECTTPLDERR`"""
+        """Representation of PS_INJECTTPLDERR"""
 
 
 class SRequest:
     """L23 Request Configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, stream_idx: int) -> None:
         self.arp = PS_ARPREQUEST(conn, module_id, port_id, stream_idx)
-        """Representation of :class:`~xoa_driver.internals.core.commands.ps_commands.PS_ARPREQUEST`"""
+        """Representation of PS_ARPREQUEST"""
         self.ping = PS_PINGREQUEST(conn, module_id, port_id, stream_idx)
-        """Representation of :class:`~xoa_driver.internals.core.commands.ps_commands.PS_PINGREQUEST`"""
+        """Representation of PS_PINGREQUEST"""
 
 
 class SPayload:
     """L23 Payload Configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, stream_idx: int) -> None:
         self.content = PS_PAYLOAD(conn, module_id, port_id, stream_idx)
-        """Representation of :class:`~xoa_driver.internals.core.commands.ps_commands.PS_PAYLOAD`"""
+        """Representation of PS_PAYLOAD"""
         self.extended = PS_EXTPAYLOAD(conn, module_id, port_id, stream_idx)
-        """Representation of :class:`~xoa_driver.internals.core.commands.ps_commands.PS_EXTPAYLOAD`"""
+        """Representation of PS_EXTPAYLOAD"""
 
 
 class SGateway:
     """L23 Gateway Configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, stream_idx: int) -> None:
         self.ipv4 = PS_IPV4GATEWAY(conn, module_id, port_id, stream_idx)
-        """Representation of :class:`~xoa_driver.internals.core.commands.ps_commands.PS_IPV4GATEWAY`"""
+        """Representation of PS_IPV4GATEWAY"""
         self.ipv6 = PS_IPV6GATEWAY(conn, module_id, port_id, stream_idx)
-        """Representation of :class:`~xoa_driver.internals.core.commands.ps_commands.PS_IPV6GATEWAY`"""
+        """Representation of PS_IPV6GATEWAY"""
 
 
 class SPHeader:
     """L23 Stream Header Configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, stream_idx: int) -> None:
         self.data = PS_PACKETHEADER(conn, module_id, port_id, stream_idx)
-        """Representation of :class:`~xoa_driver.internals.core.commands.ps_commands.PS_PACKETHEADER`"""
+        """Representation of PS_PACKETHEADER"""
         self.protocol = PS_HEADERPROTOCOL(conn, module_id, port_id, stream_idx)
-        """Representation of :class:`~xoa_driver.internals.core.commands.ps_commands.PS_HEADERPROTOCOL`"""
+        """Representation of PS_HEADERPROTOCOL"""
         self.modifiers: "hmm.ModifiersManager[HModifier]" = hmm.ModifiersManager(
             conn, 
             (module_id, port_id, stream_idx), 
@@ -159,9 +159,9 @@ class SPacket:
     """L23 Packet Configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, stream_idx: int) -> None:
         self.limit = PS_PACKETLIMIT(conn, module_id, port_id, stream_idx)
-        """Representation of :class:`~xoa_driver.internals.core.commands.ps_commands.PS_PACKETLIMIT`"""
+        """Representation of PS_PACKETLIMIT"""
         self.length = PS_PACKETLENGTH(conn, module_id, port_id, stream_idx)
-        """Representation of :class:`~xoa_driver.internals.core.commands.ps_commands.PS_PACKETLENGTH`"""
+        """Representation of PS_PACKETLENGTH"""
         self.header = SPHeader(conn, module_id, port_id, stream_idx)
         """Packet header config"""
 
@@ -170,9 +170,9 @@ class SBurst:
     """L23 Stream Burst Configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, stream_idx: int) -> None:
         self.burstiness = PS_BURST(conn, module_id, port_id, stream_idx)
-        """Representation of :class:`~xoa_driver.internals.core.commands.ps_commands.PS_BURST`"""
+        """Representation of PS_BURST"""
         self.gap = PS_BURSTGAP(conn, module_id, port_id, stream_idx)
-        """Representation of :class:`~xoa_driver.internals.core.commands.ps_commands.PS_BURSTGAP`"""
+        """Representation of PS_BURSTGAP"""
 
 BS = TypeVar("BS")
 class BaseStreamIdx(BaseIndex):
@@ -181,13 +181,13 @@ class BaseStreamIdx(BaseIndex):
         super().__init__(conn, kind, observer)
         
         self.comment = PS_COMMENT(conn, *kind)
-        """Representation of :class:`~xoa_driver.internals.core.commands.ps_commands.PS_COMMENT`"""
+        """Representation of PS_COMMENT"""
         self.enable = PS_ENABLE(conn, *kind)
-        """Representation of :class:`~xoa_driver.internals.core.commands.ps_commands.PS_ENABLE`"""
+        """Representation of PS_ENABLE"""
         self.tpld_id = PS_TPLDID(conn, *kind)
-        """Representation of :class:`~xoa_driver.internals.core.commands.ps_commands.PS_TPLDID`"""
+        """Representation of PS_TPLDID"""
         self.priority_flow = PS_PFCPRIORITY(conn, *kind)
-        """Representation of :class:`~xoa_driver.internals.core.commands.ps_commands.PS_PFCPRIORITY`"""
+        """Representation of PS_PFCPRIORITY"""
         
         self.payload = SPayload(conn, *kind)
         """L23 stream payload config"""
@@ -207,7 +207,7 @@ class BaseStreamIdx(BaseIndex):
         """L23 stream rate config"""
     
     async def delete(self):
-        """Representation of :class:`~xoa_driver.internals.core.commands.ps_commands.PS_DELETE`"""
+        """Representation of PS_DELETE"""
         await PS_DELETE(self._conn, *self.kind).set()
         self._observer.notify(idx_obs.IndexEvents.DEL, self)
     

@@ -14,7 +14,7 @@ class POdin1G4S4PCombi(BasePortL23Genuine):
         
         self.autoneg_selection = P_AUTONEGSELECTION(conn, module_id, port_id)
         """L23 port's auto-negotiation selection.
-        Representation of :class:`~xoa_driver.internals.core.commands.p_commands.P_AUTONEGSELECTION`
+        Representation of P_AUTONEGSELECTION`
         """
 
 class POdin1G4S4PCombi_b(POdin1G4S4PCombi):

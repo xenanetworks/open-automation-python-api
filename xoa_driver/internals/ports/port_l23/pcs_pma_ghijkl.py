@@ -124,7 +124,7 @@ class PcsPmaPhy:
     
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.auto_neg = PP_PHYAUTONEG(conn, module_id, port_id)
-        """ Autonegotiation settings of the PHY.
+        """ Auto-negotiation settings of the PHY.
         Representation of PP_PHYAUTONEG
         """
         

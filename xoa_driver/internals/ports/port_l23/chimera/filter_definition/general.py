@@ -206,7 +206,7 @@ class FTpld:
             prevent_set(PEF_TPLDCONFIG(conn, module_id, port_id, flow_index, filter_type, test_payload_filter_index), filter_type) 
             for test_payload_filter_index in range(16) # range need to put to the constants place
         )
-        """TPLS filter configurations.
+        """TPLD filter configurations.
         Representation of PEF_TPLDCONFIG
         """
 
@@ -232,7 +232,7 @@ class ModeBasic:
         """
         self.l3_use = prevent_set(PEF_L3USE(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """L3 protocol to use.
-        Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_L3USE`
+        Representation of PEF_L3USE
         """
         self.any = FAny(conn, module_id, port_id, flow_index, filter_type)
         """Filter for any field."""
@@ -247,7 +247,7 @@ class ModeBasic:
         """Filter for IP field."""
         
         self.tcp = FTcp(conn, module_id, port_id, flow_index, filter_type)
-        """Filter for TCP ield."""
+        """Filter for TCP field."""
         
         self.udp = FUdp(conn, module_id, port_id, flow_index, filter_type)
         """Filter for UDP field."""
@@ -265,11 +265,11 @@ class ProtocolSegment:
         
         self.value = prevent_set(PEF_VALUE(conn, module_id, port_id, flow_index, filter_type, protocol_segment_index), filter_type)
         """Value bytes match for the filter.
-        Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_VALUE`
+        Representation of PEF_VALUE
         """
         self.mask = prevent_set(PEF_MASK(conn, module_id, port_id, flow_index, filter_type, protocol_segment_index), filter_type)
         """Mask byte value.
-        Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_MASK`
+        Representation of PEF_MASK
         """
 
 class ModeExtended:
@@ -282,7 +282,7 @@ class ModeExtended:
                 
         # self.protocol = prevent_set(PEF_PROTOCOL(conn, module_id, port_id, flow_index, filter_type))
         # """Protocol segments match for the filter.
-        # Representation of :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_PROTOCOL`
+        # Representation of PEF_PROTOCOL
         # """
         
     async def get_protocol_segments(self) -> Tuple[ProtocolSegment, ...]:
@@ -302,7 +302,7 @@ class ModeExtended:
                 self._port_id, 
                 self._flow_index, 
                 self._filter_type,
-                idx, # TODO: need to discute with Leo
+                idx, # TODO: need to discuss with Leo
                 ProtocolOption(segment_type)
             ) 
             for idx, segment_type in enumerate(segments_raw) 

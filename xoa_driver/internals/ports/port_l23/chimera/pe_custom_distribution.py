@@ -23,7 +23,7 @@ class CustomDistribution:
         self.__port_id = port_id
         self.__cdi = custom_distribution_index
         self.definition = PEC_VAL(conn, module_id, port_id, custom_distribution_index)
-        """Custom distribution defintion.
+        """Custom distribution definition.
         Representation of PEC_VAL
         """
         

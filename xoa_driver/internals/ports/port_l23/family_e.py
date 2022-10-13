@@ -2,7 +2,7 @@ import functools
 from typing import TYPE_CHECKING
 from .bases.port_l23_genuine import BasePortL23Genuine
 from xoa_driver.internals.core.commands import (
-    P_AUTONEGSELECTION, # questinable which ports are electrical
+    P_AUTONEGSELECTION, # questionable which ports are electrical
     P_LPENABLE,
     P_LPTXMODE,
     P_LPSTATUS,
@@ -34,7 +34,7 @@ class LowPowerMode:
         """
 
         self.partner_autonegotiation = P_LPPARTNERAUTONEG(conn, module_id, port_id)
-        """EEE capabilities advertised during autonegotiation by the far side.
+        """EEE capabilities advertised during auto-negotiation by the far side.
         Representation of P_LPPARTNERAUTONEG
         """
 

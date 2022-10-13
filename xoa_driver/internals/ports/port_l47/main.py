@@ -55,52 +55,52 @@ class PortL47(base_port.BasePort["ports_state.PortL47LocalState"]):
         self._local_states = ports_state.PortL47LocalState()
         
         self.traffic = P4_TRAFFIC(self._conn, module_id, port_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.p4_commands.P4_TRAFFIC`"""
+        """Representation of P4_TRAFFIC"""
         self.clear = P4_CLEAR(self._conn, module_id, port_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.p4_commands.P4_CLEAR`"""
+        """Representation of P4_CLEAR"""
         self.state = P4_STATE(self._conn, module_id, port_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.p4_commands.P4_STATE`"""
+        """Representation of P4_STATE"""
         self.type = P4_PORT_TYPE(self._conn, module_id, port_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.p4_commands.P4_PORT_TYPE`"""
+        """Representation of P4_PORT_TYPE"""
         self.aptitudes = P4_APTITUDES(self._conn, module_id, port_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.p4_commands.P4_APTITUDES`"""
+        """Representation of P4_APTITUDES"""
         self.last_state_status = P4_STATE_STATUS(self._conn, module_id, port_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.p4_commands.P4_STATE_STATUS`"""
+        """Representation of P4_STATE_STATUS"""
         
         self.nic_name = P4_DEV_NAME(self._conn, module_id, port_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.p4_commands.P4_DEV_NAME`"""
+        """Representation of P4_DEV_NAME"""
         self.nic_firmware_version = P4_FW_VER(self._conn, module_id, port_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.p4_commands.P4_FW_VER`"""
+        """Representation of P4_FW_VER"""
         self.vlan_offload = P4_VLAN_OFFLOAD(self._conn, module_id, port_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.p4_commands.P4_VLAN_OFFLOAD`"""
+        """Representation of P4_VLAN_OFFLOAD"""
         
         self.max_packet_rate = P4_MAX_PACKET_RATE(self._conn, module_id, port_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.p4_commands.P4_MAX_PACKET_RATE`"""
+        """Representation of P4_MAX_PACKET_RATE"""
         self.capabilities = P4_CAPABILITIES(self._conn, module_id, port_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.p4_commands.P4_CAPABILITIES`"""
+        """Representation of P4_CAPABILITIES"""
         self.speed_selection = P4_SPEEDSELECTION(self._conn, module_id, port_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.p4_commands.P4_SPEEDSELECTION`"""
+        """Representation of P4_SPEEDSELECTION"""
         
-        # region Not sure if this commands must be atthis level
+        # region Not sure if this commands must be at this level
         self.tx_packet_size = P4_TX_PACKET_SIZE(self._conn, module_id, port_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.p4_commands.P4_TX_PACKET_SIZE`"""
+        """Representation of P4_TX_PACKET_SIZE"""
         self.rx_packet_size = P4_RX_PACKET_SIZE(self._conn, module_id, port_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.p4_commands.P4_RX_PACKET_SIZE`"""
+        """Representation of P4_RX_PACKET_SIZE"""
         self.tx_mtu = P4_TX_MTU(self._conn, module_id, port_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.p4_commands.P4_TX_MTU`"""
+        """Representation of P4_TX_MTU"""
         self.rx_mtu = P4_RX_MTU(self._conn, module_id, port_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.p4_commands.P4_RX_MTU`"""
+        """Representation of P4_RX_MTU"""
         # endregion
         
         self.pci_info = P4_PCI_INFO(self._conn, module_id, port_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.p4_commands.P4_PCI_INFO`"""
+        """Representation of P4_PCI_INFO"""
         self.license_info = P4_LICENSE_INFO(self._conn, module_id, port_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.p4_commands.P4_LICENSE_INFO`"""
+        """Representation of P4_LICENSE_INFO"""
         
         self.arp_config = P4_ARP_CONFIG(self._conn, module_id, port_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.p4_commands.P4_ARP_CONFIG`"""
+        """Representation of P4_ARP_CONFIG"""
         self.ndp_config = P4_NDP_CONFIG(self._conn, module_id, port_id)
-        """Representation of :class:`~xoa_driver.internals.core.commands.p4_commands.P4_NDP_CONFIG`"""
+        """Representation of P4_NDP_CONFIG"""
         
         self.capture = PCapture(self._conn, module_id, port_id)
         """L47 packet capture"""
