@@ -161,7 +161,7 @@ class PC_STATS:
     class GetDataAttr:
         status: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, 1 if capture has been stopped because of overflow, 0 if still running.
         packets: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of packets in the buffer.
-        starttime: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, time when capture was started, in nano-seconds since 2010-01-01.
+        start_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, time when capture was started, in nano-seconds since 2010-01-01.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the number of packets currently in the capture buffer for a port. The count is reset to zero when capture is turned on.

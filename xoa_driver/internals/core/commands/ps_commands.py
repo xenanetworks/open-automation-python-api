@@ -361,7 +361,7 @@ class PS_INSERTFCS:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._stream_xindex]))
 
     def set(self, on_off: OnOff) -> "Token":
-        """Set hether a valid frame checksum is added to the packets of a stream.
+        """Set whether a valid frame checksum is added to the packets of a stream.
 
         :param on_off: whether frame checksums are inserted
         :type on_off: OnOff
@@ -1449,7 +1449,7 @@ class PS_INJECTSEQERR:
 class PS_INJECTMISERR:
     """
     Force a misorder error by swapping the test payload sequence numbers in two of
-    the packets currently being transmitted from a stream. This can aid in analysing
+    the packets currently being transmitted from a stream. This can aid in analyzing
     the error-detection functionality of the system under test. Traffic must be on
     for the port, and the stream must be enabled and include test payloads.
     """
@@ -1468,7 +1468,7 @@ class PS_INJECTMISERR:
 
     def set(self) -> "Token":
         """Set a misorder error by swapping the test payload sequence numbers in two of
-        the packets currently being transmitted from a stream. This can aid in analysing
+        the packets currently being transmitted from a stream. This can aid in analyzing
         the error-detection functionality of the system under test. Traffic must be on
         for the port, and the stream must be enabled and include test payloads.
         """

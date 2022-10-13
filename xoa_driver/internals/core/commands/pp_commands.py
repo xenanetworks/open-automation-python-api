@@ -34,13 +34,13 @@ class PP_ALARMS_ERRORS:
     class GetDataAttr:
         total_alarms: XmpField[XmpInt] = XmpField(XmpInt)  # integer, total number of triggered alarms
         valid_mask: XmpField[XmpHex8] = XmpField(XmpHex8)  # 8 hex bytes, mask of valid alarms
-        los_error_cournt: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of no-sync alarms
+        los_error_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of no-sync alarms
         total_pcs_error_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of errors of PCS error alarm
         total_fec_error_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of errors of FEC error alarm
         total_header_error_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of errors of header error alarm
         total_align_error_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of errors of alignment error alarm
         total_bip_error_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of errors of BIP error alarm
-        total_highber_error_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of errors of high BER error alarm
+        total_higher_error_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of errors of high BER error alarm
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the error count of each alarm, PCS Error, FEC Error, Header Error, Align Error, BIP Error, and High BER Error.
@@ -514,8 +514,8 @@ class PP_RXLANELOCK:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        headerlock: XmpField[XmpByte] = XmpField(XmpByte, choices=HeaderLockStatus)  # coded byte, whether this lane has achieved header lock.
-        alignlock: XmpField[XmpByte] = XmpField(XmpByte, choices=AlignLockStatus)  # coded byte, whether this lane has achieved alignment lock.
+        header_lock: XmpField[XmpByte] = XmpField(XmpByte, choices=HeaderLockStatus)  # coded byte, whether this lane has achieved header lock.
+        align_lock: XmpField[XmpByte] = XmpField(XmpByte, choices=AlignLockStatus)  # coded byte, whether this lane has achieved alignment lock.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether the receiver has achieved header lock and alignment lock on the data
@@ -1102,7 +1102,7 @@ class PP_EYEBER:
 @dataclass
 class PP_PHYAUTONEG:
     """
-    Autonegotiation settings of the PHY.
+    Auto-negotiation settings of the PHY.
     """
 
     code: typing.ClassVar[int] = 362
@@ -1650,7 +1650,7 @@ class PP_AUTONEGSTATUS:
     class GetDataAttr:
         mode: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegMode)  # coded byte, mode
         fec: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegFECType)  # codec byte, FEC.
-        auto_state: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegStatus)  # coded byte, autonegotiation state.
+        auto_state: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegStatus)  # coded byte, auto-negotiation state.
         tec_ability: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegTecAbility)  # coded byte, technical ability.
         fec_capable: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegFECStatus)  # coded byte, FEC capable partner.
         fec_requested: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegFECStatus)  # coded byte, FEC requested partner.

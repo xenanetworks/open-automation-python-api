@@ -28,9 +28,9 @@ class PEF_INIT:
     
         There are 2 register copies used to configure the filters:
         
-            (1) ``Shadow-copy (type value = 0)``, temporary copy configured by sever. Values stored in ``shadow-copy`` have no immediate effect on the flow filters. PEF_APPLY will pass the values from the ``shadow-copy`` to the ``working-copy``.
+            (1) ``Shadow-copy (type value = 0)`` temporary copy configured by sever. Values stored in ``shadow-copy`` have no immediate effect on the flow filters. PEF_APPLY will pass the values from the ``shadow-copy`` to the ``working-copy``.
 
-            (2) ``Working-copy (type value = 1)``, reflects what is currently used for filtering in the FPGA. ``Working-copy`` cannot be written directly. Only ``shadow-copy`` allows direct write.
+            (2) ``Working-copy (type value = 1)`` reflects what is currently used for filtering in the FPGA. ``Working-copy`` cannot be written directly. Only ``shadow-copy`` allows direct write.
 
             (3) All ``set`` actions are performed on ``shadow-copy`` ONLY.
 
@@ -983,7 +983,7 @@ class PEF_IPV4DSCP:
         use: XmpField[XmpByte] = XmpField(XmpByte, choices=OnOff)  # coded byte, specifies the use of IPv4 information.
         value: XmpField[XmpByte] = XmpField(
             XmpByte
-        )  # byte, specifying the value of the IPv4 DSCP/TOS in the upper 6 bits. value[7:2] = DSCP/TOS, value[1:0] = reserved (must be zero). Default vaule: 0
+        )  # byte, specifying the value of the IPv4 DSCP/TOS in the upper 6 bits. value[7:2] = DSCP/TOS, value[1:0] = reserved (must be zero). Default value: 0
         mask: XmpField[XmpHex1] = XmpField(
             XmpHex1
         )  # hex byte, specifying the filter mask of the value in the upper 6 bits. mask[7:2] = DSCP/TOS mask, mask[1:0] = reserved (must be zero). Default value: 0xFC
@@ -993,7 +993,7 @@ class PEF_IPV4DSCP:
         use: XmpField[XmpByte] = XmpField(XmpByte, choices=OnOff)  # coded byte, specifies the use of IPv4 information.
         value: XmpField[XmpByte] = XmpField(
             XmpByte
-        )  # byte, specifying the value of the IPv4 DSCP/TOS in the upper 6 bits. value[7:2] = DSCP/TOS, value[1:0] = reserved (must be zero). Default vaule: 0
+        )  # byte, specifying the value of the IPv4 DSCP/TOS in the upper 6 bits. value[7:2] = DSCP/TOS, value[1:0] = reserved (must be zero). Default value: 0
         mask: XmpField[XmpHex1] = XmpField(
             XmpHex1
         )  # hex byte, specifying the filter mask of the value in the upper 6 bits. mask[7:2] = DSCP/TOS mask, mask[1:0] = reserved (must be zero). Default value: 0xFC
@@ -1011,7 +1011,7 @@ class PEF_IPV4DSCP:
 
         :param use: specifies the use of IPv4 DSCP/TOS information.
         :type use: OnOff
-        :param value: specifying the value of the IPv4 DSCP/TOS in the upper 6 bits. value[7:2] = DSCP/TOS, value[1:0] = reserved (must be zero). Default vaule: 0
+        :param value: specifying the value of the IPv4 DSCP/TOS in the upper 6 bits. value[7:2] = DSCP/TOS, value[1:0] = reserved (must be zero). Default value: 0
         :type value: int
         :param mask: specifying the filter mask of the value in the upper 6 bits. mask[7:2] = DSCP/TOS mask, mask[1:0] = reserved (must be zero). Default value: 0xFC
         :type mask: str
@@ -1734,7 +1734,7 @@ class PEF_ANYCONFIG:
 class PEF_TPLDSETTINGS:
     """
     Defines if filtering on TPLD field in a packet is used for flow filtering. The
-    TPLD filter allows filtering based on the Xena Testpayload ID. The Testpayload
+    TPLD filter allows filtering based on the Xena TPLD ID. The TPLD
     ID is meta data, which can be inserted into the Ethernet packets by Xena traffic
     generators. For each flow filter, can the filter be based on 16 TPLD ID values.
 
@@ -1847,18 +1847,19 @@ class PEF_TPLDCONFIG:
 @dataclass
 class PEF_VALUE:
     """
-    This command is valid only for ``Extended filter mode`` (check :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_MODE`).
+    This command is valid only for ``Extended filter mode`` (check PEF_MODE).
     
-    Defines the byte values that can be matched if selected by :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_MASK`.
+    Defines the byte values that can be matched if selected by PEF_MASK.
 
-    If ``<protocol_segment_index> = 0``, the maximum number of match value
+    If ``<protocol_segment_index> = 0`` the maximum number of match value
     bytes that can be set is determined by the total length of the protocol segments
-    specified with :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_PROTOCOL`.
-    E.g. if :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_PROTOCOL` is set to ETHERNET then only
+    specified with PEF_PROTOCOL.
+
+    E.g. if PEF_PROTOCOL is set to ETHERNET then only
     12 bytes can be set. In order to set the full 128 bytes, either specify a
     detailed protocol segment list, or use the raw protocol segment type. This specifies 12 + 116 = 128 bytes.
 
-    If ``<protocol_segment_index> != 0``, only the bytes covered by that segment are manipulated, so if :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_PROTOCOL` is set to ``ETHERNET VLAN ETHERTYPE eCPRI``, then ``<protocol_segment_index> = 4`` selects the 8
+    If ``<protocol_segment_index> != 0`` only the bytes covered by that segment are manipulated, so if PEF_PROTOCOL is set to ``ETHERNET VLAN ETHERTYPE eCPRI`` then ``<protocol_segment_index> = 4`` selects the 8
     bytes of the eCPRI header starting at byte position (12 + 2 + 4) = 18.
     
     For ``set`` command where fewer value bytes are provided than specified by the protocol segment, those unspecified bytes are set to zero.
@@ -1885,15 +1886,15 @@ class PEF_VALUE:
         value: XmpField[XmpHexList] = XmpField(XmpHexList)  # list of hex bytes, the raw bytes comprising the packet header.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the byte values that can be matched if selected by :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_MASK`.
+        """Get the byte values that can be matched if selected by PEF_MASK.
 
-        :return: the byte values that can be matched if selected by :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_MASK`
+        :return: the byte values that can be matched if selected by PEF_MASK
         :rtype: PEF_VALUE.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type, self._protocol_segment_index]))
 
     def set(self, value: str) -> "Token":
-        """Set the byte values that can be matched if selected by :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_MASK`.
+        """Set the byte values that can be matched if selected by PEF_MASK.
 
         :param value: the raw bytes comprising the packet header
         :type value: str
@@ -1905,24 +1906,25 @@ class PEF_VALUE:
 @dataclass
 class PEF_MASK:
     """
-    This command is valid only for ``Extended filter mode`` (check :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_MODE`).
+    This command is valid only for ``Extended filter mode`` (check PEF_MODE`).
     
-    Defines the mask byte values that select the values specified by :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_VALUE`.
+    Defines the mask byte values that select the values specified by PEF_VALUE`.
     
     For a chosen ``<protocol_segment_index>`` the first byte in the value masks the
-    first byte of the corresponding :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_VALUE`, and so on.
+    first byte of the corresponding PEF_VALUE and so on.
 
-    If ``<protocol_segment_index> = 0``, the maximum number of match value
+    If ``<protocol_segment_index> = 0`` the maximum number of match value
     bytes that can be set is determined by the total length of the protocol segments
-    specified with :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_PROTOCOL`.
-    E.g. if :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_PROTOCOL` is set to ETHERNET then only
+    specified with PEF_PROTOCOL`.
+
+    E.g. if PEF_PROTOCOL is set to ETHERNET then only
     12 bytes can be set. In order to set the full 128 bytes, either specify a
     detailed protocol segment list, or use the raw protocol segment type. This specifies 12 + 116 = 128 bytes.
 
-    If ``<protocol_segment_index> != 0``, only the bytes covered by that segment are manipulated, so if :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_PROTOCOL` is set to ``ETHERNET VLAN ETHERTYPE eCPRI``, then ``<protocol_segment_index> = 4`` selects the 8
+    If ``<protocol_segment_index> != 0`` only the bytes covered by that segment are manipulated, so if PEF_PROTOCOL is set to ``ETHERNET VLAN ETHERTYPE eCPRI`` then ``<protocol_segment_index> = 4`` selects the 8
     bytes of the eCPRI header starting at byte position (12 + 2 + 4) = 18.
 
-    ``get/set`` semantics are similar to :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_VALUE`.
+    ``get/set`` semantics are similar to PEF_VALUE.
     """
 
     code: typing.ClassVar[int] = 1778
@@ -1944,15 +1946,15 @@ class PEF_MASK:
         masks: XmpField[XmpHexList] = XmpField(XmpHexList)  #
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the mask byte values that select the values specified by :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_VALUE`.
+        """Get the mask byte values that select the values specified by PEF_VALUE.
 
-        :return: the mask byte values that select the values specified by :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_VALUE`.
+        :return: the mask byte values that select the values specified by PEF_VALUE.
         :rtype: PEF_MASK.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type, self._protocol_segment_index]))
 
     def set(self, masks: str) -> "Token":
-        """Set the mask byte values that select the values specified by :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_VALUE`.
+        """Set the mask byte values that select the values specified by PEF_VALUE`.
 
         :param masks: mask byte values
         :type masks: str
@@ -1964,7 +1966,7 @@ class PEF_MASK:
 @dataclass
 class PEF_PROTOCOL:
     """
-    This command is valid only for ``Extended filter mode`` (check :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_MODE`).
+    This command is valid only for ``Extended filter mode`` (check PEF_MODE).
     
     Defines the sequence of protocol segments that can be
     matched. The total length of the specified segments cannot exceed 128 bytes. If
@@ -1973,7 +1975,7 @@ class PEF_PROTOCOL:
     may have changed. However, if the total length, in bytes, of the segments is
     reduced, then the excess bytes of value and mask are set to zero. I.e. to update
     an existing filter, you must first correct the list of segments (using
-    PEF_PROTOCOL) and subsequently update the filtering value (using :class:`~xoa_driver.internals.core.commands.pef_commands.PEF_VALUE`) and filtering mask (:class:`~xoa_driver.internals.core.commands.pef_commands.PEF_MASK`).
+    PEF_PROTOCOL) and subsequently update the filtering value (using PEF_VALUE) and filtering mask (PEF_MASK).
     """
 
     code: typing.ClassVar[int] = 1779

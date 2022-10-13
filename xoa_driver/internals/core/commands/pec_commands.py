@@ -28,7 +28,7 @@ class PEC_INDICES:
     
     .. note::
         
-        Custom distributions which are currently defined are not affected when mentioned in a PEC_INDICES set command. Custom distributions which are currently assigned to an impairment cannot be deleted and any attempt of deleting such a custom distribution using either :class:`~xoa_driver.internals.core.commands.pec_commands.PEC_DELETE` or :class:`~xoa_driver.internals.core.commands.pec_commands.PEC_INDICES` will result in an error.
+        Custom distributions which are currently defined are not affected when mentioned in a PEC_INDICES set command. Custom distributions which are currently assigned to an impairment cannot be deleted and any attempt of deleting such a custom distribution using either PEC_DELETE` or PEC_INDICES` will result in an error.
 
     """
 
@@ -186,7 +186,7 @@ class PEC_DELETE:
     
     .. note::
     
-        Once a customer has defined a customer distribution using :class:`~xoa_driver.internals.core.commands.pec_commands.PEC_VAL`, it is defined until it is explicitly deleted.Only customer distributions which are not referenced by any impairments, can be deleted.
+        Once a customer has defined a customer distribution using PEC_VAL, it is defined until it is explicitly deleted.Only customer distributions which are not referenced by any impairments, can be deleted.
 
     """
 
@@ -224,7 +224,8 @@ class PEC_DISTTYPE:
     
     .. note::
     
-        Using :class:`~xoa_driver.internals.core.commands.pec_commands.PEC_DISTTYPE` as set has no effect. The disttype is determined upon custom distribution creation and cannot be modified later. However, it is legal to issue the :class:`~xoa_driver.internals.core.commands.pec_commands.PEC_DISTTYPE` set command with no effect.
+        Using PEC_DISTTYPE as set has no effect. The distribution type is determined upon custom distribution creation and cannot be modified later. However, it is legal to issue the PEC_DISTTYPE set command with no effect.
+
     """
 
     code: typing.ClassVar[int] = 1683

@@ -3599,14 +3599,14 @@ class P4G_IPV6_SERVER_RANGE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        ipv6_address: XmpField[XmpIPV6Address] = XmpField(XmpIPV6Address)  # hexbytes, the start ip address of the address range
+        ipv6_address: XmpField[XmpIPV6Address] = XmpField(XmpIPV6Address)  # hex bytes, the start ip address of the address range
         address_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the number of ip addresses
         start_port: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the start port number, of the port range
         port_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the number of ports
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        ipv6_address: XmpField[XmpIPV6Address] = XmpField(XmpIPV6Address)  # hexbytes, the start ip address of the address range
+        ipv6_address: XmpField[XmpIPV6Address] = XmpField(XmpIPV6Address)  # hex bytes, the start ip address of the address range
         address_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the number of ip addresses
         start_port: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the start port number, of the port range
         port_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the number of ports

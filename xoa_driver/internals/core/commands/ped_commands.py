@@ -172,7 +172,7 @@ class PED_FIXED:
         probability: XmpField[XmpInt] = XmpField(XmpInt)  # integer, specifies the fixed probability in ppm. Default value is 0.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the proability of a Fixed Rate distribution.
+        """Get the probability of a Fixed Rate distribution.
 
         :return: the fixed probability in ppm. Default value is 0.
         :rtype: PED_FIXED.GetDataAttr
@@ -180,7 +180,7 @@ class PED_FIXED:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
     def set(self, probability: int) -> "Token":
-        """Set the proability of a Fixed Rate distribution.
+        """Set the probability of a Fixed Rate distribution.
 
         :param probability: the fixed probability in ppm. Default value is 0.
         :type probability: int
@@ -285,7 +285,7 @@ class PED_FIXEDBURST:
     
     .. note::
     
-        In case of ``_impairment_type_xindex`` = ``MISO``, burstsize is fixed to 1.
+        In case of ``_impairment_type_xindex`` = ``MISO``, burst size is fixed to 1.
 
     """
 
@@ -395,17 +395,17 @@ class PED_GE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        goodprob: XmpField[XmpInt] = XmpField(XmpInt)  # integer, specifies the good state probability in ppm. Default value: 0.
-        goodtransprob: XmpField[XmpInt] = XmpField(XmpInt)  # integer, specifies the good state transition probability in ppm. Default value: 0.
-        badprob: XmpField[XmpInt] = XmpField(XmpInt)  # integer, specifies the bad state probability in ppm. Default value: 0.
-        badtransprob: XmpField[XmpInt] = XmpField(XmpInt)  # integer, specifies the bad state transition probability in ppm. Default value: 0.
+        good_state_prob: XmpField[XmpInt] = XmpField(XmpInt)  # integer, specifies the good state probability in ppm. Default value: 0.
+        good_state_trans_prob: XmpField[XmpInt] = XmpField(XmpInt)  # integer, specifies the good state transition probability in ppm. Default value: 0.
+        bad_prob: XmpField[XmpInt] = XmpField(XmpInt)  # integer, specifies the bad state probability in ppm. Default value: 0.
+        bad_state_trans_prob: XmpField[XmpInt] = XmpField(XmpInt)  # integer, specifies the bad state transition probability in ppm. Default value: 0.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        goodprob: XmpField[XmpInt] = XmpField(XmpInt)  # integer, specifies the good state probability in ppm. Default value: 0.
-        goodtransprob: XmpField[XmpInt] = XmpField(XmpInt)  # integer, specifies the good state transition probability in ppm. Default value: 0.
-        badprob: XmpField[XmpInt] = XmpField(XmpInt)  # integer, specifies the bad state probability in ppm. Default value: 0.
-        badtransprob: XmpField[XmpInt] = XmpField(XmpInt)  # integer, specifies the bad state transition probability in ppm. Default value: 0.
+        good_state_prob: XmpField[XmpInt] = XmpField(XmpInt)  # integer, specifies the good state probability in ppm. Default value: 0.
+        good_state_trans_prob: XmpField[XmpInt] = XmpField(XmpInt)  # integer, specifies the good state transition probability in ppm. Default value: 0.
+        bad_state_prob: XmpField[XmpInt] = XmpField(XmpInt)  # integer, specifies the bad state probability in ppm. Default value: 0.
+        bad_state_trans_prob: XmpField[XmpInt] = XmpField(XmpInt)  # integer, specifies the bad state transition probability in ppm. Default value: 0.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the configuration of Gilbert-Elliot distribution.
@@ -415,17 +415,17 @@ class PED_GE:
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
-    def set(self, goodprob: int, goodtransprob: int, badprob: int, badtransprob: int) -> "Token":
+    def set(self, good_state_prob: int, good_state_trans_prob: int, bad_state_prob: int, bad_state_trans_prob: int) -> "Token":
         """Set the configuration of Gilbert-Elliot distribution.
 
-        :param goodprob: specifies the good state probability in ppm. Default value: 0.
-        :type goodprob: int
-        :param goodtransprob: specifies the good state transition probability in ppm. Default value: 0.
-        :type goodtransprob: int
-        :param badprob: specifies the bad state probability in ppm. Default value: 0.
-        :type badprob: int
-        :param badtransprob: specifies the bad state transition probability in ppm. Default value: 0.
-        :type badtransprob: int
+        :param good_state_prob: specifies the good state probability in ppm. Default value: 0.
+        :type good_state_prob: int
+        :param good_state_trans_prob: specifies the good state transition probability in ppm. Default value: 0.
+        :type good_state_trans_prob: int
+        :param bad_state_prob: specifies the bad state probability in ppm. Default value: 0.
+        :type bad_state_prob: int
+        :param bad_state_trans_prob: specifies the bad state transition probability in ppm. Default value: 0.
+        :type bad_state_trans_prob: int
         """
         return Token(
             self._connection,
@@ -434,10 +434,10 @@ class PED_GE:
                 module=self._module,
                 port=self._port,
                 indices=[self._flow_xindex, self._impairment_type_xindex],
-                goodprob=goodprob,
-                goodtransprob=goodtransprob,
-                badprob=badprob,
-                badtransprob=badtransprob,
+                good_state_prob=good_state_prob,
+                good_state_trans_prob=good_state_trans_prob,
+                bad_state_prob=bad_state_prob,
+                bad_state_trans_prob=bad_state_trans_prob,
             ),
         )
 
@@ -650,14 +650,14 @@ class PED_GAMMA:
         shape: XmpField[XmpLong] = XmpField(XmpLong)  # long, specifies the shape. Units: none. Default value: 0.
         scale: XmpField[XmpLong] = XmpField(
             XmpLong
-        )  # long, specifies the Gamma function scaleparameter. In case of iid = DELAY, units: nanosecond (must be multiples of 100 ns). Default value: 0 ns. In case of iid != DELAY, units: number of packets.Default value: 0 packets.
+        )  # long, specifies the Gamma function scale parameter. In case of iid = DELAY, units: nanosecond (must be multiples of 100 ns). Default value: 0 ns. In case of iid != DELAY, units: number of packets.Default value: 0 packets.
 
     @dataclass(frozen=True)
     class GetDataAttr:
         shape: XmpField[XmpLong] = XmpField(XmpLong)  # long, specifies the shape. Units: none. Default value: 0.
         scale: XmpField[XmpLong] = XmpField(
             XmpLong
-        )  # long, specifies the Gamma function scaleparameter. In case of iid = DELAY, units: nanosecond (must be multiples of 100 ns). Default value: 0 ns. In case of iid != DELAY, units: number of packets.Default value: 0 packets.
+        )  # long, specifies the Gamma function scale parameter. In case of iid = DELAY, units: nanosecond (must be multiples of 100 ns). Default value: 0 ns. In case of iid != DELAY, units: number of packets.Default value: 0 packets.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the configuration of Gamma distribution.
@@ -672,7 +672,7 @@ class PED_GAMMA:
 
         :param shape: specifies the shape. Units: none. Default value: 0.
         :type shape: int
-        :param scale: specifies the Gamma function scaleparameter.
+        :param scale: specifies the Gamma function scale parameter.
         :type scale: int
         """
         return Token(
@@ -895,7 +895,7 @@ class PED_ENABLE:
     
     .. note:: 
     
-        This command is not applicable for :class:`~xoa_driver.internals.core.commands.pe_commands.PE_BANDPOLICER` and :class:`~xoa_driver.internals.core.commands.pe_commands.PE_BANDSHAPER` because they have a separate ``ON / OFF`` parameter.
+        This command is not applicable for PE_BANDPOLICER and PE_BANDSHAPER because they have a separate ``ON / OFF`` parameter.
 
     """
 

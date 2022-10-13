@@ -234,7 +234,7 @@ class PD_RANGE:
     transmission measured in nanoseconds.  There are a fixed number of buckets, each
     middle bucket covering a fixed-size range of values which is a power of two.
     The first and last buckets count all the packets that do not fit within the
-    ranges of the middel buckets. The buckets are placed at a certain offset by
+    ranges of the middle buckets. The buckets are placed at a certain offset by
     specifying the first value that should be counted by the first middle bucket.
     """
 
@@ -277,7 +277,7 @@ class PD_RANGE:
         transmission measured in nanoseconds.  There are a fixed number of buckets, each
         middle bucket covering a fixed-size range of values which is a power of two.
         The first and last buckets count all the packets that do not fit within the
-        ranges of the middel buckets. The buckets are placed at a certain offset by
+        ranges of the middle buckets. The buckets are placed at a certain offset by
         specifying the first value that should be counted by the first middle bucket.
 
         :param start: first value going into the second bucket

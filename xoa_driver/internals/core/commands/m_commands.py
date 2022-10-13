@@ -641,9 +641,9 @@ class M_MULTIUSER:
         on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=OnOff)  # coded byte, enable or disable multiple sessions to control the same module.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the status of multiple sessions controling the same module.
+        """Get the status of multiple sessions controlling the same module.
 
-        :return: the status of multiple sessions controling the same module
+        :return: the status of multiple sessions controlling the same module
         :rtype: M_MULTIUSER.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module))

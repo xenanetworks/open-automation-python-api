@@ -281,7 +281,8 @@ class PE_MISORDER:
     Configures the misordering depth in number of packets.
     
     .. note::
-        probability [see :class:`~xoa_driver.internals.core.commands.ped_commands.PED_FIXED`] * (depth + 1) should be less than 1,000,000.
+
+        probability [see PED_FIXED] * (depth + 1) should be less than 1,000,000.
         
     """
 
@@ -353,7 +354,7 @@ class PE_BANDPOLICER:
         cbs: XmpField[XmpInt] = XmpField(XmpInt)  # integer, policer committed burst burst in bytes (range 0 to 4194304), default is 0.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the bandwidth polcier configuration.
+        """Get the bandwidth policer configuration.
 
         :return: enabled/disabled, policer mode, committed information rate, and committed burst size.
         :rtype: PE_BANDPOLICER.GetDataAttr
@@ -361,7 +362,7 @@ class PE_BANDPOLICER:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
 
     def set(self, on_off: OnOff, mode: PolicerMode, cir: int, cbs: int) -> "Token":
-        """Set the bandwidth polcier configuration. 
+        """Set the bandwidth policer configuration. 
 
         :param on_off: enables/disables policer. Note: PED_ENABLE is not supported for the policer.
         :type on_off: OnOff
@@ -846,7 +847,7 @@ class PE_FLOWCORTOTAL:
         )  # long integer, ratio of number of packets with Ethernet FCS corrupted for the flow expressed in ppm.
         ip_corrupted_pkt_ratio: XmpField[XmpLong] = XmpField(
             XmpLong
-        )  # long integer, ratio of number of packets with IP Header checksum corrupted for the flowexpressed in ppm.
+        )  # long integer, ratio of number of packets with IP Header checksum corrupted for the flow expressed in ppm.
         udp_corrupted_pkt_ratio: XmpField[XmpLong] = XmpField(
             XmpLong
         )  # long integer, ratio of number of packets with UDP checksum corrupted for the flow expressed in ppm.
@@ -865,7 +866,7 @@ class PE_FLOWCORTOTAL:
             number of packets with TCP checksum corrupted for the flow,
             ratio of number of packets corrupted for the flow expressed in ppm,
             ratio of number of packets with Ethernet FCS corrupted for the flow expressed in ppm,
-            ratio of number of packets with IP Header checksum corrupted for the flowexpressed in ppm,
+            ratio of number of packets with IP Header checksum corrupted for the flow expressed in ppm,
             ratio of number of packets with UDP checksum corrupted for the flow expressed in ppm,
             ratio of number of packets with TCP checksum corrupted for the flow expressed in ppm.
         :rtype: PE_FLOWCORTOTAL.GetDataAttr

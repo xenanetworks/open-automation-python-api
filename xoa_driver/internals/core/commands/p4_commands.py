@@ -383,10 +383,10 @@ class P4_CAPTURE_GET_NEXT:
     class GetDataAttr:
         index: XmpField[XmpInt] = XmpField(XmpInt)  # integer, index of frame returned
         second: XmpField[XmpInt] = XmpField(XmpInt)  # integer, second value of frame capture timestamp
-        microsecond: XmpField[XmpInt] = XmpField(XmpInt)  # integer, usec value of frame capture timestamp
+        microsecond: XmpField[XmpInt] = XmpField(XmpInt)  # integer, microsecond value of frame capture timestamp
         capture_length: XmpField[XmpInt] = XmpField(XmpInt)  # integer, length of captured portion of the frame
         frame_length: XmpField[XmpInt] = XmpField(XmpInt)  # integer, length of the frame
-        frame: XmpField[XmpHexList] = XmpField(XmpHexList)  # hexdata, the captured frame (capture_len bytes)
+        frame: XmpField[XmpHexList] = XmpField(XmpHexList)  # hex data, the captured frame (capture_len bytes)
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the next captured frame on the port
@@ -1086,7 +1086,7 @@ class P4_ICMP_RX_COUNTERS:
     class GetDataAttr:
         current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
         ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        icmp_echo_reqest_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of ICMP Echo requests received
+        icmp_echo_request_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of ICMP Echo requests received
         icmp_echo_reply_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of ICMP Echo replies received
         icmp_dest_unknown_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of ICMP Destination unknown received
         icmp_time_excessive_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of ICMP Time exceeded received
@@ -1119,7 +1119,7 @@ class P4_ICMP_TX_COUNTERS:
     class GetDataAttr:
         current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
         ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        icmp_echo_reqest_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of ICMP Echo requests transmitted
+        icmp_echo_request_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of ICMP Echo requests transmitted
         icmp_echo_reply_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of ICMP Echo replies transmitted
         icmp_dest_unknown_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of ICMP Destination unknown transmitted
         icmp_time_excessive_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of ICMP Time exceeded transmitted
@@ -1442,7 +1442,7 @@ class P4_CLEAR:
 class P4_SPEEDSELECTION:
     """
     Sets the port speed. The selected speed must be one of the speeds supported by
-    the port, which can be retrieved with :class:`~xoa_driver.internals.core.commands.p4_commands.P4_CAPABILITIES`.
+    the port, which can be retrieved with P4_CAPABILITIES.
     """
 
     code: typing.ClassVar[int] = 767

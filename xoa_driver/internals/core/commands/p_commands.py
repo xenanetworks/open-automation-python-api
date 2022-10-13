@@ -207,7 +207,7 @@ class P_CAPABILITIES:
         can_tx_eq: XmpField[XmpInt] = XmpField(XmpInt)  # integer, whether supports TX EQ settings
         can_rx_retune: XmpField[XmpInt] = XmpField(XmpInt)  # integer, whether supports RX retuning
         prbs_types_supported: XmpField[XmpInt] = XmpField(XmpInt)  # bit map encoded, [0] = lane-based, [1] = PHY-based, [2-31] = reserved
-        prbs_invertions_supported: XmpField[XmpInt] = XmpField(XmpInt)  # bit map encoded, [0] = lane-based supports inv, [1] = PHY-based supports inv, [2-31] = reserved
+        prbs_inversions_supported: XmpField[XmpInt] = XmpField(XmpInt)  # bit map encoded, [0] = lane-based supports inv, [1] = PHY-based supports inv, [2-31] = reserved
         prbs_polys_supported: XmpField[XmpIntList5] = XmpField(
             XmpIntList5
         )  # 5 integers, bit map for each PRBS type (above). [0] = PRBS7, [1] = PRBS9, [2] = PRBS11, [3] = PRBS15, [4] = PRBS23, [5] = PRBS31, [6] = PRBS58, [7] = PRBS49, [8] = PRBS10, [9] = PRBS20, [10] = PRBS13
@@ -225,7 +225,7 @@ class P_CAPABILITIES:
         can_manipulate_preamble: XmpField[XmpInt] = XmpField(XmpInt)  # integer, whether this port can manipulate the preamble
         can_set_link_train: XmpField[XmpInt] = XmpField(XmpInt)  # integer, whether this port can set link training
         can_link_flap: XmpField[XmpInt] = XmpField(XmpInt)  # integer, whether this port supports link flap
-        can_auto_neg_base_r: XmpField[XmpInt] = XmpField(XmpInt)  # integer, whether the port currently can perform BASE-R autonegotiation (as opposed to RJ45 BASE-T)
+        can_auto_neg_base_r: XmpField[XmpInt] = XmpField(XmpInt)  # integer, whether the port currently can perform BASE-R auto-negotiation (as opposed to RJ45 BASE-T)
         can_pma_error_pulse: XmpField[XmpInt] = XmpField(XmpInt)  # integer, whether this port supports 'PMA pulse error injection'
         is_chimera: XmpField[XmpInt] = XmpField(XmpInt)  # integer, whether this is a Chimera port
         has_p2p_loop_partner: XmpField[XmpInt] = XmpField(XmpInt)  # integer, whether this port currently has a port-to-port loop partner
@@ -502,7 +502,7 @@ class P_SPEEDREDUCTION:
 @dataclass
 class P_INTERFRAMEGAP:
     """
-    The mimimum gap between packets in the traffic generated for a port. The gap
+    The minimum gap between packets in the traffic generated for a port. The gap
     includes the Ethernet preamble.
     """
 
@@ -522,17 +522,17 @@ class P_INTERFRAMEGAP:
         min_byte_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer, specifying the minimum number of byte-times between generated packets.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the mimimum gap between packets in the traffic generated for a port. The gap includes the Ethernet preamble.
+        """Get the minimum gap between packets in the traffic generated for a port. The gap includes the Ethernet preamble.
 
-        :return: the mimimum gap between packets in the traffic generated for a port. The gap includes the Ethernet preamble.
+        :return: the minimum gap between packets in the traffic generated for a port. The gap includes the Ethernet preamble.
         :rtype: P_INTERFRAMEGAP.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
     def set(self, min_byte_count: int) -> "Token":
-        """Set the mimimum gap between packets in the traffic generated for a port. The gap includes the Ethernet preamble.
+        """Set the minimum gap between packets in the traffic generated for a port. The gap includes the Ethernet preamble.
 
-        :param min_byte_count: the mimimum gap between packets in the traffic generated for a port. The gap includes the Ethernet preamble.
+        :param min_byte_count: the minimum gap between packets in the traffic generated for a port. The gap includes the Ethernet preamble.
         :type min_byte_count: int
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, min_byte_count=min_byte_count))
@@ -1494,7 +1494,7 @@ class P_MIXWEIGHTS:
 @dataclass
 class P_MDIXMODE:
     """
-    Selects the MDI/MDIX behaviour of copper interfaces (Currently supported on
+    Selects the MDI/MDIX behavior of copper interfaces (Currently supported on
     M6SFP and M2SFPT).
     """
 
@@ -1860,10 +1860,10 @@ class P_NDPRXTABLE:
         chunks: XmpField[subtypes.NdpChunkList] = XmpField(subtypes.NdpChunkList)
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the port's NDP table used to reply to incoming NDP Neighbor Solication.
+        """Get the port's NDP table used to reply to incoming NDP Neighbor Solicitation.
 
-        :return: the port's NDP table used to reply to incoming NDP Neighbor Solication.
-            * IP address to match to the Target IP address in the NDP Neighbor Solication
+        :return: the port's NDP table used to reply to incoming NDP Neighbor Solicitation.
+            * IP address to match to the Target IP address in the NDP Neighbor Solicitation
             * The prefix used for address matching
             * Whether the target MAC address will be patched with the part of the IP address that is not masked by the prefix
             * The target MAC address to return in the NDP Neighbor Advertisement
@@ -1872,10 +1872,10 @@ class P_NDPRXTABLE:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
     def set(self, chunks: typing.List[subtypes.NdpChunk]) -> "Token":
-        """Set the port's NDP table used to reply to incoming NDP Neighbor Solication.
+        """Set the port's NDP table used to reply to incoming NDP Neighbor Solicitation.
 
         :param chunks:
-            * IP address to match to the Target IP address in the NDP Neighbor Solication
+            * IP address to match to the Target IP address in the NDP Neighbor Solicitation
             * The prefix used for address matching
             * Whether the target MAC address will be patched with the part of the IP address that is not masked by the prefix
             * The target MAC address to return in the NDP Neighbor Advertisement
@@ -2355,7 +2355,7 @@ class P_PAYLOADMODE:
         """Get the port's payload mode, i.e. normal, extend payload, and custom payload field, for ALL streams on this port.
 
         :return: the port's payload mode, i.e. normal, extend payload, and custom payload field, for ALL streams on this port.
-        :rtype: P_PAYLOADMOD.GetDataAttr
+        :rtype: P_PAYLOADMODE.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
@@ -2457,7 +2457,7 @@ class P_TXENABLE:
     def set(self, on_off: OnOff) -> "Token":
         """Set the the port's transmitter status.
 
-        :param on_off: the port's transmiter status
+        :param on_off: the port's transmitter status
         :type on_off: OnOff
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, on_off=on_off))
@@ -2680,7 +2680,7 @@ class P_IPV6ADDRESS:
 class P_ARPV6REPLY:
     """
     Whether the port generates replies using the IPv6 Network Discovery Protocol.
-    The port can reply to incoming NDP Neighbort Solications by mapping the IPv6 address
+    The port can reply to incoming NDP Neighbor Solicitations by mapping the IPv6 address
     specified for the port to the MAC address specified for the port. NDP reply
     generation is independent of whether traffic and capture is on for the port.
     """
@@ -2694,11 +2694,11 @@ class P_ARPV6REPLY:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=OnOff)  # coded byte, whether the port replies to NDP Neighbort Solications.
+        on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=OnOff)  # coded byte, whether the port replies to NDP Neighbor Solicitations.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=OnOff)  # coded byte, whether the port replies to NDP Neighbort Solications.
+        on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=OnOff)  # coded byte, whether the port replies to NDP Neighbor Solicitations.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether the port replies to NDP Neighbor Solicitations.
@@ -2843,11 +2843,11 @@ class P_TXDELAY:
     """
     Sets a variable delay from a traffic start command received by the port until
     it starts transmitting. The delay is specified in multiples of 64 microseconds.
-    Valid values are 0-31250 (0 to 2.000.000 microseconds).
+    Valid values are 0-31250 (0 to 2,000,000 microseconds).
 
     .. note::
 
-        You must use :class:`~xoa_driver.internals.core.commands.c_commands.C_TRAFFIC` instead of :class:`~xoa_driver.internals.core.commands.p_commands.P_TRAFFIC` to start traffic for :class:`~xoa_driver.internals.core.commands.p_commands.P_TXDELAY` to have this effect.
+        You must use C_TRAFFIC instead of P_TRAFFIC to start traffic for P_TXDELAY to take effect.
 
     """
 
@@ -2956,17 +2956,17 @@ class P_LPTXMODE:
         on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=OnOff)  # coded byte, whether low power idles will be transmitted or not. OFF (0) ON (1)
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get whether the transmission of Low Power Idles (LPIs) is enabeld on the port.
+        """Get whether the transmission of Low Power Idles (LPIs) is enabled on the port.
 
-        :return: whether the transmission of Low Power Idles (LPIs) is enabeld on the port
+        :return: whether the transmission of Low Power Idles (LPIs) is enabled on the port
         :rtype: P_LPTXMODE.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
     def set(self, on_off: OnOff) -> "Token":
-        """Set whether the transmission of Low Power Idles (LPIs) is enabeld on the port.
+        """Set whether the transmission of Low Power Idles (LPIs) is enabled on the port.
 
-        :param on_off: whether the transmission of Low Power Idles (LPIs) is enabeld on the port
+        :param on_off: whether the transmission of Low Power Idles (LPIs) is enabled on the port
         :type on_off: OnOff
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, on_off=on_off))
@@ -3023,7 +3023,7 @@ class P_LPSTATUS:
 @dataclass
 class P_LPPARTNERAUTONEG:
     """
-    Displays the EEE capabilities advertised during autonegotiation by the far side
+    Displays the EEE capabilities advertised during auto-negotiation by the far side
     (link partner).
     """
 
@@ -3044,7 +3044,7 @@ class P_LPPARTNERAUTONEG:
         cap_10gbase_kr: XmpField[XmpByte] = XmpField(XmpByte, choices=YesNo)  # coded byte. specifying whether the link partner is capable of 10GBASE-KR.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the the Energy Efficient Ethernet (EEE) capabilities advertised during autonegotiation by the far side (link partner).
+        """Get the the Energy Efficient Ethernet (EEE) capabilities advertised during auto-negotiation by the far side (link partner).
             * whether the link partner is capable of 100BASE-TX
             * whether the link partner is capable of 1000BASE-T
             * whether the link partner is capable of 10GBASE-T
@@ -3052,7 +3052,7 @@ class P_LPPARTNERAUTONEG:
             * whether the link partner is capable of 10GBASE-KX4
             * whether the link partner is capable of 10GBASE-KR
 
-        :return: the the Energy Efficient Ethernet (EEE) capabilities advertised during autonegotiation by the far side (link partner)
+        :return: the the Energy Efficient Ethernet (EEE) capabilities advertised during auto-negotiation by the far side (link partner)
         :rtype: P_LPPARTNERAUTONEG.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
@@ -3372,7 +3372,7 @@ class P_TCVRSTATUS:
         rx_loss_lane_3: XmpField[XmpByte] = XmpField(XmpByte)  # RX loss of lane 3
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get various transceivre status information.
+        """Get various transceiver status information.
 
         :return: various tcvr status information. RX loss status of the individual RX optical lanes (only 4 lanes are supported currently).
         :rtype: P_TCVRSTATUS.GetDataAttr
@@ -3690,10 +3690,10 @@ class P_TXPREAMBLE_REMOVE:
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, on_off=on_off))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
-    """Disable frame preameble removal on the port.
+    """Disable frame preamble removal on the port.
     """
     set_on = functools.partialmethod(set, OnOff.ON)
-    """Enable frame preameble removal on the port.
+    """Enable frame preamble removal on the port.
     """
 
 
@@ -3736,10 +3736,10 @@ class P_RXPREAMBLE_INSERT:
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, on_off=on_off))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
-    """Disable frame preameble insertion on the port.
+    """Disable frame preamble insertion on the port.
     """
     set_on = functools.partialmethod(set, OnOff.ON)
-    """Enable frame preameble insertion on the port.
+    """Enable frame preamble insertion on the port.
     """
 
 

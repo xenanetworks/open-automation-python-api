@@ -230,7 +230,7 @@ class PR_TPLDTRAFFIC:
 class PR_TPLDERRORS:
     """
     Obtains statistics concerning errors in the packets with a particular test
-    payload id received on a port. The error information is derived from analysing
+    payload id received on a port. The error information is derived from analyzing
     the various fields contained in the embedded test payloads of the received
     packets, independent of which chassis and port may have originated the packets.
     Note that packet-lost statistics involve both a transmitting port and a
@@ -250,9 +250,9 @@ class PR_TPLDERRORS:
     @dataclass(frozen=True)
     class GetDataAttr:
         dummy: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, not in use.
-        non_incre_seq_event_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of non-incrementing-sequence-number events.
+        non_inc_seq_event_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of non-incrementing-sequence-number events.
         swapped_seq_misorder_event_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of swapped-sequence-number misorder events.
-        non_incre_payload_packet_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets with non-incrementing payload content.
+        non_inc_payload_packet_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets with non-incrementing payload content.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning errors in the packets with a particular test payload id received on a port.
@@ -487,21 +487,21 @@ class PR_PFCSTATS:
     class GetDataAttr:
         packet_count: XmpField[XmpLong] = XmpField(XmpLong) # long integer, the total number of Priority Flow Control (PFC) packets received since statistics were cleared.
         
-        quanta_prio_0: XmpField[XmpLong] = XmpField(XmpLong) # the total number of valid PFC quanta received on the port for priority level 0 since statistics were cleared
+        quanta_pri_0: XmpField[XmpLong] = XmpField(XmpLong) # the total number of valid PFC quanta received on the port for priority level 0 since statistics were cleared
 
-        quanta_prio_1: XmpField[XmpLong] = XmpField(XmpLong) # the total number of valid PFC quanta received on the port for priority level 1 since statistics were cleared
+        quanta_pri_1: XmpField[XmpLong] = XmpField(XmpLong) # the total number of valid PFC quanta received on the port for priority level 1 since statistics were cleared
 
-        quanta_prio_2: XmpField[XmpLong] = XmpField(XmpLong) # the total number of valid PFC quanta received on the port for priority level 2 since statistics were cleared
+        quanta_pri_2: XmpField[XmpLong] = XmpField(XmpLong) # the total number of valid PFC quanta received on the port for priority level 2 since statistics were cleared
 
-        quanta_prio_3: XmpField[XmpLong] = XmpField(XmpLong) # the total number of valid PFC quanta received on the port for priority level 3 since statistics were cleared
+        quanta_pri_3: XmpField[XmpLong] = XmpField(XmpLong) # the total number of valid PFC quanta received on the port for priority level 3 since statistics were cleared
 
-        quanta_prio_4: XmpField[XmpLong] = XmpField(XmpLong) # the total number of valid PFC quanta received on the port for priority level 4 since statistics were cleared
+        quanta_pri_4: XmpField[XmpLong] = XmpField(XmpLong) # the total number of valid PFC quanta received on the port for priority level 4 since statistics were cleared
 
-        quanta_prio_5: XmpField[XmpLong] = XmpField(XmpLong) # the total number of valid PFC quanta received on the port for priority level 5 since statistics were cleared
+        quanta_pri_5: XmpField[XmpLong] = XmpField(XmpLong) # the total number of valid PFC quanta received on the port for priority level 5 since statistics were cleared
 
-        quanta_prio_6: XmpField[XmpLong] = XmpField(XmpLong) # the total number of valid PFC quanta received on the port for priority level 6 since statistics were cleared
+        quanta_pri_6: XmpField[XmpLong] = XmpField(XmpLong) # the total number of valid PFC quanta received on the port for priority level 6 since statistics were cleared
 
-        quanta_prio_7: XmpField[XmpLong] = XmpField(XmpLong) # the total number of valid PFC quanta received on the port for priority level 7 since statistics were cleared
+        quanta_pri_7: XmpField[XmpLong] = XmpField(XmpLong) # the total number of valid PFC quanta received on the port for priority level 7 since statistics were cleared
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the statistics of received Priority Flow Control (PFC) packets on a port.

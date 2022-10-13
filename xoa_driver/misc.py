@@ -5,7 +5,6 @@ from .internals.core.transporter.token import Token
 from .internals.core.commands.subtypes import (
     ArpChunk,
     NdpChunk,
-    PortSpeedChuck,
 )
 
 # indices types
@@ -26,7 +25,6 @@ __all__ = (
     "Token",
     "ArpChunk",
     "NdpChunk",
-    "PortSpeedChuck",
     "ConnectionGroup",
     "BasePortFilter",
     "GenuinePortFilter",
