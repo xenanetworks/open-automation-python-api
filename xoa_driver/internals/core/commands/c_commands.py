@@ -287,7 +287,7 @@ class C_DOWN:
     set_restart = functools.partialmethod(set, ChassisShutdownAction.RESTART)
     """Shuts down the tester and then restarts it.
     """
-    set_poweroff = functools.partialmethod(set, ChassisShutdownAction.POWEROFF)
+    set_poweroff = functools.partialmethod(set, ChassisShutdownAction.POWER_OFF)
     """Shuts down the tester and leaves it powered off.
     """
 

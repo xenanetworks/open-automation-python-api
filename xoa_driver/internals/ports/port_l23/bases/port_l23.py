@@ -105,7 +105,7 @@ class TxConfiguration:
         Representation of P_TXTIME
         """
         
-        self.repare = P_TXPREPARE(conn, module_id, port_id)
+        self.prepare = P_TXPREPARE(conn, module_id, port_id)
         """Prepare L23 port for transmission.
         Representation of P_TXPREPARE
         """

@@ -28,7 +28,7 @@ class ChassisShutdownAction(IntEnum):
     """Chassis shutdown actions."""
     RESTART = 1
     """Restart after shutdown."""
-    POWEROFF = 2
+    POWER_OFF = 2
     """Keep power-off after shutdown."""
 
 
@@ -78,11 +78,11 @@ class TimingSource(IntEnum):
 
 class MediaCFPState(IntEnum):
     """Modules' CFP state"""
-    NOTCFP = 0
+    NOT_CFP = 0
     """This is not a CFP-based test module."""
-    NOTPRESENT = 1
+    NOT_PRESENT = 1
     """No transceiver, the CFP cage is empty"""
-    NOTFLEXIBLE = 2
+    NOT_FLEXIBLE = 2
     """Transceiver present, supporting a fixed speed and port-count"""
     FLEXIBLE = 3
     """Transceiver present, supporting flexible speed and port-count"""
@@ -160,7 +160,7 @@ class MediaCFPType(IntEnum):
     """Transceiver unknown"""
     QSFP28_CWDM4 = 34
     """QSFP28 CWDM4"""
-    QSFP28_CWDM4FEC = 35
+    QSFP28_CWDM4_FEC = 35
     """QSFP28 CWDM4 FEC"""
     QSFP28_PSM4 = 36
     """QSFP28 PSM4"""
@@ -168,7 +168,7 @@ class MediaCFPType(IntEnum):
 
 class SMAInputFunction(IntEnum):
     """SMA input function"""
-    NOTUSED = 0
+    NOT_USED = 0
     """SMA input not used"""
     TX2MHZ = 1
     """TX Clock Ref. 2.048 MHz"""
@@ -369,17 +369,17 @@ class LatencyMode(IntEnum):
 
 
 class SourceType(IntEnum):
-    TXIFG = 0
+    TX_IFG = 0
     """TX IFG"""
-    TXLEN = 1
+    TX_LEN = 1
     """TX Length"""
-    RXIFG = 2
+    RX_IFG = 2
     """RX IFG"""
-    RXLEN = 3
+    RX_LEN = 3
     """RX Length"""
-    RXLAT = 4
+    RX_LATENCY = 4
     """RX Latency"""
-    RXJIT = 5
+    RX_JITTER = 5
     """RX Jitter"""
 
 
@@ -497,7 +497,7 @@ class ProtocolOption(IntEnum):
     ETHERTYPE = 48
     """EtherType"""
     
-    # Generat RAW form 1...64 bytes
+    # Generate RAW form 1...64 bytes
     _ignore_ = 'ProtocolOption i'
     ProtocolOption = vars()
     for i in range(1, 65):
@@ -914,7 +914,7 @@ class PRBSInsertedType(IntEnum):
     PHY_HOST = 2
     """PHY Host"""
     TCVR = 3
-    """Tranceiver"""
+    """Transceiver"""
 
 
 class PRBSPolynomial(IntEnum):
@@ -997,8 +997,8 @@ class AutoNegTecAbility(IntEnum):
     """EC 50GBASE KR2"""
     EC_50GBASE_CR2 = 134217728
     """EC 50GBASE CR2"""
-    EC_400GGBASE_KR8 = 268435456
-    """EC 400GGBASE KR8"""
+    EC_400GBASE_KR8 = 268435456
+    """EC 400GBASE KR8"""
     EC_50G_CR1_KR1 = 503
     """EC 50G CR1 KR1"""
     BAM_50G_CR1_KR1 = 504
@@ -1047,7 +1047,7 @@ class AutoNegFECType(IntEnum):
     """Auto Neg FEC Type"""
     PENDING = 0
     """Pending"""
-    NOFEC = 1
+    NO_FEC = 1
     """No FEC"""
     RS_FEC = 513
     """RS FEC"""
@@ -1110,11 +1110,11 @@ class PAM4FrameSize(IntEnum):
 
 
 class LinkTrainingInitCondition(IntEnum):
-    """Link Training Intialization Condition"""
+    """Link Training Initialization Condition"""
     NO_INIT = 0
-    """No Intialization"""
+    """No Initialization"""
     INIT_ENABLED = 1
-    """Intialization Enabled"""
+    """Initialization Enabled"""
 
 
 class NRZPreset(IntEnum):
@@ -1366,9 +1366,9 @@ class MSSType(IntEnum):
 class RTOType(IntEnum):
     """TCP RTO Type"""
     STATIC = 0
-    """Statis"""
+    """Static RTO"""
     DYNAMIC = 1
-    """Dynamic"""
+    """Dynamic RTO"""
 
 
 class CongestionType(IntEnum):
@@ -1459,7 +1459,7 @@ class WhoClose(IntEnum):
 
 
 class LifecycleMode(IntEnum):
-    """Connection lifecyle mode"""
+    """Connection lifecycle mode"""
     ONCE = 0
     """Connections are established during the ramp-up phase and not closed until the ramp-down phase of the load profile. That is, each configured connection only exists once."""
     IMMORTAL = 1
@@ -1621,9 +1621,9 @@ class CorruptionType(IntEnum):
 class PolicerMode(IntEnum):
     """Policer mode"""
     L1 = 0
-    """Policer performed at Layer 1 level. I.e. including the preamble and min interpacket gap."""
+    """Policer performed at Layer 1 level. I.e. including the preamble and min inter-packet gap."""
     L2 = 1
-    """Policer performed at Layer 2 level. I.e. excluding the preamble and min interpacket gap"""
+    """Policer performed at Layer 2 level. I.e. excluding the preamble and min inter-packet gap"""
 
 
 class FilterUse(IntEnum):
@@ -1688,11 +1688,11 @@ class ShadowWorkingSelection(IntEnum):
     """Working"""
 
 class FilterType(IntEnum):
-    """Filter Type for Impairemennt"""
+    """Filter Type for Impairment"""
     SHADOW = 0 
     """Shadow Copy"""
     WORKING = 1
-    """Wokring Copy"""
+    """Working Copy"""
 
 
 class FilterVlanType(IntEnum):
