@@ -16,7 +16,7 @@ def main():
         url="https://github.com/xenanetworks/open-automation-python-api",
         packages=setuptools.find_packages(),
         license='Apache 2.0',
-        install_requires = ["loguru==0.6.0"],
+        install_requires = ["loguru"],
         classifiers=[
             "Development Status :: 5 - Production/Stable",
             "Intended Audience :: Developers",
