@@ -1332,6 +1332,14 @@ class TrafficEngine(IntEnum):
     """Micro TGA"""
 
 
+class L1LinkTrainFrameLock(IntEnum):
+    """L1 Link Training Frame Lock Status"""
+    LOCKED = 1
+    """Frame Lock detected"""
+    LOST = 2
+    """No Frame Lock detected"""
+
+
 #: L47 Enums
 class Role(IntEnum):
     """L47 port role"""

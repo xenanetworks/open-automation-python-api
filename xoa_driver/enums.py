@@ -152,5 +152,6 @@ __all__ = (
     "TrafficEngine",
     "ReconciliationSublayerSupport",
     "PPMSweepStatus",
-    "PPMSweepMode"
+    "PPMSweepMode",
+    "L1LinkTrainFrameLock"
 )
