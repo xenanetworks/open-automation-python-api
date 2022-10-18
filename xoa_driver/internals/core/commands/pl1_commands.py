@@ -79,8 +79,8 @@ class PL1_LINKTRAININFO:
     _connection: "interfaces.IConnection"
     _module: int
     _port: int
-    _serdes_xindex: int
     _page_xindex: int
+    _serdes_xindex: int
 
     @dataclass(frozen=True)
     class GetDataAttr:
@@ -239,7 +239,7 @@ class PL1_LINKTRAININFO:
         :return: L1 link training information
         :rtype: PL1_LINKTRAININFO.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._page_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._page_xindex, self._serdes_xindex]))
 
 
 @register_command
