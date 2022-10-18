@@ -228,9 +228,9 @@ class PL1_LINKTRAININFO:
 
         prbs_total_error_bits_low: XmpField[XmpUnsignedInt] = XmpField(XmpUnsignedInt)  #PRBS total error bits (least significant 32-bit).
 
-        frame_lock: XmpField[XmpByte] = XmpField(XmpByte, choices=L1LinkTrainFrameLock) # whether frame lock is detected.
+        frame_lock: XmpField[XmpHex4] = XmpField(XmpHex4, choices=L1LinkTrainFrameLock) # frame lock status of the local end.
 
-        remote_frame_lock: XmpField[XmpByte] = XmpField(XmpByte, choices=L1LinkTrainFrameLock) # whether frame lock is detected by the remote side.
+        remote_frame_lock: XmpField[XmpHex4] = XmpField(XmpHex4, choices=L1LinkTrainFrameLock) # frame lock status of the remote end.
 
 
     def get(self) -> "Token[GetDataAttr]":
