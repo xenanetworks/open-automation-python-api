@@ -3,13 +3,13 @@ API Structure
 
 XOA Python API consists of two layers, :term:`High-Level API (HL-API)<HL-API>` and :term:`Low-Level API (LL-API)<LL-API>`, on top of the Xena proprietary binary API, as shown in the diagram below.
 
-:term:`LL-API` contains low-level API classes. The names of the classes match the command names in :term:`XOA CLI`, making it easy for developers to find the APIs you need for your test script.
+:term:`LL-API` contains low-level API classes. The names of the classes match the command names in :term:`XOA CLI`, making it easy for you to find the APIs you need for your test script.
 
 .. seealso::
 
     Read more about LL-API in :ref:`Low-Level API <low_level_api_label>`
 
-:term:`HL-API` uses the classes defined in LL-API and provides abstraction that helps developers to quickly develop scripts or program in an object-oriented fashion with explicit definition of commands of different *tester*, *module*, *port* types.
+:term:`HL-API` uses the classes defined in LL-API and lets you quickly develop scripts or program in an object-oriented fashion with explicit definition of commands of different *tester*, *module*, *port* types.
 
 .. seealso::
 
@@ -32,7 +32,7 @@ XOA Python API consists of two layers, :term:`High-Level API (HL-API)<HL-API>` a
     +---------------------------------+
 
 
-:term:`HL-API` provides abstraction that helps you quickly develop scripts or program in an object-oriented fashion with explicit definition of commands of different *tester*, *module*, *port* types. In addition, the HL-API layer provides functionalities such as:
+:term:`HL-API` let you quickly develop scripts or program in an object-oriented fashion with explicit definition of commands of different *tester*, *module*, *port* types. In addition, the HL-API layer provides functionalities such as:
 
     * :ref:`Auto connection keep-alive <session_label>`
     * :ref:`Auto index management <resource_managers_label>`

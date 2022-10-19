@@ -3,7 +3,7 @@
 High-Level API Guide
 ===================================
 
-:term:`HL-API` provides abstraction that helps developers to quickly develop scripts or program in an object-oriented fashion with explicit definition of commands of different *tester*, *module*, *port* types. In addition, HL-API provides features such as:
+:term:`HL-API` helps you quickly develop scripts or program in an object-oriented fashion with explicit definition of commands of different *tester*, *module*, *port* types. In addition, HL-API provides features such as:
 
 * :ref:`Auto connection keep-alive <session_label>`
 * :ref:`Auto index management <resource_managers_label>`
