@@ -1101,6 +1101,8 @@ class LinkTrainingMode(IntEnum):
     """Auto"""
     FORCE_ENABLE = 1
     """Forced Enable"""
+    FORCE_DISABLE = 2
+    """Forced Disable"""
 
 
 class PAM4FrameSize(IntEnum):
