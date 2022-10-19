@@ -1,8 +1,6 @@
 import asyncio
 
-# import available testers
 from xoa_driver import testers
-# import available modules type
 from xoa_driver import modules
 
 async def my_awesome_func():
