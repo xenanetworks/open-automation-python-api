@@ -327,7 +327,7 @@ class PP_RXFECSTATS:
     @dataclass(frozen=True)
     class GetDataAttr:
         stats_type: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, currently always 0.
-        value_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of values in correction_stats.
+        value_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of values.
         correction_stats: XmpField[XmpLongListStopToKeep8] = XmpField(
             XmpLongListStopToKeep8
         )  # list of long integers, array of length value_count-1. The correction_stats array shows how many FEC blocks have been seen with [0, 1, 2, 3....15, >15] symbol errors.
@@ -336,8 +336,7 @@ class PP_RXFECSTATS:
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics on how many FEC blocks have been seen with a given number of symbol errors.
 
-        :return: stats type (currently always 0), number of values in correction_stats, array of length value_count-1.
-            The correction_stats array shows how many FEC blocks have been seen with [0, 1, 2, 3....15, >15] symbol errors, and the number of received uncorrectable code words
+        :return: stats type (currently always 0), number of values, correction stats array, and the number of received uncorrectable code words. The correction stats array shows how many FEC blocks have been seen with [0, 1, 2, 3....15, >15] symbol errors, length = value_count-1.
 
         :rtype: PP_RXFECSTATS.GetDataAttr
         """
@@ -879,7 +878,7 @@ class PP_EYEREAD:
     _module: int
     _port: int
     _serdes_xindex: int
-    colum_xindex: int
+    _colum_xindex: int
 
     @dataclass(frozen=True)
     class GetDataAttr:
@@ -896,7 +895,7 @@ class PP_EYEREAD:
         :return: x resolution, y resolution, number of valid columns, and the number of bit errors measured out of a total of 1M bits at each of the individual sampling points (x=timeaxis, y = 0/1 threshold).
         :rtype: PP_EYEREAD.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self.colum_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._colum_xindex]))
 
 
 @register_command
@@ -1567,7 +1566,7 @@ class PP_PHYRXEQ:
         :type reserved: int
         """
         return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], auto=auto, ctle=ctle, reserved=reserved)
+            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], auto=auto, ctle=ctle, reserved=-1)
         )
 
 
@@ -1739,7 +1738,7 @@ class PP_LINKTRAIN:
 @dataclass
 class PP_LINKTRAINSTATUS:
     """
-    Link training status - for Thor-400G-7S-1P rev.B. The PP_LINKTRAINSTATUS command
+    Per lane Link training status - for Thor-400G-7S-1P rev.B. The PP_LINKTRAINSTATUS command
     is per lane.
     """
 
