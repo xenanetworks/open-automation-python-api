@@ -969,11 +969,24 @@ class PP_PHYTXEQ:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        pre1: XmpField[XmpIntList] = XmpField(XmpIntList)  # integer, preemphasis, (range: Module dependent), default = 0 (neutral).
+        pre1: XmpField[XmpInt] = XmpField(XmpInt)  # integer, preemphasis, (range: Module dependent), default = 0 (neutral).
+        pre1: XmpField[XmpInt] = XmpField(XmpInt)  # integer, preemphasis, (range: Module dependent), default = 0 (neutral).
+        main: XmpField[XmpInt] = XmpField(XmpInt)  # integer, amplification, (range: Module dependent), default = 0 (neutral).
+        post1: XmpField[XmpInt] = XmpField(XmpInt)  # integer, postemphasis, (range: Module dependent), default = 0 (neutral).
+        pre2: XmpField[XmpInt] = XmpField(XmpInt)  # integer, preemphasis, (range: Module dependent), default = 0 (neutral).
+        post2: XmpField[XmpInt] = XmpField(XmpInt)  # integer, postemphasis, (range: Module dependent), default = 0 (neutral).
+        post3: XmpField[XmpInt] = XmpField(XmpInt)  # integer, postemphasis, (range: Module dependent), default = 0 (neutral).
+        mode: XmpField[XmpInt] = XmpField(XmpInt)  # integer, value must be 4
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        pre1: XmpField[XmpIntList] = XmpField(XmpIntList)  # integer, preemphasis, (range: Module dependent), default = 0 (neutral).
+        pre1: XmpField[XmpInt] = XmpField(XmpInt)  # integer, preemphasis, (range: Module dependent), default = 0 (neutral).
+        main: XmpField[XmpInt] = XmpField(XmpInt)  # integer, amplification, (range: Module dependent), default = 0 (neutral).
+        post1: XmpField[XmpInt] = XmpField(XmpInt)  # integer, postemphasis, (range: Module dependent), default = 0 (neutral).
+        pre2: XmpField[XmpInt] = XmpField(XmpInt)  # integer, preemphasis, (range: Module dependent), default = 0 (neutral).
+        post2: XmpField[XmpInt] = XmpField(XmpInt)  # integer, postemphasis, (range: Module dependent), default = 0 (neutral).
+        post3: XmpField[XmpInt] = XmpField(XmpInt)  # integer, postemphasis, (range: Module dependent), default = 0 (neutral).
+        mode: XmpField[XmpInt] = XmpField(XmpInt)  # integer, value must be 4
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the equalizer settings of the on-board PHY in the
@@ -984,14 +997,14 @@ class PP_PHYTXEQ:
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex]))
 
-    def set(self, pre1: typing.List[int]) -> "Token":
+    def set(self, pre2: int, pre1: int, main: int, post1: int, post2: int, post3: int) -> "Token":
         """Set the equalizer settings of the on-board PHY in the
         transmission direction (towards the transceiver cage) on Thor and Loki modules.
 
         :param pre1: preemphasis, (range: Module dependent), default = 0 (neutral)
         :type pre1: List[int]
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], pre1=pre1))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], pre2=pre2, pre1=pre1, main=main, post1=post1, post2=post2, post3=post3, mode=4))
 
 
 @register_command
