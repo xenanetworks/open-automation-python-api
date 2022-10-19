@@ -23,7 +23,7 @@ class FamilyH(BasePortL23Genuine):
 
     async def _setup(self):
         await super()._setup()
-        self.ser_des = tuple(
+        self.serdes = tuple(
             SerDes(self._conn, *self.kind, serdes_xindex=serdes_xindex)
             for serdes_xindex in range(self.info.capabilities.serdes_count)
         )
