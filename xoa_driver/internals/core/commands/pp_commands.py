@@ -1600,19 +1600,19 @@ class PP_AUTONEG:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        mode: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegMode)  # coded byte, mode
-        tec_ability: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegTecAbility)  # coded byte, technical ability.
-        fec_capable: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegFECOption)  # coded byte, FEC capable.
-        fec_requested: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegFECOption)  # coded byte, FEC requested.
-        pause_mode: XmpField[XmpInt] = XmpField(XmpInt, choices=PauseMode)  # coded byte, pause mode.
+        mode: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegMode)  # coded integer, mode
+        tec_ability: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegTecAbility)  # coded integer, technical ability.
+        fec_capable: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegFECOption)  # coded integer, FEC capable.
+        fec_requested: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegFECOption)  # coded integer, FEC requested.
+        pause_mode: XmpField[XmpInt] = XmpField(XmpInt, choices=PauseMode)  # coded integer, pause mode.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mode: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegMode)  # coded byte, mode
-        tec_ability: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegTecAbility)  # coded byte, technical ability.
-        fec_capable: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegFECOption)  # coded byte, FEC capable.
-        fec_requested: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegFECOption)  # coded byte, FEC requested.
-        pause_mode: XmpField[XmpInt] = XmpField(XmpInt, choices=PauseMode)  # coded byte, pause mode.
+        mode: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegMode)  # coded integer, mode
+        tec_ability: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegTecAbility)  # coded integer, technical ability.
+        fec_capable: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegFECOption)  # coded integer, FEC capable.
+        fec_requested: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegFECOption)  # coded integer, FEC requested.
+        pause_mode: XmpField[XmpInt] = XmpField(XmpInt, choices=PauseMode)  # coded integer, pause mode.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the auto-negotiation settings of the PHY.
@@ -1660,13 +1660,13 @@ class PP_AUTONEGSTATUS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mode: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegMode)  # coded byte, mode
-        fec: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegFECType)  # codec byte, FEC.
-        auto_state: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegStatus)  # coded byte, auto-negotiation state.
-        tec_ability: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegTecAbility)  # coded byte, technical ability.
-        fec_capable: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegFECStatus)  # coded byte, FEC capable partner.
-        fec_requested: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegFECStatus)  # coded byte, FEC requested partner.
-        pause_mode: XmpField[XmpInt] = XmpField(XmpInt, choices=PauseMode)  # coded byte, pause mode.
+        mode: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegMode)  # coded integer, mode
+        fec: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegFECType)  # codec integer, FEC.
+        auto_state: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegStatus)  # coded integer, auto-negotiation state.
+        tec_ability: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegTecAbility)  # coded integer, technical ability.
+        fec_capable: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegFECStatus)  # coded integer, FEC capable partner.
+        fec_requested: XmpField[XmpInt] = XmpField(XmpInt, choices=AutoNegFECStatus)  # coded integer, FEC requested partner.
+        pause_mode: XmpField[XmpInt] = XmpField(XmpInt, choices=PauseMode)  # coded integer, pause mode.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the status of auto-negotiation settings of the PHY.
