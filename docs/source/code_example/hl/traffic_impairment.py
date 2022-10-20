@@ -115,6 +115,8 @@ async def my_awesome_func(stop_event: asyncio.Event) -> None:
 
             # Initializing the shadow copy of the filter. (If you don't know how Chimera impairment works, please read the Chimera's user manual)
             await flow_1.shadow_filter.initiating.set()
+            # Enable the filter
+            await flow_1.shadow_filter.enable.set_on()
             # Basic mode
             await flow_1.shadow_filter.use_basic_mode()
             # Description of the flow
@@ -126,34 +128,38 @@ async def my_awesome_func(stop_event: asyncio.Event) -> None:
             # Set up the filter to impair frames with VLAN Tag = 20 (using command grouping)
             if isinstance(filter, misc.BasicImpairmentFlowFilter):
                 await utils.apply(
-                    filter.ethernet.settings.set(use=FilterUse.OFF, action=InfoAction.INCLUDE),
-                    filter.ethernet.src_address.set(use=OnOff.OFF, value="0x000000000000", mask="0xFFFFFFFFFFFF"),
-                    filter.ethernet.dest_address.set(use=OnOff.OFF, value="0x000000000000", mask="0xFFFFFFFFFFFF"),
+                    # filter.ethernet.settings.set(use=FilterUse.OFF, action=InfoAction.INCLUDE),
+                    # filter.ethernet.src_address.set(use=OnOff.OFF, value="0x000000000000", mask="0xFFFFFFFFFFFF"),
+                    # filter.ethernet.dest_address.set(use=OnOff.OFF, value="0x000000000000", mask="0xFFFFFFFFFFFF"),
                     filter.l2plus_use.set(use=L2PlusPresent.VLAN1),
                     filter.vlan.settings.set(use=FilterUse.AND, action=InfoAction.INCLUDE),
                     filter.vlan.inner.tag.set(use=OnOff.ON, value=20, mask="0x0FFF"),
                     filter.vlan.inner.pcp.set(use=OnOff.OFF, value=0, mask="0x07"),
-                    filter.vlan.outer.tag.set(use=OnOff.OFF, value=20, mask="0x0FFF"),
-                    filter.vlan.outer.pcp.set(use=OnOff.OFF, value=0, mask="0x07"),
+                    # filter.vlan.outer.tag.set(use=OnOff.OFF, value=20, mask="0x0FFF"),
+                    # filter.vlan.outer.pcp.set(use=OnOff.OFF, value=0, mask="0x07"),
                 )
 
-            # Enable the filter
-            await flow_1.shadow_filter.enable.set_on()
             # Apply the filter so the configuration data in the shadow copy is committed to the working copy automatically.
             await flow_1.shadow_filter.apply.set()
             
             # Start configuring the impairment for the filter. (using command grouping)
             await utils.apply(
                 # Latency/Jitter impairment (distribution: constant)
-                flow_1.impairment_distribution.latency_jitter_type_config.constant_delay.set(10000), # 10,000 ns, must be multiples of 100
+                flow_1.impairment_distribution.latency_jitter_type_config.constant_delay.set(20000), # 20,000 ns, must be multiples of 100
                 flow_1.impairment_distribution.latency_jitter_type_config.schedule.set(1, 0), # continuously increase the latency 
-                flow_1.impairment_distribution.latency_jitter_type_config.enable.set_on(), # start this impairment
 
                 # Drop impairment (distribution: fixed burst)
                 flow_1.impairment_distribution.drop_type_config.fixed_burst.set(burst_size=5), # drop a fixed burst size 5 frames
                 flow_1.impairment_distribution.drop_type_config.schedule.set(1, 5), # drop is on for 10ms and pause for 40ms (total=50ms) (100 drops per second)
-                flow_1.impairment_distribution.drop_type_config.enable.set(action=OnOff.ON), # start this impairment
             )
+
+            await asyncio.sleep(1)
+
+            # start latency & jitter impairment
+            await flow_1.impairment_distribution.latency_jitter_type_config.enable.set_on() 
+
+            # start frame drop impairment
+            # await flow_1.impairment_distribution.drop_type_config.enable.set(action=OnOff.ON) 
 
             asyncio.create_task(collect_statistics(flow_1, stop_event))
             await stop_event.wait()
