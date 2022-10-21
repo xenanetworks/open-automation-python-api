@@ -26,7 +26,7 @@ The target audience of this document is test specialists who develop and run aut
 
    introduction
    getting_started/index
-   general_info/index
+   test_resource_mgt
    understand_xoa_python/index
    code_example/index
    api_ref/index   

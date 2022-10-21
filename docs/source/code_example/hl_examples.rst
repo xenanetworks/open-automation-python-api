@@ -1,4 +1,4 @@
-High-Level API Examples
+HL-API Examples
 ===================================
 
 The boilerplate code that is used to run the examples in this section:
@@ -6,7 +6,7 @@ The boilerplate code that is used to run the examples in this section:
 .. literalinclude:: boilerplate.py
     
 
-Connect to Tester
+Tester Connection
 --------------------------------
 
 To connect to a tester, create a tester object and the driver will automatically handle the connection. Each tester class is represented as an `awaitable object <https://docs.python.org/3/library/asyncio-task.html#id2>`_. When awaited, it establishes a TCP connection to the tester.
@@ -40,7 +40,7 @@ To create multiple tester instances, you can do:
     `Learn more about await asyncio.gather <https://docs.python.org/3/library/asyncio-task.html#asyncio.gather>`_.
 
 
-Access Modules
+Module Access
 --------------------------------
 
 The examples below help you gain access to the test modules on a tester.
@@ -58,7 +58,7 @@ The examples below help you gain access to the test modules on a tester.
     :caption: Access all modules on a tester
     
 
-Access Ports
+Port Access
 --------------------------------
 
 The examples below help you gain access to the test ports on a tester.
@@ -81,10 +81,10 @@ The interface of obtaining multiple ports is equivalent to obtaining multiple mo
     :caption: Access all ports on a module
 
 
-Querying & Setting
+Set and Get
 --------------------------------
 
-Querying
+Getting
 ^^^^^^^^^^^
 
 .. note::
@@ -106,7 +106,7 @@ Setting
     :caption: Configure module and port
 
 
-Create/Delete Streams (L23)
+Streams
 --------------------------------
 
 To generate L23 stateless traffic, stream configuration is necessary. The example below shows how to create/delete streams on a L23 port.
@@ -119,7 +119,7 @@ To generate L23 stateless traffic, stream configuration is necessary. The exampl
     :caption: Create and delete streams on a port
 
 
-Create/Delete Modifiers
+Modifiers
 --------------------------------
 
 To simulate traffic from many address, or when you want certain fields of a packet to change dynamically on a per packet basis, you can use modifiers. A modifier changes the field value per packet based on how you configure it. The example below shows how to create/delete modifiers on a stream.
@@ -142,7 +142,7 @@ To simulate traffic from many address, or when you want certain fields of a pack
 
 
 
-Start/Stop Traffic and Statistics
+Traffic Control and Statistics
 ------------------------------------------
 
 Statistics collection, such as latency and jitter, TX/RX rate, frame count, etc., should be done by Python standard library ``asyncio``. In case you are new to ``asyncio``, the example below may help you understand how to use ``asyncio`` to query counters.
@@ -153,7 +153,7 @@ To show how to query statistics on-the-fly, the function ``my_awesome_func`` is 
     :caption: Traffic and statistics
 
 
-Traffic Drop and Latency/Jitter Impairment
+Impairment
 --------------------------------------------
 
 .. note::
@@ -165,7 +165,7 @@ Traffic Drop and Latency/Jitter Impairment
     :caption: Traffic drop and latency/jitter impairment
     
 
-Read/Write Transceiver
+Transceiver
 --------------------------------------------
 
 The example demonstrates how to read/write transceiver register of different types in different ways, as well as reading transceiver temperature.

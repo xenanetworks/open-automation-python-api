@@ -20,7 +20,7 @@ XOA Python API requires that you `install Python <https://realpython.com/install
 ``pip``
 ^^^^^^^
 
-Make sure ``pip`` is installed on your system. ``pip`` is the `package installer for Python <https://packaging.python.org/guides/tool-recommendations/>`_ . You can use it to install packages from the `Python Package Index <https://pypi.org/>`_  and other indexes.
+Make sure ``pip`` is installed on your system. ``pip`` is the `package installer for Python <https://packaging.python.org/guides/tool-recommendations/>`_ . You can use it to install packages from the Python Package Index and other indexes.
 
 Usually, ``pip`` is automatically installed if you are:
 
@@ -56,7 +56,7 @@ If you don't have ``pip`` installed, you can:
 Installing From PyPI Using ``pip``
 --------------------------------------
 
-``pip`` is the recommended installer for XOA Python API. The most common usage of ``pip`` is to install from the `Python Package Index <https://pypi.org/>`_ using `Requirement Specifiers <https://pip.pypa.io/en/stable/cli/pip_install/#requirement-specifiers>`_.
+``pip`` is the recommended installer for XOA Python API. The most common usage of ``pip`` is to install from the Python Package Index using `Requirement Specifiers <https://pip.pypa.io/en/stable/cli/pip_install/#requirement-specifiers>`_.
 
 .. note::
     

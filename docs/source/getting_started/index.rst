@@ -4,4 +4,4 @@ Getting Started
 .. toctree::
 
     installation
-    example
+    quick_start

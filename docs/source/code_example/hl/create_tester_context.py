@@ -7,6 +7,7 @@ async def my_awesome_func():
         print(tester.session.is_online)
         # other code ...
         # when leaving this block, the TCP connection will be closed.
+    
 
 def main():
     try:

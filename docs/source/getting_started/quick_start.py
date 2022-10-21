@@ -7,17 +7,19 @@ from xoa_driver import enums
 from xoa_driver import utils
 
 async def my_awesome_func():
+    
     # Establish connection to a Valkyrie tester 10.10.10.10 with username JonDoe.
     async with testers.L23Tester("10.10.10.10", "JonDoe") as tester:
         
+        # Access module index 0 on the tester
         my_module = tester.modules.obtain(0)
 
         if isinstance(my_module, modules.ModuleChimera):
             return None # commands which used in this example are not supported by Chimera Module
 
-        # Get the port 0/0 as TX port
+        # Get the port 0 on module 0 as TX port
         my_tx_port = my_module.ports.obtain(0)
-        # Get the port 0/0 as RX port
+        # Get the port 1 on module 0 as RX port
         my_rx_port = my_module.ports.obtain(1)
 
         # Reserve the TX port and reset it.

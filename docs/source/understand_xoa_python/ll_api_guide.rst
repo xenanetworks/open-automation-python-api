@@ -1,6 +1,6 @@
 .. _low_level_api_label:
 
-Low-Level API Guide
+LL-API
 ===================================
 
 :term:`LL-API` gives you the complete direct control of the tester since the name of the API is the same as what is defined in the :term:`XOA CLI`. But sometimes it is difficult to remember all the arguments, resulting a waste of time reading the length class definition. 

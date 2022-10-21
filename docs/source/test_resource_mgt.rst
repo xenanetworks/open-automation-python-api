@@ -1,14 +1,12 @@
 Test Resource Management
 =================================
 
-:term:`Test resource` can be the chassis itself, a test module on the chassis or a test port on a module.
+If you are new to Xena testers, this section will help you understand the basics of test resource management. :term:`Test resources <Test resource>` can be the chassis itself, a test module on the chassis or a test port on a module.
 
 This section describes:
 
 * :term:`Test resource` hierarchy.
 * :term:`Test resource` management principle.
-
-If you are new to Xena testers, this section will help you understand the basics.
 
 Test Resource Hierarchy
 ------------------------------------

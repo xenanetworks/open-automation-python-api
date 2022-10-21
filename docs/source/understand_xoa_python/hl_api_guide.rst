@@ -1,6 +1,6 @@
 .. _high_level_api_label:
 
-High-Level API Guide
+HL-API
 ===================================
 
 :term:`HL-API` helps you quickly develop scripts or program in an object-oriented fashion with explicit definition of commands of different *tester*, *module*, *port* types. In addition, HL-API provides features such as:
@@ -202,6 +202,8 @@ An illustration of resource managers and :term:`test resources<test resource>` a
 
     Each :term:`resource manager` is an `iterable object <https://wiki.python.org/moin/Iterator>`_
 
+
+.. _obtain-label:
 
 Module Manager and Port Manager
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
