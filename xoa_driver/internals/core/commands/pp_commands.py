@@ -970,7 +970,6 @@ class PP_PHYTXEQ:
     @dataclass(frozen=True)
     class SetDataAttr:
         pre1: XmpField[XmpInt] = XmpField(XmpInt)  # integer, preemphasis, (range: Module dependent), default = 0 (neutral).
-        pre1: XmpField[XmpInt] = XmpField(XmpInt)  # integer, preemphasis, (range: Module dependent), default = 0 (neutral).
         main: XmpField[XmpInt] = XmpField(XmpInt)  # integer, amplification, (range: Module dependent), default = 0 (neutral).
         post1: XmpField[XmpInt] = XmpField(XmpInt)  # integer, postemphasis, (range: Module dependent), default = 0 (neutral).
         pre2: XmpField[XmpInt] = XmpField(XmpInt)  # integer, preemphasis, (range: Module dependent), default = 0 (neutral).
