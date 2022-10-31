@@ -291,7 +291,7 @@ class PL1_CFG_TMP:
 
     """
 
-    code: typing.ClassVar[int] = 387
+    code: typing.ClassVar[int] = 388
     pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
