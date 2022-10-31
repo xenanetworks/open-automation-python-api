@@ -1834,3 +1834,13 @@ class ReconciliationSublayerSupport (IntEnum):
     """Not Supported"""
     FAULT_SIGNALING = 1
     """Supported, which means P_FAULTSTATUS and P_FAULTSIGNALLING are supported by the port."""
+
+
+class PL1_CFG_TMP_TYPE (IntEnum):
+    """Enums for PL1_CFG_TMP's type (beta)
+    
+    .. versionadded:: 1.1
+    
+    """
+    ANLT_INTERACTIVE_MODE = 0
+    """ANLT Interactive mode"""
