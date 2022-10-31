@@ -74,3 +74,11 @@ Glossary of Terms
 
     CRUD 
         Create, read, update, and delete operations
+
+
+    HL-UTIL
+        Xena OpenAutomation High-Level Utility Functions.
+
+    ANLT
+        Auto-Negotiation and Link Training.
+

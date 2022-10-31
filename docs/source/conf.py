@@ -80,7 +80,7 @@ autodoc_default_options = {
     'member-order': 'bysource',
     'private-members': False,
     'undoc-members': False,
-    'show-inheritance': False
+    'show-inheritance': True
 }
 autoclass_content ='both'
 autodoc_typehints_format = 'short'
@@ -134,9 +134,9 @@ html_theme_options = {
     "repository_url": "https://github.com/xenanetworks/open-automation-python-api",
     "use_repository_button": True,
     "home_page_in_toc": True,
-    "show_toc_level": 2,
+    "show_toc_level": 1,
     "use_download_button": True,
-    "show_navbar_depth": 2,
+    "show_navbar_depth": 1,
 }
 
 html_split_index = True

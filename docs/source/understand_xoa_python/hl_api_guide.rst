@@ -1,6 +1,6 @@
 .. _high_level_api_label:
 
-HL-API
+High-Level API
 ===================================
 
 :term:`HL-API` helps you quickly develop scripts or program in an object-oriented fashion with explicit definition of commands of different *tester*, *module*, *port* types. In addition, HL-API provides features such as:

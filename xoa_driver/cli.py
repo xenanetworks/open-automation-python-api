@@ -265,12 +265,12 @@ def lt_nop(port: GenericAnyPort, lane: int) -> List[Token]:
 
 
 def lt_coeff_inc(
-    port: GenericAnyPort, lane: int, coeff: int, count: int
+    port: GenericAnyPort, lane: int, coeff: int, value: int
 ) -> List[Token]:
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     page_xindex = 8766
     register_xindex = ((0xFFFF & lane) << 16) + 0x0000
-    aaaa = hex(count & 0xFFFF).replace("0x", "").zfill(4)
+    aaaa = hex(value & 0xFFFF).replace("0x", "").zfill(4)
     cc = hex(coeff & 0xFF).replace("0x", "").zfill(2)
 
     return [
@@ -281,12 +281,12 @@ def lt_coeff_inc(
 
 
 def lt_coeff_dec(
-    port: GenericAnyPort, lane: int, coeff: int, count: int
+    port: GenericAnyPort, lane: int, coeff: int, value: int
 ) -> List[Token]:
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     page_xindex = 8766
     register_xindex = ((0xFFFF & lane) << 16) + 0x0000
-    aaaa = hex(count & 0xFFFF).replace("0x", "").zfill(4)
+    aaaa = hex(value & 0xFFFF).replace("0x", "").zfill(4)
     cc = hex(coeff & 0xFF).replace("0x", "").zfill(2)
 
     return [
