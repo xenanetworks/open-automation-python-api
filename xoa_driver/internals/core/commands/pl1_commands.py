@@ -2,6 +2,7 @@
 
 from dataclasses import dataclass
 import typing
+import functools
 
 from ..protocol.command_builders import (
     build_get_request,
@@ -19,6 +20,9 @@ from .enums import *
 class PL1_AUTONEGINFO:
     """
     Get L1 auto-negotiation information. Information is split into a number of pages.
+
+    .. versionadded:: 1.1
+
     """
 
     code: typing.ClassVar[int] = 385
@@ -71,6 +75,9 @@ class PL1_AUTONEGINFO:
 class PL1_LINKTRAININFO:
     """
     Get L1 link training information. Information is per Serdes and split into a number of pages.
+
+    .. versionadded:: 1.1
+
     """
 
     code: typing.ClassVar[int] = 386
@@ -246,6 +253,9 @@ class PL1_LINKTRAININFO:
 class PL1_LOG:
     """
     Return a log line of either AN or LT for the given Serdes. The log string line contains the latest 100 lines.
+
+    .. versionadded:: 1.1
+
     """
 
     code: typing.ClassVar[int] = 387
@@ -269,3 +279,60 @@ class PL1_LOG:
         :rtype: PL1_LOG.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._type]))
+
+
+@register_command
+@dataclass
+class PL1_CFG_TMP:
+    """
+    Configure some L1 parameters (beta). (Command name is subject to changes)
+
+    .. versionadded:: 1.1
+
+    """
+
+    code: typing.ClassVar[int] = 387
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: "interfaces.IConnection"
+    _module: int
+    _port: int
+    _serdes_xindex: int
+    _type: int
+
+    @dataclass(frozen=True)
+    class GetDataAttr:
+        """Data structure of the get response.
+        """
+        on_off: XmpField[XmpInt] = XmpField(XmpInt, choices=OnOff)  
+
+    @dataclass(frozen=True)
+    class SetDataAttr:
+        """Data structure of the set action.
+        """
+        on_off: XmpField[XmpInt] = XmpField(XmpInt, choices=OnOff) 
+
+
+    def get(self) -> "Token[GetDataAttr]":
+        """Get various L1 parameters
+
+        :return: various L1 parameters
+        :rtype: PL1_CFG_TMP.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._type]))
+
+
+    def set(self, on_off: int) -> "Token":
+        """Get various L1 parameters
+
+        :param on_off: whether it is on or off
+        :type on_off: int
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._type], on_off=on_off))
+
+    set_on = functools.partialmethod(set, OnOff.ON)
+    """Set it on.
+    """
+    set_off = functools.partialmethod(set, OnOff.OFF)
+    """Set it off.
+    """
