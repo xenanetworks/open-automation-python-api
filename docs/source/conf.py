@@ -57,6 +57,10 @@ version = get_short_version("../../xoa_driver/__init__.py")
 
 # -- General configuration -----------------------------------------------------
 
+# If true, figures, tables and code-blocks are automatically numbered if they have a caption. 
+# The numref role is enabled. Obeyed so far only by HTML and LaTeX builders. Default is False.
+numfig = True
+
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
