@@ -11,5 +11,5 @@ UTIL can be used in two different ways:
 
 .. toctree::
 
-    anlt
+    anlt_util
     anlt_cli
