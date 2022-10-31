@@ -22,6 +22,24 @@ Show the current status of auto-negotiation and link training of a Freya port.
 
 .. rubric:: Options
 
+None
+
+.. rubric:: Example
+
+.. tab:: Windows
+    
+    .. code-block:: shell
+        :caption: ``anlt-status`` in Windows environment.
+
+        > anlt-status
+
+.. tab:: macOS/Linux
+
+    .. code-block:: console
+        :caption: ``anlt-status`` in macOS/Linux environment.
+
+        $ anlt-status
+
 
 an
 -------------
@@ -57,6 +75,24 @@ Specifies whether loopback is allowed or not.
     **false** will deny loopback.
 
 
+.. rubric:: Example
+
+.. tab:: Windows
+    :new-set:
+    
+    .. code-block:: shell
+        :caption: ``an`` in Windows environment.
+
+        > an --enable true --allow-loopback true
+
+.. tab:: macOS/Linux
+
+    .. code-block:: console
+        :caption: ``an`` in macOS/Linux environment.
+
+        $ an --enable true --allow-loopback true
+
+
 an-log
 -------------
 
@@ -88,6 +124,24 @@ Show the autonegotiation status.
 
 .. rubric:: Options
 
+None
+
+.. rubric:: Example
+
+.. tab:: Windows
+    :new-set:
+    
+    .. code-block:: shell
+        :caption: ``an-status`` in Windows environment.
+
+        > an-status 
+
+.. tab:: macOS/Linux
+
+    .. code-block:: console
+        :caption: ``an-status`` in macOS/Linux environment.
+
+        $ an-status
 
 
 lt
@@ -133,6 +187,24 @@ Specifies whether link training timeout is enabled or disabled.
     **'interactive'** will enable link training in interactive mode.
 
 
+.. rubric:: Example
+
+.. tab:: Windows
+    :new-set:
+    
+    .. code-block:: shell
+        :caption: ``lt`` in Windows environment.
+
+        > lt --enable true --timeout false --mode 'interactive'
+
+.. tab:: macOS/Linux
+
+    .. code-block:: console
+        :caption: ``lt`` in macOS/Linux environment.
+
+        $ lt --enable true --timeout false --mode 'interactive'
+
+
 lt-clear
 -------------
 
@@ -153,6 +225,25 @@ Clear the command sequence for the lane. Lane is relative to the port and start 
 Specifies the lane index. Lane is relative to the port and start with 0
 
 
+.. rubric:: Example
+
+.. tab:: Windows
+    :new-set:
+    
+    .. code-block:: shell
+        :caption: ``lt-clear`` in Windows environment.
+
+        > lt-clear
+
+.. tab:: macOS/Linux
+
+    .. code-block:: console
+        :caption: ``lt-clear`` in macOS/Linux environment.
+
+        $ lt-clear
+
+
+
 lt-nop
 -------------
 
@@ -171,6 +262,25 @@ No operation for the lane, used to indicate interactive use.
 
 ``--lane <value=lane index>`` (int)
 Specifies the lane index. Lane is relative to the port and start with 0
+
+
+.. rubric:: Example
+
+.. tab:: Windows
+    :new-set:
+    
+    .. code-block:: shell
+        :caption: ``lt-nop`` in Windows environment.
+
+        > lt-nop
+
+.. tab:: macOS/Linux
+
+    .. code-block:: console
+        :caption: ``lt-nop`` in macOS/Linux environment.
+
+        $ lt-nop
+
 
 
 lt-coeff-inc
@@ -197,12 +307,30 @@ Specifies the lane index. Lane is relative to the port and start with 0
 
 
 ``--coeff <value=coefficient index>`` (int)
-Specifies the coefficient index. coeff 0 = c(-3) ... coeff 4 = c(1).
+Specifies the coefficient index. 0 = c(-3), 1 = c(-2), 2 = c(-1), 3 = c(0), 4 = c(1).
 
 
 ``--value <value>`` (int)
 Specifies the increase value.
 
+
+
+.. rubric:: Example
+
+.. tab:: Windows
+    :new-set:
+    
+    .. code-block:: shell
+        :caption: ``lt-coeff-inc`` in Windows environment.
+
+        > lt-coeff-inc --lane 1 --coeff 3 --value 56
+
+.. tab:: macOS/Linux
+
+    .. code-block:: console
+        :caption: ``lt-coeff-inc`` in macOS/Linux environment.
+
+        $ lt-coeff-inc --lane 1 --coeff 3 --value 56
 
 
 lt-coeff-dec
@@ -229,11 +357,30 @@ Specifies the lane index. Lane is relative to the port and start with 0
 
 
 ``--coeff <value=coefficient index>`` (int)
-Specifies the coefficient index. coeff 0 = c(-3) ... coeff 4 = c(1).
+Specifies the coefficient index. 0 = c(-3), 1 = c(-2), 2 = c(-1), 3 = c(0), 4 = c(1).
 
 
 ``--value <value>`` (int)
 Specifies the decrease value.
+
+
+.. rubric:: Example
+
+.. tab:: Windows
+    :new-set:
+    
+    .. code-block:: shell
+        :caption: ``lt-coeff-dec`` in Windows environment.
+
+        > lt-coeff-dec --lane 1 --coeff 3 --value 56
+
+.. tab:: macOS/Linux
+
+    .. code-block:: console
+        :caption: ``lt-coeff-dec`` in macOS/Linux environment.
+
+        $ lt-coeff-dec --lane 1 --coeff 3 --value 56
+
 
 
 lt-preset
@@ -263,6 +410,24 @@ Specifies the lane index. Lane is relative to the port and start with 0
 Specifies the preset, value = 1, 2, 3, 4, 5.
 
 
+.. rubric:: Example
+
+.. tab:: Windows
+    :new-set:
+    
+    .. code-block:: shell
+        :caption: ``lt-preset`` in Windows environment.
+
+        > lt-preset --lane 1 --preset 1
+
+.. tab:: macOS/Linux
+
+    .. code-block:: console
+        :caption: ``lt-preset`` in macOS/Linux environment.
+
+        $ lt-preset --lane 1 --preset 1
+
+
 lt-preset0
 -------------
 
@@ -289,6 +454,23 @@ Specifies the lane index. Lane is relative to the port and start with 0
 Should the preset0 (out-of-sync preset) use existing tap values or standard values.
 
 
+.. rubric:: Example
+
+.. tab:: Windows
+    :new-set:
+    
+    .. code-block:: shell
+        :caption: ``lt-preset0`` in Windows environment.
+
+        > lt-preset0 --lane 1 --use 'standard'
+
+.. tab:: macOS/Linux
+
+    .. code-block:: console
+        :caption: ``lt-preset`` in macOS/Linux environment.
+
+        $ lt-preset0 --lane 1 --use 'standard'
+
 
 lt-trained
 -------------
@@ -309,6 +491,24 @@ The current lane is trained
 
 ``--lane <value=lane index>`` (integer)
 Specifies the lane index. Lane is relative to the port and start with 0
+
+
+.. rubric:: Example
+
+.. tab:: Windows
+    :new-set:
+    
+    .. code-block:: shell
+        :caption: ``lt-trained`` in Windows environment.
+
+        > lt-trained --lane 1
+
+.. tab:: macOS/Linux
+
+    .. code-block:: console
+        :caption: ``lt-trained`` in macOS/Linux environment.
+
+        $ lt-trained --lane 1
 
 
 lt-log
@@ -332,6 +532,24 @@ Show the link training trace log per lane.
 Specifies the lane index. Lane is relative to the port and start with 0
 
 
+.. rubric:: Example
+
+.. tab:: Windows
+    :new-set:
+    
+    .. code-block:: shell
+        :caption: ``lt-log`` in Windows environment.
+
+        > lt-log --lane 1
+
+.. tab:: macOS/Linux
+
+    .. code-block:: console
+        :caption: ``lt-log`` in macOS/Linux environment.
+
+        $ lt-log --lane 1
+
+
 lt-status
 -------------
 
@@ -352,6 +570,23 @@ Show the link training status per lane.
 ``--lane <value=lane index>`` (integer)
 Specifies the lane index. Lane is relative to the port and start with 0
 
+
+.. rubric:: Example
+
+.. tab:: Windows
+    :new-set:
+    
+    .. code-block:: shell
+        :caption: ``lt-status`` in Windows environment.
+
+        > lt-status --lane 1
+
+.. tab:: macOS/Linux
+
+    .. code-block:: console
+        :caption: ``lt-status`` in macOS/Linux environment.
+
+        $ lt-status --lane 1
 
 
 txtap-get
@@ -374,6 +609,23 @@ Get the taps of the local transceiver.
 ``--lane <value=lane index>`` (integer)
 Specifies the lane index. Lane is relative to the port and start with 0
 
+
+.. rubric:: Example
+
+.. tab:: Windows
+    :new-set:
+    
+    .. code-block:: shell
+        :caption: ``txtap-get`` in Windows environment.
+
+        > txtap-get --lane 1
+
+.. tab:: macOS/Linux
+
+    .. code-block:: console
+        :caption: ``txtap-get`` in macOS/Linux environment.
+
+        $ txtap-get --lane 1
 
 
 txtap-set
@@ -400,6 +652,22 @@ Specifies the lane index. Lane is relative to the port and start with 0
 ``--coeff <value= list of coefficient values>`` (list of integer)
 Specifies the values for c(-3), c(-2), c(-1), c(0), c(1), e.g. ``--coeff -1 -2 0 56 3``.
 
+.. rubric:: Example
+
+.. tab:: Windows
+    :new-set:
+    
+    .. code-block:: shell
+        :caption: ``txtap-set`` in Windows environment.
+
+        > txtap-set --lane 1 --coeff -1 -2 0 56 3
+
+.. tab:: macOS/Linux
+
+    .. code-block:: console
+        :caption: ``txtap-set`` in macOS/Linux environment.
+
+        $ txtap-set --lane 1 --coeff -1 -2 0 56 3
 
 
 connect
@@ -432,6 +700,23 @@ Specifies the username.
 ``--password <value>`` (string)
 Specifies the login password of the chassis, default to ``'xena'``.
 
+.. rubric:: Example
+
+.. tab:: Windows
+    :new-set:
+
+    .. code-block:: shell
+        :caption: ``connect`` in Windows environment.
+
+        > connect --host '192.168.1.6' --user 'peter' --password 'xena'
+
+.. tab:: macOS/Linux
+
+    .. code-block:: console
+        :caption: ``connect`` in macOS/Linux environment.
+
+        $ connect --host '192.168.1.6' --user 'peter' --password 'xena'
+
 
 disconnect
 -------------
@@ -452,6 +737,24 @@ Disconnect from tester.
 
 ``--host <value>`` (string)
 Specifies the IP address or host name of the chassis.
+
+
+.. rubric:: Example
+
+.. tab:: Windows
+    :new-set:
+    
+    .. code-block:: shell
+        :caption: ``disconnect`` in Windows environment.
+
+        > disconnect --host '192.168.1.6'
+
+.. tab:: macOS/Linux
+
+    .. code-block:: console
+        :caption: ``disconnect`` in macOS/Linux environment.
+
+        $ disconnect --host '192.168.1.6'
 
 
 port-reserve
@@ -480,6 +783,24 @@ Specifies module index, starting from 0.
 Specifies port index, starting from 0.
 
 
+.. rubric:: Example
+
+.. tab:: Windows
+    :new-set:
+    
+    .. code-block:: shell
+        :caption: ``port-reserve`` in Windows environment.
+
+        > port-reserve --module 0 --port 1
+
+.. tab:: macOS/Linux
+
+    .. code-block:: console
+        :caption: ``port-reserve`` in macOS/Linux environment.
+
+        $ port-reserve --module 0 --port 1
+
+
 port-reset
 -------------
 
@@ -504,3 +825,21 @@ Specifies module index, starting from 0.
 
 ``--port <value>`` (integer)
 Specifies port index, starting from 0.
+
+
+.. rubric:: Example
+
+.. tab:: Windows
+    :new-set:
+    
+    .. code-block:: shell
+        :caption: ``port-reset`` in Windows environment.
+
+        > port-reset --module 0 --port 1
+
+.. tab:: macOS/Linux
+
+    .. code-block:: console
+        :caption: ``port-reset`` in macOS/Linux environment.
+
+        $ port-reset --module 0 --port 1
