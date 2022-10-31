@@ -4,6 +4,10 @@ from typing import TYPE_CHECKING, Tuple
 from .bases.port_l23_genuine import BasePortL23Genuine
 from xoa_driver.internals.core.commands import (
     P_DYNAMIC,
+    PL1_AUTONEGINFO,
+    PL1_LINKTRAININFO,
+    PL1_LOG,
+    PL1_CFG_TMP,
 )
 from xoa_driver.internals.utils import attributes as utils
 if TYPE_CHECKING:
