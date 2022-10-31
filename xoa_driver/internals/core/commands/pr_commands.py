@@ -474,6 +474,9 @@ class PR_UAT_TIME:
 class PR_PFCSTATS:
     """
     Obtains statistics of received Priority Flow Control (PFC) packets on a port.
+
+    .. versionchanged:: 1.1
+    
     """
 
     code: typing.ClassVar[int] = 374

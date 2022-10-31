@@ -1469,6 +1469,9 @@ class M_CLOCKPPBSWEEP:
 class M_CLOCKSWEEPSTATUS:
     """
     Return the current status of the M_CLOCKPPBSWEEP function.
+
+    .. versionadded:: 1.1
+    
     """
 
     code: typing.ClassVar[int] = 414

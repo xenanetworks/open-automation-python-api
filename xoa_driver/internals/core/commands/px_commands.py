@@ -18,7 +18,7 @@ from .enums import *
 @dataclass
 class PX_RW:
     """
-    Provides access to the register interface supported by the port transceiver.  It
+    Provides read and write access to the register interface supported by the port transceiver.  It
     is possible to both read and write register values.
     """
 
@@ -61,6 +61,9 @@ class PX_RW:
 class PX_RW_SEQ:
     """
     :term:`I2C<I2C>` sequential access to a transceiver's register. When invoked, the ``<byte_count>`` number of bytes will be read or written in one I2C transaction, in which the ``<value>`` is read or written with only a single register address setup. A subsequent invocation will perform a second I2C transaction in the same manner. ``<_page_xindex>``: the transceiver page address, integer, 0-255. ``<_register_xaddress>``: the address within the page, integer, 0-255.
+
+    .. versionadded:: 1.1
+    
     """
 
     code: typing.ClassVar[int] = 503

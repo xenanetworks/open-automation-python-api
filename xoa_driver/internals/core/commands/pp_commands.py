@@ -957,6 +957,9 @@ class PP_PHYTXEQ:
     """
     Control and monitor the equalizer settings of the on-board PHY in the
     transmission direction (towards the transceiver cage) on Thor and Loki modules.
+
+    .. versionchanged:: 1.1
+
     """
 
     code: typing.ClassVar[int] = 358
