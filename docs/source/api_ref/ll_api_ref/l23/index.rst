@@ -16,3 +16,4 @@ L23 (Valkyrie)
     pf_commands
     pl_commands
     px_commands
+    pl1_commands
