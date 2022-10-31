@@ -3,9 +3,9 @@
 Low-Level API
 ===================================
 
-:term:`LL-API` gives you the complete direct control of the tester since the name of the API is the same as what is defined in the :term:`XOA CLI`. But sometimes it is difficult to remember all the arguments, resulting a waste of time reading the length class definition. 
+LL-API contains low-level API classes, giving you the direct control of the tester. The names of the classes are the same as the the CLI commands in :term:`XOA CLI`, making it easy for you to understand the Python API if you are already familiar with XOA CLI.
 
-However, if you need to migrate a :term:`XOA CLI` script to :term:`XOA`, the :term:`LL-API` can explicitly show the command name, which may speed up the migration process.
+However, unlike HL-API, LL-API does not provide functionalities such as *auto connection keep-alive* and *auto index management*. This means you need to write more codes to handle those yourself.
 
 
 API Notation and Namings
