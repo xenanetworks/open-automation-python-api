@@ -133,20 +133,24 @@ async def anlt_status(
     # if not isinstance(port, LinkTrainingSupported):
     #     raise NotSupportLinkTrainError(port)
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
-    r1 = commands.PP_AUTONEG(_connection=conn, _module=mid, _port=pid).get()
+    r0 = commands.PL1_CFG_TMP(_connection=conn, _module=mid, _port=pid, _serdes_xindex=0, _type=0).get()
+    r1 = commands.PP_AUTONEGSTATUS(_connection=conn, _module=mid, _port=pid).get()
     r2 = commands.PP_LINKTRAIN(_connection=port._conn, _module=mid, _port=pid).get()
 
     tokens = [
-        # port.pcs_pma.auto_neg.settings.get(),
+        # PL1_CFG_TMP[0,0] ?,
+        r0,
+        # port.pcs_pma.auto_neg.status.get(),
         r1,
         # port.pcs_pma.link_training.settings.get(),
         r2,
     ]
-    *_, autoneg, linktrain = await apply(*tokens)
+    *_, link_recovery, autoneg, linktrain = await apply(*tokens)
     return {
         "auto_neg_enabled": (autoneg.mode),
         "link_train_mode": (linktrain.mode),
         "link_train_timeout": (linktrain.timeout_mode),
+        "link recovery": (link_recovery.on_off),
     }
 
 
