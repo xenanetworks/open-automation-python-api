@@ -45,13 +45,17 @@ async def cli_main() -> None:
     await Client().run()
 
 
+class KeepArgPartial(partial):
+    pass
+
+
 class Client:
     def __init__(self) -> None:
         self.current_tester = None
         self.current_port = None
         self.running = True
         self.method = {
-            "connect": partial(connect, "l23"),
+            "connect": KeepArgPartial(connect, "l23"),
             "port_reserve": self.port_reserve,
             "port_reset": self.port_reset,
             "an": partial(self.check_port_apply, an),
@@ -79,7 +83,12 @@ class Client:
 
     def parse_args(self, method: Callable, raw_args: List[str]) -> Dict:
         assert isinstance(method, Callable)
-        sig_dic = inspect.signature(method).parameters
+        if isinstance(method, partial) and (not isinstance(method, KeepArgPartial)):
+            sig_dic = inspect.signature(method.args[0]).parameters
+            overlook = len(method.args) - 1
+        else:
+            sig_dic = inspect.signature(method).parameters
+            overlook = -1
         arg_dic = {}
         for i, r in enumerate(raw_args):
             v = None
@@ -97,7 +106,9 @@ class Client:
                     v = False
             arg_dic[k] = typing(v)
 
-        for k, para_dic in sig_dic.items():
+        for i, (k, para_dic) in enumerate( sig_dic.items()):
+            if i <= overlook:
+                continue
             default_val = para_dic.default
             if default_val != inspect.Parameter.empty and arg_dic.get(k) is None:
                 v = default_val
@@ -119,14 +130,14 @@ class Client:
         self.current_port = get_port(self.current_tester, module_id, port_id)
         await self.run_token(port_reset(self.current_port))
 
-    async def check_port_apply(self, token_coro, *args):
+    async def check_port_apply(self, token_coro, **kw):
         assert self.current_port is not None
-        tokens = await partial(token_coro, self.current_port)(*args)
+        tokens = await partial(token_coro, self.current_port)(**kw)
         await apply(*tokens)
 
-    async def check_port_return(self, token_coro, *args):
+    async def check_port_return(self, token_coro, **kw):
         assert self.current_port is not None
-        result = await partial(token_coro, self.current_port)(*args)
+        result = await partial(token_coro, self.current_port)(**kw)
         return result
 
     async def quit(self) -> None:
@@ -136,9 +147,14 @@ class Client:
         info = ""
         if not lines:
             info = "Please type 'help <command> for more infomation'. Available commands are: \n"
-            info += "".join([f"    {k}\n" for k in self.method if k not in ('quit', 'q', 'exit', 'help')])
-        
-        
+            info += "".join(
+                [
+                    f"    {k}\n"
+                    for k in self.method
+                    if k not in ("quit", "q", "exit", "help")
+                ]
+            )
+
         return info
 
     async def run(self) -> None:
@@ -148,7 +164,10 @@ class Client:
             if not lines:
                 continue
             method_name, *raw_args = lines
-            method = self.method[method_name.replace("-", "_")]
+            method = self.method.get(method_name.replace("-", "_"), None)
+            if method is None:
+                print("No commands match.")
+                continue
             args = self.parse_args(method, raw_args)
             result = await method(**args)
             if method_name == "connect":
