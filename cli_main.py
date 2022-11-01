@@ -50,6 +50,32 @@ class Client:
         self.current_tester = None
         self.current_port = None
         self.running = True
+        self.method = {
+            "connect": partial(connect, "l23"),
+            "port_reserve": self.port_reserve,
+            "port_reset": self.port_reset,
+            "an": partial(self.check_port_apply, an),
+            "anlt_status": partial(self.check_port_return, anlt_status),
+            "an_status": partial(self.check_port_return, an_status),
+            "an_log": partial(self.check_port_return, an_log),
+            "lt": partial(self.check_port_apply, lt),
+            "lt_status": partial(self.check_port_return, lt_status),
+            "lt_clear": partial(self.check_port_apply, lt_clear),
+            "lt_nop": partial(self.check_port_apply, lt_nop),
+            "lt_coeff_inc": partial(self.check_port_apply, lt_coeff_inc),
+            "lt_coeff_dec": partial(self.check_port_apply, lt_coeff_dec),
+            "lt_preset": partial(self.check_port_apply, lt_preset),
+            "lt_preset0": partial(self.check_port_apply, lt_preset0),
+            "lt_trained": partial(self.check_port_apply, lt_trained),
+            "lt_log": partial(self.check_port_return, lt_log),
+            "txtap_get": partial(self.check_port_return, txtap_get),
+            "txtap_set": partial(self.check_port_apply, txtap_set),
+            "link_recovery": partial(self.check_port_apply, link_recovery),
+            "quit": self.quit,
+            "exit": self.quit,
+            "q": self.quit,
+            "help": self.help,
+        }
 
     def parse_args(self, method: Callable, raw_args: List[str]) -> Dict:
         assert isinstance(method, Callable)
@@ -106,6 +132,15 @@ class Client:
     async def quit(self) -> None:
         self.running = False
 
+    async def help(self, *lines: str) -> str:
+        info = ""
+        if not lines:
+            info = "Please type 'help <command> for more infomation'. Available commands are: \n"
+            info += "".join([f"    {k}\n" for k in self.method if k not in ('quit', 'q', 'exit', 'help')])
+        
+        
+        return info
+
     async def run(self) -> None:
         while self.running:
             input_string = input("xena:> ")
@@ -113,36 +148,12 @@ class Client:
             if not lines:
                 continue
             method_name, *raw_args = lines
-            method = {
-                "connect": partial(connect, "l23"),
-                "port_reserve": self.port_reserve,
-                "port_reset": self.port_reset,
-                "an": partial(self.check_port_apply, an),
-                "anlt_status": partial(self.check_port_return, anlt_status),
-                "an_status": partial(self.check_port_return, an_status),
-                "an_log": partial(self.check_port_return, an_log),
-                "lt": partial(self.check_port_apply, lt),
-                "lt_status": partial(self.check_port_return, lt_status),
-                "lt_clear": partial(self.check_port_apply, lt_clear),
-                "lt_nop": partial(self.check_port_apply, lt_nop),
-                "lt_coeff_inc": partial(self.check_port_apply, lt_coeff_inc),
-                "lt_coeff_dec": partial(self.check_port_apply, lt_coeff_dec),
-                "lt_preset": partial(self.check_port_apply, lt_preset),
-                "lt_preset0": partial(self.check_port_apply, lt_preset0),
-                "lt_trained": partial(self.check_port_apply, lt_trained),
-                "lt_log": partial(self.check_port_return, lt_log),
-                "txtap_get": partial(self.check_port_return, txtap_get),
-                "txtap_set": partial(self.check_port_apply, txtap_set),
-                "link_recovery": partial(self.check_port_apply, link_recovery),
-                "quit": self.quit,
-                "exit": self.quit,
-                "q": self.quit,
-            }[method_name.replace("-", "_")]
+            method = self.method[method_name.replace("-", "_")]
             args = self.parse_args(method, raw_args)
             result = await method(**args)
             if method_name == "connect":
                 self.current_tester = result
-            elif method_name in ("an_log", "lt_log"):
+            elif method_name in ("an_log", "lt_log", "help"):
                 print(result)
             elif method_name in ("an_status", "lt_status", "anlt_status", "txtap_get"):
                 print(json.dumps(result, indent=2))
