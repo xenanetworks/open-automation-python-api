@@ -49,6 +49,7 @@ class Client:
     def __init__(self) -> None:
         self.current_tester = None
         self.current_port = None
+        self.running = True
 
     def parse_args(self, method: Callable, raw_args: List[str]) -> Dict:
         assert isinstance(method, Callable)
@@ -102,11 +103,14 @@ class Client:
         result = await partial(token_coro, self.current_port)(*args)
         return result
 
+    async def quit(self) -> None:
+        self.running = False
+
     async def run(self) -> None:
-        while True:
+        while self.running:
             input_string = input("xena:> ")
             lines = [i for i in input_string.split(" ") if i]
-            if len(lines) < 2:
+            if not lines:
                 continue
             method_name, *raw_args = lines
             method = {
@@ -130,6 +134,9 @@ class Client:
                 "txtap_get": partial(self.check_port_return, txtap_get),
                 "txtap_set": partial(self.check_port_apply, txtap_set),
                 "link_recovery": partial(self.check_port_apply, link_recovery),
+                "quit": self.quit,
+                "exit": self.quit,
+                "q": self.quit,
             }[method_name.replace("-", "_")]
             args = self.parse_args(method, raw_args)
             result = await method(**args)

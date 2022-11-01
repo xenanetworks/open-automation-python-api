@@ -114,9 +114,9 @@ def get_port(
 async def port_reserve(port: GenericAnyPort) -> List[Token]:
     tokens = []
     r = await port.reservation.get()
-    if r == ReservedStatus.RESERVED_BY_OTHER:
+    if r.status == ReservedStatus.RESERVED_BY_OTHER:
         tokens.append(port.reservation.set_relinquish())
-    elif r == ReservedStatus.RELEASED:
+    elif r.status == ReservedStatus.RELEASED:
         tokens.append(port.reservation.set_reserve())
     return tokens
 
