@@ -57,9 +57,37 @@ version = get_short_version("../../xoa_driver/__init__.py")
 
 # -- General configuration -----------------------------------------------------
 
+# A boolean that decides whether module names are prepended to all object names 
+# (for object types where a “module” of some kind is defined), e.g. for py:function directives. 
+add_module_names = False
+
+# If true, `todo` and `todoList` produce output, else they produce nothing.
+todo_include_todos = True
+
+# A string that determines how domain objects (e.g. functions, classes, attributes, etc.) are displayed in their table of contents entry.
+# Use domain to allow the domain to determine the appropriate number of parents to show. For example, the Python domain would show Class.method() and function(), leaving out the module. level of parents. This is the default setting.
+# Use hide to only show the name of the element without any parents (i.e. method()).
+# Use all to show the fully-qualified name for the object (i.e. module.Class.method()), displaying all parents.
+toc_object_entries_show_parents = 'hide'
+
+# The suffix(es) of source filenames.
+# source_suffix = ['.rst', '.md']
+source_suffix = '.rst'
+
 # If true, figures, tables and code-blocks are automatically numbered if they have a caption. 
 # The numref role is enabled. Obeyed so far only by HTML and LaTeX builders. Default is False.
 numfig = True
+
+# List of patterns, relative to source directory, that match files and
+# directories to ignore when looking for source files.
+# These patterns also affect html_static_path and html_extra_path
+exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+
+# The master toctree document.
+master_doc = 'index'
+
+# Add any paths that contain templates here, relative to this directory.
+templates_path = ['_templates']
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
@@ -79,34 +107,51 @@ extensions = [
     'sphinx_copybutton',
     "sphinx_remove_toctrees",
 ]
-add_module_names = False
+
+# -- autodoc configuration
+
+# 'mixed': Display the signature with the class name.
+# 'separated': Display the signature with the class name
+autodoc_class_signature = 'mixed'
+
+# This value selects what content will be inserted into the main body of an autoclass directive. The possible values are:
+# "class", "both", "init"
+autoclass_content = 'class'
+
+# 'signature' – Show typehints in the signature (default)
+# 'description' – Show typehints as content of the function or method The typehints of overloaded functions or methods will still be represented in the signature.
+# 'none' – Do not show typehints
+# 'both' – Show typehints in the signature and as content of the function or method
+autodoc_typehints = 'description'
+
+# 'fully-qualified' – Show the module name and its name of typehints
+# 'short' – Suppress the leading module names of the typehints (ex. io.StringIO -> StringIO)
+autodoc_typehints_format = 'short'
+
+# This value controls the docstrings inheritance. 
+# If set to True the docstring for classes or methods, if not explicitly set, is inherited from parents.
+autodoc_inherit_docstrings = True
+
+# The default options for autodoc directives. 
+# They are applied to all autodoc directives automatically. 
+# It must be a dictionary which maps option names to the values.
 autodoc_default_options = {
     'member-order': 'bysource',
     'private-members': False,
     'undoc-members': False,
     'show-inheritance': True
 }
-autoclass_content ='both'
-autodoc_typehints_format = 'short'
-todo_include_todos = True
+
+# -- autosectionlabel configuration
+
+# True to prefix each section label with the name of the document it is in, followed by a colon. 
+# For example, index:Introduction for a section called Introduction that appears in document index.rst. 
+# Useful for avoiding ambiguity when the same section heading appears in different documents.
 autosectionlabel_prefix_document = True
-autodoc_inherit_docstrings =False
-autodoc_typehints = "none"
 
-# The suffix(es) of source filenames.
-# source_suffix = ['.rst', '.md']
-source_suffix = '.rst'
 
-# List of patterns, relative to source directory, that match files and
-# directories to ignore when looking for source files.
-# These patterns also affect html_static_path and html_extra_path
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
-# The master toctree document.
-master_doc = 'index'
 
-# Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
 
 # -- Options for HTML output -----------------------------------------------------
 
@@ -130,8 +175,10 @@ html_favicon = './_static/xoa_favicon_16.png'
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
-
+# If true, “(C) Copyright …” is shown in the HTML footer.
 html_show_copyright = True
+
+# If true, “Created using Sphinx” is shown in the HTML footer
 html_show_sphinx = False
 
 html_theme_options = {
@@ -141,9 +188,12 @@ html_theme_options = {
     "show_toc_level": 1,
     "use_download_button": True,
     "show_navbar_depth": 1,
+    "announcement": "This is the development version. Don't use it with the published package.",
 }
 
-html_split_index = True
+# If true, the index is generated twice: once as a single page with all the entries, 
+# and once as one page per starting letter. Default is False.
+html_split_index = False
 
 
 # -- Options for Texinfo output -----------------------------------------------------
@@ -214,4 +264,4 @@ epub_show_urls = 'footnote'
 epub_basename = 'xoa_driver_doc'
 
 # Remove auto-generated API docs from sidebars. They take too long to build.
-remove_from_toctrees = ["api_doc/_autosummary/*"]
+# remove_from_toctrees = ["api_doc/_autosummary/*"]
