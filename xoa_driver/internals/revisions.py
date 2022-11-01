@@ -54,8 +54,8 @@ valkyrie_modules = {
     "Freya-800G-1S-1P[a]": modules.MFreya800G1S1P_a,
     "Freya-800G-1S-1P[b]": modules.MFreya800G1S1P_b,
     "Freya-800G-1S-1P-OSFP[a]": modules.MFreya800G1S1POSFP_a,
-    "Freya-800G-4S-1[a]": modules.MFreya800G4S1P_a,
-    "Freya-800G-4S-1[b]": modules.MFreya800G4S1P_b,
+    "Freya-800G-4S-1P[a]": modules.MFreya800G4S1P_a,
+    "Freya-800G-4S-1P[b]": modules.MFreya800G4S1P_b,
     "Freya-800G-4S-1P-OSFP[a]": modules.MFreya800G4S1POSFP_a,
     
     # family_m
