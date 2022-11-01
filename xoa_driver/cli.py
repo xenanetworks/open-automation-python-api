@@ -396,7 +396,7 @@ async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
             },
             "coeff_at_limit": {
                 "rx": info.pre3_rx_coeff_at_limit_count,
-                "tx": info.pre3_tx_coeff_at_limit_countt,
+                "tx": info.pre3_tx_coeff_at_limit_count,
             },
         },
         "c(-2)": {
@@ -423,7 +423,7 @@ async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
             },
             "coeff_at_limit": {
                 "rx": info.pre2_rx_coeff_at_limit_count,
-                "tx": info.pre2_tx_coeff_at_limit_countt,
+                "tx": info.pre2_tx_coeff_at_limit_count,
             },
         },
         "c(-1)": {
@@ -450,7 +450,7 @@ async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
             },
             "coeff_at_limit": {
                 "rx": info.pre1_rx_coeff_at_limit_count,
-                "tx": info.pre1_tx_coeff_at_limit_countt,
+                "tx": info.pre1_tx_coeff_at_limit_count,
             },
         },
         "c(0)": {
@@ -477,7 +477,7 @@ async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
             },
             "coeff_at_limit": {
                 "rx": info.main_rx_coeff_at_limit_count,
-                "tx": info.main_tx_coeff_at_limit_countt,
+                "tx": info.main_tx_coeff_at_limit_count,
             },
         },
         "c(1)": {
@@ -504,7 +504,7 @@ async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
             },
             "coeff_at_limit": {
                 "rx": info.post1_rx_coeff_at_limit_count,
-                "tx": info.post1_tx_coeff_at_limit_countt,
+                "tx": info.post1_tx_coeff_at_limit_count,
             },
         },
     }
