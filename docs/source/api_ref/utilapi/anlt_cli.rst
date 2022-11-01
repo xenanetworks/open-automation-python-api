@@ -59,7 +59,7 @@ Configure auto-negotiation settings on a Freya port.
 
 .. rubric:: Options
 
-``--enable <value=true|false>`` (bool)
+``--enable <value=true|false>`` (boolean)
 Specifies whether auto-negotiation should be enabled or disabled.
 
     **true** will enable auto-negotiation.
@@ -67,7 +67,7 @@ Specifies whether auto-negotiation should be enabled or disabled.
     **false** will disable auto-negotiation.
 
 
-``--allow-loopback <value=true|false>`` (bool)
+``--allow-loopback <value=true|false>`` (boolean)
 Specifies whether loopback is allowed or not.
 
     **true** will allow loopback.
@@ -157,13 +157,13 @@ Configure link training settings on a Freya port.
 
     an 
     --enable <value> 
-    --timeout <value>
+    --with-timeout <value>
     --mode <value>
 
 
 .. rubric:: Options
 
-``--enable <value=true|false>`` (bool)
+``--enable <value=true|false>`` (boolean)
 Specifies whether link training should be enabled or disabled.
 
     **true** will enable link training.
@@ -171,7 +171,7 @@ Specifies whether link training should be enabled or disabled.
     **false** will disable link training.
 
 
-``--timeout <value=true|false>`` (bool)
+``--with-timeout <value=true|false>`` (boolean)
 Specifies whether link training timeout is enabled or disabled.
 
     **true** will enable link training timeout.
@@ -446,7 +446,7 @@ Should the preset0 (out-of-sync preset) use existing tap values or standard valu
 
 .. rubric:: Options
 
-``--lane <value=lane index>`` (integer)
+``--lane <value=lane index>`` (int)
 Specifies the lane index. Lane is relative to the port and start with 0
 
 
@@ -489,7 +489,7 @@ The current lane is trained
 
 .. rubric:: Options
 
-``--lane <value=lane index>`` (integer)
+``--lane <value=lane index>`` (int)
 Specifies the lane index. Lane is relative to the port and start with 0
 
 
@@ -528,7 +528,7 @@ Show the link training trace log per lane.
 
 .. rubric:: Options
 
-``--lane <value=lane index>`` (integer)
+``--lane <value=lane index>`` (int)
 Specifies the lane index. Lane is relative to the port and start with 0
 
 
@@ -567,7 +567,7 @@ Show the link training status per lane.
 
 .. rubric:: Options
 
-``--lane <value=lane index>`` (integer)
+``--lane <value=lane index>`` (int)
 Specifies the lane index. Lane is relative to the port and start with 0
 
 
@@ -606,7 +606,7 @@ Get the taps of the local transceiver.
 
 .. rubric:: Options
 
-``--lane <value=lane index>`` (integer)
+``--lane <value=lane index>`` (int)
 Specifies the lane index. Lane is relative to the port and start with 0
 
 
@@ -646,10 +646,10 @@ Get the taps of the local transceiver.
 
 .. rubric:: Options
 
-``--lane <value=lane index>`` (integer)
+``--lane <value=lane index>`` (int)
 Specifies the lane index. Lane is relative to the port and start with 0
 
-``--coeff <value= list of coefficient values>`` (list of integer)
+``--coeff <value= list of coefficient values>`` (list of int)
 Specifies the values for c(-3), c(-2), c(-1), c(0), c(1), e.g. ``--coeff -1 -2 0 56 3``.
 
 .. rubric:: Example
@@ -668,6 +668,44 @@ Specifies the values for c(-3), c(-2), c(-1), c(0), c(1), e.g. ``--coeff -1 -2 0
         :caption: ``txtap-set`` in macOS/Linux environment.
 
         $ txtap-set --lane 1 --coeff -1 -2 0 56 3
+
+
+link-recovery
+-------------
+
+.. rubric:: Description
+
+Enable or disable xenaserver's auto link recovery function.
+
+.. rubric:: Synopsis
+
+.. code-block:: shell
+
+    link-recovery
+    --enable <value>
+
+
+.. rubric:: Options
+
+``--enable <value=true|false>`` (boolean)
+Specifies whether xenaserver should enable its auto link recovery function.
+
+.. rubric:: Example
+
+.. tab:: Windows
+    :new-set:
+    
+    .. code-block:: shell
+        :caption: ``link-recovery`` in Windows environment.
+
+        > link-recovery --enable false
+
+.. tab:: macOS/Linux
+
+    .. code-block:: console
+        :caption: ``link-recovery`` in macOS/Linux environment.
+
+        $ link-recovery --enable false
 
 
 connect
@@ -775,11 +813,11 @@ Reserve the port for the current use.
 
 .. rubric:: Options
 
-``--module <value>`` (integer)
+``--module <value>`` (int)
 Specifies module index, starting from 0.
 
 
-``--port <value>`` (integer)
+``--port <value>`` (int)
 Specifies port index, starting from 0.
 
 
@@ -819,11 +857,11 @@ Reset the port.
 
 .. rubric:: Options
 
-``--module <value>`` (integer)
+``--module <value>`` (int)
 Specifies module index, starting from 0.
 
 
-``--port <value>`` (integer)
+``--port <value>`` (int)
 Specifies port index, starting from 0.
 
 
