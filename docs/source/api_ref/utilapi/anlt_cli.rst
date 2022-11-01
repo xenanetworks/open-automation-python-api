@@ -671,7 +671,7 @@ Specifies the values for c(-3), c(-2), c(-1), c(0), c(1), e.g. ``--coeff -1 -2 0
 
 
 link-recovery
--------------
+--------------
 
 .. rubric:: Description
 
@@ -721,8 +721,9 @@ Connect to tester.
 
     connect
     --host <value>
-    --user <value>
-    --password <value>
+    --username <value>
+    [--password <value>]
+    [--port <value>]
 
 
 .. rubric:: Options
@@ -731,12 +732,16 @@ Connect to tester.
 Specifies the IP address or host name of the chassis.
 
 
-``--user <value>`` (string)
+``--username <value>`` (string)
 Specifies the username.
 
 
 ``--password <value>`` (string)
 Specifies the login password of the chassis, default to ``'xena'``.
+
+
+``--port <value>`` (int)
+Specifies the port number for establishing the TCP connection, default to ``22606``.
 
 .. rubric:: Example
 
@@ -746,18 +751,18 @@ Specifies the login password of the chassis, default to ``'xena'``.
     .. code-block:: shell
         :caption: ``connect`` in Windows environment.
 
-        > connect --host '192.168.1.6' --user 'peter' --password 'xena'
+        > connect --host 192.168.1.6 --username peter --password xena --port 22606
 
 .. tab:: macOS/Linux
 
     .. code-block:: console
         :caption: ``connect`` in macOS/Linux environment.
 
-        $ connect --host '192.168.1.6' --user 'peter' --password 'xena'
+        $ connect --host 192.168.1.6 --username peter --password xena --port 22606
 
 
-disconnect
--------------
+disconnect (planned)
+---------------------
 
 .. rubric:: Description
 
@@ -785,14 +790,51 @@ Specifies the IP address or host name of the chassis.
     .. code-block:: shell
         :caption: ``disconnect`` in Windows environment.
 
-        > disconnect --host '192.168.1.6'
+        > disconnect --host 192.168.1.6
 
 .. tab:: macOS/Linux
 
     .. code-block:: console
         :caption: ``disconnect`` in macOS/Linux environment.
 
-        $ disconnect --host '192.168.1.6'
+        $ disconnect --host 192.168.1.6
+
+
+quit
+---------------------
+
+.. rubric:: Description
+
+Quit the current session
+
+.. rubric:: Synopsis
+
+.. code-block:: shell
+
+    quit
+
+
+.. rubric:: Options
+
+None
+
+
+.. rubric:: Example
+
+.. tab:: Windows
+    :new-set:
+    
+    .. code-block:: shell
+        :caption: ``quit`` in Windows environment.
+
+        > quit
+
+.. tab:: macOS/Linux
+
+    .. code-block:: console
+        :caption: ``quit`` in macOS/Linux environment.
+
+        $ quit
 
 
 port-reserve
