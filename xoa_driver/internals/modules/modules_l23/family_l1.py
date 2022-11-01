@@ -100,3 +100,17 @@ class MFreya800G4S1POSFP_a(ModuleFamilyL1):
             ports_count=self.ports_count
         )
         """Port index manager of Freya-800G-4S-1P-OSFP[a]"""
+
+
+@typing.final
+class MFreya800G4S1P_b(ModuleFamilyL1):
+    """Test module Freya-800G-4S-1P[b]"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.PFreya800G4S1P_b] = pm.PortsManager(
+            conn=conn, 
+            ports_type=ports.PFreya800G4S1P_b, 
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port index manager of Freya-800G-4S-1P[b]"""
