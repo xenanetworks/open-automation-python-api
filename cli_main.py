@@ -146,7 +146,7 @@ class Client:
     async def help(self, *lines: str) -> str:
         info = ""
         if not lines:
-            info = "Please type 'help <command> for more infomation'. Available commands are: \n"
+            info = "Please type 'help <command> for more information'. Available commands are: \n"
             info += "".join(
                 [
                     f"    {k}\n"
