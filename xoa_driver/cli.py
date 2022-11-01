@@ -1,6 +1,4 @@
-import asyncio
-import platform
-from typing import Any, Dict, List, Literal, Optional, Union
+from typing import Any, Dict, List, Literal, Union
 from xoa_driver.enums import (
     ReservedStatus,
     AutoNegFECOption,
@@ -84,7 +82,7 @@ class NotRightLaneValueError(ConfigError):
 
 
 async def connect(
-    tester_type: str,
+    tester_type: Union[Literal["l23"], Literal["l47"]],
     host: str,
     username: str,
     password: str = "xena",
@@ -123,7 +121,7 @@ async def port_reserve(port: GenericAnyPort) -> List[Token]:
     return tokens
 
 
-def port_reset(port: GenericAnyPort) -> List[Token]:
+async def port_reset(port: GenericAnyPort) -> List[Token]:
     return [(port.reset.set())]
 
 
@@ -151,7 +149,7 @@ async def anlt_status(
     }
 
 
-def an(
+async def an(
     port: GenericAnyPort,
     loopback: bool,
     enable: bool,
@@ -207,7 +205,7 @@ async def an_log(port: GenericAnyPort) -> str:
     return log.log_string
 
 
-def lt(
+async def lt(
     port: GenericAnyPort,
     enable: bool,
     timeout_enable: bool,
@@ -246,7 +244,7 @@ def lt(
     return tokens
 
 
-def lt_clear(port: GenericAnyPort, lane: int) -> List[Token]:
+async def lt_clear(port: GenericAnyPort, lane: int) -> List[Token]:
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     page_xindex = 8766
     register_xindex = ((0xFFFF & lane) << 16) + 0x0002
@@ -255,7 +253,7 @@ def lt_clear(port: GenericAnyPort, lane: int) -> List[Token]:
     ]
 
 
-def lt_nop(port: GenericAnyPort, lane: int) -> List[Token]:
+async def lt_nop(port: GenericAnyPort, lane: int) -> List[Token]:
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     page_xindex = 8766
     register_xindex = ((0xFFFF & lane) << 16) + 0x0000
@@ -264,7 +262,7 @@ def lt_nop(port: GenericAnyPort, lane: int) -> List[Token]:
     ]
 
 
-def lt_coeff_inc(
+async def lt_coeff_inc(
     port: GenericAnyPort, lane: int, coeff: int, value: int
 ) -> List[Token]:
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
@@ -280,7 +278,7 @@ def lt_coeff_inc(
     ]
 
 
-def lt_coeff_dec(
+async def lt_coeff_dec(
     port: GenericAnyPort, lane: int, coeff: int, value: int
 ) -> List[Token]:
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
@@ -296,7 +294,7 @@ def lt_coeff_dec(
     ]
 
 
-def lt_preset(port: GenericAnyPort, lane: int, preset: int) -> List[Token]:
+async def lt_preset(port: GenericAnyPort, lane: int, preset: int) -> List[Token]:
     assert preset in range(1, 6), "Preset should be an integer between 1 and 5!"
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     page_xindex = 8766
@@ -309,7 +307,30 @@ def lt_preset(port: GenericAnyPort, lane: int, preset: int) -> List[Token]:
     ]
 
 
-def lt_trained(port: GenericAnyPort, lane: int) -> List[Token]:
+async def lt_preset0(
+    port: GenericAnyPort,
+    use: Union[
+        Literal["existing"],
+        Literal["standard"],
+    ],
+    lane: int,
+) -> List[Token]:
+    assert use in (
+        "existing",
+        "standard",
+    ), "Preset should be either 'standard' or 'existing'!"
+    conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
+    page_xindex = 8766
+    register_xindex = ((0xFFFF & lane) << 16) + 0x0000
+    preset = 0 if use == "existing" else "standard"
+    return [
+        commands.PX_RW(conn, mid, pid, page_xindex, register_xindex).set(
+            f"0x0000000{preset}"
+        )
+    ]
+
+
+async def lt_trained(port: GenericAnyPort, lane: int) -> List[Token]:
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     page_xindex = 8766
     register_xindex = ((0xFFFF & lane) << 16) + 0x0000
@@ -327,11 +348,13 @@ async def lt_log(port: GenericAnyPort, lane: int) -> str:
 async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     page_xindex = 8765
+    page_xindex2 = 8766
     serdes_xindex = 3
-    *_, status, info, rw = await apply(
+    *_, status, info, rw, rw1 = await apply(
         commands.PP_LINKTRAINSTATUS(conn, mid, pid, lane).get(),
         commands.PL1_LINKTRAININFO(conn, mid, pid, lane, 0).get(),
         commands.PX_RW(conn, mid, pid, page_xindex, serdes_xindex).get(),
+        commands.PX_RW(conn, mid, pid, page_xindex2, serdes_xindex).get(),
     )
     total_bit_count = (info.prbs_total_bits_high << 32) + info.prbs_total_error_bits_low
     total_error_bit_count = (
@@ -340,8 +363,7 @@ async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
     prbs = total_error_bit_count / total_bit_count if total_bit_count != 0 else 0
 
     return {
-        "mode": status.mode,
-        "status": status.status,
+        "preset0": rw1.value,
         "failure": status.failure,
         "loopback": rw.value[3],
         "pbrs": prbs,
@@ -499,12 +521,27 @@ async def txtap_get(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
     }
 
 
-def txtap_set(
-    port: GenericAnyPort, lane: int, c__3, c__2, c__1, c_0, c_1
+async def txtap_set(
+    port: GenericAnyPort, lane: int, c_minus_3, c_minus_2, c_minus_1, c_0, c_positive_1
 ) -> List[Token]:
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     return [
         commands.PP_PHYTXEQ(conn, mid, pid, lane).set(
-            pre1=c__1, main=c_0, post1=c_1, pre2=c__2, post2=c__3, post3=0, mode=4
+            pre1=c_minus_1,
+            main=c_0,
+            post1=c_positive_1,
+            pre2=c_minus_2,
+            post2=c_minus_3,
+            post3=0,
+            mode=4,
         )
+    ]
+
+
+async def link_recovery(port: GenericAnyPort, enable: bool) -> List[Token]:
+    conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
+    page_xindex = 0
+    serdes_xindex = 0
+    return [
+        commands.PL1_CFG_TMP(conn, mid, pid, page_xindex, serdes_xindex).set(enable)
     ]
