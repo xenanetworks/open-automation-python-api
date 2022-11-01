@@ -48,7 +48,7 @@ valkyrie_modules = {
     # family_l
     "Thor-400G-7S-1P[b]": modules.MThor400G7S1P_b,
     "Thor-400G-7S-1P[c]": modules.MThor400G7S1P_c,
-    "Thor-400G-7S-1P[d]": modules.MThor400G7S1P_b,
+    "Thor-400G-7S-1P[d]": modules.MThor400G7S1P_d,
     
     # family_l1
     "Freya-800G-1S-1P[a]": modules.MFreya800G1S1P_a,
