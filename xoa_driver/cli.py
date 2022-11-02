@@ -96,7 +96,7 @@ async def connect(
     """
     assert tester_type in ("l23", "l47")
     class_ = {"l23": L23Tester, "l47": L47Tester}[tester_type]
-    current_tester = await class_(host, username, password, port, debug=True)
+    current_tester = await class_(host, username, password, port, debug=False)
     return current_tester
 
 
@@ -596,29 +596,29 @@ async def txtap_get(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
 async def txtap_set(
     port: GenericAnyPort,
     lane: int,
-    c_minus_3: int,
-    c_minus_2: int,
-    c_minus_1: int,
-    c_0: int,
-    c_positive_1: int,
+    pre3: int,
+    pre2: int,
+    pre1: int,
+    main: int,
+    post1: int,
 ) -> List[Token]:
     """
         --lane:int
-        --c_minus_3:int
-        --c_minus_2:int
-        --c_minus_1:int
-        --c_0:int
-        --c_positive_1:int
+        --pre3:int
+        --pre2:int
+        --pre1:int
+        --main:int
+        --post1:int
     - Set the taps of the local transceiver
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     return [
         commands.PP_PHYTXEQ(conn, mid, pid, lane).set(
-            pre1=c_minus_1,
-            main=c_0,
-            post1=c_positive_1,
-            pre2=c_minus_2,
-            post2=c_minus_3,
+            pre1=pre1,
+            main=main,
+            post1=post1,
+            pre2=pre2,
+            post2=pre3,
             post3=0,
         )
     ]
