@@ -82,13 +82,19 @@ class NotRightLaneValueError(ConfigError):
 
 
 async def connect(
-    tester_type: Union[Literal["l23"], Literal["l47"]],
+    tester_type: str,
     host: str,
     username: str,
     password: str = "xena",
     port: int = 22606,
 ) -> GenericAnyTester:
-     
+    """
+        --host:str
+        --user:str
+        --password:str
+    - Connect to tester
+    """
+    assert tester_type in ("l23", "l47")
     class_ = {"l23": L23Tester, "l47": L47Tester}[tester_type]
     current_tester = await class_(host, username, password, port, debug=True)
     return current_tester
@@ -117,6 +123,7 @@ async def port_reserve(port: GenericAnyPort) -> List[Token]:
     r = await port.reservation.get()
     if r.status == ReservedStatus.RESERVED_BY_OTHER:
         tokens.append(port.reservation.set_relinquish())
+        tokens.append(port.reservation.set_reserve())
     elif r.status == ReservedStatus.RELEASED:
         tokens.append(port.reservation.set_reserve())
     return tokens
@@ -129,6 +136,9 @@ async def port_reset(port: GenericAnyPort) -> List[Token]:
 async def anlt_status(
     port: GenericAnyPort,
 ) -> Dict[str, Any]:
+    """
+    - The current status of AN/LT
+    """
 
     # if not isinstance(port, LinkTrainingSupported):
     #     raise NotSupportLinkTrainError(port)
@@ -152,13 +162,17 @@ async def anlt_status(
 
 async def an(
     port: GenericAnyPort,
-    loopback: bool,
+    allow_loopback: bool,
     enable: bool,
 ) -> List[Token]:
+    """
+        --enable:bool - Enable or disable autonegotiation
+        --allow-loopback:bool - Should loopback be allowed in autonegotiation
+    """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     page_xindex = 8765
     register_xindex = 3
-    loopback_hexstring = f"0x0000000{int(loopback)}"
+    loopback_hexstring = f"0x0000000{int(allow_loopback)}"
     autoneg_enabled = AutoNegMode(enable)
     r1 = commands.PX_RW(conn, mid, pid, page_xindex, register_xindex).set(
         loopback_hexstring
@@ -176,6 +190,9 @@ async def an(
 
 
 async def an_status(port: GenericAnyPort) -> Dict[str, Any]:
+    """
+    - Show the autonegotiation status
+    """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     *_, auto_neg_info = await apply(commands.PL1_AUTONEGINFO(conn, mid, pid, 0).get())
     return {
@@ -201,17 +218,27 @@ async def an_status(port: GenericAnyPort) -> Dict[str, Any]:
 
 
 async def an_log(port: GenericAnyPort) -> str:
+    """
+    - Show the autonegotiation trace log
+    """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
-    *_, log = await apply(commands.PL1_LOG(conn, mid, pid, 0, 0).get())
+    serdes_xindex = 0
+    _type = 0
+    *_, log = await apply(commands.PL1_LOG(conn, mid, pid, serdes_xindex, _type).get())
     return log.log_string
 
 
 async def lt(
-    port: GenericAnyPort,
-    enable: bool,
-    timeout_enable: bool,
-    mode: Literal["auto", "interactive"],
+    port: GenericAnyPort, enable: bool, timeout_enable: bool, mode: str
 ) -> List[Token]:
+    """
+        --enable:bool
+        --timeout:bool
+        --mode:str [auto|interactive]
+    - Enable or disable link training with or without timeout
+    in auto or interactive mode
+    """
+    assert mode in ("auto", "interactive")
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     t = (enable, timeout_enable, mode)
     tokens = [
@@ -246,6 +273,10 @@ async def lt(
 
 
 async def lt_clear(port: GenericAnyPort, lane: int) -> List[Token]:
+    """
+        --lane:int - Clear the command sequence for the lane.
+    - Clear lane. Lane is relative to the port and start with 0
+    """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     page_xindex = 8766
     register_xindex = ((0xFFFF & lane) << 16) + 0x0002
@@ -255,6 +286,10 @@ async def lt_clear(port: GenericAnyPort, lane: int) -> List[Token]:
 
 
 async def lt_nop(port: GenericAnyPort, lane: int) -> List[Token]:
+    """
+        --lane:int
+    - No operation for the lane, used to indicate interactive use
+    """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     page_xindex = 8766
     register_xindex = ((0xFFFF & lane) << 16) + 0x0000
@@ -264,14 +299,20 @@ async def lt_nop(port: GenericAnyPort, lane: int) -> List[Token]:
 
 
 async def lt_coeff_inc(
-    port: GenericAnyPort, lane: int, coeff: int, value: int
+    port: GenericAnyPort, lane: int, coeff: int, count: int
 ) -> List[Token]:
+    """
+        --lane:int
+        --coeff <coeff>
+        --count <count>
+    - Increase coeff with <count>, coeff 0 = c(1) ... coeff 4 = c(-3)
+    """
+    assert coeff in range(0, 5)
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     page_xindex = 8766
     register_xindex = ((0xFFFF & lane) << 16) + 0x0000
-    aaaa = hex(value & 0xFFFF).replace("0x", "").zfill(4)
+    aaaa = hex(count & 0xFFFF).replace("0x", "").zfill(4)
     cc = hex(coeff & 0xFF).replace("0x", "").zfill(2)
-
     return [
         commands.PX_RW(conn, mid, pid, page_xindex, register_xindex).set(
             f"0x{aaaa}01{cc}"
@@ -280,12 +321,19 @@ async def lt_coeff_inc(
 
 
 async def lt_coeff_dec(
-    port: GenericAnyPort, lane: int, coeff: int, value: int
+    port: GenericAnyPort, lane: int, coeff: int, count: int
 ) -> List[Token]:
+    """
+        --lane:int
+        --coeff <coeff>
+        --count <count>
+    - Decrease coeff with <count>, coeff 0 = c(1) ... coeff 4 = c(-3)
+    """
+    assert coeff in range(0, 5)
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     page_xindex = 8766
     register_xindex = ((0xFFFF & lane) << 16) + 0x0000
-    aaaa = hex(value & 0xFFFF).replace("0x", "").zfill(4)
+    aaaa = hex(count & 0xFFFF).replace("0x", "").zfill(4)
     cc = hex(coeff & 0xFF).replace("0x", "").zfill(2)
 
     return [
@@ -296,6 +344,11 @@ async def lt_coeff_dec(
 
 
 async def lt_preset(port: GenericAnyPort, lane: int, preset: int) -> List[Token]:
+    """
+        --lane:int
+        --preset:int [1-5]
+    - Select a preset for the lane.
+    """
     assert preset in range(1, 6), "Preset should be an integer between 1 and 5!"
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     page_xindex = 8766
@@ -308,14 +361,12 @@ async def lt_preset(port: GenericAnyPort, lane: int, preset: int) -> List[Token]
     ]
 
 
-async def lt_preset0(
-    port: GenericAnyPort,
-    use: Union[
-        Literal["existing"],
-        Literal["standard"],
-    ],
-    lane: int,
-) -> List[Token]:
+async def lt_preset0(port: GenericAnyPort, use: str, lane: int) -> List[Token]:
+    """
+        --lane:int
+        --use:str [existing|standard] - Should the preset0 (out-of-sync preset) use
+                                        existing tap values or standard values.
+    """
     assert use in (
         "existing",
         "standard",
@@ -332,6 +383,10 @@ async def lt_preset0(
 
 
 async def lt_trained(port: GenericAnyPort, lane: int) -> List[Token]:
+    """
+        --lane:int
+    - The current lane is trained
+    """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     page_xindex = 8766
     register_xindex = ((0xFFFF & lane) << 16) + 0x0000
@@ -341,12 +396,20 @@ async def lt_trained(port: GenericAnyPort, lane: int) -> List[Token]:
 
 
 async def lt_log(port: GenericAnyPort, lane: int) -> str:
+    """
+        --lane:int - Show the link training trace log per lane
+    - Show the link training trace log.
+    """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     *_, log = await apply(commands.PL1_LOG(conn, mid, pid, lane, 1).get())
     return log.log_string
 
 
 async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
+    """
+        --lane:int - Show the link training status per lane.
+    - Show the link training status.
+    """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     page_xindex = 8765
     page_xindex2 = 8766
@@ -511,6 +574,10 @@ async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
 
 
 async def txtap_get(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
+    """
+        --lane:int
+    - Get the taps of the local transceive
+    """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     *_, r = await apply(commands.PP_PHYTXEQ(conn, mid, pid, lane).get())
     return {
@@ -523,8 +590,23 @@ async def txtap_get(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
 
 
 async def txtap_set(
-    port: GenericAnyPort, lane: int, c_minus_3, c_minus_2, c_minus_1, c_0, c_positive_1
+    port: GenericAnyPort,
+    lane: int,
+    c_minus_3: int,
+    c_minus_2: int,
+    c_minus_1: int,
+    c_0: int,
+    c_positive_1: int,
 ) -> List[Token]:
+    """
+        --lane:int
+        --c_minus_3:int
+        --c_minus_2:int
+        --c_minus_1:int
+        --c_0:int
+        --c_positive_1:int
+    - Set the taps of the local transceiver
+    """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     return [
         commands.PP_PHYTXEQ(conn, mid, pid, lane).set(
@@ -534,12 +616,15 @@ async def txtap_set(
             pre2=c_minus_2,
             post2=c_minus_3,
             post3=0,
-            mode=4,
         )
     ]
 
 
 async def link_recovery(port: GenericAnyPort, enable: bool) -> List[Token]:
+    """
+        --enable:bool
+    - Should xenaserver do link recovery
+    """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     page_xindex = 0
     serdes_xindex = 0

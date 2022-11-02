@@ -80,15 +80,17 @@ class Client:
             "q": self.quit,
             "help": self.help,
         }
+        self.construct_doc_dic()
 
     def parse_args(self, method: Callable, raw_args: List[str]) -> Dict:
         assert isinstance(method, Callable)
         if isinstance(method, partial) and (not isinstance(method, KeepArgPartial)):
-            sig_dic = inspect.signature(method.args[0]).parameters
+            sig_dic = inspect.signature(method.func).parameters
             overlook = len(method.args) - 1
         else:
             sig_dic = inspect.signature(method).parameters
             overlook = -1
+
         arg_dic = {}
         for i, r in enumerate(raw_args):
             v = None
@@ -96,18 +98,19 @@ class Client:
                 kr, v = r.split("=")
                 k = kr.replace("--", "")
             else:
-                k = list(sig_dic.keys())[i]
+                valid_para = list(sig_dic.keys())[overlook + 1 :]
+                k = valid_para[i]
                 v = r
             typing = sig_dic[k].annotation
             if typing == bool:
-                if v in ("true", "enable"):
+                if v.lower() in ("true", "enable"):
                     v = True
                 else:
                     v = False
             arg_dic[k] = typing(v)
 
-        for i, (k, para_dic) in enumerate( sig_dic.items()):
-            if i <= overlook:
+        for j, (k, para_dic) in enumerate(sig_dic.items()):
+            if j <= overlook:
                 continue
             default_val = para_dic.default
             if default_val != inspect.Parameter.empty and arg_dic.get(k) is None:
@@ -121,11 +124,21 @@ class Client:
         await apply(*tokens)
 
     async def port_reserve(self, module_id: int, port_id: int):
+        """
+            --module:int
+            --port:int
+        - Reserve the port to configure
+        """
         assert self.current_tester is not None
         self.current_port = get_port(self.current_tester, module_id, port_id)
         await self.run_token(port_reserve(self.current_port))
 
     async def port_reset(self, module_id: int, port_id: int):
+        """
+            --module:int
+            --port:int
+        - Reset the port
+        """
         assert self.current_tester is not None
         self.current_port = get_port(self.current_tester, module_id, port_id)
         await self.run_token(port_reset(self.current_port))
@@ -143,41 +156,73 @@ class Client:
     async def quit(self) -> None:
         self.running = False
 
-    async def help(self, *lines: str) -> str:
-        info = ""
-        if not lines:
-            info = "Please type 'help <command> for more infomation'. Available commands are: \n"
-            info += "".join(
-                [
-                    f"    {k}\n"
-                    for k in self.method
-                    if k not in ("quit", "q", "exit", "help")
-                ]
-            )
+    def construct_doc_dic(self) -> None:
+        doc_dic = {}
+        for k, method in self.method.items():
+            if k not in ("quit", "q", "exit"):
+                if isinstance(method, KeepArgPartial):
+                    func = method.func
+                elif isinstance(method, partial):
+                    func = method.args[0]
+                else:
+                    func = method
+                info = ""
+                doc = inspect.getdoc(func)
+                if doc:
+                    for i in doc.split("\n"):
+                        info += f"    {i}\n"
+                    info += "-" * 79
+                doc_dic[k] = info
+        self.doc_dic = doc_dic
 
+    async def help(self, line: str="") -> str:
+        """
+        - Please type 'help <command>' for more infomation.
+        """
+        if not line:
+            info = "Please type 'help <command>' for more infomation. Available commands are: \n"
+            for k, v in self.doc_dic.items():
+                info += f"{k}\n"
+                info += f"{v}\n"
+        else:
+            key = line.replace("-", "_")
+            info = f"{key}\n"
+            info += self.doc_dic.get(key, "")
+            if info is None:
+                return "No commands match."
         return info
 
     async def run(self) -> None:
         while self.running:
-            input_string = input("xena:> ")
-            lines = [i for i in input_string.split(" ") if i]
-            if not lines:
-                continue
-            method_name, *raw_args = lines
-            method = self.method.get(method_name.replace("-", "_"), None)
-            if method is None:
-                print("No commands match.")
-                continue
-            args = self.parse_args(method, raw_args)
-            result = await method(**args)
-            if method_name == "connect":
-                self.current_tester = result
-            elif method_name in ("an_log", "lt_log", "help"):
-                print(result)
-            elif method_name in ("an_status", "lt_status", "anlt_status", "txtap_get"):
-                print(json.dumps(result, indent=2))
-            else:
-                print(method_name, " <OK>")
+            try:
+                input_string = input("xena:> ")
+                lines = [i for i in input_string.split(" ") if i]
+                if not lines:
+                    continue
+                method_name, *raw_args = lines
+                replaced_name = method_name.replace("-", "_")
+                method = self.method.get(replaced_name, None)
+                if method is None:
+                    print("No commands match.")
+                    continue
+                kw = self.parse_args(method, raw_args)
+                result = await method(**kw)
+                if replaced_name == "connect":
+                    self.current_tester = result
+                    print(replaced_name, " <OK>")
+                elif replaced_name in ("an_log", "lt_log", "help"):
+                    print(result)
+                elif replaced_name in (
+                    "an_status",
+                    "lt_status",
+                    "anlt_status",
+                    "txtap_get",
+                ):
+                    print(json.dumps(result, indent=2))
+                else:
+                    print(replaced_name, " <OK>")
+            except Exception as e:
+                print(f"{type(e)}: {e}")
 
 
 if __name__ == "__main__":
