@@ -96,7 +96,7 @@ class Client:
             v = None
             if r.startswith("--"):
                 kr, v = r.split("=")
-                k = kr.replace("--", "")
+                k = kr.replace("--", "").replace('-', '_')
             else:
                 valid_para = list(sig_dic.keys())[overlook + 1 :]
                 k = valid_para[i]
