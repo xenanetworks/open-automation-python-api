@@ -367,7 +367,7 @@ async def lt_preset(port: GenericAnyPort, lane: int, preset: int) -> List[Token]
     ]
 
 
-async def lt_preset0(port: GenericAnyPort, use: str, lane: int) -> List[Token]:
+async def lt_preset0(port: GenericAnyPort, lane: int, use: str) -> List[Token]:
     """
     --lane:int
     --use:str [existing|standard] - Should the preset0 (out-of-sync preset) use
@@ -380,7 +380,7 @@ async def lt_preset0(port: GenericAnyPort, use: str, lane: int) -> List[Token]:
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     page_xindex = 8766
     register_xindex = ((0xFFFF & lane) << 16) + 0x0000
-    preset = 0 if use == "existing" else "standard"
+    preset = 0 if use == "existing" else 1
     return [
         commands.PX_RW(conn, mid, pid, page_xindex, register_xindex).set(
             f"0x0000000{preset}"

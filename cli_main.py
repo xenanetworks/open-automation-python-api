@@ -129,7 +129,7 @@ class Client:
             --port:int
         - Reserve the port to configure
         """
-        assert self.current_tester is not None,"Please 'connect' a tester."
+        assert self.current_tester is not None, "Please 'connect' a tester."
         self.current_port = get_port(self.current_tester, module_id, port_id)
         await self.run_token(port_reserve(self.current_port))
 
@@ -139,17 +139,17 @@ class Client:
             --port:int
         - Reset the port
         """
-        assert self.current_tester is not None,"Please 'connect' a tester."
+        assert self.current_tester is not None, "Please 'connect' a tester."
         self.current_port = get_port(self.current_tester, module_id, port_id)
         await self.run_token(port_reset(self.current_port))
 
     async def check_port_apply(self, token_coro, **kw):
-        assert self.current_port is not None,"Please 'port_reserve' a port."
+        assert self.current_port is not None, "Please 'port_reserve' a port."
         tokens = await partial(token_coro, self.current_port)(**kw)
         await apply(*tokens)
 
     async def check_port_return(self, token_coro, **kw):
-        assert self.current_port is not None,"Please 'port_reserve' a port."
+        assert self.current_port is not None, "Please 'port_reserve' a port."
         result = await partial(token_coro, self.current_port)(**kw)
         return result
 
