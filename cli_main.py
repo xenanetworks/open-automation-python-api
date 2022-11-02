@@ -85,7 +85,7 @@ class Client:
     def parse_args(self, method: Callable, raw_args: List[str]) -> Dict:
         assert isinstance(method, Callable)
         if isinstance(method, partial) and (not isinstance(method, KeepArgPartial)):
-            sig_dic = inspect.signature(method.func).parameters
+            sig_dic = inspect.signature(method.args[0]).parameters
             overlook = len(method.args) - 1
         else:
             sig_dic = inspect.signature(method).parameters
