@@ -156,6 +156,7 @@ class Client:
     async def quit(self) -> None:
         self.running = False
 
+<<<<<<< HEAD
     def construct_doc_dic(self) -> None:
         doc_dic = {}
         for k, method in self.method.items():
@@ -190,6 +191,20 @@ class Client:
             info += self.doc_dic.get(key, "")
             if info is None:
                 return "No commands match."
+=======
+    async def help(self, *lines: str) -> str:
+        info = ""
+        if not lines:
+            info = "Please type 'help <command> for more information'. Available commands are: \n"
+            info += "".join(
+                [
+                    f"    {k}\n"
+                    for k in self.method
+                    if k not in ("quit", "q", "exit", "help")
+                ]
+            )
+
+>>>>>>> 1c6280a2d65db6504329d537e8b568695895d839
         return info
 
     async def run(self) -> None:
