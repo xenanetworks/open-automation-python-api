@@ -177,10 +177,10 @@ class Client:
 
     async def help(self, line: str = "") -> str:
         """
-        - Please type 'help <command>' for more infomation.
+        - Please type 'help <command>' for more information.
         """
         if not line:
-            info = "Please type 'help <command>' for more infomation. Available commands are: \n"
+            info = "Please type 'help <command>' for more information. Available commands are: \n"
             for k, v in self.doc_dic.items():
                 info += f"{k}\n"
                 info += f"{v}\n"
