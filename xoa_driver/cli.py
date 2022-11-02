@@ -94,7 +94,7 @@ async def connect(
         --password:str
     - Connect to tester
     """
-    assert tester_type in ("l23", "l47")
+    assert tester_type in ("l23", "l47"), "Para 'tester_type' not in ('l23', 'l47')!"
     class_ = {"l23": L23Tester, "l47": L47Tester}[tester_type]
     current_tester = await class_(host, username, password, port, debug=False)
     return current_tester
@@ -143,7 +143,9 @@ async def anlt_status(
     # if not isinstance(port, LinkTrainingSupported):
     #     raise NotSupportLinkTrainError(port)
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
-    r0 = commands.PL1_CFG_TMP(_connection=conn, _module=mid, _port=pid, _serdes_xindex=0, _type=0).get()
+    r0 = commands.PL1_CFG_TMP(
+        _connection=conn, _module=mid, _port=pid, _serdes_xindex=0, _type=0
+    ).get()
     r1 = commands.PP_AUTONEGSTATUS(_connection=conn, _module=mid, _port=pid).get()
     r2 = commands.PP_LINKTRAIN(_connection=port._conn, _module=mid, _port=pid).get()
 
@@ -170,8 +172,8 @@ async def an(
     enable: bool,
 ) -> List[Token]:
     """
-        --enable:bool - Enable or disable autonegotiation
-        --allow-loopback:bool - Should loopback be allowed in autonegotiation
+    --enable:bool - Enable or disable autonegotiation
+    --allow-loopback:bool - Should loopback be allowed in autonegotiation
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     page_xindex = 8765
@@ -242,16 +244,16 @@ async def lt(
     - Enable or disable link training with or without timeout
     in auto or interactive mode
     """
-    assert mode in ("auto", "interactive")
+    assert mode in (
+        "auto",
+        "interactive",
+    ), "Para 'mode' not in ('auto', 'interactive')!"
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     t = (enable, timeout_enable, mode)
-    tokens = [
-        # lt_nop
-    ]
+    tokens = []
     if t == (True, False, "interactive"):
-        tokens += [
-            lt_clear(port, 0),
-        ]
+        tokens += await lt_clear(port, 0)
+        tokens += await lt_nop(port, 0)
         lm, tm = (LinkTrainingMode.FORCE_ENABLE, TimeoutMode.TIMEOUT_DISABLED)
     elif t == (True, True, "interactive"):
         lm, tm = (LinkTrainingMode.FORCE_ENABLE, TimeoutMode.DEFAULT_TIMEOUT)
@@ -311,7 +313,7 @@ async def lt_coeff_inc(
         --count <count>
     - Increase coeff with <count>, coeff 0 = c(1) ... coeff 4 = c(-3)
     """
-    assert coeff in range(0, 5)
+    assert coeff in range(0, 5), "Para 'coeff' not in (0, 1, 2, 3, 4)!"
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     page_xindex = 8766
     register_xindex = ((0xFFFF & lane) << 16) + 0x0000
@@ -333,7 +335,7 @@ async def lt_coeff_dec(
         --count <count>
     - Decrease coeff with <count>, coeff 0 = c(1) ... coeff 4 = c(-3)
     """
-    assert coeff in range(0, 5)
+    assert coeff in range(0, 5), "Para 'coeff' not in (0, 1, 2, 3, 4)!"
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     page_xindex = 8766
     register_xindex = ((0xFFFF & lane) << 16) + 0x0000
@@ -353,7 +355,7 @@ async def lt_preset(port: GenericAnyPort, lane: int, preset: int) -> List[Token]
         --preset:int [1-5]
     - Select a preset for the lane.
     """
-    assert preset in range(1, 6), "Preset should be an integer between 1 and 5!"
+    assert preset in range(1, 6), "Para 'preset' not in (1, 2, 3, 4, 5)!"
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     page_xindex = 8766
     register_xindex = ((0xFFFF & lane) << 16) + 0x0000
@@ -367,14 +369,14 @@ async def lt_preset(port: GenericAnyPort, lane: int, preset: int) -> List[Token]
 
 async def lt_preset0(port: GenericAnyPort, use: str, lane: int) -> List[Token]:
     """
-        --lane:int
-        --use:str [existing|standard] - Should the preset0 (out-of-sync preset) use
-                                        existing tap values or standard values.
+    --lane:int
+    --use:str [existing|standard] - Should the preset0 (out-of-sync preset) use
+                                    existing tap values or standard values.
     """
     assert use in (
         "existing",
         "standard",
-    ), "Preset should be either 'standard' or 'existing'!"
+    ), "Para 'coeff' not in ('standard', 'existing')!"
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     page_xindex = 8766
     register_xindex = ((0xFFFF & lane) << 16) + 0x0000
