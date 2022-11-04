@@ -10,6 +10,12 @@ BasePortL23
 .. autoclass:: BasePortL23
    :members:
 
+GenericL23Port
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: GenericL23Port
+   :members:
+
 
 POdin1G3S6P
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

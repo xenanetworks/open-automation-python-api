@@ -88,11 +88,20 @@ async def connect(
     password: str = "xena",
     port: int = 22606,
 ) -> GenericAnyTester:
-    """
-        --host:str
-        --user:str
-        --password:str
-    - Connect to tester
+    """Connect to a Xena tester.
+
+    :param tester_type: Tester type, either "l23" or "l47"
+    :type tester_type: str
+    :param host: IP address or hostname of the tester.
+    :type host: str
+    :param username: Username used to log on the tester
+    :type username: str
+    :param password: Password of the tester, defaults to "xena"
+    :type password: str, optional
+    :param port: the port number for establishing the TCP connection, defaults to 22606
+    :type port: int, optional
+    :return: tester object
+    :rtype: :class:`~xoa_driver.testers.GenericAnyTester`
     """
     assert tester_type in ("l23", "l47"), "Para 'tester_type' not in ('l23', 'l47')!"
     class_ = {"l23": L23Tester, "l47": L47Tester}[tester_type]
@@ -119,6 +128,13 @@ def get_port(
 
 
 async def port_reserve(port: GenericAnyPort) -> List[Token]:
+    """Reserve a port regardless whether it is owned by others or not. 
+
+    :param port: The port to reserve
+    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :return: 
+    :rtype: typing.List[Token]
+    """
     tokens = []
     r = await port.reservation.get()
     if r.status == ReservedStatus.RESERVED_BY_OTHER:
@@ -130,14 +146,25 @@ async def port_reserve(port: GenericAnyPort) -> List[Token]:
 
 
 async def port_reset(port: GenericAnyPort) -> List[Token]:
+    """Reset a port
+
+    :param port: The port to reset
+    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :return: 
+    :rtype: typing.List[Token]
+    """
     return [(port.reset.set())]
 
 
 async def anlt_status(
     port: GenericAnyPort,
 ) -> Dict[str, Any]:
-    """
-    - The current status of AN/LT
+    """Get ANLT status
+
+    :param port: the port to get ANLT status from
+    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :return: ANLT status
+    :rtype: typing.Dict[str, Any]
     """
 
     # if not isinstance(port, LinkTrainingSupported):
@@ -162,18 +189,25 @@ async def anlt_status(
         "auto_neg_enabled": (autoneg.mode),
         "link_train_mode": (linktrain.mode),
         "link_train_timeout": (linktrain.timeout_mode),
-        "link recovery": (link_recovery.on_off),
+        "link_recovery": (link_recovery.on_off),
     }
 
 
-async def an(
+async def an_config(
     port: GenericAnyPort,
     allow_loopback: bool,
     enable: bool,
 ) -> List[Token]:
-    """
-    --enable:bool - Enable or disable autonegotiation
-    --allow-loopback:bool - Should loopback be allowed in autonegotiation
+    """Configure auto-negotiation
+
+    :param port: the port to configure AN
+    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :param allow_loopback: whether allowing the port in loopback mode
+    :type allow_loopback: bool
+    :param enable: enable or disable autonegotiation
+    :type enable: bool
+    :return: 
+    :rtype: typing.List[Token]
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     page_xindex = 8765
@@ -196,8 +230,12 @@ async def an(
 
 
 async def an_status(port: GenericAnyPort) -> Dict[str, Any]:
-    """
-    - Show the autonegotiation status
+    """Get the auto-negotiation status
+
+    :param port: the port to get auto-negotiation status
+    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :return: 
+    :rtype: typing.Dict[str, Any]
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     *_, auto_neg_info = await apply(commands.PL1_AUTONEGINFO(conn, mid, pid, 0).get())
@@ -224,8 +262,12 @@ async def an_status(port: GenericAnyPort) -> Dict[str, Any]:
 
 
 async def an_log(port: GenericAnyPort) -> str:
-    """
-    - Show the autonegotiation trace log
+    """Show the auto-negotiation logs
+
+    :param port: the port to get auto-negotiation logs
+    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :return: auto-negotiation log
+    :rtype: str
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     serdes_xindex = 0
@@ -234,15 +276,21 @@ async def an_log(port: GenericAnyPort) -> str:
     return log.log_string
 
 
-async def lt(
+async def lt_config(
     port: GenericAnyPort, enable: bool, timeout_enable: bool, mode: str
 ) -> List[Token]:
-    """
-        --enable:bool
-        --timeout:bool
-        --mode:str [auto|interactive]
-    - Enable or disable link training with or without timeout
-    in auto or interactive mode
+    """Configure link training on a port
+
+    :param port: the port to configure LT on
+    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :param enable: whether LT should be enabled on the port
+    :type enable: bool
+    :param timeout_enable: whether LT timeout should be enabled on the port
+    :type timeout_enable: bool
+    :param mode: LT mode, auto or interactive
+    :type mode: str
+    :return: 
+    :rtype: typing.List[Token]
     """
     assert mode in (
         "auto",
@@ -279,9 +327,14 @@ async def lt(
 
 
 async def lt_clear(port: GenericAnyPort, lane: int) -> List[Token]:
-    """
-        --lane:int - Clear the command sequence for the lane.
-    - Clear lane. Lane is relative to the port and start with 0
+    """Clear the LT command sequence for the lane.
+
+    :param port: the port to configure
+    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :param lane: lane index, starting from 0
+    :type lane: int
+    :return: 
+    :rtype: typing.List[Token]
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     page_xindex = 8766
@@ -292,9 +345,14 @@ async def lt_clear(port: GenericAnyPort, lane: int) -> List[Token]:
 
 
 async def lt_nop(port: GenericAnyPort, lane: int) -> List[Token]:
-    """
-        --lane:int
-    - No operation for the lane, used to indicate interactive use
+    """No operation for the lane, used to indicate interactive use
+
+    :param port: the port to configure
+    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :param lane: lane index, starting from 0
+    :type lane: int
+    :return: 
+    :rtype: typing.List[Token]
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     page_xindex = 8766
@@ -305,19 +363,36 @@ async def lt_nop(port: GenericAnyPort, lane: int) -> List[Token]:
 
 
 async def lt_coeff_inc(
-    port: GenericAnyPort, lane: int, coeff: int, count: int
+    port: GenericAnyPort, lane: int, coeff: int, value: int
 ) -> List[Token]:
+    """Increase coeff for a lane on a port
+
+    :param port: the port to configure
+    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :param lane: lane index, starting from 0
+    :type lane: int
+    :param coeff: coefficient index (-3, -2, -1, 0, 1)
+    :type coeff: int
+    :param value: the increase value
+    :type count: int
+    :return: 
+    :rtype: typing.List[Token]
     """
-        --lane:int
-        --coeff <coeff>
-        --count <count>
-    - Increase coeff with <count>, coeff 0 = c(1) ... coeff 4 = c(-3)
-    """
-    assert coeff in range(0, 5), "Para 'coeff' not in (0, 1, 2, 3, 4)!"
+    assert coeff in range(-3, 1), "Para 'coeff' not in (-3, -2, -1, 0, 1)!"
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     page_xindex = 8766
     register_xindex = ((0xFFFF & lane) << 16) + 0x0000
-    aaaa = hex(count & 0xFFFF).replace("0x", "").zfill(4)
+    aaaa = hex(value & 0xFFFF).replace("0x", "").zfill(4)
+    if coeff == -3:
+        coeff = 4
+    if coeff == -2:
+        coeff = 3
+    if coeff == -1:
+        coeff = 0
+    if coeff == 0:
+        coeff = 1
+    if coeff == 1:
+        coeff = 2
     cc = hex(coeff & 0xFF).replace("0x", "").zfill(2)
     return [
         commands.PX_RW(conn, mid, pid, page_xindex, register_xindex).set(
@@ -329,19 +404,35 @@ async def lt_coeff_inc(
 async def lt_coeff_dec(
     port: GenericAnyPort, lane: int, coeff: int, count: int
 ) -> List[Token]:
+    """Decrease coeff for a lane on a port
+
+    :param port: the port to configure
+    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :param lane: lane index, starting from 0
+    :type lane: int
+    :param coeff: coefficient index (-3, -2, -1, 0, 1)
+    :type coeff: int
+    :param value: the decrease value
+    :type count: int
+    :return: 
+    :rtype: typing.List[Token]
     """
-        --lane:int
-        --coeff <coeff>
-        --count <count>
-    - Decrease coeff with <count>, coeff 0 = c(1) ... coeff 4 = c(-3)
-    """
-    assert coeff in range(0, 5), "Para 'coeff' not in (0, 1, 2, 3, 4)!"
+    assert coeff in range(-3, 1), "Para 'coeff' not in (-3, -2, -1, 0, 1)!"
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     page_xindex = 8766
     register_xindex = ((0xFFFF & lane) << 16) + 0x0000
     aaaa = hex(count & 0xFFFF).replace("0x", "").zfill(4)
+    if coeff == -3:
+        coeff = 4
+    if coeff == -2:
+        coeff = 3
+    if coeff == -1:
+        coeff = 0
+    if coeff == 0:
+        coeff = 1
+    if coeff == 1:
+        coeff = 2
     cc = hex(coeff & 0xFF).replace("0x", "").zfill(2)
-
     return [
         commands.PX_RW(conn, mid, pid, page_xindex, register_xindex).set(
             f"0x{aaaa}02{cc}"
@@ -350,10 +441,16 @@ async def lt_coeff_dec(
 
 
 async def lt_preset(port: GenericAnyPort, lane: int, preset: int) -> List[Token]:
-    """
-        --lane:int
-        --preset:int [1-5]
-    - Select a preset for the lane.
+    """Select a preset for the lane.
+
+    :param port: port to configure
+    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :param lane: lane index, starting from 0
+    :type lane: int
+    :param preset: preset index to select for the lane, 1,2,3,4,5
+    :type preset: int
+    :return: 
+    :rtype: typing.List[Token]
     """
     assert preset in range(1, 6), "Para 'preset' not in (1, 2, 3, 4, 5)!"
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
@@ -368,10 +465,16 @@ async def lt_preset(port: GenericAnyPort, lane: int, preset: int) -> List[Token]
 
 
 async def lt_preset0(port: GenericAnyPort, lane: int, use: str) -> List[Token]:
-    """
-    --lane:int
-    --use:str [existing|standard] - Should the preset0 (out-of-sync preset) use
-                                    existing tap values or standard values.
+    """Should the preset0 (out-of-sync preset) use existing tap values or standard values.
+
+    :param port: port to configure
+    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :param lane: lane index, starting from 0
+    :type lane: int
+    :param use: preset0 (out-of-sync preset) use existing tap values ("existing") or standard values ("standard")
+    :type use: str
+    :return: 
+    :rtype: typing.List[Token]
     """
     assert use in (
         "existing",
@@ -389,9 +492,14 @@ async def lt_preset0(port: GenericAnyPort, lane: int, use: str) -> List[Token]:
 
 
 async def lt_trained(port: GenericAnyPort, lane: int) -> List[Token]:
-    """
-        --lane:int
-    - The current lane is trained
+    """Announce the current lane is trained.
+
+    :param port: port to configure
+    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :param lane: lane index, starting from 0
+    :type lane: int
+    :return: 
+    :rtype: typing.List[Token]
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     page_xindex = 8766
@@ -402,9 +510,14 @@ async def lt_trained(port: GenericAnyPort, lane: int) -> List[Token]:
 
 
 async def lt_log(port: GenericAnyPort, lane: int) -> str:
-    """
-        --lane:int - Show the link training trace log per lane
-    - Show the link training trace log.
+    """Show the link training trace log.
+
+    :param port: port to configure
+    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :param lane: lane index, starting from 0
+    :type lane: int
+    :return: 
+    :rtype: str
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     *_, log = await apply(commands.PL1_LOG(conn, mid, pid, lane, 1).get())
@@ -412,9 +525,14 @@ async def lt_log(port: GenericAnyPort, lane: int) -> str:
 
 
 async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
-    """
-        --lane:int - Show the link training status per lane.
-    - Show the link training status.
+    """ Show the link training status.
+
+    :param port: port to configure
+    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :param lane: lane index, starting from 0
+    :type lane: int
+    :return: 
+    :rtype: str
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     page_xindex = 8765
@@ -580,9 +698,14 @@ async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
 
 
 async def txtap_get(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
-    """
-        --lane:int
-    - Get the taps of the local transceive
+    """Get the tap value of the local TX tap.
+
+    :param port: port to configure
+    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :param lane: lane index, starting from 0
+    :type lane: int
+    :return: 
+    :rtype: typing.Dict[str, Any]
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     *_, r = await apply(commands.PP_PHYTXEQ(conn, mid, pid, lane).get())
@@ -604,14 +727,24 @@ async def txtap_set(
     main: int,
     post1: int,
 ) -> List[Token]:
-    """
-        --lane:int
-        --pre3:int
-        --pre2:int
-        --pre1:int
-        --main:int
-        --post1:int
-    - Set the taps of the local transceiver
+    """Set the tap value of the local TX tap.
+
+    :param port: port to configure
+    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :param lane: lane index, starting from 0
+    :type lane: int
+    :param pre3: pre3 value 
+    :type pre3: int
+    :param pre2: pre2 value
+    :type pre2: int
+    :param pre1: pre1 value
+    :type pre1: int
+    :param main: main value
+    :type main: int
+    :param post1: post1 value
+    :type post1: int
+    :return: 
+    :rtype: typing.List[Token]
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     return [
@@ -627,9 +760,14 @@ async def txtap_set(
 
 
 async def link_recovery(port: GenericAnyPort, enable: bool) -> List[Token]:
-    """
-        --enable:bool
-    - Should xenaserver do link recovery
+    """Should xenaserver automatically do link recovery when detecting down signal.
+
+    :param port: port to configure
+    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :param enable: Should xenaserver automatically do link recovery when detecting down signal.
+    :type enable: bool
+    :return: 
+    :rtype: typing.List[Token]
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     page_xindex = 0

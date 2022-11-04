@@ -5,9 +5,9 @@ import json
 import platform
 from typing import Any, Callable, Coroutine, Dict, List, Optional, Tuple
 from xoa_driver.util import (
-    an,
+    an_config,
     an_log,
-    lt,
+    lt_config,
     lt_clear,
     lt_coeff_dec,
     lt_log,
@@ -58,11 +58,11 @@ class Client:
             "connect": KeepArgPartial(connect, "l23"),
             "port_reserve": self.port_reserve,
             "port_reset": self.port_reset,
-            "an": partial(self.check_port_apply, an),
+            "an": partial(self.check_port_apply, an_config),
             "anlt_status": partial(self.check_port_return, anlt_status),
             "an_status": partial(self.check_port_return, an_status),
             "an_log": partial(self.check_port_return, an_log),
-            "lt": partial(self.check_port_apply, lt),
+            "lt": partial(self.check_port_apply, lt_config),
             "lt_status": partial(self.check_port_return, lt_status),
             "lt_clear": partial(self.check_port_apply, lt_clear),
             "lt_nop": partial(self.check_port_apply, lt_nop),
