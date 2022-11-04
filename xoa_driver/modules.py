@@ -33,7 +33,6 @@ from .internals.modules.modules_l23.family_h import (
     MLoki100G5S1P,
     MOdin100G3S1P,
 )
-
 from .internals.modules.modules_l23.family_i import MLoki100G5S2P
 from .internals.modules.modules_l23.family_j import MThor100G5S4P
 from .internals.modules.modules_l23.family_k import MThor400G7S1P
@@ -51,13 +50,14 @@ from .internals.modules.modules_l23.family_l1 import (
     MFreya800G4S1P_b,
 )
 from .internals.modules.modules_l23.family_m import MOdin1G3S6PT1RJ45
-from .internals.modules.modules_l23.family_n import MOdin40G2S2P
+from .internals.modules.modules_l23.family_n import (
+    MOdin40G2S2P,
+    MOdin40G2S2PB,
+)
 from .internals.modules.modules_l23.family_combi import (
     MOdin10G4S2PCombi,
     MOdin10G4S2PCombi_b,
 )
-
-
 from .internals.modules.module_l23ve import ModuleL23VE
 from .internals.modules.module_chimera import (
     ModuleChimera,
@@ -65,7 +65,6 @@ from .internals.modules.module_chimera import (
     MChi100G5S2P_b,
     MChi40G5S2P,
 )
-
 from .internals.modules.module_l47 import ModuleL47
 from .internals.modules.module_l47ve import ModuleL47VE
 
@@ -84,12 +83,14 @@ GenericL23Module = typing.Union[
         "MOdin10G1S2P",
         "MOdin10G1S2P_b",
         "MOdin10G1S2P_c",
+        "MOdin10G1S2P_d",
         "MOdin10G1S6P",
         "MOdin10G1S6P_b",
         "MOdin10G1S2PT",
         "MOdin10G1S2P_d",
         "MOdin10G1S12P",
         "MOdin40G2S2P",
+        "MOdin40G2S2PB",
         "MOdin100G3S1P",
         "MLoki100G3S1P",
         "MLoki100G3S1P_b",
@@ -137,12 +138,14 @@ __all__ = (
     "MOdin10G1S2P",
     "MOdin10G1S2P_b",
     "MOdin10G1S2P_c",
+    "MOdin10G1S2P_d",
     "MOdin10G1S6P",
     "MOdin10G1S6P_b",
     "MOdin10G1S2PT",
     "MOdin10G1S2P_d",
     "MOdin10G1S12P",
     "MOdin40G2S2P",
+    "MOdin40G2S2PB",
     "MOdin100G3S1P",
     "MLoki100G3S1P",
     "MLoki100G3S1P_b",
