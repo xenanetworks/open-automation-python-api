@@ -46,7 +46,7 @@ from xoa_driver.internals.ports.port_l23.family_f import (
     POdin10G1S6P_b,
     POdin10G1S12P,
     POdin40G2S2P,
-    POdin40G2S2P_b,
+    POdin40G2S2PB,
 )
 
 from xoa_driver.internals.ports.port_l23.family_g import (
@@ -101,7 +101,7 @@ GenericL23Port = typing.Union[
         "POdin10G1S2P_d",
         "POdin10G1S12P",
         "POdin40G2S2P",
-        "POdin40G2S2P_b",
+        "POdin40G2S2PB",
         "POdin100G3S1P",
         "PLoki100G3S1P",
         "PLoki100G3S1P_b",
@@ -156,7 +156,7 @@ __all__ = (
     "POdin10G1S2P_d",
     "POdin10G1S12P",
     "POdin40G2S2P",
-    "POdin40G2S2P_b",
+    "POdin40G2S2PB",
     "POdin100G3S1P",
     "PLoki100G3S1P",
     "PLoki100G3S1P_b",
