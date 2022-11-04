@@ -96,7 +96,7 @@ async def connect(
     """
     assert tester_type in ("l23", "l47"), "Para 'tester_type' not in ('l23', 'l47')!"
     class_ = {"l23": L23Tester, "l47": L47Tester}[tester_type]
-    current_tester = await class_(host, username, password, port, debug=False)
+    current_tester = await class_(host, username, password, port, debug=True)
     return current_tester
 
 

@@ -4,7 +4,7 @@ import inspect
 import json
 import platform
 from typing import Any, Callable, Coroutine, Dict, List, Optional, Tuple
-from xoa_driver.cli import (
+from xoa_driver.util import (
     an,
     an_log,
     lt,
