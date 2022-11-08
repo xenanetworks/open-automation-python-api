@@ -173,6 +173,11 @@ class ModuleL23(bm.BaseModule["modules_state.ModuleL23LocalState"]):
         Representation of M_MEDIA
         """
 
+        self.available_speeds = M_MEDIASUPPORT(conn, self.module_id)
+        """Test module's available speeds.
+        Representation of M_MEDIASUPPORT
+        """
+
         self.revision = M_REVISION(conn, self.module_id)
         """Test module's model P/N name.
         Representation of M_REVISION
@@ -198,7 +203,10 @@ class ModuleL23(bm.BaseModule["modules_state.ModuleL23LocalState"]):
         """Test module's CFP """
 
         self.upgrade = MUpgrade(conn, self.module_id)
-        """Test module's upgrade."""
+        """Test module's upgrade.
+        
+        :type: MUpgrade
+        """
 
         self.ports: Optional[pm.PortsManager] = None
         """L23 port index manager of the test module."""
