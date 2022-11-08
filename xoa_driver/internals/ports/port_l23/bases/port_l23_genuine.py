@@ -9,13 +9,7 @@ from xoa_driver.internals.core.commands import (
     P_UAT_MODE,
     P_UAT_FLR,
     P_STATUS,
-    P_LPSUPPORT,
     P_TCVRSTATUS,
-    P_TXRUNTLENGTH,
-    P_RXRUNTLENGTH,
-    P_RXRUNTLEN_ERRS,
-    P_TXPREAMBLE_REMOVE,
-    P_RXPREAMBLE_INSERT,
     P_LOADMODE,
     PP_FECMODE,
 )
@@ -77,42 +71,6 @@ class UnAvailableTime:
         """
 
 
-class GenuineTxConfiguration(TxConfiguration):
-    """L23 port's TX configuration."""
-    
-    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
-        super().__init__(conn, module_id, port_id)
-        self.runt_length = P_TXRUNTLENGTH(conn, module_id, port_id)
-        """L23 port's TX runt length.
-        Representation of P_TXRUNTLENGTH
-        """
-        
-        self.preamble_remove = P_TXPREAMBLE_REMOVE(conn, module_id, port_id)
-        """L23 port's removal of preamble from outgoing packets.
-        Representation of P_TXPREAMBLE_REMOVE
-        """
-
-
-class GenuineRx:
-    """L23 port's RX configuration."""
-    
-    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
-        self.runt_length = P_RXRUNTLENGTH(conn, module_id, port_id)
-        """L23 port's RX runt length.
-        Representation of P_RXRUNTLENGTH
-        """
-        
-        self.preamble_insert = P_RXPREAMBLE_INSERT(conn, module_id, port_id)
-        """L23 port's insertion of preamble into incoming packets.
-        Representation of P_RXPREAMBLE_INSERT
-        """
-        
-        self.runt_length_errors = P_RXRUNTLEN_ERRS(conn, module_id, port_id)
-        """L23 port's RX runt length errors..
-        Representation of P_RXRUNTLEN_ERRS
-        """
-
-
 class PortStatistics:
     """L23 port statistics"""
     
@@ -147,11 +105,6 @@ class BasePortL23Genuine(BasePortL23):
         Representation of P_LOADMODE
         """
         
-        self.lp_support = P_LPSUPPORT(conn, module_id, port_id)
-        """L23 port EEE capabilities.
-        Representation of P_LPSUPPORT
-        """
-        
         self.tcvr_status = P_TCVRSTATUS(conn, module_id, port_id)
         """L23 port transceiver status information.
         Representation of P_TCVRSTATUS
@@ -168,10 +121,6 @@ class BasePortL23Genuine(BasePortL23):
         
         self.uat = UnAvailableTime(conn, module_id, port_id)
         """L23 port UnAvailable Time configuration.
-        """
-        
-        self.tx_config = GenuineTxConfiguration(conn, module_id, port_id)
-        """L23 port TX configuration.
         """
 
         self.transceiver = PortTransceiver(conn, module_id, port_id)

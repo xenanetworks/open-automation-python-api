@@ -9,6 +9,7 @@ from xoa_driver.internals.core.commands import (
     P_LPPARTNERAUTONEG,
     P_LPSNRMARGIN,
     P_LPRXPOWER,
+    P_LPSUPPORT,
 )
 from xoa_driver.internals.utils import attributes as utils
 if TYPE_CHECKING:
@@ -33,7 +34,7 @@ class LowPowerMode:
         Representation of P_LPSTATUS
         """
 
-        self.partner_autonegotiation = P_LPPARTNERAUTONEG(conn, module_id, port_id)
+        self.partner_capabilities = P_LPPARTNERAUTONEG(conn, module_id, port_id)
         """EEE capabilities advertised during auto-negotiation by the far side.
         Representation of P_LPPARTNERAUTONEG
         """
@@ -46,6 +47,11 @@ class LowPowerMode:
         self.rx_power = P_LPRXPOWER(conn, module_id, port_id)
         """RX power recorded during training for the four channels.
         Representation of P_LPRXPOWER
+        """
+
+        self.capabilities = P_LPSUPPORT(conn, module_id, port_id)
+        """EEE capabilities of the port.
+        Representation of P_LPSUPPORT
         """
 
 

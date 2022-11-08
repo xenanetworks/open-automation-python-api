@@ -53,7 +53,7 @@ class Runt:
         Representation of P_RXRUNTLENGTH
         """
         
-        self.rx_errors = P_RXRUNTLEN_ERRS(conn, module_id, port_id)
+        self.has_length_errors = P_RXRUNTLEN_ERRS(conn, module_id, port_id)
         """L23 port's RX runt length errors..
         Representation of P_RXRUNTLEN_ERRS
         """
