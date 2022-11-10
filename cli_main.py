@@ -1,10 +1,12 @@
 import asyncio
+from contextlib import suppress
+import warnings
 from functools import partial
 import inspect
 import json
 import platform
 from typing import Any, Callable, Coroutine, Dict, List, Optional, Tuple
-from xoa_driver.util import (
+from xoa_driver.functions.util import (
     an_config,
     an_log,
     lt_config,
@@ -31,6 +33,10 @@ from xoa_driver.util import (
 from xoa_driver.ports import GenericAnyPort
 from xoa_driver.utils import apply
 from xoa_driver.misc import Token
+
+
+warnings.formatwarning = lambda message, category, filename, lineno, *_: f"\n\33[33m{category.__name__}\33[0m: {message}\n\n"
+warnings.warn("The CLI module is not a part of the driver and this file will be removed from release version.", DeprecationWarning)
 
 
 def set_windows_loop_policy() -> None:
@@ -98,7 +104,7 @@ class Client:
                 kr, v = r.split("=")
                 k = kr.replace("--", "").replace('-', '_')
             else:
-                valid_para = list(sig_dic.keys())[overlook + 1 :]
+                valid_para = list(sig_dic.keys())[(overlook + 1):]
                 k = valid_para[i]
                 v = r
             typing = sig_dic[k].annotation
@@ -229,4 +235,5 @@ if __name__ == "__main__":
     plat = platform.system().lower()
     if plat == "windows":
         asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-    asyncio.run(cli_main())
+    with suppress(KeyboardInterrupt):
+        asyncio.run(cli_main())

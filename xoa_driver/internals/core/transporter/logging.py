@@ -1,4 +1,3 @@
-import re
 from typing import (
     Iterable,
     Callable,
@@ -15,7 +14,8 @@ SYMBOL_RESPONSE = "<Y><e> <- </e></Y>"
 
 class TransportationLogger:
     __slots__ = ("debug", "identity_name", "__logger", "__state")
-    def __init__(self, uid: str, debug: bool = False):
+
+    def __init__(self, uid: str, debug: bool = False) -> None:
         self.debug = debug
         self.identity_name = f"bifrost-{uid}"
         self.__state: Union[Type[StateDebugOn], Type[StateDebugOff]] = StateDebugOff
@@ -28,7 +28,8 @@ class TransportationLogger:
             self.__state = StateDebugOn
 
     def _log(self, *args: Iterable[str], log_fn: Callable = logger.opt(colors=True).debug) -> None:
-        for v in args: log_fn(v)
+        for v in args:
+            log_fn(v)
 
     def info(self, *args) -> None:
         self.__state.info(self, *args)
@@ -41,7 +42,7 @@ class TransportationLogger:
 
     def response_obj(self, response: protocol.Response) -> None:
         self.__state.response_obj(self, response)
-    
+
     def push_obj(self, response: protocol.Response) -> None:
         self.__state.push_obj(self, response)
 
@@ -65,7 +66,7 @@ class StateDebugOn:
     @staticmethod
     def response_obj(inst: "TransportationLogger", response: protocol.Response) -> None:
         inst._log(f"{SYMBOL_RESPONSE} {response!r}")
-    
+
     @staticmethod
     def push_obj(inst: "TransportationLogger", response: protocol.Response) -> None:
         inst._log(f"{SYMBOL_PUSH} {response!r}")
