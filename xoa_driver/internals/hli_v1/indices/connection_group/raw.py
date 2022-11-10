@@ -95,6 +95,7 @@ class GTransmitRaw:
         Representation of P4G_RAW_TX_TIME_OFFSET
         """
 
+
 class GDownloadRequestRaw:
     """Download request settings."""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, group_idx: int) -> None:
@@ -132,7 +133,6 @@ class GRaw:
         """
         Representation of P4G_RAW_UTILIZATION
         """
-        
         self.download_request = GDownloadRequestRaw(conn, module_id, port_id, group_idx)
         """Download request."""
         self.payload = GPayloadRaw(conn, module_id, port_id, group_idx)

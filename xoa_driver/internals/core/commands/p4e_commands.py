@@ -9,10 +9,11 @@ from ..protocol.command_builders import (
 )
 from .. import interfaces
 from ..transporter.token import Token
-from ..protocol.fields.data_types import *
+from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
 from .enums import *
+
 
 @register_command
 @dataclass
@@ -30,11 +31,11 @@ class P4E_ASSIGN:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        mask: XmpField[XmpHex8] = XmpField(XmpHex8)  # eight hex bytes, a bitmask specifying which PEs should be assigned to this port
+        mask: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)  # eight hex bytes, a bitmask specifying which PEs should be assigned to this port
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mask: XmpField[XmpHex8] = XmpField(XmpHex8)  # eight hex bytes, a bitmask specifying which PEs should be assigned to this port
+        mask: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)  # eight hex bytes, a bitmask specifying which PEs should be assigned to this port
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the assigned PEs on the port.
@@ -69,8 +70,8 @@ class P4E_AVAILABLE:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        available_pe_count: XmpField[XmpByte] = XmpField(
-            XmpByte
+        available_pe_count: XmpField[xt.XmpByte] = XmpField(
+            xt.XmpByte
         )  # byte, total number of PEs that can be allocated to the port - including the PEs already allocated to the port.
 
     def get(self) -> "Token[GetDataAttr]":
@@ -98,11 +99,11 @@ class P4E_ALLOCATE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        pe_count_alloc: XmpField[XmpByte] = XmpField(XmpByte)  # byte, the total number of PEs to allocate to this port - including the PEs already allocated to the port.
+        pe_count_alloc: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, the total number of PEs to allocate to this port - including the PEs already allocated to the port.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        pe_count_alloc: XmpField[XmpByte] = XmpField(XmpByte)  # byte, the total number of PEs to allocate to this port - including the PEs already allocated to the port.
+        pe_count_alloc: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, the total number of PEs to allocate to this port - including the PEs already allocated to the port.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the number of PEs allocated to this port.
@@ -138,8 +139,8 @@ class P4E_ALLOCATION_INFO:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        available: XmpField[XmpHex8] = XmpField(XmpHex8)  # eight hex bytes (64-bit) mask of available PEs
-        allocated: XmpField[XmpHex8] = XmpField(XmpHex8)  # eight hex bytes (64-bit) mask of PEs assigned to this port
+        available: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)  # eight hex bytes (64-bit) mask of available PEs
+        allocated: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)  # eight hex bytes (64-bit) mask of PEs assigned to this port
 
     def get(self) -> "Token[GetDataAttr]":
         """Get PEs allocation information.

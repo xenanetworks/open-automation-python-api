@@ -10,10 +10,11 @@ from ..protocol.command_builders import (
 )
 from .. import interfaces
 from ..transporter.token import Token
-from ..protocol.fields.data_types import *
+from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
 from .enums import *
+
 
 @register_command
 @dataclass
@@ -31,7 +32,7 @@ class P4_TRAFFIC:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        traffic_state: XmpField[XmpByte] = XmpField(XmpByte, choices=L47TrafficState)  # coded byte, the traffic state command issued to the port.
+        traffic_state: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=L47TrafficState)  # coded byte, the traffic state command issued to the port.
 
     def set(self, traffic_state: L47TrafficState) -> "Token":
         """Set L47 port traffic state.
@@ -69,7 +70,7 @@ class P4_STATE:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        state: XmpField[XmpByte] = XmpField(XmpByte, choices=L47PortState)  # coded byte, specifying the current state for this port.
+        state: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=L47PortState)  # coded byte, specifying the current state for this port.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the current state of the L47 port.
@@ -96,16 +97,16 @@ class P4_CAPABILITIES:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        auto: XmpField[XmpByte] = XmpField(XmpByte)  # byte, autoneg supported
-        N100_mbps: XmpField[XmpByte] = XmpField(XmpByte)  # byte, 100M speed supported
-        N1_gbps: XmpField[XmpByte] = XmpField(XmpByte)  # byte, 1G speed supported
-        N2_5_gbps: XmpField[XmpByte] = XmpField(XmpByte)  # byte, 2.5G speed supported
-        N5_gbps: XmpField[XmpByte] = XmpField(XmpByte)  # byte, 5G speed supported
-        N10_gbps: XmpField[XmpByte] = XmpField(XmpByte)  # byte, 10G speed supported
-        N25_gbps: XmpField[XmpByte] = XmpField(XmpByte)  # byte, 25G speed supported
-        N40_gbps: XmpField[XmpByte] = XmpField(XmpByte)  # byte, 40G speed supported
-        N50_gbps: XmpField[XmpByte] = XmpField(XmpByte)  # byte, 50G speed supported
-        N100_gbps: XmpField[XmpByte] = XmpField(XmpByte)  # byte, 100G speed supported
+        auto: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, autoneg supported
+        N100_mbps: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, 100M speed supported
+        N1_gbps: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, 1G speed supported
+        N2_5_gbps: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, 2.5G speed supported
+        N5_gbps: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, 5G speed supported
+        N10_gbps: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, 10G speed supported
+        N25_gbps: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, 25G speed supported
+        N40_gbps: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, 40G speed supported
+        N50_gbps: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, 50G speed supported
+        N100_gbps: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, 100G speed supported
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the speeds supported by the L47 port.
@@ -134,7 +135,7 @@ class P4_STATE_STATUS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        status: XmpField[XmpStr] = XmpField(XmpStr)  # string, status for the last port state change
+        status: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, status for the last port state change
 
     def get(self) -> "Token[GetDataAttr]":
         """Get status of the last port state change.
@@ -163,11 +164,11 @@ class P4_VLAN_OFFLOAD:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        offload: XmpField[XmpByte] = XmpField(XmpByte, choices=OnOff)  # coded byte, specifies if VLAN Offload is switched ON
+        offload: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies if VLAN Offload is switched ON
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        offload: XmpField[XmpByte] = XmpField(XmpByte, choices=OnOff)  # coded byte, specifies if VLAN Offload is switched ON
+        offload: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies if VLAN Offload is switched ON
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the VLAN offload status.
@@ -208,15 +209,15 @@ class P4_ARP_CONFIG:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        rate: XmpField[XmpInt] = XmpField(XmpInt)  # integer, ARP Request transmission rate (requests / sec) - must be larger than 0
-        retrans_timeout: XmpField[XmpInt] = XmpField(XmpInt)  # integer, ARP Request retransmission timeout [ms] - must be larger than 0
-        retries: XmpField[XmpByte] = XmpField(XmpByte)  # byte, maximum ARP Request retransmission retries
+        rate: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, ARP Request transmission rate (requests / sec) - must be larger than 0
+        retrans_timeout: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, ARP Request retransmission timeout [ms] - must be larger than 0
+        retries: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, maximum ARP Request retransmission retries
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        rate: XmpField[XmpInt] = XmpField(XmpInt)  # integer, ARP Request transmission rate (requests / sec) - must be larger than 0
-        retrans_timeout: XmpField[XmpInt] = XmpField(XmpInt)  # integer, ARP Request retransmission timeout [ms] - must be larger than 0
-        retries: XmpField[XmpByte] = XmpField(XmpByte)  # byte, maximum ARP Request retransmission retries
+        rate: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, ARP Request transmission rate (requests / sec) - must be larger than 0
+        retrans_timeout: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, ARP Request retransmission timeout [ms] - must be larger than 0
+        retries: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, maximum ARP Request retransmission retries
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the ARP configuration on the port.
@@ -256,15 +257,15 @@ class P4_NDP_CONFIG:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        rate: XmpField[XmpInt] = XmpField(XmpInt)  # integer, NDP Neighbor Solicitation transmission rate (requests / sec) - must be larger than 0
-        retrans_timeout: XmpField[XmpInt] = XmpField(XmpInt)  # integer, NDP Neighbor Solicitation retransmission timeout [ms] - must be larger than 0
-        retries: XmpField[XmpByte] = XmpField(XmpByte)  # byte, Max. NDP Neighbor Solicitation retransmission retries
+        rate: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, NDP Neighbor Solicitation transmission rate (requests / sec) - must be larger than 0
+        retrans_timeout: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, NDP Neighbor Solicitation retransmission timeout [ms] - must be larger than 0
+        retries: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, Max. NDP Neighbor Solicitation retransmission retries
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        rate: XmpField[XmpInt] = XmpField(XmpInt)  # integer, NDP Neighbor Solicitation transmission rate (requests / sec) - must be larger than 0
-        retrans_timeout: XmpField[XmpInt] = XmpField(XmpInt)  # integer, NDP Neighbor Solicitation retransmission timeout [ms] - must be larger than 0
-        retries: XmpField[XmpByte] = XmpField(XmpByte)  # byte, Max. NDP Neighbor Solicitation retransmission retries
+        rate: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, NDP Neighbor Solicitation transmission rate (requests / sec) - must be larger than 0
+        retrans_timeout: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, NDP Neighbor Solicitation retransmission timeout [ms] - must be larger than 0
+        retries: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, Max. NDP Neighbor Solicitation retransmission retries
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the NDP configuration on the port.
@@ -303,11 +304,11 @@ class P4_CAPTURE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=OnOff)  # coded byte, specifying whether to capture traffic on this port
+        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifying whether to capture traffic on this port
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=OnOff)  # coded byte, specifying whether to capture traffic on this port
+        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifying whether to capture traffic on this port
 
     def get(self) -> "Token[GetDataAttr]":
         """Get packet capture state on this port.
@@ -348,12 +349,12 @@ class P4_CAPTURE_GET_FIRST:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        index: XmpField[XmpInt] = XmpField(XmpInt)  # integer, index of frame returned
-        second: XmpField[XmpInt] = XmpField(XmpInt)  # integer, second value of frame capture timestamp
-        microsecond: XmpField[XmpInt] = XmpField(XmpInt)  # integer, microsecond value of frame capture timestamp
-        capture_length: XmpField[XmpInt] = XmpField(XmpInt)  # integer, length of captured portion of the frame
-        frame_length: XmpField[XmpInt] = XmpField(XmpInt)  # integer, length of the frame
-        frame: XmpField[XmpHexList] = XmpField(XmpHexList)  # list of hex bytes, the captured frame (capture_len bytes)
+        index: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, index of frame returned
+        second: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, second value of frame capture timestamp
+        microsecond: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, microsecond value of frame capture timestamp
+        capture_length: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, length of captured portion of the frame
+        frame_length: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, length of the frame
+        frame: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)  # list of hex bytes, the captured frame (capture_len bytes)
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the first captured frame on the port
@@ -381,12 +382,12 @@ class P4_CAPTURE_GET_NEXT:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        index: XmpField[XmpInt] = XmpField(XmpInt)  # integer, index of frame returned
-        second: XmpField[XmpInt] = XmpField(XmpInt)  # integer, second value of frame capture timestamp
-        microsecond: XmpField[XmpInt] = XmpField(XmpInt)  # integer, microsecond value of frame capture timestamp
-        capture_length: XmpField[XmpInt] = XmpField(XmpInt)  # integer, length of captured portion of the frame
-        frame_length: XmpField[XmpInt] = XmpField(XmpInt)  # integer, length of the frame
-        frame: XmpField[XmpHexList] = XmpField(XmpHexList)  # hex data, the captured frame (capture_len bytes)
+        index: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, index of frame returned
+        second: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, second value of frame capture timestamp
+        microsecond: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, microsecond value of frame capture timestamp
+        capture_length: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, length of captured portion of the frame
+        frame_length: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, length of the frame
+        frame: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)  # hex data, the captured frame (capture_len bytes)
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the next captured frame on the port
@@ -413,12 +414,12 @@ class P4_ETH_TX_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        bits_per_sec: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, bit/second of (layer 2) bytes transmitted
-        packets_per_sec: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, packets/second of packets transmitted
-        byte_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of (layer 2) bytes transmitted
-        packet_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of packets transmitted
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        bits_per_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, bit/second of (layer 2) bytes transmitted
+        packets_per_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, packets/second of packets transmitted
+        byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of (layer 2) bytes transmitted
+        packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of packets transmitted
 
     def get(self) -> "Token[GetDataAttr]":
         """Get total port Ethernet transmit statistics since last clear.
@@ -445,12 +446,12 @@ class P4_ETH_RX_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        bits_per_sec: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, bit/second of (layer 2) bytes received
-        packets_per_sec: XmpField[XmpLong] = XmpField(XmpLong)  # long, integer packets/second of received packets
-        byte_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of (layer 2) bytes received
-        packet_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of packets received
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        bits_per_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, bit/second of (layer 2) bytes received
+        packets_per_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long, integer packets/second of received packets
+        byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of (layer 2) bytes received
+        packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of packets received
 
     def get(self) -> "Token[GetDataAttr]":
         """Get total port Ethernet receive statistics since last clear.
@@ -477,11 +478,11 @@ class P4_PORT_TX_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        vlan_packet_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of 802.1Q VLAN tagged packets transmitted
-        bits_per_sec: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, bit/second of (layer 1) bits transmitted.
-        byte_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of (layer 1) bytes received.
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        vlan_packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of 802.1Q VLAN tagged packets transmitted
+        bits_per_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, bit/second of (layer 1) bits transmitted.
+        byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of (layer 1) bytes received.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get total port transmit statistics since last clear.
@@ -508,11 +509,11 @@ class P4_PORT_RX_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        vlan_packet_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of 802.1Q VLAN tagged packets received
-        bits_per_sec: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, bit/second of (layer 1) bits received.
-        byte_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of (layer 1) bytes received.
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        vlan_packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of 802.1Q VLAN tagged packets received
+        bits_per_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, bit/second of (layer 1) bits received.
+        byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of (layer 1) bytes received.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get total port receive statistics since last clear.
@@ -539,13 +540,13 @@ class P4_PORT_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        invalid_eth_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of invalid (e.g. short) Ethernet packets received
-        unknown_eth_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of unknown or unsupported Ethernet packets received
-        mismatch_vlan_error_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of packets with mismatching vlan info received
-        pkt_rate_limit_count: XmpField[XmpLong] = XmpField(
-            XmpLong
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        invalid_eth_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of invalid (e.g. short) Ethernet packets received
+        unknown_eth_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of unknown or unsupported Ethernet packets received
+        mismatch_vlan_error_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of packets with mismatching vlan info received
+        pkt_rate_limit_count: XmpField[xt.XmpLong] = XmpField(
+            xt.XmpLong
         )  # long integer, number of times that number of packets transmitted has been limited by the maximum packet rate limiter.
 
     def get(self) -> "Token[GetDataAttr]":
@@ -573,24 +574,24 @@ class P4_TX_PACKET_SIZE:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        bin_00: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
-        bin_01: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
-        bin_02: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
-        bin_03: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
-        bin_04: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
-        bin_05: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
-        bin_06: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
-        bin_07: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
-        bin_08: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
-        bin_09: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
-        bin_10: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
-        bin_11: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
-        bin_12: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
-        bin_13: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
-        bin_14: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
-        bin_15: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        bin_00: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
+        bin_01: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
+        bin_02: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
+        bin_03: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
+        bin_04: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
+        bin_05: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
+        bin_06: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
+        bin_07: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
+        bin_08: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
+        bin_09: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
+        bin_10: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
+        bin_11: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
+        bin_12: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
+        bin_13: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
+        bin_14: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
+        bin_15: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a histogram over transmitted (layer 2) packets sizes in 100 bytes intervals.
@@ -617,24 +618,24 @@ class P4_RX_PACKET_SIZE:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        bin_00: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
-        bin_01: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
-        bin_02: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
-        bin_03: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
-        bin_04: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
-        bin_05: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
-        bin_06: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
-        bin_07: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
-        bin_08: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
-        bin_09: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
-        bin_10: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
-        bin_11: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
-        bin_12: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
-        bin_13: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
-        bin_14: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
-        bin_15: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        bin_00: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
+        bin_01: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
+        bin_02: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
+        bin_03: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
+        bin_04: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
+        bin_05: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
+        bin_06: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
+        bin_07: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
+        bin_08: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
+        bin_09: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
+        bin_10: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
+        bin_11: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
+        bin_12: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
+        bin_13: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
+        bin_14: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
+        bin_15: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with a (layer 2) size in the given interval.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a histogram over received (layer 2) packets sizes in 100 bytes intervals.
@@ -662,7 +663,7 @@ class P4_TX_MTU:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        bins: XmpField[XmpByteList] = XmpField(XmpByteList)  # 925 x byte, '1' if any packets were transmitted with the specified layer 3 size, otherwise '0'.
+        bins: XmpField[xt.XmpByteList] = XmpField(xt.XmpByteList)  # 925 x byte, '1' if any packets were transmitted with the specified layer 3 size, otherwise '0'.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get histogram over transmitted (layer 3) packets sizes in 1 byte intervals.
@@ -690,7 +691,7 @@ class P4_RX_MTU:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        bins: XmpField[XmpByteList] = XmpField(XmpByteList)  # 925 x byte, '1' if any packets were received with the specified layer 3 size, otherwise '0'.
+        bins: XmpField[xt.XmpByteList] = XmpField(xt.XmpByteList)  # 925 x byte, '1' if any packets were received with the specified layer 3 size, otherwise '0'.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get histogram over received (layer 3) packets sizes in 1 byte intervals.
@@ -717,9 +718,9 @@ class P4_IPV4_RX_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        packet_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of IPv4 packets received
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of IPv4 packets received
 
     def get(self) -> "Token[GetDataAttr]":
         """Get total Port IPv4 protocol receive statistics since last clear.
@@ -746,9 +747,9 @@ class P4_IPV4_TX_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        packet_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of IPv4 packets transmitted
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of IPv4 packets transmitted
 
     def get(self) -> "Token[GetDataAttr]":
         """Get total Port IPv4 protocol transmit statistics since last clear.
@@ -775,11 +776,11 @@ class P4_IPV4_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        checksum_error_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of IPv4 packets which ip header checksum error
-        invalid_packet_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of IPv4 packets which are malformed
-        unknown_packet_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of IPv4 packets with unknown protocol
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        checksum_error_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of IPv4 packets which ip header checksum error
+        invalid_packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of IPv4 packets which are malformed
+        unknown_packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of IPv4 packets with unknown protocol
 
     def get(self) -> "Token[GetDataAttr]":
         """Get total Port IPv4 protocol error statistics since last clear.
@@ -806,9 +807,9 @@ class P4_IPV6_RX_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        packet_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of IPv6 packets received
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of IPv6 packets received
 
     def get(self) -> "Token[GetDataAttr]":
         """Get total Port IPv6 protocol receive statistics since last clear.
@@ -835,9 +836,9 @@ class P4_IPV6_TX_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        packet_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of IPv6 packets transmitted
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of IPv6 packets transmitted
 
     def get(self) -> "Token[GetDataAttr]":
         """Get total Port IPv6 protocol transmit statistics since last clear.
@@ -864,10 +865,10 @@ class P4_IPV6_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        invalid_packet_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of ipv6 packets which are malformed
-        unknown_packet_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of ipv6 packets with unknown protocol
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        invalid_packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of ipv6 packets which are malformed
+        unknown_packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of ipv6 packets with unknown protocol
 
     def get(self) -> "Token[GetDataAttr]":
         """Get total Port IPv6 protocol error statistics since last clear.
@@ -894,10 +895,10 @@ class P4_ARP_RX_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        arp_request_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number ARP Requests received
-        arp_reply_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number ARP Replies received
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        arp_request_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number ARP Requests received
+        arp_reply_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number ARP Replies received
 
     def get(self) -> "Token[GetDataAttr]":
         """Get total Port ARP protocol receive statistics since last clear.
@@ -924,10 +925,10 @@ class P4_ARP_TX_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        arp_request_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number ARP Requests transmitted
-        arp_reply_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number ARP Replies transmitted
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        arp_request_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number ARP Requests transmitted
+        arp_reply_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number ARP Replies transmitted
 
     def get(self) -> "Token[GetDataAttr]":
         """Get total Port ARP protocol transmit statistics since last clear.
@@ -954,15 +955,15 @@ class P4_ARP_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        invalid_arp_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of invalid ARP packets received
-        arp_request_lookup_failure_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of ARP requests received that could not be resolved
-        arp_reply_lookup_failure_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of ARP replies received that could not be resolved
-        arp_request_retrans_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of retransmitted ARP requests
-        arp_resolved_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of correct resolved IP addresses
-        arp_failed_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of IP address that was not resolved
-        arp_table_lookup_failure_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of dest IP addresses not found in the ARP table
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        invalid_arp_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of invalid ARP packets received
+        arp_request_lookup_failure_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of ARP requests received that could not be resolved
+        arp_reply_lookup_failure_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of ARP replies received that could not be resolved
+        arp_request_retrans_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of retransmitted ARP requests
+        arp_resolved_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of correct resolved IP addresses
+        arp_failed_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of IP address that was not resolved
+        arp_table_lookup_failure_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of dest IP addresses not found in the ARP table
 
     def get(self) -> "Token[GetDataAttr]":
         """Get total Port ARP protocol error statistics since last clear.
@@ -989,10 +990,10 @@ class P4_NDP_RX_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        ndp_request_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number NDP Requests received
-        ndp_reply_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number NDP Replies received
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        ndp_request_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number NDP Requests received
+        ndp_reply_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number NDP Replies received
 
     def get(self) -> "Token[GetDataAttr]":
         """Get total Port NDP protocol receive statistics since last clear.
@@ -1019,10 +1020,10 @@ class P4_NDP_TX_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        ndp_request_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number NDP Requests transmitted
-        ndp_reply_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number NDP Replies transmitted
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        ndp_request_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number NDP Requests transmitted
+        ndp_reply_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number NDP Replies transmitted
 
     def get(self) -> "Token[GetDataAttr]":
         """Get total Port NDP protocol transmit statistics since last clear.
@@ -1049,15 +1050,15 @@ class P4_NDP_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        invalid_ndp_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of invalid NDP packets received
-        ndp_request_lookup_failure_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of NDP requests received that could not be resolved
-        ndp_reply_lookup_failure_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of NDP replies received that could not be resolved
-        ndp_request_retrans_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of retransmitted NDP requests
-        ndp_resolved_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of correct resolved IP addresses
-        ndp_failed_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of IP address that was not resolved
-        ndp_table_lookup_failure_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of dest IP addresses not found in the NDP table
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        invalid_ndp_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of invalid NDP packets received
+        ndp_request_lookup_failure_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of NDP requests received that could not be resolved
+        ndp_reply_lookup_failure_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of NDP replies received that could not be resolved
+        ndp_request_retrans_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of retransmitted NDP requests
+        ndp_resolved_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of correct resolved IP addresses
+        ndp_failed_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of IP address that was not resolved
+        ndp_table_lookup_failure_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of dest IP addresses not found in the NDP table
 
     def get(self) -> "Token[GetDataAttr]":
         """Get total Port NDP protocol error statistics since last clear.
@@ -1084,13 +1085,13 @@ class P4_ICMP_RX_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        icmp_echo_request_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of ICMP Echo requests received
-        icmp_echo_reply_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of ICMP Echo replies received
-        icmp_dest_unknown_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of ICMP Destination unknown received
-        icmp_time_excessive_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of ICMP Time exceeded received
-        icmpv6_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of ICMPv6 packets received
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        icmp_echo_request_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of ICMP Echo requests received
+        icmp_echo_reply_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of ICMP Echo replies received
+        icmp_dest_unknown_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of ICMP Destination unknown received
+        icmp_time_excessive_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of ICMP Time exceeded received
+        icmpv6_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of ICMPv6 packets received
 
     def get(self) -> "Token[GetDataAttr]":
         """Get total Port ICMP protocol receive statistics since last clear.
@@ -1117,13 +1118,13 @@ class P4_ICMP_TX_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        icmp_echo_request_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of ICMP Echo requests transmitted
-        icmp_echo_reply_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of ICMP Echo replies transmitted
-        icmp_dest_unknown_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of ICMP Destination unknown transmitted
-        icmp_time_excessive_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of ICMP Time exceeded transmitted
-        icmpv6_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of ICMPv6 packets transmitted
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        icmp_echo_request_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of ICMP Echo requests transmitted
+        icmp_echo_reply_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of ICMP Echo replies transmitted
+        icmp_dest_unknown_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of ICMP Destination unknown transmitted
+        icmp_time_excessive_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of ICMP Time exceeded transmitted
+        icmpv6_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of ICMPv6 packets transmitted
 
     def get(self) -> "Token[GetDataAttr]":
         """Get total Port ICMP protocol transmit statistics since last clear.
@@ -1150,12 +1151,12 @@ class P4_ICMP_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        invalid_icmp_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of unknown or invalid ICMP packets received
-        unknown_icmp_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of unknown or unsupported ICMP packets received
-        invalid_icmpv6_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of unknown or invalid ICMPv6 packets received
-        unknown_icmpv6_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of unknown or unsupported ICMPv6 packets received
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        invalid_icmp_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of unknown or invalid ICMP packets received
+        unknown_icmp_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of unknown or unsupported ICMP packets received
+        invalid_icmpv6_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of unknown or invalid ICMPv6 packets received
+        unknown_icmpv6_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of unknown or unsupported ICMPv6 packets received
 
     def get(self) -> "Token[GetDataAttr]":
         """Get total Port ICMP protocol error statistics since last clear.
@@ -1182,9 +1183,9 @@ class P4_TCP_RX_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        packet_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of TCP packets received
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of TCP packets received
 
     def get(self) -> "Token[GetDataAttr]":
         """Get total Port TCP protocol receive statistics since last clear.
@@ -1211,9 +1212,9 @@ class P4_TCP_TX_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        packet_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of TCP packets transmitted
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of TCP packets transmitted
 
     def get(self) -> "Token[GetDataAttr]":
         """Get total Port TCP protocol transmit statistics since last clear.
@@ -1240,11 +1241,11 @@ class P4_TCP_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        checksum_error_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of tcp packets which tcp header checksum error
-        invalid_tcp_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of TCP packets which are malformed
-        tcp_lookup_failure_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of TCP packets received that could not be resolved
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        checksum_error_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of tcp packets which tcp header checksum error
+        invalid_tcp_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of TCP packets which are malformed
+        tcp_lookup_failure_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of TCP packets received that could not be resolved
 
     def get(self) -> "Token[GetDataAttr]":
         """Get total Port TCP protocol error statistics since last clear.
@@ -1271,9 +1272,9 @@ class P4_UDP_RX_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        packet_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of UDP packets received
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of UDP packets received
 
     def get(self) -> "Token[GetDataAttr]":
         """Get total Port UDP protocol receive statistics since last clear.
@@ -1300,9 +1301,9 @@ class P4_UDP_TX_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        packet_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of UDP packets transmitted
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of UDP packets transmitted
 
     def get(self) -> "Token[GetDataAttr]":
         """Get total Port UDP protocol transmit statistics since last clear.
@@ -1329,11 +1330,11 @@ class P4_UDP_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        checksum_error_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of udp packets which udp header checksum error
-        invalid_udp_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, total number of UDP packets which are malformed
-        udp_lookup_failure_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of UDP packets received that could not be resolved
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        checksum_error_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of udp packets which udp header checksum error
+        invalid_udp_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of UDP packets which are malformed
+        udp_lookup_failure_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of UDP packets received that could not be resolved
 
     def get(self) -> "Token[GetDataAttr]":
         """Get total Port UDP protocol error statistics since last clear.
@@ -1391,11 +1392,11 @@ class P4_ETH_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        tx_error_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, TX errors
-        rx_error_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, RX errors
-        rx_packet_lost_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, packets lost by the Ethernet driver due to RX queue overflow
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        tx_error_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, TX errors
+        rx_error_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, RX errors
+        rx_packet_lost_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, packets lost by the Ethernet driver due to RX queue overflow
 
     def get(self) -> "Token[GetDataAttr]":
         """Get total port Ethernet statistics since last clear.
@@ -1454,11 +1455,11 @@ class P4_SPEEDSELECTION:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        speed: XmpField[XmpByte] = XmpField(XmpByte, choices=L47PortSpeed)  # coded byte, specifies the speed of the port
+        speed: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=L47PortSpeed)  # coded byte, specifies the speed of the port
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        speed: XmpField[XmpByte] = XmpField(XmpByte, choices=L47PortSpeed)  # coded byte, specifies the speed of the port
+        speed: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=L47PortSpeed)  # coded byte, specifies the speed of the port
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the port speed mode.
@@ -1514,15 +1515,15 @@ class P4_MAX_PACKET_RATE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=AutoOrManual)  # coded byte, specifies the mode of the max. pps mechanism
-        rate: XmpField[XmpInt] = XmpField(XmpInt)  # integer, maximum number of packets per second to transmit on this port
-        time_window: XmpField[XmpInt] = XmpField(XmpInt)  # integer, time window [us] to measure the pps rate
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=AutoOrManual)  # coded byte, specifies the mode of the max. pps mechanism
+        rate: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, maximum number of packets per second to transmit on this port
+        time_window: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, time window [us] to measure the pps rate
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=AutoOrManual)  # coded byte, specifies the mode of the max. pps mechanism
-        rate: XmpField[XmpInt] = XmpField(XmpInt)  # integer, maximum number of packets per second to transmit on this port
-        time_window: XmpField[XmpInt] = XmpField(XmpInt)  # integer, time window [us] to measure the pps rate
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=AutoOrManual)  # coded byte, specifies the mode of the max. pps mechanism
+        rate: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, maximum number of packets per second to transmit on this port
+        time_window: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, time window [us] to measure the pps rate
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the maximum number of packets per second allowed to be transmitted on the port.
@@ -1566,11 +1567,11 @@ class P4_PCI_INFO:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        vendor_id: XmpField[XmpHex4] = XmpField(XmpHex4)  # four hex bytes, PCI Vendor ID
-        device_id: XmpField[XmpHex4] = XmpField(XmpHex4)  # four hex bytes, PCI Device ID
-        sub_vendor_id: XmpField[XmpHex4] = XmpField(XmpHex4)  # four hex bytes, PCI Subsystem Vendor ID
-        sub_device_id: XmpField[XmpHex4] = XmpField(XmpHex4)  # four hex bytes, PCI Subsystem Device ID
-        rev: XmpField[XmpInt] = XmpField(XmpInt)  # integer, Revision
+        vendor_id: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)  # four hex bytes, PCI Vendor ID
+        device_id: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)  # four hex bytes, PCI Device ID
+        sub_vendor_id: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)  # four hex bytes, PCI Subsystem Vendor ID
+        sub_device_id: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)  # four hex bytes, PCI Subsystem Device ID
+        rev: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, Revision
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the port PCI info.
@@ -1597,8 +1598,8 @@ class P4_FW_VER:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        major: XmpField[XmpInt] = XmpField(XmpInt)  # integer, Major firmware version
-        minor: XmpField[XmpInt] = XmpField(XmpInt)  # integer, Minor firmware version
+        major: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, Major firmware version
+        minor: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, Minor firmware version
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the firmware version of the port (NIC).
@@ -1625,7 +1626,7 @@ class P4_DEV_NAME:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        name: XmpField[XmpStr] = XmpField(XmpStr)  # string, name of the device (NIC) on which the port is located
+        name: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, name of the device (NIC) on which the port is located
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the name of the device (NIC) on which the port is located.
@@ -1652,8 +1653,8 @@ class P4_PORT_TYPE:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        type_number: XmpField[XmpInt] = XmpField(XmpInt)  # integer, enumerated port type
-        type_string: XmpField[XmpStr] = XmpField(XmpStr)  # string, textual representation of the port type
+        type_number: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, enumerated port type
+        type_string: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, textual representation of the port type
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the L47 port type.
@@ -1680,11 +1681,11 @@ class P4_LICENSE_INFO:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        present: XmpField[XmpByte] = XmpField(XmpByte, choices=IsPresent)  # coded byte, specifies if a license is assigned to the port
-        speed: XmpField[XmpByte] = XmpField(XmpByte, choices=LicenseSpeed)  # coded byte, if a license is assigned to the port, specifies the speed of the license
-        permanency: XmpField[XmpByte] = XmpField(XmpByte, choices=IsPermanent)  # coded byte, if a license is assigned to the port, specifies if the license is permanent
-        expiration: XmpField[XmpLong] = XmpField(
-            XmpLong
+        present: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=IsPresent)  # coded byte, specifies if a license is assigned to the port
+        speed: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=LicenseSpeed)  # coded byte, if a license is assigned to the port, specifies the speed of the license
+        permanency: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=IsPermanent)  # coded byte, if a license is assigned to the port, specifies if the license is permanent
+        expiration: XmpField[xt.XmpLong] = XmpField(
+            xt.XmpLong
         )  # long integer, if a license is assigned to the port and it is not permanent, specifies the expiration date of the license - in seconds since Jan 1, 1970.
 
     def get(self) -> "Token[GetDataAttr]":
@@ -1754,7 +1755,7 @@ class P4_APTITUDES:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        bson: XmpField[XmpByteList] = XmpField(XmpByteList)  # list of hex bytes, bson document containing the ports aptitudes
+        bson: XmpField[xt.XmpByteList] = XmpField(xt.XmpByteList)  # list of hex bytes, bson document containing the ports aptitudes
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the ports aptitudes

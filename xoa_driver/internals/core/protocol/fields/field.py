@@ -14,11 +14,13 @@ from . import exceptions as excp
 from . import interfaces as itf
 
 
-
 def patch_type(base_type: Type, choices: Type["IntEnum"], bit_map: List[str]) -> Type:
     """Function dynamically patch XTypes for show meaningful choices value"""
     def _choice_str(self) -> str:
-        c_format = lambda cho, itm : f"{cho.__name__}.{cho(int(itm)).name}"
+
+        def c_format(cho, itm) -> str:
+            return f"{cho.__name__}.{cho(int(itm)).name}"
+
         if issubclass(base_type, UserList):
             return str([c_format(choices, i) for i in self])
         return c_format(choices, self)
@@ -35,7 +37,7 @@ def patch_type(base_type: Type, choices: Type["IntEnum"], bit_map: List[str]) ->
         dic["__str__"] = _choice_str
         dic["__repr__"] = _choice_str
     # elif bit_map: # need to improve logic this part will not work coz function will be colled only if <choices> are defined
-    #     dic["__str__"] = _bit_map_str 
+    #     dic["__str__"] = _bit_map_str
     #     dic["__repr__"] = _bit_map_str
     return type(base_type.__name__, (base_type,), dic)
 
@@ -43,6 +45,7 @@ def patch_type(base_type: Type, choices: Type["IntEnum"], bit_map: List[str]) ->
 class ClimbRange(NamedTuple):
     min: Union[int, float]
     max: Union[int, float]
+
 
 class XmpField(Generic[itf.XmpGenericField]):
     """
@@ -52,26 +55,26 @@ class XmpField(Generic[itf.XmpGenericField]):
     """
 
     def __init__(
-        self, 
-        xmp_type: Type[itf.XmpGenericField], 
-        *_, 
-        choices: Optional[Type["IntEnum"]] = None, 
+        self,
+        xmp_type: Type[itf.XmpGenericField],
+        *,
+        choices: Optional[Type["IntEnum"]] = None,
         climb: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
     ) -> None:
         self.xmp_type = xmp_type
-        
+
         self.choices: Optional[Type["IntEnum"]] = None
         self.climb: Optional[ClimbRange] = None
         self.bit_map: List[str] = []
-        
+
         is_numerical = issubclass(self.xmp_type, (int, float))
-        
+
         if is_numerical or issubclass(self.xmp_type, UserList):
             if choices:
                 self.choices = choices
                 self.xmp_type = patch_type(
-                    self.xmp_type, 
-                    self.choices, 
+                    self.xmp_type,
+                    self.choices,
                     self.bit_map
                 )
         if is_numerical:
@@ -81,10 +84,10 @@ class XmpField(Generic[itf.XmpGenericField]):
         if not self.choices:
             return None
         elif isinstance(val, UserList):
-            [ self.choices(v) for v in val ]
+            [self.choices(v) for v in val]
         else:
             self.choices(val)  # raise an exception if value is not in provided enum
-    
+
     def __validate_limits(self, val: Union[int, float]) -> None:
         if not self.climb:
             return None
@@ -96,13 +99,13 @@ class XmpField(Generic[itf.XmpGenericField]):
 
     def __set__(self, obj: object, value: Any) -> None:
         val = (
-            self.xmp_type.from_bytes(value) 
-            if isinstance(value, bytes) 
+            self.xmp_type.from_bytes(value)
+            if isinstance(value, bytes)
             else self.xmp_type(value)
         )
-        
-        self.__validate_choices(val) # type: ignore
-        self.__validate_limits(val) # type: ignore
+
+        self.__validate_choices(val)  # type: ignore
+        self.__validate_limits(val)  # type: ignore
         obj.__dict__[self._private_name] = val
 
     def __get__(self, obj: object, objtype: Any = None) -> "itf.XmpGenericField":
@@ -132,7 +135,7 @@ class XmpField(Generic[itf.XmpGenericField]):
 #     def validate(inst, val) -> None:
 #         StateNumericalType._validate_choices(inst, val)
 #         StateNumericalType._validate_limits(inst, val)
-        
+
 
 # class StateIterableNumericalType:
 #     @staticmethod
@@ -140,7 +143,7 @@ class XmpField(Generic[itf.XmpGenericField]):
 #         if not inst.choices:
 #             return None
 #         [ inst.choices(v) for v in val ]
-    
+
 #     @staticmethod
 #     def _validate_limits(inst, val: Union[List[int], List[float]]) -> None:
 #         if not inst.climb:

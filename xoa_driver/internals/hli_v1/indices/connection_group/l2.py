@@ -25,6 +25,7 @@ class GMacL2:
         Representation of P4G_L2_SERVER_MAC
         """
 
+
 class GGatewayL2:
     """L2 Gateway"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, group_idx: int) -> None:
@@ -40,7 +41,7 @@ class GGatewayL2:
         """
         Representation of P4G_L2_IPV6_GW
         """
-    
+
 
 class GVlanL2:
     """L2 VLAN"""
@@ -68,4 +69,3 @@ class GL2:
         """L2 Gateway"""
         self.vlan = GVlanL2(conn, module_id, port_id, group_idx)
         """L2 VLAN"""
-

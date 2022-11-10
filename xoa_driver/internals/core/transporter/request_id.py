@@ -1,10 +1,11 @@
 from enum import IntEnum
 import asyncio
+
+
 class ReservedRequestID(IntEnum):
     PUSH_REQUEST = 0
-    
     REQUEST_ID_LIMIT = 0xFFFFFFFF
-    
+
     @classmethod
     def started(cls) -> int:
         return max(list(cls)[:-1]).value
@@ -12,9 +13,8 @@ class ReservedRequestID(IntEnum):
 
 class RequestId:
     """Aggrigator of request ID."""
-    
     __slots__ = ("__req_id", "__lock",)
-    
+
     def __init__(self) -> None:
         self.__req_id = ReservedRequestID.started()
         self.__lock = asyncio.Lock()

@@ -16,8 +16,8 @@ from xoa_driver.enums import (
 
 from xoa_driver.misc import Token
 from xoa_driver.utils import apply
-from xoa_driver.internals.ports.port_l23.family_l import FamilyL
-from xoa_driver.internals.ports.port_l23.family_l1 import FamilyL1
+from xoa_driver.internals.hli_v1.ports.port_l23.family_l import FamilyL
+from xoa_driver.internals.hli_v1.ports.port_l23.family_l1 import FamilyL1
 from xoa_driver.ports import GenericAnyPort
 from xoa_driver.testers import L23Tester, L47Tester, GenericAnyTester
 from xoa_driver.lli import commands
@@ -78,11 +78,11 @@ def get_port(
 
 
 async def port_reserve(port: GenericAnyPort) -> List[Token]:
-    """Reserve a port regardless whether it is owned by others or not. 
+    """Reserve a port regardless whether it is owned by others or not.
 
     :param port: The port to reserve
     :type port: :class:`~xoa_driver.ports.GenericAnyPort`
-    :return: 
+    :return:
     :rtype: typing.List[Token]
     """
     tokens = []
@@ -100,7 +100,7 @@ async def port_reset(port: GenericAnyPort) -> List[Token]:
 
     :param port: The port to reset
     :type port: :class:`~xoa_driver.ports.GenericAnyPort`
-    :return: 
+    :return:
     :rtype: typing.List[Token]
     """
     return [(port.reset.set())]
@@ -283,7 +283,7 @@ async def lt_clear(port: GenericAnyPort, lane: int) -> List[Token]:
     :type port: :class:`~xoa_driver.ports.GenericAnyPort`
     :param lane: lane index, starting from 0
     :type lane: int
-    :return: 
+    :return:
     :rtype: typing.List[Token]
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
@@ -325,7 +325,7 @@ async def lt_coeff_inc(
     :type coeff: int
     :param value: the increase value
     :type count: int
-    :return: 
+    :return:
     :rtype: typing.List[Token]
     """
     assert coeff in range(-3, 1), "Para 'coeff' not in (-3, -2, -1, 0, 1)!"
@@ -654,7 +654,7 @@ async def txtap_get(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
     :type port: :class:`~xoa_driver.ports.GenericAnyPort`
     :param lane: lane index, starting from 0
     :type lane: int
-    :return: 
+    :return:
     :rtype: typing.Dict[str, Any]
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id

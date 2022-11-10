@@ -9,9 +9,10 @@ from xoa_driver.internals.core.commands import (
     P4G_REPLAY_USER_INCARNATION,
     P4G_REPLAY_USER_REPETITIONS,
     P4G_APP_REPLAY_COUNTERS,
-    # P4G_REPLAY_SCHEDULING, #TODO: need to implement
-    # P4G_REPLAY_SYNCHRONIZATION, #TODO: need to implement
+    # P4G_REPLAY_SCHEDULING, # TODO: need to implement
+    # P4G_REPLAY_SYNCHRONIZATION, # TODO: need to implement
 )
+
 
 class GFilesReplay:
     """PCAP replay file configuration"""
@@ -25,14 +26,14 @@ class GFilesReplay:
         Representation of P4G_REPLAY_FILE_INDICES
         """
 
-    def name(self, replay_file_idx: int) -> "P4G_REPLAY_FILE_NAME": #TODO: Not sure about function name
+    def name(self, replay_file_idx: int) -> "P4G_REPLAY_FILE_NAME":  # TODO: Not sure about function name
         """
         Representation of P4G_REPLAY_FILE_NAME
         """
         return P4G_REPLAY_FILE_NAME(
-            self.__conn, 
-            self.__module_id, 
-            self.__port_id, 
+            self.__conn,
+            self.__module_id,
+            self.__port_id,
             self.__group_idx,
             replay_file_idx
         )
@@ -42,11 +43,12 @@ class GFilesReplay:
         Representation of P4G_REPLAY_FILE_CLEAR
         """
         await P4G_REPLAY_FILE_CLEAR(
-            self.__conn, 
-            self.__module_id, 
+            self.__conn,
+            self.__module_id,
             self.__port_id,
             replay_file_idx
         ).set()
+
 
 class GUserReplay:
     """PCAP replay user configuration"""
@@ -85,4 +87,3 @@ class GReplay:
         """PCAP replay user configuration"""
         self.counters = GCounters(conn, module_id, port_id, group_idx)
         """PCAP replay counters"""
-

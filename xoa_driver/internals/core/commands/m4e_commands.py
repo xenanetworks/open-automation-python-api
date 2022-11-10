@@ -11,10 +11,11 @@ from ..protocol.command_builders import (
 )
 from .. import interfaces
 from ..transporter.token import Token
-from ..protocol.fields.data_types import *
+from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
 from .enums import *
+
 
 @register_command
 @dataclass
@@ -31,11 +32,11 @@ class M4E_MODE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=ResourceAllocationMode)  # coded byte, resource allocation mode.
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=ResourceAllocationMode)  # coded byte, resource allocation mode.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=ResourceAllocationMode)  # coded byte, resource allocation mode.
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=ResourceAllocationMode)  # coded byte, resource allocation mode.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the resource allocation mode.
@@ -75,11 +76,11 @@ class M4E_RESERVE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        mask: XmpField[XmpHex8] = XmpField(XmpHex8)  # eight hex bytes, bitmask of PEs to reserve
+        mask: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)  # eight hex bytes, bitmask of PEs to reserve
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mask: XmpField[XmpHex8] = XmpField(XmpHex8)  # eight hex bytes, bitmask of PEs to reserve
+        mask: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)  # eight hex bytes, bitmask of PEs to reserve
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the PEs reserved.

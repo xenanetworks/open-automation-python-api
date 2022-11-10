@@ -1,5 +1,5 @@
 from typing import (
-    Union, 
+    Union,
     Any,
     Type,
     Iterable,
@@ -8,6 +8,7 @@ from typing import (
 )
 
 # region Converter Errors
+
 
 class PaddingOddError(ValueError):
     def __init__(self, value: int) -> None:
@@ -45,7 +46,7 @@ class NumberRangeError(ValueError):
 
 
 class HexRangeError(ValueError):
-    def __init__(self,  value: str, max_val: int, min_val: int = 0) -> None:
+    def __init__(self, value: str, max_val: int, min_val: int = 0) -> None:
         self.value = value
         self.min_val = min_val
         self.max_val = max_val
@@ -61,7 +62,7 @@ class InvalidMacAddressError(ValueError):
 
 
 class StartWithError(ValueError):
-    def __init__(self, value: str,  *variations) -> None:
+    def __init__(self, value: str, *variations) -> None:
         self.value = value
         self.msg = f"Expected {self.value!r} to start with { ' or '.join(variations) }."
         super().__init__(self.msg)
@@ -76,13 +77,13 @@ class NotAllowedTypeError(TypeError):
 
 
 class FixedLenghtError(ValueError):
-    def __init__(self, value: Any,  fix_length: int) -> None:
+    def __init__(self, value: Any, fix_length: int) -> None:
         self.value = value
         self.fix_length = fix_length
         self.msg = f"Data {self.value} failed to follow the specified fixed length {self.fix_length}."
         super().__init__(self.msg)
-        
-        
+
+
 class ElementTypeError(NotImplementedError):
     def __init__(self, class_name: str) -> None:
         self.class_name = class_name
@@ -90,6 +91,7 @@ class ElementTypeError(NotImplementedError):
         super().__init__(self.msg)
 
 # endregion
+
 
 # region Fields Errors
 

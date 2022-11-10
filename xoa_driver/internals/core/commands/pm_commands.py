@@ -9,10 +9,11 @@ from ..protocol.command_builders import (
 )
 from .. import interfaces
 from ..transporter.token import Token
-from ..protocol.fields.data_types import *
+from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
 from .enums import *
+
 
 @register_command
 @dataclass
@@ -35,11 +36,11 @@ class PM_INDICES:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        match_term_xindices: XmpField[XmpIntList] = XmpField(XmpIntList)  # list of integers, the sub-index of a match term definition for the port.
+        match_term_xindices: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)  # list of integers, the sub-index of a match term definition for the port.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        match_term_xindices: XmpField[XmpIntList] = XmpField(XmpIntList)  # list of integers, the sub-index of a match term definition for the port.
+        match_term_xindices: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)  # list of integers, the sub-index of a match term definition for the port.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the full list of which match terms are defined for a port.
@@ -146,14 +147,14 @@ class PM_PROTOCOL:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        segments: XmpField[XmpByteList] = XmpField(
-            XmpByteList, choices=ProtocolOption
+        segments: XmpField[xt.XmpByteList] = XmpField(
+            xt.XmpByteList, choices=ProtocolOption
         )  # list of coded bytes, a number specifying a built-in protocol segment: Uses the same coded values as the PS_HEADERPROTOCOL parameter.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        segments: XmpField[XmpByteList] = XmpField(
-            XmpByteList, choices=ProtocolOption
+        segments: XmpField[xt.XmpByteList] = XmpField(
+            xt.XmpByteList, choices=ProtocolOption
         )  # list of coded bytes, a number specifying a built-in protocol segment: Uses the same coded values as the PS_HEADERPROTOCOL parameter.
 
     def get(self) -> "Token[GetDataAttr]":
@@ -191,11 +192,11 @@ class PM_POSITION:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        byte_offset: XmpField[XmpInt] = XmpField(XmpInt)  # integer, offset from the start of the packet bytes.
+        byte_offset: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, offset from the start of the packet bytes.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        byte_offset: XmpField[XmpInt] = XmpField(XmpInt)  # integer, offset from the start of the packet bytes.
+        byte_offset: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, offset from the start of the packet bytes.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the position within each received packet where content matching begins for the port.
@@ -232,13 +233,13 @@ class PM_MATCH:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        mask: XmpField[XmpHex8] = XmpField(XmpHex8)  # eight hex bytes, which bits are significant in the match operation.
-        value: XmpField[XmpHex8] = XmpField(XmpHex8)  # eight hex bytes, the value that must be found for the match term to be true.
+        mask: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)  # eight hex bytes, which bits are significant in the match operation.
+        value: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)  # eight hex bytes, the value that must be found for the match term to be true.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mask: XmpField[XmpHex8] = XmpField(XmpHex8)  # eight hex bytes, which bits are significant in the match operation.
-        value: XmpField[XmpHex8] = XmpField(XmpHex8)  # eight hex bytes, the value that must be found for the match term to be true.
+        mask: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)  # eight hex bytes, which bits are significant in the match operation.
+        value: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)  # eight hex bytes, the value that must be found for the match term to be true.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the value that must be found at the match term position for packets received on the port.

@@ -21,8 +21,8 @@ from xoa_driver.internals.core.commands import (
 )
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
-    from xoa_driver.internals.utils import kind
-from xoa_driver.internals.utils.indices import observer as idx_obs
+    from xoa_driver.internals.hli_v1.utils import kind
+from xoa_driver.internals.hli_v1.utils.indices import observer as idx_obs
 from .tls import GTls
 from .l2 import GL2
 from .raw import GRaw
@@ -46,13 +46,16 @@ class GLoadProfile:
         self.time_scale = P4G_LP_TIME_SCALE(conn, module_id, port_id, group_idx)
         self.shape = P4G_LP_SHAPE(conn, module_id, port_id, group_idx)
 
+
 CG = TypeVar("CG")
+
+
 @final
 class ConnectionGroupIdx(BaseIndex):
     """L47 Connection Group Index Manager"""
     def __init__(self, conn: "itf.IConnection", kind: "kind.IndicesKind", observer: "idx_obs.IndicesObserver") -> None:
         super().__init__(conn, kind, observer)
-        
+
         self.comment = P4G_COMMENT(self._conn, *kind)
         """
         Representation of p4g_commands.P4G_COMMENT
@@ -73,7 +76,7 @@ class ConnectionGroupIdx(BaseIndex):
         """
         Representation of p4g_commands.P4G_TEST_APPLICATION
         """
-        
+
         self.tls = GTls(self._conn, *kind)
         """TLS configurations."""
         self.l2 = GL2(self._conn, *kind)
@@ -96,21 +99,17 @@ class ConnectionGroupIdx(BaseIndex):
         """Counters."""
         self.load_profile = GLoadProfile(self._conn, *kind)
         """Load Profile configurations."""
-        
+
     async def delete(self):
         await P4G_DELETE(self._conn, *self.kind).set()
         self._observer.notify(idx_obs.IndexEvents.DEL, self)
-        
-    
+
     @classmethod
     async def _fetch(cls, conn: "itf.IConnection", module_id: int, port_id: int) -> List[int]:
         resp = await P4G_INDICES(conn, module_id, port_id).get()
         return list(resp.group_identifiers)
-    
+
     @classmethod
     async def _new(cls: Type[CG], conn: "itf.IConnection", kind: "kind.IndicesKind", observer: "idx_obs.IndicesObserver") -> CG:
         await P4G_CREATE(conn, *kind).set()
         return cls(conn, kind, observer)
-
-
-
