@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Type
 
 if TYPE_CHECKING:
     from . import struct_header
@@ -49,7 +49,7 @@ def build_get_request(cls: ICmdOnlyGet, **kwargs) -> "struct_request.Request":
     )
 
 
-def build_from_bytes(cls: CMD_TYPE, header: "struct_header.ResponseHeader", data: bytes) -> "struct_response.Response":
+def build_from_bytes(cls: Type[CMD_TYPE], header: "struct_header.ResponseHeader", data: bytes) -> "struct_response.Response":
     """Parse bytes retrieved from server to Response structure."""
     properties_structure = getattr(cls, "GetDataAttr", None)
-    return struct_response.Response(header, type(cls).__name__, data, properties_structure)
+    return struct_response.Response(header, cls.__name__, data, properties_structure)

@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Optional,
     Tuple,
+    Type,
     Union,
 )
 
@@ -134,7 +135,7 @@ class TransportationHandler(asyncio.Protocol):
         )
         if not command_idx:
             raise t_ex.RepeatedRequestID(header)
-        xmc_type: Optional[x_types.CMD_TYPE] = self.commands_registry.get(command_idx, None)
+        xmc_type: Optional[Type[x_types.CMD_TYPE]] = self.commands_registry.get(command_idx, None)
         if not xmc_type:
             raise t_ex.NotImplementedCommand(header)
         r = self._worker.submit(

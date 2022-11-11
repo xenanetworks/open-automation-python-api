@@ -1,7 +1,7 @@
+from __future__ import annotations
 from enum import Enum
 from functools import partial
 from typing import Type
-# from xoa_driver import modules
 
 
 class ProductType(Enum):
