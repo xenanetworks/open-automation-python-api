@@ -13,7 +13,7 @@ from ..transporter.token import Token
 from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *
+from .enums import *  # noqa: F403
 
 
 @register_command
@@ -218,7 +218,7 @@ class PE_CORRUPT:
     Configures impairment corruption type.
 
     .. note::
-        
+
         IP / TCP / UDP corruption modes are not supported on default flow (0)
 
     """
@@ -280,11 +280,11 @@ class PE_CORRUPT:
 class PE_MISORDER:
     """
     Configures the misordering depth in number of packets.
-    
+
     .. note::
 
         probability [see PED_FIXED] * (depth + 1) should be less than 1,000,000.
-        
+
     """
 
     code: typing.ClassVar[int] = 1661
@@ -310,7 +310,7 @@ class PE_MISORDER:
     def get(self) -> "Token[GetDataAttr]":
         """Get the misordering depth in number of packets of a flow.
 
-        :return: the misordering depth (Range 1 - 32). Default value. 
+        :return: the misordering depth (Range 1 - 32). Default value.
         :rtype: PE_MISORDER.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
@@ -363,7 +363,7 @@ class PE_BANDPOLICER:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
 
     def set(self, on_off: OnOff, mode: PolicerMode, cir: int, cbs: int) -> "Token":
-        """Set the bandwidth policer configuration. 
+        """Set the bandwidth policer configuration.
 
         :param on_off: enables/disables policer. Note: PED_ENABLE is not supported for the policer.
         :type on_off: OnOff
@@ -467,7 +467,7 @@ class PE_DROPTOTAL:
         pkt_drop_ratio_other: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, ratio of number of packets dropped for other reasons in all flows, expressed in ppm.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get statistics concerning all the packets dropped between this receive port and its partner TX port. 
+        """Get statistics concerning all the packets dropped between this receive port and its partner TX port.
 
         :return:
             total number of packets dropped in all flows,
@@ -939,5 +939,3 @@ class PE_FLOWCLEAR:
                 indices=[self._flow_xindex],
             ),
         )
-
-

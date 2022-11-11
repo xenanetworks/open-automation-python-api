@@ -14,7 +14,7 @@ from ..transporter.token import Token
 from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *
+from .enums import *  # noqa: F403
 
 
 @register_command
@@ -53,7 +53,7 @@ class PS_INDICES:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
     def set(self, stream_indices: typing.List[int]) -> "Token":
-        """Creates a new empty stream for each value that is not already in use, and deletes each stream that is not mentioned in the list. 
+        """Creates a new empty stream for each value that is not already in use, and deletes each stream that is not mentioned in the list.
 
         :param stream_indices: the sub-indices of streams on the port
         :type stream_indices: List[int]
@@ -227,8 +227,10 @@ class PS_PACKETLIMIT:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._stream_xindex]))
 
     def set(self, packet_count: int) -> "Token":
-        """If Port TX Mode is NORMAL, STRICT UNIFORM or BURST: set the number of packets that will be transmitted when traffic is started on a port, 0 or -1 (disable packet limitation).
-        If Port TX Mode is SEQUENTIAL: set the number of sequential packets sent before switching to the next stream, 1 or larger (minimum value since the port transmits at least 1 packet per stream per round). 
+        """If Port TX Mode is NORMAL, STRICT UNIFORM or BURST: set the number of packets that will be transmitted when traffic is started on a port,
+        0 or -1 (disable packet limitation).
+        If Port TX Mode is SEQUENTIAL: set the number of sequential packets sent before switching to the next stream,
+        1 or larger (minimum value since the port transmits at least 1 packet per stream per round).
 
         :param packet_count:  the number of packets
         :type packet_count: int
@@ -260,7 +262,7 @@ class PS_COMMENT:
         comment: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, specifying the description of the stream.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the description of a stream. 
+        """Get the description of a stream.
 
         :return: the description of the stream
         :rtype: PS_COMMENT.GetDataAttr
@@ -317,7 +319,7 @@ class PS_TPLDID:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._stream_xindex]))
 
     def set(self, test_payload_identifier: int) -> "Token":
-        """Set the identifier of the test payloads inserted into packets transmitted for a stream. 
+        """Set the identifier of the test payloads inserted into packets transmitted for a stream.
         A value of -1 disables test payloads for the stream. Test payloads are
         inserted at the end of each packet, and contains time-stamp and sequence-number
         information.
@@ -643,7 +645,7 @@ class PS_RATEFRACTION:
         The sum of the bandwidth consumption for all the enabled streams must not exceed
         the effective rate for the port. Setting this command also instructs the
         Manager to attempt to keep the rate-percentage unchanged in case it has to cap
-        stream rates. 
+        stream rates.
 
         :param stream_rate_ppm: stream rate expressed as a ppm value between 0 and 1,000,000.
         :type stream_rate_ppm: int
@@ -930,7 +932,7 @@ class PS_HEADERPROTOCOL:
         checksum fields. This allow the use of hardware modifiers for these protocol
         segments. In order for this function to work the Xena tester needs to know the
         type of each segment that precedes the segment where the hardware calculation is
-        to be performed. 
+        to be performed.
 
         :param segments: a number specifying a built-in protocol segment
         :type segments: List[ProtocolOption]
@@ -1268,7 +1270,7 @@ class PS_IPV4GATEWAY:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._stream_xindex]))
 
     def set(self, gateway: typing.Union[str, ipaddress.IPv4Address, int]) -> "Token":
-        """Set the IPv4 gateway address of a stream. 
+        """Set the IPv4 gateway address of a stream.
 
         :param gateway: the IPv4 gateway address of the stream
         :type gateway: Union[str, ipaddress.IPv4Address, int]
@@ -1308,7 +1310,7 @@ class PS_IPV6GATEWAY:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._stream_xindex]))
 
     def set(self, gateway: typing.Union[str, ipaddress.IPv6Address, int]) -> "Token":
-        """Set the IPv6 gateway address of a stream. 
+        """Set the IPv6 gateway address of a stream.
 
         :param gateway: the IPv6 gateway address of the stream
         :type gateway: Union[str, ipaddress.IPv6Address, int]
@@ -1619,7 +1621,8 @@ class PS_MODIFIEREXT:
         that a certain number of identical packets are transmitted before applying the
         next modification.
 
-        :return: the byte position from the start of the packet. Cannot be < 1!, the mask specifying which bits to affect, which action to perform on the affected bits, and how many times to repeat on each packet. Note: For now the only value supported is 1.
+        :return: the byte position from the start of the packet. Cannot be < 1!, the mask specifying which bits to affect, which action to perform on the affected bits,
+        and how many times to repeat on each packet. Note: For now the only value supported is 1.
         :rtype: PS_MODIFIEREXT.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._stream_xindex, self._modifier_xindex]))
@@ -1704,7 +1707,7 @@ class PS_MODIFIEREXTCOUNT:
 
     def set(self, ext_modifier_count: int) -> "Token":
         """Set the number of extended 24-bit modifiers active on the packet header of a stream.
-        Each modifier is specified using PS_MODIFIEREXT. 
+        Each modifier is specified using PS_MODIFIEREXT.
 
         :param ext_modifier_count: the number of extended 24-bit modifiers for the stream
         :type ext_modifier_count: int
@@ -1980,5 +1983,3 @@ class PS_PFCPRIORITY:
         :type pcp: str
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._stream_xindex], pcp=pcp))
-
-

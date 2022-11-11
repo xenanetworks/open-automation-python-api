@@ -12,7 +12,7 @@ from ..transporter.token import Token
 from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *
+# from .enums import *  # noqa: F403
 
 
 @register_command
@@ -194,11 +194,11 @@ class PT_FLOWTOTAL:
         """(Chimera only) Get statistics concerning all the packets transmitted from a between this receive port and its partner TX port.
 
         :return:
-            number of bits transmitted at layer 2 in the last second for the flow, 
+            number of bits transmitted at layer 2 in the last second for the flow,
             number of packets transmitted in the last second for the flow,
             number of bytes transmitted since statistics were cleared for the flow,
             number of packets transmitted since statistics were cleared for the flow
-            
+
         :rtype: PT_FLOWTOTAL.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
@@ -236,5 +236,3 @@ class PT_FLOWCLEAR:
                 indices=[self._flow_xindex],
             ),
         )
-
-

@@ -14,7 +14,7 @@ from ..transporter.token import Token
 from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *
+from .enums import *  # noqa: F403
 
 
 @register_command
@@ -97,5 +97,3 @@ class M4E_RESERVE:
         :type mask: str
         """
         return Token(self._connection, build_set_request(self, module=self._module, mask=mask))
-
-

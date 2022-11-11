@@ -13,7 +13,7 @@ from ..transporter.token import Token
 from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *
+from .enums import *  # noqa: F403
 
 
 @register_command
@@ -77,9 +77,9 @@ class PED_SCHEDULE:
 class PED_ONESHOTSTATUS:
     """
     Retrieves the one-shot completion status.
-    
+
     .. note::
-    
+
         The return value is only valid, if the configured distribution is either accumulate & burst (DELAY) or fixed burst (non-DELAY).
 
     """
@@ -100,7 +100,7 @@ class PED_ONESHOTSTATUS:
     def get(self) -> "Token[GetDataAttr]":
         """Get the one-shot completion status.
 
-        :return: the one-shot completion status 
+        :return: the one-shot completion status
         :rtype: PED_ONESHOTSTATUS.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
@@ -126,7 +126,6 @@ class PED_OFF:
     class SetDataAttr:
         pass
 
-
     def set(self) -> "Token":
         """Configure Impairments Distribution to OFF. Assigning a different distribution than OFF to an impairment
         will activate the impairment. To de-activate the impairment assign distribution OFF.
@@ -150,7 +149,7 @@ class PED_FIXED:
     nearly equal distance between impairments, to match the configured probability.
 
     .. note::
-    
+
         In case of misordering, a special limit applies, probability * (depth + 1) should be less than 1000000.
 
     """
@@ -186,7 +185,16 @@ class PED_FIXED:
         :param probability: the fixed probability in ppm. Default value is 0.
         :type probability: int
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], probability=probability))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._flow_xindex, self._impairment_type_xindex],
+                probability=probability
+            )
+        )
 
 
 @register_command
@@ -225,12 +233,21 @@ class PED_RANDOM:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
     def set(self, probability: int) -> "Token":
-        """Set the probability of a Random Rate distribution. 
+        """Set the probability of a Random Rate distribution.
 
         :param probability: specifies the random probability in ppm. Default value is 0.
         :type probability: int
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], probability=probability))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._flow_xindex, self._impairment_type_xindex],
+                probability=probability
+            )
+        )
 
 
 @register_command
@@ -283,9 +300,9 @@ class PED_BER:
 class PED_FIXEDBURST:
     """
     Configuration of Fixed Burst distribution.
-    
+
     .. note::
-    
+
         In case of ``_impairment_type_xindex`` = ``MISO``, burst size is fixed to 1.
 
     """
@@ -374,7 +391,15 @@ class PED_RANDOMBURST:
         """
         return Token(
             self._connection,
-            build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], minimum=minimum, maximum=maximum, probability=probability),
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._flow_xindex, self._impairment_type_xindex],
+                minimum=minimum,
+                maximum=maximum,
+                probability=probability
+            ),
         )
 
 
@@ -448,9 +473,9 @@ class PED_GE:
 class PED_UNI:
     """
     Configuration of Uniform distribution.
-    
+
     .. note::
-    
+
         If minimum is less than minimum latency, value is set to minimum latency. If minimum is greater than maximum latency, value is set to maximum latency.
 
     """
@@ -509,11 +534,11 @@ class PED_UNI:
 class PED_GAUSS:
     """
     Configuration of Gaussian distribution.
-    
+
     .. note::
-    
+
         In case of ``_impairment_type_xindex != DELAY``: (1) mean plus 3 times standard deviation should be less than or equal to max allowed (4194288). (2) mean should always be at least 3 times the standard deviation, this to ensure that the impairment distance is always positive.
-        
+
         In case of ``_impairment_type_xindex = DELAY``: (1) mean plus 3 times standard deviation should be less than or equal to the maximum latency. (2) mean minus 3 times the standard deviation should be greater than or equal to minimum latency.
 
     """
@@ -556,9 +581,9 @@ class PED_GAUSS:
     def set(self, mean: int, std_deviation: int) -> "Token":
         """Set the configuration of Gaussian distribution.
 
-        :param mean: specifies the Gaussian mean. 
+        :param mean: specifies the Gaussian mean.
         :type mean: int
-        :param std_deviation: specifies the Gaussian standard deviation. 
+        :param std_deviation: specifies the Gaussian standard deviation.
         :type std_deviation: int
         """
         return Token(
@@ -572,13 +597,13 @@ class PED_GAUSS:
 class PED_POISSON:
     """
     Configuration of "Poisson" distribution.
-    
-    .. note:: 
-    
+
+    .. note::
+
         Standard deviation is derived from mean, i.e., standard deviation = SQRT(mean).
-        
+
         In case of ``_impairment_type_xindex != DELAY``, mean plus 3 times standard deviation should be less than or equal to max allowed (4194288).
-        
+
         In case of ``_impairment_type_xindex = DELAY``, mean plus 3 times standard deviation should be less than or equal to the maximum latency.
 
     """
@@ -626,13 +651,13 @@ class PED_POISSON:
 class PED_GAMMA:
     """
     Configuration of Gamma distribution.
-    
+
     .. note::
-    
+
         Mean and Standard deviation are calculated from Shape and Scale parameters and validation is performed using those. standard deviation = [SQRT(shape * scale * scale)]mean = [shape * scale].
-        
+
         In case of ``_impairment_type_xindex != DELAY``, (1) mean plus 4 times standard deviation should be less than or equal to max allowed(4194288). (2)shape and scale should be greater than or equal to 0.
-        
+
         In case of ``_impairment_type_xindex = DELAY``, mean plus 4 times standard deviation should be less than or equal to the maximum latency.
 
     """
@@ -687,13 +712,13 @@ class PED_GAMMA:
 class PED_CUST:
     """
     Associate a custom distribution to a flow and impairment type.
-    
-    .. note:: 
-    
+
+    .. note::
+
         Before associating a custom distribution, the below validation checks are applied.
-        
-        In case of ``_impairment_type_xindex != DELAY``, (1) Custom values should be less than or equal to max allowed (4194288). (2) Custom distribution bust contain 512 values. 
-        
+
+        In case of ``_impairment_type_xindex != DELAY``, (1) Custom values should be less than or equal to max allowed (4194288). (2) Custom distribution bust contain 512 values.
+
         In case of ``_impairment_type_xindex = DELAY``, (1) Custom values should be less than or equal to the maximum latency. (2) Custom values should be greater than or equal to minimum latency. (3) Custom distribution should contain 1024 values.
 
     """
@@ -742,7 +767,7 @@ class PED_CONST:
     multiples of 100ns). Default value: Minimum supported per speed and FEC mode.
 
     .. note::
-    
+
         If the latency is less than minimum latency, value is set to minimum latency. If the latency is greater than maximum latency, value is set to maximum latency.
 
     """
@@ -790,9 +815,9 @@ class PED_CONST:
 class PED_ACCBURST:
     """
     Configuration of Accumulate & Burst distribution (DELAY only).
-    
-    .. note:: 
-        
+
+    .. note::
+
         If the delay is less than minimum latency, value is set to minimum latency. If the delay is greater than maximum latency, value is set to maximum latency.
 
     """
@@ -840,9 +865,9 @@ class PED_ACCBURST:
 class PED_STEP:
     """
     Configuration of Step distribution (DELAY only).
-    
-    .. note:: 
-        
+
+    .. note::
+
         If the low/high is less than minimum latency, value is set to minimum latency. If the low/high is greater than maximum latency, value is set to maximum latency.
 
     """
@@ -875,7 +900,7 @@ class PED_STEP:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
     def set(self, low: int, high: int) -> "Token":
-        """Set the configuration of Step distribution (DELAY only). 
+        """Set the configuration of Step distribution (DELAY only).
 
         :param low: specifies the packet delay in the 'low' state of the step. Units = nanosecond (must be multiples of 100 ns).
         :type low: int
@@ -893,9 +918,9 @@ class PED_STEP:
 class PED_ENABLE:
     """
     Control whether this impairment distribution is enabled.
-    
-    .. note:: 
-    
+
+    .. note::
+
         This command is not applicable for PE_BANDPOLICER and PE_BANDSHAPER because they have a separate ``ON / OFF`` parameter.
 
     """
@@ -912,7 +937,7 @@ class PED_ENABLE:
     @dataclass(frozen=True)
     class GetDataAttr:
         action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifying whether impairment is enabled.
-    
+
     @dataclass(frozen=True)
     class SetDataAttr:
         action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifying whether impairment is enabled.
@@ -924,7 +949,7 @@ class PED_ENABLE:
         :rtype: PED_ENABLE.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
-    
+
     def set(self, action: OnOff) -> "Token[GetDataAttr]":
         """Set the status of this impairment distribution.
 
@@ -932,11 +957,8 @@ class PED_ENABLE:
         :type action: OnOff
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], action=action))
-    
-    
+
     set_off = functools.partialmethod(set, OnOff.OFF)
     """Disable impairment distribution"""
     set_on = functools.partialmethod(set, OnOff.ON)
     """Enable impairment distribution"""
-
-

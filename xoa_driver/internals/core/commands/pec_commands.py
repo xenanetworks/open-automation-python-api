@@ -12,7 +12,7 @@ from ..transporter.token import Token
 from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *
+from .enums import *  # noqa: F403
 
 
 @register_command
@@ -26,9 +26,9 @@ class PEC_INDICES:
     deletes each custom distribution that is not mentioned in the list. The same can
     be accomplished one-custom-distribution-at-a-time using the PEC_VAL and
     PEC_DELETE commands.
-    
+
     .. note::
-        
+
         Custom distributions which are currently defined are not affected when mentioned in a PEC_INDICES set command. Custom distributions which are currently assigned to an impairment cannot be deleted and any attempt of deleting such a custom distribution using either PEC_DELETE` or PEC_INDICES` will result in an error.
 
     """
@@ -43,19 +43,19 @@ class PEC_INDICES:
     @dataclass(frozen=True)
     class SetDataAttr:
         indices: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList, climb=(0, 40))  # list of integers, a list of the indices to the custom distributions which are currently defined on that port, max 40 elements.
-    
+
     @dataclass(frozen=True)
     class GetDataAttr:
         indices: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList, climb=(0, 40))  # list of integers, a list of the indices to the custom distributions which are currently defined on that port, max 40 elements.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get a list of the indices to the custom distributions which are currently defined on that port. 
+        """Get a list of the indices to the custom distributions which are currently defined on that port.
 
         :return: a list of the indices to the custom distributions which are currently defined on that port
         :rtype: PEC_INDICES.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
-    
+
     def set(self, indices: typing.List[int]) -> "Token":
         """Set a list of indices to create new custom distributions.
 
@@ -163,7 +163,7 @@ class PEC_COMMENT:
         comment: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, the user-specified comment/description for the custom distribution.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the user-defined description string of a custom distribution. 
+        """Get the user-defined description string of a custom distribution.
 
         :return: the user-specified comment/description for the custom distribution.
         :rtype: PEC_COMMENT.GetDataAttr
@@ -171,7 +171,7 @@ class PEC_COMMENT:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._custom_distribution_xindex]))
 
     def set(self, comment: str) -> "Token":
-        """Set the user-defined description string of a custom distribution.  
+        """Set the user-defined description string of a custom distribution.
 
         :param comment: the user-specified comment/description for the custom distribution.
         :type comment: str
@@ -184,9 +184,9 @@ class PEC_COMMENT:
 class PEC_DELETE:
     """
     Deletes the custom distribution definition.
-    
+
     .. note::
-    
+
         Once a customer has defined a customer distribution using PEC_VAL, it is defined until it is explicitly deleted.Only customer distributions which are not referenced by any impairments, can be deleted.
 
     """
@@ -204,7 +204,7 @@ class PEC_DELETE:
         pass
 
     def set(self) -> "Token":
-        """Deletes the custom distribution definition. 
+        """Deletes the custom distribution definition.
         """
         return Token(
             self._connection,
@@ -222,9 +222,9 @@ class PEC_DELETE:
 class PEC_DISTTYPE:
     """
     Retrieves if a custom distribution is defined for latency or non-latency.
-    
+
     .. note::
-    
+
         Using PEC_DISTTYPE as set has no effect. The distribution type is determined upon custom distribution creation and cannot be modified later. However, it is legal to issue the PEC_DISTTYPE set command with no effect.
 
     """
@@ -248,5 +248,3 @@ class PEC_DISTTYPE:
         :rtype: PEC_DISTTYPE.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._custom_distribution_xindex]))
-
-

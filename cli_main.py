@@ -1,3 +1,4 @@
+import sys
 import asyncio
 from contextlib import suppress
 import warnings
@@ -34,7 +35,7 @@ from xoa_driver.ports import GenericAnyPort
 from xoa_driver.utils import apply
 from xoa_driver.misc import Token
 
-
+print("xoa_driver.internals.hli_v2" in sys.modules)
 warnings.formatwarning = lambda message, category, filename, lineno, *_: f"\n\33[33m{category.__name__}\33[0m: {message}\n\n"
 warnings.warn("The CLI module is not a part of the driver and this file will be removed from release version.", DeprecationWarning)
 

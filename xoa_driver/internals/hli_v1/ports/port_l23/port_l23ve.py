@@ -5,15 +5,15 @@ from .bases.port_transmission_statistics import PortTransmissionStatistics
 
 from xoa_driver.internals.core.commands import (
     P_MDIXMODE,
-    # P_ENGINENAMES, #TODO: need to implement
-    # P_ENGINELOAD, #TODO: need to implement
+    # P_ENGINENAMES, # TODO: need to implement
+    # P_ENGINELOAD, # TODO: need to implement
 )
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
-from xoa_driver.internals.hli_v1.utils.indices import index_manager as idx_mgr
+from xoa_driver.internals.utils.indices import index_manager as idx_mgr
 from xoa_driver.internals.hli_v1.indices.streams.base_stream import BaseStreamIdx
 from xoa_driver.internals.hli_v1.indices.filter.base_filter import BaseFilterIdx
-from xoa_driver.internals.hli_v1.state_storage import ports_state
+from xoa_driver.internals.state_storage import ports_state
 
 VEStreamIndices = idx_mgr.IndexManager[BaseStreamIdx]
 VEFilterIndices = idx_mgr.IndexManager[BaseFilterIdx]

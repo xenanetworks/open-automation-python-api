@@ -7,23 +7,23 @@ from xoa_driver.internals.core.commands import (
     C_REMOTEPORTCOUNTS,
     C_BUILDSTRING,
 )
-from xoa_driver.internals.hli_v1.utils.modules_manager import ModulesManager
-from xoa_driver.internals.hli_v1 import revisions
-from xoa_driver.internals.hli_v1 import exceptions
+from xoa_driver.internals.utils.modules_manager import ModulesManager
+from xoa_driver.internals import revisions
+from xoa_driver.internals import exceptions
 if TYPE_CHECKING:
     from xoa_driver.internals.hli_v1.modules import module_l47 as ml47
 
-from xoa_driver.internals.hli_v1.state_storage import testers_state
+from xoa_driver.internals.state_storage import testers_state
 from ._base_tester import BaseTester
 from .genuine import management_interface as mi
 
 
 def get_module_type(revision: str) -> "Type":
-    module_type = revisions.vulcan_modules.get(revision)
+    module_type = revisions.VULCAN_MODULES.get(revision)
     if not module_type:
         raise exceptions.WrongModuleError(
             revision,
-            set(revisions.vulcan_modules.keys()),
+            set(revisions.VULCAN_MODULES.keys()),
         )
     return module_type
 

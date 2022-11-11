@@ -14,7 +14,7 @@ from ..transporter.token import Token
 from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *
+from .enums import *  # noqa: F403
 from . import subtypes
 
 
@@ -232,7 +232,7 @@ class P_CAPABILITIES:
         has_p2p_loop_partner: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, whether this port currently has a port-to-port loop partner
         p2p_loop_partner: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, The port-to-port loop partner for the port. N/A = -1.
         traffic_engine: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=TrafficEngine)  # integer, Enabled traffic engine on port. 0x01 = TGA, 0x02 = uTGA.
-        reconc_sublayer: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=ReconciliationSublayerSupport) # integer, Reconciliation Sublayer support, bitmask, 0 = fault signalling not support; 1 = fault signalling supported (XMP: P_FAULTSTATUS/P_FAULTSIGNALING)
+        reconc_sublayer: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=ReconciliationSublayerSupport)  # integer, Reconciliation Sublayer support, bitmask, 0 = fault signalling not support; 1 = fault signalling supported (XMP: P_FAULTSTATUS/P_FAULTSIGNALING)
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the internal limits, aka. capabilities, of the port.
@@ -1142,7 +1142,6 @@ class P_LATENCYMODE:
             port and the receiving port; otherwise invalid measurements will occur.
 
     """
-
 
     code: typing.ClassVar[int] = 128
     pushed: typing.ClassVar[bool] = False
@@ -3844,7 +3843,6 @@ class P_SPEEDS_SUPPORTED:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
-
 @register_command
 @dataclass
 class P_EMULATE:
@@ -3889,5 +3887,3 @@ class P_EMULATE:
     set_on = functools.partialmethod(set, OnOff.ON)
     """Enable the Chimera port's emulation functionality.
     """
-
-

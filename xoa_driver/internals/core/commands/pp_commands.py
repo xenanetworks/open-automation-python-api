@@ -13,7 +13,7 @@ from ..transporter.token import Token
 from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *
+from .enums import *  # noqa: F403
 
 
 @register_command
@@ -1007,7 +1007,22 @@ class PP_PHYTXEQ:
         :param pre1: preemphasis, (range: Module dependent), default = 0 (neutral)
         :type pre1: List[int]
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], pre2=pre2, pre1=pre1, main=main, post1=post1, post2=post2, post3=post3, mode=4))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._serdes_xindex],
+                pre2=pre2,
+                pre1=pre1,
+                main=main,
+                post1=post1,
+                post2=post2,
+                post3=post3,
+                mode=4
+            )
+        )
 
 
 @register_command
@@ -1323,18 +1338,18 @@ class PP_FECMODE:
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, mode=mode))
 
-    set_off = functools.partialmethod(set, FECMode.OFF) # Turn FEC off.
+    set_off = functools.partialmethod(set, FECMode.OFF)  # Turn FEC off.
     """Turn FEC off.
     """
-    set_rs_fec = functools.partialmethod(set, FECMode.RS_FEC) # Turn RS FEC on, either RS-FEC KR or RS-FEC KP, automatically selected based on the FEC modes supported by the port.
+    set_rs_fec = functools.partialmethod(set, FECMode.RS_FEC)  # Turn RS FEC on, either RS-FEC KR or RS-FEC KP, automatically selected based on the FEC modes supported by the port.
     """Turn RS FEC on, either RS-FEC KR or RS-FEC KP, automatically selected based on the FEC modes supported by the port.
     """
-    set_fc_fec = functools.partialmethod(set, FECMode.FC_FEC) # Turn Firecode FEC on.
+    set_fc_fec = functools.partialmethod(set, FECMode.FC_FEC)  # Turn Firecode FEC on.
     """Turn Firecode FEC on.
     """
-    # set_on = functools.partialmethod(set, FECMode.ON) # Turn RS FEC on, either RS-FEC KR or RS-FEC KP, automatically selected based on the FEC modes supported by the port.
-    # set_rs_fec_kr = functools.partialmethod(set, FECMode.RS_FEC_KR) # Explicitly turn RS-FEC KR on.
-    # set_rs_fec_kp = functools.partialmethod(set, FECMode.RS_FEC_KP) # Explicitly turn RS-FEC KP on.
+    # set_on = functools.partialmethod(set, FECMode.ON)  # Turn RS FEC on, either RS-FEC KR or RS-FEC KP, automatically selected based on the FEC modes supported by the port.
+    # set_rs_fec_kr = functools.partialmethod(set, FECMode.RS_FEC_KR)  # Explicitly turn RS-FEC KR on.
+    # set_rs_fec_kp = functools.partialmethod(set, FECMode.RS_FEC_KP)  # Explicitly turn RS-FEC KP on.
 
 
 @register_command
@@ -1779,5 +1794,3 @@ class PP_LINKTRAINSTATUS:
         :rtype: PP_LINKTRAINSTATUS.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._lane_xindex]))
-
-

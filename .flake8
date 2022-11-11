@@ -6,4 +6,6 @@ ignore =
     E265,
     # E266 too many leading '#' for block comment
     E266,
+    # F405 usage attribute from * import
+    F405,
 doctests = true

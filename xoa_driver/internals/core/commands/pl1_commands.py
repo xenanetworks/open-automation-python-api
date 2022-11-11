@@ -1,4 +1,4 @@
-#: L23 Port Layer-1 Commands
+# : L23 Port Layer-1 Commands
 
 from dataclasses import dataclass
 import typing
@@ -13,7 +13,7 @@ from ..transporter.token import Token
 from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *
+from .enums import *  # noqa: F403
 
 
 @register_command
@@ -92,151 +92,151 @@ class PL1_LINKTRAININFO:
     @dataclass(frozen=True)
     class GetDataAttr:
 
-        duration_us: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #duration of the auto-negotiation process in microseconds, from autoneg is enabled on the port to the negotiation is finished.
+        duration_us: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # duration of the auto-negotiation process in microseconds, from autoneg is enabled on the port to the negotiation is finished.
 
-        lock_lost_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #number of lost locks on auto-neg.
+        lock_lost_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # number of lost locks on auto-neg.
 
-        pre1_current_level: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-1) current level.
+        pre1_current_level: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-1) current level.
 
-        pre1_rx_increment_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-1) received number of increment requests.
+        pre1_rx_increment_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-1) received number of increment requests.
 
-        pre1_rx_decrement_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-1) received number of decrement requests.
+        pre1_rx_decrement_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-1) received number of decrement requests.
 
-        pre1_rx_coeff_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-1) received number of maximum limits of coefficient and equalization requests reached.
+        pre1_rx_coeff_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-1) received number of maximum limits of coefficient and equalization requests reached.
 
-        pre1_rx_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-1) received number of maximum limits of equalization requests reached.
+        pre1_rx_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-1) received number of maximum limits of equalization requests reached.
 
-        pre1_rx_coeff_not_supported_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-1) received number of coefficients not supported.
+        pre1_rx_coeff_not_supported_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-1) received number of coefficients not supported.
 
-        pre1_rx_coeff_at_limit_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-1) received number of coefficients at limit.
+        pre1_rx_coeff_at_limit_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-1) received number of coefficients at limit.
 
-        pre1_tx_increment_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-1) transmitted number of increment requests.
+        pre1_tx_increment_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-1) transmitted number of increment requests.
 
-        pre1_tx_decrement_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-1) transmitted number of decrement requests.
+        pre1_tx_decrement_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-1) transmitted number of decrement requests.
 
-        pre1_tx_coeff_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-1) transmitted number of maximum limits of coefficient and equalization requests reached.
+        pre1_tx_coeff_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-1) transmitted number of maximum limits of coefficient and equalization requests reached.
 
-        pre1_tx_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-1) transmitted number of maximum limits of equalization requests reached.
+        pre1_tx_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-1) transmitted number of maximum limits of equalization requests reached.
 
-        pre1_tx_coeff_not_supported_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-1) transmitted number of coefficients not supported.
+        pre1_tx_coeff_not_supported_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-1) transmitted number of coefficients not supported.
 
-        pre1_tx_coeff_at_limit_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-1) transmitted number of coefficients at limit.
+        pre1_tx_coeff_at_limit_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-1) transmitted number of coefficients at limit.
 
-        main_current_level: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(0) current level.
+        main_current_level: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(0) current level.
 
-        main_rx_increment_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(0) received number of increment requests.
+        main_rx_increment_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(0) received number of increment requests.
 
-        main_rx_decrement_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(0) received number of decrement requests.
+        main_rx_decrement_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(0) received number of decrement requests.
 
-        main_rx_coeff_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(0) received number of maximum limits of coefficient and equalization requests reached.
+        main_rx_coeff_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(0) received number of maximum limits of coefficient and equalization requests reached.
 
-        main_rx_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(0) received number of maximum limits of equalization requests reached.
+        main_rx_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(0) received number of maximum limits of equalization requests reached.
 
-        main_rx_coeff_not_supported_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(0) received number of coefficients not supported.
+        main_rx_coeff_not_supported_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(0) received number of coefficients not supported.
 
-        main_rx_coeff_at_limit_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(0) received number of coefficients at limit.
+        main_rx_coeff_at_limit_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(0) received number of coefficients at limit.
 
-        main_tx_increment_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(0) transmitted number of increment requests.
+        main_tx_increment_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(0) transmitted number of increment requests.
 
-        main_tx_decrement_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(0) transmitted number of decrement requests.
+        main_tx_decrement_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(0) transmitted number of decrement requests.
 
-        main_tx_coeff_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(0) transmitted number of maximum limits of coefficient and equalization requests reached.
+        main_tx_coeff_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(0) transmitted number of maximum limits of coefficient and equalization requests reached.
 
-        main_tx_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(0) transmitted number of maximum limits of equalization requests reached.
+        main_tx_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(0) transmitted number of maximum limits of equalization requests reached.
 
-        main_tx_coeff_not_supported_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(0) transmitted number of coefficients not supported.
+        main_tx_coeff_not_supported_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(0) transmitted number of coefficients not supported.
 
-        main_tx_coeff_at_limit_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(0) transmitted number of coefficients at limit.
+        main_tx_coeff_at_limit_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(0) transmitted number of coefficients at limit.
 
-        post1_current_level: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(1) current level.
+        post1_current_level: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(1) current level.
 
-        post1_rx_increment_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(1) received number of increment requests.
+        post1_rx_increment_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(1) received number of increment requests.
 
-        post1_rx_decrement_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(1) received number of decrement requests.
+        post1_rx_decrement_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(1) received number of decrement requests.
 
-        post1_rx_coeff_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(1) received number of maximum limits of coefficient and equalization requests reached.
+        post1_rx_coeff_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(1) received number of maximum limits of coefficient and equalization requests reached.
 
-        post1_rx_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(1) received number of maximum limits of equalization requests reached.
+        post1_rx_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(1) received number of maximum limits of equalization requests reached.
 
-        post1_rx_coeff_not_supported_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(1) received number of coefficients not supported.
+        post1_rx_coeff_not_supported_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(1) received number of coefficients not supported.
 
-        post1_rx_coeff_at_limit_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(1) received number of coefficients at limit.
+        post1_rx_coeff_at_limit_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(1) received number of coefficients at limit.
 
-        post1_tx_increment_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(1) transmitted number of increment requests.
+        post1_tx_increment_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(1) transmitted number of increment requests.
 
-        post1_tx_decrement_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(1) transmitted number of decrement requests.
+        post1_tx_decrement_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(1) transmitted number of decrement requests.
 
-        post1_tx_coeff_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(1) transmitted number of maximum limits of coefficient and equalization requests reached.
+        post1_tx_coeff_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(1) transmitted number of maximum limits of coefficient and equalization requests reached.
 
-        post1_tx_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(1) transmitted number of maximum limits of equalization requests reached.
+        post1_tx_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(1) transmitted number of maximum limits of equalization requests reached.
 
-        post1_tx_coeff_not_supported_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(1) transmitted number of coefficients not supported.
+        post1_tx_coeff_not_supported_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(1) transmitted number of coefficients not supported.
 
-        post1_tx_coeff_at_limit_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(1) transmitted number of coefficients at limit.
+        post1_tx_coeff_at_limit_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(1) transmitted number of coefficients at limit.
 
-        pre2_current_level: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-2) current level.
+        pre2_current_level: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-2) current level.
 
-        pre2_rx_increment_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-2) received number of increment requests.
+        pre2_rx_increment_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-2) received number of increment requests.
 
-        pre2_rx_decrement_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-2) received number of decrement requests.
+        pre2_rx_decrement_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-2) received number of decrement requests.
 
-        pre2_rx_coeff_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-2) received number of maximum limits of coefficient and equalization requests reached.
+        pre2_rx_coeff_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-2) received number of maximum limits of coefficient and equalization requests reached.
 
-        pre2_rx_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-2) received number of maximum limits of equalization requests reached.
+        pre2_rx_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-2) received number of maximum limits of equalization requests reached.
 
-        pre2_rx_coeff_not_supported_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-2) received number of coefficients not supported.
+        pre2_rx_coeff_not_supported_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-2) received number of coefficients not supported.
 
-        pre2_rx_coeff_at_limit_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-2) received number of coefficients at limit.
+        pre2_rx_coeff_at_limit_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-2) received number of coefficients at limit.
 
-        pre2_tx_increment_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-2) transmitted number of increment requests.
+        pre2_tx_increment_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-2) transmitted number of increment requests.
 
-        pre2_tx_decrement_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-2) transmitted number of decrement requests.
+        pre2_tx_decrement_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-2) transmitted number of decrement requests.
 
-        pre2_tx_coeff_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-2) transmitted number of maximum limits of coefficient and equalization requests reached.
+        pre2_tx_coeff_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-2) transmitted number of maximum limits of coefficient and equalization requests reached.
 
-        pre2_tx_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-2) transmitted number of maximum limits of equalization requests reached.
+        pre2_tx_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-2) transmitted number of maximum limits of equalization requests reached.
 
-        pre2_tx_coeff_not_supported_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-2) transmitted number of coefficients not supported.
+        pre2_tx_coeff_not_supported_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-2) transmitted number of coefficients not supported.
 
-        pre2_tx_coeff_at_limit_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-2) transmitted number of coefficients at limit.
+        pre2_tx_coeff_at_limit_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-2) transmitted number of coefficients at limit.
 
-        pre3_current_level: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-3) current level.
+        pre3_current_level: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-3) current level.
 
-        pre3_rx_increment_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-3) received number of increment requests.
+        pre3_rx_increment_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-3) received number of increment requests.
 
-        pre3_rx_decrement_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-3) received number of decrement requests.
+        pre3_rx_decrement_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-3) received number of decrement requests.
 
-        pre3_rx_coeff_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-3) received number of maximum limits of coefficient and equalization requests reached.
+        pre3_rx_coeff_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-3) received number of maximum limits of coefficient and equalization requests reached.
 
-        pre3_rx_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-3) received number of maximum limits of equalization requests reached.
+        pre3_rx_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-3) received number of maximum limits of equalization requests reached.
 
-        pre3_rx_coeff_not_supported_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-3) received number of coefficients not supported.
+        pre3_rx_coeff_not_supported_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-3) received number of coefficients not supported.
 
-        pre3_rx_coeff_at_limit_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-3) received number of coefficients at limit.
+        pre3_rx_coeff_at_limit_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-3) received number of coefficients at limit.
 
-        pre3_tx_increment_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-3) transmitted number of increment requests.
+        pre3_tx_increment_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-3) transmitted number of increment requests.
 
-        pre3_tx_decrement_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-3) transmitted number of decrement requests.
+        pre3_tx_decrement_req_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-3) transmitted number of decrement requests.
 
-        pre3_tx_coeff_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-3) transmitted number of maximum limits of coefficient and equalization requests reached.
+        pre3_tx_coeff_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-3) transmitted number of maximum limits of coefficient and equalization requests reached.
 
-        pre3_tx_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-3) transmitted number of maximum limits of equalization requests reached.
+        pre3_tx_eq_limit_reached_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-3) transmitted number of maximum limits of equalization requests reached.
 
-        pre3_tx_coeff_not_supported_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-3) transmitted number of coefficients not supported.
+        pre3_tx_coeff_not_supported_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-3) transmitted number of coefficients not supported.
 
-        pre3_tx_coeff_at_limit_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #c(-3) transmitted number of coefficients at limit.
+        pre3_tx_coeff_at_limit_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # c(-3) transmitted number of coefficients at limit.
 
-        prbs_total_bits_high: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #PRBS total bits (most significant 32-bit).
+        prbs_total_bits_high: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # PRBS total bits (most significant 32-bit).
 
-        prbs_total_bits_low: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #PRBS total bits  (least significant 32-bit).
+        prbs_total_bits_low: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # PRBS total bits  (least significant 32-bit).
 
-        prbs_total_error_bits_high: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #PRBS total error bits (most significant 32-bit, only bit 15-0 should be used).
+        prbs_total_error_bits_high: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # PRBS total error bits (most significant 32-bit, only bit 15-0 should be used).
 
-        prbs_total_error_bits_low: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  #PRBS total error bits (least significant 32-bit).
+        prbs_total_error_bits_low: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # PRBS total error bits (least significant 32-bit).
 
-        frame_lock: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4, choices=L1LinkTrainFrameLock) # frame lock status of the local end.
+        frame_lock: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4, choices=L1LinkTrainFrameLock)  # frame lock status of the local end.
 
-        remote_frame_lock: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4, choices=L1LinkTrainFrameLock) # frame lock status of the remote end.
+        remote_frame_lock: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4, choices=L1LinkTrainFrameLock)  # frame lock status of the remote end.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get L1 link training information. Information is per Serdes and split into a number of pages.
@@ -303,14 +303,13 @@ class PL1_CFG_TMP:
     class GetDataAttr:
         """Data structure of the get response.
         """
-        on_off: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=OnOff)  
+        on_off: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=OnOff)
 
     @dataclass(frozen=True)
     class SetDataAttr:
         """Data structure of the set action.
         """
-        on_off: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=OnOff) 
-
+        on_off: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=OnOff)
 
     def get(self) -> "Token[GetDataAttr]":
         """Get various L1 parameters
@@ -319,7 +318,6 @@ class PL1_CFG_TMP:
         :rtype: PL1_CFG_TMP.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._type]))
-
 
     def set(self, on_off: int) -> "Token":
         """Get various L1 parameters

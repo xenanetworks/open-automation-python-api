@@ -13,7 +13,7 @@ from ..transporter.token import Token
 from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *
+from .enums import *  # noqa: F403
 
 
 @register_command
@@ -1703,9 +1703,9 @@ class P4_APTITUDES:
     """
     Returns the ports aptitudes - i.e. what is possible to configure on the port in
     terms of features and performance.
-    
+
     Current schema of the BSON document:
-    
+
     .. code-block::
 
         schema = {
@@ -1743,7 +1743,6 @@ class P4_APTITUDES:
                 }
             }
         }
-    
     """
 
     code: typing.ClassVar[int] = 1200
@@ -1764,5 +1763,3 @@ class P4_APTITUDES:
         :rtype: P4_APTITUDES.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
-
-

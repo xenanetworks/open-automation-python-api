@@ -32,14 +32,14 @@ from xoa_driver.internals.core.transporter import (
 )
 
 import xoa_driver.internals.hli_v1.testers._tester_session as session
-from xoa_driver.internals.hli_v1.state_storage import testers_state
+from xoa_driver.internals.state_storage import testers_state
 
 
 T = TypeVar('T', bound="BaseTester")
 TesterStateStorage = TypeVar('TesterStateStorage', bound="testers_state.TesterLocalState")
 
 
-#TODO: lately update imports to correct style
+# TODO: lately update imports to correct style
 # min version = 83.2
 class BaseTester(ABC, Generic[TesterStateStorage]):
     def __init__(self, host: str, username: str, password: str = "xena", port: int = 22606, *, debug: bool = False) -> None:

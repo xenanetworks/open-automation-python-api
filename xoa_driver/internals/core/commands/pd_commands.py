@@ -13,7 +13,7 @@ from ..transporter.token import Token
 from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *
+from .enums import *  # noqa: F403
 
 
 @register_command
@@ -47,7 +47,7 @@ class PD_INDICES:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
     def set(self, histogram_indices: typing.List[int]) -> "Token":
-        """Set the histogram indices for each of N histograms. 
+        """Set the histogram indices for each of N histograms.
 
         :param histogram_indices: histogram indices
         :type histogram_indices: List[int]
@@ -200,7 +200,7 @@ class PD_SOURCE:
         identity: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, test payload id or filter id for the wanted packets.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the source criteria specifying what is counted, and for which packets, by a histogram of a port. 
+        """Get the source criteria specifying what is counted, and for which packets, by a histogram of a port.
 
         :return: what is counted and for which packets, a further detail on which packets to count, test payload id or filter id for the wanted packets
         :rtype: PD_SOURCE.GetDataAttr
@@ -272,7 +272,7 @@ class PD_RANGE:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._dataset_xindex]))
 
     def set(self, start: int, step: int, bucket_count: int) -> "Token":
-        """Set the bucket ranges used for classifying the packets counted by a histogram of a port. 
+        """Set the bucket ranges used for classifying the packets counted by a histogram of a port.
         The packets are either counted by length, measured in bytes, by inter-
         frame gap to the preceding packet,  also measured in bytes, or by latency in
         transmission measured in nanoseconds.  There are a fixed number of buckets, each

@@ -14,7 +14,7 @@ from ..transporter.token import Token
 from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *
+from .enums import *  # noqa: F403
 
 
 @register_command
@@ -23,12 +23,12 @@ class PEF_INIT:
     """
     Prepares for setting up a filter definition.  When called, all filter
     definitions in the shadow-set which are not applied are discarded and replaced
-    with the default values (DEFAULT). 
-    
+    with the default values (DEFAULT).
+
     .. note::
-    
+
         There are 2 register copies used to configure the filters:
-        
+
             (1) ``Shadow-copy (type value = 0)`` temporary copy configured by sever. Values stored in ``shadow-copy`` have no immediate effect on the flow filters. PEF_APPLY will pass the values from the ``shadow-copy`` to the ``working-copy``.
 
             (2) ``Working-copy (type value = 1)`` reflects what is currently used for filtering in the FPGA. ``Working-copy`` cannot be written directly. Only ``shadow-copy`` allows direct write.
@@ -116,7 +116,7 @@ class PEF_ENABLE:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -169,7 +169,7 @@ class PEF_ETHSETTINGS:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -221,7 +221,7 @@ class PEF_ETHSRCADDR:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -282,7 +282,7 @@ class PEF_ETHDESTADDR:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -343,7 +343,7 @@ class PEF_L2PUSE:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -398,7 +398,7 @@ class PEF_VLANSETTINGS:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -450,8 +450,8 @@ class PEF_VLANTAG:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
-    vlan_type: FilterVlanType # coded byte, the sub-index value specifies the VLAN type. VLAN1 (0) (INNER VLAN Tag is specified for the filter – used also when only 1 VLAN) indicates single/inner VLAN-TPID = 0x8100. VLAN2 (1) (OUTER VLAN Tag is specified for the filter) indicates outer VLAN-TPID=0x88A8
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    vlan_type: FilterVlanType  # coded byte, the sub-index value specifies the VLAN type. VLAN1 (0) (INNER VLAN Tag is specified for the filter – used also when only 1 VLAN) indicates single/inner VLAN-TPID = 0x8100. VLAN2 (1) (OUTER VLAN Tag is specified for the filter) indicates outer VLAN-TPID=0x88A8
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -515,8 +515,8 @@ class PEF_VLANPCP:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
-    vlan_type: FilterVlanType # coded byte, the sub-index value specifies the VLAN type. VLAN1 (0) (INNER VLAN Tag is specified for the filter – used also when only 1 VLAN) indicates single/inner VLAN-TPID = 0x8100. VLAN2 (1) (OUTER VLAN Tag is specified for the filter) indicates outer VLAN-TPID=0x88A8
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    vlan_type: FilterVlanType  # coded byte, the sub-index value specifies the VLAN type. VLAN1 (0) (INNER VLAN Tag is specified for the filter – used also when only 1 VLAN) indicates single/inner VLAN-TPID = 0x8100. VLAN2 (1) (OUTER VLAN Tag is specified for the filter) indicates outer VLAN-TPID=0x88A8
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -575,7 +575,7 @@ class PEF_MPLSSETTINGS:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -627,7 +627,7 @@ class PEF_MPLSLABEL:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -688,7 +688,7 @@ class PEF_MPLSTOC:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -750,7 +750,7 @@ class PEF_L3USE:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -803,7 +803,7 @@ class PEF_IPV4SETTINGS:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -855,7 +855,7 @@ class PEF_IPV4SRCADDR:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -916,7 +916,7 @@ class PEF_IPV4DESTADDR:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -977,7 +977,7 @@ class PEF_IPV4DSCP:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1046,7 +1046,7 @@ class PEF_IPV6SETTINGS:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1098,7 +1098,7 @@ class PEF_IPV6SRCADDR:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1159,7 +1159,7 @@ class PEF_IPV6DESTADDR:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1220,7 +1220,7 @@ class PEF_IPV6TC:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1289,7 +1289,7 @@ class PEF_UDPSETTINGS:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1341,7 +1341,7 @@ class PEF_UDPSRCPORT:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1401,7 +1401,7 @@ class PEF_UDPDESTPORT:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1463,7 +1463,7 @@ class PEF_TCPSETTINGS:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1515,7 +1515,7 @@ class PEF_TCPSRCPORT:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1576,7 +1576,7 @@ class PEF_TCPDESTPORT:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1637,7 +1637,7 @@ class PEF_ANYSETTINGS:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1692,7 +1692,7 @@ class PEF_ANYCONFIG:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1752,7 +1752,7 @@ class PEF_TPLDSETTINGS:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1802,8 +1802,8 @@ class PEF_TPLDCONFIG:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
-    _test_payload_filter_index: int # integer, the sub-index value which indicates the tpld filter index (range 0 to 15)
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _test_payload_filter_index: int  # integer, the sub-index value which indicates the tpld filter index (range 0 to 15)
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1849,7 +1849,7 @@ class PEF_TPLDCONFIG:
 class PEF_VALUE:
     """
     This command is valid only for ``Extended filter mode`` (check PEF_MODE).
-    
+
     Defines the byte values that can be matched if selected by PEF_MASK.
 
     If ``<protocol_segment_index> = 0`` the maximum number of match value
@@ -1860,11 +1860,12 @@ class PEF_VALUE:
     12 bytes can be set. In order to set the full 128 bytes, either specify a
     detailed protocol segment list, or use the raw protocol segment type. This specifies 12 + 116 = 128 bytes.
 
-    If ``<protocol_segment_index> != 0`` only the bytes covered by that segment are manipulated, so if PEF_PROTOCOL is set to ``ETHERNET VLAN ETHERTYPE eCPRI`` then ``<protocol_segment_index> = 4`` selects the 8
+    If ``<protocol_segment_index> != 0`` only the bytes covered by that segment are manipulated,
+    so if PEF_PROTOCOL is set to ``ETHERNET VLAN ETHERTYPE eCPRI`` then ``<protocol_segment_index> = 4`` selects the 8
     bytes of the eCPRI header starting at byte position (12 + 2 + 4) = 18.
-    
+
     For ``set`` command where fewer value bytes are provided than specified by the protocol segment, those unspecified bytes are set to zero.
-    
+
     The ``get`` command always returns the number of bytes specified by the protocol segment.
     """
 
@@ -1875,8 +1876,8 @@ class PEF_VALUE:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
-    _protocol_segment_index: int # integer, if 0, the server receives/sends the value of all protocol segments when called. If > 0, the server receives/sends only the indicated index protocol segment.
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _protocol_segment_index: int  # integer, if 0, the server receives/sends the value of all protocol segments when called. If > 0, the server receives/sends only the indicated index protocol segment.
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1900,7 +1901,16 @@ class PEF_VALUE:
         :param value: the raw bytes comprising the packet header
         :type value: str
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type, self._protocol_segment_index], value=value))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._flow_xindex, self._filter_type, self._protocol_segment_index],
+                value=value
+            )
+        )
 
 
 @register_command
@@ -1908,9 +1918,9 @@ class PEF_VALUE:
 class PEF_MASK:
     """
     This command is valid only for ``Extended filter mode`` (check PEF_MODE`).
-    
+
     Defines the mask byte values that select the values specified by PEF_VALUE`.
-    
+
     For a chosen ``<protocol_segment_index>`` the first byte in the value masks the
     first byte of the corresponding PEF_VALUE and so on.
 
@@ -1922,7 +1932,8 @@ class PEF_MASK:
     12 bytes can be set. In order to set the full 128 bytes, either specify a
     detailed protocol segment list, or use the raw protocol segment type. This specifies 12 + 116 = 128 bytes.
 
-    If ``<protocol_segment_index> != 0`` only the bytes covered by that segment are manipulated, so if PEF_PROTOCOL is set to ``ETHERNET VLAN ETHERTYPE eCPRI`` then ``<protocol_segment_index> = 4`` selects the 8
+    If ``<protocol_segment_index> != 0`` only the bytes covered by that segment are manipulated,
+    so if PEF_PROTOCOL is set to ``ETHERNET VLAN ETHERTYPE eCPRI`` then ``<protocol_segment_index> = 4`` selects the 8
     bytes of the eCPRI header starting at byte position (12 + 2 + 4) = 18.
 
     ``get/set`` semantics are similar to PEF_VALUE.
@@ -1935,8 +1946,8 @@ class PEF_MASK:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
-    _protocol_segment_index: int # integer, if 0, the server receives/sends the value of all protocol segments when called. If > 0, the server receives/sends only the indicated index protocol segment.
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _protocol_segment_index: int  # integer, if 0, the server receives/sends the value of all protocol segments when called. If > 0, the server receives/sends only the indicated index protocol segment.
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -1960,7 +1971,16 @@ class PEF_MASK:
         :param masks: mask byte values
         :type masks: str
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type, self._protocol_segment_index], masks=masks))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._flow_xindex, self._filter_type, self._protocol_segment_index],
+                masks=masks
+            )
+        )
 
 
 @register_command
@@ -1968,7 +1988,7 @@ class PEF_MASK:
 class PEF_PROTOCOL:
     """
     This command is valid only for ``Extended filter mode`` (check PEF_MODE).
-    
+
     Defines the sequence of protocol segments that can be
     matched. The total length of the specified segments cannot exceed 128 bytes. If
     an existing sequence of segments is changed (using PEF_PROTOCOL) the underlying
@@ -1986,7 +2006,7 @@ class PEF_PROTOCOL:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -2029,7 +2049,7 @@ class PEF_MODE:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -2059,5 +2079,3 @@ class PEF_MODE:
     """Set the filter mode to Basic."""
     set_extended = functools.partialmethod(set, FilterMode.EXTENDED)
     """Set the filter mode to Extended."""
-
-

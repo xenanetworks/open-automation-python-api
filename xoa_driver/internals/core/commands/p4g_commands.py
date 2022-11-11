@@ -14,7 +14,7 @@ from ..transporter.token import Token
 from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *
+from .enums import *  # noqa: F403
 
 
 @register_command
@@ -49,7 +49,7 @@ class P4G_INDICES:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
     def set(self, group_identifiers: typing.List[int]) -> "Token":
-        """Create Connection Groups with the indices on the port. 
+        """Create Connection Groups with the indices on the port.
 
         :param group_identifiers: list of indices identifying Connection Groups.
         :type group_identifiers: typing.List[int]
@@ -626,7 +626,7 @@ class P4G_TCP_STATE_CURRENT:
     """
     Returns a list of the current TCP state counters. The counters returned
     corresponds the the following TCP states:
-    
+
     * CLOSED
     * LISTEN
     * SYN_SENT
@@ -1146,7 +1146,7 @@ class P4G_TCP_MSS_TYPE:
     either be fixed size identical for all connections in the Connection Group,
     incrementing or random. The individual MSS for a specific connection is always
     constant once the incrementing or random value has been created. Refer to
-    P4G_TCP_MSS_MINMAX` 
+    P4G_TCP_MSS_MINMAX`
     command for information on how to configure min and max values.
     """
 
@@ -1989,7 +1989,7 @@ class P4G_TCP_ACK_TIMEOUT:
     def get(self) -> "Token[GetDataAttr]":
         """Get the Delayed ACK timeout.
 
-        :return: the Delayed ACK timeout 
+        :return: the Delayed ACK timeout
         :rtype: P4G_TCP_ACK_TIMEOUT.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
@@ -2293,9 +2293,9 @@ class P4G_L2_IPV6_GW:
 class P4G_TEST_APPLICATION:
     """
     Configure the application layer mode. This command affects whether TCP payload is generated.
-    
+
     * ``NONE`` means that TCP connections are created according to the client and server ranges, and ramped up/down as specified in the load profile. But no payload is transmitted.
-    
+
     * ``RAW`` differs from ``NONE`` in that it transmits payload when the TCP connection is established.
 
     * ``REPLAY`` refers to PCAP replay.
@@ -2545,7 +2545,7 @@ class P4G_RAW_PAYLOAD:
 class P4G_RAW_PAYLOAD_REPEAT_LEN:
     """
     Specify the length of the raw payload, which is defined by one or more P4G_RAW_PAYLOAD` commands, to repeat.
-    
+
     P4G_RAW_PAYLOAD_REPEAT_LEN` number of bytes will be repeated until P4G_RAW_PAYLOAD_TOTAL_LEN` bytes are transmitted on the connection.
     """
 
@@ -2587,9 +2587,9 @@ class P4G_RAW_PAYLOAD_REPEAT_LEN:
 class P4G_RAW_HAS_DOWNLOAD_REQ:
     """
     Specify whether the server waits for a request from the client before it starts transmitting.
-    
+
     .. note::
-    
+
         This parameter is N/A when P4G_L4_PROTOCOL` is configured as UDP.
 
     """
@@ -2637,19 +2637,19 @@ class P4G_RAW_HAS_DOWNLOAD_REQ:
 class P4G_RAW_CLOSE_CONN:
     """
     Specify how to close TCP connection when all payload has been transmitted.
-    
+
     In raw test scenario ``DOWNLOAD``, the server can close the connection, when all payload has been transmitted.
-    
+
     In raw test scenario ``UPLOAD``, the client can close the connection, when all payload has been transmitted. In any case, both server and client Connection Groups must be configured with the same value of this parameter.
-    
+
     In raw test scenario ``BOTH`` (bidirectional), this parameter is N/A and will be ignored.
-    
+
     In a transaction scenario, where P4G_RAW_HAS_DOWNLOAD_REQ` is set to ``YES``, both client and server can close the connection, when the last transaction has been completed.
-    
+
     When P4G_RAW_CONN_INCARNATION` is set to ``IMMORTAL`` or ``REINCARNATE``, and this command is set to ``NONE``, connections will be closed after 'connection lifetime', set by P4G_RAW_CONN_LIFETIME`.
-    
+
     .. note::
-    
+
         This parameter is N/A when P4G_L4_PROTOCOL` is configured as UDP.
 
     """
@@ -2740,9 +2740,9 @@ class P4G_RAW_UTILIZATION:
 class P4G_RAW_DOWNLOAD_REQUEST:
     """
     Specify the content of the download request sent by the client and expected by the server as hex bytes.
-    
+
     .. note::
-    
+
         This parameter is N/A when P4G_L4_PROTOCOL is configured as UDP.
 
     """
@@ -2788,10 +2788,10 @@ class P4G_RAW_DOWNLOAD_REQUEST:
 @dataclass
 class P4G_RAW_TX_DURING_RAMP:
     """
-    Specify if TCP payload transmission should take place during ramp-up and ramp-down. 
-    
+    Specify if TCP payload transmission should take place during ramp-up and ramp-down.
+
     .. note::
-    
+
         For UDP connections payload transmission will always take place during ramp-up and ramp-down, and this parameter is therefore N/A.
 
     """
@@ -2815,15 +2815,15 @@ class P4G_RAW_TX_DURING_RAMP:
         should_close_conn_ramp_down: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)  # coded byte, whether TCP payload transmission should take place during ramp down.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get whether TCP payload transmission should take place during ramp-up and ramp-down. 
+        """Get whether TCP payload transmission should take place during ramp-up and ramp-down.
 
-        :return: whether TCP payload transmission should take place during ramp-up and ramp-down. 
+        :return: whether TCP payload transmission should take place during ramp-up and ramp-down.
         :rtype: P4G_RAW_TX_DURING_RAMP.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
 
     def set(self, should_close_conn_ramp_up: YesNo, should_close_conn_ramp_down: YesNo) -> "Token":
-        """Set whether TCP payload transmission should take place during ramp-up and ramp-down. 
+        """Set whether TCP payload transmission should take place during ramp-up and ramp-down.
 
         :param should_close_conn_ramp_up: whether TCP payload transmission should take place during ramp-up.
         :type should_close_conn_ramp_up: YesNo
@@ -3205,9 +3205,9 @@ class P4G_TRANSACTION_HIST_CONF:
 class P4G_RAW_RX_PAYLOAD_LEN:
     """
     Specify the length of the payload the Client should expect to receive before sending the next download request to the Server. Should be configured identical to the P4G_RAW_PAYLOAD_TOTAL_LEN` for the Server. If mode is set to INFINITE, effectively no request/response repetitions will be performed.
-    
+
     .. note::
-    
+
         This parameter is N/A when P4G_L4_PROTOCOL` is configured as UDP.
 
     """
@@ -3263,9 +3263,9 @@ class P4G_RAW_RX_PAYLOAD_LEN:
 class P4G_RAW_REQUEST_REPEAT:
     """
     Specify the number of request/response transactions to perform - if P4G_RAW_HAS_DOWNLOAD_REQ` is set to ``YES``.
-    
+
     .. note::
-        
+
         This parameter is N/A when P4G_L4_PROTOCOL` is configured as UDP.
 
     """
@@ -4295,11 +4295,11 @@ class P4G_UDP_STATE_CURRENT:
     """
     Returns a list of the current UDP state counters. The counters returned
     corresponds the the following UDP states:
-    
+
     * ``CLOSED`` The connection structure has been created, but has not been 'ramped up' yet.
-    
+
     * ``OPEN`` The connection has been 'ramped up', and is ready to transmit or receive data.
-    
+
     * ``ACTIVE``. The connection is actively transmitting data.
 
     """
@@ -4335,11 +4335,11 @@ class P4G_UDP_STATE_TOTAL:
     """
     Returns a list of the total UDP state counters. The counters returned
     corresponds the the following UDP states:
-    
+
     * ``CLOSED`` The connection structure has been created, but has not been 'ramped up' yet.
-    
+
     * ``OPEN`` The connection has been 'ramped up', and is ready to transmit or receive data.
-    
+
     * ``ACTIVE`` The connection is actively transmitting data.
 
     """
@@ -4375,11 +4375,11 @@ class P4G_UDP_STATE_RATE:
     """
     Returns a list of the UDP state rates measured in connections/second. The
     counters returned corresponds the the following UDP state rates:
-    
+
     * ``CLOSED`` The connection structure has been created, but has not been 'ramped up' yet.
-    
+
     * ``OPEN`` The connection has been 'ramped up', and is ready to transmit or receive data
-    
+
     * ``ACTIVE`` The connection is actively transmitting data.
 
     """
@@ -5113,15 +5113,15 @@ class P4G_USER_STATE_CURRENT:
     Returns a list of the current user state counters. A user is identified by a
     Client IP address. The counters returned corresponds the the following user
     states:
-    
+
     * ``INIT`` The user has been created,  but has no open connections yet.
-    
+
     * ``ACTIVE``  The user has at least one open connection.
-    
+
     * ``SUCCESS`` The user has successfully transmitted and received all payload.
-    
+
     * ``FAILED`` The user has failed in transmitting or receiving all payload.  STOPPED The user has been stopped due to ramp-down.
-    
+
     * ``INACTIVE`` All the users connection is closed, but the user has not been destroyed yet.
     """
 
@@ -5160,17 +5160,17 @@ class P4G_USER_STATE_TOTAL:
     Returns a list of the total user state counters. A user is identified by a
     Client IP address. The counters returned corresponds the the following user
     states:
-    
+
     * ``INIT`` The user has been created, but has no open connections yet.
-    
+
     * ``ACTIVE`` The user has at least one open connection.
-    
+
     * ``SUCCESS`` The user has successfully transmitted and received all payload.
-    
+
     * ``FAILED`` The user has failed in transmitting or receiving all payload.
-    
+
     * ``STOPPED`` The user has been stopped due to ramp-down.
-    
+
     * ``INACTIVE`` All the users connection is closed, but the user has not been destroyed yet.
     """
 
@@ -5209,17 +5209,17 @@ class P4G_USER_STATE_RATE:
     Returns a list of the user state rates measured in users/second. A user is
     identified by a Client IP address. The counters returned  corresponds the the
     following user states:
-    
+
     * ``INIT`` The user has been created, but has no open connections yet.
-    
+
     * ``ACTIVE`` The user has at least one open connection.
-    
+
     * ``SUCCESS`` The user has successfully transmitted and received all payload.
-    
+
     * ``FAILED`` The user has failed in transmitting or receiving all payload.
-    
+
     * ``STOPPED`` The user has been stopped due to ramp-down.
-    
+
     * ``INACTIVE`` All the users connection is closed, but the user has not been destroyed yet.
 
     """
@@ -5666,7 +5666,7 @@ class P4G_TLS_STATE_CURRENT:
     """
     Returns a list of the current TLS state counters. The counters returned
     corresponds the the following TLS states:
-    
+
     * TLS_INACTIVE
     * TLS_HANDSHAKING
     * TLS_HANDSHAKE_DONE
@@ -6182,11 +6182,9 @@ class P4G_TLS_MIN_REQ_PROTOCOL_VER:
         tls_version: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TLSVersion)  # coded byte, minimum required TLS protocol version
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the minimum TLS protocol version required by the configured list of cipher suites. 
+        """Get the minimum TLS protocol version required by the configured list of cipher suites.
 
-        :return: the minimum TLS protocol version required by the configured list of cipher suites. 
+        :return: the minimum TLS protocol version required by the configured list of cipher suites.
         :rtype: P4G_TLS_MIN_REQ_PROTOCOL_VER.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
-
-

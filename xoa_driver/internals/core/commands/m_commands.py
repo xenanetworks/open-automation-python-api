@@ -13,8 +13,8 @@ from ..transporter.token import Token
 from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *
-from . import subtypes
+from .enums import *  # noqa: F403
+# from . import subtypes
 
 
 @register_command
@@ -549,7 +549,7 @@ class M_CAPABILITIES:
             - maximum supported absolute +- clock ppm setting.
             - does this module support Time Sensitive Networking (TSN) ?
             - does this module support Local Clock Adjustment/Sweep (aka. PPM Sweep) ?
-            
+
         :rtype: M_CAPABILITIES.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module))
@@ -574,13 +574,15 @@ class M_MEDIASUPPORT:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        media_info_list: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList) # coded integer, media information
+        media_info_list: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)  # coded integer, media information
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the
 
         :return:
-            a list of integers. The structure of the returned value is [<cage_type> <available_speed_count>[<ports_per_speed> <speed>] ]. [<ports_per_speed> <speed>] are repeated until all speeds supported by the <cage_type> has been listed. [<cage_type> <available_speed_count>] are repeated for all cage types on the module including the related <ports_per_speed> <speed> information.
+            a list of integers. The structure of the returned value is [<cage_type> <available_speed_count>[<ports_per_speed> <speed>] ].
+            [<ports_per_speed> <speed>] are repeated until all speeds supported by the <cage_type> has been listed.
+            [<cage_type> <available_speed_count>] are repeated for all cage types on the module including the related <ports_per_speed> <speed> information.
 
         :rtype: M_MEDIASUPPORT.GetDataAttr
         """
@@ -679,7 +681,9 @@ class M_CFPCONFIGEXT:
 
     .. note::
 
-        <port_count_speeds_list> is a list of integers, where the first element is the number of ports followed by a number of port speeds in Mbps. The number of port speeds equals the value of the number of ports. For example if the configuration is 4x25G, <port_count_speeds_list> will be [4, 25000, 25000, 25000, 25000].
+        <port_count_speeds_list> is a list of integers, where the first element is the number of ports followed by a number of port speeds in Mbps.
+        The number of port speeds equals the value of the number of ports.
+        For example if the configuration is 4x25G, <port_count_speeds_list> will be [4, 25000, 25000, 25000, 25000].
     """
 
     code: typing.ClassVar[int] = 93
@@ -1427,17 +1431,17 @@ class M_CLOCKPPBSWEEP:
     class SetDataAttr:
         mode: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=PPMSweepMode)  # coded byte, specifying the sweeping function: OFF or TRIANGLE
         ppb_step: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer >=0, the numeric clock adjustment in ppb per step of the sweep. If set to 0, the sweep will use as small steps as possible, creating a "linear" sweep of the clock rate.
-        step_delay:  XmpField[xt.XmpInt] = XmpField(xt.XmpInt) #integer >0 the delay in µs between each step in the sweep. If ppb_step is 0: The total time in µs to sweep linearly from 0 to max_ppb.
-        max_ppb: XmpField[xt.XmpInt] = XmpField(xt.XmpInt) # integer != 0, the numeric maximum clock adjustment. The sign of max_ppb determines if the sweep will start with positive or negative offsets. When the next step would exceed the limit set by max_ppb, the sweep changes direction. I.e. the deviation will sweep from 0 to max_ppb, to (-max_ppb), and back to 0.
-        loops: XmpField[xt.XmpInt] = XmpField(xt.XmpInt) # integer >=0, the number of full sweeps performed. 0 means "indefinitely".
+        step_delay: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer >0 the delay in µs between each step in the sweep. If ppb_step is 0: The total time in µs to sweep linearly from 0 to max_ppb.
+        max_ppb: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer != 0, the numeric maximum clock adjustment. The sign of max_ppb determines if the sweep will start with positive or negative offsets. When the next step would exceed the limit set by max_ppb, the sweep changes direction. I.e. the deviation will sweep from 0 to max_ppb, to (-max_ppb), and back to 0.
+        loops: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer >=0, the number of full sweeps performed. 0 means "indefinitely".
 
     @dataclass(frozen=True)
     class GetDataAttr:
         mode: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=PPMSweepMode)  # coded byte, specifying the sweeping function.
         ppb_step: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer >=0, the numeric clock adjustment in ppb per step of the sweep. If set to 0, the sweep will use as small steps as possible, creating a "linear" sweep of the clock rate.
-        step_delay:  XmpField[xt.XmpInt] = XmpField(xt.XmpInt) #integer >0 the delay in µs between each step in the sweep. If ppb_step is 0: The total time in µs to sweep linearly from 0 to max_ppb.
-        max_ppb: XmpField[xt.XmpInt] = XmpField(xt.XmpInt) # integer != 0, the numeric maximum clock adjustment. The sign of max_ppb determines if the sweep will start with positive or negative offsets. When the next step would exceed the limit set by max_ppb, the sweep changes direction. I.e. the deviation will sweep from 0 to max_ppb, to (-max_ppb), and back to 0.
-        loops: XmpField[xt.XmpInt] = XmpField(xt.XmpInt) # integer >=0, the number of full sweeps performed. 0 means "indefinitely".
+        step_delay: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer >0 the delay in µs between each step in the sweep. If ppb_step is 0: The total time in µs to sweep linearly from 0 to max_ppb.
+        max_ppb: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer != 0, the numeric maximum clock adjustment. The sign of max_ppb determines if the sweep will start with positive or negative offsets. When the next step would exceed the limit set by max_ppb, the sweep changes direction. I.e. the deviation will sweep from 0 to max_ppb, to (-max_ppb), and back to 0.
+        loops: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer >=0, the number of full sweeps performed. 0 means "indefinitely".
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the PPM sweep parameters from the module.
@@ -1471,7 +1475,6 @@ class M_CLOCKSWEEPSTATUS:
     Return the current status of the M_CLOCKPPBSWEEP function.
 
     .. versionadded:: 1.1
-    
     """
 
     code: typing.ClassVar[int] = 414
@@ -1484,10 +1487,10 @@ class M_CLOCKSWEEPSTATUS:
     class GetDataAttr:
         state: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PPMSweepStatus)  # coded byte, specifying if a sweep is active: OFF or SWEEPING
 
-        curr_sweep: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  #  integer >=0, the current full sweep number, counting from 0.
-        curr_step:  XmpField[xt.XmpInt] = XmpField(xt.XmpInt) # integer >=0 the current step number inside the sweep, counting from 0.
+        curr_sweep: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer >=0, the current full sweep number, counting from 0.
+        curr_step: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer >=0 the current step number inside the sweep, counting from 0.
 
-        max_steps: XmpField[xt.XmpInt] = XmpField(xt.XmpInt) # integer, >0, the total number of steps comprising a full sweep. For "linear" sweeps (ppb_step=0, see M_CLOCKPPBSWEEP) this number is determined by the chassis. In other cases, the number is implicitly given by the M_CLOCKPPBSWEEP parameters.
+        max_steps: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, >0, the total number of steps comprising a full sweep. For "linear" sweeps (ppb_step=0, see M_CLOCKPPBSWEEP) this number is determined by the chassis. In other cases, the number is implicitly given by the M_CLOCKPPBSWEEP parameters.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the current status of the M_CLOCKPPBSWEEP function.
@@ -1505,7 +1508,7 @@ class M_LATENCYMODE:
     Configures the latency mode for Chimera module. In extended latency mode, the FPGA allows all latency parameters to be 10 times higher, at the cost of reduced latency precision.
 
     .. note::
-    
+
         - When change the latency mode, all latency configurations are reset on all ports in chimera module.
 
     """
@@ -1592,5 +1595,3 @@ class M_EMULBYPASS:
     set_on = functools.partialmethod(set, OnOff.ON)
     """Enable the bypass mode of the impairment emulator.
     """
-
-

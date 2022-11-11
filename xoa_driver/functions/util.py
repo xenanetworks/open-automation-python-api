@@ -16,8 +16,8 @@ from xoa_driver.enums import (
 
 from xoa_driver.misc import Token
 from xoa_driver.utils import apply
-from xoa_driver.internals.hli_v1.ports.port_l23.family_l import FamilyL
-from xoa_driver.internals.hli_v1.ports.port_l23.family_l1 import FamilyL1
+from xoa_driver.internals.hli_v2.ports.port_l23.family_l import FamilyL
+from xoa_driver.internals.hli_v2.ports.port_l23.family_l1 import FamilyL1
 from xoa_driver.ports import GenericAnyPort
 from xoa_driver.testers import L23Tester, L47Tester, GenericAnyTester
 from xoa_driver.lli import commands

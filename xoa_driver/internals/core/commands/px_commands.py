@@ -12,7 +12,7 @@ from ..transporter.token import Token
 from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *
+# from .enums import *  # noqa: F403
 
 
 @register_command
@@ -64,7 +64,6 @@ class PX_RW_SEQ:
     :term:`I2C<I2C>` sequential access to a transceiver's register. When invoked, the ``<byte_count>`` number of bytes will be read or written in one I2C transaction, in which the ``<value>`` is read or written with only a single register address setup. A subsequent invocation will perform a second I2C transaction in the same manner. ``<_page_xindex>``: the transceiver page address, integer, 0-255. ``<_register_xaddress>``: the address within the page, integer, 0-255.
 
     .. versionadded:: 1.1
-    
     """
 
     code: typing.ClassVar[int] = 503
@@ -167,5 +166,3 @@ class PX_TEMPERATURE:
         :rtype: PX_TEMPERATURE.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
-
-

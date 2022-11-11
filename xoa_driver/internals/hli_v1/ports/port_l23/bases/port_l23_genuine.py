@@ -13,12 +13,12 @@ from xoa_driver.internals.core.commands import (
     P_LOADMODE,
     PP_FECMODE,
 )
-from xoa_driver.internals.hli_v1.utils import attributes as utils
-from xoa_driver.internals.hli_v1.utils.indices import index_manager as idx_mgr
+from xoa_driver.internals.utils import attributes as utils
+from xoa_driver.internals.utils.indices import index_manager as idx_mgr
 from xoa_driver.internals.hli_v1.indices.streams.genuine_stream import GenuineStreamIdx
 from xoa_driver.internals.hli_v1.indices.filter.genuine_filter import GenuineFilterIdx
 from xoa_driver.internals.hli_v1.indices.port_dataset import PortDatasetIdx
-from xoa_driver.internals.hli_v1.state_storage import ports_state
+from xoa_driver.internals.state_storage import ports_state
 
 from .port_l23 import (
     BasePortL23,

@@ -13,7 +13,7 @@ from ..transporter.token import Token
 from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *
+from .enums import *  # noqa: F403
 
 
 @register_command
@@ -72,7 +72,18 @@ class PC_TRIGGER:
         :param stop_criteria_filter: the index of a particular filter for the stop criteria
         :type stop_criteria_filter: int
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, start_criteria=start_criteria, start_criteria_filter=start_criteria_filter, stop_criteria=stop_criteria, stop_criteria_filter=stop_criteria_filter))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                start_criteria=start_criteria,
+                start_criteria_filter=start_criteria_filter,
+                stop_criteria=stop_criteria,
+                stop_criteria_filter=stop_criteria_filter
+            )
+        )
 
 
 @register_command
@@ -229,11 +240,9 @@ class PC_PACKET:
         hex_data: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)  # list of hex bytes, the raw bytes kept for the packet.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the raw bytes of a captured packet for a port. 
+        """Get the raw bytes of a captured packet for a port.
 
         :return: the raw bytes of a captured packet
         :rtype: PC_PACKET.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self.capture_packet_xindex]))
-
-

@@ -14,7 +14,7 @@ from ..transporter.token import Token
 from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *
+from .enums import *  # noqa: F403
 
 
 @register_command
@@ -161,7 +161,7 @@ class C_RESERVATION:
     The chassis must be reserved before any of the chassis-level parameters can be
     changed. The owner of the session must already have been specified.
     Reservation will fail if any modules or ports are reserved for other users.
-    
+
     NOTICE: Before reserve Tester need to reserve all the ports on it, otherwise
     ``<STATUS_NOTVALID>``
     """
@@ -1812,7 +1812,19 @@ class C_TKSTATUSEXT:
         :return: extended status in JSON format. The string is formatted as shown in the example below.
 
         ```json
-        {"FormatVersion": 1, "ApplicationVersion": 452.0, "TimeKeeperStatus": { "systemtimingstatus": "Waiting for good time source", "syncsource": "NTP", "sourcestate": "NTP server 10.0.0.110", "versioninfo": "8.0.3", "timesincestart": "0 day(s) 0 hours 1 minutes", "timesinceboot": "0 day(s) 0 hours 2 minutes", "updatetime": 1637916837 } }
+        {
+            "FormatVersion": 1,
+            "ApplicationVersion": 452.0,
+            "TimeKeeperStatus": {
+                "systemtimingstatus": "Waiting for good time source",
+                "syncsource": "NTP",
+                "sourcestate": "NTP server 10.0.0.110",
+                "versioninfo": "8.0.3",
+                "timesincestart": "0 day(s) 0 hours 1 minutes",
+                "timesinceboot": "0 day(s) 0 hours 2 minutes",
+                "updatetime": 1637916837
+            }
+        }
         ```
 
         :rtype: C_TKSTATUSEXT.GetDataAttr

@@ -156,7 +156,7 @@ __all__ = (
     "MThor400G7S1P",
     "MThor400G7S1P_b",
     "MThor400G7S1P_c",
-    "MThor400G7S1P_d", 
+    "MThor400G7S1P_d",
     "MFreya800G1S1P_a",
     "MFreya800G1S1P_b",
     "MFreya800G1S1POSFP_a",

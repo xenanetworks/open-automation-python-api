@@ -12,7 +12,7 @@ from ..transporter.token import Token
 from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *
+from .enums import *  # noqa: F403
 
 
 @register_command
@@ -207,7 +207,7 @@ class PM_POSITION:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._match_term_xindex]))
 
     def set(self, byte_offset: int) -> "Token":
-        """Set the position within each received packet where content matching begins for the port. 
+        """Set the position within each received packet where content matching begins for the port.
 
         :param byte_offset: offset from the start of the packet bytes
         :type byte_offset: int

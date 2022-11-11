@@ -14,8 +14,8 @@ if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
 
 from xoa_driver.internals.hli_v1.ports import base_port
-from xoa_driver.internals.hli_v1.utils import attributes as utils
-from xoa_driver.internals.hli_v1.state_storage import ports_state
+from xoa_driver.internals.utils import attributes as utils
+from xoa_driver.internals.state_storage import ports_state
 from ..pcs_pma_ijkl_chimera import PcsPma
 from .pe_custom_distribution import CustomDistributions
 from .port_emulation import ChimeraPE

@@ -53,9 +53,9 @@ from xoa_driver.internals.core.commands import (
 if typing.TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
 from xoa_driver.internals.hli_v1.ports import base_port
-from xoa_driver.internals.hli_v1.utils import attributes as utils
-from xoa_driver.internals.hli_v1.utils.indices import index_manager as idx_mgr
-from xoa_driver.internals.hli_v1.state_storage import ports_state
+from xoa_driver.internals.utils import attributes as utils
+from xoa_driver.internals.utils.indices import index_manager as idx_mgr
+from xoa_driver.internals.state_storage import ports_state
 from xoa_driver.internals.hli_v1.indices.length_term import LengthTermIdx
 from xoa_driver.internals.hli_v1.indices.match_term import MatchTermIdx
 
