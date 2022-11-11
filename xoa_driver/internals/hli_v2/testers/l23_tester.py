@@ -20,7 +20,7 @@ from .genuine.l_23 import (
     rest_api,
 )
 if TYPE_CHECKING:
-    from xoa_driver import modules
+    from xoa_driver.v2 import modules
 
 from xoa_driver.internals.state_storage import testers_state
 from xoa_driver.internals import revisions

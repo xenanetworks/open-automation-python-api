@@ -1,4 +1,8 @@
 #: All available test module types.
+import sys
+
+if "xoa_driver.v2" in sys.modules:
+    raise ImportError("\33[31mOnly Single interface version is allowed to being use at the same time.\33[0m")
 
 from .internals.hli_v1.modules.modules_l23.module_l23_base import ModuleL23
 from .internals.hli_v1.modules.modules_l23.family_d import (

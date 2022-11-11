@@ -10,7 +10,7 @@ from xoa_driver.internals.utils.modules_manager import ModulesManager
 from ._base_tester import BaseTester
 
 
-from xoa_driver import modules
+from xoa_driver.v2 import modules
 from xoa_driver.internals.state_storage import testers_state
 
 
