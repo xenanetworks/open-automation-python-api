@@ -8,7 +8,7 @@ from xoa_driver.internals.core.commands import (
     C_BUILDSTRING,
 )
 from xoa_driver.internals.utils.modules_manager import ModulesManager
-from xoa_driver.internals import revisions
+from xoa_driver.internals.hli_v1 import revisions
 from xoa_driver.internals import exceptions
 if TYPE_CHECKING:
     from xoa_driver.internals.hli_v1.modules import module_l47 as ml47

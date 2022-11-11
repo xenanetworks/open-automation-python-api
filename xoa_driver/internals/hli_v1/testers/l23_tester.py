@@ -23,7 +23,7 @@ if TYPE_CHECKING:
     from xoa_driver import modules
 
 from xoa_driver.internals.state_storage import testers_state
-from xoa_driver.internals import revisions
+from xoa_driver.internals.hli_v1 import revisions
 from xoa_driver.internals import exceptions
 
 

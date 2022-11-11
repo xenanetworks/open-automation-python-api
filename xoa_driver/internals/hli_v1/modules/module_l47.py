@@ -37,11 +37,11 @@ from xoa_driver.internals.core.commands import (
     M4E_RESERVE,
     M4_TLS_CIPHER_SUITES,
 )
-from xoa_driver.internals import revisions
+from xoa_driver.internals.hli_v1 import revisions
 from xoa_driver.internals.utils import attributes as utils
 from xoa_driver.internals.utils import ports_manager as pm
 from xoa_driver.internals.state_storage import modules_state
-from xoa_driver.ports import PortL47
+from xoa_driver import ports
 from . import base_module as bm
 if typing.TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
@@ -197,9 +197,9 @@ class ModuleL47(bm.BaseModule["modules_state.ModuleLocalState"]):
         self.packet_engine = PacketEngine(conn, self.module_id)
         """L47 packet engine."""
 
-        self.ports: pm.PortsManager[PortL47] = pm.PortsManager(
+        self.ports: pm.PortsManager[ports.PortL47] = pm.PortsManager(
             conn=conn,
-            ports_type=PortL47,
+            ports_type=ports.PortL47,
             module_id=self.module_id,
             ports_count=self.ports_count
         )

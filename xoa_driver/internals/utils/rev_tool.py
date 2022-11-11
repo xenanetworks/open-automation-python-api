@@ -1,49 +1,24 @@
 from __future__ import annotations
-from enum import Enum
-from functools import partial
 from typing import Type
-
-
-class ProductType(Enum):
-    VALKYRIE = "VAL_MOD"
-    CHIMERA = "CHI_MOD"
-    VULCAN = "VUL_MOD"
-
-
-VALKYRIE_MODULES = {}
-CHIMERA_MODULES = {}
-VULCAN_MODULES = {}
 
 
 class RegisterModule:
     """Register revision and it's module class"""
 
-    def __init__(self, product_type: ProductType, rev: str):
-        self.product_type = product_type
+    def __init__(self, modules_store: dict[str, Type], rev: str) -> None:
+        self.modules_store = modules_store
         self.revision = rev
 
     def __call__(self, module_type: Type):
-        global VALKYRIE_MODULES, CHIMERA_MODULES, VULCAN_MODULES
-        store_method = {
-            ProductType.VALKYRIE: partial(self.set_module, storage=VALKYRIE_MODULES),
-            ProductType.CHIMERA: partial(self.set_module, storage=CHIMERA_MODULES),
-            ProductType.VULCAN: partial(self.set_module, storage=VULCAN_MODULES),
-        }.get(self.product_type)
-        if not store_method:
-            raise ValueError("Unknow product.")
-        store_method(revision=self.revision, module_type=module_type)
+        if self.revision in self.modules_store:
+            raise RuntimeError(f"Module of revision: {self.revision}, is already registered.")
+        self.modules_store[self.revision] = module_type
         return module_type
 
-    @staticmethod
-    def set_module(storage: dict[str, Type], revision: str, module_type: Type) -> None:
-        if revision in storage:
-            raise RuntimeError(f"Module of revision: {revision}, is already registered.")
-        storage[revision] = module_type
 
-
-register_valkyrie_module = partial(RegisterModule, product_type=ProductType.VALKYRIE)
-register_chimera_module = partial(RegisterModule, product_type=ProductType.CHIMERA)
-register_vulcan_module = partial(RegisterModule, product_type=ProductType.VULCAN)
+# register_valkyrie_module = partial(RegisterModule, modules_store=VALKYRIE_MODULES)
+# register_chimera_module = partial(RegisterModule, modules_store=CHIMERA_MODULES)
+# register_vulcan_module = partial(RegisterModule, modules_store=VULCAN_MODULES)
 
 # # region Valkyrie Modules, sorting order: alphabetical
 

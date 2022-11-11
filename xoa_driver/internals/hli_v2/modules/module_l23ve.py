@@ -6,7 +6,7 @@ from xoa_driver.internals.core.commands import (
     M_CAPABILITIES,
     M_MULTIUSER
 )
-from xoa_driver import ports
+from xoa_driver.v2 import ports
 from xoa_driver.internals.utils import ports_manager as pm
 from xoa_driver.internals.state_storage import modules_state
 from . import base_module as bm
