@@ -14,5 +14,6 @@
 *.pyc
 *.log
 *.prof
+.pyenv
 **/.DS_Store
 .python-version
