@@ -3645,7 +3645,7 @@ class P_RXRUNTLEN_ERRS:
     def get(self) -> "Token[GetDataAttr]":
         """Have packets with wrong runt length been detected since last read?
 
-        :return: whether packets with with wrong runt length been detected since last read
+        :return: whether packets with wrong runt length been detected since last read
         :rtype: P_RXRUNTLEN_ERRS.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))

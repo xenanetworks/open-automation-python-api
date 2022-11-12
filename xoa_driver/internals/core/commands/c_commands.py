@@ -1128,6 +1128,13 @@ class C_INDICES:
 
     @dataclass(frozen=True)
     class GetDataAttr:
+        """Returned data structure.
+
+        Attributes:
+
+        :attr session_ids: the session indices for all current sessions on the chassis
+        :type session_ids: List[int]
+        """
         session_ids: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)  # list of integers, the session indices for all current sessions on the chassis.
 
     def get(self) -> "Token[GetDataAttr]":
