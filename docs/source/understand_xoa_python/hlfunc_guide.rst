@@ -1,15 +1,9 @@
-.. _util_label:
+.. _hl_func_label:
 
-Utility
+High-Level Functions
 ===================================
 
-UTIL provides high-level abstraction functions on top of the object-oriented APIs in HL-API, aiming to help you simplify code logics and increase readability and maintainability. UTIL consists of sub-libraries where functions are grouped based on functionalities, such as :term:`ANLT<ANLT>`. Complex operation sequences are wrapped inside high-level functions, e.g. initiating link training, reserving ports, etc.
-
-UTIL can be used in two different ways:
-
-* Library Mode: you can import the Python library into your test scripts and use the functions.
-
-* Interactive Mode: an interactive shell for you to execute functions in a command-line fashion. This is very helpful when you need a command-line interface for interactive testing. 
+HL-FUNC provides high-level abstraction functions on top of the object-oriented APIs in HL-API, aiming to help you simplify code logics and increase readability and maintainability. HL-FUNC consists of sub-libraries where functions are grouped based on functionalities, such as :term:`ANLT<ANLT>`. Complex operation sequences are wrapped inside high-level functions, e.g. initiating link training, reserving ports, etc.
 
 ANLT
 ------------------------------------
@@ -110,6 +104,8 @@ Test Resource Management
 
 As described in :doc:`../test_resource_mgt`, you need to reserve the test resource (chassis/module/port) to do `set` operations. In order to achieve this, you need to first check the ownership of the test resource, and relinquish it in case it is owned by someone else, and then reserve it. Such as sequence of operations can be simplified by the high-level abstraction functions in UTIL.
 
-1. Reserve chassis (in future release)
-2. Reserve module (in future release)
-3. Reserve port
+1. Connect to chassis
+2. Reserve/Release/Reset ports
+3. Reserve/Release chassis (in future release)
+4. Reserve/Release module (in future release)
+5. Disconnect

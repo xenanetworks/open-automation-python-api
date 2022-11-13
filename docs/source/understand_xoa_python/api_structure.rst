@@ -3,7 +3,7 @@ API Structure
 
 XOA Python API consists of three layers on top of the Xena proprietary binary API, as shown below.
 
-    :term:`Utility (UTIL)<UTIL>` provides high-level abstraction functions.
+    :term:`High-level Functions (HL-FUNC)<HL-FUNC>` provides high-level abstraction functions.
 
     :term:`High-Level API (HL-API)<HL-API>` provides object-oriented APIs.
 
@@ -15,27 +15,21 @@ XOA Python API consists of three layers on top of the Xena proprietary binary AP
 
     XOA Python API Structure
 
-.. rubric:: Utility
+.. rubric:: HL-FUNC
 
-UTIL provides high-level abstraction functions on top of the object-oriented APIs in HL-API, aiming to help you simplify code logics and increase readability and maintainability. UTIL consists of sub-libraries where functions are grouped based on functionalities, such as :term:`ANLT<ANLT>`. Complex operation sequences are wrapped inside high-level functions, e.g. initiating link training, reserving ports, etc.
-
-UTIL can be used in two different ways:
-
-* Library Mode: you can import the Python library into your test scripts and use the functions.
-
-* Interactive Mode: an interactive shell for you to execute functions in a command-line fashion. This is very helpful when you need a command-line interface for interactive testing. 
+HL-FUNC provides high-level abstraction functions on top of the object-oriented APIs in HL-API, aiming to help you simplify code logics and increase readability and maintainability. HL-FUNC consists of sub-libraries where functions are grouped based on functionalities, such as :term:`ANLT<ANLT>`. Complex operation sequences are wrapped inside high-level functions, e.g. initiating link training, reserving ports, etc.
 
 .. code-block:: python
     
     # Regardless of who owns the port, this function makes sure you have the ownership.
-    await port_reserve(port)
+    await reserve_port(port)
 
     # Enable link training on the port, regardless what the sequence of operations should be.
     await lt(port=port, enable=True, timeout_enable=True, mode="interactive")
 
 .. seealso::
 
-    Read more about :ref:`UTIL <util_label>`.
+    Read more about :ref:`HL-FUNC <hl_func_label>`.
 
 .. rubric:: High-Level API
 

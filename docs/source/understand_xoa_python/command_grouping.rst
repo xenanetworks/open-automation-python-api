@@ -5,25 +5,9 @@ Using :term:`XOA CLI` to configure ports and streams is slow because a CLI scrip
 
 Because of the abovementioned N-RTT problem, it is difficult for a CLI script to collect traffic statistics of different ports at the same time (using for loops in the script is far from solving the problem). As a result, this will cause a wrong understanding of the test results.
 
-XOA Python API solves this problem by *Command Grouping*, i.e. grouping commands together and sending them to the chassis in one batch.
+When you are using HL-API or LL-API to develop your test scripts, you can use *Command Grouping* feature to group several commands and send to the tester in one batch. 
 
-XOA Python API provides two different ways of grouping commands, `Parallel Grouping`_ and `Sequential Grouping`_, for different programming needs.
-
-Parallel Grouping
-----------------------------------------
-
-``asyncio.gather`` groups commands in a parallel way. Commands are sent out in parallel (with neglectable delay between each other). This is very useful when you want to send commands to different :term:`test resources<test resource>`, e.g. two different ports on the same tester, or two different ports on different testers.
-
-.. code-block:: python
-    
-
-    await asyncio.gather(
-        command_1,
-        command_2,
-        command_3,
-        ...
-    )
-
+Depending on the destination the commands are bound for, either to the same or different ports, XOA Python API provides two ways of grouping commands, `Sequential Grouping`_ (all commands bound for the same port/module) and `Parallel Grouping`_ (commands are bound for different ports/modules).
 
 Sequential Grouping
 ----------------------------------------
@@ -58,6 +42,22 @@ However, abusing this function can cause memory issue on your computer. This is 
     ]
     async for response in utils.apply_iter(*commands):
         print(response)
+
+
+Parallel Grouping
+----------------------------------------
+
+``asyncio.gather`` groups commands in a parallel way. Commands are sent out in parallel (with neglectable delay between each other). This is very useful when you want to send commands to different :term:`test resources<test resource>`, e.g. two different ports on the same tester, or two different ports on different testers.
+
+.. code-block:: python
+    
+
+    await asyncio.gather(
+        command_1,
+        command_2,
+        command_3,
+        ...
+    )
 
 
 One-By-One
