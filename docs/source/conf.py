@@ -125,9 +125,7 @@ autoclass_content = 'class'
 autodoc_typehints = 'description'
 
 # This value controls whether the types of undocumented parameters and return values are documented when autodoc_typehints is set to description.
-
 # The default value is "all", meaning that types are documented for all parameters and return values, whether they are documented or not.
-
 # When set to "documented", types will only be documented for a parameter or a return value that is already documented by the docstring.
 
 # With "documented_params", parameter types will only be annotated if the parameter is documented in the docstring. The return type is always annotated (except if it is None).
