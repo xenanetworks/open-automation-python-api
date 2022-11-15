@@ -1,5 +1,5 @@
 High-Level API Reference
-=========================
+========================
 
 HL-API uses the classes defined in LL-API and lets you quickly develop scripts or program in an **object-oriented** fashion with explicit definition of commands of different *tester*, *module*, *port* types. In addition, the HL-API layer provides functionalities such as:
 
@@ -14,13 +14,9 @@ The high-level Python APIs are categorized into six groups:
 * Ports
 * Enums
 * Exceptions
-* Utilities
+* Utils
 
 .. toctree::
 
-    testers/index
-    modules/index
-    ports/index
-    enums
-    exceptions
-    utils
+    testers
+    

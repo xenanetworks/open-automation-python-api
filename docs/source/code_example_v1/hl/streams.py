@@ -6,7 +6,7 @@ from xoa_driver import utils, enums
 
 async def my_awesome_func():
     # create tester instance and establish connection
-    tester = await testers.L23Tester("192.168.1.200", "JonDoe") 
+    tester = await testers.L23Tester("10.20.1.170", "JonDoe") 
 
     # access module 0 on the tester
     my_module = tester.modules.obtain(0)
@@ -38,9 +38,11 @@ async def my_awesome_func():
         my_stream_2.packet.length.set(length_type=enums.LengthType.INCREMENTING, min_val=100, max_val=1000), # Configure the packet size
         my_stream_2.enable.set_on(), # Enable streams
         my_stream_2.rate.fraction.set(stream_rate_ppm=500000), # Configure the stream rate
+        my_stream_2.packet.header.protocol.set(segments=[enums.ProtocolOption.ETHERNET, enums.ProtocolOption.VLAN, enums.ProtocolOption.UDP]),
+        my_stream_2.packet.header.data.set(hex_data="0x00000000000004F4BC94DAE081000000FFFF00000000002A0000")
     )
 
-    await my_stream_2.delete() # delete a stream
+    
 
     # other code ...
 

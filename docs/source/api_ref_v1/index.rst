@@ -1,8 +1,8 @@
-API Reference
+API v1 Reference
 =================
 
 .. toctree::
 
     hlfunc/index
-    hlapi/testers
+    hlapi/index
     llapi/index

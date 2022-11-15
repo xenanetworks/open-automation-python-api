@@ -21,6 +21,15 @@ PT_TOTAL
     :exclude-members: GetDataAttr, SetDataAttr
 
 
+PT_TOTALEXT
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: PT_TOTALEXT
+    :members:
+    :no-undoc-members:
+    :exclude-members: GetDataAttr, SetDataAttr
+
+
 PT_NOTPLD
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -30,10 +39,28 @@ PT_NOTPLD
     :exclude-members: GetDataAttr, SetDataAttr
 
 
+PT_NOTPLDEXT
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: PT_NOTPLDEXT
+    :members:
+    :no-undoc-members:
+    :exclude-members: GetDataAttr, SetDataAttr
+
+
 PT_STREAM
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autoclass:: PT_STREAM
+    :members:
+    :no-undoc-members:
+    :exclude-members: GetDataAttr, SetDataAttr
+
+
+PT_STREAMEXT
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: PT_STREAMEXT
     :members:
     :no-undoc-members:
     :exclude-members: GetDataAttr, SetDataAttr
