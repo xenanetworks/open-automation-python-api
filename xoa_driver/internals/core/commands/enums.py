@@ -1,4 +1,4 @@
-#: Enumeration Types
+#: Enumeration Types 
 
 from enum import IntEnum
 
@@ -496,13 +496,12 @@ class ProtocolOption(IntEnum):
     """Radio over Ethernet"""
     ETHERTYPE = 48
     """EtherType"""
-
+    
     # Generate RAW form 1...64 bytes
     _ignore_ = 'ProtocolOption i'
     ProtocolOption = vars()
     for i in range(1, 65):
-        ProtocolOption['RAW_%d' % i] = 256 - i  # type: ignore
-
+        ProtocolOption['RAW_%d' % i] = 256 - i # type: ignore
 
 class ModifierAction(IntEnum):
     """Modifier action mode"""
@@ -532,12 +531,18 @@ class PayloadType(IntEnum):
     """Packet payload type"""
     PATTERN = 0
     """Pattern"""
-    INCREMENTING = 1
-    """Incrementing"""
+    INC8 = 1
+    """Incrementing with 0xFF (8-bit mode)"""
     PRBS = 2
     """PRBS"""
     RANDOM = 3
     """Random"""
+    DEC8 = 4
+    """Decrementing with 0xFF (8-bit mode)"""
+    INC16 = 5
+    """Incrementing with 0xFFFF (16-bit mode)"""
+    DEC16 = 6
+    """Decrementing with 0xFFFF (16-bit mode"""
 
 
 class MDIXMode(IntEnum):
@@ -767,23 +772,23 @@ class MediaConfigurationType(IntEnum):
     """Module Media Configuration Type"""
     CFP4 = 0
     """CFP4"""
-    QSFP28 = 1
+    QSFP28_NRZ = 1
     """QSFP28 (NRZ)"""
     CXP = 2
     """CXP"""
     SFP28 = 3
     """SFP28"""
-    QSFP56 = 4
+    QSFP56_PAM4 = 4
     """QSFP56 (PAM4)"""
-    QSFP_DD = 5
+    QSFPDD_PAM4 = 5
     """QSFP-DD (PAM4)"""
     SFP56 = 6
     """SFP56"""
-    SFP_DD = 7
+    SFPDD = 7
     """SFP-DD"""
     SFP112 = 8
     """SFP112"""
-    QSFP_DD_NRZ = 9
+    QSFPDD_NRZ = 9
     """QSFP-DD (NRZ)"""
     QSFP28_PAM4 = 10
     """QSFP28 (PAM4)"""
@@ -1116,8 +1121,8 @@ class LinkTrainingMode(IntEnum):
 
 class PAM4FrameSize(IntEnum):
     """PAM4 Frame Size"""
-    P16K_FRAME = 0
-    P4K_FRAME = 1
+    N16K_FRAME = 0
+    N4K_FRAME = 1
 
 
 class LinkTrainingInitCondition(IntEnum):
@@ -1324,6 +1329,7 @@ class CustomDefaultScope(IntEnum):
     """Instance"""
 
 
+
 class TrafficError(IntEnum):
     """Traffic Error"""
     NOT_PREPARED = 0
@@ -1481,17 +1487,9 @@ class LifecycleMode(IntEnum):
     ONCE = 0
     """Connections are established during the ramp-up phase and not closed until the ramp-down phase of the load profile. That is, each configured connection only exists once."""
     IMMORTAL = 1
-    """Connections are established during the ramp-up phase of the load profile, and are closed after the configured lifetime (configured by  P4G_RAW_CONN_LIFETIME).
-    As connections close, new connections are established, attempting to keep the concurrent number of established connections constant. A new connection will have
-    the same IP address as the connection it replaces, but will have a new TCP port number. This will simulate that the user (defined by the client IP address) is
-    living on, and creates new connections as old connections close.
-    """
+    """Connections are established during the ramp-up phase of the load profile, and are closed after the configured lifetime (configured by  P4G_RAW_CONN_LIFETIME). As connections close, new connections are established, attempting to keep the concurrent number of established connections constant. A new connection will have the same IP address as the connection it replaces, but will have a new TCP port number. This will simulate that the user (defined by the client IP address) is living on, and creates new connections as old connections close."""
     REINCARNATE = 2
-    """Connections are established during the ramp-up phase of the load profile, and are closed after the configured lifetime (configured by  P4G_RAW_CONN_LIFETIME).
-    As connections close, new connections are established, attempting to keep the concurrent number of established connections constant.
-    A new connection will have the same TCP port number as the connection it replaces, but will have a new IP address.
-    This will simulate that the user (defined by the client IP address) ceases to exist, and new users appear as old users die.
-    """
+    """Connections are established during the ramp-up phase of the load profile, and are closed after the configured lifetime (configured by  P4G_RAW_CONN_LIFETIME). As connections close, new connections are established, attempting to keep the concurrent number of established connections constant. A new connection will have the same TCP port number as the connection it replaces, but will have a new IP address. This will simulate that the user (defined by the client IP address) ceases to exist, and new users appear as old users die."""
 
 
 class L47IPVersion(IntEnum):
@@ -1713,10 +1711,9 @@ class ShadowWorkingSelection(IntEnum):
     WORKING = 1
     """Working"""
 
-
 class FilterType(IntEnum):
     """Filter Type for Impairment"""
-    SHADOW = 0
+    SHADOW = 0 
     """Shadow Copy"""
     WORKING = 1
     """Working Copy"""
@@ -1724,9 +1721,9 @@ class FilterType(IntEnum):
 
 class FilterVlanType(IntEnum):
     """VLAN PCP Settings for VLAN Filter"""
-    INNER = 0
+    INNER = 0 
     """VLAN1 (0) (INNER VLAN Tag is specified for the filter – used also when only 1 VLAN), indicates single/inner VLAN-TPID=0x8100"""
-    OUTER = 1
+    OUTER = 1 
     """VLAN2 (1) (OUTER VLAN Tag is specified for the filter), indicates outer VLAN-TPID=0x88A8"""
 
 
@@ -1744,7 +1741,7 @@ class ImpairmentTypeIndex(IntEnum):
     """Drop"""
     MISORDER = 1
     """Misorder"""
-    DELAYJITTER = 2
+    LATENCYJITTER = 2
     """Delay/Jitter"""
     DUPLICATION = 3
     """Duplication"""
@@ -1830,7 +1827,6 @@ class PPMSweepMode(IntEnum):
     TRIANGLE = 1
     """Triangle sweeping"""
 
-
 class PPMSweepStatus(IntEnum):
     """Module clock PPM Sweep Status"""
     OFF = 0
@@ -1838,14 +1834,12 @@ class PPMSweepStatus(IntEnum):
     SWEEPING = 1
     """The module is sweeping"""
 
-
 class ReconciliationSublayerSupport (IntEnum):
     """Reconciliation Sublayer Support"""
     NO_SUPPORT = 0
     """Not Supported"""
     FAULT_SIGNALING = 1
     """Supported, which means P_FAULTSTATUS and P_FAULTSIGNALLING are supported by the port."""
-
 
 class PL1_CFG_TMP_TYPE (IntEnum):
     """Enums for PL1_CFG_TMP's type (beta)

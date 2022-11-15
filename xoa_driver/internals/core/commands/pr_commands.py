@@ -470,6 +470,169 @@ class PR_UAT_TIME:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
+
+@register_command
+@dataclass
+class PR_TOTALEXT:
+    """
+    PR_TOTALEXT is an extension of :class:`PR_TOTAL` that also includes a calculation of bytes received in the last second, as well as a number of port error counters. PR_TOTALEXT returns list of long integers. This list may be expanded in future software releases.
+    """
+
+    code: typing.ClassVar[int] = 257
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: "interfaces.IConnection"
+    _module: int
+    _port: int
+
+    @dataclass(frozen=True)
+    class GetDataAttr:
+        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bits received in the last second.
+        byte_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bytes received in the last second.
+        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received in the last second.
+        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bytes received since statistics were cleared.
+        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received since statistics were cleared.
+        fcs_error_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong) # long integer, number of packets received with fcs error frames
+        oversize_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong) # long integer, number of oversize packets received since last clear; -1 if this counter is not supported by the tester.
+        undersize_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong) # long integer, number of undersize packets received since last clear; -1 if this counter is not supported by the tester.
+        jabber_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong) # long integer, number of jabber packets received since last clear; -1 if this counter is not supported by the tester.
+
+    def get(self) -> "Token[GetDataAttr]":
+        """Get statistics concerning all the packets received on a port.
+
+        :return:
+            number of bits received in the last second,
+            number of bytes received in the last second,
+            number of packets received in the last second,
+            number of bytes received since statistics were cleared,
+            number of packets received since statistics were cleared,
+            number of packets received with fcs error frames,
+            number of oversize packets received since last clear (-1 if this counter is not supported by the tester),
+            number of undersize packets received since last clear (-1 if this counter is not supported by the tester),
+            number of jabber packets received since last clear (-1 if this counter is not supported by the tester).
+
+        :rtype: PR_TOTALEXT.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+
+
+@register_command
+@dataclass
+class PR_NOTPLDEXT:
+    """
+    PR_NOTPLDEXT is an extension of :class:`PR_NOTPLD` that also includes a calculation of bytes received in the last second. PR_NOTPLDEXT returns list of long integers. This list may be expanded in future software releases.
+    """
+
+    code: typing.ClassVar[int] = 258
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: "interfaces.IConnection"
+    _module: int
+    _port: int
+
+    @dataclass(frozen=True)
+    class GetDataAttr:
+        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bits received in the last second.
+        byte_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bytes received in the last second.
+        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received in the last second.
+        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bytes received since statistics were cleared.
+        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received since statistics were cleared.
+
+    def get(self) -> "Token[GetDataAttr]":
+        """Get statistics concerning the packets without a test payload received on a port.
+
+        :return:
+            number of bits received in the last second,
+            number of bytes received in the last second,
+            number of packets received in the last second,
+            number of bytes received since statistics were cleared,
+            and number of packets received since statistics were cleared.
+
+        :rtype: PR_NOTPLDEXT.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+
+
+
+@register_command
+@dataclass
+class PR_TPLDTRAFFICEXT:
+    """
+    PR_TPLDTRAFFICEXT is an extension of :class:`PR_TPLDTRAFFIC` that also includes a calculation of bytes received in the last second. PR_TPLDTRAFFICEXT returns list of long integers. This list may be expanded in future software releases.
+    """
+
+    code: typing.ClassVar[int] = 259
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: "interfaces.IConnection"
+    _module: int
+    _port: int
+    _test_payload_xindex: int
+
+    @dataclass(frozen=True)
+    class GetDataAttr:
+        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bits received in the last second.
+        byte_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bytes received in the last second.
+        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received in the last second.
+        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bytes received since statistics were cleared.
+        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received since statistics were cleared.
+
+    def get(self) -> "Token[GetDataAttr]":
+        """Get traffic statistics concerning the packets with a particular test payload
+        identifier received on a port.
+
+        :return:
+            number of bits received in the last second,
+            number of bytes received in the last second,
+            number of packets received in the last second,
+            number of bytes received since statistics were cleared,
+            number of packets received since statistics were cleared
+
+        :rtype: PR_TPLDTRAFFICEXT.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._test_payload_xindex]))
+
+
+
+@register_command
+@dataclass
+class PR_FILTEREXT:
+    """
+    PR_FILTEREXT is an extension of :class:`PR_FILTER` that also includes a calculation of bytes received in the last second. PR_FILTEREXT returns list of long integers. This list may be expanded in future software releases.
+    """
+
+    code: typing.ClassVar[int] = 260
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: "interfaces.IConnection"
+    _module: int
+    _port: int
+    _filter_xindex: int
+
+    @dataclass(frozen=True)
+    class GetDataAttr:
+        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bits received in the last second.
+        byte_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bytes received in the last second.
+        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received in the last second.
+        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bytes received since statistics were cleared.
+        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received since statistics were cleared.
+
+    def get(self) -> "Token[GetDataAttr]":
+        """Get statistics concerning the packets satisfying the condition of a particular filter for a port
+
+        :return:
+            number of bits received in the last second,
+            number of bytes received in the last second,
+            number of packets received in the last second,
+            number of bytes received since statistics were cleared,
+            number of packets received since statistics were cleared
+
+        :rtype: PR_FILTEREXT.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._filter_xindex]))
+
+
+
 @register_command
 @dataclass
 class PR_PFCSTATS:
