@@ -3,7 +3,7 @@ API Structure
 
 XOA Python API consists of three layers on top of the Xena proprietary binary API, as shown below.
 
-    :term:`High-level Functions (HL-FUNC)<HL-FUNC>` provides high-level abstraction functions.
+    :term:`High-level Functions (HL-FUNC)<HL-FUNC>` provides high-level abstraction functions
 
     :term:`High-Level API (HL-API)<HL-API>` provides object-oriented APIs.
 
@@ -13,23 +13,24 @@ XOA Python API consists of three layers on top of the Xena proprietary binary AP
     :scale: 100 %
     :align: center
 
-    XOA Python API Structure
+    XOA Python API Stack View
 
-.. rubric:: HL-FUNC
 
-HL-FUNC provides high-level abstraction functions on top of the object-oriented APIs in HL-API, aiming to help you simplify code logics and increase readability and maintainability. HL-FUNC consists of sub-libraries where functions are grouped based on functionalities, such as :term:`ANLT<ANLT>`. Complex operation sequences are wrapped inside high-level functions, e.g. initiating link training, reserving ports, etc.
+.. rubric:: Low-Level API
+
+LL-API contains low-level API classes, giving you the direct control of the tester. The names of the classes are the same as the the CLI commands in :term:`XOA CLI`, making it easy for you to understand the Python API if you are already familiar with XOA CLI. However, unlike HL-API, LL-API does not provide functionalities such as *auto connection keep-alive* and *auto index management*. This means you need to write more codes to handle those yourself.
+
+For example, to change the description of a tester using LL-API:
 
 .. code-block:: python
     
-    # Regardless of who owns the port, this function makes sure you have the ownership.
-    await reserve_port(port)
-
-    # Enable link training on the port, regardless what the sequence of operations should be.
-    await lt(port=port, enable=True, timeout_enable=True, mode="interactive")
+    # Directly using class P_RESERVATION. This is only valid when the port is not reserved by others.
+    await P_RESERVATION(handler).set(operation=ReservedAction.RESERVE)
 
 .. seealso::
 
-    Read more about :ref:`HL-FUNC <hl_func_label>`.
+    Read more about :ref:`LL-API <low_level_api_label>`.
+
 
 .. rubric:: High-Level API
 
@@ -53,17 +54,23 @@ For example, to reserve a port using HL-API:
 
     Read more about :ref:`HL-API <high_level_api_label>`.
 
-.. rubric:: Low-Level API
 
-LL-API contains low-level API classes, giving you the direct control of the tester. The names of the classes are the same as the the CLI commands in :term:`XOA CLI`, making it easy for you to understand the Python API if you are already familiar with XOA CLI. However, unlike HL-API, LL-API does not provide functionalities such as *auto connection keep-alive* and *auto index management*. This means you need to write more codes to handle those yourself.
+.. rubric:: High-Level Functions
 
-For example, to change the description of a tester using LL-API:
+HL-FUNC provides **high-level abstraction** functions on top of the object-oriented APIs in HL-API, aiming to help you simplify code logics and increase readability and maintainability. HL-FUNC consists of sub-libraries where functions are grouped based on functionalities, such as :term:`ANLT<ANLT>`. Complex operation sequences are wrapped inside high-level functions, e.g. initiating link training, reserving ports, etc.
 
 .. code-block:: python
     
-    # Directly using class P_RESERVATION. This is only valid when the port is not reserved by others.
-    await P_RESERVATION(handler).set(operation=ReservedAction.RESERVE)
+    # Regardless of who owns the port, this function makes sure you have the ownership.
+    await reserve_port(port)
+
+    # Enable link training on the port, regardless what the sequence of operations should be.
+    await lt(port=port, enable=True, timeout_enable=True, mode="interactive")
+
+.. important::
+
+    For test script development, you can 
 
 .. seealso::
 
-    Read more about :ref:`LL-API <low_level_api_label>`.
+    Read more about :ref:`HL-FUNC <hl_func_label>`.

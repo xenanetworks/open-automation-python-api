@@ -5,10 +5,14 @@ High-Level Functions
 
 HL-FUNC provides high-level abstraction functions on top of the object-oriented APIs in HL-API, aiming to help you simplify code logics and increase readability and maintainability. HL-FUNC consists of sub-libraries where functions are grouped based on functionalities, such as :term:`ANLT<ANLT>`. Complex operation sequences are wrapped inside high-level functions, e.g. initiating link training, reserving ports, etc.
 
-ANLT
+The object-oriented APIs in HL-API and the command classes in LL-API are one-to-one mapped, and there is no abstraction provided by the HL-API. As a test specialist, your focus is on building test logics and sequences, not spending unnecessary time on "logistics", such as reserving ports, releasing your ports, deleting all streams on a port without resetting, etc.
+
+To help you simplify code complexity, speed up development, increase readability and maintainability, HL-FUNC is added as the topmost layer, providing abstract functions to the frequently used operations.
+
+Auto-Negotiation and Link Training
 ------------------------------------
 
-**ANLT** (Auto-Negotiation and Link Training) provides functions to help you fine-tune the protocol to its optimal state, test interoperability between different vendors, and protocol compliance for different implementations.
+Auto-Negotiation and Link Training (ANLT) provides functions to help you fine-tune the protocol to its optimal state, test interoperability between different vendors, and protocol compliance for different implementations.
 
 Auto-negotiation (AN) was originally designed for Ethernet over twisted pair up to 1G. Beyond exchanging speed capabilities for the link participants, AN has evolved for today's Ethernet to include additional configuration information for establishing reliable and consistent connections. AN allows the devices at the end points of a link to negotiate common transmission parameters capabilities like speed and duplex mode, exchange extended page information and media signaling support. At higher speeds and signaling the choice of FEC may be relevant. It is during auto negotiation the end points of a link share their capabilities and choose the highest performance transmission mode they both support.
 
@@ -26,15 +30,15 @@ Once the ports in the link have completed the requisite AN information exchange 
 
    `Link Training Process <https://xenanetworks.com/whitepaper/autoneg-link-training/>`_
 
-.. rubric:: No Auto negotiation, No Link Training
+.. rubric:: No Auto Negotiation, No Link Training
 
 In some instances, Auto negotiation and Link Training are not required to establish a communication path: High speed optical transceivers and interfaces typically only run at one speed, so there is no need the negotiate this. Link Training is only required for electrical interfaces - in some cases (e.g. when short cables are used) an electrical interface may become operational just using default settings of the terminal equipment in the communication path. The IEEE 802.3by specification allows for force connect over electrical interfaces in these instances.
 
-.. rubric:: No Auto negotiation, Link Training
+.. rubric:: No Auto Negotiation, Link Training
 
 While Link Training can be essential to make some electrical interfaces work, Auto negotiation may not be required is the link speed is fixed or if it can be manually set at both end points of a link.
 
-.. rubric:: Auto negotiation and Link Training
+.. rubric:: Auto Negotiation and Link Training
 
 Auto negotiation and Link Training are in principle two independent processes. However, when both are done, Auto negotiation must be done first to determine the overall mode for a link and then perform the Link Training. Hereby you get the sequence shown in the figure below.
 
@@ -49,8 +53,7 @@ Auto negotiation and Link Training are in principle two independent processes. H
    Read more about `Auto Negotiation and Link Training on NRZ and PAM4 based Ethernet Interfaces <https://xenanetworks.com/whitepaper/autoneg-link-training/>`_.
 
 
-**XOA UTIL ANLT** provides the following functionalities for you to do auto-negotiation and link training tests.
-
+In HL-FUNC, you can find the following functionalities to do auto-negotiation and link training tests.
 
 AN Functionalities
 ^^^^^^^^^^^^^^^^^^^^
