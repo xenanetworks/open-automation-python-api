@@ -235,7 +235,7 @@ Methods to gain access to a module or a port from a :term:`resource manager`:
 
 **Example**:
 
-.. literalinclude:: /code_example/hl/obtain_one_module.py
+.. literalinclude:: /code_example_v1/hl/obtain_one_module.py
     :caption: Access a single module on a tester
     
 
@@ -253,7 +253,7 @@ Methods to gain access to multiple resources from a :term:`resource manager`:
 
 **Example**:
 
-.. literalinclude:: /code_example/hl/obtain_multiple_modules.py
+.. literalinclude:: /code_example_v1/hl/obtain_multiple_modules.py
     :caption: Access multiple modules on a tester
     
 
