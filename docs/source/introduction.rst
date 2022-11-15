@@ -7,4 +7,4 @@ The foundation of XOA is its Python API, aka. XOA Driver, that provides interfac
 
 Fundamentally different from :term:`XOA CLI`, XOA Python API provides object-oriented API, IDE built-in manual, high-level abstraction on top of Xena's proprietary binary chassis management protocol, built from the ground up. This has brought tremendous advantages over XOA CLI, such as command grouping and push notification, enabling engineers to develop not only test scripts but also high-performance applications.
 
-XOA Python API contains more than 600 APIs, from basic streams creation to advance eye diagrams measurement. With this rich collection of programming interfaces, we empower our customers to either write test scripts or develop applications with almost limitless possibilities.
+XOA Python API contains more than 600 APIs and functions, from basic streams creation to advance eye diagrams measurement. With this rich collection of programming interfaces, we empower our customers to either write test scripts or develop applications with almost limitless possibilities.
