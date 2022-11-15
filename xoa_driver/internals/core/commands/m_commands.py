@@ -1122,12 +1122,10 @@ class M_LICENSE_CWB_DETECTED:
 @dataclass
 class M_LICENSE_UPDATE:
     """
-    This command instructs the chassis to update its local license information from
-    FlexNet Operations. The chassis can be configured in on-line and off-line mode
+    This command instructs the chassis to update its local license information. The chassis can be configured in on-line and off-line mode
     (by the M_LICENSE_ONLINE command). In on-line mode, the chassis sends a
-    capability request to FlexNet Operations and receives a capability response. In
-    offline mode a capability response (bin file) must be downloaded from FlexNet
-    Operations and uploaded to the chassis. The capability response (bin file) is
+    capability request and receives a capability response. In
+    offline mode a capability response (bin file) must be downloaded and uploaded to the chassis. The capability response (bin file) is
     parsed and the license info is stored locally in trusted storage. A capability
     response (bin file) has a lifetime of one day (24 hours). The result of the
     license update operation can be retrieved by M_LICENSE_UPDATE_STATUS.
