@@ -26,7 +26,7 @@ class PS_INDICES:
     transmitted for the port. Setting the value of this command creates a new
     empty stream for each value that is not already in use, and deletes each stream
     that is not mentioned in the list. The same can be accomplished one-stream-at-a-
-    time using the PS_CREATE and PS_DELETE commands.
+    time using the `PS_CREATE`_ and `PS_DELETE`_ commands.
     """
 
     code: typing.ClassVar[int] = 150
@@ -396,8 +396,8 @@ class PS_AUTOADJUST:
         (5) If the needed maximum header length (`P_MAXHEADERLENGTH <p_maxheaderlength_label>` ``<max_header_length>``) is not possible with the actual number of active streams for the port, the command will fail with :`<BADVALUE>`.
     """
 
-    code: typing.ClassVar[int] = 158
-    pushed: typing.ClassVar[bool] = True
+    code: typing.ClassVar[int] = 159
+    pushed: typing.ClassVar[bool] = False
 
     _connection: "interfaces.IConnection"
     _module: int
