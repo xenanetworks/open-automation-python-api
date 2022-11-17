@@ -1,4 +1,4 @@
-HL-API Examples
+High-Level API (V1)
 ===================================
 
 The boilerplate code that is used to run the examples in this section:
@@ -16,7 +16,7 @@ A tester instance also can be created without awaiting the connection establishm
 
 Available tester types are :ref:`L23Tester <l23tester>`, :ref:`L23VeTester <l23vetester>`, :ref:`L47Tester <l47tester>`, :ref:`L47VeTester <l47vetester>`.
 
-.. literalinclude:: hl/create_tester_from_type.py
+.. literalinclude:: hlapiv1/create_tester_from_type.py
     :caption: Create tester instance
 
 You can also create a tester instance using Python Context Manager
@@ -26,12 +26,12 @@ You can also create a tester instance using Python Context Manager
     Read more about Python Context Manager: https://docs.python.org/3/library/contextlib.html
 
 
-.. literalinclude:: hl/create_tester_context.py
+.. literalinclude:: hlapiv1/create_tester_context.py
     :caption: Create tester instance using Python Context Manager
 
 To create multiple tester instances, you can do:
 
-.. literalinclude:: hl/create_multi_testers.py
+.. literalinclude:: hlapiv1/create_multi_testers.py
     :caption: Create multiple tester instances
 
 
@@ -46,15 +46,15 @@ Module Access
 The examples below help you gain access to the test modules on a tester.
 
 
-.. literalinclude:: hl/obtain_one_module.py
+.. literalinclude:: hlapiv1/obtain_one_module.py
     :caption: Access a single module on a tester
 
 
-.. literalinclude:: hl/obtain_multiple_modules.py
+.. literalinclude:: hlapiv1/obtain_multiple_modules.py
     :caption: Access multiple modules on a tester
 
 
-.. literalinclude:: hl/obtain_all_modules.py
+.. literalinclude:: hlapiv1/obtain_all_modules.py
     :caption: Access all modules on a tester
     
 
@@ -64,7 +64,7 @@ Port Access
 The examples below help you gain access to the test ports on a tester.
 
 
-.. literalinclude:: hl/obtain_one_port.py
+.. literalinclude:: hlapiv1/obtain_one_port.py
     :caption: Access a single port on a module
 
 
@@ -73,11 +73,11 @@ The interface of obtaining multiple ports is equivalent to obtaining multiple mo
 * all ports are of the same type
 * all ports are aligned from index ``0`` to ``max_port_count-1``
 
-.. literalinclude:: hl/obtain_multiple_ports.py
+.. literalinclude:: hlapiv1/obtain_multiple_ports.py
     :caption: Access multiple ports on a module
 
 
-.. literalinclude:: hl/obtain_all_ports.py
+.. literalinclude:: hlapiv1/obtain_all_ports.py
     :caption: Access all ports on a module
 
 
@@ -91,7 +91,7 @@ Getting
 
     Resource reservation is not required to query information from the tester.
 
-.. literalinclude:: hl/query_parameters.py
+.. literalinclude:: hlapiv1/query_parameters.py
     :caption: Query module and port
 
 
@@ -102,7 +102,7 @@ Setting
     
     Reservation is required to do ``set`` to: :ref:`Tester <tester>`, :ref:`Module <module>`, :ref:`Port <port>`, 
 
-.. literalinclude:: hl/setting_parameters.py
+.. literalinclude:: hlapiv1/setting_parameters.py
     :caption: Configure module and port
 
 
@@ -115,7 +115,7 @@ To generate L23 stateless traffic, stream configuration is necessary. The exampl
     
     Reservation is required to do :terms: `CRUD`` operations streams on :ref:`Port <port>`.
 
-.. literalinclude:: hl/streams.py
+.. literalinclude:: hlapiv1/streams.py
     :caption: Create and delete streams on a port
 
 
@@ -137,7 +137,7 @@ To simulate traffic from many address, or when you want certain fields of a pack
     An easy way to configure the packet header content will be added to the HL Python API in a future release.
 
 
-.. literalinclude:: hl/modifiers.py
+.. literalinclude:: hlapiv1/modifiers.py
     :caption: Create and delete modifiers on a stream
 
 
@@ -149,7 +149,7 @@ Statistics collection, such as latency and jitter, TX/RX rate, frame count, etc.
 
 To show how to query statistics on-the-fly, the function ``my_awesome_func`` is slightly modified.
 
-.. literalinclude:: hl/traffic_stats.py
+.. literalinclude:: hlapiv1/traffic_stats.py
     :caption: Traffic and statistics
 
 
@@ -161,7 +161,7 @@ Impairment
     Only applicable to a Chimera module. This is not meant to generate any traffic.
 
 
-.. literalinclude:: hl/traffic_impairment.py
+.. literalinclude:: hlapiv1/traffic_impairment.py
     :caption: Traffic drop and latency/jitter impairment
     
 
@@ -170,5 +170,5 @@ Transceiver
 
 The example demonstrates how to read/write transceiver register of different types in different ways, as well as reading transceiver temperature.
 
-.. literalinclude:: hl/transceiver_reg.py
+.. literalinclude:: hlapiv1/transceiver_reg.py
     :caption: Read/write transceiver values

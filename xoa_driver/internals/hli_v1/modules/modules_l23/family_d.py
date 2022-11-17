@@ -24,7 +24,7 @@ class MOdin1G3S6P(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Odin-1G-3S-6P"""
+        """Port Index Manager of Odin-1G-3S-6P"""
 
 
 @typing.final
@@ -40,7 +40,7 @@ class MOdin1G3S6P_b(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Odin-1G-3S-6P[b]"""
+        """Port Index Manager of Odin-1G-3S-6P[b]"""
 
 
 @typing.final
@@ -56,7 +56,7 @@ class MOdin1G3S6PE(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Odin-1G-3S-6P-E"""
+        """Port Index Manager of Odin-1G-3S-6P-E"""
 
 
 @typing.final
@@ -72,4 +72,4 @@ class MOdin1G3S2PT(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Odin-1G-3S-2P-T"""
+        """Port Index Manager of Odin-1G-3S-2P-T"""

@@ -31,41 +31,47 @@ T = TypeVar('T', bound="modules_state.ModuleLocalState")
 
 
 class BaseModule(ABC, Generic[T]):
+    """Basic Module class.
     """
-    Representation of a Valkyrie module on a physical tester.
-    """
+
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         self._conn = conn
         self.module_id = init_data.module_id
         self.ports_count = init_data.ports_count
         self.reservation = M_RESERVATION(self._conn, self.module_id)
         """Test module's reservation action.
-        Representation of M_RESERVATION
+                
+        :type: M_RESERVATION
         """
 
         self.reserved_by = M_RESERVEDBY(self._conn, self.module_id)
         """Test module's reservation status.
-        Representation of M_RESERVEDBY
+                
+        :type: M_RESERVEDBY
         """
 
         self.model = M_MODEL(self._conn, self.module_id)
         """Test module's model.
-        Representation of M_MODEL
+                
+        :type: M_MODEL
         """
 
         self.serial_number = M_SERIALNO(self._conn, self.module_id)
         """Test module's serial number.
-        Representation of M_SERIALNO
+                
+        :type: M_SERIALNO
         """
 
         self.version_number = M_VERSIONNO(self._conn, self.module_id)
         """Test module's version number.
-        Representation of M_VERSIONNO
+                
+        :type: M_VERSIONNO
         """
 
         self.port_count = M_PORTCOUNT(self._conn, self.module_id)
         """Max port count of the test module.
-        Representation of M_PORTCOUNT
+                
+        :type: M_PORTCOUNT
         """
 
     @property

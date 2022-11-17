@@ -23,7 +23,20 @@ def get_module_type(revision: str) -> Type:
 
 class L23VeTester(BaseTester["testers_state.TesterLocalState"]):
     """
-    Representation of a virtual Xena Valkyrie Tester.
+    This is a conceptual class of Xena ValkyrieVE Tester.
+    It is essentially an extended :class:`BaseTester`.
+
+
+    :param host: tester's address/hostname
+    :type host: str
+    :param username: username of the user
+    :type username: str
+    :param password: login password of the tester, defaults to "xena"
+    :type password: str, optional
+    :param port: the port number for connection establishment, default to 22606
+    :type port: int, optional
+    :param debug: `True` if debug log output from the tester is needed, and `False` otherwise
+    :type debug: int, optional
     """
 
     def __init__(self, host: str, username: str, password: str = "xena", port: int = 22606, *, debug: bool = False) -> None:
@@ -33,31 +46,47 @@ class L23VeTester(BaseTester["testers_state.TesterLocalState"]):
 
         self.multiuser = C_MULTIUSER(self._conn)
         """
-        Representation of C_MULTIUSER
+        Enable or disable the ability to control one resource from several different TCP connections.
+        
+        :type:  C_MULTIUSER
         """
 
         self.traffic = C_TRAFFIC(self._conn)
         """
-        Representation of C_TRAFFIC
+        Starts or stops the traffic on a number of ports on the chassis simultaneously.
+        The ports are identified by pairs of integers (module port).
+
+        :type: C_TRAFFIC
         """
 
         self.traffic_sync = C_TRAFFICSYNC(self._conn)
         """
-        Representation of C_TRAFFICSYNC
+        This can be used to start traffic simultaneously on multiple chassis. The ports are identified by pairs of integers (module port).
+
+        :type: C_TRAFFICSYNC
         """
 
         self.version_no_minor = C_VERSIONNO_MINOR(self._conn)
         """
-        Representation of C_VERSIONNO_MINOR
+        Get the minor version number of the tester firmware.
+
+        :type: C_VERSIONNO_MINOR
         """
 
         self.modules: TypeL23Manager = ModulesManager(self._conn, get_module_type)
         """
-        Module index manager of the L23 tester.
+        Module Index Manager of the L23 VE tester.
+
+        :type: ModulesManager
         """
 
     @property
     def info(self) -> testers_state.TesterLocalState:
+        """Return tester's local state
+
+        :return: tester's local state
+        :rtype: GenuineTesterLocalState
+        """
         return self._local_states
 
     async def _setup(self):

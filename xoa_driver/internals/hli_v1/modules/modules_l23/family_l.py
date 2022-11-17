@@ -22,7 +22,7 @@ class MThor400G7S1P_b(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Thor-400G-7S-1P[b]"""
+        """Port Index Manager of Thor-400G-7S-1P[b]"""
 
 
 @typing.final
@@ -37,7 +37,7 @@ class MThor400G7S1P_c(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Thor-400G-7S-1P[c]"""
+        """Port Index Manager of Thor-400G-7S-1P[c]"""
 
 
 @typing.final
@@ -52,4 +52,4 @@ class MThor400G7S1P_d(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Thor-400G-7S-1P[d]"""
+        """Port Index Manager of Thor-400G-7S-1P[d]"""

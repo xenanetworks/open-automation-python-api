@@ -22,4 +22,4 @@ class MOdin1G3S6PT1RJ45(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Odin-1G-3S-6P-T1-RJ45"""
+        """Port Index Manager of Odin-1G-3S-6P-T1-RJ45"""

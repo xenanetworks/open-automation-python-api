@@ -22,7 +22,7 @@ class MLoki100G3S1P(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Loki-100G-3S-1P"""
+        """Port Index Manager of Loki-100G-3S-1P"""
 
 
 @typing.final
@@ -37,7 +37,7 @@ class MLoki100G3S1P_b(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Loki-100G-3S-1P[b]"""
+        """Port Index Manager of Loki-100G-3S-1P[b]"""
 
 
 @typing.final
@@ -52,4 +52,4 @@ class MLoki100G3S1PSE(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Loki-100G-3S-1P-SE"""
+        """Port Index Manager of Loki-100G-3S-1P-SE"""

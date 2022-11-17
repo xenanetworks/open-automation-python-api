@@ -5,6 +5,14 @@ High-Level Functions
 
 HL-FUNC provides high-level abstraction functions on top of the object-oriented APIs in HL-API, aiming to help you simplify code logics and increase readability and maintainability. HL-FUNC consists of sub-libraries where functions are grouped based on functionalities, such as :term:`ANLT<ANLT>`. Complex operation sequences are wrapped inside high-level functions, e.g. initiating link training, reserving ports, etc.
 
+.. code-block:: python
+
+    # Regardless of who owns the port, this function makes sure you have the ownership.
+    await reserve_port(port)
+
+    # Enable link training on the port, regardless what the sequence of operations should be.
+    await lt(port=port, enable=True, timeout_enable=True, mode="interactive")
+
 The object-oriented APIs in HL-API and the command classes in LL-API are one-to-one mapped, and there is no abstraction provided by the HL-API. As a test specialist, your focus is on building test logics and sequences, not spending unnecessary time on "logistics", such as reserving ports, releasing your ports, deleting all streams on a port without resetting, etc.
 
 To help you simplify code complexity, speed up development, increase readability and maintainability, HL-FUNC is added as the topmost layer, providing abstract functions to the frequently used operations.
@@ -17,18 +25,18 @@ Auto-Negotiation and Link Training (ANLT) provides functions to help you fine-tu
 Auto-negotiation (AN) was originally designed for Ethernet over twisted pair up to 1G. Beyond exchanging speed capabilities for the link participants, AN has evolved for today's Ethernet to include additional configuration information for establishing reliable and consistent connections. AN allows the devices at the end points of a link to negotiate common transmission parameters capabilities like speed and duplex mode, exchange extended page information and media signaling support. At higher speeds and signaling the choice of FEC may be relevant. It is during auto negotiation the end points of a link share their capabilities and choose the highest performance transmission mode they both support.
 
 .. figure:: ../_static/autoneg_process.png
-   :scale: 70 %
-   :align: center
+    :scale: 70 %
+    :align: center
 
-   `Auto-Negotiation Process <https://xenanetworks.com/whitepaper/autoneg-link-training/>`_
+    `Auto-Negotiation Process <https://xenanetworks.com/whitepaper/autoneg-link-training/>`_
 
 Once the ports in the link have completed the requisite AN information exchange and reached agreement, the link partners move to the next step, link training (LT), the exchange of Training Sequences. This is essential to tune the channels for optimal transmission. During link training the two end points of the link will exchange signals.
 
 .. figure:: ../_static/linktraining_process.png
-   :scale: 70 %
-   :align: center
+    :scale: 70 %
+    :align: center
 
-   `Link Training Process <https://xenanetworks.com/whitepaper/autoneg-link-training/>`_
+    `Link Training Process <https://xenanetworks.com/whitepaper/autoneg-link-training/>`_
 
 .. rubric:: No Auto Negotiation, No Link Training
 
@@ -43,14 +51,14 @@ While Link Training can be essential to make some electrical interfaces work, Au
 Auto negotiation and Link Training are in principle two independent processes. However, when both are done, Auto negotiation must be done first to determine the overall mode for a link and then perform the Link Training. Hereby you get the sequence shown in the figure below.
 
 .. figure:: ../_static/aneg_lt_seq.png
-   :scale: 70 %
-   :align: center
+    :scale: 70 %
+    :align: center
 
-   `Auto-Negotiation and Link Training Sequence <https://xenanetworks.com/whitepaper/autoneg-link-training/>`_
+    `Auto-Negotiation and Link Training Sequence <https://xenanetworks.com/whitepaper/autoneg-link-training/>`_
 
 .. seealso::
 
-   Read more about `Auto Negotiation and Link Training on NRZ and PAM4 based Ethernet Interfaces <https://xenanetworks.com/whitepaper/autoneg-link-training/>`_.
+    Read more about `Auto Negotiation and Link Training on NRZ and PAM4 based Ethernet Interfaces <https://xenanetworks.com/whitepaper/autoneg-link-training/>`_.
 
 
 In HL-FUNC, you can find the following functionalities to do auto-negotiation and link training tests.

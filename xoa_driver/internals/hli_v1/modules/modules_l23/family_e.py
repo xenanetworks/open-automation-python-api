@@ -22,7 +22,7 @@ class MOdin5G4S6PCU(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Odin-5G-4S-6P-CU"""
+        """Port Index Manager of Odin-5G-4S-6P-CU"""
 
 
 @typing.final
@@ -37,7 +37,7 @@ class MOdin10G5S6PCU(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Odin-10G-5S-6P-CU"""
+        """Port Index Manager of Odin-10G-5S-6P-CU"""
 
 
 @typing.final
@@ -52,7 +52,7 @@ class MOdin10G5S6PCU_b(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Odin-10G-5S-6P-CU[b]"""
+        """Port Index Manager of Odin-10G-5S-6P-CU[b]"""
 
 
 @typing.final
@@ -67,7 +67,7 @@ class MOdin10G3S6PCU(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Odin-10G-3S-6P-CU"""
+        """Port Index Manager of Odin-10G-3S-6P-CU"""
 
 
 @typing.final
@@ -82,4 +82,4 @@ class MOdin10G3S2PCU(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Odin-10G-3S-2P-CU"""
+        """Port Index Manager of Odin-10G-3S-2P-CU"""

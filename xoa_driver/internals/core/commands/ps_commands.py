@@ -1665,8 +1665,9 @@ class PS_MODIFIEREXT:
         that a certain number of identical packets are transmitted before applying the
         next modification.
 
-        :return: the byte position from the start of the packet. Cannot be < 1!, the mask specifying which bits to affect, which action to perform on the affected bits,
-        and how many times to repeat on each packet. Note: For now the only value supported is 1.
+        :return: the byte position from the start of the packet. Cannot be < 1!,
+            the mask specifying which bits to affect, which action to perform on the affected bits,
+            and how many times to repeat on each packet. Note: For now the only value supported is 1.
         :rtype: PS_MODIFIEREXT.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._stream_xindex, self._modifier_xindex]))

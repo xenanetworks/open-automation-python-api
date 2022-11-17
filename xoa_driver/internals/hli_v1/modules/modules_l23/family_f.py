@@ -22,7 +22,7 @@ class MOdin10G1S2P(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Odin-10G-1S-2P"""
+        """Port Index Manager of Odin-10G-1S-2P"""
 
 
 @typing.final
@@ -37,7 +37,7 @@ class MOdin10G1S2P_b(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Odin-10G-1S-2P[b]"""
+        """Port Index Manager of Odin-10G-1S-2P[b]"""
 
 
 @typing.final
@@ -52,7 +52,7 @@ class MOdin10G1S2P_c(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Odin-10G-1S-2P[c]"""
+        """Port Index Manager of Odin-10G-1S-2P[c]"""
 
 
 @typing.final
@@ -67,7 +67,7 @@ class MOdin10G1S6P(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Odin-10G-1S-6P"""
+        """Port Index Manager of Odin-10G-1S-6P"""
 
 
 @typing.final
@@ -82,7 +82,7 @@ class MOdin10G1S6P_b(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Odin-10G-1S-6P[b]"""
+        """Port Index Manager of Odin-10G-1S-6P[b]"""
 
 
 @typing.final
@@ -97,7 +97,7 @@ class MOdin10G1S2PT(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Odin-10G-1S-2P-T"""
+        """Port Index Manager of Odin-10G-1S-2P-T"""
 
 
 @typing.final
@@ -112,7 +112,7 @@ class MOdin10G1S2P_d(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Odin-10G-1S-2P[d]"""
+        """Port Index Manager of Odin-10G-1S-2P[d]"""
 
 
 @typing.final
@@ -127,4 +127,4 @@ class MOdin10G1S12P(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager Odin-10G-1S-12P"""
+        """Port Index Manager Odin-10G-1S-12P"""

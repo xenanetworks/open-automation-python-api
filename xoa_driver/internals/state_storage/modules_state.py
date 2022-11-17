@@ -17,6 +17,8 @@ from xoa_driver.internals.utils import attributes as utils
 
 
 class ModuleLocalState:
+    """Module local state.
+    """
     __slots__ = (
         "reservation",
         "reserved_by",
@@ -50,17 +52,45 @@ class ModuleLocalState:
 
 @dataclass(frozen=True)
 class ModuleSpeed:
+    """Module's port-speed information.
+    """
     port_count: int
+    """Port count
+
+    :return: number of ports that have the same speed
+    :rtype: int
+    """
+
     port_speed: int
+    """Port speed
+
+    :return: speed of the ports
+    :rtype: int
+    """
 
 
 @dataclass(frozen=True)
 class MediaInfo:
+    """Module media information
+    """
     cage_type: "enums.MediaConfigurationType"
+    """Module Media Configuration
+
+    :return: module media configuration
+    :rtype: MediaConfigurationType
+    """
+
     avaliable_speeds: List["ModuleSpeed"] = field(default_factory=list)
+    """List of module's port-speed information
+
+    :return: list of module's port-speed information
+    :rtype: List[ModuleSpeed]
+    """
 
 
 class ModuleL23LocalState(ModuleLocalState):
+    """L23 Module local state, extension of :class:`ModuleLocalState`
+    """
     __slots__ = ("__media_info_list",)
 
     def __init__(self) -> None:

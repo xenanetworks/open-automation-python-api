@@ -64,8 +64,7 @@ class M4E_MODE:
 @dataclass
 class M4E_RESERVE:
     """
-    Advanced mode only: Reserve a number of PEs so they later can be assigned to
-    specific ports.
+    Advanced mode only: Reserve a number of PEs so they later can be assigned to specific ports.
     """
 
     code: typing.ClassVar[int] = 851

@@ -43,7 +43,8 @@ TesterStateStorage = TypeVar('TesterStateStorage', bound="testers_state.TesterLo
 # TODO: lately update imports to correct style
 # min version = 83.2
 class BaseTester(ABC, Generic[TesterStateStorage]):
-    """Basic Tester class that includes attributes and methods supported by all types of testers.
+    """
+    Basic Tester class.
 
     :param host: tester's address/hostname
     :type host: str

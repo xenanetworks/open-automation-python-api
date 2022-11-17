@@ -16,35 +16,42 @@ class TimeKeeper:
     def __init__(self, conn: "itf.IConnection") -> None:
         self.license_file = C_TKLICFILE(conn)
         """TimeKeeper license file content.
-        Representation of C_TKLICFILE
+                
+        :type: C_TKLICFILE
         """
 
         self.license_state = C_TKLICSTATE(conn)
         """State of TimeKeeper license file content.
-        Representation of C_TKLICSTATE
+                
+        :type: C_TKLICSTATE
         """
 
         self.status = C_TKSTATUS(conn)
         """Version and status of TimeKeeper.
-        Representation of C_TKSTATUS
+                
+        :type: C_TKSTATUS
         """
 
         self.status_extended = C_TKSTATUSEXT(conn)
         """Version and status of TimeKeeper (extended).
-        Representation of C_TKSTATUSEXT
+                
+        :type: C_TKSTATUSEXT
         """
 
         self.svc_state = C_TKSVCSTATE(conn)
         """TimeKeeper service state.
-        Representation of C_TKSVCSTATE
+                
+        :type: C_TKSVCSTATE
         """
 
         self.gps_state = C_TKGPSSTATE(conn)
         """TimeKeeper GPS state.
-        Representation of C_TKGPSSTATE
+                
+        :type: C_TKGPSSTATE
         """
 
         self.config_file = C_TKCONFIG(conn)
         """TimeKeeper configuration file content.
-        Representation of C_TKCONFIG
+                
+        :type: C_TKCONFIG
         """

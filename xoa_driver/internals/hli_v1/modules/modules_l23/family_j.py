@@ -22,4 +22,4 @@ class MThor100G5S4P(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Thor-100G-5S-4P"""
+        """Port Index Manager of Thor-100G-5S-4P"""

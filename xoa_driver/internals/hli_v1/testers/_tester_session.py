@@ -92,7 +92,7 @@ class TesterSession:
         Return information about all active sessions on the tester.
 
         :return: a list of session information
-        :rtype: List[C_STATSESSION.GetDataAttr]
+        :rtype: List[C_STATSESSION]
         """
 
         sessions = await C_INDICES(self._conn).get()

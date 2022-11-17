@@ -24,19 +24,29 @@ from xoa_driver.internals import exceptions
 
 @dataclass
 class ModuleData:
+    """Base module data.
+    """
     module_id: int
     ports_count: int
     revision: str = ""
 
 
 class L23ModuleData(ModuleData):
+    """L23 module data, extension of :class:`ModuleData`.
+    """
     async def get_revision(self, conn) -> None:
+        """Return the module name of the L23 module.
+        """
         r = await M_REVISION(conn, self.module_id).get()
         self.revision = r.revision
 
 
 class L47ModuleData(ModuleData):
+    """L47 module data, extension of :class:`ModuleData`.
+    """
     async def get_revision(self, conn) -> None:
+        """Return the module name of the L47 module.
+        """
         r = await M_MODEL(conn, self.module_id).get()
         self.revision = r.model
 
@@ -47,6 +57,8 @@ ModuleDataType = Union[Type["L23ModuleData"], Type["L47ModuleData"]]
 
 
 class ModulesManager(ResourcesBaseManager[MT]):
+    """Module Index Manager, extension of :class:`ResourcesBaseManager`
+    """
 
     __slots__ = ("_conn", "__m_types_obtainer")
 

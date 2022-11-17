@@ -12,7 +12,7 @@ HL-API uses the classes defined in LL-API and lets you quickly develop scripts o
 API Notation and Namings
 --------------------------------
 
-:term:`HL-API` aims to be semantic in function naming to avoid expectation conflict, as well as avoiding methods that can return values of different types. The key rule is: **one method, one action**. The following notations are used throughout this chapter.
+HL-API aims to be semantic in function naming to avoid expectation conflict, as well as avoiding methods that can return values of different types. The key rule is: **one method, one action**. The following notations are used throughout this chapter.
 
 :``<resource>``:
     
@@ -30,7 +30,7 @@ API Notation and Namings
 
     command name adapted to the object-oriented programming concept. Commands of the same access level, which read or modify parameters of the same type, are grouped under one ``<namespace_class>``.
     
-An example of :term:`HL-API` notation and namings based on the corresponding :term:`XOA CLI` command names:
+An example of HL-API notation and namings based on the corresponding XOA CLI command names:
 
 .. code-block:: text
     :caption: CLI command names
@@ -96,9 +96,9 @@ There are only two types of methods for each command, ``get`` and/or ``set``:
 Event Subscription and Push Notification
 ----------------------------------------------------------------
 
-Periodical querying of test resource information, such as port sync statue, is low in communication efficiency and less responsive. Different from :term:`XOA CLI`, :term:`HL-API` supports push notification sent from the chassis server when the state or the configuration of a test resource changes. For instance, when a port starts generating traffic, its traffic state is changed from off to on, thus all the connected client programs will receive a push notification message of the new state from the chassis server.
+Periodical querying of test resource information, such as port sync statue, is low in communication efficiency and less responsive. Different from XOA CLI, HL-API supports push notification sent from the chassis server when the state or the configuration of a test resource changes. For instance, when a port starts generating traffic, its traffic state is changed from off to on, thus all the connected client programs will receive a push notification message of the new state from the chassis server.
 
-:term:`HL-API` provides functions for you to subscribe to events, which are triggered test resource state/configuration changes. Thus, your script/application can catch the push notifications and act accordingly.
+HL-API provides functions for you to subscribe to events, which are triggered test resource state/configuration changes. Thus, your script/application can catch the push notifications and act accordingly.
 
 **Syntax**:
 
@@ -235,7 +235,7 @@ Methods to gain access to a module or a port from a :term:`resource manager`:
 
 **Example**:
 
-.. literalinclude:: /code_example_v1/hl/obtain_one_module.py
+.. literalinclude:: /code_example/hlapiv1/obtain_one_module.py
     :caption: Access a single module on a tester
     
 
@@ -253,7 +253,7 @@ Methods to gain access to multiple resources from a :term:`resource manager`:
 
 **Example**:
 
-.. literalinclude:: /code_example_v1/hl/obtain_multiple_modules.py
+.. literalinclude:: /code_example/hlapiv1/obtain_multiple_modules.py
     :caption: Access multiple modules on a tester
     
 

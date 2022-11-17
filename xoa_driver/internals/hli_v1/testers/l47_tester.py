@@ -30,7 +30,20 @@ def get_module_type(revision: str) -> "Type":
 
 class L47Tester(BaseTester["testers_state.GenuineTesterLocalState"]):
     """
-    Representation of a physical Xena Vulcan Tester.
+    This is a conceptual class of Xena Vulcan Tester.
+    It is essentially an extended :class:`BaseTester`.
+
+
+    :param host: tester's address/hostname
+    :type host: str
+    :param username: username of the user
+    :type username: str
+    :param password: login password of the tester, defaults to "xena"
+    :type password: str, optional
+    :param port: the port number for connection establishment, default to 22606
+    :type port: int, optional
+    :param debug: `True` if debug log output from the tester is needed, and `False` otherwise
+    :type debug: int, optional
     """
 
     def __init__(self, host: str, username: str, password: str = "xena", port: int = 22606, *, debug: bool = False) -> None:
@@ -40,21 +53,32 @@ class L47Tester(BaseTester["testers_state.GenuineTesterLocalState"]):
 
         self.build_string = C_BUILDSTRING(self._conn)
         """
-        Representation of C_BUILDSTRING
+        Identify the hostname of the PC that builds the xenaserver. It uniquely identifies the build of a xenaserver.
+
+        :type: C_BUILDSTRING
         """
 
         self.management_interface = mi.ManagementInterface(self._conn)
         """
-        Tester management interface that includes IP address, DHCP, MAC address and hostname.
+        The management interface address configuration includes IP address, DHCP settings, MAC address and hostname.
+        
+        :type: ManagementInterface
         """
 
         self.modules: ModulesManager["ml47.ModuleL47"] = ModulesManager(self._conn, get_module_type)
         """
-        Module index manager of the tester.
+        Module Index Manager of the tester.
+
+        :type: ModulesManager
         """
 
     @property
     def info(self) -> testers_state.GenuineTesterLocalState:
+        """Return tester's local state
+
+        :return: tester's local state
+        :rtype: GenuineTesterLocalState
+        """
         return self._local_states
 
     async def _setup(self) -> Self:

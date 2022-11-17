@@ -12,15 +12,18 @@ class UploadFile:
     def __init__(self, conn: "itf.IConnection") -> None:
         self.start = C_FILESTART(conn)
         """Start uploading file.
-        Representation of C_FILESTART
+                
+        :type: C_FILESTART
         """
 
         self.data = C_FILEDATA(conn)
         """Uploading a file fragment.
-        Representation of C_FILEDATA
+                
+        :type: C_FILEDATA
         """
 
         self.finish = C_FILEFINISH(conn)
         """Finish uploading file.
-        Representation of C_FILEFINISH
+                
+        :type: C_FILEFINISH
         """

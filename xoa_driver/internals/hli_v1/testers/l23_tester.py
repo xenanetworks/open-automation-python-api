@@ -52,7 +52,8 @@ def get_module_type(revision: str) -> Type:
 
 
 class L23Tester(BaseTester["testers_state.GenuineTesterLocalState"]):
-    """This is a conceptual class of Xena Valkyrie (L23) Tester.
+    """
+    This is a conceptual class of Xena Valkyrie Tester.
     It is essentially an extended :class:`BaseTester`.
 
 
@@ -74,25 +75,29 @@ class L23Tester(BaseTester["testers_state.GenuineTesterLocalState"]):
         self._local_states = testers_state.GenuineTesterLocalState(host, port)
         
         self.management_interface = mi.ManagementInterface(self._conn)
-        """The management interface address configuration includes IP address, DHCP settings, MAC address and hostname.
+        """
+        The management interface address configuration includes IP address, DHCP settings, MAC address and hostname.
         
         :type: ManagementInterface
         """
 
         self.upload_file = upload_file.UploadFile(self._conn)
-        """File upload functions of the tester.
+        """
+        File upload functions of the tester.
 
         :type: UploadFile
         """
 
         self.rest_api_server = rest_api.RestApiServer(self._conn)
-        """REST API server of the tester.
+        """
+        REST API server of the tester.
 
         :type: RestApiServer
         """
 
         self.time_keeper = time_keeper.TimeKeeper(self._conn)
-        """TimeKeeper of the tester.
+        """
+        TimeKeeper of the tester.
 
         :type: TimeKeeper
         """

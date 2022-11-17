@@ -10,6 +10,8 @@ T = TypeVar("T")
 
 
 class ResourcesBaseManager(Generic[T]):
+    """Resource Base Manager
+    """
     __slots__ = ("_items", "_lock", )
 
     def __init__(self) -> None:
@@ -23,9 +25,11 @@ class ResourcesBaseManager(Generic[T]):
         return iter(self._items.values())
 
     def obtain(self, key: int) -> T:
-        """Obtain a single resource"""
+        """Obtain a single resource.
+        """
         return self._items[key]
 
     def obtain_multiple(self, *keys: int) -> Tuple[T, ...]:
-        """Obtain multiple resources as a tuple of resources"""
+        """Obtain multiple resources as a tuple of resources.
+        """
         return tuple(self._items[k] for k in keys)
