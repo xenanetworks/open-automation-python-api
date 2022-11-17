@@ -4,5 +4,5 @@ API Reference
 .. toctree::
 
     hlfunc/index
-    hlapi/index
+    hlapiv1/index
     llapi/index
