@@ -641,9 +641,9 @@ class M_MULTIUSER:
         on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=OnOff)  # coded byte, enable or disable multiple sessions to control the same module.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the status of multiple sessions controling the same module.
+        """Get the status of multiple sessions controlling the same module.
 
-        :return: the status of multiple sessions controling the same module
+        :return: the status of multiple sessions controlling the same module
         :rtype: M_MULTIUSER.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module))
@@ -685,11 +685,11 @@ class M_CFPCONFIGEXT:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        portspeed_chunck_list: XmpField[subtypes.PortSpeedChuckList] = XmpField(subtypes.PortSpeedChuckList)
+        portspeed_list: XmpField[subtypes.PortSpeedChuckList] = XmpField(subtypes.PortSpeedChuckList)
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        portspeed_chunck_list: XmpField[subtypes.PortSpeedChuckList] = XmpField(subtypes.PortSpeedChuckList)
+        portspeed_list: XmpField[subtypes.PortSpeedChuckList] = XmpField(subtypes.PortSpeedChuckList)
 
 
     def get(self) -> "Token[GetDataAttr]": #TODO
@@ -700,8 +700,8 @@ class M_CFPCONFIGEXT:
         """
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, port_count: typing.List[int]) -> "Token":
-        return Token(self._connection, build_set_request(self, module=self._module, port_count=port_count))
+    def set(self, portspeed_list: typing.List[int]) -> "Token":
+        return Token(self._connection, build_set_request(self, module=self._module, portspeed_list=portspeed_list))
 
 
 @register_command
@@ -963,11 +963,11 @@ class M_MEDIA:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        media_config_type: XmpField[XmpByte] = XmpField(XmpByte, choices=MediaConfigurationType)  # coded byte, specifying the active front port: CFP4, QSFP28, CXP, SFP28.
+        media_type: XmpField[XmpByte] = XmpField(XmpByte, choices=MediaConfigurationType)  # coded byte, specifying the active front port: CFP4, QSFP28, CXP, SFP28.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        media_config_type: XmpField[XmpByte] = XmpField(XmpByte, choices=MediaConfigurationType)  # coded byte, specifying the active front port: CFP4, QSFP28, CXP, SFP28.
+        media_type: XmpField[XmpByte] = XmpField(XmpByte, choices=MediaConfigurationType)  # coded byte, specifying the active front port: CFP4, QSFP28, CXP, SFP28.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the media type of the test module.
