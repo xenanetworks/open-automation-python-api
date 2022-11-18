@@ -44,33 +44,33 @@ from .filter_definition import (
 class CTotalFlow:
     """Total flow statistics."""
 
-    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_idx: int) -> None:
-        self.drop_packets = PE_FLOWDROPTOTAL(conn, module_id, port_id, flow_idx)
+    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int) -> None:
+        self.drop_packets = PE_FLOWDROPTOTAL(conn, module_id, port_id, flow_index)
         """Statistics of all packets dropped in a flow.
         Representation of PE_FLOWDROPTOTAL
         """
 
-        self.latency_packets = PE_FLOWLATENCYTOTAL(conn, module_id, port_id, flow_idx)
+        self.latency_packets = PE_FLOWLATENCYTOTAL(conn, module_id, port_id, flow_index)
         """Statistics of all packets delayed in a flow.
         Representation of PE_FLOWLATENCYTOTAL
         """
 
-        self.duplicated_packets = PE_FLOWDUPTOTAL(conn, module_id, port_id, flow_idx)
+        self.duplicated_packets = PE_FLOWDUPTOTAL(conn, module_id, port_id, flow_index)
         """Statistics of all packets duplicate in a flow.
         Representation of PE_FLOWDUPTOTAL
         """
 
-        self.mis_ordered_packets = PE_FLOWMISTOTAL(conn, module_id, port_id, flow_idx)
+        self.mis_ordered_packets = PE_FLOWMISTOTAL(conn, module_id, port_id, flow_index)
         """Statistics of all packets misordered in a flow.
         Representation of PE_FLOWMISTOTAL
         """
 
-        self.corrupted_packets = PE_FLOWCORTOTAL(conn, module_id, port_id, flow_idx)
+        self.corrupted_packets = PE_FLOWCORTOTAL(conn, module_id, port_id, flow_index)
         """Statistics of all packets corrupted in a flow.
         Representation of PE_FLOWCORTOTAL
         """
 
-        self.jittered_packets = PE_FLOWJITTERTOTAL(conn, module_id, port_id, flow_idx)
+        self.jittered_packets = PE_FLOWJITTERTOTAL(conn, module_id, port_id, flow_index)
         """Statistics of all packets jittered in a flow.
         Representation of PE_FLOWJITTERTOTAL
         """
@@ -114,17 +114,17 @@ class StatisticsTotals:
 class CFlowStatistics:
     """Per flow statistics."""
 
-    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_idx: int) -> None:
-        self.rx = ReceptionStatistics(conn, module_id, port_id, flow_idx)
+    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int) -> None:
+        self.rx = ReceptionStatistics(conn, module_id, port_id, flow_index)
         """RX statistics."""
 
-        self.tx = TransmissionStatistics(conn, module_id, port_id, flow_idx)
+        self.tx = TransmissionStatistics(conn, module_id, port_id, flow_index)
         """TX statistics."""
 
-        self.total = CTotalFlow(conn, module_id, port_id, flow_idx)
+        self.total = CTotalFlow(conn, module_id, port_id, flow_index)
         """Total flow statistics."""
 
-        self.clear = PE_FLOWCLEAR(conn, module_id, port_id, flow_idx)
+        self.clear = PE_FLOWCLEAR(conn, module_id, port_id, flow_index)
         """Clear the impairment statistics on a flow.
         Representation of PE_FLOWCLEAR
         """
@@ -133,13 +133,13 @@ class CFlowStatistics:
 class CBandwidth:
     """Bandwidth configuration."""
 
-    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_idx: int) -> None:
-        self.policer = PE_BANDPOLICER(conn, module_id, port_id, flow_idx)
+    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int) -> None:
+        self.policer = PE_BANDPOLICER(conn, module_id, port_id, flow_index)
         """Bandwidth policer configuration.
         Representation of PE_BANDPOLICER
         """
 
-        self.shaper = PE_BANDSHAPER(conn, module_id, port_id, flow_idx)
+        self.shaper = PE_BANDSHAPER(conn, module_id, port_id, flow_index)
         """Bandwidth shaper configuration.
         Representation of PE_BANDSHAPER
         """
@@ -148,40 +148,40 @@ class CBandwidth:
 class CFlow:
     """Flow settings."""
 
-    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_idx: int) -> None:
-        self.comment = PE_COMMENT(conn, module_id, port_id, flow_idx)
+    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int) -> None:
+        self.comment = PE_COMMENT(conn, module_id, port_id, flow_index)
         """Flow description.
         Representation of PE_COMMENT
         """
 
-        self.latency_range = PE_LATENCYRANGE(conn, module_id, port_id, flow_idx)
+        self.latency_range = PE_LATENCYRANGE(conn, module_id, port_id, flow_index)
         """Flow latency range.
         Representation of PE_LATENCYRANGE
         """
 
-        self.corruption = PE_CORRUPT(conn, module_id, port_id, flow_idx)
+        self.corruption = PE_CORRUPT(conn, module_id, port_id, flow_index)
         """Corruption type.
         Representation of PE_CORRUPT
         """
 
-        self.misordering = PE_MISORDER(conn, module_id, port_id, flow_idx)
+        self.misordering = PE_MISORDER(conn, module_id, port_id, flow_index)
         """Misordering depth
         Representation of PE_MISORDER
         """
 
-        self.bandwidth_control = CBandwidth(conn, module_id, port_id, flow_idx)
+        self.bandwidth_control = CBandwidth(conn, module_id, port_id, flow_index)
         """Bandwidth configuration."""
 
-        self.statistics = CFlowStatistics(conn, module_id, port_id, flow_idx)
+        self.statistics = CFlowStatistics(conn, module_id, port_id, flow_index)
         """Flow statistics."""
 
-        self.impairment_distribution = ImpairmentTypeDistribution(conn, module_id, port_id, flow_idx)
+        self.impairment_distribution = ImpairmentTypeDistribution(conn, module_id, port_id, flow_index)
         """Impairment type's distribution."""
 
-        self.shadow_filter = shadow.FilterDefinitionShadow(conn, module_id, port_id, flow_idx)
+        self.shadow_filter = shadow.FilterDefinitionShadow(conn, module_id, port_id, flow_index)
         """Shadow copy."""
 
-        self.working_filter = working.FilterDefinitionWorking(conn, module_id, port_id, flow_idx)
+        self.working_filter = working.FilterDefinitionWorking(conn, module_id, port_id, flow_index)
         """Working copy."""
 
 

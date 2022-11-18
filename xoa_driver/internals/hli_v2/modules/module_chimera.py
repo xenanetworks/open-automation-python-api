@@ -80,6 +80,24 @@ class ChUpgrade:
         """
 
 
+class ChTiming:
+    """Test module timing and clock configuration"""
+    def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
+
+        self.clock_local_adjust = M_CLOCKPPB(conn, module_id)
+        """Time adjustment controlling of the local clock of the test module, which drives the TX rate of the test ports.
+        Representation of M_CLOCKPPB
+        """
+
+
+class ChAdvancedTiming:
+    """Advanced Timing config and control"""
+    def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
+        self.clock = ChTXClock(conn, module_id)
+        """Advanced timing clock config and status
+        """
+
+
 class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
     """
     Representation of a Chimera module on physical tester.
@@ -139,6 +157,17 @@ class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
         Latency mode of the Chimera module.
         Representation of M_LATENCYMODE
         """
+
+        self.timing = ChTiming(conn, self.module_id)
+        """Test module's timing configuration."""
+
+        self.bypass_mode = M_EMULBYPASS(conn, self.module_id)
+        """
+        Bypass mode of the Chimera module.
+        Representation of M_EMULBYPASS
+        """
+
+        self.adv_timing = ChAdvancedTiming(conn, self.module_id)
 
         self.ports: pm.PortsManager["ports.PortChimera"] = pm.PortsManager(
             conn=conn,
