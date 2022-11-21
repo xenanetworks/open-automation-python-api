@@ -28,34 +28,40 @@ class PortChimera(base_port.BasePort[ports_state.PortChimeraLocalState]):
         super().__init__(conn, module_id, port_id)
         self.capabilities = P_CAPABILITIES(conn, module_id, port_id)
         """Chimera port capabilities.
-        Representation of P_CAPABILITIES
+        
+        :type: P_CAPABILITIES
         """
 
         self.interface = P_INTERFACE(conn, module_id, port_id)
         """Physical interface type of the Chimera port.
-        Representation of P_INTERFACE
+        
+        :type: P_INTERFACE
         """
 
         self.status = P_STATUS(conn, module_id, port_id)
         """Chimera port's received optical signal level'.
-        Representation of P_STATUS
+        
+        :type: P_STATUS
         """
 
         self.tx_enable = P_TXENABLE(conn, module_id, port_id)
         """Enabling Chimera port TX.
-        Representation of P_TXENABLE
+        
+        :type: P_TXENABLE
         """
 
         self.load_mode = P_LOADMODE(conn, module_id, port_id)
         """Load mode of the Chimera port.
-        Representation of P_LOADMODE
+        
+        :type: P_LOADMODE
         """
 
         self.emulation = ChimeraPE(self._conn, *self.kind)  # TODO: Missing description
 
         self.emulate = P_EMULATE(conn, module_id, port_id)
         """Chimera port emulation control.
-        Representation of P_EMULATE
+        
+        :type: P_EMULATE
         """
 
         self.custom_distributions = CustomDistributions(conn, module_id, port_id)

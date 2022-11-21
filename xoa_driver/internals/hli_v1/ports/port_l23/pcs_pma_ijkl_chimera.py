@@ -15,12 +15,14 @@ class LinkFlap:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.params = PP_LINKFLAP_PARAMS(conn, module_id, port_id)
         """Link flap parameters.
-        Representation of PP_LINKFLAP_PARAMS
+        
+        :type: PP_LINKFLAP_PARAMS
         """
 
         self.enable = PP_LINKFLAP_ENABLE(conn, module_id, port_id)
         """Link flap control.
-        Representation of PP_LINKFLAP_ENABLE
+        
+        :type: PP_LINKFLAP_ENABLE
         """
 
 
@@ -30,12 +32,14 @@ class PmaPulseErrInj:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.params = PP_PMAERRPUL_PARAMS(conn, module_id, port_id)
         """PMA pulse error injection parameters.
-        Representation of PP_PMAERRPUL_PARAMS
+        
+        :type: PP_PMAERRPUL_PARAMS
         """
 
         self.enable = PP_PMAERRPUL_ENABLE(conn, module_id, port_id)
         """PMA pulse error injection control.
-        Representation of PP_PMAERRPUL_ENABLE
+        
+        :type: PP_PMAERRPUL_ENABLE
         """
 
 
@@ -44,7 +48,13 @@ class PcsPma:
 
     def __init__(self, conn: "itf.IConnection", port) -> None:
         self.link_flap = LinkFlap(conn, *port.kind)
-        """Link flap settings."""
+        """Link flap settings.
+        
+        :type: LinkFlap
+        """
 
         self.pma_pulse_err_inj = PmaPulseErrInj(conn, *port.kind)
-        """PMA pulse error injection settings."""
+        """PMA pulse error injection settings.
+        
+        :type: PmaPulseErrInj
+        """

@@ -50,17 +50,20 @@ class Runt:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.tx_length = P_TXRUNTLENGTH(conn, module_id, port_id)
         """L23 port's TX runt length.
-        Representation of P_TXRUNTLENGTH
+        
+        :type: P_TXRUNTLENGTH
         """
 
         self.rx_length = P_RXRUNTLENGTH(conn, module_id, port_id)
         """L23 port's RX runt length.
-        Representation of P_RXRUNTLENGTH
+        
+        :type: P_RXRUNTLENGTH
         """
 
         self.has_length_errors = P_RXRUNTLEN_ERRS(conn, module_id, port_id)
         """L23 port's RX runt length errors..
-        Representation of P_RXRUNTLEN_ERRS
+        
+        :type: P_RXRUNTLEN_ERRS
         """
 
 
@@ -70,12 +73,14 @@ class Preamble:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.tx_remove = P_TXPREAMBLE_REMOVE(conn, module_id, port_id)
         """L23 port's removal of preamble from outgoing packets.
-        Representation of P_TXPREAMBLE_REMOVE
+        
+        :type: P_TXPREAMBLE_REMOVE
         """
 
         self.rx_insert = P_RXPREAMBLE_INSERT(conn, module_id, port_id)
         """L23 port's insertion of preamble into incoming packets.
-        Representation of P_RXPREAMBLE_INSERT
+        
+        :type: P_RXPREAMBLE_INSERT
         """
 
 
@@ -114,7 +119,8 @@ class POdin40G2S2P(FamilyF):
         super().__init__(conn, module_id, port_id)
         self.dynamic = P_DYNAMIC(conn, module_id, port_id)
         """L23 port's dynamic traffic change.
-        Representation of P_DYNAMIC
+        
+        :type: P_DYNAMIC
         """
 
     on_dynamic_change = functools.partialmethod(utils.on_event, P_DYNAMIC)
@@ -128,7 +134,8 @@ class POdin40G2S2PB(FamilyF):
         super().__init__(conn, module_id, port_id)
         self.dynamic = P_DYNAMIC(conn, module_id, port_id)
         """L23 port's dynamic traffic change.
-        Representation of P_DYNAMIC
+        
+        :type: P_DYNAMIC
         """
 
     on_dynamic_change = functools.partialmethod(utils.on_event, P_DYNAMIC)

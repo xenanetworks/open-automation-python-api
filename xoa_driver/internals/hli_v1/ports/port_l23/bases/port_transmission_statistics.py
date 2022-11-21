@@ -23,22 +23,26 @@ class PortTransmissionStatistics:
         self.__port_id = port_id
         self.total = PT_TOTAL(conn, module_id, port_id)
         """All TX statistics on the L23 port.
-        Representation of PT_TOTAL
+        
+        :type: PT_TOTAL
         """
 
         self.extra = PT_EXTRA(conn, module_id, port_id)
         """Extra TX statistics on the L23 port.
-        Representation of PT_EXTRA
+        
+        :type: PT_EXTRA
         """
 
         self.no_tpld = PT_NOTPLD(conn, module_id, port_id)
         """TX statistics of packets without TPLD on the L23 port.
-        Representation of PT_NOTPLD
+        
+        :type: PT_NOTPLD
         """
 
         self.clear = PT_CLEAR(conn, module_id, port_id)
         """Clear TX statistics on the L23 port.
-        Representation of PT_CLEAR
+        
+        :type: PT_CLEAR
         """
 
     def obtain_from_stream(self, stream: Union[int, "GenuineStreamIdx"]) -> "PT_STREAM":
