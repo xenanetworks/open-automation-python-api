@@ -31,7 +31,8 @@ class FamilyL(BasePortL23Genuine):
         super().__init__(conn, module_id, port_id)
         self.dynamic = P_DYNAMIC(conn, module_id, port_id)
         """L23 port's dynamic traffic change.
-        Representation of P_DYNAMIC
+        
+        :type: P_DYNAMIC
         """
 
         self.fault = Fault(conn, module_id, port_id)

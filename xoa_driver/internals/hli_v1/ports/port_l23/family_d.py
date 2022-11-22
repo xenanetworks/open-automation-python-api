@@ -16,12 +16,14 @@ class FamilyD(BasePortL23Genuine):
         super().__init__(conn, module_id, port_id)
         self.mdix_mode = P_MDIXMODE(conn, module_id, port_id)
         """L23 port's MDI/MDIX mode.
-        Representation of P_MDIXMODE
+        
+        :type: P_MDIXMODE
         """
 
         self.autoneg_selection = P_AUTONEGSELECTION(conn, module_id, port_id)
         """L23 port's auto-negotiation selection.
-        Representation of P_AUTONEGSELECTION
+        
+        :type: P_AUTONEGSELECTION
         """
 
 

@@ -14,7 +14,8 @@ class POdin1G4S4PCombi(BasePortL23Genuine):
 
         self.autoneg_selection = P_AUTONEGSELECTION(conn, module_id, port_id)
         """L23 port's auto-negotiation selection.
-        Representation of P_AUTONEGSELECTION`
+        
+        :type: P_AUTONEGSELECTION`
         """
 
 

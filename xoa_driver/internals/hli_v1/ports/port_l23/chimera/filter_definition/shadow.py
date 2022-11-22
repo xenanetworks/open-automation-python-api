@@ -46,19 +46,23 @@ class FilterDefinitionShadow:
 
         self.initiating = PEF_INIT(conn, module_id, port_id, flow_index)
         """Preparing filter definition.
-        Representation of PEF_INIT
+        
+        :type: PEF_INIT
         """
         self.apply = PEF_APPLY(conn, module_id, port_id, flow_index)
         """Apply filter definition.
-        Representation of PEF_APPLY
+        
+        :type: PEF_APPLY
         """
         self.enable = PEF_ENABLE(conn, module_id, port_id, flow_index, self._filter_type)
         """Enabling the filter.
-        Representation of PEF_ENABLE
+        
+        :type: PEF_ENABLE
         """
         # self.mode = PEF_MODE(conn, module_id, port_id, flow_index, self._filter_type)
         # """Filter mode.
-        # Representation of PEF_MODE`
+        # 
+        # :type: PEF_MODE`
         # """
 
     async def get_mode(self) -> Union[general.ModeBasic, ModeExtendedS]:

@@ -21,12 +21,14 @@ class ObtainCaptured:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, capture_pkt_idx: int) -> None:
         self.extra = PC_EXTRA(conn, module_id, port_id, capture_pkt_idx)
         """Obtains extra information about a captured packet on a L23 port.
-        Representation of PC_EXTRA
+        
+        :type: PC_EXTRA
         """
 
         self.packet = PC_PACKET(conn, module_id, port_id, capture_pkt_idx)
         """Obtains raw bytes of a captured packet on a L23 port.
-        Representation of PC_PACKET
+        
+        :type: PC_PACKET
         """
 
 
@@ -37,22 +39,26 @@ class PortCapture:
         self.__port_id = port_id
         self.state = P_CAPTURE(conn, module_id, port_id)
         """L23 port traffic capture.
-        Representation of P_CAPTURE
+        
+        :type: P_CAPTURE
         """
 
         self.trigger = PC_TRIGGER(conn, module_id, port_id)
         """L23 port packet capture triggering criteria.
-        Representation of PC_TRIGGER
+        
+        :type: PC_TRIGGER
         """
 
         self.keep = PC_KEEP(conn, module_id, port_id)
         """Keeping captured packets on a L23 port.
-        Representation of PC_KEEP
+        
+        :type: PC_KEEP
         """
 
         self.stats = PC_STATS(conn, module_id, port_id)
         """L23 port's number of packets in the capture buffer.
-        Representation of PC_STATS
+        
+        :type: PC_STATS
         """
 
     async def obtain_captured(self) -> List[ObtainCaptured]:

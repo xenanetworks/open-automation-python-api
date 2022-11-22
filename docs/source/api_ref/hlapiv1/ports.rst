@@ -73,5 +73,83 @@ Package ``xoa_driver.ports`` includes port classes for Valkyrie, Vulcan, Chimera
     :recursive:
     :template: class.rst
     
+    ~xoa_driver.internals.hli_v1.ports.base_port.BasePort
     ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23
+    ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.BasePortL23Genuine
+    ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.SpeedMode
+    ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.GenuineSpeed
+    ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.UnAvailableTime
+    ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.PortStatistics
+    
+    ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_capture.ObtainCaptured
+    ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_capture.PortCapture
+
+    ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.TxSinglePacket
+    ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.TxConfiguration
+    ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.Rate
+    ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.Multicast
+    ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.IPv4
+    ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.IPv6
+    ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.NetworkConfiguration
+    ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.LatencyConfiguration
+    ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.Mix
+    ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.Speed
+    ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.Traffic
+
+    ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_reception_statistics.PrsTPLD
+    ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_reception_statistics.PortReceptionStatistics
+    ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_reception_statistics.GPrsUat
+    ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_reception_statistics.GenuinePortReceptionStatistics
+
+    ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_transceiver.PortTransceiver
+    ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_transmission_statistics.PortTransmissionStatistics
+
+
+    ~xoa_driver.internals.hli_v1.ports.port_l23.chimera.pe_custom_distribution.CustomDistribution
+    ~xoa_driver.internals.hli_v1.ports.port_l23.chimera.pe_custom_distribution.CustomDistributions
+
+    ~xoa_driver.internals.hli_v1.ports.port_l23.chimera.pe_distribution.ImpairmentDistributionConfig
+    ~xoa_driver.internals.hli_v1.ports.port_l23.chimera.pe_distribution.ImpairmentTypeDistribution
+
+    ~xoa_driver.internals.hli_v1.ports.port_l23.chimera.port_emulation.CTotalFlow
+    ~xoa_driver.internals.hli_v1.ports.port_l23.chimera.port_emulation.CFlowStatistics
+    ~xoa_driver.internals.hli_v1.ports.port_l23.chimera.port_emulation.CBandwidth
+    ~xoa_driver.internals.hli_v1.ports.port_l23.chimera.port_emulation.CFlow
+    ~xoa_driver.internals.hli_v1.ports.port_l23.chimera.port_emulation.ChimeraPE
+    ~xoa_driver.internals.hli_v1.ports.port_l23.chimera.port_emulation.StatisticsTotals
+
+    ~xoa_driver.internals.hli_v1.ports.port_l23.chimera.reception_statistics.ReceptionStatistics
+    ~xoa_driver.internals.hli_v1.ports.port_l23.chimera.transmission_statistics.TransmissionStatistics
+
     ~xoa_driver.internals.hli_v1.ports.port_l23.chimera.port_chimera.PortChimera
+
+    ~xoa_driver.internals.hli_v1.ports.port_l23.chimera.filter_definition.general.FEthernet
+    ~xoa_driver.internals.hli_v1.ports.port_l23.chimera.filter_definition.general.FPerVlanType
+    ~xoa_driver.internals.hli_v1.ports.port_l23.chimera.filter_definition.general.FVlan
+    ~xoa_driver.internals.hli_v1.ports.port_l23.chimera.filter_definition.general.FUdp
+    ~xoa_driver.internals.hli_v1.ports.port_l23.chimera.filter_definition.general.FTcp
+    ~xoa_driver.internals.hli_v1.ports.port_l23.chimera.filter_definition.general.FIPv4
+    ~xoa_driver.internals.hli_v1.ports.port_l23.chimera.filter_definition.general.FIPv6
+    ~xoa_driver.internals.hli_v1.ports.port_l23.chimera.filter_definition.general.FIp
+    ~xoa_driver.internals.hli_v1.ports.port_l23.chimera.filter_definition.general.FMpls
+    ~xoa_driver.internals.hli_v1.ports.port_l23.chimera.filter_definition.general.FTpld
+    ~xoa_driver.internals.hli_v1.ports.port_l23.chimera.filter_definition.general.FAny
+    ~xoa_driver.internals.hli_v1.ports.port_l23.chimera.filter_definition.general.ModeBasic
+    ~xoa_driver.internals.hli_v1.ports.port_l23.chimera.filter_definition.general.ProtocolSegment
+    ~xoa_driver.internals.hli_v1.ports.port_l23.chimera.filter_definition.general.ModeExtended
+
+    ~xoa_driver.internals.hli_v1.ports.port_l23.chimera.filter_definition.shadow.ModeExtendedS
+    ~xoa_driver.internals.hli_v1.ports.port_l23.chimera.filter_definition.shadow.FilterDefinitionShadow
+    ~xoa_driver.internals.hli_v1.ports.port_l23.chimera.filter_definition.working.FilterDefinitionWorking
+
+    ~xoa_driver.internals.hli_v1.ports.port_l47.counters.PCountersIPv4
+    ~xoa_driver.internals.hli_v1.ports.port_l47.counters.PCountersIPv6
+    ~xoa_driver.internals.hli_v1.ports.port_l47.counters.PCountersICMP
+    ~xoa_driver.internals.hli_v1.ports.port_l47.counters.PCountersTCP
+    ~xoa_driver.internals.hli_v1.ports.port_l47.counters.PCountersUDP
+    ~xoa_driver.internals.hli_v1.ports.port_l47.counters.PCountersETH
+    ~xoa_driver.internals.hli_v1.ports.port_l47.counters.PCountersARP
+    ~xoa_driver.internals.hli_v1.ports.port_l47.counters.PCountersNDP
+    ~xoa_driver.internals.hli_v1.ports.port_l47.counters.PCounters
+    ~xoa_driver.internals.hli_v1.ports.port_l47.main.PCapture
+    ~xoa_driver.internals.hli_v1.ports.port_l47.packet_engine.PacketEngine
