@@ -184,19 +184,34 @@ class PcsPma:
         self.__port = port
 
         self.alarms = PcsPmaAlarms(conn, *port.kind)
-        """PCS/PMA alarms"""
+        """PCS/PMA alarms
+        
+        :type: PcsPmaAlarms
+        """
 
         self.transceiver = PcsPmaTransceiver(conn, *port.kind)
-        """PCS/PMA transceiver"""
+        """PCS/PMA transceiver
+        
+        :type: PcsPmaTransceiver
+        """
 
         self.error_gen = PcsPmaTxErrorGeneration(conn, *port.kind)
-        """PCS/PMA error generation"""
+        """PCS/PMA error generation
+        
+        :type: PcsPmaTxErrorGeneration
+        """
 
         self.rx = PcsPmaRx(conn, *port.kind)
-        """PCS/PMA RX"""
+        """PCS/PMA RX
+        
+        :type: PcsPmaRx
+        """
 
         self.phy = PcsPmaPhy(conn, *port.kind)
-        """PCS/PMA PHY"""
+        """PCS/PMA PHY
+        
+        :type: PcsPmaPhy
+        """
 
         self.lanes: Tuple["Lane", ...] = tuple(
             Lane(self._conn, *self.__port.kind, lane_idx=idx)
@@ -334,13 +349,22 @@ class SerDes:
 
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, serdes_xindex: int) -> None:
         self.prbs = Prbs(conn, module_id, port_id, serdes_xindex)
-        """PRBS configuration"""
+        """PRBS configuration
+        
+        :type: Prbs
+        """
 
         self.phy = SDPhy(conn, module_id, port_id, serdes_xindex)
-        """PHY configuration"""
+        """PHY configuration
+        
+        :type: SDPhy
+        """
 
         self.eye_diagram = SDEyeDiagram(conn, module_id, port_id, serdes_xindex)
-        """Eye diagram"""
+        """Eye diagram
+        
+        :type: SDEyeDiagram
+        """
 
     def __await__(self):
         return self._setup().__await__()

@@ -20,6 +20,8 @@ from .pcs_pma_l import PcsPma as PcsPma3
 
 
 class PcsPma(PcsPma1, PcsPma2, PcsPma3):
+    """PCS/PMA layer for Family L
+    """
     def __init__(self, conn: "itf.IConnection", port) -> None:
         PcsPma1.__init__(self, conn, port)
         PcsPma2.__init__(self, conn, port)

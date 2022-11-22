@@ -19,6 +19,8 @@ from .pcs_pma_ghijkl import (
 
 
 class PcsPma(PcsPma1, PcsPma2):
+    """PCS/PMA layer for Family J
+    """
     def __init__(self, conn: "itf.IConnection", port) -> None:
         PcsPma1.__init__(self, conn, port)
         PcsPma2.__init__(self, conn, port)

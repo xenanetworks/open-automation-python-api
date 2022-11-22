@@ -1,9 +1,9 @@
-﻿POdin1G3S2PT
-============
+﻿FamilyD
+=======
 
 
 
-.. autoclass:: xoa_driver.internals.hli_v1.ports.port_l23.family_d.POdin1G3S2PT
+.. autoclass:: xoa_driver.internals.hli_v1.ports.port_l23.family_d.FamilyD
     :members:
     :show-inheritance:
     :inherited-members:
@@ -34,6 +34,9 @@
 
     .. autosummary::
     
+        ~FamilyD.mdix_mode
+        ~FamilyD.autoneg_selection
+
         ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.BasePortL23Genuine.info
         ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.BasePortL23Genuine.flash
         ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.BasePortL23Genuine.status
@@ -81,8 +84,4 @@
         ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.reserved_by
         ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.reset
         ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.comment
-
-        ~POdin1G3S2PT.mdix_mode
-        ~POdin1G3S2PT.autoneg_selection
-    
     

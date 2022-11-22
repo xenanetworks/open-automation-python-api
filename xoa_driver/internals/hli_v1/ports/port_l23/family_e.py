@@ -71,7 +71,10 @@ class FamilyE(BasePortL23Genuine):
         """
 
         self.eee = LowPowerMode(conn, module_id, port_id)
-        """L23 port Low Power mode settings."""
+        """L23 port Low Power mode settings.
+        
+        :type: LowPowerMode
+        """
 
 
 class POdin5G4S6PCU(FamilyE):

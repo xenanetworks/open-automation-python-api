@@ -1,9 +1,9 @@
-﻿POdin1G3S2PT
-============
+﻿FamilyL1
+========
 
 
 
-.. autoclass:: xoa_driver.internals.hli_v1.ports.port_l23.family_d.POdin1G3S2PT
+.. autoclass:: xoa_driver.internals.hli_v1.ports.port_l23.family_l1.FamilyL1
     :members:
     :show-inheritance:
     :inherited-members:
@@ -15,6 +15,7 @@
 
     .. autosummary::
     
+        ~FamilyL1.on_dynamic_change
         ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.is_released
         ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.is_reserved_by_me
         ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.is_reserved_by_others
@@ -34,6 +35,9 @@
 
     .. autosummary::
     
+        ~FamilyL1.pcs_pma
+        ~FamilyL1.ser_des
+        ~FamilyL1.dynamic
         ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.BasePortL23Genuine.info
         ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.BasePortL23Genuine.flash
         ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.BasePortL23Genuine.status
@@ -81,8 +85,5 @@
         ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.reserved_by
         ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.reset
         ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.comment
-
-        ~POdin1G3S2PT.mdix_mode
-        ~POdin1G3S2PT.autoneg_selection
     
     

@@ -25,7 +25,10 @@ class FamilyG(BasePortL23Genuine):
         """
 
         self.pcs_pma = PcsPma(conn, self)
-        """PCS/PMA settings."""
+        """PCS/PMA settings.
+        
+        :type: PcsPma
+        """
 
     async def _setup(self) -> Self:
         await super()._setup()
