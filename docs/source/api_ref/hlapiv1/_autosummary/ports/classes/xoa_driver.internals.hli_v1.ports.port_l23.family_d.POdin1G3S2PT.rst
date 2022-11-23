@@ -34,6 +34,9 @@
 
     .. autosummary::
     
+        ~xoa_driver.internals.hli_v1.ports.port_l23.family_d.FamilyD.mdix_mode
+        ~xoa_driver.internals.hli_v1.ports.port_l23.family_d.FamilyD.autoneg_selection
+
         ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.BasePortL23Genuine.info
         ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.BasePortL23Genuine.flash
         ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.BasePortL23Genuine.status
@@ -82,7 +85,5 @@
         ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.reset
         ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.comment
 
-        ~POdin1G3S2PT.mdix_mode
-        ~POdin1G3S2PT.autoneg_selection
-    
+        
     
