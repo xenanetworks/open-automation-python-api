@@ -15,15 +15,15 @@
 
     .. autosummary::
     
-        ~PortL23VE.is_released
-        ~PortL23VE.is_reserved_by_me
-        ~PortL23VE.is_reserved_by_others
-        ~PortL23VE.on_interface_change
-        ~PortL23VE.on_receive_sync_change
-        ~PortL23VE.on_reservation_change
-        ~PortL23VE.on_reserved_by_change
-        ~PortL23VE.on_speed_change
-        ~PortL23VE.on_traffic_change
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.is_released
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.is_reserved_by_me
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.is_reserved_by_others
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.on_interface_change
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.on_receive_sync_change
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.on_reservation_change
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.on_reserved_by_change
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.on_speed_change
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.on_traffic_change
     
     
 
@@ -33,44 +33,46 @@
 
     .. autosummary::
     
-        ~PortL23VE.info
+
         ~PortL23VE.mdix_mode
         ~PortL23VE.engine
         ~PortL23VE.streams
         ~PortL23VE.filters
-        ~PortL23VE.capabilities
-        ~PortL23VE.pause
-        ~PortL23VE.loop_back
-        ~PortL23VE.errors_count
-        ~PortL23VE.interframe_gap
-        ~PortL23VE.max_header_length
-        ~PortL23VE.tpld_mode
-        ~PortL23VE.pfc_enable
-        ~PortL23VE.random_seed
-        ~PortL23VE.payload_mode
-        ~PortL23VE.autotrain
-        ~PortL23VE.gap_monitor
-        ~PortL23VE.checksum
-        ~PortL23VE.arp_rx_table
-        ~PortL23VE.ndp_rx_table
-        ~PortL23VE.capturer
-        ~PortL23VE.speed
-        ~PortL23VE.traffic
-        ~PortL23VE.mix
-        ~PortL23VE.latency_config
-        ~PortL23VE.rate
-        ~PortL23VE.tx_config
-        ~PortL23VE.tx_single_pkt
-        ~PortL23VE.multicast
-        ~PortL23VE.net_config
-        ~PortL23VE.local_states
-        ~PortL23VE.length_terms
-        ~PortL23VE.match_terms
-        ~PortL23VE.sync_status
-        ~PortL23VE.interface
-        ~PortL23VE.reservation
-        ~PortL23VE.reserved_by
-        ~PortL23VE.reset
-        ~PortL23VE.comment
+        ~PortL23VE.statistics
     
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.info
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.capabilities
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.pause
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.loop_back
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.errors_count
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.interframe_gap
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.max_header_length
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.tpld_mode
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.pfc_enable
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.random_seed
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.payload_mode
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.autotrain
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.gap_monitor
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.checksum
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.arp_rx_table
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.ndp_rx_table
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.capturer
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.speed
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.traffic
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.mix
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.latency_config
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.rate
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.tx_config
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.tx_single_pkt
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.multicast
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.net_config
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.local_states
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.length_terms
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.match_terms
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.sync_status
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.interface
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.reservation
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.reserved_by
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.reset
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.comment
     

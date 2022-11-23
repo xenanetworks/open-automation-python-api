@@ -15,17 +15,19 @@
 
     .. autosummary::
     
-        ~PortL47.is_released
-        ~PortL47.is_reserved_by_me
-        ~PortL47.is_reserved_by_others
+
         ~PortL47.on_capabilities_change
-        ~PortL47.on_interface_change
         ~PortL47.on_license_info_change
-        ~PortL47.on_receive_sync_change
-        ~PortL47.on_reservation_change
-        ~PortL47.on_reserved_by_change
         ~PortL47.on_speed_selection_change
         ~PortL47.on_state_change
+
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.is_released
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.is_reserved_by_me
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.is_reserved_by_others
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.on_interface_change
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.on_receive_sync_change
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.on_reservation_change
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.on_reserved_by_change
     
     
 
@@ -35,7 +37,6 @@
 
     .. autosummary::
     
-        ~PortL47.info
         ~PortL47.traffic
         ~PortL47.clear
         ~PortL47.state
@@ -60,11 +61,13 @@
         ~PortL47.counters
         ~PortL47.packet_engine
         ~PortL47.connection_groups
-        ~PortL47.sync_status
-        ~PortL47.interface
-        ~PortL47.reservation
-        ~PortL47.reserved_by
-        ~PortL47.reset
-        ~PortL47.comment
+
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.info
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.sync_status
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.interface
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.reservation
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.reserved_by
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.reset
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.comment
     
     

@@ -15,16 +15,16 @@
 
     .. autosummary::
     
-        ~POdin1G3S6PT1RJ45.is_released
-        ~POdin1G3S6PT1RJ45.is_reserved_by_me
-        ~POdin1G3S6PT1RJ45.is_reserved_by_others
-        ~POdin1G3S6PT1RJ45.on_interface_change
-        ~POdin1G3S6PT1RJ45.on_receive_sync_change
-        ~POdin1G3S6PT1RJ45.on_reservation_change
-        ~POdin1G3S6PT1RJ45.on_reserved_by_change
-        ~POdin1G3S6PT1RJ45.on_speed_change
-        ~POdin1G3S6PT1RJ45.on_speed_selection_change
-        ~POdin1G3S6PT1RJ45.on_traffic_change
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.is_released
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.is_reserved_by_me
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.is_reserved_by_others
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.on_interface_change
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.on_receive_sync_change
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.on_reservation_change
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.on_reserved_by_change
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.on_speed_change
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.on_traffic_change
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.BasePortL23Genuine.on_speed_selection_change
     
     
 
@@ -34,52 +34,53 @@
 
     .. autosummary::
     
-        ~POdin1G3S6PT1RJ45.info
-        ~POdin1G3S6PT1RJ45.brr_mode
-        ~POdin1G3S6PT1RJ45.flash
-        ~POdin1G3S6PT1RJ45.status
-        ~POdin1G3S6PT1RJ45.config_load_mode
-        ~POdin1G3S6PT1RJ45.tcvr_status
-        ~POdin1G3S6PT1RJ45.fec_mode
-        ~POdin1G3S6PT1RJ45.speed
-        ~POdin1G3S6PT1RJ45.uat
-        ~POdin1G3S6PT1RJ45.transceiver
-        ~POdin1G3S6PT1RJ45.statistics
-        ~POdin1G3S6PT1RJ45.streams
-        ~POdin1G3S6PT1RJ45.filters
-        ~POdin1G3S6PT1RJ45.datasets
-        ~POdin1G3S6PT1RJ45.capabilities
-        ~POdin1G3S6PT1RJ45.pause
-        ~POdin1G3S6PT1RJ45.loop_back
-        ~POdin1G3S6PT1RJ45.errors_count
-        ~POdin1G3S6PT1RJ45.interframe_gap
-        ~POdin1G3S6PT1RJ45.max_header_length
-        ~POdin1G3S6PT1RJ45.tpld_mode
-        ~POdin1G3S6PT1RJ45.pfc_enable
-        ~POdin1G3S6PT1RJ45.random_seed
-        ~POdin1G3S6PT1RJ45.payload_mode
-        ~POdin1G3S6PT1RJ45.autotrain
-        ~POdin1G3S6PT1RJ45.gap_monitor
-        ~POdin1G3S6PT1RJ45.checksum
-        ~POdin1G3S6PT1RJ45.arp_rx_table
-        ~POdin1G3S6PT1RJ45.ndp_rx_table
-        ~POdin1G3S6PT1RJ45.capturer
-        ~POdin1G3S6PT1RJ45.traffic
-        ~POdin1G3S6PT1RJ45.mix
-        ~POdin1G3S6PT1RJ45.latency_config
-        ~POdin1G3S6PT1RJ45.rate
-        ~POdin1G3S6PT1RJ45.tx_config
-        ~POdin1G3S6PT1RJ45.tx_single_pkt
-        ~POdin1G3S6PT1RJ45.multicast
-        ~POdin1G3S6PT1RJ45.net_config
-        ~POdin1G3S6PT1RJ45.local_states
-        ~POdin1G3S6PT1RJ45.length_terms
-        ~POdin1G3S6PT1RJ45.match_terms
-        ~POdin1G3S6PT1RJ45.sync_status
-        ~POdin1G3S6PT1RJ45.interface
-        ~POdin1G3S6PT1RJ45.reservation
-        ~POdin1G3S6PT1RJ45.reserved_by
-        ~POdin1G3S6PT1RJ45.reset
-        ~POdin1G3S6PT1RJ45.comment
+        ~xoa_driver.internals.hli_v1.ports.port_l23.family_m.FamilyM.brr_mode
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.BasePortL23Genuine.info
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.BasePortL23Genuine.flash
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.BasePortL23Genuine.status
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.BasePortL23Genuine.config_load_mode
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.BasePortL23Genuine.tcvr_status
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.BasePortL23Genuine.fec_mode
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.BasePortL23Genuine.uat
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.BasePortL23Genuine.transceiver
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.BasePortL23Genuine.statistics
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.BasePortL23Genuine.streams
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.BasePortL23Genuine.filters
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.BasePortL23Genuine.datasets
+
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.capabilities
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.pause
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.loop_back
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.errors_count
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.interframe_gap
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.max_header_length
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.tpld_mode
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.pfc_enable
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.random_seed
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.payload_mode
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.autotrain
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.gap_monitor
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.checksum
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.arp_rx_table
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.ndp_rx_table
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.capturer
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.speed
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.traffic
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.mix
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.latency_config
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.rate
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.tx_config
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.tx_single_pkt
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.multicast
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.net_config
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.local_states
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.length_terms
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.BasePortL23.match_terms
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.sync_status
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.interface
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.reservation
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.reserved_by
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.reset
+        ~xoa_driver.internals.hli_v1.ports.base_port.BasePort.comment
     
     
