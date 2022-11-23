@@ -1,9 +1,9 @@
-﻿PortStatistics
-==============
+﻿L23VEPortStatistics
+===================
 
 
 
-.. autoclass:: xoa_driver.internals.hli_v1.ports.port_l23.port_l23ve.PortStatistics
+.. autoclass:: xoa_driver.internals.hli_v1.ports.port_l23.port_l23ve.L23VEPortStatistics
     :members:
     :show-inheritance:
     :inherited-members:
@@ -24,6 +24,7 @@
 
     .. autosummary::
     
-        ~PortStatistics.rx
+        ~L23VEPortStatistics.rx
+        ~L23VEPortStatistics.tx
     
     

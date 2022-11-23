@@ -122,7 +122,7 @@ Package ``xoa_driver.ports`` includes port classes for Valkyrie, Vulcan, Chimera
     ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_l.LinkTrain
     ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_l.PcsPma
     ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_l.PcsPmaL1
-    ~xoa_driver.internals.hli_v1.ports.port_l23.port_l23ve.PortStatistics
+    ~xoa_driver.internals.hli_v1.ports.port_l23.port_l23ve.L23VEPortStatistics
     
     ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_capture.ObtainCaptured
     ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_capture.PortCapture
