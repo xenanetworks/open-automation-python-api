@@ -168,7 +168,7 @@ autosummary_ignore_module_all = False
 autosummary_generate = True
 
 # If true, autosummary overwrites existing files by generated stub pages.
-autosummary_generate_overwrite = True
+autosummary_generate_overwrite = False
 
 
 
