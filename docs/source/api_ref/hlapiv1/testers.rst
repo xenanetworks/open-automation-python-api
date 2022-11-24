@@ -22,7 +22,7 @@ Tester Classes
     :template: class.rst
 
     ~xoa_driver.internals.hli_v1.testers._base_tester.BaseTester
-    ~xoa_driver.internals.hli_v1.testers._base_manager.ResourcesBaseManager
+    ~xoa_driver.internals.utils._base_manager.ResourcesBaseManager
 
     ~xoa_driver.internals.hli_v1.testers._tester_session.TesterSession
     ~xoa_driver.internals.hli_v1.testers.genuine.management_interface.ManagementInterface

@@ -1,4 +1,4 @@
-Enums
+Enum Classes
 =================================
 
-See :ref:`Enums <enums>`.
+See :doc:`Enum Classes <../hlapiv1/enums>`.

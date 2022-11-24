@@ -1,7 +1,7 @@
-Packet Engine  (Port Level)
+Packet Engine Classes (Port Level)
 =================================
 
-This module contains the **L47 port packet engine commands**.
+This module contains the **L47 port packet engine classes**.
 
 -------
 

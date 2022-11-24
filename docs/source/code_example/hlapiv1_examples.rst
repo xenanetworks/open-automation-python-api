@@ -14,7 +14,7 @@ To connect to a tester, create a tester object and the driver will automatically
 A tester instance also can be created without awaiting the connection establishment for more flexible manipulation of instances in user code.
 
 
-Available tester types are :ref:`L23Tester <l23tester>`, :ref:`L23VeTester <l23vetester>`, :ref:`L47Tester <l47tester>`, :ref:`L47VeTester <l47vetester>`.
+Available tester types are :doc:`L23Tester <../api_ref/hlapiv1/_autosummary/testers/classes/xoa_driver.internals.hli_v1.testers.l23_tester.L23Tester>` , :doc:`L23VeTester <../api_ref/hlapiv1/_autosummary/testers/classes/xoa_driver.internals.hli_v1.testers.l23ve_tester.L23VeTester>`, :doc:`L47Tester <../api_ref/hlapiv1/_autosummary/testers/classes/xoa_driver.internals.hli_v1.testers.l47_tester.L47Tester>`, :doc:`L47VeTester <../api_ref/hlapiv1/_autosummary/testers/classes/xoa_driver.internals.hli_v1.testers.l47ve_tester.L47VeTester>`.
 
 .. literalinclude:: hlapiv1/create_tester_from_type.py
     :caption: Create tester instance
@@ -100,7 +100,7 @@ Setting
 
 .. note::
     
-    Reservation is required to do ``set`` to: :ref:`Tester <tester>`, :ref:`Module <module>`, :ref:`Port <port>`, 
+    Reservation is required to do ``set`` to: :doc:`Testers <../api_ref/hlapiv1/testers>`, :doc:`Modules <../api_ref/hlapiv1/modules>`, and :doc:`Ports <../api_ref/hlapiv1/ports>`.
 
 .. literalinclude:: hlapiv1/setting_parameters.py
     :caption: Configure module and port
@@ -113,7 +113,7 @@ To generate L23 stateless traffic, stream configuration is necessary. The exampl
 
 .. note::
     
-    Reservation is required to do :terms: `CRUD`` operations streams on :ref:`Port <port>`.
+    Reservation is required to do :terms: `CRUD`` operations streams on :doc:`Ports <../api_ref/hlapiv1/ports>`.
 
 .. literalinclude:: hlapiv1/streams.py
     :caption: Create and delete streams on a port

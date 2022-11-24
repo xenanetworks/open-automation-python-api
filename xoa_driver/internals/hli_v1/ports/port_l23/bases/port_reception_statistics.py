@@ -163,6 +163,8 @@ class GenuinePortReceptionStatistics(PortReceptionStatistics):
 
         self.uat = GPrsUat(conn, module_id, port_id)
         """L23 port UAT info.
+
+        :type: GPrsUat
         """
 
 # endregion

@@ -1,7 +1,7 @@
-Port
+Port Classes
 =================================
 
-This module contains the **L47 port commands**.
+This module contains the **L47 port classes**.
 
 The Xena L47 test execution engine has seven states: ``off``, ``prepare``, ``prepare_rdy``, ``prerun``, ``prerun_rdy``, ``running`` and ``stopped``. Traffic is generated in the ``prerun`` and running states only, and configuration of parameters is only valid in state ``off`` except for a few runtime options. Port traffic commands can be given with :class:`~xoa_driver.internals.core.commands.p4_commands.P4_TRAFFIC` and port state queried by :class:`~xoa_driver.internals.core.commands.p4_commands.P4_STATE`.
 

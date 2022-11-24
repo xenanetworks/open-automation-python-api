@@ -1,7 +1,7 @@
-Histogram
+Histogram Classes
 =================================
 
-This module contains the **L23 port histogram commands** that deal with configuration of data collection and retrieval of samples from a port.
+This module contains the **L23 port histogram classes** that deal with configuration of data collection and retrieval of samples from a port.
 
 The histogram command names all have the form ``PD_<xxx>`` and require both a module index id and a port index id, as well as a sub-index identifying a particular histogram.
 

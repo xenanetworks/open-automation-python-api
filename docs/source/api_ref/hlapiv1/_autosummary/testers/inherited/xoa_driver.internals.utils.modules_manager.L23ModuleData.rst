@@ -25,8 +25,8 @@
 
     .. autosummary::
     
-        ~L23ModuleData.revision
-        ~L23ModuleData.module_id
-        ~L23ModuleData.ports_count
+        ~xoa_driver.internals.utils.modules_manager.ModuleData.revision
+        ~xoa_driver.internals.utils.modules_manager.ModuleData.module_id
+        ~xoa_driver.internals.utils.modules_manager.ModuleData.ports_count
     
     

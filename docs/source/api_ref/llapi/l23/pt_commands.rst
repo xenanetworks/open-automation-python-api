@@ -1,7 +1,7 @@
-TX Statistics
+TX Statistics Classes
 =================================
 
-This module contains the **L23 port TX statistics commands** that provide quantitative information about the transmitted packets on a port.
+This module contains the **L23 port TX statistics classes** that provide quantitative information about the transmitted packets on a port.
 
 The command names all have the form ``PT_<xxx>`` and require both a module index id and a port index id. Those commands dealing with a specific transmitted stream also have a sub-index.
 

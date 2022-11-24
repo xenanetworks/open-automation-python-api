@@ -24,14 +24,14 @@
 
     .. autosummary::
     
-        ~PcsPma.link_flap
-        ~PcsPma.pma_pulse_err_inj
-        ~PcsPma.alarms
-        ~PcsPma.transceiver
-        ~PcsPma.error_gen
-        ~PcsPma.rx
-        ~PcsPma.phy
-        ~PcsPma.auto_neg
-        ~PcsPma.link_training
+        ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_ijkl_chimera.PcsPma.link_flap
+        ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_ijkl_chimera.PcsPma.pma_pulse_err_inj
+        ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_ghijkl.PcsPma.alarms
+        ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_ghijkl.PcsPma.transceiver
+        ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_ghijkl.PcsPma.error_gen
+        ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_ghijkl.PcsPma.rx
+        ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_ghijkl.PcsPma.phy
+        ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_l.PcsPma.auto_neg
+        ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_l.PcsPma.link_training
     
     

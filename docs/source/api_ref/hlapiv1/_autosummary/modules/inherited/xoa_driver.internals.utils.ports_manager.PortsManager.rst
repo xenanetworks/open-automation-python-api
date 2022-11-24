@@ -16,8 +16,8 @@
     .. autosummary::
     
         ~PortsManager.fill
-        ~PortsManager.obtain
-        ~PortsManager.obtain_multiple
+        ~xoa_driver.internals.utils._base_manager.ResourcesBaseManager.obtain
+        ~xoa_driver.internals.utils._base_manager.ResourcesBaseManager.obtain_multiple
     
     
 

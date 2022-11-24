@@ -1,7 +1,7 @@
-Filter
+Filter Classes
 =================================
 
-This module contains the **L23 port filter commands** that deal with configuration of the filters on the received traffic of a port.
+This module contains the **L23 port filter classes** that deal with configuration of the filters on the received traffic of a port.
 
 The filter command names all have the form ``PF_<xxx>``, and require both a module index id and a port index id, as well as a sub-index identifying a particular filter.
 

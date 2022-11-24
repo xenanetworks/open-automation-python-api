@@ -75,7 +75,7 @@ class TesterLocalState:
 
 
 class GenuineTesterLocalState(TesterLocalState):
-    """Genuine Tester Local State, extension of :class:`TesterLocalState`
+    """Genuine Tester Local State
 
     :param host: tester's address/hostname
     :type host: str

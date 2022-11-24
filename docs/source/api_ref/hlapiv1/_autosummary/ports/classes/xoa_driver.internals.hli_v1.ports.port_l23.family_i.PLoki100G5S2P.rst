@@ -35,7 +35,7 @@
 
     .. autosummary::
     
-        ~Famxoa_driver.internals.hli_v1.ports.port_l23.family_i.FamilyIilyI.dynamic
+        ~xoa_driver.internals.hli_v1.ports.port_l23.family_i.FamilyI.dynamic
         ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.BasePortL23Genuine.info
         ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.BasePortL23Genuine.flash
         ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.BasePortL23Genuine.status

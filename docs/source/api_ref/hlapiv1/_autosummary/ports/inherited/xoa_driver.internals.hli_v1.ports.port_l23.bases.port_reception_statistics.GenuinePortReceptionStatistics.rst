@@ -29,10 +29,10 @@
     
         ~GenuinePortReceptionStatistics.calibrate
         ~GenuinePortReceptionStatistics.uat
-        ~GenuinePortReceptionStatistics.total
-        ~GenuinePortReceptionStatistics.no_tpld
-        ~GenuinePortReceptionStatistics.extra
-        ~GenuinePortReceptionStatistics.pfc_stats
-        ~GenuinePortReceptionStatistics.clear
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_reception_statistics.PortReceptionStatistics.total
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_reception_statistics.PortReceptionStatistics.no_tpld
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_reception_statistics.PortReceptionStatistics.extra
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_reception_statistics.PortReceptionStatistics.pfc_stats
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_reception_statistics.PortReceptionStatistics.clear
     
     
