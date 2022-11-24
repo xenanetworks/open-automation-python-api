@@ -22,7 +22,7 @@ class MLoki100G5S1P(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Loki-100G-5S-1P"""
+        """Port Index Manager of Loki-100G-5S-1P"""
 
 
 @typing.final
@@ -37,4 +37,4 @@ class MOdin100G3S1P(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Odin-100G-3S-1P"""
+        """Port Index Manager of Odin-100G-3S-1P"""

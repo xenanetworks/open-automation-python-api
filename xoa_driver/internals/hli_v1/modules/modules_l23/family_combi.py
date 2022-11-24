@@ -38,7 +38,8 @@ async def _port_resolver(conn: "itf.IConnection", module_id: int, port_id: int, 
 @typing.final
 @revisions.register_valkyrie_module(rev="Odin-10G-4S-2P-Combi")
 class MOdin10G4S2PCombi(ModuleL23):
-    """Test module Odin-10G-4S-2P-Combi"""
+    """Test module Odin-10G-4S-2P-Combi, extension of :class:`ModuleL23`
+    """
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
         PORTS_MAP = {
@@ -51,13 +52,17 @@ class MOdin10G4S2PCombi(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Odin-10G-4S-2P-Combi"""
+        """Port Index Manager of Odin-10G-4S-2P-Combi
+        
+        :type: PortsCombiManager
+        """
 
 
 @typing.final
 @revisions.register_valkyrie_module(rev="Odin-10G-4S-2P-Combi[b]")
 class MOdin10G4S2PCombi_b(ModuleL23):
-    """Test module Odin-10G-4S-2P-Combi[b]"""
+    """Test module Odin-10G-4S-2P-Combi[b], extension of :class:`ModuleL23`
+    """
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
         PORTS_MAP = {
@@ -70,4 +75,7 @@ class MOdin10G4S2PCombi_b(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Odin-10G-4S-2P-Combi[b]"""
+        """Port Index Manager of Odin-10G-4S-2P-Combi[b]
+        
+        :type: PortsCombiManager
+        """

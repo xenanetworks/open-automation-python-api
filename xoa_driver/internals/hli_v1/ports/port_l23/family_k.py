@@ -19,6 +19,8 @@ from .pcs_pma_ghijkl import (
 
 
 class PcsPma(PcsPma1, PcsPma2):
+    """PCS/PMA layer for Family K
+    """
     def __init__(self, conn: "itf.IConnection", port) -> None:
         PcsPma1.__init__(self, conn, port)
         PcsPma2.__init__(self, conn, port)
@@ -29,7 +31,8 @@ class FamilyK(BasePortL23Genuine):
         super().__init__(conn, module_id, port_id)
         self.dynamic = P_DYNAMIC(conn, module_id, port_id)
         """L23 port's dynamic traffic change.
-        Representation of P_DYNAMIC
+        
+        :type: P_DYNAMIC
         """
 
         self.fault = Fault(conn, module_id, port_id)

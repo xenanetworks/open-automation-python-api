@@ -26,14 +26,14 @@ class Engine:
         ...
 
 
-class PortStatistics:
+class L23VEPortStatistics:
     """L23 VE port statistics"""
 
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.rx = PortReceptionStatistics(conn, module_id, port_id)
         """L23 VE port's RX statistics."""
 
-        self.rx = PortTransmissionStatistics(conn, module_id, port_id)
+        self.tx = PortTransmissionStatistics(conn, module_id, port_id)
         """L23 VE port's TX statistics."""
 
 
@@ -53,7 +53,7 @@ class PortL23VE(BasePortL23):
         self.engine = Engine(conn, module_id, port_id)
         """Engine is not supported yet."""
 
-        self.statistics = PortStatistics(conn, module_id, port_id)
+        self.statistics = L23VEPortStatistics(conn, module_id, port_id)
 
         self.streams: VEStreamIndices = idx_mgr.IndexManager(
             conn,

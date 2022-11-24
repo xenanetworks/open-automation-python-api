@@ -22,7 +22,7 @@ class MOdin40G2S2P(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Odin-40G-2S-2P"""
+        """Port Index Manager of Odin-40G-2S-2P"""
 
 
 @typing.final
@@ -37,4 +37,4 @@ class MOdin40G2S2PB(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Odin-40G-2S-2P-B"""
+        """Port Index Manager of Odin-40G-2S-2P-B"""

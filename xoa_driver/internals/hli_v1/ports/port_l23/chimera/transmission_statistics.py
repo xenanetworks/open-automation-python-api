@@ -10,13 +10,15 @@ from xoa_driver.internals.core.commands import (
 class TransmissionStatistics:
     """Chimera TX statistics."""
 
-    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_idx: int) -> None:
-        self.total = PT_FLOWTOTAL(conn, module_id, port_id, flow_idx)
+    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int) -> None:
+        self.total = PT_FLOWTOTAL(conn, module_id, port_id, flow_index)
         """TX statistics of a flow.
-        Representation of PT_FLOWTOTAL
+        
+        :type: PT_FLOWTOTAL
         """
 
-        self.clear = PT_FLOWCLEAR(conn, module_id, port_id, flow_idx)
+        self.clear = PT_FLOWCLEAR(conn, module_id, port_id, flow_index)
         """Clear TX statistics of a flow.
-        Representation of PT_FLOWCLEAR
+        
+        :type: PT_FLOWCLEAR
         """

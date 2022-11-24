@@ -18,12 +18,14 @@ class AutoNeg:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.settings = PP_AUTONEG(conn, module_id, port_id)
         """Auto-negotiation settings of the PHY.
-        Representation of PP_AUTONEG
+        
+        :type: PP_AUTONEG
         """
 
         self.status = PP_AUTONEGSTATUS(conn, module_id, port_id)
         """Status of auto-negotiation settings of the PHY.
-        Representation of PP_AUTONEGSTATUS
+        
+        :type: PP_AUTONEGSTATUS
         """
 
 
@@ -33,7 +35,8 @@ class LinkTrain:
     def __init__(self, conn: "itf.IConnection", port) -> None:
         self.settings = PP_LINKTRAIN(conn, *port.kind)
         """Link training settings.
-        Representation of PP_LINKTRAIN
+        
+        :type: PP_LINKTRAIN
         """
 
         self.per_lane_status: Tuple[PP_LINKTRAINSTATUS, ...] = tuple(
@@ -41,7 +44,8 @@ class LinkTrain:
             for idx in range(port.info.capabilities.lane_count)
         )  # TODO: need to fix, currently port.info.capabilities must be none because virtual_lanes are created before awaiting the port
         """Link training status.
-        Representation of PP_LINKTRAINSTATUS
+        
+        :type: PP_LINKTRAINSTATUS
         """
 
 
@@ -50,10 +54,16 @@ class PcsPma:
 
     def __init__(self, conn: "itf.IConnection", port) -> None:
         self.auto_neg = AutoNeg(conn, *port.kind)
-        """PCS/PMA auto-negotiation settings"""
+        """PCS/PMA auto-negotiation settings.
+        
+        :type: AutoNeg
+        """
 
         self.link_training = LinkTrain(conn, port)
-        """PCS/PMA link training settings"""
+        """PCS/PMA link training settings.
+        
+        :type: LinkTrain
+        """
 
 
 # Temporary ports are not supporting LinkTrain, in future release of xenaserver it will be the same as regular PcsPma
@@ -62,4 +72,7 @@ class PcsPmaL1:
 
     def __init__(self, conn: "itf.IConnection", port) -> None:
         self.auto_neg = AutoNeg(conn, *port.kind)
-        """PCS/PMA auto-negotiation settings"""
+        """PCS/PMA auto-negotiation settings.
+        
+        :type: AutoNeg
+        """

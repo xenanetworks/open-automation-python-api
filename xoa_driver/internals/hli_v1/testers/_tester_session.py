@@ -22,11 +22,22 @@ from xoa_driver.internals.core.commands import (
 
 class TesterSession:
     """
-    Establishing communication session through connection with ester unit.
+    Establishing communication session through connection with the tester.
+
+    :param conn: connection handler
+    :type host: itf.IConnection
+    :param owner_name: username of the user
+    :type username: str
+    :param password: login password of the tester, defaults to "xena"
+    :type password: str, optional
+    :param timeout_seconds: the timeout to close idle connection
+    :type port: int, optional
+    :param keepalive: `True` if keepalive signal is needed, and `False` otherwise, defaults to `False`.
+    :type keepalive: bool, optional
     """
-
+    
     __slots__ = ("_conn", "owner_name", "pwd", "timeout", "keepalive")
-
+    
     def __init__(self, conn: "itf.IConnection", owner_name: str, password: str = "xena", timeout_seconds: int = 130, keepalive: bool = False) -> None:
         self._conn = conn
         self.owner_name = owner_name
@@ -61,6 +72,9 @@ class TesterSession:
     def is_online(self) -> bool:
         """
         Check if connection is still active.
+
+        :return: connection is still on or not.
+        :rtype: bool
         """
 
         return self._conn.is_connected
@@ -76,6 +90,9 @@ class TesterSession:
     async def sessions_info(self) -> Tuple[C_STATSESSION.GetDataAttr, ...]:
         """
         Return information about all active sessions on the tester.
+
+        :return: a list of session information
+        :rtype: List[C_STATSESSION]
         """
 
         sessions = await C_INDICES(self._conn).get()

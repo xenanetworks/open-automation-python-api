@@ -23,6 +23,8 @@ from .pcs_pma_l import PcsPmaL1 as PcsPma3  # PcsPmaL1 for current version is di
 
 
 class PcsPma(PcsPma1, PcsPma2, PcsPma3):
+    """PCS/PMA layer for Family L1
+    """
     def __init__(self, conn: "itf.IConnection", port) -> None:
         PcsPma1.__init__(self, conn, port)
         PcsPma2.__init__(self, conn, port)
@@ -31,13 +33,21 @@ class PcsPma(PcsPma1, PcsPma2, PcsPma3):
 
 class FamilyL1(BasePortL23Genuine):
     pcs_pma: PcsPma
+    """PCS/PMA layer
+
+    :rtype: PcsPma
+    """
+    
     ser_des: Tuple[SerDes, ...]
+    """SerDes index
+    """
 
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         super().__init__(conn, module_id, port_id)
         self.dynamic = P_DYNAMIC(conn, module_id, port_id)
         """L23 port's dynamic traffic change.
-        Representation of P_DYNAMIC
+        
+        :type: P_DYNAMIC
         """
 
         # self.fault = Fault(conn, module_id, port_id)

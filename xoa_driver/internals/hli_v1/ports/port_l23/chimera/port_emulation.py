@@ -44,35 +44,41 @@ from .filter_definition import (
 class CTotalFlow:
     """Total flow statistics."""
 
-    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_idx: int) -> None:
-        self.drop_packets = PE_FLOWDROPTOTAL(conn, module_id, port_id, flow_idx)
+    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int) -> None:
+        self.drop_packets = PE_FLOWDROPTOTAL(conn, module_id, port_id, flow_index)
         """Statistics of all packets dropped in a flow.
-        Representation of PE_FLOWDROPTOTAL
+        
+        :type: PE_FLOWDROPTOTAL
         """
 
-        self.latency_packets = PE_FLOWLATENCYTOTAL(conn, module_id, port_id, flow_idx)
+        self.latency_packets = PE_FLOWLATENCYTOTAL(conn, module_id, port_id, flow_index)
         """Statistics of all packets delayed in a flow.
-        Representation of PE_FLOWLATENCYTOTAL
+        
+        :type: PE_FLOWLATENCYTOTAL
         """
 
-        self.duplicated_packets = PE_FLOWDUPTOTAL(conn, module_id, port_id, flow_idx)
+        self.duplicated_packets = PE_FLOWDUPTOTAL(conn, module_id, port_id, flow_index)
         """Statistics of all packets duplicate in a flow.
-        Representation of PE_FLOWDUPTOTAL
+        
+        :type: PE_FLOWDUPTOTAL
         """
 
-        self.mis_ordered_packets = PE_FLOWMISTOTAL(conn, module_id, port_id, flow_idx)
+        self.mis_ordered_packets = PE_FLOWMISTOTAL(conn, module_id, port_id, flow_index)
         """Statistics of all packets misordered in a flow.
-        Representation of PE_FLOWMISTOTAL
+        
+        :type: PE_FLOWMISTOTAL
         """
 
-        self.corrupted_packets = PE_FLOWCORTOTAL(conn, module_id, port_id, flow_idx)
+        self.corrupted_packets = PE_FLOWCORTOTAL(conn, module_id, port_id, flow_index)
         """Statistics of all packets corrupted in a flow.
-        Representation of PE_FLOWCORTOTAL
+        
+        :type: PE_FLOWCORTOTAL
         """
 
-        self.jittered_packets = PE_FLOWJITTERTOTAL(conn, module_id, port_id, flow_idx)
+        self.jittered_packets = PE_FLOWJITTERTOTAL(conn, module_id, port_id, flow_index)
         """Statistics of all packets jittered in a flow.
-        Representation of PE_FLOWJITTERTOTAL
+        
+        :type: PE_FLOWJITTERTOTAL
         """
 
 
@@ -82,106 +88,119 @@ class StatisticsTotals:
     def __init__(self, conn, module_id, port_id) -> None:
         self.drop = PE_DROPTOTAL(conn, module_id, port_id)
         """Statistics of all packets dropped on the port.
-        Representation of PE_DROPTOTAL
+        
+        :type: PE_DROPTOTAL
         """
 
         self.latency = PE_LATENCYTOTAL(conn, module_id, port_id)
         """Statistics of all packets delayed on the port.
-        Representation of PE_LATENCYTOTAL
+        
+        :type: PE_LATENCYTOTAL
         """
 
         self.duplicated = PE_DUPTOTAL(conn, module_id, port_id)
         """Statistics of all packets duplicated on the port.
-        Representation of PE_DUPTOTAL
+        
+        :type: PE_DUPTOTAL
         """
 
         self.mis_ordered = PE_MISTOTAL(conn, module_id, port_id)
         """Statistics of all packets mirordered on the port.
-        Representation of PE_MISTOTAL
+        
+        :type: PE_MISTOTAL
         """
 
         self.corrupted = PE_CORTOTAL(conn, module_id, port_id)
         """Statistics of all packets corrupted on the port.
-        Representation of PE_CORTOTAL
+        
+        :type: PE_CORTOTAL
         """
 
         self.jittered = PE_JITTERTOTAL(conn, module_id, port_id)
         """Statistics of all packets jittered on the port.
-        Representation of PE_JITTERTOTAL
+        
+        :type: PE_JITTERTOTAL
         """
 
 
 class CFlowStatistics:
     """Per flow statistics."""
 
-    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_idx: int) -> None:
-        self.rx = ReceptionStatistics(conn, module_id, port_id, flow_idx)
+    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int) -> None:
+        self.rx = ReceptionStatistics(conn, module_id, port_id, flow_index)
         """RX statistics."""
 
-        self.tx = TransmissionStatistics(conn, module_id, port_id, flow_idx)
+        self.tx = TransmissionStatistics(conn, module_id, port_id, flow_index)
         """TX statistics."""
 
-        self.total = CTotalFlow(conn, module_id, port_id, flow_idx)
+        self.total = CTotalFlow(conn, module_id, port_id, flow_index)
         """Total flow statistics."""
 
-        self.clear = PE_FLOWCLEAR(conn, module_id, port_id, flow_idx)
+        self.clear = PE_FLOWCLEAR(conn, module_id, port_id, flow_index)
         """Clear the impairment statistics on a flow.
-        Representation of PE_FLOWCLEAR
+        
+        :type: PE_FLOWCLEAR
         """
 
 
 class CBandwidth:
     """Bandwidth configuration."""
 
-    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_idx: int) -> None:
-        self.policer = PE_BANDPOLICER(conn, module_id, port_id, flow_idx)
+    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int) -> None:
+        self.policer = PE_BANDPOLICER(conn, module_id, port_id, flow_index)
         """Bandwidth policer configuration.
-        Representation of PE_BANDPOLICER
+        
+        :type: PE_BANDPOLICER
         """
 
-        self.shaper = PE_BANDSHAPER(conn, module_id, port_id, flow_idx)
+        self.shaper = PE_BANDSHAPER(conn, module_id, port_id, flow_index)
         """Bandwidth shaper configuration.
-        Representation of PE_BANDSHAPER
+        
+        :type: PE_BANDSHAPER
         """
 
 
 class CFlow:
     """Flow settings."""
 
-    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_idx: int) -> None:
-        self.comment = PE_COMMENT(conn, module_id, port_id, flow_idx)
+    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int) -> None:
+        self.comment = PE_COMMENT(conn, module_id, port_id, flow_index)
         """Flow description.
-        Representation of PE_COMMENT
+        
+        :type: PE_COMMENT
         """
 
-        self.latency_range = PE_LATENCYRANGE(conn, module_id, port_id, flow_idx)
+        self.latency_range = PE_LATENCYRANGE(conn, module_id, port_id, flow_index)
         """Flow latency range.
-        Representation of PE_LATENCYRANGE
+        
+        :type: PE_LATENCYRANGE
         """
 
-        self.corruption = PE_CORRUPT(conn, module_id, port_id, flow_idx)
+        self.corruption = PE_CORRUPT(conn, module_id, port_id, flow_index)
         """Corruption type.
-        Representation of PE_CORRUPT
+        
+        :type: PE_CORRUPT
         """
 
-        self.misordering = PE_MISORDER(conn, module_id, port_id, flow_idx)
+        self.misordering = PE_MISORDER(conn, module_id, port_id, flow_index)
         """Misordering depth
-        Representation of PE_MISORDER
+        
+        :type: PE_MISORDER
         """
 
-        self.bandwidth_control = CBandwidth(conn, module_id, port_id, flow_idx)
+        self.bandwidth_control = CBandwidth(conn, module_id, port_id, flow_index)
         """Bandwidth configuration."""
 
-        self.statistics = CFlowStatistics(conn, module_id, port_id, flow_idx)
+        self.statistics = CFlowStatistics(conn, module_id, port_id, flow_index)
         """Flow statistics."""
 
-        self.impairment_distribution = ImpairmentTypeDistribution(conn, module_id, port_id, flow_idx)
+        self.impairment_distribution = ImpairmentTypeDistribution(conn, module_id, port_id, flow_index)
         """Impairment type's distribution."""
 
-        self.shadow_filter = shadow.FilterDefinitionShadow(conn, module_id, port_id, flow_idx)
+        self.shadow_filter = shadow.FilterDefinitionShadow(conn, module_id, port_id, flow_index)
         """Shadow copy."""
 
-        self.working_filter = working.FilterDefinitionWorking(conn, module_id, port_id, flow_idx)
+        self.working_filter = working.FilterDefinitionWorking(conn, module_id, port_id, flow_index)
         """Working copy."""
 
 
@@ -194,12 +213,14 @@ class ChimeraPE:
         self.port_id = port_id
         self.drop_fcs_errors = PE_FCSDROP(conn, module_id, port_id)
         """Action on FCS errors.
-        Representation of PE_FCSDROP
+        
+        :type: PE_FCSDROP
         """
 
         self.clear = PE_CLEAR(conn, module_id, port_id)
         """Clear impairment statistics.
-        Representation of PE_CLEAR
+        
+        :type: PE_CLEAR
         """
 
         self.statistics = StatisticsTotals(conn, module_id, port_id)
@@ -207,7 +228,8 @@ class ChimeraPE:
 
         self.tpld_mode = PE_TPLDMODE(conn, module_id, port_id)
         """TPLD mode.
-        Representation of PE_TPLDMODE
+        
+        :type: PE_TPLDMODE
         """
 
         self.flows: Tuple["CFlow", ...] = tuple()

@@ -1846,6 +1846,59 @@ class PEF_TPLDCONFIG:
 
 @register_command
 @dataclass
+class PEF_ISSHADOWDIRTY:
+    """
+    Get shadow filter status (if shadow is in sync with working copy or not).
+    """
+
+    code: typing.ClassVar[int] = 1734
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: "interfaces.IConnection"
+    _module: int
+    _port: int
+    _flow_xindex: int
+
+    @dataclass(frozen=True)
+    class GetDataAttr:
+        is_in_sync: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)  # coded byte, if shadow is in sync with working copy or not.
+
+    def get(self) -> "Token[GetDataAttr]":
+        """Get shadow filter status.
+
+        :return: if shadow is in sync with working copy or not.
+        :rtype: PEF_ISSHADOWDIRTY.GetDataAttr
+        """
+        return Token(
+            self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex])
+        )
+
+
+@register_command
+@dataclass
+class PEF_CANCEL:
+    """Undo updates to shadow filter settings, sets dirty false."""
+
+    code: typing.ClassVar[int] = 1735
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: "interfaces.IConnection"
+    _module: int
+    _port: int
+    _flow_xindex: int
+
+    @dataclass(frozen=True)
+    class SetDataAttr:
+        pass
+
+    def set(self) -> "Token":
+        """Undo updates to shadow filter settings, sets dirty false.
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+
+
+@register_command
+@dataclass
 class PEF_VALUE:
     """
     This command is valid only for ``Extended filter mode`` (check PEF_MODE).
@@ -1987,7 +2040,7 @@ class PEF_MASK:
 @dataclass
 class PEF_PROTOCOL:
     """
-    This command is valid only for ``Extended filter mode`` (check PEF_MODE).
+    This command is valid only for ``Extended filter mode`` (check `PEF_MODE`_).
 
     Defines the sequence of protocol segments that can be
     matched. The total length of the specified segments cannot exceed 128 bytes. If
@@ -1996,7 +2049,7 @@ class PEF_PROTOCOL:
     may have changed. However, if the total length, in bytes, of the segments is
     reduced, then the excess bytes of value and mask are set to zero. I.e. to update
     an existing filter, you must first correct the list of segments (using
-    PEF_PROTOCOL) and subsequently update the filtering value (using PEF_VALUE) and filtering mask (PEF_MASK).
+    PEF_PROTOCOL) and subsequently update the filtering value (using `PEF_VALUE`_) and filtering mask (`PEF_MASK`_).
     """
 
     code: typing.ClassVar[int] = 1779

@@ -22,4 +22,4 @@ class MLoki100G5S2P(ModuleL23):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Loki-100G-5S-2P"""
+        """Port Index Manager of Loki-100G-5S-2P"""

@@ -26,7 +26,7 @@ class PS_INDICES:
     transmitted for the port. Setting the value of this command creates a new
     empty stream for each value that is not already in use, and deletes each stream
     that is not mentioned in the list. The same can be accomplished one-stream-at-a-
-    time using the PS_CREATE and PS_DELETE commands.
+    time using the `PS_CREATE`_ and `PS_DELETE`_ commands.
     """
 
     code: typing.ClassVar[int] = 150
@@ -377,6 +377,41 @@ class PS_INSERTFCS:
     set_on = functools.partialmethod(set, OnOff.ON)
     """Enable a valid frame checksum to be added to the packets of a stream.
     """
+
+
+@register_command
+@dataclass
+class PS_AUTOADJUST:
+    """
+    Executing PS_AUTOADJUST will adjust the packet length distribution (:class:`PS_PACKETLENGTH`) of the stream:
+    
+        (1) Set the type of packet length distribution (:class:`PS_PACKETLENGTH` ``<length_type>``) to ``FIXED``.
+    
+        (2) Set the lower limit on the packet length (:class:`PS_PACKETLENGTH` ``<min_val>``) to exactly fit the specified protocol headers, TPLD and FCS (but never set to less than 64).
+
+        (3) Set the payload type of packets transmitted for the stream (:class:`PS_PAYLOAD` ``<payload_type>``) to ``PATTERN``. 
+    
+        (4) If necessary, also set the maximum number of header content bytes (`P_MAXHEADERLENGTH <p_maxheaderlength_label>` ``<max_header_length>``) that can be freely specified for each generated stream of the port to a higher value, if needed to accommodate the header size of the stream (implicitly given by the `PS_PACKETHEADER` command).
+
+        (5) If the needed maximum header length (`P_MAXHEADERLENGTH <p_maxheaderlength_label>` ``<max_header_length>``) is not possible with the actual number of active streams for the port, the command will fail with :`<BADVALUE>`.
+    """
+
+    code: typing.ClassVar[int] = 159
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: "interfaces.IConnection"
+    _module: int
+    _port: int
+    _stream_xindex: int
+
+    @dataclass(frozen=True)
+    class SetDataAttr:
+        pass
+
+    def set(self) -> "Token":
+        """Adjust the packet length distribution of a stream.
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._stream_xindex]))
 
 
 @register_command
@@ -1225,16 +1260,25 @@ class PS_PAYLOAD:
         )
 
     set_pattern = functools.partialmethod(set, PayloadType.PATTERN)
-    """Set payload type to Pattern.
+    """Set payload type to the custom pattern.
     """
-    set_incrementing = functools.partialmethod(set, PayloadType.INCREMENTING)
-    """Set payload type to Incrementing.
+    set_inc_byte = functools.partialmethod(set, PayloadType.INC8)
+    """Set payload type to Incrementing 0xFF (8-bit mode).
     """
     set_prbs = functools.partialmethod(set, PayloadType.PRBS)
     """Set payload type to PRBS.
     """
     set_random = functools.partialmethod(set, PayloadType.RANDOM)
     """Set payload type to Random.
+    """
+    set_dec_byte = functools.partialmethod(set, PayloadType.DEC8)
+    """Set payload type to Decrementing 0xFF (8-bit mode).
+    """
+    set_inc_word = functools.partialmethod(set, PayloadType.INC16)
+    """Set payload type to Incrementing 0xFFFF (16-bit mode).
+    """
+    set_dec_word = functools.partialmethod(set, PayloadType.DEC16)
+    """Set payload type to Decrementing 0xFFFF (16-bit mode).
     """
 
 
@@ -1621,8 +1665,9 @@ class PS_MODIFIEREXT:
         that a certain number of identical packets are transmitted before applying the
         next modification.
 
-        :return: the byte position from the start of the packet. Cannot be < 1!, the mask specifying which bits to affect, which action to perform on the affected bits,
-        and how many times to repeat on each packet. Note: For now the only value supported is 1.
+        :return: the byte position from the start of the packet. Cannot be < 1!,
+            the mask specifying which bits to affect, which action to perform on the affected bits,
+            and how many times to repeat on each packet. Note: For now the only value supported is 1.
         :rtype: PS_MODIFIEREXT.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._stream_xindex, self._modifier_xindex]))

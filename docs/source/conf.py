@@ -112,7 +112,7 @@ extensions = [
 
 # 'mixed': Display the signature with the class name.
 # 'separated': Display the signature with the class name
-autodoc_class_signature = 'mixed'
+autodoc_class_signature = 'separated'
 
 # This value selects what content will be inserted into the main body of an autoclass directive. The possible values are:
 # "class", "both", "init"
@@ -123,6 +123,13 @@ autoclass_content = 'class'
 # 'none' – Do not show typehints
 # 'both' – Show typehints in the signature and as content of the function or method
 autodoc_typehints = 'description'
+
+# This value controls whether the types of undocumented parameters and return values are documented when autodoc_typehints is set to description.
+# The default value is "all", meaning that types are documented for all parameters and return values, whether they are documented or not.
+# When set to "documented", types will only be documented for a parameter or a return value that is already documented by the docstring.
+
+# With "documented_params", parameter types will only be annotated if the parameter is documented in the docstring. The return type is always annotated (except if it is None).
+autodoc_typehints_description_target = 'documented'
 
 # 'fully-qualified' – Show the module name and its name of typehints
 # 'short' – Suppress the leading module names of the typehints (ex. io.StringIO -> StringIO)
@@ -149,7 +156,19 @@ autodoc_default_options = {
 # Useful for avoiding ambiguity when the same section heading appears in different documents.
 autosectionlabel_prefix_document = True
 
+# -- autosummary configuration
 
+# A boolean flag indicating whether to document classes and functions imported in modules.
+autosummary_imported_members = True
+
+# If False and a module has the __all__ attribute set, autosummary documents every member listed in __all__ and no others.
+autosummary_ignore_module_all = False
+
+# Boolean indicating whether to scan all found documents for autosummary directives, and to generate stub pages for each.
+autosummary_generate = True
+
+# If true, autosummary overwrites existing files by generated stub pages.
+autosummary_generate_overwrite = False
 
 
 

@@ -47,7 +47,8 @@ class PcsPmaAlarms:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.errors = PP_ALARMS_ERRORS(conn, module_id, port_id)
         """Error count of each alarm on a L23 high-speed port.
-        Representation of PP_ALARMS_ERRORS
+        
+        :type: PP_ALARMS_ERRORS
         """
 
 
@@ -57,12 +58,14 @@ class PcsPmaTransceiver:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.tx_laser_power = PP_TXLASERPOWER(conn, module_id, port_id)
         """Power of TX laser.
-        Representation of PP_TXLASERPOWER
+        
+        :type: PP_TXLASERPOWER
         """
 
         self.rx_laser_power = PP_RXLASERPOWER(conn, module_id, port_id)
         """Power of RX laser.
-        Representation of PP_RXLASERPOWER
+        
+        :type: PP_RXLASERPOWER
         """
 
 
@@ -72,17 +75,20 @@ class PcsPmaRxLaneStatus:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, lane_idx: int) -> None:
         self.errors = PP_RXLANEERRORS(conn, module_id, port_id, lane_idx)
         """RX lane error statistics.
-        Representation of PP_RXLANEERRORS
+        
+        :type: PP_RXLANEERRORS
         """
 
         self.lock = PP_RXLANELOCK(conn, module_id, port_id, lane_idx)
         """RX lane lock.
-        Representation of PP_RXLANELOCK
+        
+        :type: PP_RXLANELOCK
         """
 
         self.status = PP_RXLANESTATUS(conn, module_id, port_id, lane_idx)
         """RX lane status
-        Representation of PP_RXLANESTATUS
+        
+        :type: PP_RXLANESTATUS
         """
 
 
@@ -92,12 +98,14 @@ class PcsPmaTxErrorGeneration:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.error_rate = PP_TXERRORRATE(conn, module_id, port_id)
         """The rate of continuous bit-level error injection.
-        Representation of PP_TXERRORRATE
+        
+        :type: PP_TXERRORRATE
         """
 
         self.inject_one = PP_TXINJECTONE(conn, module_id, port_id)
         """Inject a single bit-level error.
-        Representation of PP_TXINJECTONE
+        
+        :type: PP_TXINJECTONE
         """
 
 
@@ -107,17 +115,20 @@ class PcsPmaRx:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.total_status = PP_RXTOTALSTATS(conn, module_id, port_id)
         """RX FEC total counters.
-        Representation of PP_RXTOTALSTATS
+        
+        :type: PP_RXTOTALSTATS
         """
 
         self.fec_status = PP_RXFECSTATS(conn, module_id, port_id)
         """RX FEC statistics.
-        Representation of PP_RXFECSTATS
+        
+        :type: PP_RXFECSTATS
         """
 
         self.clear = PP_RXCLEAR(conn, module_id, port_id)
         """Clear all the PCS/PMA receiver statistics.
-        Representation of PP_RXCLEAR
+        
+        :type: PP_RXCLEAR
         """
 
 
@@ -127,17 +138,20 @@ class PcsPmaPhy:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.auto_neg = PP_PHYAUTONEG(conn, module_id, port_id)
         """ Auto-negotiation settings of the PHY.
-        Representation of PP_PHYAUTONEG
+        
+        :type: PP_PHYAUTONEG
         """
 
         self.signal_status = PP_PHYSIGNALSTATUS(conn, module_id, port_id)
         """The PHY signal status.
-        Representation of PP_PHYSIGNALSTATUS
+        
+        :type: PP_PHYSIGNALSTATUS
         """
 
         self.settings = PP_PHYSETTINGS(conn, module_id, port_id)
         """Low-level PHY settings
-        Representation of PP_PHYSETTINGS
+        
+        :type: PP_PHYSETTINGS
         """
 
 
@@ -151,12 +165,14 @@ class Lane:
 
         self.tx_error_inject = PP_TXLANEINJECT(conn, module_id, port_id, lane_idx)
         """Inject CAUI error into a TX lane.
-        Representation of PP_TXLANEINJECT
+        
+        :type: PP_TXLANEINJECT
         """
 
         self.tx_config = PP_TXLANECONFIG(conn, module_id, port_id, lane_idx)
         """TX lane configuration.
-        Representation of PP_TXLANECONFIG
+        
+        :type: PP_TXLANECONFIG
         """
 
 
@@ -168,19 +184,34 @@ class PcsPma:
         self.__port = port
 
         self.alarms = PcsPmaAlarms(conn, *port.kind)
-        """PCS/PMA alarms"""
+        """PCS/PMA alarms
+        
+        :type: PcsPmaAlarms
+        """
 
         self.transceiver = PcsPmaTransceiver(conn, *port.kind)
-        """PCS/PMA transceiver"""
+        """PCS/PMA transceiver
+        
+        :type: PcsPmaTransceiver
+        """
 
         self.error_gen = PcsPmaTxErrorGeneration(conn, *port.kind)
-        """PCS/PMA error generation"""
+        """PCS/PMA error generation
+        
+        :type: PcsPmaTxErrorGeneration
+        """
 
         self.rx = PcsPmaRx(conn, *port.kind)
-        """PCS/PMA RX"""
+        """PCS/PMA RX
+        
+        :type: PcsPmaRx
+        """
 
         self.phy = PcsPmaPhy(conn, *port.kind)
-        """PCS/PMA PHY"""
+        """PCS/PMA PHY
+        
+        :type: PcsPmaPhy
+        """
 
         self.lanes: Tuple["Lane", ...] = tuple(
             Lane(self._conn, *self.__port.kind, lane_idx=idx)
@@ -194,17 +225,20 @@ class PRBSConfig:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.type = PP_PRBSTYPE(conn, module_id, port_id)
         """PRBS type used when in PRBS mode.
-        Representation of PP_PRBSTYPE
+        
+        :type: PP_PRBSTYPE
         """
 
         self.tx_type = PP_TXPRBSTYPE(conn, module_id, port_id)
         """TX PRBS type used when in PRBS mode.
-        Representation of PP_TXPRBSTYPE
+        
+        :type: PP_TXPRBSTYPE
         """
 
         self.rx_type = PP_RXPRBSTYPE(conn, module_id, port_id)
         """RX PRBS type used when in PRBS mode.
-        Representation of PP_RXPRBSTYPE
+        
+        :type: PP_RXPRBSTYPE
         """
 
 
@@ -218,27 +252,32 @@ class SDEyeDiagram:
         self.__serdes_index = serdes_xindex
         self.measure = PP_EYEMEASURE(conn, module_id, port_id, serdes_xindex)
         """BER eye measurement.
-        Representation of PP_EYEMEASURE
+        
+        :type: PP_EYEMEASURE
         """
 
         self.resolution = PP_EYERESOLUTION(conn, module_id, port_id, serdes_xindex)
         """Resolution for BER eye measurement.
-        Representation of PP_EYERESOLUTION
+        
+        :type: PP_EYERESOLUTION
         """
 
         self.info = PP_EYEINFO(conn, module_id, port_id, serdes_xindex)
         """Information of BER eye measurement.
-        Representation of PP_EYEINFO
+        
+        :type: PP_EYEINFO
         """
 
         self.ber = PP_EYEBER(conn, module_id, port_id, serdes_xindex)
         """BER estimation of an eye diagram.
-        Representation of PP_EYEBER
+        
+        :type: PP_EYEBER
         """
 
         self.dwell_bits = PP_EYEDWELLBITS(conn, module_id, port_id, serdes_xindex)
         """Dwell bits for an eye capture.
-        Representation of PP_EYEDWELLBITS
+        
+        :type: PP_EYEDWELLBITS
         """
 
     def __await__(self):
@@ -265,22 +304,26 @@ class SDPhy:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, serdes_xindex: int) -> None:
         self.tx_equalizer = PP_PHYTXEQ(conn, module_id, port_id, serdes_xindex)
         """Equalizer settings of the on-board PHY in the TX direction.
-        Representation of PP_PHYTXEQ
+        
+        :type: PP_PHYTXEQ
         """
 
         self.rx_equalizer = PP_PHYRXEQ(conn, module_id, port_id, serdes_xindex)
         """Equalizer settings of the on-board PHY in the RX direction.
-        Representation of PP_PHYRXEQ
+        
+        :type: PP_PHYRXEQ
         """
 
         self.retune = PP_PHYRETUNE(conn, module_id, port_id, serdes_xindex)
         """Retuning of the PHY.
-        Representation of PP_PHYRETUNE
+        
+        :type: PP_PHYRETUNE
         """
 
         self.autotune = PP_PHYAUTOTUNE(conn, module_id, port_id, serdes_xindex)
         """Autotune of the PHY.
-        Representation of PP_PHYAUTOTUNE
+        
+        :type: PP_PHYAUTOTUNE
         """
 
 
@@ -290,12 +333,14 @@ class Prbs:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, serdes_xindex: int) -> None:
         self.tx_config = PP_TXPRBSCONFIG(conn, module_id, port_id, serdes_xindex)
         """TX PRBS configuration of a SerDes.
-        Representation of PP_TXPRBSCONFIG
+        
+        :type: PP_TXPRBSCONFIG
         """
 
         self.status = PP_RXPRBSSTATUS(conn, module_id, port_id, serdes_xindex)
         """RX PRBS status on a SerDes
-        Representation of PP_RXPRBSSTATUS
+        
+        :type: PP_RXPRBSSTATUS
         """
 
 
@@ -304,13 +349,22 @@ class SerDes:
 
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, serdes_xindex: int) -> None:
         self.prbs = Prbs(conn, module_id, port_id, serdes_xindex)
-        """PRBS configuration"""
+        """PRBS configuration
+        
+        :type: Prbs
+        """
 
         self.phy = SDPhy(conn, module_id, port_id, serdes_xindex)
-        """PHY configuration"""
+        """PHY configuration
+        
+        :type: SDPhy
+        """
 
         self.eye_diagram = SDEyeDiagram(conn, module_id, port_id, serdes_xindex)
-        """Eye diagram"""
+        """Eye diagram
+        
+        :type: SDEyeDiagram
+        """
 
     def __await__(self):
         return self._setup().__await__()

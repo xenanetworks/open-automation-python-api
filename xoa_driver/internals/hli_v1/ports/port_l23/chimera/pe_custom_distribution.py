@@ -26,17 +26,20 @@ class CustomDistribution:
         self.__cdi = custom_distribution_index
         self.definition = PEC_VAL(conn, module_id, port_id, custom_distribution_index)
         """Custom distribution definition.
-        Representation of PEC_VAL
+        
+        :type: PEC_VAL
         """
 
         self.comment = PEC_COMMENT(conn, module_id, port_id, custom_distribution_index)
         """Custom distribution description.
-        Representation of PEC_COMMENT
+        
+        :type: PEC_COMMENT
         """
 
         self.type = PEC_DISTTYPE(conn, module_id, port_id, custom_distribution_index)
         """Custom distribution type.
-        Representation of PEC_DISTTYPE
+        
+        :type: PEC_DISTTYPE
         """
 
     async def delete(self) -> None:

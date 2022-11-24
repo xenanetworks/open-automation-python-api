@@ -49,7 +49,7 @@ class MFreya800G1S1P_a(ModuleFamilyL1):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Freya-800G-1S-1P[a]"""
+        """Port Index Manager of Freya-800G-1S-1P[a]"""
 
 
 @typing.final
@@ -64,7 +64,7 @@ class MFreya800G1S1P_b(ModuleFamilyL1):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Freya-800G-1S-1P[b]"""
+        """Port Index Manager of Freya-800G-1S-1P[b]"""
 
 
 @typing.final
@@ -79,7 +79,7 @@ class MFreya800G1S1POSFP_a(ModuleFamilyL1):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Freya-800G-1S-1P-OSFP[a]"""
+        """Port Index Manager of Freya-800G-1S-1P-OSFP[a]"""
 
 
 @typing.final
@@ -94,7 +94,7 @@ class MFreya800G4S1P_a(ModuleFamilyL1):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Freya-800G-4S-1P[a]"""
+        """Port Index Manager of Freya-800G-4S-1P[a]"""
 
 
 @typing.final
@@ -109,7 +109,7 @@ class MFreya800G4S1POSFP_a(ModuleFamilyL1):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Freya-800G-4S-1P-OSFP[a]"""
+        """Port Index Manager of Freya-800G-4S-1P-OSFP[a]"""
 
 
 @typing.final
@@ -124,4 +124,4 @@ class MFreya800G4S1P_b(ModuleFamilyL1):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Freya-800G-4S-1P[b]"""
+        """Port Index Manager of Freya-800G-4S-1P[b]"""

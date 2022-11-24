@@ -17,8 +17,9 @@ if typing.TYPE_CHECKING:
 
 class ModuleL23VE(bm.BaseModule["modules_state.ModuleLocalState"]):
     """
-    Representation of a L23 test module on virtual tester.
+    This is a conceptual class of L23 test module on ValkyrieVE tester.
     """
+
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
 
@@ -26,15 +27,20 @@ class ModuleL23VE(bm.BaseModule["modules_state.ModuleLocalState"]):
 
         self.comment = M_COMMENT(conn, self.module_id)
         """Test module's description.
-        Representation of M_COMMENT
+        
+        :type: M_COMMENT
         """
+
         self.capabilities = M_CAPABILITIES(conn, self.module_id)
         """Test module's capabilities.
-        Representation of M_CAPABILITIES
+        
+        :type: M_CAPABILITIES
         """
+
         self.multiuser = M_MULTIUSER(conn, self.module_id)
         """If multiple users are allowed to control the same test module.
-        Representation of M_MULTIUSER
+        
+        :type: M_MULTIUSER
         """
 
         self.ports: pm.PortsManager[ports.PortL23VE] = pm.PortsManager(
@@ -43,10 +49,19 @@ class ModuleL23VE(bm.BaseModule["modules_state.ModuleLocalState"]):
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """L23 VE Port index manager of this test module."""
+        """L23 VE Port index manager of this test module.
+        
+        :type: PortsManager
+        """
 
     @property
     def info(self) -> modules_state.ModuleLocalState:
+        """Return the module's local state
+
+        :return: the module's local state
+        :rtype: ModuleLocalState
+        """
+
         return self._local_states
 
     async def _setup(self) -> Self:

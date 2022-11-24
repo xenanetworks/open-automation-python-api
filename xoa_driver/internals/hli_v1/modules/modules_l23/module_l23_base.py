@@ -47,17 +47,20 @@ class TXClock:
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.source = M_TXCLOCKSOURCE_NEW(conn, module_id)
         """The source that drives the TX clock rate of the ports on the test module.
-        Representation of M_TXCLOCKSOURCE_NEW
+
+        :type: M_TXCLOCKSOURCE_NEW
         """
 
         self.status = M_TXCLOCKSTATUS_NEW(conn, module_id)
         """TX clock status of the test module.
-        Representation of M_TXCLOCKSTATUS_NEW
+        
+        :type: M_TXCLOCKSTATUS_NEW
         """
 
         self.filter = M_TXCLOCKFILTER_NEW(conn, module_id)
         """Loop bandwidth on the TX clock filter of the test module.
-        Representation of M_TXCLOCKFILTER_NEW
+
+        :type: M_TXCLOCKFILTER_NEW
         """
 
 
@@ -66,17 +69,20 @@ class SMA:
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.input = M_SMAINPUT(conn, module_id)
         """SMA input of the test module.
-        Representation of M_SMAINPUT
+
+        :type: M_SMAINPUT
         """
 
         self.output = M_SMAOUTPUT(conn, module_id)
         """SMA output of the test module.
-        Representation of M_SMAOUTPUT
+
+        :type: M_SMAOUTPUT
         """
 
         self.status = M_SMASTATUS(conn, module_id)
         """SMA input status of the test module.
-        Representation of M_SMASTATUS
+
+        :type: M_SMASTATUS
         """
 
 
@@ -85,10 +91,14 @@ class AdvancedTiming:
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.clock_tx = TXClock(conn, module_id)
         """Advanced timing clock config and status
+
+        :type: TXClock
         """
 
         self.sma = SMA(conn, module_id)
         """SMA connector
+
+        :type: SMA
         """
 
 
@@ -97,36 +107,43 @@ class CFP:
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.type = M_CFPTYPE(conn, module_id)
         """The transceiver's CFP type currently inserted.
-        Representation of M_CFPTYPE
+
+        :type: M_CFPTYPE
         """
 
         self.config = M_CFPCONFIG(conn, module_id)
         """The CFP configuration of the test module.
-        Representation of M_CFPCONFIG
+
+        :type: M_CFPCONFIG
         """
 
         self.config_extended = M_CFPCONFIGEXT(conn, module_id)
         """The extended CFP configuration of the test module.
-        Representation of M_CFPCONFIGEXT
+
+        :type: M_CFPCONFIGEXT
         """
 
 
 class MTiming:
     """Test module timing and clock configuration"""
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.source = M_TIMESYNC(conn, module_id)
         """Timing source of the test module.
-        Representation of M_TIMESYNC
+
+        :type: M_TIMESYNC
         """
 
         self.clock_local_adjust = M_CLOCKPPB(conn, module_id)
         """Time adjustment controlling of the local clock of the test module, which drives the TX rate of the test ports.
-        Representation of M_CLOCKPPB
+        
+        :type: M_CLOCKPPB
         """
 
         self.clock_sync_status = M_CLOCKSYNCSTATUS(conn, module_id)
         """Test module's clock sync status.
-        Representation of M_CLOCKSYNCSTATUS
+
+        :type: M_CLOCKSYNCSTATUS
         """
 
 
@@ -135,23 +152,27 @@ class MUpgrade:
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.start = M_UPGRADE(conn, module_id)
         """Start the upgrade progress of the test module.
-        Representation of M_UPGRADE
+
+        :type: M_UPGRADE
         """
 
         self.progress = M_UPGRADEPROGRESS(conn, module_id)
         """Upgrade progress status of the test module.
-        Representation of M_UPGRADEPROGRESS
+
+        :type: M_UPGRADEPROGRESS
         """
 
         self.reload_image = M_FPGAREIMAGE(conn, module_id)
         """Reload the FPGA image of the test module.
-        Representation of M_FPGAREIMAGE
+
+        :type: M_FPGAREIMAGE
         """
 
 
 class ModuleL23(bm.BaseModule["modules_state.ModuleL23LocalState"]):
     """
-    Representation of a L23 test module on a physical tester.
+    This is a conceptual class of L23 test module on a Valkyrie tester.
+
     """
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
@@ -160,64 +181,89 @@ class ModuleL23(bm.BaseModule["modules_state.ModuleL23LocalState"]):
 
         self.name = M_NAME(conn, self.module_id)
         """Test module's name.
-        Representation of M_NAME
+
+        :type: M_NAME
         """
 
         self.comment = M_COMMENT(conn, self.module_id)
         """Test module's description.
-        Representation of M_COMMENT
+
+        :type: M_COMMENT
         """
 
         self.status = M_STATUS(conn, self.module_id)
         """Test module's status.
-        Representation of M_STATUS
+
+        :type: M_STATUS
         """
 
         self.media = M_MEDIA(conn, self.module_id)
-        """Test module's media configuration.
-        Representation of M_MEDIA
+        """Test module's media type.
+
+        :type: M_MEDIA
         """
 
         self.available_speeds = M_MEDIASUPPORT(conn, self.module_id)
         """Test module's available speeds.
-        Representation of M_MEDIASUPPORT
+
+        :type: M_MEDIASUPPORT
         """
 
         self.revision = M_REVISION(conn, self.module_id)
         """Test module's model P/N name.
-        Representation of M_REVISION
+
+        :type: M_REVISION
         """
 
         self.multiuser = M_MULTIUSER(conn, self.module_id)
         """If multiple users are allowed to control the same test module.
-        Representation of M_MULTIUSER
+
+        :type: M_MULTIUSER
         """
 
         self.capabilities = M_CAPABILITIES(conn, self.module_id)
         """Test module's capabilities.
-        Representation of M_CAPABILITIES
+
+        :type: M_CAPABILITIES
         """
 
         self.timing = MTiming(conn, self.module_id)
-        """Test module's timing configuration."""
+        """Test module's timing configuration.
+        
+        :type: MTiming
+        """
 
         self.advanced_timing = AdvancedTiming(conn, self.module_id)
-        """Test module's advanced timing ."""
+        """Test module's advanced timing configuration.
+        
+        :type: AdvancedTiming
+        """
 
         self.cfp = CFP(conn, self.module_id)
-        """Test module's CFP """
+        """Test module's CFP configuration.
+        
+        :type: CFP
+        """
 
         self.upgrade = MUpgrade(conn, self.module_id)
-        """Test module's upgrade.
+        """Test module's upgrade settings.
 
         :type: MUpgrade
         """
 
         self.ports: Optional[pm.PortsManager] = None
-        """L23 port index manager of the test module."""
+        """L23 Port Index Manager of the test module.
+        
+        :type: PortsManager
+        """
 
     @property
     def info(self) -> modules_state.ModuleL23LocalState:
+        """Return the module's local state
+
+        :return: the module's local state
+        :rtype: ModuleL23LocalState
+        """
         return self._local_states
 
     async def _setup(self) -> Self:
@@ -231,7 +277,7 @@ class ModuleL23(bm.BaseModule["modules_state.ModuleL23LocalState"]):
         return self
 
     on_cfp_type_change = functools.partialmethod(utils.on_event, M_CFPTYPE)
-    """Register a callback to the event that the module's CFP type changes."""
+    """Register a callback to the event that the module's CFP type (:class:`M_CFPTYPE`) changes."""
 
     on_cfp_config_change = functools.partialmethod(utils.on_event, M_CFPCONFIG)
     """Register a callback to the event that the module's CFP configuration changes."""

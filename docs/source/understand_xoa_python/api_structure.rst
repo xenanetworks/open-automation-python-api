@@ -3,7 +3,7 @@ API Structure
 
 XOA Python API consists of three layers on top of the Xena proprietary binary API, as shown below.
 
-    :term:`Utility (UTIL)<UTIL>` provides high-level abstraction functions.
+    :term:`High-level Functions (HL-FUNC)<HL-FUNC>` provides high-level abstraction functions
 
     :term:`High-Level API (HL-API)<HL-API>` provides object-oriented APIs.
 
@@ -13,63 +13,38 @@ XOA Python API consists of three layers on top of the Xena proprietary binary AP
     :scale: 100 %
     :align: center
 
-    XOA Python API Structure
+    XOA Python API Stack View
 
-.. rubric:: Utility
+Descriptions of each layer (from bottom to top) are shown below.
 
-UTIL provides high-level abstraction functions on top of the object-oriented APIs in HL-API, aiming to help you simplify code logics and increase readability and maintainability. UTIL consists of sub-libraries where functions are grouped based on functionalities, such as :term:`ANLT<ANLT>`. Complex operation sequences are wrapped inside high-level functions, e.g. initiating link training, reserving ports, etc.
+.. rubric:: Low-Level API
 
-UTIL can be used in two different ways:
-
-* Library Mode: you can import the Python library into your test scripts and use the functions.
-
-* Interactive Mode: an interactive shell for you to execute functions in a command-line fashion. This is very helpful when you need a command-line interface for interactive testing. 
-
-.. code-block:: python
-    
-    # Regardless of who owns the port, this function makes sure you have the ownership.
-    await port_reserve(port)
-
-    # Enable link training on the port, regardless what the sequence of operations should be.
-    await lt(port=port, enable=True, timeout_enable=True, mode="interactive")
+LL-API is the bottom layer containing **low-level command classes** that convert human-readable parameters to and from binary data to communicate testers. The names of the low-level command classes are the same as the the CLI commands in :term:`XOA CLI`. This makes it easy for you to understand and use LL-API if you are already familiar with XOA CLI.
 
 .. seealso::
 
-    Read more about :ref:`UTIL <util_label>`.
+    Read more about :doc:`llapi_guide`.
+
 
 .. rubric:: High-Level API
 
-HL-API uses the classes defined in LL-API and lets you quickly develop scripts or program in an **object-oriented** fashion with explicit definition of commands of different *tester*, *module*, *port* types. In addition, the HL-API layer provides functionalities such as:
+On top of LL-API's command clases, HL-API provides **object-oriented** APIs and lets you quickly develop scripts or programs in an **object-oriented** fashion with explicit definition of commands of different *tester*, *module*, *port* types.
+
+In addition, the HL-API layer provides functionalities such as:
 
     * :ref:`Auto connection keep-alive <session_label>`
     * :ref:`Auto index management <resource_managers_label>`
     * :ref:`Resources identification tracking for push notification <event_subscription_label>`
 
-For example, to reserve a port using HL-API:
+.. seealso::
 
-.. code-block:: python
-    
-    # Standard way with set(). This is only valid when the port is not reserved by others.
-    await port.reservation.set(operation=ReservedAction.RESERVE)
+    Read more about :doc:`hlapi_guide`.
 
-    # or wrapper function set_reserve()
-    await port.reservation.port.reservation.set_reserve()
+
+.. rubric:: High-Level Functions
+
+HL-FUNC provides **high-level abstraction** functions on top of the object-oriented APIs in HL-API, aiming to help you simplify code logics and increase readability and maintainability. HL-FUNC consists of sub-libraries where functions are grouped based on functionalities, such as :term:`ANLT<ANLT>`. Complex operation sequences are wrapped inside high-level functions, e.g. initiating link training, reserving ports, etc.
 
 .. seealso::
 
-    Read more about :ref:`HL-API <high_level_api_label>`.
-
-.. rubric:: Low-Level API
-
-LL-API contains low-level API classes, giving you the direct control of the tester. The names of the classes are the same as the the CLI commands in :term:`XOA CLI`, making it easy for you to understand the Python API if you are already familiar with XOA CLI. However, unlike HL-API, LL-API does not provide functionalities such as *auto connection keep-alive* and *auto index management*. This means you need to write more codes to handle those yourself.
-
-For example, to change the description of a tester using LL-API:
-
-.. code-block:: python
-    
-    # Directly using class P_RESERVATION. This is only valid when the port is not reserved by others.
-    await P_RESERVATION(handler).set(operation=ReservedAction.RESERVE)
-
-.. seealso::
-
-    Read more about :ref:`LL-API <low_level_api_label>`.
+    Read more about :doc:`hlfunc_guide`.

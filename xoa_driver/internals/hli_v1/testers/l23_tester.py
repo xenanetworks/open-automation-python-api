@@ -53,66 +53,115 @@ def get_module_type(revision: str) -> Type:
 
 class L23Tester(BaseTester["testers_state.GenuineTesterLocalState"]):
     """
-    Representation of a physical Xena Valkyrie Tester.
-    """
+    This is a conceptual class of Xena Valkyrie Tester.
+    It is essentially an extended :class:`BaseTester`.
 
+
+    :param host: tester's address/hostname
+    :type host: str
+    :param username: username of the user
+    :type username: str
+    :param password: login password of the tester, defaults to "xena"
+    :type password: str, optional
+    :param port: the port number for connection establishment, default to 22606
+    :type port: int, optional
+    :param debug: `True` if debug log output from the tester is needed, and `False` otherwise
+    :type debug: int, optional
+    """
+    
     def __init__(self, host: str, username: str, password: str = "xena", port: int = 22606, *, debug: bool = False) -> None:
         super().__init__(host=host, username=username, password=password, port=port, debug=debug)
-
+        
         self._local_states = testers_state.GenuineTesterLocalState(host, port)
-
+        
         self.management_interface = mi.ManagementInterface(self._conn)
-        """Tester management interface that includes IP address, DHCP, MAC address and hostname.
+        """
+        The management interface address configuration includes IP address, DHCP settings, MAC address and hostname.
+        
+        :type: ManagementInterface
         """
 
         self.upload_file = upload_file.UploadFile(self._conn)
-        """File upload functions of the tester.
+        """
+        File upload functions of the tester.
+
+        :type: UploadFile
         """
 
         self.rest_api_server = rest_api.RestApiServer(self._conn)
-        """REST API server of the tester.
+        """
+        REST API server of the tester.
+
+        :type: RestApiServer
         """
 
         self.time_keeper = time_keeper.TimeKeeper(self._conn)
-        """TimeKeeper of the tester.
+        """
+        TimeKeeper of the tester.
+
+        :type: TimeKeeper
         """
 
         self.multiuser = C_MULTIUSER(self._conn)
         """
-        Representation of C_MULTIUSER
+        Enable or disable the ability to control one resource from several different TCP
+        connections.
+
+        :type: C_MULTIUSER
         """
 
         self.traffic = C_TRAFFIC(self._conn)
         """
-        Representation of C_TRAFFIC
+        Starts or stops the traffic on a number of ports on the chassis simultaneously.
+        The ports are identified by pairs of integers (module port).
+
+        :type: C_TRAFFIC
         """
+
         self.traffic_sync = C_TRAFFICSYNC(self._conn)
         """
-        Representation of C_TRAFFICSYNC
+        This can be used to start traffic simultaneously on multiple chassis. The ports are identified by pairs of integers (module port).
+
+        :type: C_TRAFFICSYNC
         """
+        
         self.version_no_minor = C_VERSIONNO_MINOR(self._conn)
         """
-        Representation of C_VERSIONNO_MINOR
+        Get the minor version number of the tester firmware.
+
+        :type: C_VERSIONNO_MINOR
         """
+
         self.build_string = C_BUILDSTRING(self._conn)
         """
-        Representation of C_BUILDSTRING
+        Identify the hostname of the PC that builds the xenaserver. It uniquely identifies the build of a xenaserver.
+
+        :type: C_BUILDSTRING
         """
+
         self.modules: TypeL23Manager = ModulesManager(self._conn, get_module_type)
         """
-        Module index manager of the L23 tester.
-        """
+        Module Index Manager of the L23 tester.
 
+        :type: ModulesManager
+        """
+    
     @property
     def info(self) -> testers_state.GenuineTesterLocalState:
-        return self._local_states
+        """Return tester's local state
 
+        :return: tester's local state
+        :rtype: GenuineTesterLocalState
+        """
+        return self._local_states
+    
     async def _setup(self):
         await super()._setup()
         await self._local_states.initiate(self)
         self._local_states.register_subscriptions(self)
-
+        
         ft_pc = await C_PORTCOUNTS(self._conn).get()
         port_counts = ft_pc.port_counts
         await self.modules.fill_l23(port_counts)
         return self
+

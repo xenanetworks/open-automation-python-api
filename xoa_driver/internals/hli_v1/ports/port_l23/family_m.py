@@ -13,7 +13,8 @@ class FamilyM(BasePortL23Genuine):
         super().__init__(conn, module_id, port_id)
         self.brr_mode = P_BRRMODE(conn, module_id, port_id)
         """BRR mode.
-        Representation of P_BRRMODE
+        
+        :type: P_BRRMODE
         """
 
 

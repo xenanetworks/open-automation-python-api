@@ -41,12 +41,14 @@ class SpeedMode:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.selection = P_SPEEDSELECTION(conn, module_id, port_id)
         """L23 port speed mode selection.
-        Representation of P_SPEEDSELECTION
+        
+        :type: P_SPEEDSELECTION
         """
 
         self.supported = P_SPEEDS_SUPPORTED(conn, module_id, port_id)
         """L23 port's supported speed modes.
-        Representation of P_SPEEDS_SUPPORTED
+        
+        :type: P_SPEEDS_SUPPORTED
         """
 
 
@@ -63,12 +65,14 @@ class UnAvailableTime:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.mode = P_UAT_MODE(conn, module_id, port_id)
         """L23 port's Unavailable Time mode.
-        Representation of P_UAT_MODE
+        
+        :type: P_UAT_MODE
         """
 
         self.frame_loss_ratio = P_UAT_FLR(conn, module_id, port_id)
         """L23 port's Frame Loss Ratio for UAT.
-        Representation of P_UAT_FLR
+        
+        :type: P_UAT_FLR
         """
 
 
@@ -93,43 +97,56 @@ class BasePortL23Genuine(BasePortL23):
 
         self.flash = P_FLASH(conn, module_id, port_id)
         """L23 port flashes.
-        Representation of P_FLASH
+        
+        :type: P_FLASH
         """
 
         self.status = P_STATUS(conn, module_id, port_id)
         """L23 port's received optical signal level'.
-        Representation of P_STATUS
+        
+        :type: P_STATUS
         """
 
         self.config_load_mode = P_LOADMODE(conn, module_id, port_id)
         """Chimera Port loading mode.
-        Representation of P_LOADMODE
+        
+        :type: P_LOADMODE
         """
 
         self.tcvr_status = P_TCVRSTATUS(conn, module_id, port_id)
         """L23 port transceiver status information.
-        Representation of P_TCVRSTATUS
+        
+        :type: P_TCVRSTATUS
         """
 
         self.fec_mode = PP_FECMODE(conn, module_id, port_id)
         """L23 port FEC mode.
-        Representation of PP_FECMODE
+        
+        :type: PP_FECMODE
         """
 
         self.speed = GenuineSpeed(conn, module_id, port_id)
         """L23 port speed configuration.
+
+        :type: GenuineSpeed
         """
 
         self.uat = UnAvailableTime(conn, module_id, port_id)
         """L23 port UnAvailable Time configuration.
+
+        :type: UnAvailableTime
         """
 
         self.transceiver = PortTransceiver(conn, module_id, port_id)
         """L23 port transceiver configuration.
+
+        :type: PortTransceiver
         """
 
         self.statistics = PortStatistics(conn, module_id, port_id)
         """L23 port statistics.
+
+        :type: PortStatistics
         """
 
         self.streams: StreamIndices = idx_mgr.IndexManager(
@@ -139,6 +156,8 @@ class BasePortL23Genuine(BasePortL23):
             port_id
         )
         """L23 port stream index manager.
+
+        :type: StreamIndices
         """
 
         self.filters: FilterIndices = idx_mgr.IndexManager(
@@ -148,6 +167,8 @@ class BasePortL23Genuine(BasePortL23):
             port_id
         )
         """L23 port filter index manager.
+
+        :type: FilterIndices
         """
 
         self.datasets: PortDatasetIndices = idx_mgr.IndexManager(
@@ -157,6 +178,8 @@ class BasePortL23Genuine(BasePortL23):
             port_id
         )
         """L23 port histogram index manager.
+
+        :type: PortDatasetIndices
         """
 
     @property

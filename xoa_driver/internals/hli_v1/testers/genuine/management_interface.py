@@ -16,23 +16,27 @@ class ManagementInterface:
         self.ip_address = C_IPADDRESS(conn)
         """
         Chassis management port IP address configuration.
-        Representation of C_IPADDRESS
+        
+        :type: C_IPADDRESS
         """
 
         self.dhcp = C_DHCP(conn)
         """
         Chassis management port IP address configuration with DHCP.
-        Representation of C_DHCP
+                
+        :type: C_DHCP
         """
 
         self.macaddress = C_MACADDRESS(conn)
         """
         Chassis management port MAC address.
-        Representation of C_MACADDRESS
+                
+        :type: C_MACADDRESS
         """
 
         self.hostname = C_HOSTNAME(conn)
         """
-        Chassis management hostname.
-        Representation of C_HOSTNAME
+        Chassis hostname.
+                
+        :type: C_HOSTNAME
         """

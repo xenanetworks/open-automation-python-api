@@ -1128,6 +1128,13 @@ class C_INDICES:
 
     @dataclass(frozen=True)
     class GetDataAttr:
+        """Returned data structure.
+
+        Attributes:
+
+        :attr session_ids: the session indices for all current sessions on the chassis
+        :type session_ids: List[int]
+        """
         session_ids: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)  # list of integers, the session indices for all current sessions on the chassis.
 
     def get(self) -> "Token[GetDataAttr]":
@@ -1811,21 +1818,22 @@ class C_TKSTATUSEXT:
 
         :return: extended status in JSON format. The string is formatted as shown in the example below.
 
-        ```json
-        {
-            "FormatVersion": 1,
-            "ApplicationVersion": 452.0,
-            "TimeKeeperStatus": {
-                "systemtimingstatus": "Waiting for good time source",
-                "syncsource": "NTP",
-                "sourcestate": "NTP server 10.0.0.110",
-                "versioninfo": "8.0.3",
-                "timesincestart": "0 day(s) 0 hours 1 minutes",
-                "timesinceboot": "0 day(s) 0 hours 2 minutes",
-                "updatetime": 1637916837
-            }
-        }
-        ```
+            .. code-block::json
+            
+                {
+                    "FormatVersion": 1,
+                    "ApplicationVersion": 452.0,
+                    "TimeKeeperStatus": {
+                        "systemtimingstatus": "Waiting for good time source",
+                        "syncsource": "NTP",
+                        "sourcestate": "NTP server 10.0.0.110",
+                        "versioninfo": "8.0.3",
+                        "timesincestart": "0 day(s) 0 hours 1 minutes",
+                        "timesinceboot": "0 day(s) 0 hours 2 minutes",
+                        "updatetime": 1637916837
+                    }
+                }
+            
 
         :rtype: C_TKSTATUSEXT.GetDataAttr
         """

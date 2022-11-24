@@ -19,6 +19,8 @@ from .pcs_pma_ghijkl import (
 
 
 class PcsPma(PcsPma1, PcsPma2):
+    """PCS/PMA layer for Family I
+    """
     def __init__(self, conn: "itf.IConnection", port) -> None:
         PcsPma1.__init__(self, conn, port)
         PcsPma2.__init__(self, conn, port)
@@ -30,12 +32,14 @@ class Fault:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.signaling = P_FAULTSIGNALING(conn, module_id, port_id)
         """L23 port fault signaling.
-        Representation of P_FAULTSIGNALING
+        
+        :type: P_FAULTSIGNALING
         """
 
         self.status = P_FAULTSTATUS(conn, module_id, port_id)
         """L23 port fault status.
-        Representation of P_FAULTSTATUS
+        
+        :type: P_FAULTSTATUS
         """
 
 
@@ -44,7 +48,8 @@ class FamilyI(BasePortL23Genuine):
         super().__init__(conn, module_id, port_id)
         self.dynamic = P_DYNAMIC(conn, module_id, port_id)
         """L23 port's dynamic traffic change.
-        Representation of P_DYNAMIC
+        
+        :type: P_DYNAMIC
         """
 
     async def _setup(self) -> Self:

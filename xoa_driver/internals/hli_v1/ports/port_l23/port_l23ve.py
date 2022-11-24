@@ -26,15 +26,21 @@ class Engine:
         ...
 
 
-class PortStatistics:
+class L23VEPortStatistics:
     """L23 VE port statistics"""
 
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.rx = PortReceptionStatistics(conn, module_id, port_id)
-        """L23 VE port's RX statistics."""
+        """L23 VE port's RX statistics.
+        
+        :type: PortReceptionStatistics
+        """
 
-        self.rx = PortTransmissionStatistics(conn, module_id, port_id)
-        """L23 VE port's TX statistics."""
+        self.tx = PortTransmissionStatistics(conn, module_id, port_id)
+        """L23 VE port's TX statistics.
+        
+        :type: PortTransmissionStatistics
+        """
 
 
 class PortL23VE(BasePortL23):
@@ -47,13 +53,21 @@ class PortL23VE(BasePortL23):
 
         self.mdix_mode = P_MDIXMODE(conn, module_id, port_id)
         """MDI/MDIX mode.
-        Representation of P_MDIXMODE
+        
+        :type: P_MDIXMODE
         """
 
         self.engine = Engine(conn, module_id, port_id)
-        """Engine is not supported yet."""
+        """Engine is not supported yet.
+        
+        :type: Engine
+        """
 
-        self.statistics = PortStatistics(conn, module_id, port_id)
+        self.statistics = L23VEPortStatistics(conn, module_id, port_id)
+        """Port statistics.
+
+        :type: L23VEPortStatistics
+        """
 
         self.streams: VEStreamIndices = idx_mgr.IndexManager(
             conn,
@@ -61,7 +75,10 @@ class PortL23VE(BasePortL23):
             module_id,
             port_id
         )
-        """L23 VE port's stream index manager."""
+        """L23 VE port's stream index manager.
+        
+        :type: VEStreamIndices
+        """
 
         self.filters: VEFilterIndices = idx_mgr.IndexManager(
             conn,
@@ -69,7 +86,10 @@ class PortL23VE(BasePortL23):
             module_id,
             port_id
         )
-        """L23 VE port's filter index manager."""
+        """L23 VE port's filter index manager.
+        
+        :type: VEFilterIndices
+        """
 
     @property
     def info(self) -> ports_state.PortL23LocalState:

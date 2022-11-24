@@ -15,6 +15,13 @@ from xoa_driver.internals.utils import attributes as utils
 
 
 class TesterLocalState:
+    """Tester local state
+
+    :param host: tester's address/hostname
+    :type host: str
+    :param port: the port number for connection establishment
+    :type port: int
+    """
     __slots__ = (
         "host",
         "port",
@@ -68,6 +75,13 @@ class TesterLocalState:
 
 
 class GenuineTesterLocalState(TesterLocalState):
+    """Genuine Tester Local State, extension of :class:`TesterLocalState`
+
+    :param host: tester's address/hostname
+    :type host: str
+    :param port: the port number for connection establishment
+    :type port: int
+    """
     __slots__ = ("build_string",)
 
     def __init__(self, host: str, port: int) -> None:

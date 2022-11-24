@@ -408,3 +408,10 @@ PS_PFCPRIORITY
     :exclude-members: GetDataAttr, SetDataAttr
 
 
+PS_AUTOADJUST
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: PS_AUTOADJUST
+    :members:
+    :no-undoc-members:
+    :exclude-members: GetDataAttr, SetDataAttr

@@ -28,6 +28,7 @@ The target audience of this document is test specialists who develop and run aut
    getting_started/index
    test_resource_mgt
    understand_xoa_python/index
+   command_grouping
    code_example/index
    api_ref/index   
    glossary

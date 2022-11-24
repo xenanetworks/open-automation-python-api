@@ -49,9 +49,9 @@ Now we have two ports ready to configure. Let's start creating a stream on the T
     :language: python
     :lines: 45-60
 
-The ``await utils.apply()`` lets us group several commands bound for the same port into a larger "command". This is called :doc:`Sequential Grouping </understand_xoa_python/command_grouping>`.
+The ``await utils.apply()`` lets us group several commands bound for the same port into a larger "command". This is called :doc:`Sequential Grouping </command_grouping>`.
 
-Then, we want to clear the statistics counters of both TX and RX ports. We can use :doc:`Parallel Grouping </understand_xoa_python/command_grouping>` to group commands bound for different ports into a larger "command".
+Then, we want to clear the statistics counters of both TX and RX ports. We can use :doc:`Parallel Grouping </command_grouping>` to group commands bound for different ports into a larger "command".
 
 .. literalinclude:: quick_start.py
     :language: python
