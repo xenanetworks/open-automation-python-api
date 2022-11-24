@@ -24,9 +24,9 @@
 
     .. autosummary::
     
-        ~PacketEngine.assign
-        ~PacketEngine.available
-        ~PacketEngine.allocate
-        ~PacketEngine.allocation_info
+        ~xoa_driver.internals.hli_v1.ports.port_l47.packet_engine.PacketEngine.assign
+        ~xoa_driver.internals.hli_v1.ports.port_l47.packet_engine.PacketEngine.available
+        ~xoa_driver.internals.hli_v1.ports.port_l47.packet_engine.PacketEngine.allocate
+        ~xoa_driver.internals.hli_v1.ports.port_l47.packet_engine.PacketEngine.allocation_info
     
     

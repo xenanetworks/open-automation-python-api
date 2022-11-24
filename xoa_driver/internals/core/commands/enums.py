@@ -1121,8 +1121,10 @@ class LinkTrainingMode(IntEnum):
 
 class PAM4FrameSize(IntEnum):
     """PAM4 Frame Size"""
-    N16K_FRAME = 0
-    N4K_FRAME = 1
+    P16K_FRAME = 0
+    """16K Frame Size"""
+    P4K_FRAME = 1
+    """4K Frame Size"""
 
 
 class LinkTrainingInitCondition(IntEnum):

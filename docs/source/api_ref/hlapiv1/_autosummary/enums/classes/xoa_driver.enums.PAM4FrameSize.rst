@@ -19,7 +19,7 @@
 
     .. autosummary::
     
-        ~PAM4FrameSize.N16K_FRAME
-        ~PAM4FrameSize.N4K_FRAME
+        ~PAM4FrameSize.P16K_FRAME
+        ~PAM4FrameSize.P4K_FRAME
     
     

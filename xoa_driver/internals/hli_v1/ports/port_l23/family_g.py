@@ -27,7 +27,7 @@ class FamilyG(BasePortL23Genuine):
         self.pcs_pma = PcsPma(conn, self)
         """PCS/PMA settings.
         
-        :type: PcsPma
+        :type: ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_ghijkl.PcsPma
         """
 
     async def _setup(self) -> Self:

@@ -24,8 +24,8 @@
 
     .. autosummary::
     
-        ~PacketEngine.license_info
-        ~PacketEngine.reserve
-        ~PacketEngine.mode
+        ~xoa_driver.internals.hli_v1.modules.module_l47.PacketEngine.license_info
+        ~xoa_driver.internals.hli_v1.modules.module_l47.PacketEngine.reserve
+        ~xoa_driver.internals.hli_v1.modules.module_l47.PacketEngine.mode
     
     
