@@ -38,7 +38,7 @@ class ModuleLocalState:
             module.reserved_by.get(),
             module.model.get(),
         )
-        self.reservation = reservation_r.operation
+        self.reservation = enums.ReservedStatus(reservation_r.operation)
         self.reserved_by = reserved_by_r.username
         self.model = model_r.model
 
