@@ -29,17 +29,36 @@ class PortDatasetIdx(BaseIndex):
     def __init__(self, conn: "itf.IConnection", kind: "kind.IndicesKind", observer: "idx_obs.IndicesObserver") -> None:
         super().__init__(conn, kind, observer)
         self.enable = PD_ENABLE(conn, *kind)
-        """Representation of pd_commands.PD_ENABLE"""
+        """Enable histogram.
+
+        :type: PD_ENABLE
+        """
+
         self.source = PD_SOURCE(conn, *kind)
-        """Representation of pd_commands.PD_SOURCE"""
+        """The source criteria specifying what is counted, and for which packets, by a histogram of a port.
+
+        :type: PD_SOURCE
+        """
+
         self.range = PD_RANGE(conn, *kind)
-        """Representation of pd_commands.PD_RANGE"""
+        """The bucket ranges used for classifying the packets counted by a histogram of a port.
+        
+        :type: PD_RANGE
+        """
+
         self.samples = PD_SAMPLES(conn, *kind)
-        """Representation of pd_commands.PD_SAMPLES"""
+        """The current set of counts collected by a histogram for a port.
+
+        :type: PD_SAMPLES
+        """
 
     async def delete(self):
         await PD_DELETE(self._conn, *self.kind).set()
-        """Representation of pd_commands.PD_ENABLE"""
+        """Delete a histogram.
+
+        :type: PD_ENABLE
+        """
+
         self._observer.notify(idx_obs.IndexEvents.DEL, self)
 
     @classmethod

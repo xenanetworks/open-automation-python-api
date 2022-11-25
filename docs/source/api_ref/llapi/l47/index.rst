@@ -1,4 +1,4 @@
-L47 (Vulcan)
+L47 Classes
 =========================
 
 .. toctree::

@@ -1622,7 +1622,7 @@ class PS_MODIFIEREXT:
     """
     An extended packet modifier for a stream header. The headers of each packet
     transmitted for the stream will be varied according to the modifier
-    specification. The modifier acts on 24 bits and takes up the space for two
+    specification. The modifier acts on 32 bits and takes up the space for two
     16-bit modifiers to do this. This command requires two sub-indices, one for
     the stream and one for the modifier. A modifier is positioned at a fixed place
     in the header, selects a number of consecutive bits starting from that position,

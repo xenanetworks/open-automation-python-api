@@ -178,8 +178,7 @@ class PM_PROTOCOL:
 @dataclass
 class PM_POSITION:
     """
-    The position within each received packet where content matching begins for the
-    port.
+    The position within each received packet where content matching begins for the port.
     """
 
     code: typing.ClassVar[int] = 204

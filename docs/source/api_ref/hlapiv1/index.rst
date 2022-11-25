@@ -21,5 +21,6 @@ The high-level Python APIs are categorized into six groups:
     testers
     modules
     ports
+    indices
     enums
     exceptions

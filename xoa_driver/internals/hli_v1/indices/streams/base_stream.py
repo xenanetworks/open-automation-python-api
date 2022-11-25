@@ -40,6 +40,7 @@ from xoa_driver.internals.core.commands import (
     PS_CDFDATA,
     PS_EXTPAYLOAD,
     PS_PFCPRIORITY,
+    PS_AUTOADJUST,
 )
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
@@ -53,29 +54,54 @@ class SRate:
     """L23 Stream Rate Configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, stream_idx: int) -> None:
         self.fraction = PS_RATEFRACTION(conn, module_id, port_id, stream_idx)
-        """Representation of PS_RATEFRACTION"""
+        """Configure stream's rate by percentage
+
+        :type: PS_RATEFRACTION
+        """
+
         self.pps = PS_RATEPPS(conn, module_id, port_id, stream_idx)
-        """Representation of PS_RATEPPS"""
+        """Configure stream's rate by pps
+
+        :type: PS_RATEPPS
+        """
+
         self.l2bps = PS_RATEL2BPS(conn, module_id, port_id, stream_idx)
-        """Representation of PS_RATEL2BPS"""
+        """Configure stream's rate by L2 bps
+
+        :type: PS_RATEL2BPS
+        """
 
 
 class HModifierExtended:
     """L23 Extended Modifier Configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, stream_idx: int, modifier_idx: int) -> None:
         self.specification = PS_MODIFIEREXT(conn, module_id, port_id, stream_idx, modifier_idx)
-        """Representation of PS_MODIFIEREXT"""
+        """32-bit modifier position, action, repetition
+
+        :type: PS_MODIFIEREXT
+        """
+
         self.range = PS_MODIFIEREXTRANGE(conn, module_id, port_id, stream_idx, modifier_idx)
-        """Representation of PS_MODIFIEREXTRANGE"""
+        """32-bit modifier's range
+        
+        :type: PS_MODIFIEREXTRANGE
+        """
 
 
 class HModifier:
     """L23 Modifier Configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, stream_idx: int, modifier_idx: int) -> None:
         self.specification = PS_MODIFIER(conn, module_id, port_id, stream_idx, modifier_idx)
-        """Representation of PS_MODIFIEREXTRANGE"""
+        """16-bit modifier position, action, repetition
+
+        :type: PS_MODIFIEREXTRANGE
+        """
+
         self.range = PS_MODIFIERRANGE(conn, module_id, port_id, stream_idx, modifier_idx)
-        """Representation of PS_MODIFIERRANGE"""
+        """16-bit modifier's range
+
+        :type: PS_MODIFIERRANGE
+        """
 
 
 class SCustomDataField:
@@ -87,12 +113,22 @@ class SCustomDataField:
         self.__stream_idx = stream_idx
 
         self.offset = PS_CDFOFFSET(conn, module_id, port_id, stream_idx)
-        """Representation of PS_CDFOFFSET"""
+        """Custom Data Field offset
+
+        :type: PS_CDFOFFSET
+        """
+
         self.count = PS_CDFCOUNT(conn, module_id, port_id, stream_idx)
-        """Representation of PS_CDFCOUNT"""
+        """Number of Custom Data Fields
+
+        :type: PS_CDFCOUNT
+        """
 
     def data(self, cdf_index: int) -> "PS_CDFDATA":
-        """Representation of PS_CDFDATA"""
+        """Custom Data Field data
+
+        :rtype:  PS_CDFDATA
+        """
         return PS_CDFDATA(self.__conn, self.__module_id, self.__port_id, self.__stream_idx, cdf_index)
 
 
@@ -100,83 +136,158 @@ class SInjectError:
     """L23 Error Injection Configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, stream_idx: int) -> None:
         self.sequence = PS_INJECTSEQERR(conn, module_id, port_id, stream_idx)
-        """Representation of PS_INJECTSEQERR"""
+        """Inject sequence error
+
+        :type: PS_INJECTSEQERR
+        """
+
         self.misorder = PS_INJECTMISERR(conn, module_id, port_id, stream_idx)
-        """Representation of PS_INJECTMISERR"""
+        """Inject misorder error
+
+        :type: PS_INJECTMISERR
+        """
+
         self.payload_integrity = PS_INJECTPLDERR(conn, module_id, port_id, stream_idx)
-        """Representation of PS_INJECTPLDERR"""
+        """Inject payload integrity error
+
+        :type: PS_INJECTPLDERR
+        """
+        
         self.test_payload = PS_INJECTTPLDERR(conn, module_id, port_id, stream_idx)
-        """Representation of PS_INJECTTPLDERR"""
+        """Inject TPLD error
+
+        :type: PS_INJECTTPLDERR
+        """
 
 
 class SRequest:
     """L23 Request Configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, stream_idx: int) -> None:
         self.arp = PS_ARPREQUEST(conn, module_id, port_id, stream_idx)
-        """Representation of PS_ARPREQUEST"""
+        """Generates an outgoing ARP request on the test port.
+
+        :type: PS_ARPREQUEST
+        """
+
         self.ping = PS_PINGREQUEST(conn, module_id, port_id, stream_idx)
-        """Representation of PS_PINGREQUEST"""
+        """Generates an outgoing ping request using the ICMP protocol on the test port.
+
+        :type: PS_PINGREQUEST
+        """
 
 
 class SPayload:
     """L23 Payload Configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, stream_idx: int) -> None:
         self.content = PS_PAYLOAD(conn, module_id, port_id, stream_idx)
-        """Representation of PS_PAYLOAD"""
+        """The payload content of the packets transmitted for a stream.
+
+        :type: PS_PAYLOAD
+        """
+
         self.extended = PS_EXTPAYLOAD(conn, module_id, port_id, stream_idx)
-        """Representation of PS_EXTPAYLOAD"""
+        """Controls the extended payload.
+
+        :type: PS_EXTPAYLOAD
+        """
 
 
 class SGateway:
     """L23 Gateway Configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, stream_idx: int) -> None:
         self.ipv4 = PS_IPV4GATEWAY(conn, module_id, port_id, stream_idx)
-        """Representation of PS_IPV4GATEWAY"""
+        """IPv4 gateway configuration specified for a stream.
+
+        :type: PS_IPV4GATEWAY
+        """
+        
         self.ipv6 = PS_IPV6GATEWAY(conn, module_id, port_id, stream_idx)
-        """Representation of PS_IPV6GATEWAY"""
+        """IPv6 gateway configuration specified for a stream.
+
+        :type: PS_IPV6GATEWAY
+        """
 
 
 class SPHeader:
     """L23 Stream Header Configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, stream_idx: int) -> None:
         self.data = PS_PACKETHEADER(conn, module_id, port_id, stream_idx)
-        """Representation of PS_PACKETHEADER"""
+        """Configure stream's packet header values
+
+        :type: PS_PACKETHEADER
+        """
+
         self.protocol = PS_HEADERPROTOCOL(conn, module_id, port_id, stream_idx)
-        """Representation of PS_HEADERPROTOCOL"""
+        """Configure stream's packet header protocols
+
+        :type: PS_HEADERPROTOCOL
+        """
+
         self.modifiers: "hmm.ModifiersManager[HModifier]" = hmm.ModifiersManager(
             conn,
             (module_id, port_id, stream_idx),
             PS_MODIFIERCOUNT,
             HModifier
         )
-        """L23 stream modifier index manager"""
+        """L23 stream 16-bit modifier index manager
+        
+        :type: ModifiersManager
+        """
+
         self.modifiers_extended: "hmm.ModifiersManager[HModifierExtended]" = hmm.ModifiersManager(
             conn,
             (module_id, port_id, stream_idx),
             PS_MODIFIEREXTCOUNT,
             HModifierExtended
         )
-        """L23 stream extended modifier index manager"""
+        """L23 stream 32-bit modifier index manager
+        
+        :type: ModifiersManager
+        """
 
 
 class SPacket:
     """L23 Packet Configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, stream_idx: int) -> None:
         self.limit = PS_PACKETLIMIT(conn, module_id, port_id, stream_idx)
-        """Representation of PS_PACKETLIMIT"""
+        """Limit number of packets to be transmitted on a stream.
+
+        :type: PS_PACKETLIMIT
+        """
+
         self.length = PS_PACKETLENGTH(conn, module_id, port_id, stream_idx)
-        """Representation of PS_PACKETLENGTH"""
+        """Packet length of the stream.
+
+        :type: PS_PACKETLENGTH
+        """
+
         self.header = SPHeader(conn, module_id, port_id, stream_idx)
-        """Packet header config"""
+        """Packet header config
+
+        :type: SPHeader
+        """
+
+        self.auto_adjust = PS_AUTOADJUST(conn, module_id, port_id, stream_idx)
+        """Auto adjust the packet length distribution of the stream.
+
+        :type: PS_AUTOADJUST
+        """
 
 
 class SBurst:
     """L23 Stream Burst Configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, stream_idx: int) -> None:
         self.burstiness = PS_BURST(conn, module_id, port_id, stream_idx)
-        """Representation of PS_BURST"""
+        """Burstiness config of the stream.
+
+        :type: PS_BURST
+        """
+
         self.gap = PS_BURSTGAP(conn, module_id, port_id, stream_idx)
-        """Representation of PS_BURSTGAP"""
+        """Burst gap config of the stream.
+
+        :type: PS_BURSTGAP
+        """
 
 
 BS = TypeVar("BS")
@@ -188,32 +299,82 @@ class BaseStreamIdx(BaseIndex):
         super().__init__(conn, kind, observer)
 
         self.comment = PS_COMMENT(conn, *kind)
-        """Representation of PS_COMMENT"""
+        """Stream's description.
+
+        :type: PS_COMMENT
+        """
+
         self.enable = PS_ENABLE(conn, *kind)
-        """Representation of PS_ENABLE"""
+        """Enable, suppress, or disable the stream.
+
+        :type: PS_ENABLE
+        """
+
         self.tpld_id = PS_TPLDID(conn, *kind)
-        """Representation of PS_TPLDID"""
+        """Stream's TPLD value.
+
+        :type: PS_TPLDID
+        """
+
         self.priority_flow = PS_PFCPRIORITY(conn, *kind)
-        """Representation of PS_PFCPRIORITY"""
+        """Stream's PFC priority config
+
+        :type: PS_PFCPRIORITY
+        """
+
         self.payload = SPayload(conn, *kind)
-        """L23 stream payload config"""
+        """L23 stream payload config
+        
+        :type: SPayload
+        """
         self.request = SRequest(conn, *kind)
-        """L23 stream request config"""
+        """L23 stream request config
+        
+        :type: SRequest
+        """
+
         self.packet = SPacket(conn, *kind)
-        """L23 stream packet config"""
+        """L23 stream packet config
+        
+        :type: SPacket
+        """
+
         self.burst = SBurst(conn, *kind)
-        """L23 stream burst config"""
+        """L23 stream burst config
+        
+        :type: SBurst
+        """
+
         self.gateway = SGateway(conn, *kind)
-        """L23 stream gateway config"""
+        """L23 stream gateway config
+        
+        :type: SGateway
+        """
+
         self.inject_err = SInjectError(conn, *kind)
-        """L23 stream error injections config"""
+        """L23 stream error injections config
+        
+        :type: SInjectError
+        """
+
         self.cdf = SCustomDataField(conn, *kind)
-        """L23 stream custom data field config"""
+        """L23 stream custom data field config
+        
+        :type: SCustomDataField
+        """
+
         self.rate = SRate(conn, *kind)
-        """L23 stream rate config"""
+        """L23 stream rate config
+        
+        :type: SRate
+        """
 
     async def delete(self):
-        """Representation of PS_DELETE"""
+        """Delete the stream
+
+        :type: PS_DELETE
+        """
+
         await PS_DELETE(self._conn, *self.kind).set()
         self._observer.notify(idx_obs.IndexEvents.DEL, self)
 
