@@ -7,12 +7,16 @@ from xoa_driver import utils, enums
 from xoa_driver import misc
 
 
-async def my_awesome_func(stop_event: asyncio.Event) -> None:
+async def my_awesome_func() -> None:
 
     tester = await testers.L23Tester("0.0.0.0", "xoa") 
-
     module = tester.modules.obtain(0)
 
+    #---------------------------------------#
+    #                                       #
+    #           Valkyrie Module             #
+    #                                       #
+    #---------------------------------------#
     if isinstance(module, modules.ModuleL23):
 
         module.ports.obtain
@@ -60,7 +64,11 @@ async def my_awesome_func(stop_event: asyncio.Event) -> None:
         module.is_released()
         module.is_reserved_by_me()
 
-
+    #---------------------------------------#
+    #                                       #
+    #           Chimera Module              #
+    #                                       #
+    #---------------------------------------# 
     if isinstance(module, modules.ModuleChimera):
 
         module.ports.obtain
@@ -103,9 +111,12 @@ async def my_awesome_func(stop_event: asyncio.Event) -> None:
         module.is_reserved_by_me()
 
 
-
+    #---------------------------------------#
+    #                                       #
+    #           Vulcan Module               #
+    #                                       #
+    #---------------------------------------#
     tester = await testers.L47Tester("0.0.0.0", "xoa") 
-
     module = tester.modules.obtain(0)
 
     if isinstance(module, modules.ModuleL47):
@@ -161,8 +172,12 @@ async def my_awesome_func(stop_event: asyncio.Event) -> None:
         module.is_reserved_by_me()
 
 
+    #---------------------------------------#
+    #                                       #
+    #           ValkyrieVE Module           #
+    #                                       #
+    #---------------------------------------#
     tester = await testers.L23VeTester("0.0.0.0", "xoa") 
-
     module = tester.modules.obtain(0)
 
     if isinstance(module, modules.ModuleL23VE):
@@ -187,8 +202,12 @@ async def my_awesome_func(stop_event: asyncio.Event) -> None:
         module.is_reserved_by_me()
 
 
+    #---------------------------------------#
+    #                                       #
+    #           VulcanVEModule              #
+    #                                       #
+    #---------------------------------------#
     tester = await testers.L47VeTester("0.0.0.0", "xoa") 
-
     module = tester.modules.obtain(0)
 
     if isinstance(module, modules.ModuleL47VE):

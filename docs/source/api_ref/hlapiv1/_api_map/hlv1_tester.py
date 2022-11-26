@@ -6,8 +6,14 @@ from xoa_driver import ports
 from xoa_driver import utils, enums
 from xoa_driver import misc
 
-# Valkyrie Tester
+
 async def my_awesome_func1() -> None:
+
+    #---------------------------------------#
+    #                                       #
+    #           Valkyrie Tester             #
+    #                                       #
+    #---------------------------------------#
 
     tester = await testers.L23Tester("0.0.0.0", "xoa") 
     
@@ -72,8 +78,11 @@ async def my_awesome_func1() -> None:
     tester.on_disconnected(my_callback_func())
 
 
-# Vulcan Tester
-async def my_awesome_func2() -> None:
+    #---------------------------------------#
+    #                                       #
+    #           Vulcan Tester               #
+    #                                       #
+    #---------------------------------------#
 
     tester = await testers.L47Tester("0.0.0.0", "xoa") 
 
@@ -117,8 +126,11 @@ async def my_awesome_func2() -> None:
     tester.on_disconnected(my_callback_func())
 
 
-# ValkyrieVE Tester
-async def my_awesome_func3() -> None:
+    #---------------------------------------#
+    #                                       #
+    #           ValkyrieVE Tester           #
+    #                                       #
+    #---------------------------------------#
 
     tester = await testers.L23VeTester("0.0.0.0", "xoa") 
 
@@ -161,8 +173,11 @@ async def my_awesome_func3() -> None:
     tester.on_disconnected(my_callback_func())
 
 
-# VulcanVE Tester
-async def my_awesome_func4() -> None:
+    #---------------------------------------#
+    #                                       #
+    #           VulcanVE Tester             #
+    #                                       #
+    #---------------------------------------#
 
     tester = await testers.L47VeTester("0.0.0.0", "xoa") 
 
