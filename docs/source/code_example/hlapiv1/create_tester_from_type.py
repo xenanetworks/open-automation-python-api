@@ -3,7 +3,7 @@ import asyncio
 from xoa_driver import testers
 
 async def my_awesome_func():
-    tester = await testers.L23Tester("192.168.1.200", "JonDoe") # create tester instance and establish connection using username "JonDoe".
+    tester = await testers.L23Tester("192.168.1.200", "xoa") # create tester instance and establish connection using username "xoa".
 
     # other code ...
 

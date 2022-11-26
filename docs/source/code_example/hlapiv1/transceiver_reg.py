@@ -9,7 +9,7 @@ import time
 
 async def my_awesome_script():
     # Establish connection to a Valkyrie tester
-    async with testers.L23Tester("192.168.1.200", "JonDoe") as tester:
+    async with testers.L23Tester("192.168.1.200", "xoa") as tester:
 
         my_module = tester.modules.obtain(2)
 

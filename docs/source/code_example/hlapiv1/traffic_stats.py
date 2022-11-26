@@ -48,7 +48,7 @@ async def collect_statistics(tx_port: ports.GenericL23Port, rx_port: ports.Gener
 
 async def my_awesome_func(stop_event: asyncio.Event):
 
-    tester = await testers.L23Tester("192.168.1.200", "JonDoe") # create tester instance and establish connection
+    tester = await testers.L23Tester("192.168.1.200", "xoa") # create tester instance and establish connection
     my_module = tester.modules.obtain(0)
 
     if isinstance(my_module, modules.ModuleChimera):

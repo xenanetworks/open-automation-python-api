@@ -5,7 +5,7 @@ from xoa_driver import modules
 from xoa_driver import utils, enums
 
 async def my_awesome_func():
-    tester = await testers.L23Tester("192.168.1.200", "JonDoe") # create tester instance and establish connection
+    tester = await testers.L23Tester("192.168.1.200", "xoa") # create tester instance and establish connection
 
     my_module = tester.modules.obtain(0)
 

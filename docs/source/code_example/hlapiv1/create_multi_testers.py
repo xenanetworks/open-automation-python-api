@@ -25,7 +25,7 @@ async def my_awesome_func():
         "192.168.1.200",
         ]
         
-    testers_pool = create_testers( known_hosts, "JonDoe")
+    testers_pool = create_testers( known_hosts, "xoa")
     # now we can do ``await testers_pool[0]`` which establishes the connection
 
     await asyncio.gather(*testers_pool) # we also can use asyncio.gather for await all testers at once in concurrent mode
