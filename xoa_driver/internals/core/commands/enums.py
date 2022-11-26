@@ -531,13 +531,13 @@ class PayloadType(IntEnum):
     """Packet payload type"""
     PATTERN = 0
     """Pattern"""
-    INC8 = 1
+    INC8 = INCREMENTING = 1
     """Incrementing with 0xFF (8-bit mode)"""
     PRBS = 2
     """PRBS"""
     RANDOM = 3
     """Random"""
-    DEC8 = 4
+    DEC8 = DECREMENTING = 4
     """Decrementing with 0xFF (8-bit mode)"""
     INC16 = 5
     """Incrementing with 0xFFFF (16-bit mode)"""
