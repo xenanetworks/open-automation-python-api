@@ -16,6 +16,12 @@ from xoa_driver.internals.core.commands import (
     M_TXCLOCKSTATUS_NEW,
     M_EMULBYPASS,
     M_LATENCYMODE,
+    M_REVISION,
+    M_MEDIA,
+    M_MEDIASUPPORT,
+    M_TIMESYNC,
+    M_CLOCKSYNCSTATUS,
+    M_NAME,
 )
 
 from xoa_driver.internals.hli_v1 import revisions
@@ -85,6 +91,28 @@ class ChUpgrade:
         :type: M_UPGRADEPROGRESS
         """
 
+class ChTiming:
+    """Test module timing and clock configuration"""
+
+    def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
+        self.source = M_TIMESYNC(conn, module_id)
+        """Timing source of the test module.
+
+        :type: M_TIMESYNC
+        """
+
+        self.clock_local_adjust = M_CLOCKPPB(conn, module_id)
+        """Time adjustment controlling of the local clock of the test module, which drives the TX rate of the test ports.
+        
+        :type: M_CLOCKPPB
+        """
+
+        self.clock_sync_status = M_CLOCKSYNCSTATUS(conn, module_id)
+        """Test module's clock sync status.
+
+        :type: M_CLOCKSYNCSTATUS
+        """
+
 
 class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
     """
@@ -97,9 +125,16 @@ class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
 
         self.tx_clock = ChTXClock(conn, self.module_id)
         """
-        Advanced timing feature (Chimera).
+        TX clock config (Chimera).
 
         :type: ChTXClock
+        """
+
+        self.timing = ChTiming(conn, self.module_id)
+        """
+        Timing config (Chimera).
+
+        :type: ChTiming
         """
 
         self.cfp = ChCFP(conn, self.module_id)
@@ -156,6 +191,30 @@ class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
         Latency mode of the Chimera module.
         
         :type: M_LATENCYMODE
+        """
+
+        self.revision = M_REVISION(conn, self.module_id)
+        """Test module's model P/N name.
+
+        :type: M_REVISION
+        """
+
+        self.media = M_MEDIA(conn, self.module_id)
+        """Test module's media type.
+
+        :type: M_MEDIA
+        """
+
+        self.available_speeds = M_MEDIASUPPORT(conn, self.module_id)
+        """Test module's available speeds.
+
+        :type: M_MEDIASUPPORT
+        """
+
+        self.name = M_NAME(conn, self.module_id)
+        """Test module's name.
+
+        :type: M_NAME
         """
 
         self.ports: pm.PortsManager["ports.PortChimera"] = pm.PortsManager(

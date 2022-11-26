@@ -89,6 +89,7 @@ Module Classes
     ~xoa_driver.internals.hli_v1.modules.modules_l23.module_l23_base.MUpgrade
 
     ~xoa_driver.internals.hli_v1.modules.module_chimera.ModuleChimera
+    ~xoa_driver.internals.hli_v1.modules.module_chimera.ChTiming
     ~xoa_driver.internals.hli_v1.modules.module_chimera.ChTXClock
     ~xoa_driver.internals.hli_v1.modules.module_chimera.ChCFP
     ~xoa_driver.internals.hli_v1.modules.module_chimera.ChUpgrade

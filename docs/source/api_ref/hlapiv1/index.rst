@@ -7,7 +7,17 @@ HL-API uses the classes defined in LL-API and lets you quickly develop scripts o
 * :ref:`Auto index management <resource_managers_label>`
 * :ref:`Resources identification tracking for push notification <event_subscription_label>`
 
-The high-level Python APIs are categorized into six groups:
+.. important::
+
+    To continuously improve the usability of XOA Python API, the HL-API will be restructured, especially for the Layer-1 configuration APIs, in the next major release.
+    
+    For backward-compatibility, the current HL-API is marked as V1. The restructured will be called V2.
+
+    You don't need to do change to your import path or code if you continue to use HL-API V1. Both versions will keep being maintained and supported.
+
+    The restructuring won't affect the LL-API.
+
+The HL-API (V1) are categorized into six groups:
 
 * Testers
 * Modules
@@ -18,6 +28,7 @@ The high-level Python APIs are categorized into six groups:
 
 .. toctree::
 
+    api_map
     testers
     modules
     ports
