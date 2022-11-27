@@ -3,7 +3,6 @@ from typing import (
     Any,
     List,
     Optional,
-    cast,
     get_args,  # py3.8 >
 )
 from . import constants as const
@@ -19,7 +18,7 @@ class NotEnoughBytesLeft(RuntimeError):
     def __init__(self, cmd_name: str, back, curent_field_name: str) -> None:
         self.cmd_name = cmd_name
         all_fields = list(back.__annotations__.keys())
-        self.fields = all_fields[all_fields.index(curent_field_name):]
+        self.fields = all_fields[all_fields.index(curent_field_name) :]
         self.msg = f"When parsing {self.cmd_name}, there are still fields {self.fields} to be parsed while there is no more bytes!"
         super().__init__(self.msg)
 
@@ -28,9 +27,19 @@ class Response:
     """
     Response serializer
     """
-    __slots__ = ("class_name", "header", "raw_data", "__cursor", "index_values", "values",)
 
-    def __init__(self, header: ResponseHeader, class_name: str, data: bytes, back: Optional[type]) -> None:
+    __slots__ = (
+        "class_name",
+        "header",
+        "raw_data",
+        "__cursor",
+        "index_values",
+        "values",
+    )
+
+    def __init__(
+        self, header: ResponseHeader, class_name: str, data: bytes, back: Optional[type]
+    ) -> None:
         self.class_name = class_name
         self.header = header
         self.raw_data = data
@@ -45,8 +54,7 @@ class Response:
 
     def __str__(self) -> str:
         return utils.format_str(
-            cast(utils.XmProtocol, self),
-            b_str=bytes(self.header) + self.raw_data
+            self, b_str=bytes(self.header) + self.raw_data  # type: ignore
         )
 
     def __repr__(self) -> str:
@@ -89,26 +97,31 @@ class Response:
         if not issubclass(generic_type, XmpDefaultList):
             return int(generic_type.size)
         else:
+
             if generic_type.fix_length:
                 return int(generic_type.fix_length * generic_type.element_type.size)
             elif generic_type.stop_to_keep:
+                if self.header.number_of_value_bytes % 4:
+                    real_value_num = self.header.number_of_value_bytes + (
+                        4 - self.header.number_of_value_bytes % 4
+                    )
+                else:
+                    real_value_num = self.header.number_of_value_bytes
                 # weird parsing with helper types
-                return int(self.header.number_of_value_bytes - generic_type.stop_to_keep)
+                return int(real_value_num - generic_type.stop_to_keep)
             return int(self.header.number_of_value_bytes)
 
     def __calc_str_len(self, back) -> int:
         types_aligned = [
-            get_args(field_type)[0]
-            for field_type in back.__annotations__.values()
+            get_args(field_type)[0] for field_type in back.__annotations__.values()
         ]
         sum_of_fixed_sizes = sum(
-            int(generic_type.size)
-            for generic_type in types_aligned
+            int(generic_type.size) for generic_type in types_aligned
         )
         return self.header.body_size - sum_of_fixed_sizes
 
     def __parse_xmp_str(self, string_lenght: int) -> bytes:
-        raw_data: bytes = self.raw_data[self.__cursor:]
+        raw_data: bytes = self.raw_data[self.__cursor :]
         zero: bytes = b"\x00"
         nvb: int = self.header.number_of_value_bytes
         if zero in raw_data:
