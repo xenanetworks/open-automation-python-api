@@ -1,7 +1,7 @@
-Stream
+Stream Classes
 =================================
 
-This module contains the **L23 stream commands** deal with configuration of the traffic streams transmitted from a L23 port. The stream command names all have the form ``PS_<xxx>`` and require both a module index id and a port index id, as well as a sub-index identifying a particular stream.
+This module contains the **L23 stream classes** deal with configuration of the traffic streams transmitted from a L23 port. The stream command names all have the form ``PS_<xxx>`` and require both a module index id and a port index id, as well as a sub-index identifying a particular stream.
 
 .. rubric:: General Information
 
@@ -408,3 +408,10 @@ PS_PFCPRIORITY
     :exclude-members: GetDataAttr, SetDataAttr
 
 
+PS_AUTOADJUST
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: PS_AUTOADJUST
+    :members:
+    :no-undoc-members:
+    :exclude-members: GetDataAttr, SetDataAttr

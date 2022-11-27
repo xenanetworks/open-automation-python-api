@@ -10,8 +10,8 @@ async def my_awesome_func():
 
     await utils.apply(
         cmd.C_LOGON(handler1).set("xena"),
-        cmd.C_OWNER(handler1).set("JonDoe"),
-    ) # establish connection using username "JonDoe".
+        cmd.C_OWNER(handler1).set("xoa"),
+    ) # establish connection using username "xoa".
 
     handler2 = TransportationHandler(debug=False)
     await establish_connection(handler2, "192.168.1.198")

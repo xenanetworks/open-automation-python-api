@@ -3,6 +3,6 @@ API Reference
 
 .. toctree::
 
-    utilapi/index
-    hlapi/index
+    hlfunc/index
+    hlapiv1/index
     llapi/index

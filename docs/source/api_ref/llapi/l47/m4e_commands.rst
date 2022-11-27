@@ -1,7 +1,7 @@
-Packet Engine (Module Level)
-=================================
+Packet Engine Classes (Module Level)
+======================================
 
-This module contains the **L47 module packet engine commands**.
+This module contains the **L47 module packet engine classes**.
 
 -------
 

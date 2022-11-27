@@ -531,12 +531,18 @@ class PayloadType(IntEnum):
     """Packet payload type"""
     PATTERN = 0
     """Pattern"""
-    INCREMENTING = 1
-    """Incrementing"""
+    INC8 = INCREMENTING = 1
+    """Incrementing with 0xFF (8-bit mode)"""
     PRBS = 2
     """PRBS"""
     RANDOM = 3
     """Random"""
+    DEC8 = DECREMENTING = 4
+    """Decrementing with 0xFF (8-bit mode)"""
+    INC16 = 5
+    """Incrementing with 0xFFFF (16-bit mode)"""
+    DEC16 = 6
+    """Decrementing with 0xFFFF (16-bit mode"""
 
 
 class MDIXMode(IntEnum):
@@ -766,23 +772,23 @@ class MediaConfigurationType(IntEnum):
     """Module Media Configuration Type"""
     CFP4 = 0
     """CFP4"""
-    QSFP28 = 1
+    QSFP28 = QSFP28_NRZ = 1
     """QSFP28 (NRZ)"""
     CXP = 2
     """CXP"""
     SFP28 = 3
     """SFP28"""
-    QSFP56 = 4
+    QSFP56 = QSFP56_PAM4 = 4
     """QSFP56 (PAM4)"""
-    QSFP_DD = 5
+    QSFPDD = QSFPDD_PAM4 = 5
     """QSFP-DD (PAM4)"""
     SFP56 = 6
     """SFP56"""
-    SFP_DD = 7
+    SFP_DD = SFPDD = 7
     """SFP-DD"""
     SFP112 = 8
     """SFP112"""
-    QSFP_DD_NRZ = 9
+    QSFP_DD_NRZ = QSFPDD_NRZ = 9
     """QSFP-DD (NRZ)"""
     QSFP28_PAM4 = 10
     """QSFP28 (PAM4)"""
@@ -1116,7 +1122,9 @@ class LinkTrainingMode(IntEnum):
 class PAM4FrameSize(IntEnum):
     """PAM4 Frame Size"""
     P16K_FRAME = 0
+    """16K Frame Size"""
     P4K_FRAME = 1
+    """4K Frame Size"""
 
 
 class LinkTrainingInitCondition(IntEnum):
@@ -1735,7 +1743,7 @@ class ImpairmentTypeIndex(IntEnum):
     """Drop"""
     MISORDER = 1
     """Misorder"""
-    DELAYJITTER = 2
+    LATENCYJITTER = 2
     """Delay/Jitter"""
     DUPLICATION = 3
     """Duplication"""
@@ -1835,12 +1843,11 @@ class ReconciliationSublayerSupport (IntEnum):
     FAULT_SIGNALING = 1
     """Supported, which means P_FAULTSTATUS and P_FAULTSIGNALLING are supported by the port."""
 
-
 class PL1_CFG_TMP_TYPE (IntEnum):
     """Enums for PL1_CFG_TMP's type (beta)
-    
+
     .. versionadded:: 1.1
-    
+
     """
     ANLT_INTERACTIVE_MODE = 0
     """ANLT Interactive mode"""

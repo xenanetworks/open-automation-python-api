@@ -1,7 +1,7 @@
-RX Statistics
+RX Statistics Classes
 =================================
 
-This module contains the **L23 port RX statistics commands** that provide quantitative information about the received packets on a port.
+This module contains the **L23 port RX statistics classes** that provide quantitative information about the received packets on a port.
 
 The command names all have the form ``PR_<xxx>`` and require both a module index id and a port index id. Those commands dealing with a specific received test payload id and a specific filter also have a sub-index id.
 
@@ -30,6 +30,15 @@ PR_TOTAL
     :exclude-members: GetDataAttr, SetDataAttr
 
 
+PR_TOTALEXT
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: PR_TOTALEXT
+    :members:
+    :no-undoc-members:
+    :exclude-members: GetDataAttr, SetDataAttr
+
+
 PR_NOTPLD
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -38,6 +47,15 @@ PR_NOTPLD
     :no-undoc-members:
     :exclude-members: GetDataAttr, SetDataAttr
 
+
+PR_NOTPLDEXT
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: PR_NOTPLDEXT
+    :members:
+    :no-undoc-members:
+    :exclude-members: GetDataAttr, SetDataAttr
+    
 
 PR_EXTRA
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -66,6 +84,15 @@ PR_TPLDTRAFFIC
     :exclude-members: GetDataAttr, SetDataAttr
 
 
+PR_TPLDTRAFFICEXT
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: PR_TPLDTRAFFICEXT
+    :members:
+    :no-undoc-members:
+    :exclude-members: GetDataAttr, SetDataAttr
+
+
 PR_TPLDERRORS
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -88,6 +115,15 @@ PR_FILTER
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autoclass:: PR_FILTER
+    :members:
+    :no-undoc-members:
+    :exclude-members: GetDataAttr, SetDataAttr
+
+
+PR_FILTEREXT
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: PR_FILTEREXT
     :members:
     :no-undoc-members:
     :exclude-members: GetDataAttr, SetDataAttr

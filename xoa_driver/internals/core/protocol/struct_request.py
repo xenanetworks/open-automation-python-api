@@ -1,6 +1,5 @@
-import ctypes as c
 import struct
-from typing import List
+from typing import List, cast
 
 from . import constants as const
 from .fields.data_types import XmpEmpty
@@ -21,14 +20,14 @@ class Request:
     ) -> None:
         self.class_name = class_name
         self.header = ProtocolHeader(
-            magic_word = const.MAGIC_WORD,
-            number_of_indices = len(indices),
-            number_of_value_bytes = self._get_values_length(values),
-            cmd_code = cmd_code,
-            cmd_type = cmd_type,
-            module_index = module_index,
-            port_index = port_index,
-            request_identifier = 0,
+            magic_word=const.MAGIC_WORD,
+            number_of_indices=len(indices),
+            number_of_value_bytes=self._get_values_length(values),
+            cmd_code=cmd_code,
+            cmd_type=cmd_type,
+            module_index=module_index,
+            port_index=port_index,
+            request_identifier=0,
         )
         self.index_values = indices
         self.values = values
@@ -40,17 +39,17 @@ class Request:
 
     def __str__(self) -> str:
         return utils.format_str(
-            self, 
+            cast(utils.XmProtocol, self),
             f"padding              : {self.padding}",
         )
 
     def __repr__(self) -> str:
-        return utils.format_repr(self)
+        return utils.format_repr(cast(utils.XmProtocol, self))
 
     def __bytes__(self) -> bytes:
         cmd_all = b"".join(
             (
-                bytes(self.header), # type: ignore
+                bytes(self.header),  # type: ignore
                 struct.pack(f"!{self.header.number_of_indices}I", *self.index_values),
                 self._get_values_bytes(self.values),
                 bytes(self.padding),

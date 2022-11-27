@@ -10,10 +10,11 @@ from ..protocol.command_builders import (
 )
 from .. import interfaces
 from ..transporter.token import Token
-from ..protocol.fields.data_types import *
+from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *
+from .enums import *  # noqa: F403
+
 
 @register_command
 @dataclass
@@ -39,17 +40,17 @@ class PC_TRIGGER:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        start_criteria: XmpField[XmpInt] = XmpField(XmpInt, choices=StartTrigger)  # coded integer, the criteria for starting the actual packet capture
-        start_criteria_filter: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the index of a particular filter for the start criteria.
-        stop_criteria: XmpField[XmpInt] = XmpField(XmpInt, choices=StopTrigger)  # coded integer, the criteria for stopping the actual packet capture
-        stop_criteria_filter: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the index of a particular filter for the stop criteria.
+        start_criteria: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=StartTrigger)  # coded integer, the criteria for starting the actual packet capture
+        start_criteria_filter: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the index of a particular filter for the start criteria.
+        stop_criteria: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=StopTrigger)  # coded integer, the criteria for stopping the actual packet capture
+        stop_criteria_filter: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the index of a particular filter for the stop criteria.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        start_criteria: XmpField[XmpInt] = XmpField(XmpInt, choices=StartTrigger)  # coded integer, the criteria for starting the actual packet capture
-        start_criteria_filter: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the index of a particular filter for the start criteria.
-        stop_criteria: XmpField[XmpInt] = XmpField(XmpInt, choices=StopTrigger)  # coded integer, the criteria for stopping the actual packet capture
-        stop_criteria_filter: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the index of a particular filter for the stop criteria.
+        start_criteria: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=StartTrigger)  # coded integer, the criteria for starting the actual packet capture
+        start_criteria_filter: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the index of a particular filter for the start criteria.
+        stop_criteria: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=StopTrigger)  # coded integer, the criteria for stopping the actual packet capture
+        stop_criteria_filter: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the index of a particular filter for the stop criteria.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the capture criteria configurations.
@@ -71,7 +72,18 @@ class PC_TRIGGER:
         :param stop_criteria_filter: the index of a particular filter for the stop criteria
         :type stop_criteria_filter: int
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, start_criteria=start_criteria, start_criteria_filter=start_criteria_filter, stop_criteria=stop_criteria, stop_criteria_filter=stop_criteria_filter))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                start_criteria=start_criteria,
+                start_criteria_filter=start_criteria_filter,
+                stop_criteria=stop_criteria,
+                stop_criteria_filter=stop_criteria_filter
+            )
+        )
 
 
 @register_command
@@ -92,15 +104,15 @@ class PC_KEEP:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        type: XmpField[XmpInt] = XmpField(XmpInt, choices=PacketType)  # coded integer, which general kind of packets to keep
-        index: XmpField[XmpInt] = XmpField(XmpInt)  # integer, test payload id or filter index for which packets to keep.
-        byte_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer, how many bytes to keep in the buffer for of each packet. The value -1 means no limit on packet size.
+        type: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=PacketType)  # coded integer, which general kind of packets to keep
+        index: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, test payload id or filter index for which packets to keep.
+        byte_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, how many bytes to keep in the buffer for of each packet. The value -1 means no limit on packet size.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        kind: XmpField[XmpInt] = XmpField(XmpInt, choices=PacketType)  # coded integer, which general kind of packets to keep
-        index: XmpField[XmpInt] = XmpField(XmpInt)  # integer, test payload id or filter index for which packets to keep.
-        byte_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer, how many bytes to keep in the buffer for of each packet. The value -1 means no limit on packet size.
+        kind: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=PacketType)  # coded integer, which general kind of packets to keep
+        index: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, test payload id or filter index for which packets to keep.
+        byte_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, how many bytes to keep in the buffer for of each packet. The value -1 means no limit on packet size.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the configuration of how to keep captured packets.
@@ -159,13 +171,13 @@ class PC_STATS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        status: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, 1 if capture has been stopped because of overflow, 0 if still running.
-        packets: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of packets in the buffer.
-        start_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, time when capture was started, in nano-seconds since 2010-01-01.
+        status: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, 1 if capture has been stopped because of overflow, 0 if still running.
+        packets: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of packets in the buffer.
+        start_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, time when capture was started, in nano-seconds since 2010-01-01.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the number of packets currently in the capture buffer for a port. The count is reset to zero when capture is turned on.
-        
+
         :return: status of the capture, number of packets in the buffer, and start time in nanoseconds since 2010-01-01.
         :rtype: PC_STATS.GetDataAttr
         """
@@ -192,10 +204,10 @@ class PC_EXTRA:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        time_captured: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, time when packet was captured, in nanoseconds since 2010-01-01.
-        latency: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of nanoseconds since the packet was transmitted.
-        byte_time_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of byte-times since previous packet.
-        length: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the real length of the packet on the wire.
+        time_captured: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, time when packet was captured, in nanoseconds since 2010-01-01.
+        latency: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of nanoseconds since the packet was transmitted.
+        byte_time_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of byte-times since previous packet.
+        length: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the real length of the packet on the wire.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get extra information about a captured packet for a port.
@@ -225,14 +237,12 @@ class PC_PACKET:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        hex_data: XmpField[XmpHexList] = XmpField(XmpHexList)  # list of hex bytes, the raw bytes kept for the packet.
+        hex_data: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)  # list of hex bytes, the raw bytes kept for the packet.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the raw bytes of a captured packet for a port. 
+        """Get the raw bytes of a captured packet for a port.
 
         :return: the raw bytes of a captured packet
         :rtype: PC_PACKET.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self.capture_packet_xindex]))
-
-

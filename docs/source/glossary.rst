@@ -76,8 +76,8 @@ Glossary of Terms
         Create, read, update, and delete operations
 
 
-    UTIL
-        Xena OpenAutomation Utility Functions.
+    HL-FUNC
+        Xena OpenAutomation High-Level Functions.
 
     ANLT
         Auto-Negotiation and Link Training.

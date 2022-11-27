@@ -7,9 +7,10 @@ from xoa_driver.internals.core.commands import P_CAPABILITIES
 
 T = TypeVar("T", bound="CapID")
 
+
 class CapID(NamedTuple):
     """ID generated based on the port capability"""
-    
+
     can_set_autoneg: int
     can_eee: int
     can_hw_reg_access: int
@@ -27,7 +28,7 @@ class CapID(NamedTuple):
     can_link_flap: int
     can_auto_neg_base_r: int
     can_pma_error_pulse: int
-    
+
     @classmethod
     def create_from_capabilities(cls: Type[T], cap: P_CAPABILITIES.GetDataAttr) -> T:
         return cls(
@@ -49,14 +50,14 @@ class CapID(NamedTuple):
             int(cap.can_auto_neg_base_r),
             int(cap.can_pma_error_pulse),
         )
-    
+
     def to_int(self) -> int:
         return int("".join(str(ele) for ele in self), 2)
-    
+
     def __eq__(self, other: "CapID") -> bool:
         if isinstance(other, CapID):
             return self.to_int() == other.to_int()
         return False
-    
+
     def __ne__(self, other: "CapID") -> bool:
         return not self.__eq__(other)

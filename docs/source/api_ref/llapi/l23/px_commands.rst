@@ -1,7 +1,7 @@
-Transceiver
+Transceiver Classes
 =================================
 
-This module contains the **L23 port transceiver commands** that deal with access to the register interfaces of the transceiver on a port.
+This module contains the **L23 port transceiver classes** that deal with access to the register interfaces of the transceiver on a port.
 
 -------
 

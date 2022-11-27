@@ -1,4 +1,4 @@
-LL-API Examples
+Low-Level API
 ===================================
 
 The boilerplate code that is used to run all of the examples.
@@ -55,7 +55,7 @@ Setting
 
 .. note::
     
-    Reservation is required to do ``set`` to: :ref:`Tester <tester>`, :ref:`Module <module>`, :ref:`Port <port>`, 
+    Reservation is required to do ``set`` to: :doc:`Testers <../api_ref/hlapiv1/testers>`, :doc:`Modules <../api_ref/hlapiv1/modules>`, and :doc:`Ports <../api_ref/hlapiv1/ports>`. 
 
 .. literalinclude:: ll/setting_parameters.py
     :caption: Configure port

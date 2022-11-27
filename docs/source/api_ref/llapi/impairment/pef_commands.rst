@@ -1,4 +1,4 @@
-Filter
+Filter Classes
 =================================
 
 This module contains the **impairment port flow filter commands**.
@@ -343,6 +343,24 @@ PEF_MODE
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autoclass:: PEF_MODE
+    :members:
+    :no-undoc-members:
+    :exclude-members: GetDataAttr, SetDataAttr
+
+
+PEF_ISSHADOWDIRTY
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: PEF_ISSHADOWDIRTY
+    :members:
+    :no-undoc-members:
+    :exclude-members: GetDataAttr, SetDataAttr
+
+
+PEF_CANCEL
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: PEF_CANCEL
     :members:
     :no-undoc-members:
     :exclude-members: GetDataAttr, SetDataAttr

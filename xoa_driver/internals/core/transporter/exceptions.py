@@ -1,11 +1,13 @@
 from .. import protocol
 
+
 class EstablishConnectionError(Exception):
     def __init__(self, host: str, port: int) -> None:
         self.host = host
         self.port = port
         self.msg = f"Can't connect to {host}:{port}"
         super().__init__(self.msg)
+
 
 class BadStatus(Exception):
     def __init__(self, response: protocol.Response) -> None:
@@ -24,9 +26,9 @@ class NotImplementedCommand(Exception):
 class RepeatedRequestID(Exception):
     def __init__(self, header: protocol.ResponseHeader) -> None:
         self.msg = f"""
-        Got repeated request id {header.request_identifier}, {header}. 
+        Got repeated request id {header.request_identifier}, {header}.
         This is a bug of xenaserver returning the same request identifier twice.
-        """ 
+        """
         self.response_header = header
         super().__init__(self.msg)
 

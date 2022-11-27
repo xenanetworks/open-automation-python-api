@@ -1,5 +1,6 @@
 from typing import Set
 
+
 class WrongModuleError(Exception):
     def __init__(self, module_revision: str, allowed_revisions: Set[str]) -> None:
         self.module_revision = module_revision

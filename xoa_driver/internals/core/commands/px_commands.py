@@ -9,10 +9,11 @@ from ..protocol.command_builders import (
 )
 from .. import interfaces
 from ..transporter.token import Token
-from ..protocol.fields.data_types import *
+from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *
+# from .enums import *  # noqa: F403
+
 
 @register_command
 @dataclass
@@ -33,11 +34,11 @@ class PX_RW:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        value: XmpField[XmpHex4] = XmpField(XmpHex4)  # 4 hex bytes, register value of the port transceiver
+        value: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)  # 4 hex bytes, register value of the port transceiver
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        value: XmpField[XmpHex4] = XmpField(XmpHex4)  # 4 hex bytes, register value of the port transceiver
+        value: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)  # 4 hex bytes, register value of the port transceiver
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the register value of a transceiver.
@@ -63,7 +64,6 @@ class PX_RW_SEQ:
     :term:`I2C<I2C>` sequential access to a transceiver's register. When invoked, the ``<byte_count>`` number of bytes will be read or written in one I2C transaction, in which the ``<value>`` is read or written with only a single register address setup. A subsequent invocation will perform a second I2C transaction in the same manner. ``<_page_xindex>``: the transceiver page address, integer, 0-255. ``<_register_xaddress>``: the address within the page, integer, 0-255.
 
     .. versionadded:: 1.1
-    
     """
 
     code: typing.ClassVar[int] = 503
@@ -78,11 +78,11 @@ class PX_RW_SEQ:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        value: XmpField[XmpHexList] = XmpField(XmpHexList)  # the bytes to be read or written in one I2C transaction. The number of bytes in the ``<value>`` equals ``<byte_count>``.
+        value: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)  # the bytes to be read or written in one I2C transaction. The number of bytes in the ``<value>`` equals ``<byte_count>``.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        value: XmpField[XmpHexList] = XmpField(XmpHexList)  # the bytes to be read or written in one I2C transaction. The number of bytes in the ``<value>`` equals ``<byte_count>``.
+        value: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)  # the bytes to be read or written in one I2C transaction. The number of bytes in the ``<value>`` equals ``<byte_count>``.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the register value of a transceiver in one I2C transaction.
@@ -117,11 +117,11 @@ class PX_MII:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        value: XmpField[XmpHex2] = XmpField(XmpHex2)  # 2 hex bytes, register value of the transceiver
+        value: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)  # 2 hex bytes, register value of the transceiver
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        value: XmpField[XmpHex2] = XmpField(XmpHex2)  # 2 hex bytes, register value of the transceiver
+        value: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)  # 2 hex bytes, register value of the transceiver
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the register value of a transceiver.
@@ -156,8 +156,8 @@ class PX_TEMPERATURE:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        integral_part: XmpField[XmpByte] = XmpField(XmpByte)  # byte, temperature value before the decimal digit.
-        fractional_part: XmpField[XmpByte] = XmpField(XmpByte)  # byte, 1/256th of a degree Celsius after the decimal digit.
+        integral_part: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, temperature value before the decimal digit.
+        fractional_part: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, 1/256th of a degree Celsius after the decimal digit.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get transceiver temperature in degrees Celsius.
@@ -166,5 +166,3 @@ class PX_TEMPERATURE:
         :rtype: PX_TEMPERATURE.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
-
-

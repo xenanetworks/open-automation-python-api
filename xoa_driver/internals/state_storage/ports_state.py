@@ -10,13 +10,17 @@ from xoa_driver.internals.core.commands import (
     P_INTERFACE,
     P_TRAFFIC,
     P4_STATE,
-) 
-from xoa_driver.internals.utils import attributes as utils
+)
 from xoa_driver.internals.core.transporter import funcs
 from xoa_driver.internals.core.commands import enums
 
+from xoa_driver.internals.utils import attributes as utils
 from ._speed_detector import SpeedDetector
+
+
 class PortLocalState:
+    """Port local state
+    """
     __slots__ = (
         "model",
         "serial_number",
@@ -25,6 +29,7 @@ class PortLocalState:
         "reserved_by",
         "sync_status"
     )
+
     def __init__(self) -> None:
         self.model: str = ""
         self.serial_number: int = 0
@@ -32,7 +37,7 @@ class PortLocalState:
         self.reservation: "enums.ReservedStatus" = enums.ReservedStatus.RELEASED
         self.reserved_by: str = ""
         self.sync_status: "enums.SyncStatus" = enums.SyncStatus.NO_SYNC
-    
+
     async def initiate(self, port) -> None:
         (
             sync_status_r,
@@ -49,7 +54,7 @@ class PortLocalState:
         self.interface = interface_r.interface
         self.reservation = enums.ReservedStatus(reservation_r.status)
         self.reserved_by = reserved_by_r.username
-    
+
     def register_subscriptions(self, port) -> None:
         port._conn.subscribe(P_RECEIVESYNC, utils.Update(self, "sync_status", "sync_status", port._check_identity, format=lambda a: enums.SyncStatus(a)))
         port._conn.subscribe(P_RESERVEDBY, utils.Update(self, "reserved_by", "username", port._check_identity))
@@ -58,6 +63,8 @@ class PortLocalState:
 
 
 class PortChimeraLocalState(PortLocalState):
+    """Chimera port's local state
+    """
     __slots__ = ("capabilities",)
     capabilities: "P_CAPABILITIES.GetDataAttr"
 
@@ -68,17 +75,19 @@ class PortChimeraLocalState(PortLocalState):
         )
         self.capabilities = capabilities
 
+
 class PortL23LocalState(PortLocalState):
+    """L23 port's local state
+    """
     __slots__ = (
-        "capabilities", 
+        "capabilities",
         "traffic_state"
     )
     capabilities: "P_CAPABILITIES.GetDataAttr"
-    
+
     def __init__(self) -> None:
         self.traffic_state: "enums.TrafficOnOff" = enums.TrafficOnOff.OFF
-        
-    
+
     async def initiate(self, port) -> None:
         capabilities, traffic_state_r, _ = await asyncio.gather(
             port.capabilities.get(),
@@ -87,17 +96,20 @@ class PortL23LocalState(PortLocalState):
         )
         self.capabilities = capabilities
         self.traffic_state = enums.TrafficOnOff(traffic_state_r.on_off)
-    
+
     def register_subscriptions(self, port) -> None:
         super().register_subscriptions(port)
         port._conn.subscribe(P_TRAFFIC, utils.Update(self, "traffic_state", "on_off", port._check_identity, format=lambda a: enums.TrafficOnOff(a)))
 
+
 class PortL23GenuineLocalState(PortL23LocalState):
+    """L23 port's local state
+    """
     __slots__ = ("port_possible_speed_modes",)
-    
+
     def __init__(self) -> None:
         self.port_possible_speed_modes: List["enums.PortSpeedMode"] = []
-    
+
     async def initiate(self, port) -> None:
         await super().initiate(port)
         speed_detector = SpeedDetector(
@@ -105,7 +117,7 @@ class PortL23GenuineLocalState(PortL23LocalState):
             self.interface
         )
         self.port_possible_speed_modes = speed_detector.find_port_possible_speed()
-    
+
     @property
     def is_brr_mode_supported(self) -> bool:
         """Whether this L23 port supports BRR mode.
@@ -116,17 +128,18 @@ class PortL23GenuineLocalState(PortL23LocalState):
         return "T1" in self.interface
 
 
-
 class PortL47LocalState(PortLocalState):
+    """L47 port's local state
+    """
     __slots__ = (
         "capabilities",
         "traffic_state",
     )
     capabilities: "P4_CAPABILITIES.GetDataAttr"
-    
+
     def __init__(self) -> None:
         self.traffic_state: "enums.L47PortState" = enums.L47PortState.OFF
-    
+
     async def initiate(self, port) -> None:
         capabilities, traffic_state_r, _ = await asyncio.gather(
             port.capabilities.get(),
@@ -135,7 +148,7 @@ class PortL47LocalState(PortLocalState):
         )
         self.capabilities = capabilities
         self.traffic_state = enums.L47PortState(traffic_state_r.state)
-    
+
     def register_subscriptions(self, port) -> None:
         super().register_subscriptions(port)
         port._conn.subscribe(P4_STATE, utils.Update(self, "traffic_state", "state", port._check_identity, format=lambda a: enums.L47PortState(a)))

@@ -1,7 +1,7 @@
 #: Helper functions
 
 from xoa_driver.internals.core.transporter.funcs import (
-    apply, 
+    apply,
     apply_iter,
 )
 

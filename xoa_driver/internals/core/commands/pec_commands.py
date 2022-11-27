@@ -9,10 +9,11 @@ from ..protocol.command_builders import (
 )
 from .. import interfaces
 from ..transporter.token import Token
-from ..protocol.fields.data_types import *
+from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *
+from .enums import *  # noqa: F403
+
 
 @register_command
 @dataclass
@@ -25,9 +26,9 @@ class PEC_INDICES:
     deletes each custom distribution that is not mentioned in the list. The same can
     be accomplished one-custom-distribution-at-a-time using the PEC_VAL and
     PEC_DELETE commands.
-    
+
     .. note::
-        
+
         Custom distributions which are currently defined are not affected when mentioned in a PEC_INDICES set command. Custom distributions which are currently assigned to an impairment cannot be deleted and any attempt of deleting such a custom distribution using either PEC_DELETE` or PEC_INDICES` will result in an error.
 
     """
@@ -41,20 +42,20 @@ class PEC_INDICES:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        indices: XmpField[XmpIntList] = XmpField(XmpIntList, climb=(0, 40))  # list of integers, a list of the indices to the custom distributions which are currently defined on that port, max 40 elements.
-    
+        indices: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList, climb=(0, 40))  # list of integers, a list of the indices to the custom distributions which are currently defined on that port, max 40 elements.
+
     @dataclass(frozen=True)
     class GetDataAttr:
-        indices: XmpField[XmpIntList] = XmpField(XmpIntList, climb=(0, 40))  # list of integers, a list of the indices to the custom distributions which are currently defined on that port, max 40 elements.
+        indices: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList, climb=(0, 40))  # list of integers, a list of the indices to the custom distributions which are currently defined on that port, max 40 elements.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get a list of the indices to the custom distributions which are currently defined on that port. 
+        """Get a list of the indices to the custom distributions which are currently defined on that port.
 
         :return: a list of the indices to the custom distributions which are currently defined on that port
         :rtype: PEC_INDICES.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
-    
+
     def set(self, indices: typing.List[int]) -> "Token":
         """Set a list of indices to create new custom distributions.
 
@@ -84,21 +85,21 @@ class PEC_VAL:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        linear: XmpField[XmpByte] = XmpField(XmpByte, choices=OnOff)  # coded byte, defines the way the FPGA RAM content is played out.
-        symmetric: XmpField[XmpByte] = XmpField(XmpByte, choices=OnOff)  # coded byte, reserved for future use, must be set to OFF.
-        entry_count: XmpField[XmpInt] = XmpField(
-            XmpInt
+        linear: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, defines the way the FPGA RAM content is played out.
+        symmetric: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, reserved for future use, must be set to OFF.
+        entry_count: XmpField[xt.XmpInt] = XmpField(
+            xt.XmpInt
         )  # integer, defines the number of entries in "dataX" (allowed value: 512,1024). NOTE: For Latency, 1024 entries are used, and for rest, 512 entries are used)
-        data_x: XmpField[XmpLongList] = XmpField(XmpLongList)  # array of long integers, array size="num_entries", holds values to be filled in the RAM memory.
+        data_x: XmpField[xt.XmpLongList] = XmpField(xt.XmpLongList)  # array of long integers, array size="num_entries", holds values to be filled in the RAM memory.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        linear: XmpField[XmpByte] = XmpField(XmpByte, choices=OnOff)  # coded byte, defines the way the FPGA RAM content is played out.
-        symmetric: XmpField[XmpByte] = XmpField(XmpByte, choices=OnOff)  # coded byte, reserved for future use, must be set to OFF.
-        entry_count: XmpField[XmpInt] = XmpField(
-            XmpInt
+        linear: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, defines the way the FPGA RAM content is played out.
+        symmetric: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, reserved for future use, must be set to OFF.
+        entry_count: XmpField[xt.XmpInt] = XmpField(
+            xt.XmpInt
         )  # integer, defines the number of entries in "dataX" (allowed value: 512,1024). NOTE: For Latency, 1024 entries are used, and for rest, 512 entries are used)
-        data_x: XmpField[XmpLongList] = XmpField(XmpLongList)  # array of long integers, array size="num_entries", holds values to be filled in the RAM memory.
+        data_x: XmpField[xt.XmpLongList] = XmpField(xt.XmpLongList)  # array of long integers, array size="num_entries", holds values to be filled in the RAM memory.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the definition of custom distribution.
@@ -155,14 +156,14 @@ class PEC_COMMENT:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        comment: XmpField[XmpStr] = XmpField(XmpStr)  # string, the user-specified comment/description for the custom distribution.
+        comment: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, the user-specified comment/description for the custom distribution.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        comment: XmpField[XmpStr] = XmpField(XmpStr)  # string, the user-specified comment/description for the custom distribution.
+        comment: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, the user-specified comment/description for the custom distribution.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the user-defined description string of a custom distribution. 
+        """Get the user-defined description string of a custom distribution.
 
         :return: the user-specified comment/description for the custom distribution.
         :rtype: PEC_COMMENT.GetDataAttr
@@ -170,7 +171,7 @@ class PEC_COMMENT:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._custom_distribution_xindex]))
 
     def set(self, comment: str) -> "Token":
-        """Set the user-defined description string of a custom distribution.  
+        """Set the user-defined description string of a custom distribution.
 
         :param comment: the user-specified comment/description for the custom distribution.
         :type comment: str
@@ -183,9 +184,9 @@ class PEC_COMMENT:
 class PEC_DELETE:
     """
     Deletes the custom distribution definition.
-    
+
     .. note::
-    
+
         Once a customer has defined a customer distribution using PEC_VAL, it is defined until it is explicitly deleted.Only customer distributions which are not referenced by any impairments, can be deleted.
 
     """
@@ -203,7 +204,7 @@ class PEC_DELETE:
         pass
 
     def set(self) -> "Token":
-        """Deletes the custom distribution definition. 
+        """Deletes the custom distribution definition.
         """
         return Token(
             self._connection,
@@ -221,9 +222,9 @@ class PEC_DELETE:
 class PEC_DISTTYPE:
     """
     Retrieves if a custom distribution is defined for latency or non-latency.
-    
+
     .. note::
-    
+
         Using PEC_DISTTYPE as set has no effect. The distribution type is determined upon custom distribution creation and cannot be modified later. However, it is legal to issue the PEC_DISTTYPE set command with no effect.
 
     """
@@ -238,7 +239,7 @@ class PEC_DISTTYPE:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        latency_type: XmpField[XmpByte] = XmpField(XmpByte, choices=LatencyTypeCustomDist)  # byte, 0 indicates interpacket distribution, 1 indicates latency distribution.
+        latency_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=LatencyTypeCustomDist)  # byte, 0 indicates interpacket distribution, 1 indicates latency distribution.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the latency type of a custom distribution.
@@ -247,5 +248,3 @@ class PEC_DISTTYPE:
         :rtype: PEC_DISTTYPE.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._custom_distribution_xindex]))
-
-

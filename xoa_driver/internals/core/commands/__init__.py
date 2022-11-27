@@ -1,7 +1,7 @@
 """
 Definition of BXMP commands.
 
-All commands in this module are only a stateless declaration of there structures which 
+All commands in this module are only a stateless declaration of there structures which
 define how they will be converted to binary protocol.
 """
 

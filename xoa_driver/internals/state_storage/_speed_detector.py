@@ -10,6 +10,7 @@ from xoa_driver.internals.core.commands import enums
 if TYPE_CHECKING:
     from xoa_driver.internals.core.commands import P_CAPABILITIES
 
+
 class EPortInterfaceSubtype(Enum):
     Unspecified = auto()
     Single = auto()
@@ -24,10 +25,11 @@ class SpeedDetector:
     Keep it as a class for not couple all logic under one function.
     """
     __slots__ = ("capabilities", "interface")
+
     def __init__(self, capabilities: "P_CAPABILITIES.GetDataAttr", interface: str) -> None:
         self.capabilities = capabilities
         self.interface = interface
-    
+
     @property
     def __determinate_interface_subtype(self) -> EPortInterfaceSubtype:
         if "[Triple]" in self.interface:
@@ -39,7 +41,7 @@ class SpeedDetector:
         elif "[Single]" in self.interface:
             return EPortInterfaceSubtype.Single
         return EPortInterfaceSubtype.Unspecified
-    
+
     @property
     def can_set_port_speed(self) -> bool:
         return self.__determinate_interface_subtype in {
@@ -48,7 +50,7 @@ class SpeedDetector:
             EPortInterfaceSubtype.Dual,
             EPortInterfaceSubtype.Single
         }
-    
+
     def __define_single(self) -> List[enums.PortSpeedMode]:
         if "T1S" in self.interface:
             return [
@@ -57,10 +59,10 @@ class SpeedDetector:
                 enums.PortSpeedMode.F1G,
             ]
         return []
-    
+
     def __define_dual(self) -> List[enums.PortSpeedMode]:
         if "T1" in self.interface:
-            return [enums.PortSpeedMode.F10MHDX,]
+            return [enums.PortSpeedMode.F10MHDX, ]
         return []
 
     def __define_triple(self) -> List[enums.PortSpeedMode]:
@@ -95,19 +97,19 @@ class SpeedDetector:
         return []
 
     def __define_quint(self) -> List[enums.PortSpeedMode]:
-        speeds =  [
+        speeds = [
             enums.PortSpeedMode.AUTO,
-            enums.PortSpeedMode.F100M,              
-            enums.PortSpeedMode.F1G,                 
-            enums.PortSpeedMode.F2500M,         
-            enums.PortSpeedMode.F5G,           
+            enums.PortSpeedMode.F100M,
+            enums.PortSpeedMode.F1G,
+            enums.PortSpeedMode.F2500M,
+            enums.PortSpeedMode.F5G,
             enums.PortSpeedMode.F100M1G,
             enums.PortSpeedMode.F100M1G2500M,
         ]
         if self.interface.startswith("10GBASE-T"):
             speeds.append(enums.PortSpeedMode.F10G)
         return speeds
-    
+
     def find_port_possible_speed(self) -> List[enums.PortSpeedMode]:
         if not self.can_set_port_speed:
             return []

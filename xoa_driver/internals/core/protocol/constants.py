@@ -8,6 +8,7 @@ NOVALUE: Final = "N/A"
 MAGIC_WORD: Final = b"XENA"
 # MAGIC_WORD = 0x58454E41
 
+
 class CommandType(IntEnum):
     """BXMP request type"""
 
@@ -44,4 +45,4 @@ class CommandStatus(IntEnum):
     MODULE_OPERATION_NOT_SUPPORTED_BY_CHASSIS = 21  # module is not supported by chassis - e.g. because multi-image requires x64 OS.
     XLSFAILED = 22  # could not establish connection to Xena License Server
     XLSDENIED = 23  # request for resource rejected by Xena License Server
-    XLSINVALID = 24 # Trying to run Valkyrie VE with VulcanVE-300 resource
+    XLSINVALID = 24  # Trying to run Valkyrie VE with VulcanVE-300 resource

@@ -1,7 +1,7 @@
-Layer-1
+Port Layer-1 Classes
 =================================
 
-This module contains the **Layer-1 commands** that mainly deal auto-negotiation and link training on a Freya port.
+This module contains the **Layer-1 classes** that mainly deal auto-negotiation and link training on a Freya port.
 
 -------
 

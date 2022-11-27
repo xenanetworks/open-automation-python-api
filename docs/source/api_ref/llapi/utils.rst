@@ -1,4 +1,4 @@
-Helper Utils
+Helper Functions
 =================================
 
 This module contains the **helper functions**.

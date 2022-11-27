@@ -1,8 +1,8 @@
 {{ objname | escape | underline}}
 
-.. currentmodule:: {{ module }}
 
-.. autoclass:: {{ objname }}
+
+.. autoclass:: {{ fullname }}
     :members:
     :show-inheritance:
     :inherited-members:
@@ -13,7 +13,6 @@
     .. rubric:: {{ _('Methods') }}
 
     .. autosummary::
-        :nosignatures:
     {% for item in methods %}
         {%- if not item.startswith('_') %}
         ~{{ name }}.{{ item }}

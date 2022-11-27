@@ -16,6 +16,7 @@ if TYPE_CHECKING:
 from .token import Token
 from . import exceptions
 
+
 async def establish_connection(transporter: "TransportationHandler", host: str, port: int = 22606, loop: Optional["AbstractEventLoop"] = None) -> None:
     """
     Establish connection to provided host and port and assign ``<TransportationHandler>`` to it.
@@ -40,7 +41,7 @@ async def apply_iter(*cmd_tokens: "Token") -> AsyncGenerator[Any, None]:
         (data, fut) = await t.connection.prepare_data(t.request)
         aggregator[t.connection].extend(data)
         queue.put_nowait(fut)
-    [ c.send(r) for c, r in aggregator.items() ]
+    [c.send(r) for c, r in aggregator.items()]
     aggregator.clear()
     while not queue.empty():
         future = await queue.get()
@@ -53,6 +54,5 @@ async def apply(*cmd_tokens: "Token") -> List[Any]:
     """
     Main interface for chunking the commands which need to be send to one or multiple testers at the same time.
     """
-    
     assert len(cmd_tokens) <= 200, "Number of the commands is bigger then 200 for one aggregation, please use function <apply_iter> instead"
-    return [ f async for f in apply_iter(*cmd_tokens) ]
+    return [f async for f in apply_iter(*cmd_tokens)]

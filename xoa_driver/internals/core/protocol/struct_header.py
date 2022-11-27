@@ -3,16 +3,18 @@
 import ctypes as c
 from . import constants as const
 
+
 class ProtocolHeader(c.BigEndianStructure):
     __slots__ = (
-        "magic_word", 
-        "number_of_indices", 
-        "number_of_value_bytes", 
-        "command_parameter", 
-        "module_index", 
-        "port_index", 
-        "request_identifier"
+        "magic_word",
+        "number_of_indices",
+        "number_of_value_bytes",
+        "command_parameter",
+        "module_index",
+        "port_index",
+        "request_identifier",
     )
+
     _fields_ = [
         ("magic_word", c.c_char * 4),
         ("number_of_indices", c.c_ushort),
@@ -59,6 +61,7 @@ class ProtocolHeader(c.BigEndianStructure):
 
 
 class ResponseHeader(ProtocolHeader):
+
     @property
     def is_pushed(self) -> bool:
         """Check if response is pushed."""
