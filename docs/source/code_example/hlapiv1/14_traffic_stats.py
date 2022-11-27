@@ -47,35 +47,48 @@ async def collect_statistics(tx_port: ports.GenericL23Port, rx_port: ports.Gener
 # endregion
 
 async def my_awesome_func(stop_event: asyncio.Event):
-
-    tester = await testers.L23Tester("192.168.1.200", "xoa") # create tester instance and establish connection
+    # create tester instance and establish connection
+    tester = await testers.L23Tester("192.168.1.200", "xoa") 
     my_module = tester.modules.obtain(0)
 
+    # commands which used in this example are not supported by Chimera Module
     if isinstance(my_module, modules.ModuleChimera):
-        return None # commands which used in this example are not supported by Chimera Module
+        return None 
 
     ( tx_port, rx_port ) = resources = my_module.ports.obtain_multiple(0,1)
 
     for port in resources:
-        if port.is_reserved_by_me(): # check if we can set parameters to selected port
+        # check if we can set parameters to selected port
+        if port.is_reserved_by_me(): 
             continue
         if not port.is_released():
-            await port.reservation.set_relinquish() # send relinquish the port
-        await port.reservation.set_reserve() # set reservation , means port will be controlled by our session
-
-    my_stream = await tx_port.streams.create() # Create one stream on the port
-    my_stream_2 = await tx_port.streams.create() # Create one stream on the port
+            # send relinquish the port
+            await port.reservation.set_relinquish() 
+        # set reservation , means port will be controlled by our session
+        await port.reservation.set_reserve()
+    
+    # Create one stream on the port
+    my_stream = await tx_port.streams.create()
+    # Create one stream on the port
+    my_stream_2 = await tx_port.streams.create()
 
     await utils.apply(
-        my_stream.tpld_id.set(0), # Create the TPLD index of stream
-        my_stream.packet.length.set(length_type=LengthType.FIXED, min_val=1000, max_val=1000), # Configure the packet size
-        my_stream.enable.set_on(), # Enable streams
-        my_stream.rate.fraction.set(stream_rate_ppm=500000), # Configure the stream rate
+        # Create the TPLD index of stream
+        my_stream.tpld_id.set(0), 
+        # Configure the packet size
+        my_stream.packet.length.set(length_type=LengthType.FIXED, min_val=1000, max_val=1000), 
+        # Enable streams
+        my_stream.enable.set_on(), 
+        # Configure the stream rate
+        my_stream.rate.fraction.set(stream_rate_ppm=500000), 
         my_stream.packet.limit.set(packet_count=10000),
         my_stream_2.tpld_id.set(1),
-        my_stream_2.packet.length.set(length_type=LengthType.INCREMENTING, min_val=100, max_val=1000), # Configure the packet size
-        my_stream_2.enable.set_on(), # Enable streams
-        my_stream_2.rate.fraction.set(stream_rate_ppm=500000), # Configure the stream rate
+        # Configure the packet size
+        my_stream_2.packet.length.set(length_type=LengthType.INCREMENTING, min_val=100, max_val=1000), 
+        # Enable streams
+        my_stream_2.enable.set_on(), 
+        # Configure the stream rate
+        my_stream_2.rate.fraction.set(stream_rate_ppm=500000),
         my_stream_2.packet.limit.set(packet_count=10000)
     )
 

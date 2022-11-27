@@ -2,18 +2,9 @@ import asyncio
 import typing
 from xoa_driver import testers
 
-# region high-level functions
-
-# --------------------------------------------------------------------------------------#
-# function name: create_testers                                                         #
-# This function creates multiple tester instances.                                      #
-#                                                                                       #
-# --------------------------------------------------------------------------------------#
-
+# high-level function
 def create_testers(hosts: typing.List[str], username: str) -> typing.List["testers.GenericAnyTester"]:
     return [ testers.L23Tester(host, username) for host in hosts ]
-
-# endregion
 
 async def my_awesome_func():
     known_hosts = [
@@ -28,9 +19,9 @@ async def my_awesome_func():
     testers_pool = create_testers( known_hosts, "xoa")
     # now we can do ``await testers_pool[0]`` which establishes the connection
 
-    await asyncio.gather(*testers_pool) # we also can use asyncio.gather for await all testers at once in concurrent mode
+    # we also can use asyncio.gather for await all testers at once in concurrent mode
+    await asyncio.gather(*testers_pool) 
     print(testers_pool[0].session.is_online)
-    # other code ...
 
 def main():
     try:

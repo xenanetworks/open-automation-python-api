@@ -4,22 +4,24 @@ from xoa_driver import testers
 from xoa_driver import modules
 
 async def my_awesome_func():
-    tester = await testers.L23Tester("192.168.1.200", "xoa") # create tester instance and establish connection
-
+    # create tester instance and establish connection
+    tester = await testers.L23Tester("192.168.1.200", "xoa") 
     my_module = tester.modules.obtain(0)
 
+    # commands which used in this example are not supported by Chimera Module
     if isinstance(my_module, modules.ModuleChimera):
-        return None # commands which used in this example are not supported by Chimera Module
+        return None 
 
-    print(await my_module.media.get()) # Querying module current media configuration
+    # Querying module current media configuration
+    print(await my_module.media.get()) 
 
     ( tx_port, rx_port ) = resources = my_module.ports.obtain_multiple(0, 1)
 
     for port in resources:
-        print(await port.speed.mode.supported.get()) # Querying port supported speed modes
-        print(await port.speed.mode.selection.get()) # Querying port current speed mode
-
-    # other code ...
+        # Querying port supported speed modes
+        print(await port.speed.mode.supported.get()) 
+        # Querying port current speed mode
+        print(await port.speed.mode.selection.get()) 
 
 def main():
     try:

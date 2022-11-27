@@ -10,11 +10,11 @@ import time
 async def my_awesome_script():
     # Establish connection to a Valkyrie tester
     async with testers.L23Tester("192.168.1.200", "xoa") as tester:
-
         my_module = tester.modules.obtain(2)
 
+        # commands which used in this example are not supported by Chimera Module
         if isinstance(my_module, modules.ModuleChimera):
-            return None # commands which used in this example are not supported by Chimera Module
+            return None 
 
         # Get the port 2/2 (module 2)
         port = my_module.ports.obtain(2)
