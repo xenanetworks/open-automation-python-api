@@ -772,23 +772,23 @@ class MediaConfigurationType(IntEnum):
     """Module Media Configuration Type"""
     CFP4 = 0
     """CFP4"""
-    QSFP28_NRZ = 1
+    QSFP28 = QSFP28_NRZ = 1
     """QSFP28 (NRZ)"""
     CXP = 2
     """CXP"""
     SFP28 = 3
     """SFP28"""
-    QSFP56_PAM4 = 4
+    QSFP56 = QSFP56_PAM4 = 4
     """QSFP56 (PAM4)"""
-    QSFPDD_PAM4 = 5
+    QSFPDD = QSFPDD_PAM4 = 5
     """QSFP-DD (PAM4)"""
     SFP56 = 6
     """SFP56"""
-    SFPDD = 7
+    SFP_DD = SFPDD = 7
     """SFP-DD"""
     SFP112 = 8
     """SFP112"""
-    QSFPDD_NRZ = 9
+    QSFP_DD_NRZ = QSFPDD_NRZ = 9
     """QSFP-DD (NRZ)"""
     QSFP28_PAM4 = 10
     """QSFP28 (PAM4)"""
