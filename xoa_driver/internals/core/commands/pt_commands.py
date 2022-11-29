@@ -171,7 +171,9 @@ class PT_EXTRA:
 @dataclass
 class PT_TOTALEXT:
     """
-    PT_TOTALEXT is an extension to :class:`PT_TOTAL` that also includes a calculation of bytes transmitted in the last second. PT_TOTALEXT returns list of long integers; this list may be expanded in future software releases.
+    .. versionadded: v1.1
+
+    An extension to :class:`PT_TOTAL` that also includes a calculation of bytes transmitted in the last second. It returns list of long integers; this list may be expanded in future software releases.
     """
 
     code: typing.ClassVar[int] = 236
@@ -202,7 +204,9 @@ class PT_TOTALEXT:
 @dataclass
 class PT_NOTPLDEXT:
     """
-    PT_NOTPLDEXT is an extension to :class:`PT_NOTPLD` that also includes a calculation of bytes transmitted in the last second. PT_NOTPLDEXT returns list of :long integers; this list may be expanded in future software releases.
+    .. versionadded: v1.1
+
+    An extension to :class:`PT_NOTPLD` that also includes a calculation of bytes transmitted in the last second. It returns list of long integers; this list may be expanded in future software releases.
     """
 
     code: typing.ClassVar[int] = 237
@@ -233,7 +237,9 @@ class PT_NOTPLDEXT:
 @dataclass
 class PT_STREAMEXT:
     """
-    PT_STREAMEXT is an extension to :class:`PT_STREAM` that also includes a calculation of bytes transmitted in the last second. PT_STREAMEXT returns list of long integers; this list may be expanded in future software releases.
+    .. versionadded: v1.1
+
+    An extension to :class:`PT_STREAM` that also includes a calculation of bytes transmitted in the last second. It returns list of long integers; this list may be expanded in future software releases.
     """
 
     code: typing.ClassVar[int] = 238

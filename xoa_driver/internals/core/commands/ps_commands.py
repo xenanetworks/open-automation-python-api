@@ -383,6 +383,8 @@ class PS_INSERTFCS:
 @dataclass
 class PS_AUTOADJUST:
     """
+    .. versionadded:: v1.1
+    
     Executing PS_AUTOADJUST will adjust the packet length distribution (:class:`PS_PACKETLENGTH`) of the stream:
     
         (1) Set the type of packet length distribution (:class:`PS_PACKETLENGTH` ``<length_type>``) to ``FIXED``.

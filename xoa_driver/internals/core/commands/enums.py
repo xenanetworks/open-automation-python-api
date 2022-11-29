@@ -529,20 +529,43 @@ class LengthType(IntEnum):
 
 class PayloadType(IntEnum):
     """Packet payload type"""
+
     PATTERN = 0
     """Pattern"""
+
     INC8 = INCREMENTING = 1
-    """Incrementing with 0xFF (8-bit mode)"""
+    """
+    .. versionchanged:: v1.1
+
+    Incrementing with 0xFF (8-bit mode)
+    """
+
     PRBS = 2
     """PRBS"""
+
     RANDOM = 3
     """Random"""
+
     DEC8 = DECREMENTING = 4
-    """Decrementing with 0xFF (8-bit mode)"""
+    """
+    .. versionchanged:: v1.1
+
+    Decrementing with 0xFF (8-bit mode)
+    """
+
     INC16 = 5
-    """Incrementing with 0xFFFF (16-bit mode)"""
+    """
+    .. versionadded:: v1.1
+
+    Incrementing with 0xFFFF (16-bit mode)
+    """
+
     DEC16 = 6
-    """Decrementing with 0xFFFF (16-bit mode"""
+    """
+    .. versionadded:: v1.1
+    
+    Decrementing with 0xFFFF (16-bit mode)
+    """
 
 
 class MDIXMode(IntEnum):
@@ -772,38 +795,75 @@ class MediaConfigurationType(IntEnum):
     """Module Media Configuration Type"""
     CFP4 = 0
     """CFP4"""
+
     QSFP28 = QSFP28_NRZ = 1
-    """QSFP28 (NRZ)"""
+    """
+    .. versionchanged:: v1.1
+
+    QSFP28 (NRZ)
+    """
+
     CXP = 2
     """CXP"""
+
     SFP28 = 3
     """SFP28"""
+
     QSFP56 = QSFP56_PAM4 = 4
-    """QSFP56 (PAM4)"""
+    """
+    .. versionchanged:: v1.1
+    
+    QSFP56 (PAM4)
+    """
+
     QSFPDD = QSFPDD_PAM4 = 5
-    """QSFP-DD (PAM4)"""
+    """
+    .. versionchanged:: v1.1
+    
+    QSFP-DD (PAM4)
+    """
+
     SFP56 = 6
     """SFP56"""
+
     SFP_DD = SFPDD = 7
-    """SFP-DD"""
+    """
+    .. versionchanged:: v1.1
+
+    SFP-DD
+    """
+
     SFP112 = 8
     """SFP112"""
+
     QSFP_DD_NRZ = QSFPDD_NRZ = 9
-    """QSFP-DD (NRZ)"""
+    """
+    .. versionchanged:: v1.1
+    
+    QSFP-DD (NRZ)
+    """
+
     QSFP28_PAM4 = 10
     """QSFP28 (PAM4)"""
+
     CFP = 99
     """CFP"""
+
     BASE_T1 = 100
     """BASE-T1"""
+
     BASE_T1S = 101
     """BASE-T1S"""
+
     QSFPDD800 = 110
     """QSFP-DD800"""
+
     QSFP112 = 111
     """QSFP112"""
+
     OSFP800 = 112
     """OSFP800"""
+
     UNKNOWN = 255
 
 
@@ -1844,10 +1904,14 @@ class ReconciliationSublayerSupport (IntEnum):
     """Supported, which means P_FAULTSTATUS and P_FAULTSIGNALLING are supported by the port."""
 
 class PL1_CFG_TMP_TYPE (IntEnum):
-    """Enums for PL1_CFG_TMP's type (beta)
-
+    """
     .. versionadded:: 1.1
 
+    .. warning:: 
+
+        Still in beta mode. Subjected to changes
+
+    Enums for PL1_CFG_TMP's type.
     """
     ANLT_INTERACTIVE_MODE = 0
     """ANLT Interactive mode"""

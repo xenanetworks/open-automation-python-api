@@ -1414,9 +1414,11 @@ class M_TXCLOCKFILTER_NEW:
 @dataclass
 class M_CLOCKPPBSWEEP:
     """
+    .. versionadded:: v1.1
+
     Start and stop deviation sweep the local clock of the test module, which drives the TX rate of the test ports.
 
-    Note: The sweep is independent of the M_CLOCKPPB parameter, i.e. the sweep uses the deviation set by M_CLOCKPPB as its zero point.
+    Note: The sweep is independent of the :class:`M_CLOCKPPB` parameter, i.e. the sweep uses the deviation set by :class:`M_CLOCKPPB` as its zero point.
     """
 
     code: typing.ClassVar[int] = 413
@@ -1470,9 +1472,10 @@ class M_CLOCKPPBSWEEP:
 @dataclass
 class M_CLOCKSWEEPSTATUS:
     """
-    Return the current status of the M_CLOCKPPBSWEEP function.
-
     .. versionadded:: 1.1
+
+    Return the current status of the :class:`M_CLOCKPPBSWEEP` function.
+
     """
 
     code: typing.ClassVar[int] = 414
@@ -1491,9 +1494,9 @@ class M_CLOCKSWEEPSTATUS:
         max_steps: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, >0, the total number of steps comprising a full sweep. For "linear" sweeps (ppb_step=0, see M_CLOCKPPBSWEEP) this number is determined by the chassis. In other cases, the number is implicitly given by the M_CLOCKPPBSWEEP parameters.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the current status of the M_CLOCKPPBSWEEP function.
+        """Get the current status of the :class:`M_CLOCKPPBSWEEP` function.
 
-        :return: the current status of the M_CLOCKPPBSWEEP function.
+        :return: the current status of the :class:`M_CLOCKPPBSWEEP` function.
         :rtype: M_CLOCKSWEEPSTATUS.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module))

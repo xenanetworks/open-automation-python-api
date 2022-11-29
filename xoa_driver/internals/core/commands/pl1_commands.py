@@ -20,9 +20,13 @@ from .enums import *  # noqa: F403
 @dataclass
 class PL1_AUTONEGINFO:
     """
-    Get L1 auto-negotiation information. Information is split into a number of pages.
-
     .. versionadded:: 1.1
+
+    .. warning:: 
+
+        Still in beta mode. Subjected to changes
+
+    Get L1 auto-negotiation information. Information is split into a number of pages.
 
     """
 
@@ -74,10 +78,13 @@ class PL1_AUTONEGINFO:
 @dataclass
 class PL1_LINKTRAININFO:
     """
-    Get L1 link training information. Information is per Serdes and split into a number of pages.
-
     .. versionadded:: 1.1
 
+    .. warning:: 
+
+        Still in beta mode. Subjected to changes
+
+    Get L1 link training information. Information is per Serdes and split into a number of pages.
     """
 
     code: typing.ClassVar[int] = 386
@@ -251,10 +258,13 @@ class PL1_LINKTRAININFO:
 @dataclass
 class PL1_LOG:
     """
-    Return a log line of either AN or LT for the given Serdes. The log string line contains the latest 100 lines.
-
     .. versionadded:: 1.1
 
+    .. warning:: 
+
+        Still in beta mode. Subjected to changes
+
+    Return a log line of either AN or LT for the given Serdes. The log string line contains the latest 100 lines.
     """
 
     code: typing.ClassVar[int] = 387
@@ -284,10 +294,13 @@ class PL1_LOG:
 @dataclass
 class PL1_CFG_TMP:
     """
-    Configure some L1 parameters (beta). (Command name is subject to changes)
-
     .. versionadded:: 1.1
 
+    .. warning:: 
+
+        Still in beta mode. Subjected to changes
+
+    Configure some L1 parameters.
     """
 
     code: typing.ClassVar[int] = 388
