@@ -92,6 +92,8 @@ async def collect_statistics(flow: misc.ImpairmentFlow, stop_event: asyncio.Even
 
 async def my_awesome_func(stop_event: asyncio.Event) -> None:
     
+    
+
     # Access to the chassis that has a Chimera module in
     async with testers.L23Tester("10.20.1.253", "xoa-example") as tester:
         # Access the module #10

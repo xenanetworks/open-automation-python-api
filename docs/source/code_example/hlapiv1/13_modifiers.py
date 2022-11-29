@@ -61,7 +61,7 @@ async def my_awesome_func():
     # create one modifier and configure
     await my_stream.packet.header.modifiers.configure(1)
     # access the created modifier
-    my_modifier = my_stream.packet.header.modifiers.obtain(0)
+    my_modifier = my_stream.packet.header.modifiers.index(0)
     # configure the modifier
     # place the modifier on header position 0
     await my_modifier.specification.set(position=0, mask="0xFFFF", action=enums.ModifierAction.INC, repetition=1) 
@@ -70,12 +70,12 @@ async def my_awesome_func():
     # to create another modifier, you need to re-configure all modifiers again
     await my_stream.packet.header.modifiers.configure(2)
 
-    my_modifier = my_stream.packet.header.modifiers.obtain(0)
+    my_modifier = my_stream.packet.header.modifiers.index(0)
     # place the first modifier on header position 0
     await my_modifier.specification.set(position=0, mask="0xFFFF", action=enums.ModifierAction.INC, repetition=1) 
     await my_modifier.range.set(min_val=0, step=1, max_val=65535)
 
-    my_modifier_2 = my_stream.packet.header.modifiers.obtain(1)
+    my_modifier_2 = my_stream.packet.header.modifiers.index(1)
     # place the second modifier on header position 6
     await my_modifier_2.specification.set(position=6, mask="0xFFFF", action=enums.ModifierAction.INC, repetition=1) 
     await my_modifier_2.range.set(min_val=0, step=1, max_val=65535)
@@ -83,7 +83,7 @@ async def my_awesome_func():
     # to delete the first modifier, you need to re-configure all modifiers again
     await my_stream.packet.header.modifiers.configure(1)
     
-    my_modifier = my_stream.packet.header.modifiers.obtain(0)
+    my_modifier = my_stream.packet.header.modifiers.index(0)
     # place the modifier on header position 0
     await my_modifier.specification.set(position=6, mask="0xFFFF", action=enums.ModifierAction.INC, repetition=1) 
     await my_modifier.range.set(min_val=0, step=1, max_val=65535)
