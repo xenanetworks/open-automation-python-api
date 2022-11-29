@@ -7,5 +7,5 @@ HL-FUNC consists of sub-libraries where functions are grouped based on functiona
 
 .. toctree::
 
-    test_resource_mgt/index
+    resource_management/index
     anlt/index

@@ -22,7 +22,7 @@ from xoa_driver.ports import GenericAnyPort
 from xoa_driver.testers import L23Tester, L47Tester, GenericAnyTester
 from xoa_driver.lli import commands
 
-from ..exceptions import (
+from .exceptions import (
     NotConnectedError,
     NoSuchModuleError,
 )

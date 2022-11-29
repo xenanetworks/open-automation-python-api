@@ -5,8 +5,7 @@ The following high-level functions are for auto-negotiation and link training.
 
 -------
 
-.. currentmodule:: xoa_driver.functions.util
-    
+.. currentmodule:: xoa_driver.hlfuncs.anlt
 
 .. autofunction:: anlt_status
 
