@@ -3,15 +3,6 @@ from __future__ import annotations
 from typing import Any, Dict, List
 from xoa_driver.enums import (
     ReservedStatus,
-    AutoNegFECOption,
-    AutoNegMode,
-    AutoNegTecAbility,
-    PauseMode,
-    LinkTrainingInitCondition,
-    LinkTrainingMode,
-    NRZPreset,
-    PAM4FrameSize,
-    TimeoutMode,
 )
 
 from xoa_driver.misc import Token
@@ -76,13 +67,13 @@ def get_port(
     return port
 
 
-async def port_reserve(port: GenericAnyPort) -> List[Token]:
+async def port_reserve(port: GenericAnyPort) -> None:
     """Reserve a port regardless whether it is owned by others or not.
 
     :param port: The port to reserve
     :type port: :class:`~xoa_driver.ports.GenericAnyPort`
     :return:
-    :rtype: typing.List[Token]
+    :rtype: None
     """
     tokens = []
     r = await port.reservation.get()
@@ -91,15 +82,29 @@ async def port_reserve(port: GenericAnyPort) -> List[Token]:
         tokens.append(port.reservation.set_reserve())
     elif r.status == ReservedStatus.RELEASED:
         tokens.append(port.reservation.set_reserve())
-    return tokens
+    await apply(*tokens)
+    return None
 
 
-async def port_reset(port: GenericAnyPort) -> List[Token]:
+async def port_reset(port: GenericAnyPort) -> None:
     """Reset a port
 
     :param port: The port to reset
     :type port: :class:`~xoa_driver.ports.GenericAnyPort`
     :return:
-    :rtype: typing.List[Token]
+    :rtype: None
     """
-    return [(port.reset.set())]
+    await port.reset.set()
+    return None
+
+
+async def port_release(port: GenericAnyPort) -> None:
+    """Reset a port
+
+    :param port: The port to release
+    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :return:
+    :rtype: None
+    """
+    await port.reservation.set_release()
+    return None
