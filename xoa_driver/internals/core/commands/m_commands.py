@@ -971,11 +971,11 @@ class M_MEDIA:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        media_config_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=MediaConfigurationType)  # coded byte, specifying the active front port: CFP4, QSFP28, CXP, SFP28.
+        media_config: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=MediaConfigurationType)  # coded byte, specifying the active front port: CFP4, QSFP28, CXP, SFP28.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        media_config_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=MediaConfigurationType)  # coded byte, specifying the active front port: CFP4, QSFP28, CXP, SFP28.
+        media_config: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=MediaConfigurationType)  # coded byte, specifying the active front port: CFP4, QSFP28, CXP, SFP28.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the media type of the test module.
@@ -985,13 +985,13 @@ class M_MEDIA:
         """
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, media_type: MediaConfigurationType) -> "Token":
+    def set(self, media_config: MediaConfigurationType) -> "Token":
         """Set the media type of the test module.
 
-        :param media_type: the media type of the test module
-        :type media_type: MediaType
+        :param media_config: the media type of the test module
+        :type media_config: MediaType
         """
-        return Token(self._connection, build_set_request(self, module=self._module, media_type=media_type))
+        return Token(self._connection, build_set_request(self, module=self._module, media_config=media_config))
 
 
 @register_command
