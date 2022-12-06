@@ -15,8 +15,8 @@ from xoa_driver.enums import (
 )
 from xoa_driver.misc import Token
 from xoa_driver.utils import apply
-from xoa_driver.internals.hli_v2.ports.port_l23.family_l import FamilyL
-from xoa_driver.internals.hli_v2.ports.port_l23.family_l1 import FamilyL1
+from xoa_driver.internals.ports.port_l23.family_l import FamilyL
+from xoa_driver.internals.ports.port_l23.family_l1 import FamilyL1
 from xoa_driver.ports import GenericAnyPort
 from xoa_driver.testers import L23Tester, L47Tester, GenericAnyTester
 from xoa_driver.lli import commands
@@ -55,7 +55,21 @@ async def connect(
     return current_tester
 
 
-def get_port(
+def obtain_ports_of_module(
+    tester: GenericAnyTester,
+    module_id: int,
+) -> list[GenericAnyPort]:
+    if tester is None:
+        raise NotConnectedError()
+    try:
+        module = tester.modules.obtain(module_id)
+    except KeyError:
+        raise NoSuchModuleError(module_id)
+    ports = list(module.ports)
+    return ports
+
+
+def obtain_port(
     tester: GenericAnyTester,
     module_id: int,
     port_id: int,
@@ -73,7 +87,7 @@ def get_port(
     return port
 
 
-async def port_reserve(port: GenericAnyPort) -> None:
+async def port_force_reserve(port: GenericAnyPort) -> None:
     """Reserve a port regardless whether it is owned by others or not.
 
     :param port: The port to reserve
@@ -238,7 +252,11 @@ async def an_log(port: GenericAnyPort) -> str:
 
 
 async def lt_config(
-    port: GenericAnyPort, enable: bool, timeout_enable: bool, mode: str
+    port: GenericAnyPort,
+    enable: bool,
+    timeout_enable: bool,
+    mode: str,
+    link_recovery: bool,
 ) -> None:
     """Configure link training on a port
 
@@ -284,6 +302,12 @@ async def lt_config(
             timeout_mode=tm,
         ),
     ]
+
+    if link_recovery:
+        page_xindex = 0
+        serdes_xindex = 0
+        rw = commands.PL1_CFG_TMP(conn, mid, pid, page_xindex, serdes_xindex)
+        tokens.append(rw.set(link_recovery))
     await apply(*tokens)
     return None
 
@@ -420,9 +444,9 @@ async def lt_preset0(port: GenericAnyPort, lane: int, use: str) -> List[Token]:
     :rtype: None
     """
     assert use in (
-        "existing",
-        "standard",
-    ), "Para 'coeff' not in ('standard', 'existing')!"
+        "exist",
+        "std",
+    ), "Para 'coeff' not in ('exist', 'std')!"
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     page_xindex = 8766
     register_xindex = ((0xFFFF & lane) << 16) + 0x0000
