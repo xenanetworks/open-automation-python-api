@@ -261,6 +261,32 @@ class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
     Register a callback function to the event that the module's latency mode changes.
     """
 
+    on_media_change = functools.partialmethod(utils.on_event, M_MEDIA)
+    """
+    Register a callback to the event that the module's media and available speeds change.
+    """
+
+    on_media_support_change = functools.partialmethod(utils.on_event, M_MEDIASUPPORT)
+    """
+    Register a callback to the event that the module's supported media changes.
+    """
+
+    on_timing_source_change = functools.partialmethod(utils.on_event, M_TIMESYNC)
+    """
+    Register a callback to the event that the module's timesync mode changes.
+    """
+
+    on_timing_clock_local_adjust_change = functools.partialmethod(utils.on_event, M_CLOCKPPB)
+    """
+    Register a callback to the event that the module's clock adjustment ppb changes.
+    """
+
+    on_adv_timing_clock_tx_status_change = functools.partialmethod(utils.on_event, M_TXCLOCKSTATUS_NEW)
+    """Register a callback to the event that the module's TX clock status changes."""
+
+    on_adv_timing_clock_tx_source_change = functools.partialmethod(utils.on_event, M_TXCLOCKSOURCE_NEW)
+    """Register a callback to the event that the module's clock that drives the port TX rates changes."""
+
 
 @typing.final
 @revisions.register_chimera_module(rev="Chimera-100G-5S-2P")
