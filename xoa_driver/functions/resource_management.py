@@ -99,12 +99,29 @@ async def port_reset(port: GenericAnyPort) -> None:
 
 
 async def port_release(port: GenericAnyPort) -> None:
-    """Reset a port
+    """Release a port
 
     :param port: The port to release
     :type port: :class:`~xoa_driver.ports.GenericAnyPort`
     :return:
     :rtype: None
     """
-    await port.reservation.set_release()
+    if not port.is_released():
+        await port.reservation.set_release()
+    return None
+
+
+async def port_free(port: GenericAnyPort) -> None:
+    """Free a port. If the port is reserved by you, release the port. If the port is reserved by others, relinquish the port. The port should have no owner afterwards.
+
+    :param port: The port to free
+    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :return:
+    :rtype: None
+    """
+    r = await port.reservation.get()
+    if r.status == ReservedStatus.RESERVED_BY_OTHER:
+        await port.reservation.set_relinquish()
+    elif r.status == ReservedStatus.RESERVED_BY_YOU:
+        await port.reservation.set_release()
     return None
