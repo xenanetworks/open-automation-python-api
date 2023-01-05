@@ -694,11 +694,11 @@ class M_CFPCONFIGEXT:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        port_count_speeds_list: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
+        portspeed_list: XmpField[subtypes.PortSpeedChuckList] = XmpField(subtypes.PortSpeedChuckList)
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        port_count_speeds_list: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
+        portspeed_list: XmpField[subtypes.PortSpeedChuckList] = XmpField(subtypes.PortSpeedChuckList)
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of port count and corresponding speeds supported by the current module config.
@@ -708,8 +708,8 @@ class M_CFPCONFIGEXT:
         """
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, port_count: typing.List[int]) -> "Token":
-        return Token(self._connection, build_set_request(self, module=self._module, port_count=port_count))
+    def set(self, portspeed_list: typing.List[int]) -> "Token":
+        return Token(self._connection, build_set_request(self, module=self._module, portspeed_list=portspeed_list))
 
 
 @register_command
