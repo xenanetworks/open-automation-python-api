@@ -393,7 +393,7 @@ class M_CFPCONFIG:
     type is NOTFLEXIBLE then it reflects the transceiver currently in the CFP cage.
     If the CFP type is FLEXIBLE (or NOTPRESENT) then the configuration can be changed
     explicitly. The following combinations are possible: 4x10G, 8x10G, 1x40G, 2x40G,
-    and 1x100G. (replaced by ``M_CFPCONFIGEXT``)
+    and 1x100G. (replaced by :class:`M_CFPCONFIGEXT`)
     """
 
     code: typing.ClassVar[int] = 85
@@ -560,10 +560,9 @@ class M_CAPABILITIES:
 class M_MEDIASUPPORT:
     """
     This command shows the available speeds on a module. The structure of the returned value is
-    [<cage_type> <available_speed_count> [<ports_per_speed> <speed>] ].
-    [<ports_per_speed> <speed>] are repeated until all speeds supported by the <cage_type> has been listed.
-    [<cage_type> <available_speed_count>] are repeated for all cage types on the module
-    including the related <ports_per_speed> <speed> information.
+    ``[ <cage_type> <available_speed_count> [<ports_per_speed> <speed>] ]``.
+    ``[<ports_per_speed> <speed>]`` is repeated until all speeds supported by the ``<cage_type>`` has been listed.
+    ``[<cage_type> <available_speed_count>]`` is repeated for all cage types on the module including the related ``<ports_per_speed> <speed>`` information.
     """
 
     code: typing.ClassVar[int] = 90
@@ -577,12 +576,12 @@ class M_MEDIASUPPORT:
         media_info_list: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)  # coded integer, media information
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the
+        """Get the media supports by the port, including cage type, available speed count, ports per speed, and the corresponding speed.
 
         :return:
-            a list of integers. The structure of the returned value is [<cage_type> <available_speed_count>[<ports_per_speed> <speed>] ].
-            [<ports_per_speed> <speed>] are repeated until all speeds supported by the <cage_type> has been listed.
-            [<cage_type> <available_speed_count>] are repeated for all cage types on the module including the related <ports_per_speed> <speed> information.
+            a list of integers. The structure of the returned value is ``[ <cage_type> <available_speed_count>[<ports_per_speed> <speed>] ]``.
+            ``[<ports_per_speed> <speed>]`` is repeated until all speeds supported by the ``<cage_type>`` has been listed.
+            ``[<cage_type> <available_speed_count>]`` is repeated for all cage types on the module including the related ``<ports_per_speed> <speed>`` information.
 
         :rtype: M_MEDIASUPPORT.GetDataAttr
         """
@@ -672,18 +671,18 @@ class M_MULTIUSER:
 class M_CFPCONFIGEXT:
     """
     This property defines the current number of ports and the speed of each of them
-    on a CFP test module. If the CFP type is NOTFLEXIBLE then it reflects the
-    transceiver currently in the CFP cage. If the CFP type is FLEXIBLE (or
-    NOTPRESENT) then the configuration can be changed explicitly. The following
+    on a CFP test module. If the CFP type is ``NOTFLEXIBLE`` then it reflects the
+    transceiver currently in the CFP cage. If the CFP type is ``FLEXIBLE`` (or
+    ``NOTPRESENT``) then the configuration can be changed explicitly. The following
     combinations are possible: 2x10G, 4x10G, 8x10G, 2x25G, 4x25G, 8x25G, 1x40G,
     2x40G, 2x50G, 4x50G, 8x50G, 1x100G, 2x100G, 4x100G, 2x200G, and 1x400G.
-    (replaces M_CFPCONFIG)
+    (replaces :class:`M_CFPCONFIG`)
 
     .. note::
 
-        <port_count_speeds_list> is a list of integers, where the first element is the number of ports followed by a number of port speeds in Mbps.
+        ``<portspeed_list>`` is a list of integers, where the first element is the number of ports followed by a number of port speeds in Mbps.
         The number of port speeds equals the value of the number of ports.
-        For example if the configuration is 4x25G, <port_count_speeds_list> will be [4, 25000, 25000, 25000, 25000].
+        For example if the configuration is 4x25G, ``<portspeed_list>`` will be ``[4, 25000, 25000, 25000, 25000]``.
     """
 
     code: typing.ClassVar[int] = 93
@@ -694,11 +693,11 @@ class M_CFPCONFIGEXT:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        portspeed_list: XmpField[subtypes.PortSpeedChuckList] = XmpField(subtypes.PortSpeedChuckList)
+        portspeed_list: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        portspeed_list: XmpField[subtypes.PortSpeedChuckList] = XmpField(subtypes.PortSpeedChuckList)
+        portspeed_list: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of port count and corresponding speeds supported by the current module config.
