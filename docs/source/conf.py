@@ -122,7 +122,7 @@ autoclass_content = 'class'
 # 'description' – Show typehints as content of the function or method The typehints of overloaded functions or methods will still be represented in the signature.
 # 'none' – Do not show typehints
 # 'both' – Show typehints in the signature and as content of the function or method
-autodoc_typehints = 'description'
+autodoc_typehints = 'none'
 
 # This value controls whether the types of undocumented parameters and return values are documented when autodoc_typehints is set to description.
 # The default value is "all", meaning that types are documented for all parameters and return values, whether they are documented or not.
