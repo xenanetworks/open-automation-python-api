@@ -44,7 +44,7 @@ def get_short_version(rel_path):
 # -- Project information -----------------------------------------------------
 
 project = u'Xena OpenAutomation Python API'
-copyright = u'2022, Xena Networks'
+copyright = u'2023, Xena Networks'
 author = u'Xena Networks'
 title = u'Xena OpenAutomation Python API Documentation'
 
