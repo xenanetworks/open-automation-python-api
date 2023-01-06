@@ -1901,13 +1901,13 @@ class P_MULTICAST:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        ipv4_multicast_addresses: XmpField[xt.XmpIPV4AddressListStopToKeep4] = XmpField(xt.XmpIPV4AddressListStopToKeep4)  # a multicast group address to join or leave
+        ipv4_multicast_addresses: XmpField[xt.XmpIPV4AddressListStopToKeep2] = XmpField(xt.XmpIPV4AddressListStopToKeep2)  # a multicast group address to join or leave
         operation: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=MulticastOperation)  # coded byte, specifying the operation.
         second_count: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # the interval between repeated joins in seconds.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        ipv4_multicast_addresses: XmpField[xt.XmpIPV4AddressListStopToKeep4] = XmpField(xt.XmpIPV4AddressListStopToKeep4)  # a multicast group address to join or leave
+        ipv4_multicast_addresses: XmpField[xt.XmpIPV4AddressListStopToKeep2] = XmpField(xt.XmpIPV4AddressListStopToKeep2)  # a multicast group address to join or leave
         operation: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=MulticastOperation)  # coded byte, specifying the operation.
         second_count: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # the interval between repeated joins in seconds.
 
@@ -1968,8 +1968,8 @@ class P_MULTICASTEXT:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        ipv4_multicast_addresses: XmpField[xt.XmpIPV4AddressListStopToKeep4] = XmpField(
-            xt.XmpIPV4AddressListStopToKeep4
+        ipv4_multicast_addresses: XmpField[xt.XmpIPV4AddressListStopToKeep3] = XmpField(
+            xt.XmpIPV4AddressListStopToKeep3
         )  # list of addresses, up to 8 multicast group addresses to receive an operation
         operation: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=MulticastExtOperation)  # coded byte, specifying the operation.
         second_count: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, the interval between repeated joins/excludes in seconds.
@@ -1977,8 +1977,8 @@ class P_MULTICASTEXT:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        ipv4_multicast_addresses: XmpField[xt.XmpIPV4AddressListStopToKeep4] = XmpField(
-            xt.XmpIPV4AddressListStopToKeep4
+        ipv4_multicast_addresses: XmpField[xt.XmpIPV4AddressListStopToKeep3] = XmpField(
+            xt.XmpIPV4AddressListStopToKeep3
         )  # list of addresses, up to 8 multicast group addresses to receive an operation
         operation: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=MulticastExtOperation)  # coded byte, specifying the operation.
         second_count: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, the interval between repeated joins/excludes in seconds.

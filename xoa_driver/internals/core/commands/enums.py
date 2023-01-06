@@ -501,7 +501,8 @@ class ProtocolOption(IntEnum):
     _ignore_ = 'ProtocolOption i'
     ProtocolOption = vars()
     for i in range(1, 65):
-        ProtocolOption['RAW_%d' % i] = 256 - i # type: ignore
+        ProtocolOption['RAW_%d' % i] = 256 - i  # type: ignore
+
 
 class ModifierAction(IntEnum):
     """Modifier action mode"""

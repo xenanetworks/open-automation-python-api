@@ -1,3 +1,4 @@
+import math
 import re
 import struct
 from abc import ABCMeta
@@ -413,5 +414,9 @@ class XmpLongListStopToKeep8(XmpLongList):
     stop_to_keep = XmpLong.size
 
 
-class XmpIPV4AddressListStopToKeep4(XmpIPV4AddressList):
-    stop_to_keep = 4
+class XmpIPV4AddressListStopToKeep2(XmpIPV4AddressList):
+    stop_to_keep = 2
+
+
+class XmpIPV4AddressListStopToKeep3(XmpIPV4AddressList):
+    stop_to_keep = 3
