@@ -24,7 +24,10 @@ from .types import (
 
 class FieldSpecs:
     """Executed at initialization time"""
-    __slots__ = ("xmp_type", "min_version", "max_version", "deprecated", "deprecation_reason")
+    __slots__ = ("xmp_type", "min_version", "max_version", "deprecated", "deprecation_reason", "bsize")
+    
+    bsize: int
+    """bytes size"""
 
     def __init__(
         self,
@@ -39,6 +42,8 @@ class FieldSpecs:
         self.max_version = max_version
         self.deprecated = deprecated
         self.deprecation_reason = deprecation_reason
+        self.bsize = struct.calcsize(xmp_type.data_format) 
+        
 
 
 class StrSpec:
@@ -65,9 +70,6 @@ class NumericalSpec:
         self.xmp_type = xmp_type
         self.signed = signed
 
-    def build_format(self) -> None:
-        f_char = self.xmp_type.data_format.upper() if self.signed else self.xmp_type.data_format
-        self.format = f"{FMT_ORDER_NETWORK}{self.xmp_type.repetitions or ''}{f_char}"
 
 
 class HexSpec:

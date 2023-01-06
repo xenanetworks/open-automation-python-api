@@ -154,16 +154,16 @@ class XmpSequence(XmpType[tuple]):
 
     def __init__(
         self,
-        *types: XmpByte | XmpInt | XmpShort | XmpLong | XmpHex | XmpIPv4Address | XmpIPv6Address | XmpMacAddress,
-        size: int | None = None
+        types_chunk: list[XmpByte | XmpInt | XmpShort | XmpLong | XmpHex | XmpIPv4Address | XmpIPv6Address | XmpMacAddress],
+        length: int | None = None
     ) -> None:
 
-        self.types = types
-        self.size = size
+        self.types_chunk = tuple(types_chunk)
+        self.length = length
         self.repetitions = None
         self.__calc_fmt()
 
     def __calc_fmt(self) -> None:
-        self.data_format = "".join(f"{t.repetitions or ''}{t.data_format}" for t in self.types)
+        self.data_format = "".join(f"{t.repetitions or ''}{t.data_format}" for t in self.types_chunk)
 
 # endregion

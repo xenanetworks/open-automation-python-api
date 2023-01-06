@@ -1,19 +1,29 @@
 from __future__ import annotations
 
-import struct
 from io import BytesIO
-from typing import Any, Type, cast
+from typing import (
+    Any, 
+    Type, 
+    cast,
+)
 
-from typing_extensions import Self, dataclass_transform
+from typing_extensions import (
+    Self, 
+    dataclass_transform,
+)
 
 from . import utils
-from .field import FieldSpecs, field
-from .descriptor import StructField
+from .field import (
+    FieldSpecs, 
+    field,
+)
+from .descriptor import FieldDescriptor
 
 
 class OrderedMeta(type):
     def __new__(cls: Type[Self], clsname: str, bases: tuple[Type], clsdict: dict[str, Any]) -> Self:
         if clsname not in {"RequestBodyStruct", "ResponseBodyStruct"}:
+            is_response = any([c.__name__ == "ResponseBodyStruct" for c in bases])
             annotations = utils.resolve_annotations(
                 clsdict.get('__annotations__', {}),
                 clsdict.get('__module__', None)
@@ -23,11 +33,9 @@ class OrderedMeta(type):
                 field_specs = clsdict.get(f_name, None)
                 if not isinstance(field_specs, FieldSpecs):
                     raise ValueError(f"Structure Field {f_name!r} must be described with <field method>")
-                type_size = struct.calcsize(field_specs.xmp_type.data_format)
-                clsdict[f_name] = StructField(field_specs.xmp_type, type_size, user_type)
-                order.append((f_name, type_size))
+                clsdict[f_name] = FieldDescriptor(field_specs, user_type, is_response)
+                order.append((f_name, field_specs.bsize))
             clsdict['_order'] = order
-            clsdict['_is_response'] = any([c.__name__ == "ResponseBodyStruct" for c in bases])
         return super().__new__(cls, clsname, bases, {**clsdict})
 
     @classmethod
@@ -42,7 +50,7 @@ class RequestBodyStruct(metaclass=OrderedMeta):
 
     def __init__(self, **kwargs) -> None:
         self._buffer = BytesIO()
-        for name, t_size in cast(list[tuple[str, int]], self._order):
+        for name, _ in cast("list[tuple[str, int]]", self._order):
             if name not in kwargs:
                 raise AttributeError(f"[{name}] is required!")
             setattr(self, name, kwargs[name])
