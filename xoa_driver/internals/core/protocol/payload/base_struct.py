@@ -2,28 +2,38 @@ from __future__ import annotations
 
 from io import BytesIO
 from typing import (
-    Any, 
-    Type, 
+    Any,
+    List,
+    Tuple,
+    Type,
     cast,
 )
 
 from typing_extensions import (
-    Self, 
+    Self,
     dataclass_transform,
 )
 
 from . import utils
 from .field import (
-    FieldSpecs, 
+    FieldSpecs,
     field,
 )
 from .descriptor import FieldDescriptor
+from .exceptions import FieldDeclarationError
+
+
+RESPONSE_CLS_NAME = "ResponseBodyStruct"
+SKIP_CLASSES = (
+    "RequestBodyStruct",
+    RESPONSE_CLS_NAME,
+)
 
 
 class OrderedMeta(type):
     def __new__(cls: Type[Self], clsname: str, bases: tuple[Type], clsdict: dict[str, Any]) -> Self:
-        if clsname not in {"RequestBodyStruct", "ResponseBodyStruct"}:
-            is_response = any([c.__name__ == "ResponseBodyStruct" for c in bases])
+        if clsname not in SKIP_CLASSES:
+            is_response = any(iter(cls_.__name__ == RESPONSE_CLS_NAME for cls_ in bases))
             annotations = utils.resolve_annotations(
                 clsdict.get('__annotations__', {}),
                 clsdict.get('__module__', None)
@@ -32,7 +42,7 @@ class OrderedMeta(type):
             for f_name, user_type in annotations.items():
                 field_specs = clsdict.get(f_name, None)
                 if not isinstance(field_specs, FieldSpecs):
-                    raise ValueError(f"Structure Field {f_name!r} must be described with <field method>")
+                    raise FieldDeclarationError(f_name)
                 clsdict[f_name] = FieldDescriptor(field_specs, user_type, is_response)
                 order.append((f_name, field_specs.bsize))
             clsdict['_order'] = order
@@ -46,11 +56,12 @@ class OrderedMeta(type):
 @dataclass_transform(kw_only_default=True, field_descriptors=(field, FieldSpecs))
 class RequestBodyStruct(metaclass=OrderedMeta):
     """Request Body class"""
+
     __slots__ = ("_buffer", "_order")
 
     def __init__(self, **kwargs) -> None:
         self._buffer = BytesIO()
-        for name, _ in cast("list[tuple[str, int]]", self._order):
+        for name, _ in cast(List[Tuple[str, int]], self._order):
             if name not in kwargs:
                 raise AttributeError(f"[{name}] is required!")
             setattr(self, name, kwargs[name])
@@ -67,6 +78,7 @@ class RequestBodyStruct(metaclass=OrderedMeta):
 
 class ResponseBodyStruct(metaclass=OrderedMeta):
     """Response Body class"""
+
     __slots__ = ("_buffer",)
 
     def __init__(self, packet_body: bytes) -> None:

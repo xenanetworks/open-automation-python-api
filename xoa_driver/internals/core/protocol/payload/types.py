@@ -14,8 +14,8 @@ FMT_ORDER_NETWORK = "!"
 FMT_BYTES_STRING = "s"
 FMT_SIG_CHAR = "b"
 FMT_U_SIG_CHAR = "B"
-FMT_LONG = "l"
-FMT_U_LONG = "L"
+FMT_LONG = "q"
+FMT_U_LONG = "Q"
 FMT_INT = "i"
 FMT_U_INT = "I"
 FMT_SHORT = "h"
@@ -73,7 +73,7 @@ class XmpLong(XmpType[int]):
     """Description class of XMP Long type representation"""
 
     def __init__(self, *, signed: bool = False) -> None:
-        self.data_format = FMT_LONG if signed else FMT_LONG
+        self.data_format = FMT_LONG if signed else FMT_U_LONG
         self.repetitions = None
 
 
@@ -137,7 +137,7 @@ class XmpHex(XmpType[Hex]):
     """Description class of XMP Hex type representation"""
 
     def __init__(self, *, size: int = 1) -> None:
-        self.data_format = FMT_SIG_CHAR
+        self.data_format = FMT_BYTES_STRING
         self.repetitions = size
 
     @staticmethod

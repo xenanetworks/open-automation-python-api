@@ -1,6 +1,12 @@
 from __future__ import annotations
+from collections import Iterable
 import struct
-from typing import Any, Type
+from typing import Any
+from dataclasses import (
+    is_dataclass,
+    astuple,
+)
+from itertools import islice
 # from typing_extensions import runtime_checkable
 
 from .types import (
@@ -21,11 +27,23 @@ from .types import (
     XmpSequence,
 )
 
+TYPES_FIXED = (XmpInt, XmpLong, XmpByte, XmpShort, XmpHex, XmpIPv4Address, XmpIPv6Address, XmpMacAddress,)
+TYPES_DYNAMIC = (XmpStr,)
+TYPES_COMPOSED = (XmpSequence,)
+
+
+def flatten(items, ignore_types=(str, bytes)):
+    for x in items:
+        if isinstance(x, Iterable) and not isinstance(x, ignore_types):
+            yield from flatten(x)
+        else:
+            yield x
+
 
 class FieldSpecs:
     """Executed at initialization time"""
-    __slots__ = ("xmp_type", "min_version", "max_version", "deprecated", "deprecation_reason", "bsize")
-    
+    __slots__ = ("xmp_type", "format", "min_version", "max_version", "deprecated", "deprecation_reason", "bsize")
+
     bsize: int
     """bytes size"""
 
@@ -42,56 +60,78 @@ class FieldSpecs:
         self.max_version = max_version
         self.deprecated = deprecated
         self.deprecation_reason = deprecation_reason
-        self.bsize = struct.calcsize(xmp_type.data_format) 
-        
+        self.format = self.__build_format(
+            xmp_type.repetitions,
+            xmp_type.data_format
+        )
+        self.bsize = struct.calcsize(self.format)
+
+    def __build_format(self, repetition: int | None, format_letter: str) -> str:
+        return f"{FMT_ORDER_NETWORK}{repetition or ''}{format_letter}"
+
+    def pack(self, val: str) -> bytes:
+        val_ = self.xmp_type.server_format(val)
+        # in case of hex is no need to pack
+        return struct.pack(self.format, val_)
+
+    def unpack(self, buffer: memoryview, offset) -> str:
+        datum_bytes: bytes = next(iter(struct.unpack_from(self.format, buffer, offset)), b"")
+        return self.xmp_type.user_format(datum_bytes)
 
 
-class StrSpec:
+class StrSpec(FieldSpecs):
     def __init__(self, xmp_type: XmpStr,) -> None:
         self.xmp_type = xmp_type
+        self.bsize = struct.calcsize(xmp_type.data_format)
 
-    def build_format(self) -> None:
+    def __build_format(self) -> None:
         self.format = ""
 
     def pack(self, val: str) -> bytes:
         return self.xmp_type.server_format(val)
 
-    def unpack(self, buffer, offset) -> str:
+    def unpack(self, buffer: memoryview, offset) -> str:
+        self.format = f"{len(buffer[offset:])}{self.xmp_type.data_format}"
+        print(buffer[offset:])
         datum_bytes: bytes = next(iter(struct.unpack_from(self.format, buffer, offset)), b"")
         return self.xmp_type.user_format(datum_bytes)
 
 
-class NumericalSpec:
-    def __init__(
-        self,
-        xmp_type: Type[XmpInt | XmpLong | XmpByte | XmpShort],
-        signed: bool = False
-    ) -> None:
-        self.xmp_type = xmp_type
-        self.signed = signed
-
-
-
-class HexSpec:
-    def __init__(self, xmp_type: Type[XmpHex],) -> None:
-        ...
-
-
-class SequenceSpec:
+class SequenceSpec(FieldSpecs):
     def __init__(
         self,
         xmp_type: XmpSequence,
-        list_size: int | None = None,
     ) -> None:
         self.xmp_type = xmp_type
         self.format = f"{FMT_ORDER_NETWORK}{xmp_type.data_format}"
+        self.pack_fmt = f"{FMT_ORDER_NETWORK}{xmp_type.length}{xmp_type.data_format}"
+        self.bsize = struct.calcsize(self.format) * (xmp_type.length or 1)
 
-    def pack(self, val: list) -> bytes:
-        return self.xmp_type.server_format(val)
+    def __build_format(self) -> None:
+        ...
 
-    def unpack(self, buffer, offset) -> str:
-        datum_bytes: bytes = next(iter(struct.unpack_from(self.xmp_type.data_format, buffer, offset)), b"")
-        return self.xmp_type.user_format(datum_bytes)
+    def pack(self, val: list[Any]) -> bytes:
+        # !!! WARNING !!! can be many errors, coz we are not covering all posible scenarios of how this field can be defined.
+        length = self.xmp_type.length or len(val)
+        if is_dataclass(val[0]):
+            mapped_vals_ = (
+                map(
+                    lambda v: v[1].server_format(v[0]),
+                    zip(chunk, self.xmp_type.types_chunk)
+                )
+                for chunk in map(astuple, val)
+            )
+            return b"".join(struct.pack(self.format, *chunk) for chunk in mapped_vals_)
+        else:
+            return struct.pack(self.pack_fmt, *map(self.xmp_type.types_chunk[0].server_format, val))
+
+    def unpack(self, buffer: memoryview, offset: int) -> list[Any]:
+        buff_ = buffer[offset:]
+        buff_ = buff_[:-(len(buff_) % self.bsize)]
+        raw_sequence = (val for val in islice(struct.iter_unpack(self.format, buff_), self.xmp_type.length))
+        # datum_bytes: bytes = next(iter(struct.unpack_from(self.xmp_type.data_format, buffer, offset)), b"")
+        # return self.xmp_type.user_format(datum_bytes)
+        return list(flatten(raw_sequence))
 
 
 def field(
@@ -102,10 +142,15 @@ def field(
     deprecated: bool = False,
     deprecation_reason: str | None = None
 ) -> Any:
-    return FieldSpecs(
-        xmp_type=xmp_type,
-        min_version=min_version,
-        max_version=max_version,
-        deprecated=deprecated,
-        deprecation_reason=deprecation_reason,
-    )
+    if isinstance(xmp_type, TYPES_COMPOSED):
+        return SequenceSpec(xmp_type=xmp_type,)
+    elif isinstance(xmp_type, TYPES_DYNAMIC):
+        return StrSpec(xmp_type=xmp_type,)
+    elif isinstance(xmp_type, TYPES_FIXED):
+        return FieldSpecs(
+            xmp_type=xmp_type,
+            min_version=min_version,
+            max_version=max_version,
+            deprecated=deprecated,
+            deprecation_reason=deprecation_reason,
+        )

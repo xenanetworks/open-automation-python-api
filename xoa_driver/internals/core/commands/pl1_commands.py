@@ -268,7 +268,6 @@ class PL1_LOG:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-
         log_string: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # return a log line from AN/LT for the given Serdes.
 
     def get(self) -> "Token[GetDataAttr]":

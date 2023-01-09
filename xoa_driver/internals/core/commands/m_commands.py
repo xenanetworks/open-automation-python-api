@@ -1172,7 +1172,7 @@ class M_LICENSE_UPDATE_STATUS:
         last_update: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, time for the last update request - in seconds since Jan 1, 1979
         last_success: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, time for the last successful update - in seconds since Jan 1, 1979
         last_fail: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, time for the last failed update - in seconds since Jan 1, 1979
-        Info: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, info about the last license update operation - reason for failed update.
+        info: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, info about the last license update operation - reason for failed update.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the status of the latest license update operation.
