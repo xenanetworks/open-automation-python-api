@@ -1,5 +1,5 @@
 import functools
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Tuple
 from typing_extensions import Self
 from xoa_driver.internals.core.commands import (
     # P_FAULTSIGNALING,
@@ -27,6 +27,18 @@ class PcsPma(PcsPma1, PcsPma2):
 
 
 class FamilyK(BasePortL23Genuine):
+    pcs_pma: PcsPma
+    """PCS/PMA layer
+
+    :type: PcsPma
+    """
+    
+    ser_des: Tuple[SerDes, ...]
+    """SerDes index
+
+    :type: Tuple[SerDes, ...]
+    """
+
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         super().__init__(conn, module_id, port_id)
         self.dynamic = P_DYNAMIC(conn, module_id, port_id)
