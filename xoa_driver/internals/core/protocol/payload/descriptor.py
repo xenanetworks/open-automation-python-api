@@ -45,14 +45,14 @@ class ResponseFieldState:
 
     @staticmethod
     def getter(descr: FieldDescriptor, instance: GetInstance, cls) -> Any:
-        return descr.specs.unpack(instance._buffer, descr.offset)
+        return descr.specs.unpack(instance._buffer)
 
 
 class FieldDescriptor(Generic[GenericType]):
     '''
     Descriptor representing getter and setter of the field
     '''
-    __slots__ = ("specs", "user_type", "state", "name", "offset",)
+    __slots__ = ("specs", "user_type", "state", "name",)
 
     def __init__(self: Self, specs: FieldSpecs, user_type: GenericType, is_response: bool) -> None:
         # will be called from the Meta class
@@ -61,11 +61,10 @@ class FieldDescriptor(Generic[GenericType]):
         self.state = RequestFieldState if not is_response else ResponseFieldState
 
     def __set_name__(self: Self, owner, name: str) -> None:
-        # Will be called when owner object will be created
+        # will be caled after __new__ but before __init__
         self.name = name
-        self.offset = sum(
-            v for _, v in owner._order[:owner._order.index((name, self.specs.bsize))]
-        )
+        position = owner._order.index((name, self.specs.bsize))
+        self.specs.calc_offset(position, owner._order)
 
     def __set__(self: Self, instance, value: GenericType) -> None:
         # Executed at the runtimne

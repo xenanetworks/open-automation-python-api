@@ -33,7 +33,7 @@ class XmpType(Protocol[GenericType]):
     data_format: str
 
     @staticmethod
-    def user_format(val: Any) -> Any:
+    def client_format(val: Any) -> Any:
         return val
 
     @staticmethod
@@ -85,7 +85,7 @@ class XmpIPv6Address(XmpType[IPv6Address]):
         self.repetitions = 16
 
     @staticmethod
-    def user_format(val: bytes) -> IPv6Address:
+    def client_format(val: bytes) -> IPv6Address:
         return IPv6Address(val)
 
     @staticmethod
@@ -101,7 +101,7 @@ class XmpIPv4Address(XmpType[IPv4Address]):
         self.repetitions = 4
 
     @staticmethod
-    def user_format(val: bytes) -> IPv4Address:
+    def client_format(val: bytes) -> IPv4Address:
         return IPv4Address(val)
 
     @staticmethod
@@ -122,10 +122,10 @@ class XmpStr(XmpType[str]):
 
     def __init__(self) -> None:
         self.data_format = FMT_BYTES_STRING
-        self.repetitions = 0
+        self.repetitions = None
 
     @staticmethod
-    def user_format(val: bytes) -> str:
+    def client_format(val: bytes) -> str:
         return val.partition(b'\0')[0].decode()
 
     @staticmethod
@@ -141,7 +141,7 @@ class XmpHex(XmpType[Hex]):
         self.repetitions = size
 
     @staticmethod
-    def user_format(val: bytes) -> str:
+    def client_format(val: bytes) -> str:
         return val.hex()
 
     @staticmethod

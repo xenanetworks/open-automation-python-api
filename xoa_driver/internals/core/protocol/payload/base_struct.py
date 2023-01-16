@@ -3,7 +3,6 @@ from __future__ import annotations
 from io import BytesIO
 from typing import (
     Any,
-    List,
     Tuple,
     Type,
     cast,
@@ -30,6 +29,10 @@ SKIP_CLASSES = (
 )
 
 
+def update_dynamic_sz_field() -> None:
+    ...
+
+
 class OrderedMeta(type):
     def __new__(cls: Type[Self], clsname: str, bases: tuple[Type], clsdict: dict[str, Any]) -> Self:
         if clsname not in SKIP_CLASSES:
@@ -45,7 +48,11 @@ class OrderedMeta(type):
                     raise FieldDeclarationError(f_name)
                 clsdict[f_name] = FieldDescriptor(field_specs, user_type, is_response)
                 order.append((f_name, field_specs.bsize))
-            clsdict['_order'] = order
+                if is_response and field_specs.is_dynamic:
+                    ...
+
+
+            clsdict['_order'] = tuple(order)
         return super().__new__(cls, clsname, bases, {**clsdict})
 
     @classmethod
@@ -61,7 +68,7 @@ class RequestBodyStruct(metaclass=OrderedMeta):
 
     def __init__(self, **kwargs) -> None:
         self._buffer = BytesIO()
-        for name, _ in cast(List[Tuple[str, int]], self._order):
+        for name, _ in cast(Tuple[Tuple[str, int], ...], self._order):
             if name not in kwargs:
                 raise AttributeError(f"[{name}] is required!")
             setattr(self, name, kwargs[name])
@@ -79,10 +86,16 @@ class RequestBodyStruct(metaclass=OrderedMeta):
 class ResponseBodyStruct(metaclass=OrderedMeta):
     """Response Body class"""
 
-    __slots__ = ("_buffer",)
+    __slots__ = ("_buffer", "__dynamic_fields")
 
     def __init__(self, packet_body: bytes) -> None:
         self._buffer = memoryview(packet_body).toreadonly()
+        for field in __dynamic_fields:
+            firld.
+
+    def __update_offsets(self) -> None:
+        if cast(bool, self.__dynamic):
+            ...
 
     def to_hex(self) -> str:
         return self._buffer.hex()
