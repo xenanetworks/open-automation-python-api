@@ -22,7 +22,7 @@ class PL1_AUTONEGINFO:
     """
     .. versionadded:: 1.1
 
-    .. warning:: 
+    .. warning::
 
         Still in beta mode. Subjected to changes
 
@@ -80,7 +80,7 @@ class PL1_LINKTRAININFO:
     """
     .. versionadded:: 1.1
 
-    .. warning:: 
+    .. warning::
 
         Still in beta mode. Subjected to changes
 
@@ -245,6 +245,14 @@ class PL1_LINKTRAININFO:
 
         remote_frame_lock: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4, choices=L1LinkTrainFrameLock)  # frame lock status of the remote end.
 
+        num_frame_errors:  XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # Number of frame errors received
+
+        num_overruns:  XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # Number of overruns
+
+        num_last_ic_received:  XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # Last preset request receuved
+
+        num_last_ic_sent:  XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # Last preset request sent
+
     def get(self) -> "Token[GetDataAttr]":
         """Get L1 link training information. Information is per Serdes and split into a number of pages.
 
@@ -260,7 +268,7 @@ class PL1_LOG:
     """
     .. versionadded:: 1.1
 
-    .. warning:: 
+    .. warning::
 
         Still in beta mode. Subjected to changes
 
@@ -296,7 +304,7 @@ class PL1_CFG_TMP:
     """
     .. versionadded:: 1.1
 
-    .. warning:: 
+    .. warning::
 
         Still in beta mode. Subjected to changes
 
@@ -346,3 +354,55 @@ class PL1_CFG_TMP:
     set_off = functools.partialmethod(set, OnOff.OFF)
     """Set it off.
     """
+
+
+@register_command
+@dataclass
+class PL1_LINKTRAIN_CMD:
+    """
+    .. versionadded:: 1.1
+
+    .. warning::
+
+        Still in beta mode. Subjected to changes
+
+    Link training RPC. Issue link training commands on a given serdes and poll for status
+    """
+
+    code: typing.ClassVar[int] = 389
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: "interfaces.IConnection"
+    _module: int
+    _port: int
+    _serdes_xindex: int
+
+    @dataclass(frozen=True)
+    class GetDataAttr:
+        """Data structure of the get response.
+        """
+        cmd: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
+        arg: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
+        result: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=LinkTrainCmdResults)
+        flags: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
+
+    @dataclass(frozen=True)
+    class SetDataAttr:
+        """Data structure of the set action.
+        """
+        cmd: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=LinkTrainCmd)
+        arg: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
+
+    def get(self) -> "Token[GetDataAttr]":
+        """Get status of current command
+
+        :return: 4 bytes: command, arg, result, flags
+        :rtype: PL1_LINKTRAIN_CMD.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex]))
+
+    def set(self, cmd, arg) -> "Token":
+        """Issue a link train command (cmd, arg)
+
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], cmd=cmd, arg=arg))
