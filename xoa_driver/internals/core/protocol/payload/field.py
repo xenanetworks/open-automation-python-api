@@ -71,11 +71,14 @@ class FieldSpecs:
     def is_dynamic(self) -> bool:
         return False
 
-    def calc_offset(self, position_idx: int, order: tuple) -> None:
-        self.offset = sum(v for _, v in order[:position_idx])
+    # def calc_offset(self, position_idx: int, order: tuple) -> None:
+    #     self.offset = sum(v.bsize for v in order[:position_idx])
 
     def __build_format(self, repetition: int | None, format_letter: str) -> str:
         return f"{FMT_ORDER_NETWORK}{repetition or ''}{format_letter}"
+
+    def calc_bsize(self, buff: memoryview) -> None:
+        return None
 
     def pack(self, val: str) -> bytes:
         val_ = self.xmp_type.server_format(val)
@@ -89,19 +92,19 @@ class FieldSpecs:
 class StrSpec(FieldSpecs):
     def __init__(self, xmp_type: XmpStr,) -> None:
         self.xmp_type = xmp_type
-        self.bsize = 0  # struct.calcsize(xmp_type.data_format)
+        self.bsize = 0
 
-    @staticmethod
-    def calc_str_size(buff: memoryview, offset: int) -> int:
-        in_memory_slice = buff[offset:]
-        return next(
+    def calc_bsize(self, buff: memoryview) -> None:
+        in_memory_slice = buff[self.offset:]
+        current_size = next(
             (
-                idx + 1
+                idx
                 for idx, ord_n in enumerate(in_memory_slice)
                 if ord_n == 0 and not bool(idx % 4)
             ),
             in_memory_slice.nbytes
         )
+        self.bsize = max(self.xmp_type.min_len or 0, current_size)
 
     @property
     def is_dynamic(self) -> bool:
@@ -110,10 +113,9 @@ class StrSpec(FieldSpecs):
     def pack(self, val: str) -> bytes:
         return self.xmp_type.server_format(val)
 
-    def unpack(self, buffer: memoryview, offset: int) -> str:
-        self.bsize = self.calc_str_size(buffer, offset)
+    def unpack(self, buffer: memoryview) -> str:
         self.format = f"{self.bsize}{self.xmp_type.data_format}"
-        datum_bytes: bytes = next(iter(struct.unpack_from(self.format, buffer, offset)), b"")
+        datum_bytes: bytes = next(iter(struct.unpack_from(self.format, buffer, self.offset)), b"")
         return self.xmp_type.client_format(datum_bytes)
 
 
@@ -146,8 +148,8 @@ class SequenceSpec(FieldSpecs):
         else:
             return struct.pack(self.pack_fmt, *map(self.xmp_type.types_chunk[0].server_format, val))
 
-    def unpack(self, buffer: memoryview, offset: int) -> list[Any]:
-        buff_ = buffer[offset:]
+    def unpack(self, buffer: memoryview) -> list[Any]:
+        buff_ = buffer[self.offset:]
         buff_ = buff_[:-(len(buff_) % self.bsize)]
         raw_sequence = (val for val in islice(struct.iter_unpack(self.format, buff_), self.xmp_type.length))
         # datum_bytes: bytes = next(iter(struct.unpack_from(self.xmp_type.data_format, buffer, offset)), b"")

@@ -120,9 +120,10 @@ class XmpMacAddress(XmpType[Hex]):
 class XmpStr(XmpType[str]):
     """Description class of XMP String type representation"""
 
-    def __init__(self) -> None:
+    def __init__(self, min_len: int | None = None) -> None:
         self.data_format = FMT_BYTES_STRING
         self.repetitions = None
+        self.min_len = min_len
 
     @staticmethod
     def client_format(val: bytes) -> str:

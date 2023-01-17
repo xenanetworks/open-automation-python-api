@@ -52,19 +52,13 @@ class FieldDescriptor(Generic[GenericType]):
     '''
     Descriptor representing getter and setter of the field
     '''
-    __slots__ = ("specs", "user_type", "state", "name",)
+    __slots__ = ("specs", "user_type", "state",)
 
     def __init__(self: Self, specs: FieldSpecs, user_type: GenericType, is_response: bool) -> None:
         # will be called from the Meta class
         self.specs = specs
         self.user_type = user_type
         self.state = RequestFieldState if not is_response else ResponseFieldState
-
-    def __set_name__(self: Self, owner, name: str) -> None:
-        # will be caled after __new__ but before __init__
-        self.name = name
-        position = owner._order.index((name, self.specs.bsize))
-        self.specs.calc_offset(position, owner._order)
 
     def __set__(self: Self, instance, value: GenericType) -> None:
         # Executed at the runtimne

@@ -298,6 +298,11 @@ class Prbs:
         Representation of PP_RXPRBSSTATUS
         """
 
+        self.config = PRBSConfig(conn, module_id, port_id)
+        """
+        L23 high-speed port PRBS configuration.
+        """
+
 
 class SerDes:
     """L23 high-speed port SerDes configuration and status."""
