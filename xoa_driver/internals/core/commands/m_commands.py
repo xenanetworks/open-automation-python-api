@@ -14,7 +14,6 @@ from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
 from .enums import *  # noqa: F403
-# from . import subtypes
 
 
 @register_command
@@ -694,11 +693,11 @@ class M_CFPCONFIGEXT:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        portspeed_list: XmpField[subtypes.PortSpeedChuckList] = XmpField(subtypes.PortSpeedChuckList)
+        portspeed_list: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        portspeed_list: XmpField[subtypes.PortSpeedChuckList] = XmpField(subtypes.PortSpeedChuckList)
+        portspeed_list: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of port count and corresponding speeds supported by the current module config.
@@ -1414,7 +1413,7 @@ class M_TXCLOCKFILTER_NEW:
 @dataclass
 class M_CLOCKPPBSWEEP:
     """
-    .. versionadded:: v1.1
+    .. versionadded:: v2.0
 
     Start and stop deviation sweep the local clock of the test module, which drives the TX rate of the test ports.
 
@@ -1472,7 +1471,7 @@ class M_CLOCKPPBSWEEP:
 @dataclass
 class M_CLOCKSWEEPSTATUS:
     """
-    .. versionadded:: 1.1
+    .. versionadded:: 2.0
 
     Return the current status of the :class:`M_CLOCKPPBSWEEP` function.
 
