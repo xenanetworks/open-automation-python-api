@@ -1,4 +1,4 @@
-#: Enumeration Types 
+#: Enumeration Types
 
 from enum import IntEnum
 
@@ -496,12 +496,13 @@ class ProtocolOption(IntEnum):
     """Radio over Ethernet"""
     ETHERTYPE = 48
     """EtherType"""
-    
+
     # Generate RAW form 1...64 bytes
     _ignore_ = 'ProtocolOption i'
     ProtocolOption = vars()
     for i in range(1, 65):
-        ProtocolOption['RAW_%d' % i] = 256 - i # type: ignore
+        ProtocolOption['RAW_%d' % i] = 256 - i  # type: ignore
+
 
 class ModifierAction(IntEnum):
     """Modifier action mode"""
@@ -563,7 +564,7 @@ class PayloadType(IntEnum):
     DEC16 = 6
     """
     .. versionadded:: v2.0
-    
+
     Decrementing with 0xFFFF (16-bit mode)
     """
 
@@ -839,7 +840,7 @@ class MediaConfigurationType(IntEnum):
     QSFP_DD_NRZ = QSFPDD_NRZ = 9
     """
     .. versionchanged:: v2.0
-    
+
     QSFP-DD (NRZ)
     """
 
@@ -1177,6 +1178,7 @@ class LinkTrainingMode(IntEnum):
     """Forced Enable"""
     FORCE_DISABLE = 2
     """Forced Disable"""
+    INTERACTIVE = 3
 
 
 class PAM4FrameSize(IntEnum):
@@ -1389,7 +1391,6 @@ class CustomDefaultScope(IntEnum):
     """All"""
     INSTANCE = 1
     """Instance"""
-
 
 
 class TrafficError(IntEnum):
@@ -1773,9 +1774,10 @@ class ShadowWorkingSelection(IntEnum):
     WORKING = 1
     """Working"""
 
+
 class FilterType(IntEnum):
     """Filter Type for Impairment"""
-    SHADOW = 0 
+    SHADOW = 0
     """Shadow Copy"""
     WORKING = 1
     """Working Copy"""
@@ -1783,9 +1785,9 @@ class FilterType(IntEnum):
 
 class FilterVlanType(IntEnum):
     """VLAN PCP Settings for VLAN Filter"""
-    INNER = 0 
+    INNER = 0
     """VLAN1 (0) (INNER VLAN Tag is specified for the filter – used also when only 1 VLAN), indicates single/inner VLAN-TPID=0x8100"""
-    OUTER = 1 
+    OUTER = 1
     """VLAN2 (1) (OUTER VLAN Tag is specified for the filter), indicates outer VLAN-TPID=0x88A8"""
 
 
@@ -1889,6 +1891,7 @@ class PPMSweepMode(IntEnum):
     TRIANGLE = 1
     """Triangle sweeping"""
 
+
 class PPMSweepStatus(IntEnum):
     """Module clock PPM Sweep Status"""
     OFF = 0
@@ -1896,18 +1899,20 @@ class PPMSweepStatus(IntEnum):
     SWEEPING = 1
     """The module is sweeping"""
 
-class ReconciliationSublayerSupport (IntEnum):
+
+class ReconciliationSublayerSupport(IntEnum):
     """Reconciliation Sublayer Support"""
     NO_SUPPORT = 0
     """Not Supported"""
     FAULT_SIGNALING = 1
     """Supported, which means P_FAULTSTATUS and P_FAULTSIGNALLING are supported by the port."""
 
+
 class Layer1ConfigType (IntEnum):
     """
     .. versionadded:: 2.0
 
-    .. warning:: 
+    .. warning::
 
         Still in beta mode. Subjected to changes
 
@@ -1915,3 +1920,94 @@ class Layer1ConfigType (IntEnum):
     """
     ANLT_INTERACTIVE_MODE = 0
     """ANLT Interactive mode"""
+
+    AN_ALLOW_LOOPBACK = 1
+    """Auto-negitiation allow loopback"""
+
+
+class LinkTrainCmd(IntEnum):
+    """No operation. Used for 'ping' testing"""
+    CMD_NOP = 0
+    """Increment the coeff provided in ARG"""
+    CMD_INC = 1
+    """Decrement the coeff provided in ARG"""
+    CMD_DEC = 2
+    """Set the preset provided in ARG"""
+    CMD_PRESET = 3
+    """Set encoding provided in ARG"""
+    CMD_ENCODING = 4
+    """Signal training completed"""
+    CMD_LOCAL_TRAINED = 255
+
+
+class LinkTrainPresets(IntEnum):
+    """Preset 1"""
+    PRESET_1 = 0
+    """Preset 2"""
+    PRESET_2 = 1
+    """Preset 3"""
+    PRESET_3 = 2
+    """Preset 4"""
+    PRESET_4 = 3
+    """Preset 5"""
+    PRESET_5 = 4
+
+
+class LinkTrainCoeffs(IntEnum):
+    """Pre1 coeff c(-1)"""
+    PRE1 = 0
+    """Main coeff c(0)"""
+    MAIN = 1
+    """Post coeff c(1)"""
+    POST = 2
+    """Pre2 coeff c(-2)"""
+    PRE2 = 3
+    """Pre3 coeff c(-3)"""
+    PRE3 = 4
+
+
+class LinkTrainEncoding(IntEnum):
+    """PAM2"""
+    PAM2 = 0
+    """PAM4"""
+    PAM4 = 1
+    """PAM4_WITH_PRECODING"""
+    PAM4_WITH_PRECODING = 2
+
+
+class LinkTrainCmdResults(IntEnum):
+    """Unknown result"""
+    UNKNOWN = 0x00 | 0
+    """Command successfully completed"""
+    SUCCESS = 0x00 | 1
+    """Command tiemout"""
+    TIMEOUT = 0x00 | 2
+    """Command failed"""
+    FAILED = 0x00 | 3
+    """Coeff did not update"""
+    COEFF_STS_NOT_UPDATED = 0x80 | 0
+    """Coeff updated"""
+    COEFF_STS_UPDATED = 0x80 | 1
+    """Coeff at limit"""
+    COEFF_STS_AT_LIMIT = 0x80 | 2
+    """Coeff not supported"""
+    COEFF_STS_NOT_SUPPORTED = 0x80 | 3
+    """EQ limit reached"""
+    COEFF_STS_EQ_LIMIT = 0x80 | 4
+    """Coeff and EQ limit reached"""
+    COEFF_STS_C_AND_EQ_LIMIT = 0x80 | 6
+
+
+class LinkTrainCmdFlags(IntEnum):
+    """New command"""
+    NEW = 1
+    """Command in progress"""
+    IN_PROGRESS = 2
+    """Command done"""
+    DONE = 4
+    """Link locked"""
+    LOCK = 8
+    """Link lock lost"""
+    LOCK_LOST = 16
+    """Overrun detected"""
+    OVERRUN = 32
