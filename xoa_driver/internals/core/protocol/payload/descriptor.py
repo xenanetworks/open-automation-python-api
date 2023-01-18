@@ -56,6 +56,7 @@ class FieldDescriptor(Generic[GenericType]):
 
     def __init__(self: Self, specs: FieldSpecs, user_type: GenericType, is_response: bool) -> None:
         # will be called from the Meta class
+        print(user_type)
         self.specs = specs
         self.user_type = user_type
         self.state = RequestFieldState if not is_response else ResponseFieldState

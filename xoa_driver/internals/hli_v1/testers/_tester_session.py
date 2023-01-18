@@ -35,9 +35,9 @@ class TesterSession:
     :param keepalive: `True` if keepalive signal is needed, and `False` otherwise, defaults to `False`.
     :type keepalive: bool, optional
     """
-    
+
     __slots__ = ("_conn", "owner_name", "pwd", "timeout", "keepalive")
-    
+
     def __init__(self, conn: "itf.IConnection", owner_name: str, password: str = "xena", timeout_seconds: int = 130, keepalive: bool = False) -> None:
         self._conn = conn
         self.owner_name = owner_name

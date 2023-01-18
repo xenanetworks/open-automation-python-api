@@ -71,9 +71,6 @@ class FieldSpecs:
     def is_dynamic(self) -> bool:
         return False
 
-    # def calc_offset(self, position_idx: int, order: tuple) -> None:
-    #     self.offset = sum(v.bsize for v in order[:position_idx])
-
     def __build_format(self, repetition: int | None, format_letter: str) -> str:
         return f"{FMT_ORDER_NETWORK}{repetition or ''}{format_letter}"
 

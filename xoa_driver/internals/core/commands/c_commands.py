@@ -1152,7 +1152,7 @@ class C_STATSESSION:
     """
     Gets information and statistics for a particular session on the chassis.
     """
-
+    # Buggy command the string lenght is imposible to determinate if operation_count number become very big
     code: typing.ClassVar[int] = 41
     pushed: typing.ClassVar[bool] = False
 
