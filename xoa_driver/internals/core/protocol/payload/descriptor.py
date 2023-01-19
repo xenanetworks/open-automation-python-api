@@ -2,11 +2,12 @@
 from __future__ import annotations
 from io import BytesIO
 
-# import struct
 from typing import (
     Any,
+    Callable,
     Generic,
     Protocol,
+    Type,
     TypeVar,
 )
 
@@ -31,7 +32,9 @@ class GetInstance(Protocol):
 class RequestFieldState:
     @staticmethod
     def setter(descr: FieldDescriptor, instance: SetInstance, value: Any) -> None:
-        instance._buffer.write(descr.specs.pack(val=value))
+        """Transform values from Python to Bxmp and store them in to the buffer"""
+        val_ = descr.format_method(value)
+        instance._buffer.write(descr.specs.pack(val=val_))
 
     @staticmethod
     def getter(descr: FieldDescriptor, instance: SetInstance, cls) -> NoReturn:
@@ -45,20 +48,21 @@ class ResponseFieldState:
 
     @staticmethod
     def getter(descr: FieldDescriptor, instance: GetInstance, cls) -> Any:
-        return descr.specs.unpack(instance._buffer)
+        """Unpack values from the buffer and converting to expected type if required"""
+        val_ = descr.specs.unpack(instance._buffer)
+        return descr.format_method(val_)
 
 
 class FieldDescriptor(Generic[GenericType]):
     '''
     Descriptor representing getter and setter of the field
     '''
-    __slots__ = ("specs", "user_type", "state",)
+    __slots__ = ("specs", "format_method", "state",)
 
-    def __init__(self: Self, specs: FieldSpecs, user_type: GenericType, is_response: bool) -> None:
-        # will be called from the Meta class
-        print(user_type)
+    def __init__(self: Self, specs: FieldSpecs, user_type: Type[Any], is_response: bool) -> None:
+        # Will be called from the Meta class
         self.specs = specs
-        self.user_type = user_type
+        self.format_method: Callable[[Any], Any] = self.specs.get_format_method(user_type, is_response)
         self.state = RequestFieldState if not is_response else ResponseFieldState
 
     def __set__(self: Self, instance, value: GenericType) -> None:

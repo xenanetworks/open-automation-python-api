@@ -72,12 +72,12 @@ class OrderedMeta(type):
                 clsdict.get('__module__', None)
             )
             order = Order(is_response)
-            for f_name, user_type in annotations.items():
-                field_specs = clsdict.get(f_name, None)
+            for field_name, client_type in annotations.items():
+                field_specs = clsdict.get(field_name, None)
                 if not isinstance(field_specs, FieldSpecs):
-                    raise FieldDeclarationError(f_name)
-                clsdict[f_name] = FieldDescriptor(field_specs, user_type, is_response)
-                order.add(field_specs, f_name)
+                    raise FieldDeclarationError(field_name)
+                clsdict[field_name] = FieldDescriptor(field_specs, client_type, is_response)
+                order.add(field_specs, field_name)
             order.update_offsets()
             clsdict['_order'] = order
         return super().__new__(cls, clsname, bases, {**clsdict})

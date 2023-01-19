@@ -1,8 +1,10 @@
 from __future__ import annotations
 import sys
+from functools import partial
 from typing import (
     Dict,
     ForwardRef,
+    Iterable,
     Type,
     Any,
     Optional,
@@ -18,25 +20,34 @@ def resolve_annotations(raw_annotations: dict[str, Type[Any]], module_name: str 
     """
     base_globals: Optional[Dict[str, Any]] = None
     if module_name:
-        try:
-            module = sys.modules[module_name]
-        except KeyError:
-            # happens occasionally, see https://github.com/pydantic/pydantic/issues/2363
-            pass
-        else:
+        if module := sys.modules.get(module_name, None):
             base_globals = module.__dict__
+
+    validate_version = (3, 10) > sys.version_info >= (3, 9, 8) or sys.version_info >= (3, 10, 1)
+    forward_ref = (
+        partial(ForwardRef, is_argument=False, is_class=True)
+        if validate_version else
+        partial(ForwardRef, is_argument=False)
+    )
 
     annotations = {}
     for name, value in raw_annotations.items():
-        if isinstance(value, str):
-            if (3, 10) > sys.version_info >= (3, 9, 8) or sys.version_info >= (3, 10, 1):
-                value = ForwardRef(value, is_argument=False, is_class=True)  # type: ignore
-            else:
-                value = ForwardRef(value, is_argument=False)
+        val_ = forward_ref(value) if isinstance(value, str) else value
         try:
-            value = _eval_type(value, base_globals, None)
+            val_ = _eval_type(val_, base_globals, None)
         except NameError:
-            # this is ok, it can be fixed with update_forward_refs
             pass
-        annotations[name] = value
+        except TypeError:
+            if sys.version_info < (3, 9):
+                version_str = f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
+                raise TypeError(f"The Python version you using is: {version_str} and it's supports type hints only from <typing> module") from None
+        annotations[name] = val_
     return annotations
+
+
+def flatten(items, ignore_types=(str, bytes)):
+    for x in items:
+        if isinstance(x, Iterable) and not isinstance(x, ignore_types):
+            yield from flatten(x)
+        else:
+            yield x

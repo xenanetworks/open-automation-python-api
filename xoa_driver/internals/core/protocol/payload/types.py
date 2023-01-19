@@ -79,6 +79,22 @@ class XmpLong(XmpType[int]):
         self.repetitions = None
 
 
+class XmpHex(XmpType[Hex]):
+    """Description class of XMP Hex type representation"""
+
+    def __init__(self, *, size: int = 1) -> None:
+        self.data_format = FMT_BYTES_STRING
+        self.repetitions = size
+
+    @staticmethod
+    def client_format(val: bytes) -> Hex:
+        return Hex(val.hex())
+
+    @staticmethod
+    def server_format(val: Hex) -> bytes:
+        return bytes.fromhex(val)
+
+
 class XmpIPv6Address(XmpType[IPv6Address]):
     """Description class of XMP IPv6Address type representation"""
 
@@ -111,7 +127,7 @@ class XmpIPv4Address(XmpType[IPv4Address]):
         return val.packed
 
 
-class XmpMacAddress(XmpType[Hex]):
+class XmpMacAddress(XmpHex):
     """Description class of XMP MacAddress type representation"""
 
     def __init__(self) -> None:
@@ -136,22 +152,6 @@ class XmpStr(XmpType[str]):
     @staticmethod
     def server_format(val: str) -> bytes:
         return val.encode()
-
-
-class XmpHex(XmpType[Hex]):
-    """Description class of XMP Hex type representation"""
-
-    def __init__(self, *, size: int = 1) -> None:
-        self.data_format = FMT_BYTES_STRING
-        self.repetitions = size
-
-    @staticmethod
-    def client_format(val: bytes) -> str:
-        return val.hex()
-
-    @staticmethod
-    def server_format(val: str) -> bytes:
-        return bytes.fromhex(val)
 
 
 class XmpSequence(XmpType[tuple]):
