@@ -1,12 +1,13 @@
 from __future__ import annotations
-from enum import Enum
-from functools import partial
-from ipaddress import IPv4Address, IPv6Address
+
+from ipaddress import (
+    IPv4Address,
+    IPv6Address,
+)
 import struct
 from typing import (
     Any,
     Callable,
-    Iterable,
     List,
     Tuple,
     Type,
@@ -127,34 +128,27 @@ class StrSpec(FieldSpecs):
         return val
 
 
-# class LimitedSequence:
-#     ...
+def _prepare_client_chunks(client_type: Type[Any], xmp_types_chunks: tuple) -> Callable[[Any], List[Tuple[Any, ...]]]:
+    """Selecting the function for parsing data chunks from XMP types to Python types"""
+    def converted_dcls(val_):
+        type_paired = (zip(chunk, xmp_types_chunks) for chunk in val_)
+        return (map(lambda v: v[1].client_format(v[0]), pair) for pair in type_paired)
 
-# class UnlimitedSequence:
-#     @staticmethod
-#     def pack(self, val: list[Any]) -> bytes:
-#         pack_fmt = f"{FMT_ORDER_NETWORK}{len(val)}{xmp_type.data_format}"
-#         return struct.pack(self.pack_fmt, *map(self.xmp_type.types_chunk[0].server_format, val))
+    def converted_val(val_):
+        return map(xmp_types_chunks[0].client_format, val_)
 
-# class SequenceChunk:
-#     def __init__(self, ) -> None:
+    converted = converted_dcls if is_dataclass(client_type) else converted_val
+    return lambda val: [client_type(*vals) for vals in converted(val)]
 
-def prepare_client_chunks(values_list: List[Tuple[Any, ...]], client_type: Type[Any], xmp_types_chunks: tuple) -> List[Any]:
+
+def _prepare_serv_chunks(client_type: Type[Any], xmp_types_chunks: tuple) -> Callable[[Any], List[Tuple[Any, ...]]]:
+    """Selecting the function for parsing data chunks from Python types to XMP types"""
     if is_dataclass(client_type):
-        type_paired = (zip(chunk, xmp_types_chunks) for chunk in values_list)
-        converted = (map(lambda v: v[1].client_format(v[0]), pair) for pair in type_paired)
-    else:
-        converted = map(xmp_types_chunks[0].client_format, values_list)
-    return [client_type(*vals) for vals in converted]
-
-
-def prepare_serv_chunks(values_list: List[Any], client_type: Type[Any], xmp_types_chunks: tuple) -> List[Tuple[Any, ...]]:
-    if is_dataclass(client_type):
-        return [
-            map(lambda v: v[1].server_format(v[0]), zip(chunk, xmp_types_chunks))
-            for chunk in map(astuple, values_list)
+        return lambda val: [
+            tuple(map(lambda v: v[1].server_format(v[0]), zip(chunk, xmp_types_chunks)))
+            for chunk in map(astuple, val)
         ]
-    return list(map(xmp_types_chunks[0].server_format, values_list))
+    return lambda val: list(map(xmp_types_chunks[0].server_format, val))
 
 
 class SequenceSpec(FieldSpecs):
@@ -174,16 +168,17 @@ class SequenceSpec(FieldSpecs):
     def calc_bsize(self, buff: memoryview) -> None:
         return None
 
-    def get_format_method(self, client_type: Type[Any], is_response: bool) -> Callable[[Any], Any]:
+    def get_format_method(self, client_type: Type[Any], is_response: bool) -> Callable[[Any], List[Tuple[Any, ...]]]:
+        client_type = get_args(client_type)[0]
         if is_response:
-            return partial(prepare_client_chunks, client_type=get_args(client_type)[0], xmp_types_chunks=self.xmp_type.types_chunk)
-        return partial(prepare_serv_chunks, client_type=get_args(client_type)[0], xmp_types_chunks=self.xmp_type.types_chunk)
-        # chunk_client_type = next(iter(get_args(client_type)), None)
-        # def convert(chunk) -> List[chunk_client_type]:
-        #     [chunk_client_type(*vals) for vals in chunk] 
-        # if is_response:
-        #     return self.xmp_type.client_format
-        # return self.xmp_type.server_format
+            return _prepare_client_chunks(
+                client_type=client_type,
+                xmp_types_chunks=self.xmp_type.types_chunk
+            )
+        return _prepare_serv_chunks(
+            client_type=client_type,
+            xmp_types_chunks=self.xmp_type.types_chunk
+        )
 
     def pack(self, val: list[Any]) -> bytes:
         length = self.xmp_type.length or len(val)
