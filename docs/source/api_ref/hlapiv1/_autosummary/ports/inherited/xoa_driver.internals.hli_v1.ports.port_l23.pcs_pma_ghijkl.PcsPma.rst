@@ -29,5 +29,6 @@
         ~PcsPma.error_gen
         ~PcsPma.rx
         ~PcsPma.phy
+        ~PcsPma.prbs_config
     
     

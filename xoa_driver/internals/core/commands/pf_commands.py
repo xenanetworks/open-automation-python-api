@@ -290,12 +290,12 @@ class PF_CONDITION:
 
         :return: and_expression_0, and_not_expression_0, and_expression_1, and_not_expression_1, and_expression_2, and and_expression_3.
 
-        :rtype: Token[GetDataAttr]
+        :rtype: ~PF_CONDITION.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._filter_xindex]))
 
     def set(self, and_expression_0: int, and_not_expression_0: int, and_expression_1: int, and_not_expression_1: int, and_expression_2: int, and_expression_3: int) -> "Token":
-        """_summary_
+        """Set the condition on the terms specifying when the filter is satisfied.
 
         :param and_expression_0: encoding a compound term which is a set of the match terms AND length terms.
         :type and_expression_0: int
@@ -355,7 +355,7 @@ class PF_STRING:
         """Get the string representation of a filter.
 
         :return: the string representation of a filter
-        :rtype: PF_STRING.GetDataAttr
+        :rtype: ~PF_STRING.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._filter_xindex]))
 

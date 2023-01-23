@@ -35,11 +35,13 @@ class FamilyL1(BasePortL23Genuine):
     pcs_pma: PcsPma
     """PCS/PMA layer
 
-    :rtype: PcsPma
+    :type: PcsPma
     """
     
     ser_des: Tuple[SerDes, ...]
     """SerDes index
+
+    :type: Tuple[SerDes, ...]
     """
 
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:

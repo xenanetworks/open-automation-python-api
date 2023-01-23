@@ -21,7 +21,7 @@ from .enums import *  # noqa: F403
 class PC_TRIGGER:
     """
     The criteria for when to start and stop the capture process for a port. Even
-    when capture is enabled with P_CAPTURE, the actual capturing of packets can be
+    when capture is enabled with :class:`P_CAPTURE`, the actual capturing of packets can be
     delayed until a particular start criteria is met by a received packet.
     Likewise, a stop criteria can be specified, based on a received packet. If no
     explicit stop criteria is specified, capture  stops when the internal buffer
@@ -47,16 +47,39 @@ class PC_TRIGGER:
 
     @dataclass(frozen=True)
     class GetDataAttr:
+        """
+        Class of the get data.
+        """
+
         start_criteria: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=StartTrigger)  # coded integer, the criteria for starting the actual packet capture
+        """The criteria for starting the actual packet capture.
+
+        :type: StartTrigger
+        """
+
         start_criteria_filter: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the index of a particular filter for the start criteria.
+        """The index of a particular filter for the start criteria.
+
+        :type: int
+        """
+
         stop_criteria: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=StopTrigger)  # coded integer, the criteria for stopping the actual packet capture
+        """The criteria for stopping the actual packet capture.
+
+        :type: StopTrigger
+        """
+
         stop_criteria_filter: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the index of a particular filter for the stop criteria.
+        """The index of a particular filter for the stop criteria.
+
+        :type: int
+        """
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the capture criteria configurations.
 
         :return: capture criteria configuration.
-        :rtype: PC_TRIGGER.GetDataAttr
+        :rtype: ~PC_TRIGGER.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
@@ -110,15 +133,32 @@ class PC_KEEP:
 
     @dataclass(frozen=True)
     class GetDataAttr:
+        """Class of the get data.
+        """
+
         kind: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=PacketType)  # coded integer, which general kind of packets to keep
+        """The type of packet to keep.
+
+        :type: PacketType
+        """
+
         index: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, test payload id or filter index for which packets to keep.
+        """Test payload id or filter index for which packets to keep.
+
+        :type: int
+        """
+
         byte_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, how many bytes to keep in the buffer for of each packet. The value -1 means no limit on packet size.
+        """How many bytes to keep in the buffer for of each packet. The value -1 means no limit on packet size.
+
+        :type: int
+        """
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the configuration of how to keep captured packets.
 
         :return: the configuration of how to keep captured packets
-        :rtype: PC_KEEP.GetDataAttr
+        :rtype: ~PC_KEEP.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
@@ -171,15 +211,32 @@ class PC_STATS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
+        """Class of the get data.
+        """
+
         status: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, 1 if capture has been stopped because of overflow, 0 if still running.
+        """Capture status, 1 if capture has been stopped because of overflow, 0 if still running. 
+
+        :type: int
+        """
+
         packets: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of packets in the buffer.
+        """The number of packets in the buffer.
+
+        :type: int
+        """
+
         start_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, time when capture was started, in nano-seconds since 2010-01-01.
+        """Time when capture was started, in **nanoseconds** since 2010-01-01.
+
+        :type: int
+        """
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the number of packets currently in the capture buffer for a port. The count is reset to zero when capture is turned on.
 
         :return: status of the capture, number of packets in the buffer, and start time in nanoseconds since 2010-01-01.
-        :rtype: PC_STATS.GetDataAttr
+        :rtype: ~PC_STATS.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
@@ -204,16 +261,44 @@ class PC_EXTRA:
 
     @dataclass(frozen=True)
     class GetDataAttr:
+        """
+        Class of the returned data.
+        """
+
         time_captured: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, time when packet was captured, in nanoseconds since 2010-01-01.
+        """
+        Time of capture, in **nanoseconds** since 2010-01-01.
+
+        :type: int
+        """
+
         latency: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of nanoseconds since the packet was transmitted.
+        """
+        The number of **nanoseconds** since the packet was transmitted.
+
+        :type: int
+        """
+
         byte_time_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of byte-times since previous packet.
+        """
+        The number of byte-times since previous packet.
+
+        :type: int
+        """
+
         length: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the real length of the packet on the wire.
+        """
+        The real length of the packet on the wire.
+
+        :type: int
+        """
 
     def get(self) -> "Token[GetDataAttr]":
         """Get extra information about a captured packet for a port.
 
-        :return: time of capture, the number of nanoseconds since the packet was transmitted, the number of byte-times since previous packet, and the real length of the packet on the wire.
-        :rtype: PC_EXTRA.GetDataAttr
+        :return: Extra information about a captured packet for a port.
+            
+        :rtype: ~PC_EXTRA.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self.capture_packet_xindex]))
 
@@ -223,7 +308,7 @@ class PC_EXTRA:
 class PC_PACKET:
     """
     Obtains the raw bytes of a captured packet for a port. The packet data may be
-    truncated if the PC_KEEP command specified a limit on the number of bytes
+    truncated if the :class:`PC_KEEP` command specified a limit on the number of bytes
     kept.
     """
 
@@ -237,12 +322,20 @@ class PC_PACKET:
 
     @dataclass(frozen=True)
     class GetDataAttr:
+        """
+        Class of the returned data.
+        """
+
         hex_data: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)  # list of hex bytes, the raw bytes kept for the packet.
+        """The raw bytes kept for the packet.
+
+        :type: list
+        """
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the raw bytes of a captured packet for a port.
 
         :return: the raw bytes of a captured packet
-        :rtype: PC_PACKET.GetDataAttr
+        :rtype: ~PC_PACKET.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self.capture_packet_xindex]))
