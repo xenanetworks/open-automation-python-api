@@ -179,6 +179,9 @@ class PcsPma:
         self.phy = PcsPmaPhy(conn, *port.kind)
         """PCS/PMA PHY"""
 
+        self.prbs_config = PRBSConfig(conn, *port.kind)
+        """PCS/PMA PRBS Configuration"""
+
         self.lanes: Tuple["Lane", ...] = tuple(
             Lane(self._conn, *self.__port.kind, lane_idx=idx) 
             for idx in range(self.__port.info.capabilities.lane_count) #TODO: need to fix, currently port.info.capabilities must be none because lanes are created before awaiting the port
