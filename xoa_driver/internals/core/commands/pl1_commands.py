@@ -20,7 +20,7 @@ from .enums import *  # noqa: F403
 @dataclass
 class PL1_AUTONEGINFO:
     """
-    .. versionadded:: 1.1
+    .. versionadded:: 2.0
 
     .. warning::
 
@@ -78,7 +78,7 @@ class PL1_AUTONEGINFO:
 @dataclass
 class PL1_LINKTRAININFO:
     """
-    .. versionadded:: 1.1
+    .. versionadded:: 2.0
 
     .. warning::
 
@@ -266,7 +266,7 @@ class PL1_LINKTRAININFO:
 @dataclass
 class PL1_LOG:
     """
-    .. versionadded:: 1.1
+    .. versionadded:: 2.0
 
     .. warning::
 
@@ -287,7 +287,10 @@ class PL1_LOG:
     @dataclass(frozen=True)
     class GetDataAttr:
 
-        log_string: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # return a log line from AN/LT for the given Serdes.
+        log_string: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  
+        # TODO: the type of this param returned from xenaserver will be a JSON. 
+        # Then xoa-driver should parse it into a Python dict.
+        # We will need to modify this as soon as the part on xenaserver is ready.
 
     def get(self) -> "Token[GetDataAttr]":
         """Return a log line of either AN (``<_type> = 0``) or LT (``<_type> = 1``) for the given Serdes. (latest 100 lines)
@@ -302,7 +305,7 @@ class PL1_LOG:
 @dataclass
 class PL1_CFG_TMP:
     """
-    .. versionadded:: 1.1
+    .. versionadded:: 2.0
 
     .. warning::
 
@@ -324,13 +327,13 @@ class PL1_CFG_TMP:
     class GetDataAttr:
         """Data structure of the get response.
         """
-        on_off: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=OnOff)
+        value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=OnOff)
 
     @dataclass(frozen=True)
     class SetDataAttr:
         """Data structure of the set action.
         """
-        on_off: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=OnOff)
+        value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=OnOff)
 
     def get(self) -> "Token[GetDataAttr]":
         """Get various L1 parameters
@@ -340,13 +343,13 @@ class PL1_CFG_TMP:
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._type]))
 
-    def set(self, on_off: int) -> "Token":
+    def set(self, value: int) -> "Token":
         """Get various L1 parameters
 
-        :param on_off: whether it is on or off
-        :type on_off: int
+        :param value: whether it is on or off
+        :type value: int
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._type], on_off=on_off))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._type], value=value))
 
     set_on = functools.partialmethod(set, OnOff.ON)
     """Set it on.

@@ -536,7 +536,7 @@ class PayloadType(IntEnum):
 
     INC8 = INCREMENTING = 1
     """
-    .. versionchanged:: v1.1
+    .. versionchanged:: v2.0
 
     Incrementing with 0xFF (8-bit mode)
     """
@@ -549,21 +549,21 @@ class PayloadType(IntEnum):
 
     DEC8 = DECREMENTING = 4
     """
-    .. versionchanged:: v1.1
+    .. versionchanged:: v2.0
 
     Decrementing with 0xFF (8-bit mode)
     """
 
     INC16 = 5
     """
-    .. versionadded:: v1.1
+    .. versionadded:: v2.0
 
     Incrementing with 0xFFFF (16-bit mode)
     """
 
     DEC16 = 6
     """
-    .. versionadded:: v1.1
+    .. versionadded:: v2.0
 
     Decrementing with 0xFFFF (16-bit mode)
     """
@@ -799,7 +799,7 @@ class MediaConfigurationType(IntEnum):
 
     QSFP28 = QSFP28_NRZ = 1
     """
-    .. versionchanged:: v1.1
+    .. versionchanged:: v2.0
 
     QSFP28 (NRZ)
     """
@@ -812,15 +812,15 @@ class MediaConfigurationType(IntEnum):
 
     QSFP56 = QSFP56_PAM4 = 4
     """
-    .. versionchanged:: v1.1
-
+    .. versionchanged:: v2.0
+    
     QSFP56 (PAM4)
     """
 
     QSFPDD = QSFPDD_PAM4 = 5
     """
-    .. versionchanged:: v1.1
-
+    .. versionchanged:: v2.0
+    
     QSFP-DD (PAM4)
     """
 
@@ -829,7 +829,7 @@ class MediaConfigurationType(IntEnum):
 
     SFP_DD = SFPDD = 7
     """
-    .. versionchanged:: v1.1
+    .. versionchanged:: v2.0
 
     SFP-DD
     """
@@ -839,7 +839,7 @@ class MediaConfigurationType(IntEnum):
 
     QSFP_DD_NRZ = QSFPDD_NRZ = 9
     """
-    .. versionchanged:: v1.1
+    .. versionchanged:: v2.0
 
     QSFP-DD (NRZ)
     """
@@ -1908,9 +1908,9 @@ class ReconciliationSublayerSupport(IntEnum):
     """Supported, which means P_FAULTSTATUS and P_FAULTSIGNALLING are supported by the port."""
 
 
-class PL1_CFG_TMP_TYPE (IntEnum):
+class Layer1ConfigType (IntEnum):
     """
-    .. versionadded:: 1.1
+    .. versionadded:: 2.0
 
     .. warning::
 
