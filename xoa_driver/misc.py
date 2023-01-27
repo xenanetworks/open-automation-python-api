@@ -5,6 +5,11 @@ from .internals.core.transporter.token import Token
 from .internals.core.commands.subtypes import (
     ArpChunk,
     NdpChunk,
+    DhcpChunk,
+    DhcpChunkList,
+    GroupAddressElem,
+    GroupAddressPool,
+    VlanTags
 )
 
 import sys
@@ -41,4 +46,9 @@ __all__ = (
     "ImpairmentFlow",
     "BasicImpairmentFlowFilter",
     "ExtendedImpairmentFlowFilter",
+    "DhcpChunk",
+    "DhcpChunkList",
+    "GroupAddressElem",
+    "GroupAddressPool",
+    "VlanTags"
 )

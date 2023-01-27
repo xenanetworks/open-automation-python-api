@@ -14,7 +14,7 @@ from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
 from .enums import *  # noqa: F403
-
+from . import subtypes
 
 @register_command
 @dataclass
@@ -1497,6 +1497,183 @@ class P4_SPEEDSELECTION:
     """Set the port speed mode to 50 Gbit/s."""
     set_f100g = functools.partialmethod(set, L47PortSpeed.F100G)
     """Set the port speed mode to 100 Gbit/s."""
+
+
+@register_command
+@dataclass
+class P4_DHCP_CONFIG:
+    """
+    Configure DHCP Client in order to aquire a pool of ip addresses.
+    """
+    
+    code: typing.ClassVar[int] = 780
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: "interfaces.IConnection"
+    _module: int
+    _port: int
+
+    @dataclass(frozen=True)
+    class SetDataAttr:
+        num_requests: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt) # Number of DHCP requests to be sent
+        retransmit_retries: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt) # Max Request retransmission retries
+        timeout: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt) # retransmission timeout [ms]
+        base_hw_addr: XmpField[xt.XmpMacAddress] = XmpField(xt.XmpMacAddress) # base hw address for generating DHCP requests (the first 3 bytes are being used)
+
+    @dataclass(frozen=True)
+    class GetDataAttr:
+        num_requests: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt) # Number of DHCP request to acuire IP addresses
+        retransmit_retries: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt) # Max Request retransmission retries
+        timeout: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt) # retransmission timeout [ms]
+        base_hw_addr: XmpField[xt.XmpMacAddress] = XmpField(xt.XmpMacAddress) # base hw address for generating DHCP requests (the first 3 bytes is being used)
+
+    def get(self) -> "Token[GetDataAttr]":
+        """Get the DHCP configuration.
+
+        :return: the DHCP configuration
+        :rtype: P4_DHCP_CONFIG.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+
+    def set(self, num_requests: int, retransmit_retries: int, timeout: int, base_hw_addr: str) -> "Token":
+        """Set the DHCP configuration.
+
+        :param num_requests: Number of DHCP requests - must be larger than 0
+        :type num_requests: unsigned int
+        :param retransmit_retries: maximum DHCP Request retransmission retries - must be larger than 0
+        :type retransmit_retries: unsigned int
+        :param timeout: retransmission timeout [ms]
+        :type timeout: unsigned int
+        :param base_hw_addr: base hw address for generating DHCP requests (the first 3 bytes is being used)
+        :type base_hw_addr: str
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, num_requests=num_requests, 
+                                                         retransmit_retries=retransmit_retries, timeout=timeout, base_hw_addr=base_hw_addr))
+
+
+@register_command
+@dataclass
+class P4_DHCP_RUN:
+    """
+    Run DHCP Client process to obtain a pool of address.
+    """
+
+    code: typing.ClassVar[int] = 781
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: "interfaces.IConnection"
+    _module: int
+    _port: int
+
+    @dataclass(frozen=True)
+    class SetDataAttr:
+        pass
+
+    def set(self) -> "Token":
+        """Run DHCP Client Process.
+
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port))
+
+
+@register_command
+@dataclass
+class P4_DHCP_STATE:
+    """
+    Get the last state of the DHCP Client Process.
+    """
+
+    code: typing.ClassVar[int] = 782
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: "interfaces.IConnection"
+    _module: int
+    _port: int
+
+    @dataclass(frozen=True)
+    class GetDataAttr:
+        dhcp_state: XmpField[xt.XmpByte] = XmpField(xt.XmpByte) # The last state of the DHCP Client Process.
+        num_success: XmpField[xt.XmpInt] = XmpField(xt.XmpInt) # Current number of successfully optained ip addresses
+        num_failure: XmpField[xt.XmpInt] = XmpField(xt.XmpInt) # Current number of failed dhcp requests
+
+    def get(self) -> "Token[GetDataAttr]":
+        """Get the last state of the DHCP Client Process.
+            The dhcp_state is an enum type of DhcpState{DHCP_STATE_UNKNOWN=0, DHCP_STATE_RUNNING=1, DHCP_STATE_COMPLETED=2, DHCP_STATE_FAILED=3}
+
+        :return: the last state of the DHCP Client Process.
+        :rtype: P4_DHCP_STATE.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+
+
+@register_command
+@dataclass
+class P4_DHCP_RESULT:
+    """
+    Get the port's last DHCP client process result
+    """
+
+    code: typing.ClassVar[int] = 783
+    pushed: typing.ClassVar[bool] = True
+
+    _connection: "interfaces.IConnection"
+    _module: int
+    _port: int
+
+    @dataclass(frozen=True)
+    class GetDataAttr:
+        dhcp_chunks: XmpField[subtypes.DhcpChunkList] = XmpField(subtypes.DhcpChunkList)
+
+    def get(self) -> "Token[GetDataAttr]":
+        """Get the port's the result of the last DHCP client process
+
+        :return: A list that contains the response for each DHCP request that had lunched by the last DHCP client process 
+        :rtype: P4_DHCP_RESULT.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+
+
+@register_command
+@dataclass
+class P4_DHCP_VLAN:
+    """
+    Configure a set of VLAN tags for current DHCP Process.
+    """
+
+    code: typing.ClassVar[int] = 784
+    pushed: typing.ClassVar[bool] = True
+
+    _connection: "interfaces.IConnection"
+    _module: int
+    _port: int
+    
+    @dataclass(frozen=True)
+    class SetDataAttr:
+        state: XmpField[xt.XmpByte] = XmpField(xt.XmpByte) # Enable/Disable Vlan configuration
+        tcis:  XmpField[subtypes.VlanTags] = XmpField(subtypes.VlanTags) # A list of vlan tci. up to 6 TCIs can be define
+    
+    @dataclass(frozen=True)
+    class GetDataAttr:
+        state: XmpField[xt.XmpByte] = XmpField(xt.XmpByte) # Determines whether VLAN is configured or not.
+        tcis:  XmpField[subtypes.VlanTags] = XmpField(subtypes.VlanTags) # A list of vlan tci. up to 6 TCIs can be define
+
+    def set(self, state: DhcpVlanState, tcis: typing.List[str]) -> "Token":
+        """Set a list of VLAN TCIs for current DHCP Process
+        :param state: Enable/Disable Vlan configuration
+        :type DhcpVlanState(byte)
+        :param tcis: A list of vlan TCIs. up to 6 VLANs can be define
+        :type tcis: List[XmpHex2]
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, 
+                                                         state=state, tcis=tcis))
+    def get(self) -> "Token[GetDataAttr]":
+        """Get the DHCP VLAN configuration
+        :return: Whether DHCP VLAN is configured or not
+        :rtype:  P4_DHCP_RESULT.GetDataAttr
+        :return: A list of vlan TCIs 
+        :rtype: P4_DHCP_RESULT.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
 @register_command

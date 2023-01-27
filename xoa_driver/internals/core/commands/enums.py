@@ -1915,3 +1915,14 @@ class PL1_CFG_TMP_TYPE (IntEnum):
     """
     ANLT_INTERACTIVE_MODE = 0
     """ANLT Interactive mode"""
+    
+class DhcpState(IntEnum):
+    DHCP_STATE_UNKNOWN = 0
+    DHCP_STATE_RUNNING = 1
+    DHCP_STATE_COMPLETED = 2
+    DHCP_STATE_FAILED = 3
+    
+    
+class DhcpVlanState(IntEnum):
+    DHCP_VLAN_OFF = 0
+    DHCP_VLAN_ON  = 1

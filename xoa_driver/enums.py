@@ -154,4 +154,6 @@ __all__ = (  # noqa: F405
     "PPMSweepStatus",
     "PPMSweepMode",
     "L1LinkTrainFrameLock",
+    "DhcpState",
+    "DhcpVlanState"
 )

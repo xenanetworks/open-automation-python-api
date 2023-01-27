@@ -15,7 +15,7 @@ from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
 from .enums import *  # noqa: F403
-
+from . import subtypes
 
 @register_command
 @dataclass
@@ -3770,6 +3770,90 @@ class P4G_L4_PROTOCOL:
     """Use TCP as the Layer 4 protocol of the Connection Group."""
     set_udp = functools.partialmethod(set, L47ProtocolType.UDP)
     """Use UDP as the Layer 4 protocol of the Connection Group."""
+
+
+@register_command
+@dataclass
+class P4G_IPV4_CLIENT_ADDRESS_POOL:
+    """
+    Configure the group's client to use ip addresses from this pool
+    """
+
+    code: typing.ClassVar[int] = 690
+    pushed: typing.ClassVar[bool] = True
+
+    _connection: "interfaces.IConnection"
+    _module: int
+    _port: int
+    _group_xindex: int
+
+    @dataclass(frozen=True)
+    class SetDataAttr:
+        concurrent_address_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the number of concurrent ip addresses, this value should be less than the number of addresses in address pool
+        start_port: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the start port number, of the port range
+        port_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the number of ports
+        address_pool: XmpField[subtypes.GroupAddressPool] = XmpField(subtypes.GroupAddressPool)
+
+    def set(self, concurrent_address_count: int, start_port: int, port_count: int, address_pool: typing.List[subtypes.GroupAddressElem]) -> "Token":
+        """Set a pool of ip addresses for the client role of this group
+
+        :param concurrent_address_count: the number of concurrent ip addresses, this value should be less than the number of addresses in the address pool
+        :type concurrent_address_count: int
+        :param start_port: the starting port number of the port range
+        :type start_port: int
+        :param port_count: the number of ports
+        :type port_count: int
+        :param address_pool:
+            * IP address 
+            * Subnet Mask
+            * MAC address
+        :type address_pool: List[GroupAddressElem]
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], 
+                                                         concurrent_address_count=concurrent_address_count, start_port=start_port, port_count=port_count,
+                                                         address_pool=address_pool))
+        
+        
+@register_command
+@dataclass
+class P4G_IPV4_SERVER_ADDRESS_POOL:
+    """
+    Configure the group's server to use ip addresses from this pool
+    """
+
+    code: typing.ClassVar[int] = 691
+    pushed: typing.ClassVar[bool] = True
+
+    _connection: "interfaces.IConnection"
+    _module: int
+    _port: int
+    _group_xindex: int
+
+    @dataclass(frozen=True)
+    class SetDataAttr:
+        concurrent_address_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the number of concurrent ip addresses, this value should be less than the number of addresses in address pool
+        start_port: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the start port number, of the port range
+        port_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the number of ports
+        address_pool: XmpField[subtypes.GroupAddressPool] = XmpField(subtypes.GroupAddressPool)
+
+    def set(self, concurrent_address_count: int, start_port: int, port_count: int, address_pool: typing.List[subtypes.GroupAddressElem]) -> "Token":
+        """Set a pool of ip addresses for the server role of this group
+
+        :param concurrent_address_count: the number of concurrent ip addresses, this value should be less than the number of addresses in the address pool
+        :type concurrent_address_count: int
+        :param start_port: the starting port number of the port range
+        :type start_port: int
+        :param port_count: the number of ports
+        :type port_count: int
+        :param address_pool:
+            * IP address 
+            * Subnet Mask
+            * MAC address
+        :type address_pool: List[GroupAddressElem]
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], 
+                                                         concurrent_address_count=concurrent_address_count, start_port=start_port, port_count=port_count,
+                                                         address_pool=address_pool))
 
 
 @register_command
