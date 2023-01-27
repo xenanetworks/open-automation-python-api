@@ -1604,6 +1604,8 @@ class L47PortState(IntEnum):
     """Stopping"""
     STOPPED = 8
     """Stopped"""
+    DHCP = 9
+    """DHCP Running"""
 
 
 class L47PortSpeed(IntEnum):
