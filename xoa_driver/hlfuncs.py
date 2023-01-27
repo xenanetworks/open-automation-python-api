@@ -2,7 +2,7 @@
 
 from xoa_driver.functions import(
     anlt,
-    resource_management as rmgt,
+    mgmt as rmgt,
 )
 
 

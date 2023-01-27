@@ -23,7 +23,6 @@ Enum Classes
     CaptureSize
     ChassisSessionType
     ChassisShutdownAction
-    CommandStatus
     CongestionType
     CorruptionType
     CustomDefaultCommand
@@ -49,7 +48,6 @@ Enum Classes
     IsPermanent
     IsPresent
     IsValid
-    L1LinkTrainFrameLock
     L2PlusPresent
     L3PlusPresent
     L47IPVersion
@@ -64,11 +62,18 @@ Enum Classes
     LicenseSpeed
     LifecycleMode
     LinkState
+    LinkTrainCmd
+    LinkTrainCmdFlags
+    LinkTrainCmdResults
+    LinkTrainCoeffs
+    LinkTrainEncoding
+    LinkTrainFrameLock
     LinkTrainingFailureType
     LinkTrainingInitCondition
     LinkTrainingMode
     LinkTrainingStatus
     LinkTrainingStatusMode
+    LinkTrainPresets
     LocalFaultStatus
     LoopbackMode
     LoopBandwidth

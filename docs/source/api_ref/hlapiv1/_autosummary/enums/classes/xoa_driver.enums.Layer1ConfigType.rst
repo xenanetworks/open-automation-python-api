@@ -1,9 +1,9 @@
-﻿L1LinkTrainFrameLock
-====================
+﻿Layer1ConfigType
+================
 
 
 
-.. autoclass:: xoa_driver.enums.L1LinkTrainFrameLock
+.. autoclass:: xoa_driver.enums.Layer1ConfigType
     :members:
     :show-inheritance:
     :inherited-members:
@@ -19,7 +19,7 @@
 
     .. autosummary::
     
-        ~L1LinkTrainFrameLock.LOCKED
-        ~L1LinkTrainFrameLock.LOST
+        ~Layer1ConfigType.ANLT_INTERACTIVE_MODE
+        ~Layer1ConfigType.AN_ALLOW_LOOPBACK
     
     

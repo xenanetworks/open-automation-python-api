@@ -67,51 +67,59 @@ def get_port(
     return port
 
 
-async def port_reserve(port: GenericAnyPort) -> None:
+def get_ports(
+    tester: GenericAnyTester,
+    module_id: int,
+) -> list[GenericAnyPort]:
+    if tester is None:
+        raise NotConnectedError()
+    try:
+        module = tester.modules.obtain(module_id)
+    except KeyError:
+        raise NoSuchModuleError(module_id)
+    ports = list(module.ports)
+    return ports
+
+
+async def reserve_port(port: GenericAnyPort, force: bool) -> None:
     """Reserve a port regardless whether it is owned by others or not.
 
     :param port: The port to reserve
     :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :param force: Should force reserve the port
+    :type force: boolean
     :return:
     :rtype: None
     """
     tokens = []
     r = await port.reservation.get()
-    if r.status == ReservedStatus.RESERVED_BY_OTHER:
-        tokens.append(port.reservation.set_relinquish())
-        tokens.append(port.reservation.set_reserve())
-    elif r.status == ReservedStatus.RELEASED:
-        tokens.append(port.reservation.set_reserve())
+    if force:
+        if r.status == ReservedStatus.RESERVED_BY_OTHER:
+            tokens.append(port.reservation.set_relinquish())
+            tokens.append(port.reservation.set_reserve())
+        elif r.status == ReservedStatus.RELEASED:
+            tokens.append(port.reservation.set_reserve())
+    else:
+        if r.status == ReservedStatus.RELEASED:
+            tokens.append(port.reservation.set_reserve())
     await apply(*tokens)
     return None
 
 
-async def port_reset(port: GenericAnyPort) -> None:
-    """Reset a port
+async def reset_port(port: GenericAnyPort) -> None:
+    """Reserve and reset a port
 
     :param port: The port to reset
     :type port: :class:`~xoa_driver.ports.GenericAnyPort`
     :return:
     :rtype: None
     """
+    await reserve_port(port)
     await port.reset.set()
     return None
 
 
-async def port_release(port: GenericAnyPort) -> None:
-    """Release a port
-
-    :param port: The port to release
-    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
-    :return:
-    :rtype: None
-    """
-    if not port.is_released():
-        await port.reservation.set_release()
-    return None
-
-
-async def port_free(port: GenericAnyPort) -> None:
+async def free_port(port: GenericAnyPort) -> None:
     """Free a port. If the port is reserved by you, release the port. If the port is reserved by others, relinquish the port. The port should have no owner afterwards.
 
     :param port: The port to free

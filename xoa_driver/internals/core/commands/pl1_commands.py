@@ -241,17 +241,17 @@ class PL1_LINKTRAININFO:
 
         prbs_total_error_bits_low: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # PRBS total error bits (least significant 32-bit).
 
-        frame_lock: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4, choices=L1LinkTrainFrameLock)  # frame lock status of the local end.
+        frame_lock: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4, choices=LinkTrainFrameLock)  # frame lock status of the local end.
 
-        remote_frame_lock: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4, choices=L1LinkTrainFrameLock)  # frame lock status of the remote end.
+        remote_frame_lock: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4, choices=LinkTrainFrameLock)  # frame lock status of the remote end.
 
         num_frame_errors:  XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # Number of frame errors received
 
         num_overruns:  XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # Number of overruns
 
-        num_last_ic_received:  XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # Last preset request receuved
+        last_ic_received:  XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt, choices=)  # Last preset request received
 
-        num_last_ic_sent:  XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # Last preset request sent
+        last_ic_sent:  XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # Last preset request sent
 
     def get(self) -> "Token[GetDataAttr]":
         """Get L1 link training information. Information is per Serdes and split into a number of pages.
@@ -363,7 +363,7 @@ class PL1_CFG_TMP:
 @dataclass
 class PL1_LINKTRAIN_CMD:
     """
-    .. versionadded:: 1.1
+    .. versionadded:: 2.0
 
     .. warning::
 
@@ -384,10 +384,10 @@ class PL1_LINKTRAIN_CMD:
     class GetDataAttr:
         """Data structure of the get response.
         """
-        cmd: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
+        cmd: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=LinkTrainCmd)
         arg: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
         result: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=LinkTrainCmdResults)
-        flags: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
+        flag: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
 
     @dataclass(frozen=True)
     class SetDataAttr:
