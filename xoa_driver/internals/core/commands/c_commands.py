@@ -14,7 +14,7 @@ from ..transporter.token import Token
 from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *  # noqa: F403
+from .enums import * # noqa: F403
 
 
 @register_command
@@ -33,7 +33,9 @@ class C_LOGON:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        password: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, containing the password value.
+        password: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        """string, containing the password value."""
+
 
     def set(self, password: str) -> "Token":
         """Set the password for creating a tester management session and logging on to the tester.
@@ -66,11 +68,15 @@ class C_OWNER:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        username: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, containing the name of the owner of this session.
+        username: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        """string, containing the name of the owner of this session."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        username: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, containing the name of the owner of this session.
+        username: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        """string, containing the name of the owner of this session."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the username of this chassis management session.
@@ -104,7 +110,9 @@ class C_KEEPALIVE:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        tick_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, an increasing number from the chassis.
+        tick_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, an increasing number from the chassis."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the tick count value.
@@ -130,11 +138,15 @@ class C_TIMEOUT:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        second_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the maximum idle interval, default is 130 seconds.
+        second_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, the maximum idle interval, default is 130 seconds."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        second_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the maximum idle interval, default is 130 seconds.
+        second_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, the maximum idle interval, default is 130 seconds."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the timeout value.
@@ -175,13 +187,17 @@ class C_RESERVATION:
     class SetDataAttr:
         operation: XmpField[xt.XmpByte] = XmpField(
             xt.XmpByte, choices=ReservedAction
-        )  # coded byte, containing the operation to perform. The reservation parameters are asymmetric with respect to set/get. When set, it contains the operation to perform. When get, it contains the status.
+        )
+        """coded byte, containing the operation to perform. The reservation parameters are asymmetric with respect to set/get. When set, it contains the operation to perform. When get, it contains the status."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
         operation: XmpField[xt.XmpByte] = XmpField(
             xt.XmpByte, choices=ReservedStatus
-        )  # coded byte, containing the operation to perform. The reservation parameters are asymmetric with respect to set/get. When set, it contains the operation to perform. When get, it contains the status.
+        )
+        """coded byte, containing the operation to perform. The reservation parameters are asymmetric with respect to set/get. When set, it contains the operation to perform. When get, it contains the status."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the chassis reservation status.
@@ -225,7 +241,9 @@ class C_RESERVEDBY:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        username: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, containing the name of the current owner of the chassis.
+        username: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        """string, containing the name of the current owner of the chassis."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the username of the current owner of the tester.
@@ -274,8 +292,12 @@ class C_DOWN:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        magic: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, must be the special value -1480937026.
-        operation: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=ChassisShutdownAction)  # coded byte, what to do after shutting chassis down.
+        magic: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, must be the special value -1480937026."""
+
+        operation: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=ChassisShutdownAction)
+        """coded byte, what to do after shutting chassis down."""
+
 
     def set(self, operation: ChassisShutdownAction) -> "Token":
         """Shuts down the chassis, and either restarts it in a clean state or leaves it powered off.
@@ -308,24 +330,60 @@ class C_CAPABILITIES:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        version: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, chassis software build number.
-        max_name_len: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, max ASCII characters in chassis name.
-        max_comment_len: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, max ASCII characters in chassis comment.
-        max_password_len: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, max ASCII characters in chassis password.
-        max_ext_rate: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, maximum rate for external traffic.
-        max_session_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, max number of management and scripting sessions.
-        max_chain_depth: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, max chain index.
-        max_module_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, maximum number of L23 modules.
-        max_protocol_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, max protocol segments in a packet.
-        can_stream_based_arp: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, does server support stream-based ARP/NDP?
-        can_sync_traffic_start: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, does server support synchronous traffic start?
-        can_read_log_files: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, can clients read debug log files from server?
-        can_par_module_upgrade: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, can server handle parallel module upgrades?
-        can_upgrade_timekeeper: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, is server capable of upgrading the TimeKeeper application?
-        can_custom_defaults: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, can server handle custom default values for XMP parameters?
-        can_latency_f2f: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, can server handle first-to-first latency mode?
-        max_owner_name_length: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, max number of ASCII characters in C_OWNER name
-        can_read_temperatures: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, can the server read out chassis and/or CPU temperatures? (C_TEMPERATURE ?)
+        version: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, chassis software build number."""
+
+        max_name_len: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, max ASCII characters in chassis name."""
+
+        max_comment_len: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, max ASCII characters in chassis comment."""
+
+        max_password_len: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, max ASCII characters in chassis password."""
+
+        max_ext_rate: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, maximum rate for external traffic."""
+
+        max_session_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, max number of management and scripting sessions."""
+
+        max_chain_depth: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, max chain index."""
+
+        max_module_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, maximum number of L23 modules."""
+
+        max_protocol_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, max protocol segments in a packet."""
+
+        can_stream_based_arp: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, does server support stream-based ARP/NDP?"""
+
+        can_sync_traffic_start: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, does server support synchronous traffic start?"""
+
+        can_read_log_files: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, can clients read debug log files from server?"""
+
+        can_par_module_upgrade: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, can server handle parallel module upgrades?"""
+
+        can_upgrade_timekeeper: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, is server capable of upgrading the TimeKeeper application?"""
+
+        can_custom_defaults: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, can server handle custom default values for XMP parameters?"""
+
+        can_latency_f2f: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, can server handle first-to-first latency mode?"""
+
+        max_owner_name_length: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, max number of ASCII characters in C_OWNER name"""
+
+        can_read_temperatures: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, can the server read out chassis and/or CPU temperatures? (C_TEMPERATURE ?)"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the internal limits (capabilities) of the tester.
@@ -369,7 +427,9 @@ class C_MODEL:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        model: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, the Xena model designation for the chassis.
+        model: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        """string, the Xena model designation for the chassis."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the model of this Xena tester.
@@ -394,7 +454,9 @@ class C_SERIALNO:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        serial_number: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the serial number of this chassis.
+        serial_number: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, the serial number of this chassis."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the serial number of this Xena tester.
@@ -420,8 +482,12 @@ class C_VERSIONNO:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        chassis_major_version: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the chassis firmware major version number.
-        pci_driver_version: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the cXena PCI driver version.
+        chassis_major_version: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, the chassis firmware major version number."""
+
+        pci_driver_version: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, the cXena PCI driver version."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Gets the major version numbers for the tester firmware and the Xena PCI driver installed on the chassis.
@@ -452,7 +518,9 @@ class C_PORTCOUNTS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        port_counts: XmpField[xt.XmpByteList] = XmpField(xt.XmpByteList)  # list of bytes, the number of ports, typically 2 or 6, or 0 for an empty slot.
+        port_counts: XmpField[xt.XmpByteList] = XmpField(xt.XmpByteList)
+        """list of bytes, the number of ports, typically 2 or 6, or 0 for an empty slot."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the number of ports in each module slot of the tester, and indirectly the number of slots and modules.
@@ -490,7 +558,9 @@ class C_PORTERRORS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        error_count: XmpField[xt.XmpLongList] = XmpField(xt.XmpLongList)  # list of long integers, the total number of errors across all streams, and including FCS errors.
+        error_count: XmpField[xt.XmpLongList] = XmpField(xt.XmpLongList)
+        """list of long integers, the total number of errors across all streams, and including FCS errors."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Gets the number of errors detected across all streams on each port of each
@@ -522,7 +592,9 @@ class C_REMOTEPORTCOUNTS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        port_counts: XmpField[xt.XmpByteList] = XmpField(xt.XmpByteList)  # list of bytes, the number of ports, typically 2 or 6, or 0 for an empty slot.
+        port_counts: XmpField[xt.XmpByteList] = XmpField(xt.XmpByteList)
+        """list of bytes, the number of ports, typically 2 or 6, or 0 for an empty slot."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Gets the number of ports of each remote module. A remote module is a
@@ -551,7 +623,9 @@ class C_BUILDSTRING:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        build_string: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, identify the hostname of the PC that builds the xenaserver
+        build_string: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        """string, identify the hostname of the PC that builds the xenaserver"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the build string of the xenaserver.
@@ -578,11 +652,15 @@ class C_NAME:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        chassis_name: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, containing the name of the chassis.
+        chassis_name: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        """string, containing the name of the chassis."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        chassis_name: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, containing the name of the chassis.
+        chassis_name: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        """string, containing the name of the chassis."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the name of the tester
@@ -615,11 +693,15 @@ class C_COMMENT:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        comment: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, containing the description of the chassis.
+        comment: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        """string, containing the description of the chassis."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        comment: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, containing the description of the chassis.
+        comment: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        """string, containing the description of the chassis."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the description of the tester.
@@ -652,11 +734,15 @@ class C_PASSWORD:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        password: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, containing the password for the chassis.
+        password: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        """string, containing the password for the chassis."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        password: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, containing the password for the chassis.
+        password: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        """string, containing the password for the chassis."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the password of the tester.
@@ -689,15 +775,27 @@ class C_IPADDRESS:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        ipv4_address: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)  # address, the static IP address of the chassis.
-        subnet_mask: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)  # address, the subnet mask of the local network segment.
-        gateway: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)  # address, the gateway of the local network segment.
+        ipv4_address: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)
+        """address, the static IP address of the chassis."""
+
+        subnet_mask: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)
+        """address, the subnet mask of the local network segment."""
+
+        gateway: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)
+        """address, the gateway of the local network segment."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        ipv4_address: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)  # address, the static IP address of the chassis.
-        subnet_mask: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)  # address, the subnet mask of the local network segment.
-        gateway: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)  # address, the gateway of the local network segment.
+        ipv4_address: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)
+        """address, the static IP address of the chassis."""
+
+        subnet_mask: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)
+        """address, the subnet mask of the local network segment."""
+
+        gateway: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)
+        """address, the gateway of the local network segment."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the IP configuration information of the tester.
@@ -742,11 +840,15 @@ class C_DHCP:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, whether DHCP is enabled or disabled.
+        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, whether DHCP is enabled or disabled."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, whether DHCP is enabled or disabled.
+        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, whether DHCP is enabled or disabled."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether DHCP is enabled for getting management IP.
@@ -786,7 +888,9 @@ class C_MACADDRESS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mac_address: XmpField[xt.XmpMacAddress] = XmpField(xt.XmpMacAddress)  # six hex bytes, indicating the MAC address
+        mac_address: XmpField[xt.XmpMacAddress] = XmpField(xt.XmpMacAddress)
+        """six hex bytes, indicating the MAC address"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the MAC address for the chassis management port.
@@ -811,11 +915,15 @@ class C_HOSTNAME:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        hostname: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, hostname for chassis (default value "xena-")
+        hostname: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        """string, hostname for chassis (default value "xena-")"""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        hostname: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, hostname for chassis (default value "xena-")
+        hostname: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        """string, hostname for chassis (default value "xena-")"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the chassis hostname used when DHCP is enabled.
@@ -852,11 +960,15 @@ class C_FLASH:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, determines whether to blink all test port LEDs.
+        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, determines whether to blink all test port LEDs."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, determines whether to blink all test port LEDs.
+        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, determines whether to blink all test port LEDs."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the status of test port LEDs.
@@ -896,9 +1008,13 @@ class C_DEBUGLOGS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        message_length: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, length of the message.
+        message_length: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, length of the message."""
 
-        data: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)  # list of hex bytes, all the logs of a chassis
+
+        data: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)
+        """list of hex bytes, all the logs of a chassis"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get chassis logs.
@@ -923,11 +1039,17 @@ class C_TEMPERATURE:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mb1_temperature: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the temperature of motherboard 1. Unit is millidegree Celsius.
+        mb1_temperature: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, the temperature of motherboard 1. Unit is millidegree Celsius."""
 
-        mb2_temperature: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the temperature of motherboard 2. Unit is millidegree Celsius.
 
-        cpu_temperature: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the temperature of CPU. Unit is millidegree Celsius.
+        mb2_temperature: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, the temperature of motherboard 2. Unit is millidegree Celsius."""
+
+
+        cpu_temperature: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, the temperature of CPU. Unit is millidegree Celsius."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get chassis temperature readings.
@@ -955,11 +1077,15 @@ class C_RESTPORT:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        tcp_port: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, containing the TCP port number (default 57911)
+        tcp_port: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, containing the TCP port number (default 57911)"""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        tcp_port: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, containing the TCP port number (default 57911)
+        tcp_port: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, containing the TCP port number (default 57911)"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the TCP port number used by the REST API server.
@@ -993,11 +1119,15 @@ class C_RESTENABLE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, determines whether REST API server should be enabled or disabled.
+        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, determines whether REST API server should be enabled or disabled."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, determines whether REST API server should be enabled or disabled.
+        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, determines whether REST API server should be enabled or disabled."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the On/Off status of the REST API server.
@@ -1038,7 +1168,9 @@ class C_RESTCONTROL:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        operation: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=RESTControlAction)  # coded byte, what to do with the REST API server.
+        operation: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=RESTControlAction)
+        """coded byte, what to do with the REST API server."""
+
 
     def set(self, operation: RESTControlAction) -> "Token":
         """Controlling the REST API server.
@@ -1065,7 +1197,9 @@ class C_RESTSTATUS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        status: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=ServiceStatus)  # coded byte, determines the REST API server running status.
+        status: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=ServiceStatus)
+        """coded byte, determines the REST API server running status."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the operation status of th REST API server.
@@ -1091,11 +1225,15 @@ class C_WATCHDOG:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        timer_value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the timer value that reboots the chassis. Unit = second.
+        timer_value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, the timer value that reboots the chassis. Unit = second."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        timer_value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the timer value that reboots the chassis. Unit = second.
+        timer_value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, the timer value that reboots the chassis. Unit = second."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the time value that reboots the chassis if it stalls for a long time.
@@ -1135,7 +1273,9 @@ class C_INDICES:
         :attr session_ids: the session indices for all current sessions on the chassis
         :type session_ids: List[int]
         """
-        session_ids: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)  # list of integers, the session indices for all current sessions on the chassis.
+        session_ids: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
+        """list of integers, the session indices for all current sessions on the chassis."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Gets the session indices for all current sessions on the chassis.
@@ -1152,7 +1292,9 @@ class C_STATSESSION:
     """
     Gets information and statistics for a particular session on the chassis.
     """
+
     # Buggy command the string lenght is imposible to determinate if operation_count number become very big
+
     code: typing.ClassVar[int] = 41
     pushed: typing.ClassVar[bool] = False
 
@@ -1161,12 +1303,24 @@ class C_STATSESSION:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        session_type: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=ChassisSessionType)  # coded integer, which kind of session.
-        ipv4_address: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)  # address, client IP address.
-        owner: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, the name of the session owner.
-        operation_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of operations done during the session.
-        requested_byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bytes received by the chassis.
-        responded_byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bytes sent by the chassis.
+        session_type: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=ChassisSessionType)
+        """coded integer, which kind of session."""
+
+        ipv4_address: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)
+        """address, client IP address."""
+
+        owner: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        """string, the name of the session owner."""
+
+        operation_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of operations done during the session."""
+
+        requested_byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of bytes received by the chassis."""
+
+        responded_byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of bytes sent by the chassis."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Gets information and statistics for a particular session on the chassis.
@@ -1199,9 +1353,11 @@ class C_TKLICFILE:
     class SetDataAttr:
         license_content: XmpField[xt.XmpByteList] = XmpField(xt.XmpByteList)  # TODO: probably wrong type
 
+
     @dataclass(frozen=True)
     class GetDataAttr:
         license_content: XmpField[xt.XmpByteList] = XmpField(xt.XmpByteList)  # TODO: probably wrong type
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get Xena TimeKeeper license file content.
@@ -1234,11 +1390,17 @@ class C_TKLICSTATE:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        license_file_state: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TimeKeeperLicenseFileState)  # coded byte, timekeeper license state.
+        license_file_state: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TimeKeeperLicenseFileState)
+        """coded byte, timekeeper license state."""
 
-        license_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TimeKeeperLicenseType)  # coded byte, license type.
 
-        license_errors: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList, choices=TimeKeeperLicenseError)  # coded integers, license errors.
+        license_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TimeKeeperLicenseType)
+        """coded byte, license type."""
+
+
+        license_errors: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList, choices=TimeKeeperLicenseError)
+        """coded integers, license errors."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the state of the Xena TimeKeeper license file content.
@@ -1268,12 +1430,24 @@ class C_FILESTART:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        file_type: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)  # four hex bytes, little-endian integer, the file type, should be 1.
-        size: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)  # four hex bytes, little-endian integer, the number of bytes in the file.
-        time: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)  # four hex bytes, little-endian integer, the Linux date+time of the file.
-        mode: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)  # four hex bytes, little-endian integer, the Linux permissions of the file.
-        checksum: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)  # four hex bytes, little-endian integer, the checksum of the file.
-        name: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, the name and location of the file, as a full path.
+        file_type: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)
+        """four hex bytes, little-endian integer, the file type, should be 1."""
+
+        size: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)
+        """four hex bytes, little-endian integer, the number of bytes in the file."""
+
+        time: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)
+        """four hex bytes, little-endian integer, the Linux date+time of the file."""
+
+        mode: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)
+        """four hex bytes, little-endian integer, the Linux permissions of the file."""
+
+        checksum: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)
+        """four hex bytes, little-endian integer, the checksum of the file."""
+
+        name: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        """string, the name and location of the file, as a full path."""
+
 
     def set(self, file_type: str, size: str, time: str, mode: str, checksum: str, name: str) -> "Token":
         """Initiates upload of a file to the chassis.
@@ -1308,8 +1482,12 @@ class C_FILEDATA:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        offset: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the position within the file.
-        data_bytes: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)  # list of hex bytes, the data content of a section of the file.
+        offset: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, the position within the file."""
+
+        data_bytes: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)
+        """list of hex bytes, the data content of a section of the file."""
+
 
     def set(self, offset: int, data_bytes: str) -> "Token":
         """Uploads a fragment of a file to the chassis.
@@ -1337,7 +1515,9 @@ class C_FILEFINISH:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        magic: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, must be the special value -1480937026.
+        magic: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, must be the special value -1480937026."""
+
 
     def set(self) -> "Token":
         """Completes upload of a file to the chassis. After validation it will replace any existing file with the same name.
@@ -1360,8 +1540,12 @@ class C_TRAFFIC:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, determines whether to start or stop traffic generation.
-        module_ports: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)  # list of integers, specifies ports on modules, which should stop or start generating traffic.
+        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, determines whether to start or stop traffic generation."""
+
+        module_ports: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
+        """list of integers, specifies ports on modules, which should stop or start generating traffic."""
+
 
     def set(self, on_off: OnOff, module_ports: typing.List[int]) -> "Token":
         """Starts or stops the traffic on a number of ports on the chassis simultaneously.
@@ -1397,9 +1581,15 @@ class C_VERSIONNO_MINOR:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        chassis_minor_version: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the chassis firmware minor version number.
-        reserved_1: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, reserved.
-        reserved_2: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, reserved.
+        chassis_minor_version: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, the chassis firmware minor version number."""
+
+        reserved_1: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, reserved."""
+
+        reserved_2: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, reserved."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the minor version number for the chassis firmware.
@@ -1428,7 +1618,9 @@ class C_START:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        module_ports: XmpField[xt.XmpByteList] = XmpField(xt.XmpByteList)  # list of bytes, specifies ports on modules, which should stop or start generating traffic.
+        module_ports: XmpField[xt.XmpByteList] = XmpField(xt.XmpByteList)
+        """list of bytes, specifies ports on modules, which should stop or start generating traffic."""
+
 
     def set(self, module_ports: typing.List[int]) -> "Token":
         """Start traffic on N ports and each port is described by (module index, port index).
@@ -1453,7 +1645,9 @@ class C_STOP:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        module_ports: XmpField[xt.XmpByteList] = XmpField(xt.XmpByteList)  # list of bytes, specifies ports on modules, which should stop or start generating traffic.
+        module_ports: XmpField[xt.XmpByteList] = XmpField(xt.XmpByteList)
+        """list of bytes, specifies ports on modules, which should stop or start generating traffic."""
+
 
     def set(self, module_ports: typing.List[int]) -> "Token":
         """Stop traffic on N ports and each port is described by (module index, port index).
@@ -1481,13 +1675,17 @@ class C_MULTIUSER:
     class SetDataAttr:
         on_off: XmpField[xt.XmpByte] = XmpField(
             xt.XmpByte, choices=OnOff
-        )  # coded byte, enable or disable the ability to control one resource from several different TCP connections
+        )
+        """coded byte, enable or disable the ability to control one resource from several different TCP connections"""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
         on_off: XmpField[xt.XmpByte] = XmpField(
             xt.XmpByte, choices=OnOff
-        )  # coded byte, enable or disable the ability to control one resource from several different TCP connections
+        )
+        """coded byte, enable or disable the ability to control one resource from several different TCP connections"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the status of the ability to control one resource from several different TCP connections.
@@ -1527,7 +1725,9 @@ class C_SCRIPT:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        command_string: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, text CLI command
+        command_string: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        """string, text CLI command"""
+
 
     def set(self, command_string: str) -> "Token":
         """Set the CLI commands through a binary XMP session.
@@ -1554,13 +1754,25 @@ class C_TKSTATUS:
     class GetDataAttr:
         status_string: XmpField[xt.XmpStr] = XmpField(
             xt.XmpStr
-        )  # string. Version, TimeKeeper license expiration, and TimeKeeper status. The string is formatted as shown in the example below. Each line is separated by \n.
+        )
+        """string. Version, TimeKeeper license expiration, and TimeKeeper status. The string is formatted as shown in the example below. Each line is separated by \n."""
 
-        # TimeKeeper Status\n
-        # ================================================================================\n
-        # TimeKeeper version 8.0.3\n
-        # License expires in 33 days (including grace period)\n
-        # TimeKeeper is not running\n
+
+      
+        """TimeKeeper Status\n"""
+
+      
+        """================================================================================\n"""
+
+      
+        """TimeKeeper version 8.0.3\n"""
+
+      
+        """License expires in 33 days (including grace period)\n"""
+
+      
+        """TimeKeeper is not running\n"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the version and status of TimeKeeper
@@ -1594,11 +1806,15 @@ class C_TKSVCSTATE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        state: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TimeKeeperServiceAction)  # coded byte, TimeKeeper service state
+        state: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TimeKeeperServiceAction)
+        """coded byte, TimeKeeper service state"""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        state: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TimeKeeperServiceStatus)  # coded byte, TimeKeeper service state
+        state: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TimeKeeperServiceStatus)
+        """coded byte, TimeKeeper service state"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get TimeKeeper service state
@@ -1641,11 +1857,15 @@ class C_TKCONFIG:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        config_file: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, TimeKeeper config file content
+        config_file: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        """string, TimeKeeper config file content"""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        config_file: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, TimeKeeper config file content
+        config_file: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        """string, TimeKeeper config file content"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get TimeKeeper config file content.
@@ -1678,7 +1898,9 @@ class C_TKGPSSTATE:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        status: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, TimeKeeper GPS status
+        status: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        """string, TimeKeeper GPS status"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get TimeKeeper GPS status.
@@ -1703,7 +1925,9 @@ class C_TIME:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        local_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, local chassis time in seconds
+        local_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, local chassis time in seconds"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get local chassis time in seconds.
@@ -1736,19 +1960,31 @@ class C_TRAFFICSYNC:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, determines whether to start or stop traffic generation.
+        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, determines whether to start or stop traffic generation."""
+
         timestamp: XmpField[xt.XmpLong] = XmpField(
             xt.XmpLong
-        )  # long integer, the time where traffic should be started, expressed as the number of seconds since January 1 2010, 00
-        module_ports: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)  # list of integers, specifies ports on modules, which should stop or start traffic generation.
+        )
+        """long integer, the time where traffic should be started, expressed as the number of seconds since January 1 2010, 00"""
+
+        module_ports: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
+        """list of integers, specifies ports on modules, which should stop or start traffic generation."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, status traffic generation.
+        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, status traffic generation."""
+
         timestamp: XmpField[xt.XmpLong] = XmpField(
             xt.XmpLong
-        )  # long integer, the time where traffic should be started, expressed as the number of seconds since January 1 2010, 00
-        module_ports: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)  # list of integers, specifies ports on modules, which should stop or start traffic generation.
+        )
+        """long integer, the time where traffic should be started, expressed as the number of seconds since January 1 2010, 00"""
+
+        module_ports: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
+        """list of integers, specifies ports on modules, which should stop or start traffic generation."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the status of traffic generation.
@@ -1795,23 +2031,26 @@ class C_TKSTATUSEXT:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        status_string: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, extended status in JSON format. The string is formatted as shown in the example below.
+        status_string: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        """string, extended status in JSON format. The string is formatted as shown in the example below.
+        {
+            "FormatVersion": 1,
+            "ApplicationVersion": 452.0,
+            "TimeKeeperStatus":
+            {
+                "systemtimingstatus": "Waiting for good time source",
+                "syncsource": "NTP",
+                "sourcestate": "NTP server 10.0.0.110",
+                "sourceaccuracy": " No updates yet",
+                "versioninfo": "8.0.3",
+                "timesincestart": "0 day(s) 0 hours 1 minutes",
+                "timesinceboot": "0 day(s) 0 hours 2 minutes",
+                "updatetime": 1637916837
+            }
+        }
+        
+        """
 
-        # {
-        #     "FormatVersion": 1,
-        #     "ApplicationVersion": 452.0,
-        #     "TimeKeeperStatus":
-        #     {
-        #         "systemtimingstatus": "Waiting for good time source",
-        #         "syncsource": "NTP",
-        #         "sourcestate": "NTP server 10.0.0.110",
-        #         "sourceaccuracy": " No updates yet",
-        #         "versioninfo": "8.0.3",
-        #         "timesincestart": "0 day(s) 0 hours 1 minutes",
-        #         "timesinceboot": "0 day(s) 0 hours 2 minutes",
-        #         "updatetime": 1637916837
-        #     }
-        # }
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the TimeKeeper version and status.

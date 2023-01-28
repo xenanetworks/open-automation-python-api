@@ -15,6 +15,7 @@ from ..registry import register_command
 # from .enums import *  # noqa: F403
 
 
+
 @register_command
 @dataclass
 class PX_RW:
@@ -34,11 +35,15 @@ class PX_RW:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        value: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)  # 4 hex bytes, register value of the port transceiver
+        value: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)
+        """4 hex bytes, register value of the port transceiver"""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        value: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)  # 4 hex bytes, register value of the port transceiver
+        value: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)
+        """4 hex bytes, register value of the port transceiver"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the register value of a transceiver.
@@ -78,11 +83,15 @@ class PX_RW_SEQ:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        value: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)  # the bytes to be read or written in one I2C transaction. The number of bytes in the ``<value>`` equals ``<byte_count>``.
+        value: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)
+        """the bytes to be read or written in one I2C transaction. The number of bytes in the ``<value>`` equals ``<byte_count>``."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        value: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)  # the bytes to be read or written in one I2C transaction. The number of bytes in the ``<value>`` equals ``<byte_count>``.
+        value: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)
+        """the bytes to be read or written in one I2C transaction. The number of bytes in the ``<value>`` equals ``<byte_count>``."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the register value of a transceiver in one I2C transaction.
@@ -117,11 +126,15 @@ class PX_MII:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        value: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)  # 2 hex bytes, register value of the transceiver
+        value: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)
+        """2 hex bytes, register value of the transceiver"""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        value: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)  # 2 hex bytes, register value of the transceiver
+        value: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)
+        """2 hex bytes, register value of the transceiver"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the register value of a transceiver.
@@ -156,8 +169,12 @@ class PX_TEMPERATURE:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        integral_part: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, temperature value before the decimal digit.
-        fractional_part: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, 1/256th of a degree Celsius after the decimal digit.
+        integral_part: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
+        """byte, temperature value before the decimal digit."""
+
+        fractional_part: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
+        """byte, 1/256th of a degree Celsius after the decimal digit."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get transceiver temperature in degrees Celsius.

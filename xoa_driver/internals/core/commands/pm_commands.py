@@ -36,11 +36,15 @@ class PM_INDICES:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        match_term_xindices: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)  # list of integers, the sub-index of a match term definition for the port.
+        match_term_xindices: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
+        """list of integers, the sub-index of a match term definition for the port."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        match_term_xindices: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)  # list of integers, the sub-index of a match term definition for the port.
+        match_term_xindices: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
+        """list of integers, the sub-index of a match term definition for the port."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the full list of which match terms are defined for a port.
@@ -149,13 +153,17 @@ class PM_PROTOCOL:
     class SetDataAttr:
         segments: XmpField[xt.XmpByteList] = XmpField(
             xt.XmpByteList, choices=ProtocolOption
-        )  # list of coded bytes, a number specifying a built-in protocol segment: Uses the same coded values as the PS_HEADERPROTOCOL parameter.
+        )
+        """list of coded bytes, a number specifying a built-in protocol segment: Uses the same coded values as the PS_HEADERPROTOCOL parameter."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
         segments: XmpField[xt.XmpByteList] = XmpField(
             xt.XmpByteList, choices=ProtocolOption
-        )  # list of coded bytes, a number specifying a built-in protocol segment: Uses the same coded values as the PS_HEADERPROTOCOL parameter.
+        )
+        """list of coded bytes, a number specifying a built-in protocol segment: Uses the same coded values as the PS_HEADERPROTOCOL parameter."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the protocol segments assumed on the packets received on the port.
@@ -192,11 +200,15 @@ class PM_POSITION:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        byte_offset: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, offset from the start of the packet bytes.
+        byte_offset: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, offset from the start of the packet bytes."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        byte_offset: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, offset from the start of the packet bytes.
+        byte_offset: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, offset from the start of the packet bytes."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the position within each received packet where content matching begins for the port.
@@ -233,13 +245,21 @@ class PM_MATCH:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        mask: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)  # eight hex bytes, which bits are significant in the match operation.
-        value: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)  # eight hex bytes, the value that must be found for the match term to be true.
+        mask: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)
+        """eight hex bytes, which bits are significant in the match operation."""
+
+        value: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)
+        """eight hex bytes, the value that must be found for the match term to be true."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mask: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)  # eight hex bytes, which bits are significant in the match operation.
-        value: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)  # eight hex bytes, the value that must be found for the match term to be true.
+        mask: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)
+        """eight hex bytes, which bits are significant in the match operation."""
+
+        value: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)
+        """eight hex bytes, the value that must be found for the match term to be true."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the value that must be found at the match term position for packets received on the port.

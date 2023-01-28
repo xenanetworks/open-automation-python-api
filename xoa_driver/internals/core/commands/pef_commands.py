@@ -17,6 +17,7 @@ from ..registry import register_command
 from .enums import *  # noqa: F403
 
 
+
 @register_command
 @dataclass
 class PEF_INIT:
@@ -116,15 +117,21 @@ class PEF_ENABLE:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        state: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the state of the filter.
+        state: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the state of the filter."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        state: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the state of the filter.
+        state: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the state of the filter."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get if filtering is enabled for the flow.
@@ -169,17 +176,27 @@ class PEF_ETHSETTINGS:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)  # coded byte, specifies the use of Ethernet information.
-        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)  # coded byte, specifies the action of Ethernet information.
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)
+        """coded byte, specifies the use of Ethernet information."""
+
+        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)
+        """coded byte, specifies the action of Ethernet information."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)  # coded byte, specifies the use of Ethernet information.
-        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)  # coded byte, specifies the action of Ethernet information.
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)
+        """coded byte, specifies the use of Ethernet information."""
+
+        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)
+        """coded byte, specifies the action of Ethernet information."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the filter action settings on Ethernet header.
@@ -221,19 +238,33 @@ class PEF_ETHSRCADDR:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of Ethernet Source Address information.
-        value: XmpField[xt.XmpHex6] = XmpField(xt.XmpHex6)  # six hex bytes, specifying the six bytes of the address. Default value: 0x000000000000.
-        mask: XmpField[xt.XmpHex6] = XmpField(xt.XmpHex6)  # six hex bytes, specifying the mask corresponding to the address. Default value: 0xFFFFFFFFFFFF.
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of Ethernet Source Address information."""
+
+        value: XmpField[xt.XmpHex6] = XmpField(xt.XmpHex6)
+        """six hex bytes, specifying the six bytes of the address. Default value: 0x000000000000."""
+
+        mask: XmpField[xt.XmpHex6] = XmpField(xt.XmpHex6)
+        """six hex bytes, specifying the mask corresponding to the address. Default value: 0xFFFFFFFFFFFF."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of Ethernet Source Address information.
-        value: XmpField[xt.XmpHex6] = XmpField(xt.XmpHex6)  # six hex bytes, specifying the six bytes of the address. Default value: 0x000000000000.
-        mask: XmpField[xt.XmpHex6] = XmpField(xt.XmpHex6)  # six hex bytes, specifying the mask corresponding to the address. Default value: 0xFFFFFFFFFFFF.
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of Ethernet Source Address information."""
+
+        value: XmpField[xt.XmpHex6] = XmpField(xt.XmpHex6)
+        """six hex bytes, specifying the six bytes of the address. Default value: 0x000000000000."""
+
+        mask: XmpField[xt.XmpHex6] = XmpField(xt.XmpHex6)
+        """six hex bytes, specifying the mask corresponding to the address. Default value: 0xFFFFFFFFFFFF."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the Ethernet Source Address settings for the Ethernet filter.
@@ -282,19 +313,33 @@ class PEF_ETHDESTADDR:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of Ethernet information
-        value: XmpField[xt.XmpHex6] = XmpField(xt.XmpHex6)  # six hex bytes, specifying the six bytes of the address. Default value: 0x000000000000
-        mask: XmpField[xt.XmpHex6] = XmpField(xt.XmpHex6)  # six hex bytes, specifying the mask corresponding to the address. Default value: 0xFFFFFFFFFFFF
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of Ethernet information"""
+
+        value: XmpField[xt.XmpHex6] = XmpField(xt.XmpHex6)
+        """six hex bytes, specifying the six bytes of the address. Default value: 0x000000000000"""
+
+        mask: XmpField[xt.XmpHex6] = XmpField(xt.XmpHex6)
+        """six hex bytes, specifying the mask corresponding to the address. Default value: 0xFFFFFFFFFFFF"""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of Ethernet information
-        value: XmpField[xt.XmpHex6] = XmpField(xt.XmpHex6)  # six hex bytes, specifying the six bytes of the address. Default value: 0x000000000000
-        mask: XmpField[xt.XmpHex6] = XmpField(xt.XmpHex6)  # six hex bytes, specifying the mask corresponding to the address. Default value: 0xFFFFFFFFFFFF
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of Ethernet information"""
+
+        value: XmpField[xt.XmpHex6] = XmpField(xt.XmpHex6)
+        """six hex bytes, specifying the six bytes of the address. Default value: 0x000000000000"""
+
+        mask: XmpField[xt.XmpHex6] = XmpField(xt.XmpHex6)
+        """six hex bytes, specifying the mask corresponding to the address. Default value: 0xFFFFFFFFFFFF"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the Ethernet Destination Address settings for the Ethernet filter.
@@ -343,15 +388,21 @@ class PEF_L2PUSE:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=L2PlusPresent)  # coded byte, specifies the presence of Layer 2+ protocols.
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=L2PlusPresent)
+        """coded byte, specifies the presence of Layer 2+ protocols."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=L2PlusPresent)  # coded byte, specifies the presence of Layer 2+ protocols.
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=L2PlusPresent)
+        """coded byte, specifies the presence of Layer 2+ protocols."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the Layer 2+ protocols settings for the filter.
@@ -398,17 +449,27 @@ class PEF_VLANSETTINGS:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)  # coded byte, specifies if VLAN information is expected.
-        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)  # coded byte, specifies the use of VLAN information.
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)
+        """coded byte, specifies if VLAN information is expected."""
+
+        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)
+        """coded byte, specifies the use of VLAN information."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)  # coded byte, specifies if VLAN information is expected.
-        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)  # coded byte, specifies the use of VLAN information.
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)
+        """coded byte, specifies if VLAN information is expected."""
+
+        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)
+        """coded byte, specifies the use of VLAN information."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get filter action settings on VLAN header.
@@ -450,20 +511,36 @@ class PEF_VLANTAG:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
-    vlan_type: FilterVlanType  # coded byte, the sub-index value specifies the VLAN type. VLAN1 (0) (INNER VLAN Tag is specified for the filter – used also when only 1 VLAN) indicates single/inner VLAN-TPID = 0x8100. VLAN2 (1) (OUTER VLAN Tag is specified for the filter) indicates outer VLAN-TPID=0x88A8
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
+    vlan_type: FilterVlanType
+        """coded byte, the sub-index value specifies the VLAN type. VLAN1 (0) (INNER VLAN Tag is specified for the filter – used also when only 1 VLAN) indicates single/inner VLAN-TPID = 0x8100. VLAN2 (1) (OUTER VLAN Tag is specified for the filter) indicates outer VLAN-TPID=0x88A8"""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of VLAN information
-        value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # decimal digits, specifying the 12 bit value of the tag. Default value: 0.
-        mask: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)  # two hex digits, specifying the 12 bit value of the tag. Default value: 0x0FFF
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of VLAN information"""
+
+        value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """decimal digits, specifying the 12 bit value of the tag. Default value: 0."""
+
+        mask: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)
+        """two hex digits, specifying the 12 bit value of the tag. Default value: 0x0FFF"""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of VLAN information
-        value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # decimal digits, specifying the 12 bit value of the tag. Default value: 0.
-        mask: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)  # two hex digits, specifying the 12 bit value of the tag. Default value: 0x0FFF
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of VLAN information"""
+
+        value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """decimal digits, specifying the 12 bit value of the tag. Default value: 0."""
+
+        mask: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)
+        """two hex digits, specifying the 12 bit value of the tag. Default value: 0x0FFF"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the VLAN TAG settings for the VLAN filter.
@@ -515,20 +592,36 @@ class PEF_VLANPCP:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
-    vlan_type: FilterVlanType  # coded byte, the sub-index value specifies the VLAN type. VLAN1 (0) (INNER VLAN Tag is specified for the filter – used also when only 1 VLAN) indicates single/inner VLAN-TPID = 0x8100. VLAN2 (1) (OUTER VLAN Tag is specified for the filter) indicates outer VLAN-TPID=0x88A8
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
+    vlan_type: FilterVlanType
+        """coded byte, the sub-index value specifies the VLAN type. VLAN1 (0) (INNER VLAN Tag is specified for the filter – used also when only 1 VLAN) indicates single/inner VLAN-TPID = 0x8100. VLAN2 (1) (OUTER VLAN Tag is specified for the filter) indicates outer VLAN-TPID=0x88A8"""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of VLAN information.
-        value: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, specifying the value of the PCP. Default value: 0 (Range: 0 to 7)
-        mask: XmpField[xt.XmpHex1] = XmpField(xt.XmpHex1)  # hex byte, specifying the 8 bit value mask. Default value: 0x07
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of VLAN information."""
+
+        value: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
+        """byte, specifying the value of the PCP. Default value: 0 (Range: 0 to 7)"""
+
+        mask: XmpField[xt.XmpHex1] = XmpField(xt.XmpHex1)
+        """hex byte, specifying the 8 bit value mask. Default value: 0x07"""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of VLAN information.
-        value: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, specifying the value of the PCP. Default value: 0 (Range: 0 to 7)
-        mask: XmpField[xt.XmpHex1] = XmpField(xt.XmpHex1)  # hex byte, specifying the 8 bit value mask. Default value: 0x07
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of VLAN information."""
+
+        value: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
+        """byte, specifying the value of the PCP. Default value: 0 (Range: 0 to 7)"""
+
+        mask: XmpField[xt.XmpHex1] = XmpField(xt.XmpHex1)
+        """hex byte, specifying the 8 bit value mask. Default value: 0x07"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the VLAN PCP settings for the VLAN filter.
@@ -575,17 +668,27 @@ class PEF_MPLSSETTINGS:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)  # coded byte, specifies the use of MPLS information.
-        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)  # coded byte, specifies the action on MPLS information
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)
+        """coded byte, specifies the use of MPLS information."""
+
+        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)
+        """coded byte, specifies the action on MPLS information"""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)  # coded byte, specifies the use of MPLS information
-        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)  # coded byte, specifies the action on MPLS information
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)
+        """coded byte, specifies the use of MPLS information"""
+
+        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)
+        """coded byte, specifies the action on MPLS information"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the filter action settings on the MPLS header.
@@ -627,19 +730,33 @@ class PEF_MPLSLABEL:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of MPLS information.
-        value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifying the 20 bit value of the label. Default value: 0.
-        mask: XmpField[xt.XmpHex3] = XmpField(xt.XmpHex3)  # three hex bytes, specifying the 20 bit value of the label. Default value: 0x0FFFFF,
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of MPLS information."""
+
+        value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, specifying the 20 bit value of the label. Default value: 0."""
+
+        mask: XmpField[xt.XmpHex3] = XmpField(xt.XmpHex3)
+        """three hex bytes, specifying the 20 bit value of the label. Default value: 0x0FFFFF,"""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of MPLS information.
-        value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifying the 20 bit value of the label. Default value: 0.
-        mask: XmpField[xt.XmpHex3] = XmpField(xt.XmpHex3)  # three hex bytes, specifying the 20 bit value of the label. Default value: 0x0FFFFF,
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of MPLS information."""
+
+        value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, specifying the 20 bit value of the label. Default value: 0."""
+
+        mask: XmpField[xt.XmpHex3] = XmpField(xt.XmpHex3)
+        """three hex bytes, specifying the 20 bit value of the label. Default value: 0x0FFFFF,"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the MPLS label settings for the filter.
@@ -688,19 +805,33 @@ class PEF_MPLSTOC:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of MPLS TOC information.
-        value: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, specifying the value of the MPLS TOC. Default value: 0 (Range: 0 to 7).
-        mask: XmpField[xt.XmpHex1] = XmpField(xt.XmpHex1)  # hex byte, specifying the filter mask for the value of the MPLS TOC. Default value: 0x07
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of MPLS TOC information."""
+
+        value: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
+        """byte, specifying the value of the MPLS TOC. Default value: 0 (Range: 0 to 7)."""
+
+        mask: XmpField[xt.XmpHex1] = XmpField(xt.XmpHex1)
+        """hex byte, specifying the filter mask for the value of the MPLS TOC. Default value: 0x07"""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of MPLS TOC information.
-        value: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, specifying the value of the MPLS TOC. Default value: 0 (Range: 0 to 7).
-        mask: XmpField[xt.XmpHex1] = XmpField(xt.XmpHex1)  # hex byte, specifying the filter mask for the value of the MPLS TOC. Default value: 0x07
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of MPLS TOC information."""
+
+        value: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
+        """byte, specifying the value of the MPLS TOC. Default value: 0 (Range: 0 to 7)."""
+
+        mask: XmpField[xt.XmpHex1] = XmpField(xt.XmpHex1)
+        """hex byte, specifying the filter mask for the value of the MPLS TOC. Default value: 0x07"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the MPLS TOC settings for the filter.
@@ -750,15 +881,21 @@ class PEF_L3USE:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=L3PlusPresent)  # coded byte, specifies the presence of Layer 3 protocols:
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=L3PlusPresent)
+        """coded byte, specifies the presence of Layer 3 protocols:"""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=L3PlusPresent)  # coded byte, specifies the presence of Layer 3 protocols:
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=L3PlusPresent)
+        """coded byte, specifies the presence of Layer 3 protocols:"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get Layer 3 protocols settings for the filter.
@@ -803,17 +940,27 @@ class PEF_IPV4SETTINGS:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)  # coded byte, specifies the use of IPv4 information.
-        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)  # coded byte, specifies the action of IPv4 information.
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)
+        """coded byte, specifies the use of IPv4 information."""
+
+        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)
+        """coded byte, specifies the action of IPv4 information."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)  # coded byte, specifies the use of IPv4 information.
-        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)  # coded byte, specifies the action of IPv4 information.
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)
+        """coded byte, specifies the use of IPv4 information."""
+
+        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)
+        """coded byte, specifies the action of IPv4 information."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the filter action settings on IPv4 header.
@@ -855,19 +1002,33 @@ class PEF_IPV4SRCADDR:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of IPv4 Source Address.
-        value: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)  # address, specifying the four bytes of the address. Default value: 0.0.0.0
-        mask: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)  # four hex bytes, specifying the filter mask of the value. Default value: 0xFFFFFFFF
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of IPv4 Source Address."""
+
+        value: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)
+        """address, specifying the four bytes of the address. Default value: 0.0.0.0"""
+
+        mask: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)
+        """four hex bytes, specifying the filter mask of the value. Default value: 0xFFFFFFFF"""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of IPv4 Source Address.
-        value: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)  # address, specifying the four bytes of the address. Default value: 0.0.0.0
-        mask: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)  # four hex bytes, specifying the filter mask of the value. Default value: 0xFFFFFFFF
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of IPv4 Source Address."""
+
+        value: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)
+        """address, specifying the four bytes of the address. Default value: 0.0.0.0"""
+
+        mask: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)
+        """four hex bytes, specifying the filter mask of the value. Default value: 0xFFFFFFFF"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the IPv4 Source Address settings for the IPv4 filter.
@@ -916,19 +1077,33 @@ class PEF_IPV4DESTADDR:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of IPv4 Destination Address.
-        value: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)  # address, specifying the four bytes of the address. Default value: 0.0.0.0
-        mask: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)  # four hex bytes, specifying the filter mask of the value. Default value: 0xFFFFFFFF
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of IPv4 Destination Address."""
+
+        value: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)
+        """address, specifying the four bytes of the address. Default value: 0.0.0.0"""
+
+        mask: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)
+        """four hex bytes, specifying the filter mask of the value. Default value: 0xFFFFFFFF"""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of IPv4 Destination Address.
-        value: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)  # address, specifying the four bytes of the address. Default value: 0.0.0.0
-        mask: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)  # four hex bytes, specifying the filter mask of the value. Default value: 0xFFFFFFFF
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of IPv4 Destination Address."""
+
+        value: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)
+        """address, specifying the four bytes of the address. Default value: 0.0.0.0"""
+
+        mask: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)
+        """four hex bytes, specifying the filter mask of the value. Default value: 0xFFFFFFFF"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the IPv4 Destination Address settings for the IPv4 filter.
@@ -977,27 +1152,41 @@ class PEF_IPV4DSCP:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of IPv4 information.
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of IPv4 information."""
+
         value: XmpField[xt.XmpByte] = XmpField(
             xt.XmpByte
-        )  # byte, specifying the value of the IPv4 DSCP/TOS in the upper 6 bits. value[7:2] = DSCP/TOS, value[1:0] = reserved (must be zero). Default value: 0
+        )
+        """byte, specifying the value of the IPv4 DSCP/TOS in the upper 6 bits. value[7:2] = DSCP/TOS, value[1:0] = reserved (must be zero). Default value: 0"""
+
         mask: XmpField[xt.XmpHex1] = XmpField(
             xt.XmpHex1
-        )  # hex byte, specifying the filter mask of the value in the upper 6 bits. mask[7:2] = DSCP/TOS mask, mask[1:0] = reserved (must be zero). Default value: 0xFC
+        )
+        """hex byte, specifying the filter mask of the value in the upper 6 bits. mask[7:2] = DSCP/TOS mask, mask[1:0] = reserved (must be zero). Default value: 0xFC"""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of IPv4 information.
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of IPv4 information."""
+
         value: XmpField[xt.XmpByte] = XmpField(
             xt.XmpByte
-        )  # byte, specifying the value of the IPv4 DSCP/TOS in the upper 6 bits. value[7:2] = DSCP/TOS, value[1:0] = reserved (must be zero). Default value: 0
+        )
+        """byte, specifying the value of the IPv4 DSCP/TOS in the upper 6 bits. value[7:2] = DSCP/TOS, value[1:0] = reserved (must be zero). Default value: 0"""
+
         mask: XmpField[xt.XmpHex1] = XmpField(
             xt.XmpHex1
-        )  # hex byte, specifying the filter mask of the value in the upper 6 bits. mask[7:2] = DSCP/TOS mask, mask[1:0] = reserved (must be zero). Default value: 0xFC
+        )
+        """hex byte, specifying the filter mask of the value in the upper 6 bits. mask[7:2] = DSCP/TOS mask, mask[1:0] = reserved (must be zero). Default value: 0xFC"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get IPv4 DSCP/TOS settings for the filter.
@@ -1046,17 +1235,27 @@ class PEF_IPV6SETTINGS:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)  # coded byte, specifies the use of IPv6 information.
-        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)  # coded byte, specifies the action of IPv6 information.
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)
+        """coded byte, specifies the use of IPv6 information."""
+
+        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)
+        """coded byte, specifies the action of IPv6 information."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)  # coded byte, specifies the use of IPv6 information.
-        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)  # coded byte, specifies the action of IPv6 information.
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)
+        """coded byte, specifies the use of IPv6 information."""
+
+        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)
+        """coded byte, specifies the action of IPv6 information."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get filter action settings on the IPv6 header.
@@ -1098,19 +1297,33 @@ class PEF_IPV6SRCADDR:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of IPv6 Source Address.
-        value: XmpField[xt.XmpIPV6Address] = XmpField(xt.XmpIPV6Address)  # 16 hex bytes, specifying the address. Default : 0x00000000000000000000000000000000
-        mask: XmpField[xt.XmpHex16] = XmpField(xt.XmpHex16)  # 16 hex bytes, specifying the six first bytes of the address. Default value: 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of IPv6 Source Address."""
+
+        value: XmpField[xt.XmpIPV6Address] = XmpField(xt.XmpIPV6Address)
+        """16 hex bytes, specifying the address. Default : 0x00000000000000000000000000000000"""
+
+        mask: XmpField[xt.XmpHex16] = XmpField(xt.XmpHex16)
+        """16 hex bytes, specifying the six first bytes of the address. Default value: 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of IPv6 Source Address.
-        value: XmpField[xt.XmpIPV6Address] = XmpField(xt.XmpIPV6Address)  # 16 hex bytes, specifying the address. Default : 0x00000000000000000000000000000000
-        mask: XmpField[xt.XmpHex16] = XmpField(xt.XmpHex16)  # 16 hex bytes, specifying the six first bytes of the address. Default value: 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of IPv6 Source Address."""
+
+        value: XmpField[xt.XmpIPV6Address] = XmpField(xt.XmpIPV6Address)
+        """16 hex bytes, specifying the address. Default : 0x00000000000000000000000000000000"""
+
+        mask: XmpField[xt.XmpHex16] = XmpField(xt.XmpHex16)
+        """16 hex bytes, specifying the six first bytes of the address. Default value: 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the IPv6 Source Address settings for the IPv6 filter.
@@ -1159,19 +1372,33 @@ class PEF_IPV6DESTADDR:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of IPv6 Destination Address.
-        value: XmpField[xt.XmpIPV6Address] = XmpField(xt.XmpIPV6Address)  # 16 hex bytes, specifying the address. Default : 0x00000000000000000000000000000000
-        mask: XmpField[xt.XmpHex16] = XmpField(xt.XmpHex16)  # 16 hex bytes, specifying the six first bytes of the address. Default value: 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of IPv6 Destination Address."""
+
+        value: XmpField[xt.XmpIPV6Address] = XmpField(xt.XmpIPV6Address)
+        """16 hex bytes, specifying the address. Default : 0x00000000000000000000000000000000"""
+
+        mask: XmpField[xt.XmpHex16] = XmpField(xt.XmpHex16)
+        """16 hex bytes, specifying the six first bytes of the address. Default value: 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of IPv6 Destination Address.
-        value: XmpField[xt.XmpIPV6Address] = XmpField(xt.XmpIPV6Address)  # 16 hex bytes, specifying the address. Default : 0x00000000000000000000000000000000
-        mask: XmpField[xt.XmpHex16] = XmpField(xt.XmpHex16)  # 16 hex bytes, specifying the six first bytes of the address. Default value: 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of IPv6 Destination Address."""
+
+        value: XmpField[xt.XmpIPV6Address] = XmpField(xt.XmpIPV6Address)
+        """16 hex bytes, specifying the address. Default : 0x00000000000000000000000000000000"""
+
+        mask: XmpField[xt.XmpHex16] = XmpField(xt.XmpHex16)
+        """16 hex bytes, specifying the six first bytes of the address. Default value: 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the IPv6 Destination Address settings for the IPv6 filter.
@@ -1220,27 +1447,41 @@ class PEF_IPV6TC:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of IPv6 information.
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of IPv6 information."""
+
         value: XmpField[xt.XmpIPV6Address] = XmpField(
             xt.XmpIPV6Address
-        )  # byte, specifying the value of the IPv6 Traffic Class in the upper 6 bits. value[7:2] = IPv6 Traffic Class. value[1:0] = reserved (must be zero). Default value: 0
+        )
+        """byte, specifying the value of the IPv6 Traffic Class in the upper 6 bits. value[7:2] = IPv6 Traffic Class. value[1:0] = reserved (must be zero). Default value: 0"""
+
         mask: XmpField[xt.XmpHex1] = XmpField(
             xt.XmpHex1
-        )  # hex byte, specifying the filter mask for the value in the upper 6 bits. mask[7:2] = IPv6 Traffic Class mask. mask[1:0] = reserved (must be zero). Default value: 0xFC
+        )
+        """hex byte, specifying the filter mask for the value in the upper 6 bits. mask[7:2] = IPv6 Traffic Class mask. mask[1:0] = reserved (must be zero). Default value: 0xFC"""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of IPv6 information.
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of IPv6 information."""
+
         value: XmpField[xt.XmpIPV6Address] = XmpField(
             xt.XmpIPV6Address
-        )  # byte, specifying the value of the IPv6 Traffic Class in the upper 6 bits. value[7:2] = IPv6 Traffic Class. value[1:0] = reserved (must be zero). Default value: 0
+        )
+        """byte, specifying the value of the IPv6 Traffic Class in the upper 6 bits. value[7:2] = IPv6 Traffic Class. value[1:0] = reserved (must be zero). Default value: 0"""
+
         mask: XmpField[xt.XmpHex1] = XmpField(
             xt.XmpHex1
-        )  # hex byte, specifying the filter mask for the value in the upper 6 bits. mask[7:2] = IPv6 Traffic Class mask. mask[1:0] = reserved (must be zero). Default value: 0xFC
+        )
+        """hex byte, specifying the filter mask for the value in the upper 6 bits. mask[7:2] = IPv6 Traffic Class mask. mask[1:0] = reserved (must be zero). Default value: 0xFC"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get IPv6 Traffic Class settings used for the filter.
@@ -1289,17 +1530,27 @@ class PEF_UDPSETTINGS:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)  # coded byte, specifies the use of UDP information.
-        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)  # coded byte, specifies the action of UDP information.
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)
+        """coded byte, specifies the use of UDP information."""
+
+        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)
+        """coded byte, specifies the action of UDP information."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)  # coded byte, specifies the use of UDP information.
-        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)  # coded byte, specifies action use of UDP information.
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)
+        """coded byte, specifies the use of UDP information."""
+
+        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)
+        """coded byte, specifies action use of UDP information."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get filter settings on the UDP header.
@@ -1341,19 +1592,33 @@ class PEF_UDPSRCPORT:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of UDP Source Port information
-        value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer , specifying the value of the UDP Source Port. Default value: 0
-        mask: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)  # two hex bytes , specifying the filter mask for the value. Default value: 0xFFFF
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of UDP Source Port information"""
+
+        value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer , specifying the value of the UDP Source Port. Default value: 0"""
+
+        mask: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)
+        """two hex bytes , specifying the filter mask for the value. Default value: 0xFFFF"""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of UDP Source Port information
-        value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer , specifying the value of the UDP Source Port. Default value: 0
-        mask: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)  # two hex bytes , specifying the filter mask for the value. Default value: 0xFFFF
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of UDP Source Port information"""
+
+        value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer , specifying the value of the UDP Source Port. Default value: 0"""
+
+        mask: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)
+        """two hex bytes , specifying the filter mask for the value. Default value: 0xFFFF"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get UDP Source Port settings used for the filter.
@@ -1401,19 +1666,33 @@ class PEF_UDPDESTPORT:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of UDP Destination Port information
-        value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer , specifying the value of the UDP Destination Port. Default value: 0
-        mask: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)  # two hex bytes , specifying the filter mask for the value. Default value: 0xFFFF
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of UDP Destination Port information"""
+
+        value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer , specifying the value of the UDP Destination Port. Default value: 0"""
+
+        mask: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)
+        """two hex bytes , specifying the filter mask for the value. Default value: 0xFFFF"""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of UDP Destination Port information
-        value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer , specifying the value of the UDP Destination Port. Default value: 0
-        mask: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)  # two hex bytes , specifying the filter mask for the value. Default value: 0xFFFF
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of UDP Destination Port information"""
+
+        value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer , specifying the value of the UDP Destination Port. Default value: 0"""
+
+        mask: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)
+        """two hex bytes , specifying the filter mask for the value. Default value: 0xFFFF"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get UDP Destination Port settings used for the filter.
@@ -1463,17 +1742,27 @@ class PEF_TCPSETTINGS:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)  # coded byte, specifies the use of TCP information.
-        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)  # coded byte, specifies the action of TCP information.
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)
+        """coded byte, specifies the use of TCP information."""
+
+        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)
+        """coded byte, specifies the action of TCP information."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)  # coded byte, specifies the use of TCP information.
-        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)  # coded byte, specifies the action of TCP information.
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)
+        """coded byte, specifies the use of TCP information."""
+
+        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)
+        """coded byte, specifies the action of TCP information."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get filter action settings on the TCP header.
@@ -1515,19 +1804,33 @@ class PEF_TCPSRCPORT:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of TCP Source Port information
-        value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer , specifying the value of the TCP Source Port. Default value: 0
-        mask: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)  # two hex bytes , specifying the filter mask for the value. Default value: 0xFFFF
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of TCP Source Port information"""
+
+        value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer , specifying the value of the TCP Source Port. Default value: 0"""
+
+        mask: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)
+        """two hex bytes , specifying the filter mask for the value. Default value: 0xFFFF"""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of TCP Source Port information
-        value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer , specifying the value of the TCP Source Port. Default value: 0
-        mask: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)  # two hex bytes , specifying the filter mask for the value. Default value: 0xFFFF
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of TCP Source Port information"""
+
+        value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer , specifying the value of the TCP Source Port. Default value: 0"""
+
+        mask: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)
+        """two hex bytes , specifying the filter mask for the value. Default value: 0xFFFF"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get TCP Source Port settings used for the filter.
@@ -1576,19 +1879,33 @@ class PEF_TCPDESTPORT:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of TCP Destination Port information
-        value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer , specifying the value of the TCP Destination Port. Default value: 0
-        mask: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)  # two hex bytes , specifying the filter mask for the value. Default value: 0xFFFF
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of TCP Destination Port information"""
+
+        value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer , specifying the value of the TCP Destination Port. Default value: 0"""
+
+        mask: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)
+        """two hex bytes , specifying the filter mask for the value. Default value: 0xFFFF"""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of TCP Destination Port information
-        value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer , specifying the value of the TCP Destination Port. Default value: 0
-        mask: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)  # two hex bytes , specifying the filter mask for the value. Default value: 0xFFFF
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of TCP Destination Port information"""
+
+        value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer , specifying the value of the TCP Destination Port. Default value: 0"""
+
+        mask: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)
+        """two hex bytes , specifying the filter mask for the value. Default value: 0xFFFF"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get TCP Destination Port settings used for the filter.
@@ -1637,17 +1954,27 @@ class PEF_ANYSETTINGS:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)  # coded byte, specifies the use of ANY field information.
-        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)  # coded byte, specifies the action of ANY field information.
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)
+        """coded byte, specifies the use of ANY field information."""
+
+        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)
+        """coded byte, specifies the action of ANY field information."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)  # coded byte, specifies the use of ANY field information.
-        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)  # coded byte, specifies the action of ANY field information.
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)
+        """coded byte, specifies the use of ANY field information."""
+
+        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)
+        """coded byte, specifies the action of ANY field information."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the settings of filtering state on ANY field in a packet.
@@ -1692,19 +2019,33 @@ class PEF_ANYCONFIG:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        position: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, specifies the start position of the ANY field. Default value: 0, Range:0-127
-        value: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)  # 8 hex bytes, specifying the six bytes of the field. Default value: 0x000000000000
-        mask: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)  # 8 hex bytes, specifying the six bytes of the field. Default value: 0xFFFFFFFFFFFF
+        position: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
+        """byte, specifies the start position of the ANY field. Default value: 0, Range:0-127"""
+
+        value: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)
+        """8 hex bytes, specifying the six bytes of the field. Default value: 0x000000000000"""
+
+        mask: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)
+        """8 hex bytes, specifying the six bytes of the field. Default value: 0xFFFFFFFFFFFF"""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        position: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, specifies the start position of the ANY field. Default value: 0, Range:0-127
-        value: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)  # 8 hex bytes, specifying the six bytes of the field. Default value: 0x000000000000
-        mask: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)  # 8 hex bytes, specifying the six bytes of the field. Default value: 0xFFFFFFFFFFFF
+        position: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
+        """byte, specifies the start position of the ANY field. Default value: 0, Range:0-127"""
+
+        value: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)
+        """8 hex bytes, specifying the six bytes of the field. Default value: 0x000000000000"""
+
+        mask: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)
+        """8 hex bytes, specifying the six bytes of the field. Default value: 0xFFFFFFFFFFFF"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the ANY field filter configuration.
@@ -1752,17 +2093,27 @@ class PEF_TPLDSETTINGS:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)  # coded byte, specifies the use of TPLD information.
-        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)  # coded byte, specifies the action of TPLD information.
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)
+        """coded byte, specifies the use of TPLD information."""
+
+        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)
+        """coded byte, specifies the action of TPLD information."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)  # coded byte, specifies the use of TPLD information.information.
-        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)  # coded byte, specifies the action of TPLD information.
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)
+        """coded byte, specifies the use of TPLD information.information."""
+
+        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)
+        """coded byte, specifies the action of TPLD information."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the settings of filtering on TPLD field in a packet.
@@ -1802,18 +2153,30 @@ class PEF_TPLDCONFIG:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
-    _test_payload_filter_index: int  # integer, the sub-index value which indicates the tpld filter index (range 0 to 15)
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
+    _test_payload_filter_index: int
+        """integer, the sub-index value which indicates the tpld filter index (range 0 to 15)"""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of TPLD field information.
-        id: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # int, specifies the TPLD ID. Range: 0-2015, Default value: 0
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of TPLD field information."""
+
+        id: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """int, specifies the TPLD ID. Range: 0-2015, Default value: 0"""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of TPLD field information.
-        id: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # int, specifies the TPLD ID. Range: 0-2015, Default value: 0
+        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the use of TPLD field information."""
+
+        id: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """int, specifies the TPLD ID. Range: 0-2015, Default value: 0"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the TPLD filter configuration.
@@ -1861,7 +2224,9 @@ class PEF_ISSHADOWDIRTY:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        is_in_sync: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)  # coded byte, if shadow is in sync with working copy or not.
+        is_in_sync: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)
+        """coded byte, if shadow is in sync with working copy or not."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get shadow filter status.
@@ -1929,16 +2294,24 @@ class PEF_VALUE:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
-    _protocol_segment_index: int  # integer, if 0, the server receives/sends the value of all protocol segments when called. If > 0, the server receives/sends only the indicated index protocol segment.
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
+    _protocol_segment_index: int
+        """integer, if 0, the server receives/sends the value of all protocol segments when called. If > 0, the server receives/sends only the indicated index protocol segment."""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        value: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)  # list of hex bytes, the raw bytes comprising the packet header.
+        value: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)
+        """list of hex bytes, the raw bytes comprising the packet header."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        value: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)  # list of hex bytes, the raw bytes comprising the packet header.
+        value: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)
+        """list of hex bytes, the raw bytes comprising the packet header."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the byte values that can be matched if selected by PEF_MASK.
@@ -1999,8 +2372,12 @@ class PEF_MASK:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
-    _protocol_segment_index: int  # integer, if 0, the server receives/sends the value of all protocol segments when called. If > 0, the server receives/sends only the indicated index protocol segment.
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
+    _protocol_segment_index: int
+        """integer, if 0, the server receives/sends the value of all protocol segments when called. If > 0, the server receives/sends only the indicated index protocol segment."""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
@@ -2059,19 +2436,25 @@ class PEF_PROTOCOL:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
         segment_list: XmpField[xt.XmpByteList] = XmpField(
             xt.XmpByteList, choices=ProtocolOption
-        )  # list of bytes, specifying the list of protocol segment types in the order they are expected in a frame. First segment type must be ETHERNET; the following can be chosen freely.
+        )
+        """list of bytes, specifying the list of protocol segment types in the order they are expected in a frame. First segment type must be ETHERNET; the following can be chosen freely."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
         segment_list: XmpField[xt.XmpByteList] = XmpField(
             xt.XmpByteList, choices=ProtocolOption
-        )  # list of bytes, specifying the list of protocol segment types in the order they are expected in a frame. First segment type must be ETHERNET; the following can be chosen freely.
+        )
+        """list of bytes, specifying the list of protocol segment types in the order they are expected in a frame. First segment type must be ETHERNET; the following can be chosen freely."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the sequence of protocol segments that can be matched.
@@ -2102,15 +2485,21 @@ class PEF_MODE:
     _module: int
     _port: int
     _flow_xindex: int
-    _filter_type: FilterType  # integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1).
+    _filter_type: FilterType
+        """integer, the sub-index value which indicates the filter type - “shadow-copy”(0) or “working-copy”(1)."""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterMode)  # integer, the mode of the filter.
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterMode)
+        """integer, the mode of the filter."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterMode)  # integer, the mode of the filter.
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterMode)
+        """integer, the mode of the filter."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the filter mode.

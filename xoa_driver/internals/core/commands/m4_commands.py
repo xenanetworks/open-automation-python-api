@@ -17,6 +17,7 @@ from ..registry import register_command
 from .enums import *  # noqa: F403
 
 
+
 @register_command
 @dataclass
 class M4_SYSTEMID:
@@ -32,7 +33,9 @@ class M4_SYSTEMID:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        system_id: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, module system identifier.
+        system_id: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        """string, module system identifier."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the system identifier of a L47 module.
@@ -60,7 +63,9 @@ class M4_VERSIONNO:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        version_string: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, module version string.
+        version_string: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        """string, module version string."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a version string containing a combination of information regarding the software version and the build environment.
@@ -86,7 +91,9 @@ class M4_SYSTEM_STATUS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        status_string: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, module status string.
+        status_string: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        """string, module status string."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the L47 module system status in a text string
@@ -112,14 +119,30 @@ class M4_COMPATIBLE_CLIENT_VERSION:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        recommended_major: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # string, recommended major version.
-        recommended_minor: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # string, recommended minor version.
-        recommended_minor_2: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # string, recommended minor 2 version.
-        recommended_minor_3: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # string, recommended minor 3 version.
-        required_major: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # string, required major version.
-        required_minor: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # string, required minor version.
-        required_minor_2: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # string, required minor 2 version.
-        required_minor_3: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # string, required minor 3 version.
+        recommended_major: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """string, recommended major version."""
+
+        recommended_minor: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """string, recommended minor version."""
+
+        recommended_minor_2: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """string, recommended minor 2 version."""
+
+        recommended_minor_3: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """string, recommended minor 3 version."""
+
+        required_major: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """string, required major version."""
+
+        required_minor: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """string, required minor version."""
+
+        required_minor_2: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """string, required minor 2 version."""
+
+        required_minor_3: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """string, required minor 3 version."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the recommended and required VulcanMananger client version.
@@ -145,7 +168,9 @@ class M4_TIME:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        time_now: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        time_now: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, the current time (mSec since module restart)"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the module time in millisecond.
@@ -171,21 +196,45 @@ class M4_SYSTEM_TIME:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        year: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the year.
-        month: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the month.
-        day: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the day of the mont.
-        hour: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the hour.
-        minute: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the minute.
-        second: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the second.
+        year: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, the year."""
+
+        month: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, the month."""
+
+        day: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, the day of the mont."""
+
+        hour: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, the hour."""
+
+        minute: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, the minute."""
+
+        second: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, the second."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        year: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the year.
-        month: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the month.
-        day: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the day of the mont.
-        hour: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the hour.
-        minute: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the minute.
-        second: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the second.
+        year: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, the year."""
+
+        month: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, the month."""
+
+        day: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, the day of the mont."""
+
+        hour: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, the hour."""
+
+        minute: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, the minute."""
+
+        second: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, the second."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the modules system time in UTC.
@@ -229,8 +278,12 @@ class M4_MEM_INFO:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        year: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total memory.
-        month: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, free memory.
+        year: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, total memory."""
+
+        month: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, free memory."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the system memory information.
@@ -257,11 +310,15 @@ class M4_CAPTURE_SIZE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        size: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=CaptureSize)  # coded byte, specifying whether to capture whole packets or truncated packets.
+        size: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=CaptureSize)
+        """coded byte, specifying whether to capture whole packets or truncated packets."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        size: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=CaptureSize)  # coded byte, specifying whether to capture whole packets or truncated packets.
+        size: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=CaptureSize)
+        """coded byte, specifying whether to capture whole packets or truncated packets."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether to capture whole packets(large) or truncated packets.
@@ -301,26 +358,46 @@ class M4_LICENSE_INFO:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        pes_available: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of PEs that are licensed on the module, and can be used simultaneously.
+        pes_available: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, number of PEs that are licensed on the module, and can be used simultaneously."""
+
         pes_free: XmpField[xt.XmpInt] = XmpField(
             xt.XmpInt
-        )  # integer, number of free PE licenses on the module 1G available: integer, number of 1G licenses on the module, that can be used simultaneously.
-        N1g_available: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of 1G speed licenses that are licensed on the module, and can be used simultaneously.
+        )
+        """integer, number of free PE licenses on the module 1G available: integer, number of 1G licenses on the module, that can be used simultaneously."""
+
+        N1g_available: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, number of 1G speed licenses that are licensed on the module, and can be used simultaneously."""
+
         N1g_free: XmpField[xt.XmpInt] = XmpField(
             xt.XmpInt
-        )  # integer, number of 1G speed licenses on the module 1G available: integer, number of 1G licenses on the module, that can be used simultaneously.
-        N10g_available: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of 10G speed licenses that are licensed on the module, and can be used simultaneously.
+        )
+        """integer, number of 1G speed licenses on the module 1G available: integer, number of 1G licenses on the module, that can be used simultaneously."""
+
+        N10g_available: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, number of 10G speed licenses that are licensed on the module, and can be used simultaneously."""
+
         N10g_free: XmpField[xt.XmpInt] = XmpField(
             xt.XmpInt
-        )  # integer, number of free 10G speed licenses on the module 1G available: integer, number of 1G licenses on the module, that can be used simultaneously.
-        N25g_available: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of 25G speed licenses that are licensed on the module, and can be used simultaneously.
+        )
+        """integer, number of free 10G speed licenses on the module 1G available: integer, number of 1G licenses on the module, that can be used simultaneously."""
+
+        N25g_available: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, number of 25G speed licenses that are licensed on the module, and can be used simultaneously."""
+
         N25g_free: XmpField[xt.XmpInt] = XmpField(
             xt.XmpInt
-        )  # integer, number of free 25G speed licenses on the module 1G available: integer, number of 1G licenses on the module, that can be used simultaneously.
-        N40g_available: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of 40G speed licenses that are licensed on the module, and can be used simultaneously.
+        )
+        """integer, number of free 25G speed licenses on the module 1G available: integer, number of 1G licenses on the module, that can be used simultaneously."""
+
+        N40g_available: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, number of 40G speed licenses that are licensed on the module, and can be used simultaneously."""
+
         N40g_free: XmpField[xt.XmpInt] = XmpField(
             xt.XmpInt
-        )  # integer, number of free 40G speed licenses on the module 1G available: integer, number of 1G licenses on the module, that can be used simultaneously.
+        )
+        """integer, number of free 40G speed licenses on the module 1G available: integer, number of 1G licenses on the module, that can be used simultaneously."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the number of available and free PE licenses.
@@ -358,7 +435,9 @@ class M4_REPLAY_PARSE_START:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        filename: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, filename (including relative path and excluding the '.pcap' extension).
+        filename: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        """string, filename (including relative path and excluding the '.pcap' extension)."""
+
 
     def set(self, filename: str) -> "Token":
         """Start parsing an uploaded Capture File
@@ -416,7 +495,9 @@ class M4_REPLAY_PARSE_STATE:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        state: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=ReplayParserState)  # coded byte, state of the replay parser
+        state: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=ReplayParserState)
+        """coded byte, state of the replay parser"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get capture file parsing state.
@@ -442,11 +523,15 @@ class M4_REPLAY_PARSER_PARAMS:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        tcp_port: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, server TCP Port of dummy TCP connection inserted in UDP only replay files
+        tcp_port: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, server TCP Port of dummy TCP connection inserted in UDP only replay files"""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        tcp_port: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, server TCP Port of dummy TCP connection inserted in UDP only replay files
+        tcp_port: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, server TCP Port of dummy TCP connection inserted in UDP only replay files"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the configuration of parameters for the parsing of pcap files.
@@ -481,7 +566,9 @@ class M4_REPLAY_FILE_LIST_BSON:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        bson: XmpField[xt.XmpByteList] = XmpField(xt.XmpByteList)  # list of hex bytes, bson document containing the file list
+        bson: XmpField[xt.XmpByteList] = XmpField(xt.XmpByteList)
+        """list of hex bytes, bson document containing the file list"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the replay file list in BSON document format.
@@ -508,7 +595,9 @@ class M4_REPLAY_FILE_LIST:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        file_list: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, comma separated list of filenames excluding the '.bson' extension.
+        file_list: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        """string, comma separated list of filenames excluding the '.bson' extension."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Generate a list of Replay Files in BSON document on the tester.
@@ -535,7 +624,9 @@ class M4_CAPTURE_FILE_LIST_BSON:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        bson: XmpField[xt.XmpByteList] = XmpField(xt.XmpByteList)  # list of hex bytes, bson document containing the file list
+        bson: XmpField[xt.XmpByteList] = XmpField(xt.XmpByteList)
+        """list of hex bytes, bson document containing the file list"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the capture file list in BSON document.
@@ -562,7 +653,9 @@ class M4_CAPTURE_FILE_LIST:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        file_list: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, comma separated list of filenames excluding the '.pcap' extension.
+        file_list: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        """string, comma separated list of filenames excluding the '.pcap' extension."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Generate a list of Capture Files in BSON document on the tester.
@@ -590,7 +683,9 @@ class M4_REPLAY_FILE_DELETE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        filename: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, file name (including relative path and excluding the '.bson' extension).
+        filename: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        """string, file name (including relative path and excluding the '.bson' extension)."""
+
 
     def set(self, filename: str) -> "Token":
         """Delete a Replay File in the Replay File directory.
@@ -618,7 +713,9 @@ class M4_CAPTURE_FILE_DELETE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        filename: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, file name (including relative path and excluding the '.pcap' extension).
+        filename: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        """string, file name (including relative path and excluding the '.pcap' extension)."""
+
 
     def set(self, filename: str) -> "Token":
         """Delete a Capture File in the Capture File directory.
@@ -644,7 +741,9 @@ class M4_TLS_CIPHER_SUITES:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        cipher_suites: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)  # list of hex bytes, list of IANA values of supported cipher suites
+        cipher_suites: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)
+        """list of hex bytes, list of IANA values of supported cipher suites"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of supported TLS Cipher Suites.

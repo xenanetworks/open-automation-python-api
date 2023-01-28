@@ -16,6 +16,7 @@ from ..registry import register_command
 from .enums import *  # noqa: F403
 
 
+
 @register_command
 @dataclass
 class PED_SCHEDULE:
@@ -42,13 +43,21 @@ class PED_SCHEDULE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        duration: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifies the "on" period. Units = multiples of 10 ms (range 1 to 65535), default is 1
-        period: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifies the "total" period. Units = multiples of 10 ms (range 0 to 65535), default is 0
+        duration: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, specifies the "on" period. Units = multiples of 10 ms (range 1 to 65535), default is 1"""
+
+        period: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, specifies the "total" period. Units = multiples of 10 ms (range 0 to 65535), default is 0"""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        duration: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifies the "on" period. Units = multiples of 10 ms (range 1 to 65535), default is 1
-        period: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifies the "total" period. Units = multiples of 10 ms (range 0 to 65535), default is 0
+        duration: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, specifies the "on" period. Units = multiples of 10 ms (range 1 to 65535), default is 1"""
+
+        period: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, specifies the "total" period. Units = multiples of 10 ms (range 0 to 65535), default is 0"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the impairment scheduler configuration.
@@ -95,7 +104,9 @@ class PED_ONESHOTSTATUS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        one_shot_status: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, specifies the status.
+        one_shot_status: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
+        """byte, specifies the status."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the one-shot completion status.
@@ -165,11 +176,15 @@ class PED_FIXED:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        probability: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifies the fixed probability in ppm. Default value is 0.
+        probability: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, specifies the fixed probability in ppm. Default value is 0."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        probability: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifies the fixed probability in ppm. Default value is 0.
+        probability: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, specifies the fixed probability in ppm. Default value is 0."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the probability of a Fixed Rate distribution.
@@ -218,11 +233,15 @@ class PED_RANDOM:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        probability: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifies the random probability in ppm. Default value is 0.
+        probability: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, specifies the random probability in ppm. Default value is 0."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        probability: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifies the random probability in ppm. Default value is 0.
+        probability: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, specifies the random probability in ppm. Default value is 0."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the probability of a Random Rate distribution.
@@ -268,13 +287,21 @@ class PED_BER:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        coef: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifies the coefficient for BER. Default value: 1 (Range is 1 to 9).
-        exp: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifies the exponent for BER. Default value: -10 (Range is -18 to -1).
+        coef: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, specifies the coefficient for BER. Default value: 1 (Range is 1 to 9)."""
+
+        exp: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, specifies the exponent for BER. Default value: -10 (Range is -18 to -1)."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        coef: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifies the coefficient for BER. Default value: 1 (Range is 1 to 9).
-        exp: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifies the exponent for BER. Default value: -10 (Range is -18 to -1).
+        coef: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, specifies the coefficient for BER. Default value: 1 (Range is 1 to 9)."""
+
+        exp: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, specifies the exponent for BER. Default value: -10 (Range is -18 to -1)."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the configuration of Bit Error Rate distribution.
@@ -318,11 +345,15 @@ class PED_FIXEDBURST:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        burst_size: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifies the burst size (Range 1 - 16383). Default value = 1.
+        burst_size: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, specifies the burst size (Range 1 - 16383). Default value = 1."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        burst_size: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifies the burst size (Range 1 - 16383). Default value = 1.
+        burst_size: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, specifies the burst size (Range 1 - 16383). Default value = 1."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the configuration of Fixed Burst distribution.
@@ -361,15 +392,27 @@ class PED_RANDOMBURST:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        minimum: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifies minimum burst size. Default value: 0 (Range 0 to 65535)
-        maximum: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifies maximum burst size. Default value: 0 (Range 0 to 65535)
-        probability: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifies the per packet probability of initiating a burst in ppm. Default value: 0.
+        minimum: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, specifies minimum burst size. Default value: 0 (Range 0 to 65535)"""
+
+        maximum: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, specifies maximum burst size. Default value: 0 (Range 0 to 65535)"""
+
+        probability: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, specifies the per packet probability of initiating a burst in ppm. Default value: 0."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        minimum: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifies minimum burst size. Default value: 0 (Range 0 to 65535)
-        maximum: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifies maximum burst size. Default value: 0 (Range 0 to 65535)
-        probability: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifies the per packet probability of initiating a burst in ppm. Default value: 0.
+        minimum: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, specifies minimum burst size. Default value: 0 (Range 0 to 65535)"""
+
+        maximum: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, specifies maximum burst size. Default value: 0 (Range 0 to 65535)"""
+
+        probability: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, specifies the per packet probability of initiating a burst in ppm. Default value: 0."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the configuration of Random Burst distribution.
@@ -421,17 +464,33 @@ class PED_GE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        good_state_prob: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifies the good state probability in ppm. Default value: 0.
-        good_state_trans_prob: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifies the good state transition probability in ppm. Default value: 0.
-        bad_prob: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifies the bad state probability in ppm. Default value: 0.
-        bad_state_trans_prob: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifies the bad state transition probability in ppm. Default value: 0.
+        good_state_prob: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, specifies the good state probability in ppm. Default value: 0."""
+
+        good_state_trans_prob: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, specifies the good state transition probability in ppm. Default value: 0."""
+
+        bad_prob: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, specifies the bad state probability in ppm. Default value: 0."""
+
+        bad_state_trans_prob: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, specifies the bad state transition probability in ppm. Default value: 0."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        good_state_prob: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifies the good state probability in ppm. Default value: 0.
-        good_state_trans_prob: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifies the good state transition probability in ppm. Default value: 0.
-        bad_state_prob: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifies the bad state probability in ppm. Default value: 0.
-        bad_state_trans_prob: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifies the bad state transition probability in ppm. Default value: 0.
+        good_state_prob: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, specifies the good state probability in ppm. Default value: 0."""
+
+        good_state_trans_prob: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, specifies the good state transition probability in ppm. Default value: 0."""
+
+        bad_state_prob: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, specifies the bad state probability in ppm. Default value: 0."""
+
+        bad_state_trans_prob: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, specifies the bad state transition probability in ppm. Default value: 0."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the configuration of Gilbert-Elliot distribution.
@@ -493,19 +552,27 @@ class PED_UNI:
     class SetDataAttr:
         minimum: XmpField[xt.XmpLong] = XmpField(
             xt.XmpLong
-        )  # long, in case of iid != DELAY, specifies the minimum no. of packets. Default value: 0 (Range 0 to 4194288). In case of iid = DELAY, specifies the minimum latency limit. Unit is nanosecond (must be multiples of 100 ns). Default value: minimum latency.
+        )
+        """long, in case of iid != DELAY, specifies the minimum no. of packets. Default value: 0 (Range 0 to 4194288). In case of iid = DELAY, specifies the minimum latency limit. Unit is nanosecond (must be multiples of 100 ns). Default value: minimum latency."""
+
         maximum: XmpField[xt.XmpLong] = XmpField(
             xt.XmpLong
-        )  # long, in case of iid != DELAY, specifies the maximum no. of packets. Default value: 0 (Range 0 to 4194288). In case of iid = DELAY, specifies the maximum latency limit. Unit is nanosecond (must be multiples of 100 ns). Default value: minimum latency.
+        )
+        """long, in case of iid != DELAY, specifies the maximum no. of packets. Default value: 0 (Range 0 to 4194288). In case of iid = DELAY, specifies the maximum latency limit. Unit is nanosecond (must be multiples of 100 ns). Default value: minimum latency."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
         minimum: XmpField[xt.XmpLong] = XmpField(
             xt.XmpLong
-        )  # long, in case of iid != DELAY, specifies the minimum no. of packets. Default value: 0 (Range 0 to 4194288). In case of iid = DELAY, specifies the minimum latency limit. Unit is nanosecond (must be multiples of 100 ns). Default value: minimum latency.
+        )
+        """long, in case of iid != DELAY, specifies the minimum no. of packets. Default value: 0 (Range 0 to 4194288). In case of iid = DELAY, specifies the minimum latency limit. Unit is nanosecond (must be multiples of 100 ns). Default value: minimum latency."""
+
         maximum: XmpField[xt.XmpLong] = XmpField(
             xt.XmpLong
-        )  # long, in case of iid != DELAY, specifies the maximum no. of packets. Default value: 0 (Range 0 to 4194288). In case of iid = DELAY, specifies the maximum latency limit. Unit is nanosecond (must be multiples of 100 ns). Default value: minimum latency.
+        )
+        """long, in case of iid != DELAY, specifies the maximum no. of packets. Default value: 0 (Range 0 to 4194288). In case of iid = DELAY, specifies the maximum latency limit. Unit is nanosecond (must be multiples of 100 ns). Default value: minimum latency."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the configuration of Uniform distribution.
@@ -556,19 +623,27 @@ class PED_GAUSS:
     class SetDataAttr:
         mean: XmpField[xt.XmpLong] = XmpField(
             xt.XmpLong
-        )  # long, specifies the Gaussian mean. In case of iid != DELAY, specifies the Gaussian mean value as number of packets.Default value: 0 packets (Range 0 to 4194288). In case of iid = DELAY, specifies the Gaussian mean value. Units is nanosecond (must be multiples of 100 ns).
+        )
+        """long, specifies the Gaussian mean. In case of iid != DELAY, specifies the Gaussian mean value as number of packets.Default value: 0 packets (Range 0 to 4194288). In case of iid = DELAY, specifies the Gaussian mean value. Units is nanosecond (must be multiples of 100 ns)."""
+
         std_deviation: XmpField[xt.XmpLong] = XmpField(
             xt.XmpLong
-        )  # long, specifies the Gaussian standard deviation. In case of iid != DELAY, specifies the standard deviation as number of packets. Default value: 0 packets (Range 0 to 4194288). In case of iid = DELAY, specifies the the Gaussian standard deviation. Units is nanosecond (must be multiples of 100 ns). Default value: 0 ns.
+        )
+        """long, specifies the Gaussian standard deviation. In case of iid != DELAY, specifies the standard deviation as number of packets. Default value: 0 packets (Range 0 to 4194288). In case of iid = DELAY, specifies the the Gaussian standard deviation. Units is nanosecond (must be multiples of 100 ns). Default value: 0 ns."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
         mean: XmpField[xt.XmpLong] = XmpField(
             xt.XmpLong
-        )  # long, specifies the Gaussian mean. In case of iid != DELAY, specifies the Gaussian mean value as number of packets.Default value: 0 packets (Range 0 to 4194288). In case of iid = DELAY, specifies the Gaussian mean value. Units is nanosecond (must be multiples of 100 ns).
+        )
+        """long, specifies the Gaussian mean. In case of iid != DELAY, specifies the Gaussian mean value as number of packets.Default value: 0 packets (Range 0 to 4194288). In case of iid = DELAY, specifies the Gaussian mean value. Units is nanosecond (must be multiples of 100 ns)."""
+
         std_deviation: XmpField[xt.XmpLong] = XmpField(
             xt.XmpLong
-        )  # long, specifies the Gaussian standard deviation. In case of iid != DELAY, specifies the standard deviation as number of packets. Default value: 0 packets (Range 0 to 4194288). In case of iid = DELAY, specifies the the Gaussian standard deviation. Units is nanosecond (must be multiples of 100 ns). Default value: 0 ns.
+        )
+        """long, specifies the Gaussian standard deviation. In case of iid != DELAY, specifies the standard deviation as number of packets. Default value: 0 packets (Range 0 to 4194288). In case of iid = DELAY, specifies the the Gaussian standard deviation. Units is nanosecond (must be multiples of 100 ns). Default value: 0 ns."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the configuration of Gaussian distribution.
@@ -621,13 +696,17 @@ class PED_POISSON:
     class SetDataAttr:
         mean: XmpField[xt.XmpLong] = XmpField(
             xt.XmpLong
-        )  # long, specifies the Poisson mean value. In case of iid = DELAY specifies the Poisson mean. Unit is nanosecond (must be multiples of 100ns). Default value: 0 ns. In case of iid != DELAY specifies the Poisson mean in number of packets packets. Default value: 9 packets (Range 0 to 4194288).
+        )
+        """long, specifies the Poisson mean value. In case of iid = DELAY specifies the Poisson mean. Unit is nanosecond (must be multiples of 100ns). Default value: 0 ns. In case of iid != DELAY specifies the Poisson mean in number of packets packets. Default value: 9 packets (Range 0 to 4194288)."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
         mean: XmpField[xt.XmpLong] = XmpField(
             xt.XmpLong
-        )  # long, specifies the Poisson mean value. In case of iid = DELAY specifies the Poisson mean. Unit is nanosecond (must be multiples of 100ns). Default value: 0 ns. In case of iid != DELAY specifies the Poisson mean in number of packets packets. Default value: 9 packets (Range 0 to 4194288).
+        )
+        """long, specifies the Poisson mean value. In case of iid = DELAY specifies the Poisson mean. Unit is nanosecond (must be multiples of 100ns). Default value: 0 ns. In case of iid != DELAY specifies the Poisson mean in number of packets packets. Default value: 9 packets (Range 0 to 4194288)."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the configuration of Poisson distribution.
@@ -673,17 +752,25 @@ class PED_GAMMA:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        shape: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long, specifies the shape. Units: none. Default value: 0.
+        shape: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long, specifies the shape. Units: none. Default value: 0."""
+
         scale: XmpField[xt.XmpLong] = XmpField(
             xt.XmpLong
-        )  # long, specifies the Gamma function scale parameter. In case of iid = DELAY, units: nanosecond (must be multiples of 100 ns). Default value: 0 ns. In case of iid != DELAY, units: number of packets.Default value: 0 packets.
+        )
+        """long, specifies the Gamma function scale parameter. In case of iid = DELAY, units: nanosecond (must be multiples of 100 ns). Default value: 0 ns. In case of iid != DELAY, units: number of packets.Default value: 0 packets."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        shape: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long, specifies the shape. Units: none. Default value: 0.
+        shape: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long, specifies the shape. Units: none. Default value: 0."""
+
         scale: XmpField[xt.XmpLong] = XmpField(
             xt.XmpLong
-        )  # long, specifies the Gamma function scale parameter. In case of iid = DELAY, units: nanosecond (must be multiples of 100 ns). Default value: 0 ns. In case of iid != DELAY, units: number of packets.Default value: 0 packets.
+        )
+        """long, specifies the Gamma function scale parameter. In case of iid = DELAY, units: nanosecond (must be multiples of 100 ns). Default value: 0 ns. In case of iid != DELAY, units: number of packets.Default value: 0 packets."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the configuration of Gamma distribution.
@@ -734,11 +821,15 @@ class PED_CUST:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        cust_id: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, custom distribution identifier.
+        cust_id: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, custom distribution identifier."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        cust_id: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, custom distribution identifier.
+        cust_id: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, custom distribution identifier."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the custom distribution identifier that is associated to a flow and impairment type.
@@ -785,13 +876,17 @@ class PED_CONST:
     class SetDataAttr:
         delay: XmpField[xt.XmpLong] = XmpField(
             xt.XmpLong
-        )  # long, specifies the constant delay/latency time. Unit is nanosecond (must be multiples of 100 ns). Default value: Minimum supported per speed and FEC mode.
+        )
+        """long, specifies the constant delay/latency time. Unit is nanosecond (must be multiples of 100 ns). Default value: Minimum supported per speed and FEC mode."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
         delay: XmpField[xt.XmpLong] = XmpField(
             xt.XmpLong
-        )  # long, specifies the constant delay/latency time. Unit is nanosecond (must be multiples of 100 ns). Default value: Minimum supported per speed and FEC mode.
+        )
+        """long, specifies the constant delay/latency time. Unit is nanosecond (must be multiples of 100 ns). Default value: Minimum supported per speed and FEC mode."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the configuration of Constant Delay distribution (DELAY only).
@@ -835,13 +930,17 @@ class PED_ACCBURST:
     class SetDataAttr:
         delay: XmpField[xt.XmpLong] = XmpField(
             xt.XmpLong
-        )  # long, specifies the burst delay time. Units = nanosecond (must multiples of 100 ns). Default value: minimum latency.
+        )
+        """long, specifies the burst delay time. Units = nanosecond (must multiples of 100 ns). Default value: minimum latency."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
         delay: XmpField[xt.XmpLong] = XmpField(
             xt.XmpLong
-        )  # long, specifies the burst delay time. Units = nanosecond (must multiples of 100 ns). Default value: minimum latency.
+        )
+        """long, specifies the burst delay time. Units = nanosecond (must multiples of 100 ns). Default value: minimum latency."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the configuration of Accumulate & Burst distribution (DELAY only).
@@ -883,13 +982,21 @@ class PED_STEP:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        low: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long, specifies the packet delay in the 'low' state of the step. Units = nanosecond (must be multiples of 100 ns).
-        high: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long, specifies the packet delay in the 'high' state of the step. Units = nanosecond (must be multiples of 100 ns).
+        low: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long, specifies the packet delay in the 'low' state of the step. Units = nanosecond (must be multiples of 100 ns)."""
+
+        high: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long, specifies the packet delay in the 'high' state of the step. Units = nanosecond (must be multiples of 100 ns)."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        low: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long, specifies the packet delay in the 'low' state of the step. Units = nanosecond (must be multiples of 100 ns).
-        high: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long, specifies the packet delay in the 'high' state of the step. Units = nanosecond (must be multiples of 100 ns).
+        low: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long, specifies the packet delay in the 'low' state of the step. Units = nanosecond (must be multiples of 100 ns)."""
+
+        high: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long, specifies the packet delay in the 'high' state of the step. Units = nanosecond (must be multiples of 100 ns)."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the configuration of Step distribution (DELAY only).
@@ -936,11 +1043,15 @@ class PED_ENABLE:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifying whether impairment is enabled.
+        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifying whether impairment is enabled."""
+
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifying whether impairment is enabled.
+        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifying whether impairment is enabled."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the status of this impairment distribution.

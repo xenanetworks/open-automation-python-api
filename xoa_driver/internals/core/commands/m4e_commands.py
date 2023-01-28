@@ -17,6 +17,7 @@ from ..registry import register_command
 from .enums import *  # noqa: F403
 
 
+
 @register_command
 @dataclass
 class M4E_MODE:
@@ -32,11 +33,15 @@ class M4E_MODE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=ResourceAllocationMode)  # coded byte, resource allocation mode.
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=ResourceAllocationMode)
+        """coded byte, resource allocation mode."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=ResourceAllocationMode)  # coded byte, resource allocation mode.
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=ResourceAllocationMode)
+        """coded byte, resource allocation mode."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the resource allocation mode.
@@ -75,11 +80,15 @@ class M4E_RESERVE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        mask: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)  # eight hex bytes, bitmask of PEs to reserve
+        mask: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)
+        """eight hex bytes, bitmask of PEs to reserve"""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mask: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)  # eight hex bytes, bitmask of PEs to reserve
+        mask: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)
+        """eight hex bytes, bitmask of PEs to reserve"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the PEs reserved.

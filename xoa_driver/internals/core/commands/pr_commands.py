@@ -15,6 +15,7 @@ from ..registry import register_command
 from .enums import *  # noqa: F403
 
 
+
 @register_command
 @dataclass
 class PR_TPLDJITTER:
@@ -36,12 +37,24 @@ class PR_TPLDJITTER:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        min_val: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, nanoseconds, minimum jitter for test payload stream
-        avg_val: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, nanoseconds, average jitter for test payload stream
-        max_val: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, nanoseconds, maximum jitter for test payload stream
-        avg_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, nanoseconds, average jitter over last 1-second period
-        min_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, nanoseconds, minimum jitter during last 1-second period
-        max_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, nanoseconds, maximum jitter during last 1-second period
+        min_val: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, nanoseconds, minimum jitter for test payload stream"""
+
+        avg_val: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, nanoseconds, average jitter for test payload stream"""
+
+        max_val: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, nanoseconds, maximum jitter for test payload stream"""
+
+        avg_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, nanoseconds, average jitter over last 1-second period"""
+
+        min_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, nanoseconds, minimum jitter during last 1-second period"""
+
+        max_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, nanoseconds, maximum jitter during last 1-second period"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning the jitter experienced by the packets with a particular test payload id received on a port.
@@ -68,10 +81,18 @@ class PR_TOTAL:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bits received in the last second.
-        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received in the last second.
-        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bytes received since statistics were cleared.
-        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received since statistics were cleared.
+        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of bits received in the last second."""
+
+        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets received in the last second."""
+
+        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of bytes received since statistics were cleared."""
+
+        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets received since statistics were cleared."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning all the packets received on a port.
@@ -104,10 +125,18 @@ class PR_NOTPLD:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bits received in the last second.
-        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received in the last second.
-        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bytes received since statistics were cleared.
-        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received since statistics were cleared.
+        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of bits received in the last second."""
+
+        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets received in the last second."""
+
+        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of bytes received since statistics were cleared."""
+
+        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets received since statistics were cleared."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning the packets without a test payload received on a port.
@@ -139,14 +168,30 @@ class PR_EXTRA:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        fcs_error_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets with frame checksum errors.
-        pause_frame_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of Ethernet pause frames.
-        rx_arp_request_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of ARP request packets received.
-        rx_arp_reply_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of ARP reply packets received.
-        rx_ping_request_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of PING request packets received.
-        rx_ping_reply_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of PING reply packets received.
-        gap_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of gap-monitored gaps encountered.
-        gap_duration: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, combined duration of gap-monitored gaps encountered, microseconds.
+        fcs_error_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets with frame checksum errors."""
+
+        pause_frame_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of Ethernet pause frames."""
+
+        rx_arp_request_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of ARP request packets received."""
+
+        rx_arp_reply_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of ARP reply packets received."""
+
+        rx_ping_request_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of PING request packets received."""
+
+        rx_ping_reply_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of PING reply packets received."""
+
+        gap_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of gap-monitored gaps encountered."""
+
+        gap_duration: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, combined duration of gap-monitored gaps encountered, microseconds."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning special packets received on a port since statistics were cleared.
@@ -175,7 +220,9 @@ class PR_TPLDS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        test_payload_identifiers: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)  # list of integers, the identifiers of the test payload.
+        test_payload_identifiers: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
+        """list of integers, the identifiers of the test payload."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the set of test payload IDs observed among the received packets since
@@ -206,10 +253,18 @@ class PR_TPLDTRAFFIC:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bits received in the last second.
-        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received in the last second.
-        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bytes received since statistics were cleared.
-        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received since statistics were cleared.
+        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of bits received in the last second."""
+
+        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets received in the last second."""
+
+        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of bytes received since statistics were cleared."""
+
+        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets received since statistics were cleared."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get traffic statistics concerning the packets with a particular test payload
@@ -250,10 +305,18 @@ class PR_TPLDERRORS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        dummy: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, not in use.
-        non_inc_seq_event_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of non-incrementing-sequence-number events.
-        swapped_seq_misorder_event_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of swapped-sequence-number misorder events.
-        non_inc_payload_packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets with non-incrementing payload content.
+        dummy: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, not in use."""
+
+        non_inc_seq_event_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of non-incrementing-sequence-number events."""
+
+        swapped_seq_misorder_event_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of swapped-sequence-number misorder events."""
+
+        non_inc_payload_packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets with non-incrementing payload content."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning errors in the packets with a particular test payload id received on a port.
@@ -292,12 +355,24 @@ class PR_TPLDLATENCY:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        min_val: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, nanoseconds, minimum latency for test payload stream
-        avg_val: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, nanoseconds, average latency for test payload stream
-        max_val: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, nanoseconds, maximum latency for test payload stream
-        avg_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, nanoseconds, average latency over last 1-second period
-        min_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, nanoseconds, minimum latency during last 1-second period
-        max_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, nanoseconds, maximum latency during last 1-second period
+        min_val: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, nanoseconds, minimum latency for test payload stream"""
+
+        avg_val: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, nanoseconds, average latency for test payload stream"""
+
+        max_val: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, nanoseconds, maximum latency for test payload stream"""
+
+        avg_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, nanoseconds, average latency over last 1-second period"""
+
+        min_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, nanoseconds, minimum latency during last 1-second period"""
+
+        max_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, nanoseconds, maximum latency during last 1-second period"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning the latency experienced by the packets with a particular test payload id received on a port.
@@ -326,10 +401,18 @@ class PR_FILTER:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bits received in the last second.
-        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received in the last second.
-        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bytes received since statistics were cleared.
-        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received since statistics were cleared.
+        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of bits received in the last second."""
+
+        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets received in the last second."""
+
+        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of bytes received since statistics were cleared."""
+
+        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets received since statistics were cleared."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning the packets satisfying the condition of a particular filter for a port
@@ -430,7 +513,9 @@ class PR_UAT_STATUS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        status: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the state of the affected stream counter.
+        status: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, specifies the state of the affected stream counter."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the current UAT (UnAvailable Time) state, which is used
@@ -458,7 +543,9 @@ class PR_UAT_TIME:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        time: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of unavailable seconds.
+        time: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, number of unavailable seconds."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the current UAT (UnAvailable Time) state, which is used
@@ -487,11 +574,21 @@ class PR_TOTALEXT:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bits received in the last second.
-        byte_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bytes received in the last second.
-        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received in the last second.
-        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bytes received since statistics were cleared.
-        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received since statistics were cleared.
+        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of bits received in the last second."""
+
+        byte_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of bytes received in the last second."""
+
+        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets received in the last second."""
+
+        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of bytes received since statistics were cleared."""
+
+        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets received since statistics were cleared."""
+
         fcs_error_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong) # long integer, number of packets received with fcs error frames
         oversize_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong) # long integer, number of oversize packets received since last clear; -1 if this counter is not supported by the tester.
         undersize_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong) # long integer, number of undersize packets received since last clear; -1 if this counter is not supported by the tester.
@@ -532,11 +629,21 @@ class PR_NOTPLDEXT:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bits received in the last second.
-        byte_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bytes received in the last second.
-        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received in the last second.
-        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bytes received since statistics were cleared.
-        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received since statistics were cleared.
+        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of bits received in the last second."""
+
+        byte_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of bytes received in the last second."""
+
+        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets received in the last second."""
+
+        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of bytes received since statistics were cleared."""
+
+        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets received since statistics were cleared."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning the packets without a test payload received on a port.
@@ -571,11 +678,21 @@ class PR_TPLDTRAFFICEXT:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bits received in the last second.
-        byte_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bytes received in the last second.
-        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received in the last second.
-        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bytes received since statistics were cleared.
-        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received since statistics were cleared.
+        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of bits received in the last second."""
+
+        byte_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of bytes received in the last second."""
+
+        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets received in the last second."""
+
+        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of bytes received since statistics were cleared."""
+
+        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets received since statistics were cleared."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get traffic statistics concerning the packets with a particular test payload
@@ -611,11 +728,21 @@ class PR_FILTEREXT:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bits received in the last second.
-        byte_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bytes received in the last second.
-        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received in the last second.
-        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bytes received since statistics were cleared.
-        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received since statistics were cleared.
+        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of bits received in the last second."""
+
+        byte_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of bytes received in the last second."""
+
+        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets received in the last second."""
+
+        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of bytes received since statistics were cleared."""
+
+        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets received since statistics were cleared."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning the packets satisfying the condition of a particular filter for a port
@@ -651,23 +778,41 @@ class PR_PFCSTATS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of Priority Flow Control (PFC) packets received since statistics were cleared.
+        packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, the total number of Priority Flow Control (PFC) packets received since statistics were cleared."""
 
-        quanta_pri_0: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # the total number of valid PFC quanta received on the port for priority level 0 since statistics were cleared
 
-        quanta_pri_1: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # the total number of valid PFC quanta received on the port for priority level 1 since statistics were cleared
+        quanta_pri_0: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """the total number of valid PFC quanta received on the port for priority level 0 since statistics were cleared"""
 
-        quanta_pri_2: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # the total number of valid PFC quanta received on the port for priority level 2 since statistics were cleared
 
-        quanta_pri_3: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # the total number of valid PFC quanta received on the port for priority level 3 since statistics were cleared
+        quanta_pri_1: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """the total number of valid PFC quanta received on the port for priority level 1 since statistics were cleared"""
 
-        quanta_pri_4: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # the total number of valid PFC quanta received on the port for priority level 4 since statistics were cleared
 
-        quanta_pri_5: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # the total number of valid PFC quanta received on the port for priority level 5 since statistics were cleared
+        quanta_pri_2: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """the total number of valid PFC quanta received on the port for priority level 2 since statistics were cleared"""
 
-        quanta_pri_6: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # the total number of valid PFC quanta received on the port for priority level 6 since statistics were cleared
 
-        quanta_pri_7: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # the total number of valid PFC quanta received on the port for priority level 7 since statistics were cleared
+        quanta_pri_3: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """the total number of valid PFC quanta received on the port for priority level 3 since statistics were cleared"""
+
+
+        quanta_pri_4: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """the total number of valid PFC quanta received on the port for priority level 4 since statistics were cleared"""
+
+
+        quanta_pri_5: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """the total number of valid PFC quanta received on the port for priority level 5 since statistics were cleared"""
+
+
+        quanta_pri_6: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """the total number of valid PFC quanta received on the port for priority level 6 since statistics were cleared"""
+
+
+        quanta_pri_7: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """the total number of valid PFC quanta received on the port for priority level 7 since statistics were cleared"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the statistics of received Priority Flow Control (PFC) packets on a port.
@@ -696,10 +841,18 @@ class PR_FLOWTOTAL:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        l2_bps: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bits received at layer 2 in the last second for the flow.
-        pps: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received in the last second for the flow.
-        byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bytes received since statistics were cleared for the flow.
-        packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received since statistics were cleared for the flow.
+        l2_bps: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of bits received at layer 2 in the last second for the flow."""
+
+        pps: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets received in the last second for the flow."""
+
+        byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of bytes received since statistics were cleared for the flow."""
+
+        packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets received since statistics were cleared for the flow."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """(Chimera only) Get statistics concerning all the packets received from a flow between this receive port and its partner TX port.

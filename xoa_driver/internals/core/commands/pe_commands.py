@@ -32,11 +32,15 @@ class PE_FCSDROP:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, the action on packets with FCS errors on a port
+        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, the action on packets with FCS errors on a port"""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, the action on packets with FCS errors on a port
+        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, the action on packets with FCS errors on a port"""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the status of whether the action on packets with FCS errors on a port is enabled.
@@ -78,11 +82,15 @@ class PE_TPLDMODE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TPLDMode)  # coded byte, indicating the TPLD mode.
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TPLDMode)
+        """coded byte, indicating the TPLD mode."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TPLDMode)  # coded byte, indicating the TPLD mode.
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TPLDMode)
+        """coded byte, indicating the TPLD mode."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the TPLD mode of the port.
@@ -125,11 +133,15 @@ class PE_COMMENT:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        comment: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, containing the description of the flow.
+        comment: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        """string, containing the description of the flow."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        comment: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, containing the description of the flow.
+        comment: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        """string, containing the description of the flow."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the flow description.
@@ -164,14 +176,30 @@ class PE_INDICES:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        flow0_id: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, id of flow 0.
-        flow1_id: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, id of flow 1.
-        flow2_id: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, id of flow 2.
-        flow3_id: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, id of flow 3.
-        flow4_id: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, id of flow 4.
-        flow5_id: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, id of flow 5.
-        flow6_id: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, id of flow 6.
-        flow7_id: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, id of flow 7.
+        flow0_id: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, id of flow 0."""
+
+        flow1_id: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, id of flow 1."""
+
+        flow2_id: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, id of flow 2."""
+
+        flow3_id: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, id of flow 3."""
+
+        flow4_id: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, id of flow 4."""
+
+        flow5_id: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, id of flow 5."""
+
+        flow6_id: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, id of flow 6."""
+
+        flow7_id: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, id of flow 7."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the flow indices of a port. Currently the number of flows is fixed to 8.
@@ -199,8 +227,12 @@ class PE_LATENCYRANGE:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        min: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, minimum configurable latency per flow in nanoseconds.
-        max: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, maximum configurable latency per flow in nanoseconds.
+        min: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, minimum configurable latency per flow in nanoseconds."""
+
+        max: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, maximum configurable latency per flow in nanoseconds."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the minimum and maximum configurable latency per flow in nanoseconds.
@@ -233,11 +265,15 @@ class PE_CORRUPT:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        corruption_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=CorruptionType)  # coded byte, specifying corruption type.
+        corruption_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=CorruptionType)
+        """coded byte, specifying corruption type."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        corruption_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=CorruptionType)  # coded byte, specifying corruption type.
+        corruption_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=CorruptionType)
+        """coded byte, specifying corruption type."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the impairment corruption type of a flow.
@@ -299,13 +335,17 @@ class PE_MISORDER:
     class SetDataAttr:
         depth: XmpField[xt.XmpInt] = XmpField(
             xt.XmpInt
-        )  # integer, specifies the misordering depth (Range 1 - 32). Default value. Note: probability [see PED_FIXED] * (depth + 1) should be less than 1,000,000.
+        )
+        """integer, specifies the misordering depth (Range 1 - 32). Default value. Note: probability [see PED_FIXED] * (depth + 1) should be less than 1,000,000."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
         depth: XmpField[xt.XmpInt] = XmpField(
             xt.XmpInt
-        )  # integer, specifies the misordering depth (Range 1 - 32). Default value. Note: probability [see PED_FIXED] * (depth + 1) should be less than 1,000,000.
+        )
+        """integer, specifies the misordering depth (Range 1 - 32). Default value. Note: probability [see PED_FIXED] * (depth + 1) should be less than 1,000,000."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the misordering depth in number of packets of a flow.
@@ -342,17 +382,33 @@ class PE_BANDPOLICER:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, enables/disables policer. Note: PED_ENABLE is not supported for the policer.
-        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PolicerMode)  # coded byte, sets policer mode.
-        cir: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, policer committed information rate in units of 100 kbps (range 0 to 1000000), default is 0.
-        cbs: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, policer committed burst size in bytes (range 0 to 4194304), default is 0.
+        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, enables/disables policer. Note: PED_ENABLE is not supported for the policer."""
+
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PolicerMode)
+        """coded byte, sets policer mode."""
+
+        cir: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, policer committed information rate in units of 100 kbps (range 0 to 1000000), default is 0."""
+
+        cbs: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, policer committed burst size in bytes (range 0 to 4194304), default is 0."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, enables/disables policer. Note: PED_ENABLE is not supported for the policer.
-        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PolicerMode)  # coded byte, sets policer mode.
-        cir: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, policer committed information rate in units of 100 kbps (range 0 to 1000000), default is 0.
-        cbs: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, policer committed burst burst in bytes (range 0 to 4194304), default is 0.
+        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, enables/disables policer. Note: PED_ENABLE is not supported for the policer."""
+
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PolicerMode)
+        """coded byte, sets policer mode."""
+
+        cir: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, policer committed information rate in units of 100 kbps (range 0 to 1000000), default is 0."""
+
+        cbs: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, policer committed burst burst in bytes (range 0 to 4194304), default is 0."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the bandwidth policer configuration.
@@ -397,19 +453,39 @@ class PE_BANDSHAPER:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, enables/disables shaper.
-        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PolicerMode)  # coded byte, sets shaper mode.
-        cir: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, shaper committed information rate in units of 100 kbps (range 0 to 1000000), default is 0.
-        cbs: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, shaper committed burst size in bytes (range 0 to 4194304), default is 0.
-        buffer_size: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, shaper buffer size in bytes (range 0 to 2097152), default is 0.
+        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, enables/disables shaper."""
+
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PolicerMode)
+        """coded byte, sets shaper mode."""
+
+        cir: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, shaper committed information rate in units of 100 kbps (range 0 to 1000000), default is 0."""
+
+        cbs: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, shaper committed burst size in bytes (range 0 to 4194304), default is 0."""
+
+        buffer_size: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, shaper buffer size in bytes (range 0 to 2097152), default is 0."""
+
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, enables/disables shaper.
-        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PolicerMode)  # coded byte, sets shaper mode.
-        cir: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, shaper committed information rate in units of 100 kbps (range 0 to 1000000), default is 0.
-        cbs: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, shaper committed burst size in bytes (range 0 to 4194304), default is 0.
-        buffer_size: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, shaper buffer size in bytes (range 0 to 2097152), default is 0.
+        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+        """coded byte, enables/disables shaper."""
+
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PolicerMode)
+        """coded byte, sets shaper mode."""
+
+        cir: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, shaper committed information rate in units of 100 kbps (range 0 to 1000000), default is 0."""
+
+        cbs: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, shaper committed burst size in bytes (range 0 to 4194304), default is 0."""
+
+        buffer_size: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        """integer, shaper buffer size in bytes (range 0 to 2097152), default is 0."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the bandwidth shaper configuration.
@@ -455,16 +531,32 @@ class PE_DROPTOTAL:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        pkt_drop_count_total: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of packets dropped in all flows.
-        pkt_drop_count_programmed: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of packets dropped as programmed in all flows.
-        pkt_drop_count_bandwidth: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of packets dropped due to bandwidth control in all flows.
-        pkt_drop_count_other: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of packets dropped for other reasons in all flows.
-        pkt_drop_ratio_total: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, ratio of number of packets dropped in all flows, expressed in ppm.
-        pkt_drop_ratio_programmed: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, ratio of number of packets dropped as programmed in all flows, expressed in ppm.
+        pkt_drop_count_total: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, total number of packets dropped in all flows."""
+
+        pkt_drop_count_programmed: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, total number of packets dropped as programmed in all flows."""
+
+        pkt_drop_count_bandwidth: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, total number of packets dropped due to bandwidth control in all flows."""
+
+        pkt_drop_count_other: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, total number of packets dropped for other reasons in all flows."""
+
+        pkt_drop_ratio_total: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, ratio of number of packets dropped in all flows, expressed in ppm."""
+
+        pkt_drop_ratio_programmed: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, ratio of number of packets dropped as programmed in all flows, expressed in ppm."""
+
         pkt_drop_ratio_bandwidth: XmpField[xt.XmpLong] = XmpField(
             xt.XmpLong
-        )  # long integer, ratio of number of packets dropped due to bandwidth control in all flows, expressed in ppm.
-        pkt_drop_ratio_other: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, ratio of number of packets dropped for other reasons in all flows, expressed in ppm.
+        )
+        """long integer, ratio of number of packets dropped due to bandwidth control in all flows, expressed in ppm."""
+
+        pkt_drop_ratio_other: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, ratio of number of packets dropped for other reasons in all flows, expressed in ppm."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning all the packets dropped between this receive port and its partner TX port.
@@ -499,8 +591,12 @@ class PE_LATENCYTOTAL:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets delayed in all flows.
-        ratio: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, ratio of number of packets delayed in all flows, expressed in ppm.
+        pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets delayed in all flows."""
+
+        ratio: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, ratio of number of packets delayed in all flows, expressed in ppm."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning all the packets delayed this receive port and its
@@ -528,8 +624,12 @@ class PE_DUPTOTAL:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets duplicated in all flows.
-        ratio: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, ratio of number of packets duplicated in all flows, expressed in ppm.
+        pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets duplicated in all flows."""
+
+        ratio: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, ratio of number of packets duplicated in all flows, expressed in ppm."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning all the packets duplicated between this receive
@@ -558,8 +658,12 @@ class PE_MISTOTAL:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets mis-ordered in all flows.
-        ratio: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets mis-ordered in all flows, expressed in ppm.
+        pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets mis-ordered in all flows."""
+
+        ratio: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets mis-ordered in all flows, expressed in ppm."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning all the packets mis-ordered between this receive port and its partner TX port.
@@ -586,24 +690,44 @@ class PE_CORTOTAL:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        total_corrupted_pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets corrupted in all flows.
-        fcs_corrupted_pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets with Ethernet FCS corrupted in all flows.
-        ip_corrupted_pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets with IP header checksum corrupted in all flows.
-        udp_corrupted_pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets with UDP checksum corrupted in all flows.
-        tcp_corrupted_pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets with TCP checksum corrupted in all flows.
-        total_corrupted_pkt_ratio: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, ratio of number of packets corrupted in all flows, expressed in ppm.
+        total_corrupted_pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets corrupted in all flows."""
+
+        fcs_corrupted_pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets with Ethernet FCS corrupted in all flows."""
+
+        ip_corrupted_pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets with IP header checksum corrupted in all flows."""
+
+        udp_corrupted_pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets with UDP checksum corrupted in all flows."""
+
+        tcp_corrupted_pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets with TCP checksum corrupted in all flows."""
+
+        total_corrupted_pkt_ratio: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, ratio of number of packets corrupted in all flows, expressed in ppm."""
+
         fcs_corrupted_pkt_ratio: XmpField[xt.XmpLong] = XmpField(
             xt.XmpLong
-        )  # long integer, ratio of number of packets with Ethernet FCS corrupted in all flows, expressed in ppm.
+        )
+        """long integer, ratio of number of packets with Ethernet FCS corrupted in all flows, expressed in ppm."""
+
         ip_corrupted_pkt_ratio: XmpField[xt.XmpLong] = XmpField(
             xt.XmpLong
-        )  # long integer, ratio of number of packets with IP Header checksum corrupted in all flows, expressed in ppm.
+        )
+        """long integer, ratio of number of packets with IP Header checksum corrupted in all flows, expressed in ppm."""
+
         udp_corrupted_pkt_ratio: XmpField[xt.XmpLong] = XmpField(
             xt.XmpLong
-        )  # long integer, ratio of number of packets with UDP checksum corrupted in all flows, expressed in ppm.
+        )
+        """long integer, ratio of number of packets with UDP checksum corrupted in all flows, expressed in ppm."""
+
         tcp_corrupted_pkt_ratio: XmpField[xt.XmpLong] = XmpField(
             xt.XmpLong
-        )  # long integer, ratio of number of packets with TCP checksum corrupted in all flows, expressed in ppm.
+        )
+        """long integer, ratio of number of packets with TCP checksum corrupted in all flows, expressed in ppm."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning all the packets corrupted on between this receive port and its partner TX port.
@@ -640,8 +764,12 @@ class PE_JITTERTOTAL:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets jittered in all flows.
-        ratio: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, ratio of number of packets jittered in all flows expressed in ppm.
+        pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets jittered in all flows."""
+
+        ratio: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, ratio of number of packets jittered in all flows expressed in ppm."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning all the packets jittered between this receive port
@@ -705,16 +833,32 @@ class PE_FLOWDROPTOTAL:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        pkt_drop_count_total: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of packets dropped for the flow.
-        pkt_drop_count_programmed: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of packets dropped as programmed for the flow.
-        pkt_drop_count_bandwidth: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of packets dropped due to bandwidth control for the flow.
-        pkt_drop_count_other: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, total number of packets dropped for other reasons for the flow.
-        pkt_drop_ratio_total: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, ratio of number of packets dropped for the flow, expressed in ppm.
-        pkt_drop_ratio_programmed: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, ratio of number of packets dropped as programmed for the flow, expressed in ppm.
+        pkt_drop_count_total: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, total number of packets dropped for the flow."""
+
+        pkt_drop_count_programmed: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, total number of packets dropped as programmed for the flow."""
+
+        pkt_drop_count_bandwidth: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, total number of packets dropped due to bandwidth control for the flow."""
+
+        pkt_drop_count_other: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, total number of packets dropped for other reasons for the flow."""
+
+        pkt_drop_ratio_total: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, ratio of number of packets dropped for the flow, expressed in ppm."""
+
+        pkt_drop_ratio_programmed: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, ratio of number of packets dropped as programmed for the flow, expressed in ppm."""
+
         pkt_drop_ratio_bandwidth: XmpField[xt.XmpLong] = XmpField(
             xt.XmpLong
-        )  # long integer, ratio of number of packets dropped due to bandwidth control for the flow, expressed in ppm.
-        pkt_drop_ratio_other: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, ratio of number of packets dropped for other reasons for the flow, expressed in ppm.
+        )
+        """long integer, ratio of number of packets dropped due to bandwidth control for the flow, expressed in ppm."""
+
+        pkt_drop_ratio_other: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, ratio of number of packets dropped for other reasons for the flow, expressed in ppm."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning all the packets dropped in a flow between this receive port and its partner TX port.
@@ -750,8 +894,12 @@ class PE_FLOWLATENCYTOTAL:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets delayed in the flow.
-        ratio: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, ratio of number of packets delayed in the flow, expressed in ppm.
+        pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets delayed in the flow."""
+
+        ratio: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, ratio of number of packets delayed in the flow, expressed in ppm."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning all the packets delayed between this receive port and its partner TX port.
@@ -779,8 +927,12 @@ class PE_FLOWDUPTOTAL:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets duplicated for the flow.
-        ratio: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, ratio of number of packets duplicated for the flow - expressed in ppm.
+        pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets duplicated for the flow."""
+
+        ratio: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, ratio of number of packets duplicated for the flow - expressed in ppm."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning all the packets duplicated in a flow between this receive port and its partner TX port.
@@ -808,8 +960,12 @@ class PE_FLOWMISTOTAL:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets mis-ordered for the flow.
-        ratio: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, ratio of number of packets, expressed in ppm.
+        pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets mis-ordered for the flow."""
+
+        ratio: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, ratio of number of packets, expressed in ppm."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning all the packets mis-ordered in a flow between this receive port and its partner TX port.
@@ -837,24 +993,44 @@ class PE_FLOWCORTOTAL:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        total_corrupted_pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets corrupted for the flow.
-        fcs_corrupted_pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets with Ethernet FCS corrupted for the flow.
-        ip_corrupted_pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets with IP header checksum corrupted for the flow.
-        udp_corrupted_pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets with UDP checksum corrupted for the flow.
-        tcp_corrupted_pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets with TCP checksum corrupted for the flow.
-        total_corrupted_pkt_ratio: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, ratio of number of packets corrupted for the flow expressed in ppm.
+        total_corrupted_pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets corrupted for the flow."""
+
+        fcs_corrupted_pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets with Ethernet FCS corrupted for the flow."""
+
+        ip_corrupted_pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets with IP header checksum corrupted for the flow."""
+
+        udp_corrupted_pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets with UDP checksum corrupted for the flow."""
+
+        tcp_corrupted_pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets with TCP checksum corrupted for the flow."""
+
+        total_corrupted_pkt_ratio: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, ratio of number of packets corrupted for the flow expressed in ppm."""
+
         fcs_corrupted_pkt_ratio: XmpField[xt.XmpLong] = XmpField(
             xt.XmpLong
-        )  # long integer, ratio of number of packets with Ethernet FCS corrupted for the flow expressed in ppm.
+        )
+        """long integer, ratio of number of packets with Ethernet FCS corrupted for the flow expressed in ppm."""
+
         ip_corrupted_pkt_ratio: XmpField[xt.XmpLong] = XmpField(
             xt.XmpLong
-        )  # long integer, ratio of number of packets with IP Header checksum corrupted for the flow expressed in ppm.
+        )
+        """long integer, ratio of number of packets with IP Header checksum corrupted for the flow expressed in ppm."""
+
         udp_corrupted_pkt_ratio: XmpField[xt.XmpLong] = XmpField(
             xt.XmpLong
-        )  # long integer, ratio of number of packets with UDP checksum corrupted for the flow expressed in ppm.
+        )
+        """long integer, ratio of number of packets with UDP checksum corrupted for the flow expressed in ppm."""
+
         tcp_corrupted_pkt_ratio: XmpField[xt.XmpLong] = XmpField(
             xt.XmpLong
-        )  # long integer, ratio of number of packets with TCP checksum corrupted for the flow expressed in ppm.
+        )
+        """long integer, ratio of number of packets with TCP checksum corrupted for the flow expressed in ppm."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning all the packets corrupted in a flow between this receive port and its partner TX port.
@@ -892,8 +1068,12 @@ class PE_FLOWJITTERTOTAL:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets jittered in the flow.
-        ratio: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, ratio of number of packets jittered in the flow, expressed in ppm.
+        pkt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, number of packets jittered in the flow."""
+
+        ratio: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        """long integer, ratio of number of packets jittered in the flow, expressed in ppm."""
+
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning all the packets jittered in a flow between this receive port and its partner TX port.
