@@ -37,12 +37,10 @@ class P4G_INDICES:
         group_identifiers: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
         """list of integers, list of indices identifying Connection Groups."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         group_identifiers: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
         """list of integers, list of indices identifying Connection Groups."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get full list of Connection Groups on this port.
@@ -148,12 +146,10 @@ class P4G_ENABLE:
         status: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOffWithSuppress)
         """coded byte, specifies the state of the Connection Group."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         status: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOffWithSuppress)
         """coded byte, specifies the state of the Connection Group."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the state of a Connection Group on a port.
@@ -199,12 +195,10 @@ class P4G_COMMENT:
         comment: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
         """string, the description of the Connection Group."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         comment: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
         """string, the description of the Connection Group."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the description of a Connection Group.
@@ -277,12 +271,10 @@ class P4G_ROLE:
         role: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=Role)
         """coded byte, specifies the role of the Connection Group."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         role: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=Role)
         """coded byte, specifies the role of the Connection Group."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the role of the Connection Group.
@@ -340,7 +332,6 @@ class P4G_CLIENT_RANGE:
         )
         """integer, the maximum number of ip addresses that this Connection Group will use, when connection incarnation is set to REINCARNATE"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         ipv4_address: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)
@@ -359,7 +350,6 @@ class P4G_CLIENT_RANGE:
             xt.XmpInt
         )
         """integer, the maximum number of ip addresses that this Connection Group will use, when connection incarnation is set to REINCARNATE"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the number of client sockets (ip address, port number)
@@ -428,7 +418,6 @@ class P4G_SERVER_RANGE:
         port_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, the number of ports"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         ipv4_address: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)
@@ -442,7 +431,6 @@ class P4G_SERVER_RANGE:
 
         port_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, the number of ports"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the number of server sockets (ip address, port number)
@@ -499,12 +487,10 @@ class P4G_LP_TIME_SCALE:
         timescale: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=Timescale)
         """coded byte, specifying the time scale."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         timescale: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=Timescale)
         """coded byte, specifying the time scale."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the time scale of the load profile.
@@ -562,7 +548,6 @@ class P4G_LP_SHAPE:
         rampdown_duration: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, ramp-down phase duration."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         star_time: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
@@ -576,7 +561,6 @@ class P4G_LP_SHAPE:
 
         rampdown_duration: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, ramp-down phase duration."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the load profile time duration.
@@ -633,12 +617,10 @@ class P4G_NAT:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, specifying whether to enable NAT"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, specifying whether to enable NAT"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether to support DUT Source NAT functionality.
@@ -697,7 +679,6 @@ class P4G_TCP_RTT_VALUE:
 
         global_rtt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, number of RTT values accumulated in global_rtt_sum"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get values that can be used to calculate the RTT value of all connections in a Connection Group.
@@ -778,7 +759,6 @@ class P4G_TCP_STATE_CURRENT:
         time_wait: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, the number of connections currently in this state"""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the current TCP state counters
 
@@ -857,7 +837,6 @@ class P4G_TCP_STATE_TOTAL:
 
         time_wait: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, the total number of connections that has entered this state"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the total TCP state counters.
@@ -938,7 +917,6 @@ class P4G_TCP_STATE_RATE:
         time_wait: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, the number of connections/second entering this state"""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the TCP state rates measured in connections/second.
 
@@ -983,7 +961,6 @@ class P4G_TCP_RX_PAYLOAD_COUNTERS:
         good_byte_per_second: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, number of good TCP payload bytes/second received"""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the TCP Rx payload counters.
 
@@ -1027,7 +1004,6 @@ class P4G_TCP_TX_PAYLOAD_COUNTERS:
 
         good_byte_per_second: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, number of good TCP payload bytes/second transmitted"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the TCP Tx payload counters.
@@ -1081,7 +1057,6 @@ class P4G_TCP_RETRANSMIT_COUNTERS:
 
         fin_retrans_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, number of FIN retransmitted"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of TCP retransmission counters.
@@ -1142,7 +1117,6 @@ class P4G_TCP_ERROR_COUNTERS:
         rx_zero_window_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, number of Zero Window ACKs received from the peer"""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of TCP error counters.
 
@@ -1172,12 +1146,10 @@ class P4G_IP_DS_TYPE:
         ds_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=MSSType)
         """coded byte, specifying how to fill out the DS field"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         ds_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=MSSType)
         """coded byte, specifying how to fill out the DS field"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the value of the DS field of the IP header of this Connection Group.
@@ -1223,12 +1195,10 @@ class P4G_IP_DS_VALUE:
         ds_value: XmpField[xt.XmpHex1] = XmpField(xt.XmpHex1)
         """hex byte, the fixed DS value to be used"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         ds_value: XmpField[xt.XmpHex1] = XmpField(xt.XmpHex1)
         """hex byte, the fixed DS value to be used"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the fixed DS value.
@@ -1270,12 +1240,10 @@ class P4G_IP_DS_MASK:
         ds_mask: XmpField[xt.XmpHex1] = XmpField(xt.XmpHex1)
         """hex byte, the DS mask to be used."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         ds_mask: XmpField[xt.XmpHex1] = XmpField(xt.XmpHex1)
         """hex byte, the DS mask to be used."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the bit mask to be applied to the DS field.
@@ -1318,7 +1286,6 @@ class P4G_IP_DS_MINMAX:
         ds_max: XmpField[xt.XmpHex1] = XmpField(xt.XmpHex1)
         """hex byte, maximum value for the calculated part of DS"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         ds_min: XmpField[xt.XmpHex1] = XmpField(xt.XmpHex1)
@@ -1326,7 +1293,6 @@ class P4G_IP_DS_MINMAX:
 
         ds_max: XmpField[xt.XmpHex1] = XmpField(xt.XmpHex1)
         """hex byte, maximum value for the calculated part of DS"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the min and max values of the range for the calculated part of the DS value.
@@ -1368,12 +1334,10 @@ class P4G_IP_DS_STEP:
         ds_step: XmpField[xt.XmpHex1] = XmpField(xt.XmpHex1)
         """hex byte, the incrementing step size for DS."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         ds_step: XmpField[xt.XmpHex1] = XmpField(xt.XmpHex1)
         """hex byte, the incrementing step size for DS."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the incrementing step size for the calculated part of the DS value.
@@ -1417,12 +1381,10 @@ class P4G_TCP_MSS_TYPE:
         mss_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=MSSType)
         """coded byte, specifying how MSS is set"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         mss_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=MSSType)
         """coded byte, specifying how MSS is set"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the Maximum Segment size (MSS) type for a Connection Group.
@@ -1473,7 +1435,6 @@ class P4G_TCP_MSS_MINMAX:
         mss_max: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, maximum value of MSS"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         mss_min: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
@@ -1481,7 +1442,6 @@ class P4G_TCP_MSS_MINMAX:
 
         mss_max: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, maximum value of MSS"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the min and max values of the range for TCP MSS.
@@ -1522,12 +1482,10 @@ class P4G_TCP_MSS_VALUE:
         mss: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, fixed value of MSS"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         mss: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, fixed value of MSS"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the fixed MSS value of the Connection Group.
@@ -1566,12 +1524,10 @@ class P4G_TCP_WINDOW_SIZE:
         window_size: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, window size in bytes"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         window_size: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, window size in bytes"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the value of the TCP RWND.
@@ -1610,12 +1566,10 @@ class P4G_TCP_DUP_THRES:
         threshold: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
         """byte, duplicate ACK threshold - must be larger than 0"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         threshold: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
         """byte, duplicate ACK threshold - must be larger than 0"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the value of the TCP duplicate ACK threshold.
@@ -1660,7 +1614,6 @@ class P4G_TCP_SYN_RTO:
         backoff: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
         """byte, maximum SYN retransmission backoff"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         retrans_timeout: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
@@ -1671,7 +1624,6 @@ class P4G_TCP_SYN_RTO:
 
         backoff: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
         """byte, maximum SYN retransmission backoff"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the value of the TCP SYN retransmission timeout, max retries and max backoff.
@@ -1728,7 +1680,6 @@ class P4G_TCP_RTO:
         backoff: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
         """byte, maximum retransmission backoff"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=RTOType)
@@ -1742,7 +1693,6 @@ class P4G_TCP_RTO:
 
         backoff: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
         """byte, maximum retransmission backoff"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the value of the TCP retransmission timeout, max retries and max backoff.
@@ -1808,12 +1758,10 @@ class P4G_UDP_PACKET_SIZE_TYPE:
         packet_size_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=MSSType)
         """coded byte, specifying how UDP packet size is set"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         packet_size_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=MSSType)
         """coded byte, specifying how UDP packet size is set"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the UDP packet size type for the Connection Group.
@@ -1864,7 +1812,6 @@ class P4G_UDP_PACKET_SIZE_MINMAX:
         size_max: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, maximum value of UDP packet size"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         size_min: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
@@ -1872,7 +1819,6 @@ class P4G_UDP_PACKET_SIZE_MINMAX:
 
         size_max: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, maximum value of UDP packet size"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the minimum and maximum values of the range for UDP packet size.
@@ -1914,12 +1860,10 @@ class P4G_UDP_PACKET_SIZE_VALUE:
         size: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, fixed value of UDP packet size"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         size: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, fixed value of UDP packet size"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the fixed UDP packet size value.
@@ -1958,12 +1902,10 @@ class P4G_TCP_CONGESTION_MODE:
         congestion_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=CongestionType)
         """coded byte, specifying congestion algorithm type"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         congestion_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=CongestionType)
         """coded byte, specifying congestion algorithm type"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the TCP congestion control algorithm.
@@ -2013,7 +1955,6 @@ class P4G_TCP_WINDOW_SCALING:
         factor: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
         """integer, default value is 0 and maximum value is 14 - ignored if window scaling is not enabled"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)
@@ -2021,7 +1962,6 @@ class P4G_TCP_WINDOW_SCALING:
 
         factor: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
         """integer, default value is 0 and maximum value is 14 - ignored if window scaling is not enabled"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get TCP window scaling settings for the Connection Group.
@@ -2072,7 +2012,6 @@ class P4G_TCP_RTO_MINMAX:
         rto_max: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, max retransmission timeout [us] - must be larger than 0 and greater than min."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         rto_min: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
@@ -2080,7 +2019,6 @@ class P4G_TCP_RTO_MINMAX:
 
         rto_max: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, max retransmission timeout [us] - must be larger than 0 and greater than min."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the min and max values of the TCP retransmission timeout.
@@ -2128,7 +2066,6 @@ class P4G_TCP_RTO_PROLONGED_MODE:
         )
         """retransmission timeout in milliseconds, when prolonged mode is enabled. when mode is set to 0, the value of the timeout is ignored, when mode is set to 1, the value of the timeout may not be 0"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=IsEnabled)
@@ -2138,7 +2075,6 @@ class P4G_TCP_RTO_PROLONGED_MODE:
             xt.XmpInt
         )
         """retransmission timeout in milliseconds, when prolonged mode is enabled. when mode is set to 0, the value of the timeout is ignored, when mode is set to 1, the value of the timeout may not be 0"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get TCP retransmission prolonged mode.
@@ -2189,7 +2125,6 @@ class P4G_TCP_ICWND_CALC_METHOD:
         )
         """integer, factor to multiply the senders MSS with, when method is set to 'FIXED_FACTOR'. Otherwise the value is ignored."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         method: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=AlgorithmMethod)
@@ -2199,7 +2134,6 @@ class P4G_TCP_ICWND_CALC_METHOD:
             xt.XmpInt
         )
         """integer, factor to multiply the senders MSS with, when method is set to 'FIXED_FACTOR'. Otherwise the value is ignored."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the algorithm to calculate the TCP initial congestion window (ICWND).
@@ -2250,7 +2184,6 @@ class P4G_TCP_ISSTHRESH:
         threshold: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, number of bytes, value ignored when mode is set to MANUAL"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=AutoOrManual)
@@ -2258,7 +2191,6 @@ class P4G_TCP_ISSTHRESH:
 
         threshold: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, number of bytes, value ignored when mode is set to MANUAL"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the TCP initial slow start threshold (ISSTHRESH).
@@ -2306,14 +2238,12 @@ class P4G_TCP_ACK_FREQUENCY:
         )
         """integer, number of received packets before an ACK is sent, range between 1 and 255, default 1. When set to 1, every packet is ACKed"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         packets_before_ack: XmpField[xt.XmpInt] = XmpField(
             xt.XmpInt
         )
         """integer, number of received packets before an ACK is sent, range between 1 and 255, default 1. When set to 1, every packet is ACKed"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the configuration of the number of received packets before a pure-ACK is sent.
@@ -2353,12 +2283,10 @@ class P4G_TCP_ACK_TIMEOUT:
         ack_timeout: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, timeout value in microseconds, default 200000."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         ack_timeout: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, timeout value in microseconds, default 200000."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the Delayed ACK timeout.
@@ -2402,7 +2330,6 @@ class P4G_L2_CLIENT_MAC:
         mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=EmbedIP)
         """coded byte, whether to embed the IP address or not"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         mac_address: XmpField[xt.XmpMacAddress] = XmpField(xt.XmpMacAddress)
@@ -2410,7 +2337,6 @@ class P4G_L2_CLIENT_MAC:
 
         mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=EmbedIP)
         """coded byte, whether to embed the IP address or not"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the client MAC address.
@@ -2461,7 +2387,6 @@ class P4G_L2_SERVER_MAC:
         mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=EmbedIP)
         """coded byte, whether to embed the ip address or not"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         mac_address: XmpField[xt.XmpMacAddress] = XmpField(xt.XmpMacAddress)
@@ -2469,7 +2394,6 @@ class P4G_L2_SERVER_MAC:
 
         mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=EmbedIP)
         """coded byte, whether to embed the ip address or not"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the server MAC address.
@@ -2516,12 +2440,10 @@ class P4G_L2_USE_ADDRESS_RES:
         is_enabled: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)
         """coded byte, specifying whether to use ARP and NDP or not"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         is_enabled: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)
         """coded byte, specifying whether to use ARP and NDP or not"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the status of using ARP and NDP to resolve hardware (MAC) addresses.
@@ -2565,12 +2487,10 @@ class P4G_L2_USE_GW:
         is_enabled: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)
         """coded byte, specifying whether to use gateway MAC or not"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         is_enabled: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)
         """coded byte, specifying whether to use gateway MAC or not"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the status of using the resolved default gateway's MAC address as the destination MAC address in the packets.
@@ -2617,7 +2537,6 @@ class P4G_L2_GW:
         mac_address: XmpField[xt.XmpMacAddress] = XmpField(xt.XmpMacAddress)
         """six hex bytes, the MAC address of the gateway"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         ipv4_address: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)
@@ -2625,7 +2544,6 @@ class P4G_L2_GW:
 
         mac_address: XmpField[xt.XmpMacAddress] = XmpField(xt.XmpMacAddress)
         """six hex bytes, the MAC address of the gateway"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the settings of the default gateway for IPv4.
@@ -2671,7 +2589,6 @@ class P4G_L2_IPV6_GW:
         mac_address: XmpField[xt.XmpMacAddress] = XmpField(xt.XmpMacAddress)
         """six hex bytes, the MAC address of the gateway"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         ipv6_address: XmpField[xt.XmpIPV6Address] = XmpField(xt.XmpIPV6Address)
@@ -2679,7 +2596,6 @@ class P4G_L2_IPV6_GW:
 
         mac_address: XmpField[xt.XmpMacAddress] = XmpField(xt.XmpMacAddress)
         """six hex bytes, the MAC address of the gateway"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the settings of the default gateway for IPv6.
@@ -2729,12 +2645,10 @@ class P4G_TEST_APPLICATION:
         behavior: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=ApplicationLayerBehavior)
         """coded byte, application behavior"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         behavior: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=ApplicationLayerBehavior)
         """coded byte, application behavior"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the application layer mode.
@@ -2780,12 +2694,10 @@ class P4G_RAW_TEST_SCENARIO:
         scenario: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TrafficScenario)
         """coded byte, traffic scenario"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         scenario: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TrafficScenario)
         """coded byte, traffic scenario"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the traffic scenario for RAW mode.
@@ -2833,12 +2745,10 @@ class P4G_RAW_PAYLOAD_TYPE:
         gen_method: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PayloadGenerationMethod)
         """coded byte, payload generation method"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         gen_method: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PayloadGenerationMethod)
         """coded byte, payload generation method"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the payload generation method.
@@ -2889,7 +2799,6 @@ class P4G_RAW_PAYLOAD_TOTAL_LEN:
         length: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, size of the payload"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfiniteOrFinite)
@@ -2897,7 +2806,6 @@ class P4G_RAW_PAYLOAD_TOTAL_LEN:
 
         length: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, size of the payload"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the total amount of payload to transmit on one connection.
@@ -2950,7 +2858,6 @@ class P4G_RAW_PAYLOAD:
         content: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)
         """list of hex bytes, specifying the payload"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         offset: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
@@ -2961,7 +2868,6 @@ class P4G_RAW_PAYLOAD:
 
         content: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)
         """list of hex bytes, specifying the payload"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the payload as hex bytes.
@@ -3008,12 +2914,10 @@ class P4G_RAW_PAYLOAD_REPEAT_LEN:
         length: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, specifying the repeat length of the custom payload"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         length: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, specifying the length of the custom payload"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the length of the raw payload to repeat.
@@ -3057,12 +2961,10 @@ class P4G_RAW_HAS_DOWNLOAD_REQ:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)
         """coded byte, expect request before sending payload or not"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)
         """coded byte, expect request before sending payload or not"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether the server waits for a request from the client before it starts transmitting.
@@ -3121,12 +3023,10 @@ class P4G_RAW_CLOSE_CONN:
         who_close: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=WhoClose)
         """coded byte, specifying who closes the connection"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         who_close: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=WhoClose)
         """coded byte, specifying who closes the connection"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get how to close TCP connection when all payload has been transmitted.
@@ -3173,12 +3073,10 @@ class P4G_RAW_UTILIZATION:
         utilization: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, utilization specified in ppm."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         utilization: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, utilization specified in ppm."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the link layer bandwidth utilization for all the generated traffic from the specified Raw Connection Group.
@@ -3225,7 +3123,6 @@ class P4G_RAW_DOWNLOAD_REQUEST:
         content: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)
         """list of hex bytes, specifying the request content."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         length: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
@@ -3233,7 +3130,6 @@ class P4G_RAW_DOWNLOAD_REQUEST:
 
         content: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)
         """list of hex bytes, specifying the request content."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the content of the download request sent by the client and expected by the server as hex bytes.
@@ -3282,7 +3178,6 @@ class P4G_RAW_TX_DURING_RAMP:
         should_close_conn_ramp_down: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)
         """coded byte, whether TCP payload transmission should take place during ramp down."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         should_close_conn_ramp_up: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)
@@ -3290,7 +3185,6 @@ class P4G_RAW_TX_DURING_RAMP:
 
         should_close_conn_ramp_down: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)
         """coded byte, whether TCP payload transmission should take place during ramp down."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether TCP payload transmission should take place during ramp-up and ramp-down.
@@ -3344,7 +3238,6 @@ class P4G_RAW_TX_TIME_OFFSET:
         stop_offset: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, specify time in milliseconds from stop of payload transmit to start of ramp-down."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         start_offset: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
@@ -3352,7 +3245,6 @@ class P4G_RAW_TX_TIME_OFFSET:
 
         stop_offset: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, specify time in milliseconds from stop of payload transmit to start of ramp-down."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the time offset to the transmit start and stop time.
@@ -3395,12 +3287,10 @@ class P4G_RAW_BURSTY_TX:
         bursty: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, whether bursty transmission is on or off."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         bursty: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, whether bursty transmission is on or off."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether to use bursty transmission.
@@ -3447,7 +3337,6 @@ class P4G_RAW_BURSTY_CONF:
         inactive_duration: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, specifies the duration in milliseconds of the inactive part of the burst period."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         active_duration: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
@@ -3455,7 +3344,6 @@ class P4G_RAW_BURSTY_CONF:
 
         inactive_duration: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, specifies the duration in milliseconds of the inactive part of the burst period."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get active and inactive periods of bursty transmission in milliseconds.
@@ -3501,12 +3389,10 @@ class P4G_VLAN_ENABLE:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)
         """coded byte, specifying whether to enable VLAN tag"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)
         """coded byte, specifying whether to enable VLAN tag"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether to insert a VLAN tag header upon transmit.
@@ -3550,12 +3436,10 @@ class P4G_VLAN_TCI:
         tci: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)
         """two hex bytes, specifying the 16 bit TCI"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         tci: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)
         """two hex bytes, specifying the 16 bit TCI"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the VLAN TCI value.
@@ -3597,7 +3481,6 @@ class P4G_TIME_HIST_CONF:
         interval: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, histogram interval size in us"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         start: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
@@ -3605,7 +3488,6 @@ class P4G_TIME_HIST_CONF:
 
         interval: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, histogram interval size in us"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the start value and the interval size for the time histograms.
@@ -3649,7 +3531,6 @@ class P4G_PAYLOAD_HIST_CONF:
         interval: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, histogram interval size in bytes"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         start: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
@@ -3657,7 +3538,6 @@ class P4G_PAYLOAD_HIST_CONF:
 
         interval: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, histogram interval size in bytes"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the start value and the interval size for the payload histograms.
@@ -3701,7 +3581,6 @@ class P4G_TRANSACTION_HIST_CONF:
         interval: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, histogram interval size"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         start: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
@@ -3709,7 +3588,6 @@ class P4G_TRANSACTION_HIST_CONF:
 
         interval: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, histogram interval size"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the start value and the interval size for the transaction histogram.
@@ -3760,7 +3638,6 @@ class P4G_RAW_RX_PAYLOAD_LEN:
         )
         """long integer, number of payload bytes the client should receive before sending the next request, if mode is FINITE."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfiniteOrFinite)
@@ -3770,7 +3647,6 @@ class P4G_RAW_RX_PAYLOAD_LEN:
             xt.XmpLong
         )
         """long integer, number of payload bytes the client should receive before sending the next request, if mode is FINITE."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the length of the payload the Client should expect to receive before sending the next download request to the Server.
@@ -3824,7 +3700,6 @@ class P4G_RAW_REQUEST_REPEAT:
         repeat: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, number of request/response transactions to perform , if mode is FINITE."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfiniteOrFinite)
@@ -3832,7 +3707,6 @@ class P4G_RAW_REQUEST_REPEAT:
 
         repeat: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, number of request/response transactions to perform , if mode is FINITE."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the number of request/response transactions to perform.
@@ -3878,12 +3752,10 @@ class P4G_RAW_CONN_INCARNATION:
         mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=LifecycleMode)
         """coded byte, defines the lifecycle of connections"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=LifecycleMode)
         """coded byte, defines the lifecycle of connections"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the lifecycle of a connection and how new connections should be established.
@@ -3934,7 +3806,6 @@ class P4G_RAW_CONN_REPETITIONS:
         repetition_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, number of repetitions"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfiniteOrFinite)
@@ -3942,7 +3813,6 @@ class P4G_RAW_CONN_REPETITIONS:
 
         repetition_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, number of repetitions"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get how many times a new connection should be created after an old connection is closed.
@@ -3993,7 +3863,6 @@ class P4G_RAW_CONN_LIFETIME:
         lifetime: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, time from a connection is established until it will be closed."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         timescale: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=Timescale)
@@ -4001,7 +3870,6 @@ class P4G_RAW_CONN_LIFETIME:
 
         lifetime: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, time from a connection is established until it will be closed."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the lifetime of a connection.
@@ -4051,12 +3919,10 @@ class P4G_IP_VERSION:
         version_number: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=L47IPVersion)
         """coded byte, IP version"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         version_number: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=L47IPVersion)
         """coded byte, IP version"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the IP version of a Connection Group.
@@ -4114,7 +3980,6 @@ class P4G_IPV6_CLIENT_RANGE:
         )
         """long integer, the maximum number of ip addresses that this Connection Group will use, when connection incarnation is set to REINCARNATE"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         ipv6_address: XmpField[xt.XmpIPV6Address] = XmpField(xt.XmpIPV6Address)
@@ -4133,7 +3998,6 @@ class P4G_IPV6_CLIENT_RANGE:
             xt.XmpLong
         )
         """long integer, the maximum number of ip addresses that this Connection Group will use, when connection incarnation is set to REINCARNATE"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the number of client sockets (IPv6 address, port number).
@@ -4202,7 +4066,6 @@ class P4G_IPV6_SERVER_RANGE:
         port_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, the number of ports"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         ipv6_address: XmpField[xt.XmpIPV6Address] = XmpField(xt.XmpIPV6Address)
@@ -4216,7 +4079,6 @@ class P4G_IPV6_SERVER_RANGE:
 
         port_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, the number of ports"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the number of server sockets (IPv6 address, port number).
@@ -4273,12 +4135,10 @@ class P4G_IPV6_TRAFFIC_CLASS:
         traffic_class: XmpField[xt.XmpHex1] = XmpField(xt.XmpHex1)
         """hex byte, value of the traffic class field"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         traffic_class: XmpField[xt.XmpHex1] = XmpField(xt.XmpHex1)
         """hex byte, value of the traffic class field"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the value of the traffic class field of the IPv6 header.
@@ -4317,12 +4177,10 @@ class P4G_IPV6_FLOW_LABEL:
         flow_label: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)
         """4 hex bytes, value of the traffic class field (only lowest 20 bits are valid)"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         flow_label: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)
         """4 hex bytes, value of the traffic class field (only lowest 20 bits are valid)"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the value of the flow label field of the IPv6 header.
@@ -4361,12 +4219,10 @@ class P4G_L4_PROTOCOL:
         protocol_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=L47ProtocolType)
         """coded byte, layer 4 protocol."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         protocol_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=L47ProtocolType)
         """coded byte, layer 4 protocol."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the Layer 4 protocol used by the Connection Group.
@@ -4521,7 +4377,6 @@ class P4G_TCP_ESTABLISH_HIST:
         bin_31: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, number of connections with establish time within the given interval."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get a histogram over TCP connection establish times.
 
@@ -4661,7 +4516,6 @@ class P4G_TCP_CLOSE_HIST:
 
         bin_31: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, number of connections with close time within the given interval."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a histogram over TCP connection close times.
@@ -4803,7 +4657,6 @@ class P4G_TCP_RX_TOTAL_BYTES_HIST:
         bin_31: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, number of connections that has received total TCP bytes within the given interval."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get a histogram over number of total TCP bytes received.
 
@@ -4943,7 +4796,6 @@ class P4G_TCP_RX_GOOD_BYTES_HIST:
 
         bin_31: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, number of connections that has received good TCP bytes within the given interval."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a histogram over number of good TCP bytes received.
@@ -5085,7 +4937,6 @@ class P4G_TCP_TX_TOTAL_BYTES_HIST:
         bin_31: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, number of connections that has transmitted total TCP bytes within the given interval."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get a histogram over number of total TCP bytes transmitted.
 
@@ -5226,7 +5077,6 @@ class P4G_TCP_TX_GOOD_BYTES_HIST:
         bin_31: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, number of connections that has transmitted good TCP bytes within the given interval."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get a histogram over number of good TCP bytes transmitted.
 
@@ -5261,7 +5111,6 @@ class P4G_APP_REPLAY_COUNTERS:
 
         nat_collision_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, number of NAT collisions"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get NAT collisions of a replay application.
@@ -5300,7 +5149,6 @@ class P4G_APP_TRANSACTION_COUNTERS:
 
         transaction_per_second: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, number of completed transactions/second"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get request/response transaction statistics.
@@ -5443,7 +5291,6 @@ class P4G_APP_TRANSACTION_HIST:
         bin_31: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, number of connections with number of transactions within the given interval."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get a histogram over completed request/response transactions per connection.
 
@@ -5492,7 +5339,6 @@ class P4G_UDP_STATE_CURRENT:
 
         active: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, the number of connections currently in this state"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the current UDP state counters.
@@ -5543,7 +5389,6 @@ class P4G_UDP_STATE_TOTAL:
         active: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, the total number of connections that has entered this state"""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the total UDP state counters.
 
@@ -5593,7 +5438,6 @@ class P4G_UDP_STATE_RATE:
         active: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, the number of connections/second entering this state"""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the UDP state rates measured in connections/second.
 
@@ -5632,7 +5476,6 @@ class P4G_UDP_RX_PAYLOAD_COUNTERS:
         byte_per_second: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, number of UDP payload bytes/second received"""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the UDP RX payload counters.
 
@@ -5670,7 +5513,6 @@ class P4G_UDP_TX_PAYLOAD_COUNTERS:
 
         byte_per_second: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, number of UDP payload bytes/second transmitted"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the UDP TX payload counters.
@@ -5812,7 +5654,6 @@ class P4G_UDP_RX_BYTES_HIST:
         bin_31: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, number of connections that has received UDP bytes within the given interval."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get a histogram over number of UDP bytes received.
 
@@ -5953,7 +5794,6 @@ class P4G_UDP_TX_BYTES_HIST:
         bin_31: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, number of connections that has transmitted UDP bytes within the given interval."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get a histogram over number of UDP bytes transmitted.
 
@@ -5991,7 +5831,6 @@ class P4G_TCP_RX_PACKET_COUNTERS:
 
         packet_per_second: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, number of TCP packets/second received"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the TCP RX packet counters.
@@ -6031,7 +5870,6 @@ class P4G_TCP_TX_PACKET_COUNTERS:
         packet_per_second: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, number of TCP packets/second transmitted"""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the TCP TX packet counters.
 
@@ -6070,7 +5908,6 @@ class P4G_UDP_RX_PACKET_COUNTERS:
         packet_per_second: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, number of UDP packets/second received"""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the UDP RX packet counters.
 
@@ -6108,7 +5945,6 @@ class P4G_UDP_TX_PACKET_COUNTERS:
 
         packet_per_second: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, number of UDP packets/second transmitted"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the UDP TX packet counters.
@@ -6274,7 +6110,6 @@ class P4G_REPLAY_FILE_INDICES:
         replay_file_indices: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
         """list of integers, indices of configured replay files"""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get an index list of configured Replay Files for this Connection Group.
 
@@ -6307,12 +6142,10 @@ class P4G_REPLAY_FILE_NAME:
         file_name: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
         """string, file name (including relative path and excluding the '.bson' extension)."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         file_name: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
         """string, file name (including relative path and excluding the '.bson' extension)."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the name of a replay file configured for the Connection Group.
@@ -6387,12 +6220,10 @@ class P4G_REPLAY_UTILIZATION:
         utilization: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, utilization specified in ppm."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         utilization: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, utilization specified in ppm."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the link layer bandwidth utilization for all the generated traffic from the specified Replay Connection Group.
@@ -6432,12 +6263,10 @@ class P4G_REPLAY_USER_INCARNATION:
         mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=LifecycleMode)
         """coded byte, defines the lifecycle mode of connections."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=LifecycleMode)
         """coded byte, defines the lifecycle mode of connections."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the lifecycle mode of a user and its connections.
@@ -6486,7 +6315,6 @@ class P4G_REPLAY_USER_REPETITIONS:
         repetition_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, number of repetitions"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfiniteOrFinite)
@@ -6494,7 +6322,6 @@ class P4G_REPLAY_USER_REPETITIONS:
 
         repetition_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, number of repetitions"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get how many times a new user should be created, after an old user has been destroyed.
@@ -6575,7 +6402,6 @@ class P4G_USER_STATE_CURRENT:
         inactive: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, the number of users currently in this state"""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the current user state counters.
 
@@ -6639,7 +6465,6 @@ class P4G_USER_STATE_TOTAL:
 
         inactive: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, the total number of users that has entered this state"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the total user state counters.
@@ -6706,7 +6531,6 @@ class P4G_USER_STATE_RATE:
         stopped: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, the number of users/second entering this state"""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the user state rates measured in users/second.
 
@@ -6736,12 +6560,10 @@ class P4G_TLS_ENABLE:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)
         """code byte, specifying whether to enable TLS"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)
         """code byte, specifying whether to enable TLS"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether TLS is enabled.
@@ -6785,12 +6607,10 @@ class P4G_TLS_CIPHER_SUITES:
         ciphers: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)
         """list of hex bytes, sequence of ciphers identified by theirs IANA number in order of priority."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         ciphers: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)
         """list of hex bytes, sequence of ciphers identified by theirs IANA number in order of priority."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the list of ciphers to announce in order of priorities.
@@ -6829,12 +6649,10 @@ class P4G_TLS_MAX_RECORD_SIZE:
         size: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, maximum outgoing record size in the interval ]0;16384], default value 8087."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         size: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, maximum outgoing record size in the interval ]0;16384], default value 8087."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the maximum outgoing TLS record size.
@@ -6873,7 +6691,6 @@ class P4G_TLS_CERTIFICATE_FILENAME:
         filename: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
         """string, the filename of the certificate relative to the ftp tls folder"""
 
-
     def set(self, filename: str) -> "Token":
         """Set the TLS certificate.
 
@@ -6902,7 +6719,6 @@ class P4G_TLS_PRIVATE_KEY_FILENAME:
     class SetDataAttr:
         filename: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
         """string, the filename of the private key relative to the ftp tls folder"""
-
 
     def set(self, filename: str) -> "Token":
         """Set the private key matching the TLS certificate.
@@ -6933,7 +6749,6 @@ class P4G_TLS_DHPARAMS_FILENAME:
         filename: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
         """string, the filename of the dhparams relative to the ftp tls folder"""
 
-
     def set(self, filename: str) -> "Token":
         """Set TLS DH parameters.
 
@@ -6963,12 +6778,10 @@ class P4G_TLS_CLOSE_NOTIFY:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)
         """code byte, specifying whether to send close notify on connection tear down"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)
         """code byte, specifying whether to send close notify on connection tear down"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether TLS sends close notify alert on connection tear-down.
@@ -7109,7 +6922,6 @@ class P4G_TLS_ALERT_WARNING_COUNTERS:
         unknown: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, the total number of this warning received"""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of TLS warning counters.
 
@@ -7236,7 +7048,6 @@ class P4G_TLS_ALERT_FATAL_COUNTERS:
         unknown: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, the total number of this error received"""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of TLS error counters.
 
@@ -7302,7 +7113,6 @@ class P4G_TLS_STATE_CURRENT:
 
         tls_done: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, the number of connections currently in this state"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the current TLS state counters.
@@ -7370,7 +7180,6 @@ class P4G_TLS_STATE_TOTAL:
         tls_done: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, the total number of connections that has entered this state"""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the total TLS state counters.
 
@@ -7437,7 +7246,6 @@ class P4G_TLS_STATE_RATE:
         tls_done: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, the number of connections/second entering this state"""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the TLS state rates measured in per second.
 
@@ -7476,7 +7284,6 @@ class P4G_TLS_RX_PAYLOAD_COUNTERS:
         byte_per_second: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, number of TLS payload bytes/second received"""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the TLS Rx payload counters.
 
@@ -7514,7 +7321,6 @@ class P4G_TLS_TX_PAYLOAD_COUNTERS:
 
         byte_per_second: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, number of TLS payload bytes/second transmitted"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the TLS Tx payload counters.
@@ -7657,7 +7463,6 @@ class P4G_TLS_RX_PAYLOAD_BYTES_HIST:
         bin_31: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, number of connections that has received TLS Payload bytes within the given interval."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get a histogram over number of TLS Payload bytes received.
 
@@ -7798,7 +7603,6 @@ class P4G_TLS_TX_PAYLOAD_BYTES_HIST:
 
         bin_31: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, number of connections that has transmitted TLS Payload bytes within the given interval."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a histogram over number of TLS Payload bytes transmitted.
@@ -7941,7 +7745,6 @@ class P4G_TLS_HANDSHAKE_HIST:
         bin_31: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, number of connections with handshake time within the given interval."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get a histogram over TLS connection handshake times.
 
@@ -7975,12 +7778,10 @@ class P4G_TLS_SERVER_NAME:
         server_name: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
         """string, server name inserted in the SNI TLS extension"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         server_name: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
         """string, server name inserted in the SNI TLS extension"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the server name advertised by the client in the TLS SNI.
@@ -8023,12 +7824,10 @@ class P4G_TLS_PROTOCOL_VER:
         tls_version: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TLSVersion)
         """coded byte, maximum supported TLS protocol version"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         tls_version: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TLSVersion)
         """coded byte, maximum supported TLS protocol version"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the highest supported TLS protocol version.
@@ -8079,7 +7878,6 @@ class P4G_TLS_MIN_REQ_PROTOCOL_VER:
     class GetDataAttr:
         tls_version: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TLSVersion)
         """coded byte, minimum required TLS protocol version"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the minimum TLS protocol version required by the configured list of cipher suites.

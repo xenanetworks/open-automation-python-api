@@ -15,7 +15,6 @@ from ..registry import register_command
 from .enums import *  # noqa: F403
 
 
-
 @register_command
 @dataclass
 class PEC_INDICES:
@@ -46,12 +45,10 @@ class PEC_INDICES:
         indices: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList, climb=(0, 40))
         """list of integers, a list of the indices to the custom distributions which are currently defined on that port, max 40 elements."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         indices: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList, climb=(0, 40))
         """list of integers, a list of the indices to the custom distributions which are currently defined on that port, max 40 elements."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the indices to the custom distributions which are currently defined on that port.
@@ -104,7 +101,6 @@ class PEC_VAL:
         data_x: XmpField[xt.XmpLongList] = XmpField(xt.XmpLongList)
         """array of long integers, array size="num_entries", holds values to be filled in the RAM memory."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         linear: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
@@ -120,7 +116,6 @@ class PEC_VAL:
 
         data_x: XmpField[xt.XmpLongList] = XmpField(xt.XmpLongList)
         """array of long integers, array size="num_entries", holds values to be filled in the RAM memory."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the definition of custom distribution.
@@ -180,12 +175,10 @@ class PEC_COMMENT:
         comment: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
         """string, the user-specified comment/description for the custom distribution."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         comment: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
         """string, the user-specified comment/description for the custom distribution."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the user-defined description string of a custom distribution.
@@ -266,7 +259,6 @@ class PEC_DISTTYPE:
     class GetDataAttr:
         latency_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=LatencyTypeCustomDist)
         """byte, 0 indicates interpacket distribution, 1 indicates latency distribution."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the latency type of a custom distribution.

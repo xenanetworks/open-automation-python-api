@@ -15,7 +15,6 @@ from ..registry import register_command
 # from .enums import *  # noqa: F403"""
 
 
-
 @register_command
 @dataclass
 class P4E_ASSIGN:
@@ -35,12 +34,10 @@ class P4E_ASSIGN:
         mask: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)
         """eight hex bytes, a bitmask specifying which PEs should be assigned to this port"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         mask: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)
         """eight hex bytes, a bitmask specifying which PEs should be assigned to this port"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the assigned PEs on the port.
@@ -80,7 +77,6 @@ class P4E_AVAILABLE:
         )
         """byte, total number of PEs that can be allocated to the port - including the PEs already allocated to the port."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get the number of PEs available for allocation.
 
@@ -109,12 +105,10 @@ class P4E_ALLOCATE:
         pe_count_alloc: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
         """byte, the total number of PEs to allocate to this port - including the PEs already allocated to the port."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         pe_count_alloc: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
         """byte, the total number of PEs to allocate to this port - including the PEs already allocated to the port."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the number of PEs allocated to this port.
@@ -155,7 +149,6 @@ class P4E_ALLOCATION_INFO:
 
         allocated: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)
         """eight hex bytes (64-bit) mask of PEs assigned to this port"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get PEs allocation information.

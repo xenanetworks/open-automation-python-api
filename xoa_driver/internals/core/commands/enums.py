@@ -1,4 +1,4 @@
-#: Enumeration Types 
+#: Enumeration Types
 
 from enum import IntEnum
 
@@ -496,7 +496,7 @@ class ProtocolOption(IntEnum):
     """Radio over Ethernet"""
     ETHERTYPE = 48
     """EtherType"""
-    
+
     # Generate RAW form 1...64 bytes
     _ignore_ = 'ProtocolOption i'
     ProtocolOption = vars()
@@ -1330,7 +1330,6 @@ class CustomDefaultScope(IntEnum):
     """Instance"""
 
 
-
 class TrafficError(IntEnum):
     """Traffic Error"""
     NOT_PREPARED = 0
@@ -1712,9 +1711,10 @@ class ShadowWorkingSelection(IntEnum):
     WORKING = 1
     """Working"""
 
+
 class FilterType(IntEnum):
     """Filter Type for Impairment"""
-    SHADOW = 0 
+    SHADOW = 0
     """Shadow Copy"""
     WORKING = 1
     """Working Copy"""
@@ -1722,9 +1722,9 @@ class FilterType(IntEnum):
 
 class FilterVlanType(IntEnum):
     """VLAN PCP Settings for VLAN Filter"""
-    INNER = 0 
+    INNER = 0
     """VLAN1 (0) (INNER VLAN Tag is specified for the filter – used also when only 1 VLAN), indicates single/inner VLAN-TPID=0x8100"""
-    OUTER = 1 
+    OUTER = 1
     """VLAN2 (1) (OUTER VLAN Tag is specified for the filter), indicates outer VLAN-TPID=0x88A8"""
 
 
@@ -1828,6 +1828,7 @@ class PPMSweepMode(IntEnum):
     TRIANGLE = 1
     """Triangle sweeping"""
 
+
 class PPMSweepStatus(IntEnum):
     """Module clock PPM Sweep Status"""
     OFF = 0
@@ -1835,12 +1836,14 @@ class PPMSweepStatus(IntEnum):
     SWEEPING = 1
     """The module is sweeping"""
 
+
 class ReconciliationSublayerSupport (IntEnum):
     """Reconciliation Sublayer Support"""
     NO_SUPPORT = 0
     """Not Supported"""
     FAULT_SIGNALING = 1
     """Supported, which means P_FAULTSTATUS and P_FAULTSIGNALLING are supported by the port."""
+
 
 class PL1_CFG_TMP_TYPE (IntEnum):
     """Enums for PL1_CFG_TMP's type (beta)

@@ -16,7 +16,6 @@ from ..registry import register_command
 from .enums import *  # noqa: F403
 
 
-
 @register_command
 @dataclass
 class PP_ALARMS_ERRORS:
@@ -61,7 +60,6 @@ class PP_ALARMS_ERRORS:
         total_higher_error_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, number of errors of high BER error alarm"""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get the error count of each alarm, PCS Error, FEC Error, Header Error, Align Error, BIP Error, and High BER Error.
 
@@ -95,7 +93,6 @@ class PP_TXLANECONFIG:
         skew: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, the inserted skew on the lane, in bit units."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         virt_lane_index: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
@@ -103,7 +100,6 @@ class PP_TXLANECONFIG:
 
         skew: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, the inserted skew on the lane, in bit units."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the virtual lane index and artificial skew for data transmitted on a specified physical lane.
@@ -145,7 +141,6 @@ class PP_TXLANEINJECT:
     class SetDataAttr:
         inject_error_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InjectErrorType)
         """coded byte, specifying what kind of error to inject."""
-
 
     def set(self, inject_error_type: InjectErrorType) -> "Token":
         """Inject a particular kind of CAUI error into a specific physical lane.
@@ -195,7 +190,6 @@ class PP_TXPRBSCONFIG:
         error_on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=ErrorOnOff)
         """code byte, whether bit-level errors are injected into this SerDes."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         prbs_seed: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
@@ -206,7 +200,6 @@ class PP_TXPRBSCONFIG:
 
         error_on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=ErrorOnOff)
         """code byte, whether bit-level errors are injected into this SerDes."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the PRBS configuration for a particular SerDes. When PRBS is enabled for any SerDes
@@ -255,12 +248,10 @@ class PP_TXERRORRATE:
         rate: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, the number of bits between each error. 0, no error injection."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         rate: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, the number of bits between each error. 0, no error injection."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the rate of continuous bit-level error injection. Errors are injected evenly
@@ -345,7 +336,6 @@ class PP_RXTOTALSTATS:
         )
         """integer, total post-FEC BER estimate sent as "total_post_ber = received_bits / total_estimated_uncorrectable_errors". To get the real total post-BER, calculate the inverse: 1/total_post_ber. If zero physical bit errors have been detected, the negative value "-received_bits" is provided, which can be used to generate the "< BER" value."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get FEC Total counters of the port:
             1. total corrected FEC symbols count.
@@ -394,7 +384,6 @@ class PP_RXFECSTATS:
         rx_uncorrectable_code_word_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, the number of received uncorrectable code words."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics on how many FEC blocks have been seen with a given number of symbol errors.
 
@@ -430,7 +419,6 @@ class PP_LINKFLAP_PARAMS:
         repetition: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, 1 - 64K; 0 = continuous."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         duration: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
@@ -441,7 +429,6 @@ class PP_LINKFLAP_PARAMS:
 
         repetition: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, 1 - 64K; 0 = continuous."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get port 'link flap' settings.
@@ -483,12 +470,10 @@ class PP_LINKFLAP_ENABLE:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, whether link flap is enabled."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, whether link flap is enabled."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the port 'link flap' status of the port.
@@ -549,7 +534,6 @@ class PP_PMAERRPUL_PARAMS:
         exp: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, climb=(-16, -4))
         """integer, -3 < exp < -17"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         duration: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
@@ -566,7 +550,6 @@ class PP_PMAERRPUL_PARAMS:
 
         exp: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, climb=(-16, -4))
         """integer, -3 < exp < -17"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get PMA pulse error injection settings.
@@ -617,7 +600,6 @@ class PP_RXLANELOCK:
         align_lock: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=AlignLockStatus)
         """coded byte, whether this lane has achieved alignment lock."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get whether the receiver has achieved header lock and alignment lock on the data
         received on a specified physical lane.
@@ -652,7 +634,6 @@ class PP_RXLANESTATUS:
 
         skew: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, the measured skew on the lane, in bit units."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the virtual lane index and actual skew for data received on a specified physical lane.
@@ -698,7 +679,6 @@ class PP_RXLANEERRORS:
         )
         """long integer, received_bits / corfecerrs. To get the pre_ber, calculate the inverse: 1/pre_ber. If zero bit errors have been received, the negative value "-received_bits" is provided, which can be used to generate the "< BER" value."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics about errors detected at the physical coding sub-layer on the data
         received on a specified physical lane.
@@ -735,7 +715,6 @@ class PP_RXPRBSSTATUS:
 
         lock: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSLockStatus)
         """coded byte, whether this lane is in PRBS lock."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the statistics about PRBS pattern detection on the data received on a specified
@@ -800,7 +779,6 @@ class PP_RXLASERPOWER:
         nanowatts: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
         """list of integers, received signal level, in nanowatts. 0, when no signal."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get the readings of the optical power level of the received signal.
 
@@ -832,7 +810,6 @@ class PP_TXLASERPOWER:
         nanowatts: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
         """list of integers, received signal level, in nanowatts. 0, when no signal."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get the reading of the optical power level of the transmission signal.
 
@@ -861,12 +838,10 @@ class PP_PMAERRPUL_ENABLE:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, whether PMA pulse error inject is enabled."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, whether PMA pulse error inject is enabled."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the status of 'PMA pulse error inject'.
@@ -916,7 +891,6 @@ class PP_EYEMEASURE:
         dummy: XmpField[xt.XmpByteList] = XmpField(xt.XmpByteList)
         """list of bytes, should always be 0, reserved for future expansion."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         status: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=SerdesStatus)
@@ -924,7 +898,6 @@ class PP_EYEMEASURE:
 
         dummy: XmpField[xt.XmpByteList] = XmpField(xt.XmpByteList)
         """list of bytes, should always be 0, reserved for future expansion."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the status of the BER eye-measure data gathering process.
@@ -973,7 +946,6 @@ class PP_EYERESOLUTION:
         y_resolution: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, number of columns, must be between 7 and 255 and be in the form 2^n-1"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         x_resolution: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
@@ -981,7 +953,6 @@ class PP_EYERESOLUTION:
 
         y_resolution: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, number of columns, must be between 7 and 255 and be in the form 2^n-1"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the resolution used for the next BER eye-measurement.
@@ -1041,7 +1012,6 @@ class PP_EYEREAD:
             xt.XmpIntList
         )
         """list of integers, showing the number of bit errors measured out of a total of 1M bits at each of the individual sampling points (x=timeaxis, y = 0/1 threshold)."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Read a single column of a measured BER eye on a 25G serdes.
@@ -1130,7 +1100,6 @@ class PP_EYEINFO:
         est_rj_rms_top: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, value and unit (mV) * 1000, group = Vertical bathtub curve"""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Read out BER eye-measurement information such as the vertical and horizontal
         bathtub curve information on a 25G serdes. This must be called after "PP_EYEMEASURE"
@@ -1185,7 +1154,6 @@ class PP_PHYTXEQ:
         mode: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, value must be 4"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         pre1: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
@@ -1208,7 +1176,6 @@ class PP_PHYTXEQ:
 
         mode: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, value must be 4"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the equalizer settings of the on-board PHY in the
@@ -1267,7 +1234,6 @@ class PP_PHYRETUNE:
         dummy: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
         """byte, reserved for future improvements, always set to 1"""
 
-
     def set(self, dummy: int) -> "Token":
         """Trigger a new retuning of the receive equalizer on the PHY for one of the 25G
         serdes.
@@ -1301,12 +1267,10 @@ class PP_PHYAUTOTUNE:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
         """coded byte, enable/disable automatic receiving PHY retuning. Default is enabled."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
         """coded byte, enable/disable automatic receiving PHY retuning. Default is enabled."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether the auto PHY retuning is enabled.
@@ -1344,7 +1308,6 @@ class PP_EYEBER:
     class GetDataAttr:
         eye_ber_estimation: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
         """string, BER estimations of an eye diagram"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """GEt BER estimations of an eye diagram.
@@ -1386,7 +1349,6 @@ class PP_PHYAUTONEG:
         reserved_4: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, reserved for future use."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         fec_mode: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=OnOff)
@@ -1403,7 +1365,6 @@ class PP_PHYAUTONEG:
 
         reserved_4: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, reserved for future use."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get auto-negotiation settings of the PHY.
@@ -1467,7 +1428,6 @@ class PP_TXPRBSTYPE:
         invert: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSInvertState)
         """coded byte, PRBS invert state."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         prbs_inserted_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSInsertedType)
@@ -1478,7 +1438,6 @@ class PP_TXPRBSTYPE:
 
         invert: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSInvertState)
         """coded byte, PRBS invert state."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the TX PRBS type used when the interface is in PRBS mode.
@@ -1531,7 +1490,6 @@ class PP_RXPRBSTYPE:
         statistics_mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSStatisticsMode)
         """coded byte, PRBS statistics mode"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         prbs_inserted_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSInsertedType)
@@ -1545,7 +1503,6 @@ class PP_RXPRBSTYPE:
 
         statistics_mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSStatisticsMode)
         """coded byte, PRBS statistics mode"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the RX PRBS type used when the interface is in PRBS mode.
@@ -1594,12 +1551,10 @@ class PP_FECMODE:
         mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FECMode)
         """coded byte, FEC mode for port."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FECMode)
         """coded byte, FEC mode for port."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the FEC mode for port that supports FEC.
@@ -1618,29 +1573,26 @@ class PP_FECMODE:
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, mode=mode))
 
     set_off = functools.partialmethod(set, FECMode.OFF)
-        """Turn FEC off."""
+    """Turn FEC off."""
 
     """Turn FEC off.
     """
     set_rs_fec = functools.partialmethod(set, FECMode.RS_FEC)
-        """Turn RS FEC on, either RS-FEC KR or RS-FEC KP, automatically selected based on the FEC modes supported by the port."""
+    """Turn RS FEC on, either RS-FEC KR or RS-FEC KP, automatically selected based on the FEC modes supported by the port."""
 
     """Turn RS FEC on, either RS-FEC KR or RS-FEC KP, automatically selected based on the FEC modes supported by the port.
     """
     set_fc_fec = functools.partialmethod(set, FECMode.FC_FEC)
-        """Turn Firecode FEC on."""
+    """Turn Firecode FEC on."""
 
     """Turn Firecode FEC on.
     """
-  
-        """set_on = functools.partialmethod(set, FECMode.ON)  # Turn RS FEC on, either RS-FEC KR or RS-FEC KP, automatically selected based on the FEC modes supported by the port."""
 
-  
-        """set_rs_fec_kr = functools.partialmethod(set, FECMode.RS_FEC_KR)  # Explicitly turn RS-FEC KR on."""
+    """set_on = functools.partialmethod(set, FECMode.ON)  # Turn RS FEC on, either RS-FEC KR or RS-FEC KP, automatically selected based on the FEC modes supported by the port."""
 
-  
-        """set_rs_fec_kp = functools.partialmethod(set, FECMode.RS_FEC_KP)  # Explicitly turn RS-FEC KP on."""
+    """set_rs_fec_kr = functools.partialmethod(set, FECMode.RS_FEC_KR)  # Explicitly turn RS-FEC KR on."""
 
+    """set_rs_fec_kp = functools.partialmethod(set, FECMode.RS_FEC_KP)  # Explicitly turn RS-FEC KP on."""
 
 
 @register_command
@@ -1666,7 +1618,6 @@ class PP_EYEDWELLBITS:
         max_dwell_bit_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, maximum dwell bits for an eye capture"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         min_dwell_bit_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
@@ -1674,7 +1625,6 @@ class PP_EYEDWELLBITS:
 
         max_dwell_bit_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, maximum dwell bits for an eye capture"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the min and max dwell bits for an eye capture.
@@ -1724,7 +1674,6 @@ class PP_PHYSIGNALSTATUS:
         phy_signal_status: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PHYSignalStatus)
         """coded byte, PHY signal status"""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get the PHY signal status.
 
@@ -1762,7 +1711,6 @@ class PP_PRBSTYPE:
         statistics_mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSStatisticsMode)
         """coded byte, specifying PRBS statistics mode, accumulative or for last second"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         prbs_inserted_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSInsertedType)
@@ -1776,7 +1724,6 @@ class PP_PRBSTYPE:
 
         statistics_mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSStatisticsMode)
         """coded byte, specifying PRBS statistics mode, accumulative or for last second"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the PRBS type used when the interface is in PRBS mode.
@@ -1834,7 +1781,6 @@ class PP_PHYSETTINGS:
         pam4_msb_lsb_swap: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=OnOff)
         """coded integer, enabling/disabling PAM4 MSB/LSB swap."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         link_training_on_off: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=OnOff)
@@ -1848,7 +1794,6 @@ class PP_PHYSETTINGS:
 
         pam4_msb_lsb_swap: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=OnOff)
         """coded integer, enabling/disabling PAM4 MSB/LSB swap."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get low-level PHY settings.
@@ -1910,7 +1855,6 @@ class PP_PHYRXEQ:
         reserved: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, reserved"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         auto: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
@@ -1921,7 +1865,6 @@ class PP_PHYRXEQ:
 
         reserved: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, reserved"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get RX EQ parameters.
@@ -1978,7 +1921,6 @@ class PP_AUTONEG:
         pause_mode: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=PauseMode)
         """coded integer, pause mode."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         mode: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=AutoNegMode)
@@ -1995,7 +1937,6 @@ class PP_AUTONEG:
 
         pause_mode: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=PauseMode)
         """coded integer, pause mode."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the auto-negotiation settings of the PHY.
@@ -2064,7 +2005,6 @@ class PP_AUTONEGSTATUS:
         pause_mode: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=PauseMode)
         """coded integer, pause mode."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get the status of auto-negotiation settings of the PHY.
 
@@ -2106,7 +2046,6 @@ class PP_LINKTRAIN:
         timeout_mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TimeoutMode)
         """coded byte, timeout mode."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=LinkTrainingMode)
@@ -2123,7 +2062,6 @@ class PP_LINKTRAIN:
 
         timeout_mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TimeoutMode)
         """coded byte, timeout mode."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the link training settings of the port.
@@ -2190,7 +2128,6 @@ class PP_LINKTRAINSTATUS:
 
         failure: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=LinkTrainingFailureType)
         """coded byte, failure type."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get link training status of a lane of a port.

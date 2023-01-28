@@ -17,7 +17,6 @@ from ..registry import register_command
 from .enums import *  # noqa: F403
 
 
-
 @register_command
 @dataclass
 class M4_SYSTEMID:
@@ -35,7 +34,6 @@ class M4_SYSTEMID:
     class GetDataAttr:
         system_id: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
         """string, module system identifier."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the system identifier of a L47 module.
@@ -66,7 +64,6 @@ class M4_VERSIONNO:
         version_string: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
         """string, module version string."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get a version string containing a combination of information regarding the software version and the build environment.
 
@@ -93,7 +90,6 @@ class M4_SYSTEM_STATUS:
     class GetDataAttr:
         status_string: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
         """string, module status string."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the L47 module system status in a text string
@@ -143,7 +139,6 @@ class M4_COMPATIBLE_CLIENT_VERSION:
         required_minor_3: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """string, required minor 3 version."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get the recommended and required VulcanMananger client version.
 
@@ -170,7 +165,6 @@ class M4_TIME:
     class GetDataAttr:
         time_now: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, the current time (mSec since module restart)"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the module time in millisecond.
@@ -214,7 +208,6 @@ class M4_SYSTEM_TIME:
         second: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, the second."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         year: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
@@ -234,7 +227,6 @@ class M4_SYSTEM_TIME:
 
         second: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, the second."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the modules system time in UTC.
@@ -284,7 +276,6 @@ class M4_MEM_INFO:
         month: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, free memory."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get the system memory information.
 
@@ -313,12 +304,10 @@ class M4_CAPTURE_SIZE:
         size: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=CaptureSize)
         """coded byte, specifying whether to capture whole packets or truncated packets."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         size: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=CaptureSize)
         """coded byte, specifying whether to capture whole packets or truncated packets."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether to capture whole packets(large) or truncated packets.
@@ -398,7 +387,6 @@ class M4_LICENSE_INFO:
         )
         """integer, number of free 40G speed licenses on the module 1G available: integer, number of 1G licenses on the module, that can be used simultaneously."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get the number of available and free PE licenses.
 
@@ -437,7 +425,6 @@ class M4_REPLAY_PARSE_START:
     class SetDataAttr:
         filename: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
         """string, filename (including relative path and excluding the '.pcap' extension)."""
-
 
     def set(self, filename: str) -> "Token":
         """Start parsing an uploaded Capture File
@@ -498,7 +485,6 @@ class M4_REPLAY_PARSE_STATE:
         state: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=ReplayParserState)
         """coded byte, state of the replay parser"""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get capture file parsing state.
 
@@ -526,12 +512,10 @@ class M4_REPLAY_PARSER_PARAMS:
         tcp_port: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, server TCP Port of dummy TCP connection inserted in UDP only replay files"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         tcp_port: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, server TCP Port of dummy TCP connection inserted in UDP only replay files"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the configuration of parameters for the parsing of pcap files.
@@ -569,7 +553,6 @@ class M4_REPLAY_FILE_LIST_BSON:
         bson: XmpField[xt.XmpByteList] = XmpField(xt.XmpByteList)
         """list of hex bytes, bson document containing the file list"""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get the replay file list in BSON document format.
 
@@ -597,7 +580,6 @@ class M4_REPLAY_FILE_LIST:
     class GetDataAttr:
         file_list: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
         """string, comma separated list of filenames excluding the '.bson' extension."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Generate a list of Replay Files in BSON document on the tester.
@@ -627,7 +609,6 @@ class M4_CAPTURE_FILE_LIST_BSON:
         bson: XmpField[xt.XmpByteList] = XmpField(xt.XmpByteList)
         """list of hex bytes, bson document containing the file list"""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get the capture file list in BSON document.
 
@@ -655,7 +636,6 @@ class M4_CAPTURE_FILE_LIST:
     class GetDataAttr:
         file_list: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
         """string, comma separated list of filenames excluding the '.pcap' extension."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Generate a list of Capture Files in BSON document on the tester.
@@ -686,7 +666,6 @@ class M4_REPLAY_FILE_DELETE:
         filename: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
         """string, file name (including relative path and excluding the '.bson' extension)."""
 
-
     def set(self, filename: str) -> "Token":
         """Delete a Replay File in the Replay File directory.
 
@@ -716,7 +695,6 @@ class M4_CAPTURE_FILE_DELETE:
         filename: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
         """string, file name (including relative path and excluding the '.pcap' extension)."""
 
-
     def set(self, filename: str) -> "Token":
         """Delete a Capture File in the Capture File directory.
 
@@ -743,7 +721,6 @@ class M4_TLS_CIPHER_SUITES:
     class GetDataAttr:
         cipher_suites: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)
         """list of hex bytes, list of IANA values of supported cipher suites"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of supported TLS Cipher Suites.

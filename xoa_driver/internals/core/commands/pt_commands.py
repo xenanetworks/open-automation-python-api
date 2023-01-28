@@ -15,7 +15,6 @@ from ..registry import register_command
 # from .enums import *  # noqa: F403
 
 
-
 @register_command
 @dataclass
 class PT_TOTAL:
@@ -43,7 +42,6 @@ class PT_TOTAL:
 
         packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, number of packets transmitted since statistics were cleared."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning all the packets transmitted on a port.
@@ -83,7 +81,6 @@ class PT_NOTPLD:
         packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, number of packets transmitted since statistics were cleared."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning the packets without a test payload transmitted on a port.
 
@@ -122,7 +119,6 @@ class PT_STREAM:
 
         packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, number of packets transmitted since statistics were cleared."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning the packets of a specific stream transmitted on a port.
@@ -184,7 +180,6 @@ class PT_EXTRA:
         tx_arp_req_count: XmpField[xt.XmpLongList] = XmpField(xt.XmpLongList)
         """long integer, number of ARP requests transmitted"""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get additional statistics for packets transmitted on a port.
 
@@ -225,7 +220,6 @@ class PT_TOTALEXT:
         packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, number of packets transmitted since statistics were cleared."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning all the packets transmitted on a port.
 
@@ -265,7 +259,6 @@ class PT_NOTPLDEXT:
 
         packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, number of packets transmitted since statistics were cleared."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning the packets without a test payload transmitted on a port.
@@ -308,7 +301,6 @@ class PT_STREAMEXT:
         packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, number of packets transmitted since statistics were cleared."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning the packets of a specific stream transmitted on a port.
 
@@ -347,7 +339,6 @@ class PT_FLOWTOTAL:
 
         packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, number of packets transmitted since statistics were cleared for the flow."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """(Chimera only) Get statistics concerning all the packets transmitted from a between this receive port and its partner TX port.

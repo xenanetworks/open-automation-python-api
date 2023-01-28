@@ -35,12 +35,10 @@ class PD_INDICES:
         histogram_indices: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
         """list of integers, histogram indices"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         histogram_indices: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
         """list of integers, histogram indices"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the histogram indices for each of N histograms.
@@ -148,12 +146,10 @@ class PD_ENABLE:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded integer, whether the histogram is enabled."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded integer, whether the histogram is enabled."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether a histogram is currently active on a port.
@@ -206,7 +202,6 @@ class PD_SOURCE:
         identity: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, test payload id or filter id for the wanted packets."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         source_type: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=SourceType)
@@ -217,7 +212,6 @@ class PD_SOURCE:
 
         identity: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, test payload id or filter id for the wanted packets."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the source criteria specifying what is counted, and for which packets, by a histogram of a port.
@@ -280,7 +274,6 @@ class PD_RANGE:
         bucket_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, the total number of buckets."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         start: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
@@ -293,7 +286,6 @@ class PD_RANGE:
 
         bucket_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, the total number of buckets."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the bucket ranges used for classifying the packets counted by a histogram of a port.
@@ -347,7 +339,6 @@ class PD_SAMPLES:
     class GetDataAttr:
         packet_counts: XmpField[xt.XmpLongList] = XmpField(xt.XmpLongList)
         """list of long integers, the number of packets counted for each bucket."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get current set of counts collected by a histogram for a port.

@@ -43,14 +43,12 @@ class P_RESERVATION:
         )
         """coded byte, containing the operation to perform. The reservation parameters are asymmetric with respect to set/get. When set, it contains the operation to perform. When get, it contains the status."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         status: XmpField[xt.XmpByte] = XmpField(
             xt.XmpByte, choices=ReservedStatus
         )
         """coded byte, containing the operation to perform. The reservation parameters are asymmetric with respect to set/get. When set, it contains the operation to perform. When get, it contains the status."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the reservation status of the test port.
@@ -102,7 +100,6 @@ class P_RESERVEDBY:
     class GetDataAttr:
         username: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
         """string, containing the name of the current owner of the port."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the username of the user who has the port reserved.
@@ -385,7 +382,6 @@ class P_CAPABILITIES:
         reconc_sublayer: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=ReconciliationSublayerSupport)
         """integer, Reconciliation Sublayer support, bitmask, 0 = fault signalling not support; 1 = fault signalling supported (XMP: P_FAULTSTATUS/P_FAULTSIGNALING)"""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get the internal limits, aka. capabilities, of the port.
 
@@ -413,7 +409,6 @@ class P_INTERFACE:
     class GetDataAttr:
         interface: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
         """string, describing the interface type."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the name of the physical interface type of a port.
@@ -448,12 +443,10 @@ class P_SPEEDSELECTION:
         mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PortSpeedMode)
         """coded byte, containing the speed mode for the port."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PortSpeedMode)
         """coded byte, containing the speed mode for the port."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the speed mode of the port with an interface type supporting multiple speeds.
@@ -540,7 +533,6 @@ class P_SPEED:
         port_speed: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, current speed in units of Mbps."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get the current physical speed of the port's interface.
 
@@ -568,7 +560,6 @@ class P_RECEIVESYNC:
     class GetDataAttr:
         sync_status: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=SyncStatus)
         """coded byte, describing the current sync status of the port."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the current in-sync status for a port's receive interface.
@@ -598,12 +589,10 @@ class P_COMMENT:
         comment: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
         """string, containing the description of the port."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         comment: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
         """string, containing the description of the port."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the description of the port.
@@ -645,12 +634,10 @@ class P_SPEEDREDUCTION:
         ppm: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, specifying the speed reduction in units of parts-per-million."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         ppm: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, specifying the speed reduction in units of parts-per-million."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the speed reduction ppm value of the test port.
@@ -689,12 +676,10 @@ class P_INTERFRAMEGAP:
         min_byte_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, specifying the minimum number of byte-times between generated packets."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         min_byte_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, specifying the minimum number of byte-times between generated packets."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the minimum gap between packets in the traffic generated for a port. The gap includes the Ethernet preamble.
@@ -734,12 +719,10 @@ class P_MACADDRESS:
         mac_address: XmpField[xt.XmpMacAddress] = XmpField(xt.XmpMacAddress)
         """six hex bytes, specifying the six bytes of the MAC address."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         mac_address: XmpField[xt.XmpMacAddress] = XmpField(xt.XmpMacAddress)
         """six hex bytes, specifying the six bytes of the MAC address."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the MAC address of the port.
@@ -788,7 +771,6 @@ class P_IPADDRESS:
         wild: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)
         """address, wildcards used for ARP and PING replies, must be 255 or 0."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         ipv4_address: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)
@@ -802,7 +784,6 @@ class P_IPADDRESS:
 
         wild: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)
         """address, wildcards used for ARP and PING replies, and each byte must be 255 (0xFF) or 0 (0x00)."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the IPv4 address, subnet mask, gateway address and wildcard used for ARP and PING replies of the port.
@@ -857,12 +838,10 @@ class P_ARPREPLY:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, whether the port replies to ARP requests."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, whether the port replies to ARP requests."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the status of whether the port replies to ARP requests.
@@ -910,12 +889,10 @@ class P_PINGREPLY:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, whether the port replies to PING requests."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, whether the port replies to PING requests."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the status of whether the port replies to IPv4/IPv6 PING requests.
@@ -960,12 +937,10 @@ class P_PAUSE:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, whether PAUSE response is enabled."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, whether PAUSE response is enabled."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the status of whether the port responds to incoming Ethernet PAUSE frames by holding back outgoing traffic.
@@ -1018,14 +993,12 @@ class P_RANDOMSEED:
         )
         """integer, specifying a fixed seed value for the pseudo-random number generator. -1 = new random sequence for each start."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         seed: XmpField[xt.XmpInt] = XmpField(
             xt.XmpInt
         )
         """integer, specifying a fixed seed value for the pseudo-random number generator. -1 = new random sequence for each start."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the seed value specified for the port.
@@ -1069,12 +1042,10 @@ class P_LOOPBACK:
         mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=LoopbackMode)
         """coded byte, specifying the loopback mode of the port."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=LoopbackMode)
         """coded byte, specifying the loopback mode of the port."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the loop back mode of the port.
@@ -1136,12 +1107,10 @@ class P_FLASH:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, whether the test port LED is blinking."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, whether the test port LED is blinking."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the status of the LED flashing status of the port.
@@ -1193,12 +1162,10 @@ class P_TRAFFIC:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=StartOrStop)
         """coded byte, determines whether to start or stop traffic generation on this port."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TrafficOnOff)
         """coded byte, determines whether to start or stop traffic generation on this port."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the traffic generation status of the port.
@@ -1246,12 +1213,10 @@ class P_CAPTURE:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=StartOrStop)
         """coded byte, whether capture is active for this port."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, whether capture is active for this port."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether the port is capturing packets.
@@ -1298,7 +1263,6 @@ class P_XMITONE:
         hex_data: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)
         """list of hex bytes, the data content of the packet to be transmitted."""
 
-
     def set(self, hex_data: str) -> "Token":
         """Transmits a single packet from a port, independent of the stream definitions, and independent of whether traffic is on. A valid Frame Check Sum is written into the final four bytes.
 
@@ -1329,12 +1293,10 @@ class P_LATENCYOFFSET:
         offset: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, specifying the offset for the latency measurements."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         offset: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, specifying the offset for the latency measurements."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the port latency offset value in nanoseconds.
@@ -1387,12 +1349,10 @@ class P_LATENCYMODE:
         mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=LatencyMode)
         """coded byte, which calculation mode to use."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=LatencyMode)
         """coded byte, which calculation mode to use."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the latency measurement mode of the port.
@@ -1450,12 +1410,10 @@ class P_AUTOTRAIN:
         interval: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, specifying the number of seconds between training packets. 0, disable training packets."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         interval: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, specifying the number of seconds between training packets. 0, disable training packets."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the interval between sending out training packets of the port in seconds.
@@ -1499,7 +1457,6 @@ class P_UAT_MODE:
         )
         """integer, time in milliseconds to wait before detection of UAT is started. Default value: 500. This parameter is ignored when state is set to OFF."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
@@ -1509,7 +1466,6 @@ class P_UAT_MODE:
             xt.XmpInt
         )
         """integer,time in milliseconds to wait before detection of UAT is started. Default value: 500. This parameter is ignored when state is set to OFF."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the state of the affected stream counters and time in milliseconds to wait before detection of UAT is started. Default value: 500. This command is ignored when state is set to OFF.
@@ -1558,14 +1514,12 @@ class P_UAT_FLR:
         frame_loss_ratio: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
         """byte, Frame Loss Ratio specified as a number times 1/100, 0..100"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         frame_loss_ratio: XmpField[xt.XmpByte] = XmpField(
             xt.XmpByte
         )
         """byte, specifies the Frame Loss Ratio threshold for SES as a fraction of 1 * 100 (i.e. if the threshold is 0.50, value is 50)"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the the threshold for the Frame Loss Ratio, where a second is declared as a Severely Errored Second (SES).
@@ -1658,7 +1612,6 @@ class P_MIXWEIGHTS:
         weight_16360_bytes: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, specifying the percentage of 16360-byte frame sizes."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         weight_56_bytes: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
@@ -1708,7 +1661,6 @@ class P_MIXWEIGHTS:
 
         weight_16360_bytes: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, specifying the percentage of 16360-byte frame sizes."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the percentage of each of the
@@ -1826,12 +1778,10 @@ class P_MDIXMODE:
         mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=MDIXMode)
         """coded byte, containing the MDI/MDIX mode for the port."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=MDIXMode)
         """coded byte, containing the MDI/MDIX mode for the port."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the MDI/MDIX mode of the port.
@@ -1880,7 +1830,6 @@ class P_TRAFFICERR:
         error: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=TrafficError)
         """coded byte, specifies the port traffic error."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get traffic error which has occurred in the last ``*_TRAFFIC`` or ``C_TRAFFICSYNC`` command.
 
@@ -1917,7 +1866,6 @@ class P_GAPMONITOR:
         stop: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, the minimum number of good packets required. (0 to 1024 packets) 0 = disable gap monitor."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         start: XmpField[xt.XmpInt] = XmpField(
@@ -1927,7 +1875,6 @@ class P_GAPMONITOR:
 
         stop: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, the minimum number of good packets required. (0 to 1024 packets) 0 = disable gap monitor."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the gap-start and gap-stop criteria for the port's gap monitor.
@@ -1969,12 +1916,10 @@ class P_CHECKSUM:
         offset: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
         """byte, the offset in the packet where the calculation of the extra checksum is started from. Set to OFF or 0 to disable. Valid enable range is [8 .. 127]. Please observe that ON equals the value 14. Please also observe that P_CHECKSUM ? will return OFF if set to 0 (or OFF) and that P_CHECKSUM ? will return ON if set to 14 (or ON)."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         offset: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
         """byte, the offset in the packet where the calculation of the extra checksum is started from. Set to OFF or 0 to disable. Valid enable range is [8 .. 127, ON]. Please observe that ON equals the value 14. Please also observe that P_CHECKSUM ? will return OFF if set to 0 (or OFF) and that P_CHECKSUM ? will return ON if set to 14 (or ON)."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the offset in the packet where the calculation of the extra checksum is started from. Set to OFF or 0 to disable. Valid enable range is [8 .. 127, ON]. Please observe that ON equals the value 14. Please also observe that P_CHECKSUM ? will return OFF if set to 0 (or OFF) and that P_CHECKSUM ? will return ON if set to 14 (or ON).
@@ -2020,7 +1965,6 @@ class P_STATUS:
         optical_power: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
         """list of integers, received signal level for optical ports, in nanowatts, -1 when not available."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get the received signal level for optical ports, in nanowatts, -1 when not available.
 
@@ -2050,12 +1994,10 @@ class P_AUTONEGSELECTION:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, whether the port replies to auto-neg requests."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, whether the port replies to auto-neg requests."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether the port responds to incoming auto-negotiation requests.
@@ -2108,12 +2050,10 @@ class P_MIXLENGTH:
         frame_size: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, frame size of the position"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         frame_size: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, frame size of the position"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get frame sizes defined for each position of the P_MIXWEIGHTS command.
@@ -2254,7 +2194,6 @@ class P_MULTICAST:
         second_count: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
         """the interval between repeated joins in seconds."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         ipv4_multicast_addresses: XmpField[xt.XmpIPV4AddressListStopToKeep2] = XmpField(xt.XmpIPV4AddressListStopToKeep2)
@@ -2265,7 +2204,6 @@ class P_MULTICAST:
 
         second_count: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
         """the interval between repeated joins in seconds."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the port's multicast information (IGMPv2).
@@ -2338,7 +2276,6 @@ class P_MULTICASTEXT:
         igmp_version: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=IGMPVersion)
         """coded byte, specifying the IGMP version."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         ipv4_multicast_addresses: XmpField[xt.XmpIPV4AddressListStopToKeep3] = XmpField(
@@ -2354,7 +2291,6 @@ class P_MULTICASTEXT:
 
         igmp_version: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=IGMPVersion)
         """coded byte, specifying the IGMP version."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the port's multicast information (IGMPv2/IGMPv3).
@@ -2412,14 +2348,12 @@ class P_MCSRCLIST:
         )
         """list of addresses, multicast source list addresses (max 8) in Group Record field of the IGMPv3 membership report packet."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         ipv4_addresses: XmpField[xt.XmpIPV4AddressList] = XmpField(
             xt.XmpIPV4AddressList
         )
         """list of addresses, multicast source list addresses (max 8) in Group Record field of the IGMPv3 membership report packet."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the multicast source list of the port. Only valid if the IGMP protocol version is IGMPv3 set by P_MULTICASTEXT.
@@ -2478,14 +2412,12 @@ class P_TXMODE:
         )
         """coded byte, containing the loopback mode for the port: NORMAL (interleaved packet scheduling), STRICTUNIFORM (strict uniform mode), SEQUENTIAL (sequential packet scheduling), BURST (burst mode)."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         mode: XmpField[xt.XmpByte] = XmpField(
             xt.XmpByte, choices=TXMode
         )
         """coded byte, containing the loopback mode for the port: NORMAL (interleaved packet scheduling), STRICTUNIFORM (strict uniform mode), SEQUENTIAL (sequential packet scheduling), BURST (burst mode)."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the scheduling mode for outgoing traffic from the port.
@@ -2549,7 +2481,6 @@ class P_MULTICASTHDR:
         dei: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """byte, drop-eligible indicator."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         header_count: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
@@ -2566,7 +2497,6 @@ class P_MULTICASTHDR:
 
         dei: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """byte, drop-eligible indicator"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the VLAN tag to the IGMPv2 and IGMPv3 packets of the port.
@@ -2618,12 +2548,10 @@ class P_RATEFRACTION:
         port_rate_ppm: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, port rate expressed as a value between 0 and 1,000,000."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         port_rate_ppm: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, port rate expressed as a value between 0 and 1,000,000."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the port-level rate of the traffic transmitted for a port in sequential tx mode, expressed in millionths of the effective rate for the port.
@@ -2664,12 +2592,10 @@ class P_RATEPPS:
         port_rate_pps: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, port rate expressed as packets per second."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         port_rate_pps: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, port rate expressed as packets per second."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the port-level rate of the traffic transmitted for a port in sequential tx mode, expressed in packets per second.
@@ -2711,12 +2637,10 @@ class P_RATEL2BPS:
         port_rate_bps: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, port rate expressed as bits-per-second."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         port_rate_bps: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, port rate expressed as bits-per-second."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the port-level rate of the traffic transmitted for a port in sequential tx mode, expressed in units of bits per-second at layer-2, thus including the Ethernet header but excluding the inter-frame gap.
@@ -2760,12 +2684,10 @@ class P_PAYLOADMODE:
         mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PayloadMode)
         """coded byte, which is the payload mode the port should be set."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PayloadMode)
         """coded byte, which is the payload mode the port should be set."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the port's payload mode, i.e. normal, extend payload, and custom payload field, for ALL streams on this port.
@@ -2813,12 +2735,10 @@ class P_BRRMODE:
         mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=BRRMode)
         """coded byte, containing the Master/Slave mode for the port."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=BRRMode)
         """coded byte, containing the Master/Slave mode for the port."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the port's BroadR-Reach mode.
@@ -2863,12 +2783,10 @@ class P_TXENABLE:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, whether the transmitter is enabled or disabled."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, whether the transmitter is enabled or disabled."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the port's transmitter status.
@@ -2918,12 +2836,10 @@ class P_MAXHEADERLENGTH:
         max_header_length: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, specifying the maximum number of header bytes."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         max_header_length: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, specifying the maximum number of header bytes."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the maximum number of header content bytes that can be freely specified for each generated stream on the port.
@@ -2963,12 +2879,10 @@ class P_TXTIMELIMIT:
         microseconds: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, time limit after which the port stops transmitting."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         microseconds: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, time limit after which the port stops transmitting."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the port-level time-limit on how long it keeps transmitting when started in microseconds.
@@ -3007,7 +2921,6 @@ class P_TXTIME:
         microseconds: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, elapsed time since traffic was started."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get how long the port has been transmitting, the elapsed time since traffic was started in microseconds.
 
@@ -3036,7 +2949,6 @@ class P_XMITONETIME:
     class GetDataAttr:
         nanoseconds: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, the time at which packet was transmitted."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the time at which the latest packet was transmitted using the P_XMITONE command in nanoseconds.
@@ -3077,7 +2989,6 @@ class P_IPV6ADDRESS:
         wildcard_prefix: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
         """byte, a prefix that makes the port replies to NDP/PING for the masked addresses, valid value 0-255"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         ipv6_address: XmpField[xt.XmpIPV6Address] = XmpField(xt.XmpIPV6Address)
@@ -3091,7 +3002,6 @@ class P_IPV6ADDRESS:
 
         wildcard_prefix: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
         """byte, a prefix that makes the port replies to NDP/PING for the masked addresses, valid value 0-255"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the port's IPv6 address settings.
@@ -3149,12 +3059,10 @@ class P_ARPV6REPLY:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, whether the port replies to NDP Neighbor Solicitations."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, whether the port replies to NDP Neighbor Solicitations."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether the port replies to NDP Neighbor Solicitations.
@@ -3202,12 +3110,10 @@ class P_PINGV6REPLY:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, whether the port replies to PINGv6 requests."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, whether the port replies to PINGv6 requests."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether the port replies to incoming PINGv6.
@@ -3257,7 +3163,6 @@ class P_ERRORS:
     class GetDataAttr:
         error_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """list of long integers, the total number of errors across all streams, and including FCS errors."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the total number of errors detected across all streams on the port, including lost packets, misorder events, and payload errors.
@@ -3325,12 +3230,10 @@ class P_TXDELAY:
         delay_val: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, TX delay in multiples of 64 microseconds. (TX delay = delay_val * 64 microseconds)."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         delay_val: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, TX delay in multiples of 64 microseconds. (TX delay = delay_val * 64 microseconds)."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the delay from a traffic start command received by the port until the port starts transmitting packets, in microseconds.
@@ -3368,12 +3271,10 @@ class P_LPENABLE:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, whether the EEE feature is activated or not."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, whether the EEE feature is activated or not."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether Energy Efficient Ethernet (EEE) is enabled on the port.
@@ -3422,12 +3323,10 @@ class P_LPTXMODE:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, whether low power idles will be transmitted or not. OFF (0) ON (1)"""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, whether low power idles will be transmitted or not. OFF (0) ON (1)"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether the transmission of Low Power Idles (LPIs) is enabled on the port.
@@ -3488,7 +3387,6 @@ class P_LPSTATUS:
         link_up: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=LinkState)
         """shows if the link is up (seen from perspective of the the PHY's PCS)."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get the the Energy Efficient Ethernet (EEE) status as reported by the PHY.
             * if there has been any recent change in the EEE state on the transmission side
@@ -3538,7 +3436,6 @@ class P_LPPARTNERAUTONEG:
         cap_10gbase_kr: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)
         """coded byte. specifying whether the link partner is capable of 10GBASE-KR."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get the the Energy Efficient Ethernet (EEE) capabilities advertised during auto-negotiation by the far side (link partner).
             * whether the link partner is capable of 100BASE-TX
@@ -3583,7 +3480,6 @@ class P_LPSNRMARGIN:
         channel_d: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, the SNR margin on link channel D."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get the SNR margin on the four link channels (Channel A-D) as reported by the PHY. It is displayed in units of 0.1dB.
             * the SNR margin on link channel A
@@ -3625,7 +3521,6 @@ class P_LPRXPOWER:
         channel_d: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, the RX power on link channel D."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get the the RX power recorded during training for the four channels.
 
@@ -3662,12 +3557,10 @@ class P_FAULTSIGNALING:
         fault_signaling: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FaultSignaling)
         """coded byte, specifying remote/local fault signaling behavior of the port."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         fault_signaling: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FaultSignaling)
         """coded byte, specifying remote/local fault signaling behavior of the port."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the remote/local fault signaling behavior of the port (performed by the Reconciliation Sub-layer).
@@ -3727,7 +3620,6 @@ class P_FAULTSTATUS:
         remote_fault_status: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=RemoteFaultStatus)
         """coded byte, specifying the remote fault."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get whether a local or remote fault is currently being detected by the Reconciliation Sub-layer of the port.
 
@@ -3770,12 +3662,10 @@ class P_TPLDMODE:
         mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TPLDMode)
         """coded byte, specifying TPLD's mode."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TPLDMode)
         """coded byte, specifying TPLD's mode."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the Test Payload mode of the port.
@@ -3821,7 +3711,6 @@ class P_LPSUPPORT:
         eee_capabilities: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
         """list of integers,EEE capabilities of the port."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get the EEE capabilities of the port (variable size, one for each supported speed, returns 0s if no EEE).
 
@@ -3853,12 +3742,10 @@ class P_TXPACKETLIMIT:
         packet_count_limit: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, number of packets that will be transmitted by the port."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         packet_count_limit: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, number of packets that will be transmitted by the port."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the number of packets that will be transmitted from the port when traffic is started on the port.
@@ -3908,7 +3795,6 @@ class P_TCVRSTATUS:
         rx_loss_lane_3: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
         """RX loss of lane 3"""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get various transceiver status information.
 
@@ -3938,12 +3824,10 @@ class P_DYNAMIC:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, whether dynamic traffic change is enabled."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, whether dynamic traffic change is enabled."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether the port should support dynamic changes when the traffic is running.
@@ -4010,7 +3894,6 @@ class P_PFCENABLE:
         cos_7: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded bytes, indicating whether PFC response is enabled for that CoS 7."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         cos_0: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
@@ -4036,7 +3919,6 @@ class P_PFCENABLE:
 
         cos_7: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded bytes, indicating whether PFC response is enabled for that CoS 7."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether the port responds to incoming Ethernet Priority Flow Control (PFC) frames.
@@ -4095,12 +3977,10 @@ class P_TXBURSTPERIOD:
         burst_period: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """integer, burst period expressed in microseconds."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         burst_period: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """integer, burst period expressed in microseconds."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the duration in microseconds from the start of one sequence of bursts (from a number of streams) to the start of next sequence of bursts in Burst TX mode.
@@ -4138,12 +4018,10 @@ class P_TXRUNTLENGTH:
         runt_length: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, enable TX runt feature to cut all packets to I bytes. Set to -1 to disable."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         runt_length: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, enable TX runt feature to cut all packets to I bytes. Set to -1 to disable."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the TX runt feature to cut all packets to I bytes. -1 means disabled.
@@ -4184,14 +4062,12 @@ class P_RXRUNTLENGTH:
         )
         """integer, enable RX runt length detection to flag if packets are seen with length not being I bytes. Set to -1 to disabled."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         runt_length: XmpField[xt.XmpInt] = XmpField(
             xt.XmpInt
         )
         """integer, enable RX runt length detection to flag if packets are seen with length not being I bytes. Set to -1 to disabled."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get RX runt length detection to flag if packets are seen with length not being I bytes. -1 means disabled.
@@ -4229,7 +4105,6 @@ class P_RXRUNTLEN_ERRS:
         status: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=YesNo)
         """coded integer, have packets with wrong runt length been detected since last read?"""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Have packets with wrong runt length been detected since last read?
 
@@ -4258,12 +4133,10 @@ class P_TXPREAMBLE_REMOVE:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, remove preamble from outgoing frames."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, remove preamble from outgoing frames."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether the preambles from outgoing frames are to be removed by the port.
@@ -4308,12 +4181,10 @@ class P_RXPREAMBLE_INSERT:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, insert preamble to incoming frames."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, insert preamble to incoming frames."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether the port should insert preambles to the incoming frames.
@@ -4358,12 +4229,10 @@ class P_LOADMODE:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, specifying whether the config load function is enabled."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, specifying whether the config load function is enabled."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the status of config load mode of the Chimera port.
@@ -4475,7 +4344,6 @@ class P_SPEEDS_SUPPORTED:
         f1600G: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
         """1600 Gbps."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get the speeds supported by the port.
 
@@ -4504,12 +4372,10 @@ class P_EMULATE:
         action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, specifying whether the emulate function is enabled."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, specifying whether the emulate function is enabled."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether the Chimera port's emulation functionality is enabled.

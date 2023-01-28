@@ -15,7 +15,6 @@ from ..registry import register_command
 from .enums import *  # noqa: F403
 
 
-
 @register_command
 @dataclass
 class PR_TPLDJITTER:
@@ -55,7 +54,6 @@ class PR_TPLDJITTER:
         max_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, nanoseconds, maximum jitter during last 1-second period"""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning the jitter experienced by the packets with a particular test payload id received on a port.
 
@@ -92,7 +90,6 @@ class PR_TOTAL:
 
         packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, number of packets received since statistics were cleared."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning all the packets received on a port.
@@ -136,7 +133,6 @@ class PR_NOTPLD:
 
         packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, number of packets received since statistics were cleared."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning the packets without a test payload received on a port.
@@ -192,7 +188,6 @@ class PR_EXTRA:
         gap_duration: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, combined duration of gap-monitored gaps encountered, microseconds."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning special packets received on a port since statistics were cleared.
 
@@ -222,7 +217,6 @@ class PR_TPLDS:
     class GetDataAttr:
         test_payload_identifiers: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
         """list of integers, the identifiers of the test payload."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the set of test payload IDs observed among the received packets since
@@ -264,7 +258,6 @@ class PR_TPLDTRAFFIC:
 
         packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, number of packets received since statistics were cleared."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get traffic statistics concerning the packets with a particular test payload
@@ -316,7 +309,6 @@ class PR_TPLDERRORS:
 
         non_inc_payload_packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, number of packets with non-incrementing payload content."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning errors in the packets with a particular test payload id received on a port.
@@ -373,7 +365,6 @@ class PR_TPLDLATENCY:
         max_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, nanoseconds, maximum latency during last 1-second period"""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning the latency experienced by the packets with a particular test payload id received on a port.
 
@@ -412,7 +403,6 @@ class PR_FILTER:
 
         packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, number of packets received since statistics were cleared."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning the packets satisfying the condition of a particular filter for a port
@@ -516,7 +506,6 @@ class PR_UAT_STATUS:
         status: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, specifies the state of the affected stream counter."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get the current UAT (UnAvailable Time) state, which is used
         in Valkyrie1564.
@@ -546,7 +535,6 @@ class PR_UAT_TIME:
         time: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, number of unavailable seconds."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get the current UAT (UnAvailable Time) state, which is used
         in Valkyrie1564.
@@ -555,7 +543,6 @@ class PR_UAT_TIME:
         :rtype: PR_UAT_TIME.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
-
 
 
 @register_command
@@ -589,10 +576,13 @@ class PR_TOTALEXT:
         packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, number of packets received since statistics were cleared."""
 
-        fcs_error_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong) # long integer, number of packets received with fcs error frames
-        oversize_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong) # long integer, number of oversize packets received since last clear; -1 if this counter is not supported by the tester.
-        undersize_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong) # long integer, number of undersize packets received since last clear; -1 if this counter is not supported by the tester.
-        jabber_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong) # long integer, number of jabber packets received since last clear; -1 if this counter is not supported by the tester.
+        fcs_error_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with fcs error frames
+        # long integer, number of oversize packets received since last clear; -1 if this counter is not supported by the tester.
+        oversize_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        # long integer, number of undersize packets received since last clear; -1 if this counter is not supported by the tester.
+        undersize_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        # long integer, number of jabber packets received since last clear; -1 if this counter is not supported by the tester.
+        jabber_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning all the packets received on a port.
@@ -644,7 +634,6 @@ class PR_NOTPLDEXT:
         packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, number of packets received since statistics were cleared."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning the packets without a test payload received on a port.
 
@@ -658,7 +647,6 @@ class PR_NOTPLDEXT:
         :rtype: PR_NOTPLDEXT.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
-
 
 
 @register_command
@@ -693,7 +681,6 @@ class PR_TPLDTRAFFICEXT:
         packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, number of packets received since statistics were cleared."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get traffic statistics concerning the packets with a particular test payload
         identifier received on a port.
@@ -708,7 +695,6 @@ class PR_TPLDTRAFFICEXT:
         :rtype: PR_TPLDTRAFFICEXT.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._test_payload_xindex]))
-
 
 
 @register_command
@@ -743,7 +729,6 @@ class PR_FILTEREXT:
         packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, number of packets received since statistics were cleared."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning the packets satisfying the condition of a particular filter for a port
 
@@ -757,7 +742,6 @@ class PR_FILTEREXT:
         :rtype: PR_FILTEREXT.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._filter_xindex]))
-
 
 
 @register_command
@@ -781,38 +765,29 @@ class PR_PFCSTATS:
         packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, the total number of Priority Flow Control (PFC) packets received since statistics were cleared."""
 
-
         quanta_pri_0: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """the total number of valid PFC quanta received on the port for priority level 0 since statistics were cleared"""
-
 
         quanta_pri_1: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """the total number of valid PFC quanta received on the port for priority level 1 since statistics were cleared"""
 
-
         quanta_pri_2: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """the total number of valid PFC quanta received on the port for priority level 2 since statistics were cleared"""
-
 
         quanta_pri_3: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """the total number of valid PFC quanta received on the port for priority level 3 since statistics were cleared"""
 
-
         quanta_pri_4: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """the total number of valid PFC quanta received on the port for priority level 4 since statistics were cleared"""
-
 
         quanta_pri_5: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """the total number of valid PFC quanta received on the port for priority level 5 since statistics were cleared"""
 
-
         quanta_pri_6: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """the total number of valid PFC quanta received on the port for priority level 6 since statistics were cleared"""
 
-
         quanta_pri_7: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """the total number of valid PFC quanta received on the port for priority level 7 since statistics were cleared"""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the statistics of received Priority Flow Control (PFC) packets on a port.
@@ -852,7 +827,6 @@ class PR_FLOWTOTAL:
 
         packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, number of packets received since statistics were cleared for the flow."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """(Chimera only) Get statistics concerning all the packets received from a flow between this receive port and its partner TX port.

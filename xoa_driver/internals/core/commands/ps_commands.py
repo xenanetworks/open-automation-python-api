@@ -17,7 +17,6 @@ from ..registry import register_command
 from .enums import *  # noqa: F403
 
 
-
 @register_command
 @dataclass
 class PS_INDICES:
@@ -42,12 +41,10 @@ class PS_INDICES:
         stream_indices: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
         """list of integers, the sub-indices of streams on the port."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         stream_indices: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
         """list of integers, the sub-indices of streams on the port."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the full list of which streams are defined for a port.
@@ -156,12 +153,10 @@ class PS_ENABLE:
         state: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOffWithSuppress)
         """coded byte, specifying a stream state."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         state: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOffWithSuppress)
         """coded byte, specifying a stream state."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the stream status.
@@ -221,14 +216,12 @@ class PS_PACKETLIMIT:
         )
         """integer, the number of packets that the port will send. When Port TX Mode is set to NORMAL, STRICT UNIFORM or BURST: 0 or -1 (disable packet limitation). When Port TX Mode is set to SEQUENTIAL: 1 or larger (minimum value since the port transmits at least 1 packet per stream per round)."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         packet_count: XmpField[xt.XmpInt] = XmpField(
             xt.XmpInt
         )
         """integer, the number of packets that the port will send. When Port TX Mode is set to NORMAL, STRICT UNIFORM or BURST: 0 or -1 (disable packet limitation). When Port TX Mode is set to SEQUENTIAL: 1 or larger (minimum value since the port transmits at least 1 packet per stream per round)."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """If Port TX Mode is NORMAL, STRICT UNIFORM or BURST: get the number of packets that will be transmitted when traffic is started on a port.
@@ -271,12 +264,10 @@ class PS_COMMENT:
         comment: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
         """string, specifying the description of the stream."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         comment: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
         """string, specifying the description of the stream."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the description of a stream.
@@ -324,12 +315,10 @@ class PS_TPLDID:
         test_payload_identifier: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, the test payload identifier value. -1 = disable test payloads."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         test_payload_identifier: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, the test payload identifier value. -1 = disable test payloads."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the identifier of the test payloads inserted into packets transmitted for a stream.
@@ -373,12 +362,10 @@ class PS_INSERTFCS:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, whether frame checksums are inserted."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
         """coded byte, whether frame checksums are inserted."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether a valid frame checksum is added to the packets of a stream.
@@ -409,13 +396,13 @@ class PS_INSERTFCS:
 class PS_AUTOADJUST:
     """
     Executing PS_AUTOADJUST will adjust the packet length distribution (:class:`PS_PACKETLENGTH`) of the stream:
-    
+
         (1) Set the type of packet length distribution (:class:`PS_PACKETLENGTH` ``<length_type>``) to ``FIXED``.
-    
+
         (2) Set the lower limit on the packet length (:class:`PS_PACKETLENGTH` ``<min_val>``) to exactly fit the specified protocol headers, TPLD and FCS (but never set to less than 64).
 
         (3) Set the payload type of packets transmitted for the stream (:class:`PS_PAYLOAD` ``<payload_type>``) to ``PATTERN``. 
-    
+
         (4) If necessary, also set the maximum number of header content bytes (`P_MAXHEADERLENGTH <p_maxheaderlength_label>` ``<max_header_length>``) that can be freely specified for each generated stream of the port to a higher value, if needed to accommodate the header size of the stream (implicitly given by the `PS_PACKETHEADER` command).
 
         (5) If the needed maximum header length (`P_MAXHEADERLENGTH <p_maxheaderlength_label>` ``<max_header_length>``) is not possible with the actual number of active streams for the port, the command will fail with :`<BADVALUE>`.
@@ -467,7 +454,6 @@ class PS_ARPREQUEST:
         mac_address: XmpField[xt.XmpMacAddress] = XmpField(xt.XmpMacAddress)
         """six hex bytes, specifying the six bytes of the MAC address."""
 
-
     def get(self) -> "Token[GetDataAttr]":
         """Generates an outgoing ARP request on the test port. The packet header for the
         stream must contain an IP protocol segment, and the destination IP address is
@@ -513,7 +499,6 @@ class PS_PINGREQUEST:
 
         time_to_live: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
         """byte, the time-to-live value in the ping reply packet."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Generates an outgoing ping request using the ICMP protocol on the test port. The
@@ -564,7 +549,6 @@ class PS_MODIFIEREXTRANGE:
         max_val: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, the maximum modifier value."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         min_val: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
@@ -575,7 +559,6 @@ class PS_MODIFIEREXTRANGE:
 
         max_val: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, the maximum modifier value."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the range specification for an extended packet modifier for a stream header,
@@ -643,7 +626,6 @@ class PS_MODIFIERRANGE:
         max_val: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, the maximum modifier value."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         min_val: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
@@ -654,7 +636,6 @@ class PS_MODIFIERRANGE:
 
         max_val: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, the maximum modifier value."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the range specification for a packet modifier for a stream header, specifying which
@@ -715,12 +696,10 @@ class PS_RATEFRACTION:
         stream_rate_ppm: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, stream rate expressed as a ppm value between 0 and 1,000,000."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         stream_rate_ppm: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, stream rate expressed as a ppm value between 0 and 1,000,000."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the rate of the traffic transmitted for a stream expressed in millionths of the
@@ -774,12 +753,10 @@ class PS_RATEPPS:
         stream_rate_pps: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, stream rate expressed in packets per second."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         stream_rate_pps: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, stream rate expressed in packets per second."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get The rate of the traffic transmitted for a stream expressed in packets per
@@ -834,12 +811,10 @@ class PS_RATEL2BPS:
         l2_bps: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, stream rate expressed in bits per second."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         l2_bps: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
         """long integer, stream rate expressed in bits per second."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the rate of the traffic transmitted for a stream, expressed in units of bits-
@@ -897,7 +872,6 @@ class PS_BURST:
         density: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, the percentage of the available spacing that is inserted between bursts."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         size: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
@@ -905,7 +879,6 @@ class PS_BURST:
 
         density: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, the percentage of the available spacing that is inserted between bursts."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the burstiness of the traffic transmitted for a stream, expressed in terms of
@@ -960,12 +933,10 @@ class PS_PACKETHEADER:
         hex_data: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)
         """list of hex bytes, the raw bytes comprising the packet header."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         hex_data: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)
         """list of hex bytes, the raw bytes comprising the packet header."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the packet header of a stream. This
@@ -1026,12 +997,10 @@ class PS_HEADERPROTOCOL:
         segments: XmpField[xt.XmpByteList] = XmpField(xt.XmpByteList, choices=ProtocolOption)
         """list of coded bytes, a number specifying a built-in protocol segment."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         segments: XmpField[xt.XmpByteList] = XmpField(xt.XmpByteList, choices=ProtocolOption)
         """list of coded bytes, a number specifying a built-in protocol segment."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the packet header segments in protocol names.
@@ -1079,12 +1048,10 @@ class PS_MODIFIERCOUNT:
         modifier_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, the number of modifiers for the stream."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         modifier_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, the number of modifiers for the stream."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the number of standard 16-bit modifiers active on the packet header of a stream.
@@ -1141,7 +1108,6 @@ class PS_MODIFIER:
         repetition: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, how many times to repeat on each packet."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         position: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
@@ -1155,7 +1121,6 @@ class PS_MODIFIER:
 
         repetition: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, how many times to repeat on each packet."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a packet modifier for a stream header. The headers of each packet transmitted
@@ -1245,7 +1210,6 @@ class PS_PACKETLENGTH:
         max_val: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, upper limit on the packet length."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         length_type: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=LengthType)
@@ -1256,7 +1220,6 @@ class PS_PACKETLENGTH:
 
         max_val: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, upper limit on the packet length."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the length distribution of the packets transmitted for a stream. The length of
@@ -1340,7 +1303,6 @@ class PS_PAYLOAD:
         )
         """list of hex bytes, a pattern of bytes to be repeated. The maximum length of the pattern is 18 bytes. Only used if the type is set to PATTERN."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         payload_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PayloadType)
@@ -1350,7 +1312,6 @@ class PS_PAYLOAD:
             xt.XmpHexList
         )
         """list of hex bytes, a pattern of bytes to be repeated. The maximum length of the pattern is 18 bytes. Only used if the type is set to PATTERN."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the payload content of the packets transmitted for a stream. The payload portion
@@ -1425,12 +1386,10 @@ class PS_IPV4GATEWAY:
         gateway: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)
         """address, IPv4 gateway address of the stream."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         gateway: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)
         """address, the IPv4 gateway address of the stream."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the IPv4 gateway address of a stream.
@@ -1469,12 +1428,10 @@ class PS_IPV6GATEWAY:
         gateway: XmpField[xt.XmpIPV6Address] = XmpField(xt.XmpIPV6Address)
         """address, IPv6 gateway address of the stream."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         gateway: XmpField[xt.XmpIPV6Address] = XmpField(xt.XmpIPV6Address)
         """address, the IPv6 gateway address of the stream."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the IPv6 gateway address of a stream.
@@ -1518,7 +1475,6 @@ class PS_BURSTGAP:
         inter_burst_gap: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, Inter Burst Gap (in bytes)."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         inter_packet_gap: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
@@ -1526,7 +1482,6 @@ class PS_BURSTGAP:
 
         inter_burst_gap: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, Inter Burst Gap (in bytes)."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the gap between packets in a burst (inter-packet gap) and the gap after a burst defined in one stream stops until a
@@ -1793,7 +1748,6 @@ class PS_MODIFIEREXT:
         repetition: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, how many times to repeat on each packet. Note: For now the only value supported is 1."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         position: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
@@ -1807,7 +1761,6 @@ class PS_MODIFIEREXT:
 
         repetition: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, how many times to repeat on each packet. Note: For now the only value supported is 1."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get an extended packet modifier for a stream header. The headers of each packet
@@ -1893,12 +1846,10 @@ class PS_MODIFIEREXTCOUNT:
         ext_modifier_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, the number of extended 24-bit modifiers for the stream."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         ext_modifier_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, the number of extended 24-bit modifiers for the stream."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the number of extended 24-bit modifiers active on the packet header of a stream.
@@ -1947,12 +1898,10 @@ class PS_CDFOFFSET:
         offset: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, the location where the CDF data will be inserted."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         offset: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, the location where the CDF data will be inserted."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the CDF offset for the stream. This command is part of the Custom Data Field (CDF) feature. The CDF offset
@@ -2013,12 +1962,10 @@ class PS_CDFCOUNT:
         cdf_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, the number of CDF data fields to allocate for the stream."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         cdf_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         """integer, the number of CDF data fields to allocate for the stream."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the number of custom data fields available for each stream. You can set a different number
@@ -2075,12 +2022,10 @@ class PS_CDFDATA:
         hex_data: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)
         """list of hex bytes, a pattern of bytes to be used."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         hex_data: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)
         """list of hex bytes, the actual field data for a single field."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the actual field data for a single field. It is possible to define fields with
@@ -2137,12 +2082,10 @@ class PS_EXTPAYLOAD:
         hex_data: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)
         """list of hex bytes, a pattern of bytes to be repeated."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         hex_data: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)
         """list of hex bytes, a pattern of bytes to be repeated."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the extended payload in bytes of a stream.
@@ -2185,12 +2128,10 @@ class PS_PFCPRIORITY:
         pcp: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PFCMode)
         """coded byte, Priority Flow Control mode."""
 
-
     @dataclass(frozen=True)
     class GetDataAttr:
         pcp: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PFCMode)
         """coded byte, Priority Flow Control mode."""
-
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the Priority Flow Control (PFC) mode of a stream.
