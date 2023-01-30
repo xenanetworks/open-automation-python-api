@@ -327,13 +327,13 @@ class PL1_CFG_TMP:
     class GetDataAttr:
         """Data structure of the get response.
         """
-        value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=OnOff)
+        values: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
 
     @dataclass(frozen=True)
     class SetDataAttr:
         """Data structure of the set action.
         """
-        value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=OnOff)
+        values: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
 
     def get(self) -> "Token[GetDataAttr]":
         """Get various L1 parameters
@@ -343,13 +343,13 @@ class PL1_CFG_TMP:
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._type]))
 
-    def set(self, value: int) -> "Token":
+    def set(self, values: typing.List[int]) -> "Token":
         """Get various L1 parameters
 
         :param value: whether it is on or off
         :type value: int
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._type], value=value))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._type], values=values))
 
     set_on = functools.partialmethod(set, OnOff.ON)
     """Set it on.
