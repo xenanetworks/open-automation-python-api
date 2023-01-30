@@ -679,9 +679,11 @@ class M_CFPCONFIGEXT:
 
     .. note::
 
-        ``<portspeed_list>`` is a list of integers, where the first element is the number of ports followed by a number of port speeds in Mbps.
-        The number of port speeds equals the value of the number of ports.
-        For example if the configuration is 4x25G, ``<portspeed_list>`` will be ``[4, 25000, 25000, 25000, 25000]``.
+        ``<speeds>`` is a list of integers. The number of elements of the list equals ``<count>``.
+        For example if the configuration is 4x25G, ``<count>`` will be ``4``, and ``<speeds>`` will be ``[25000, 25000, 25000, 25000]``.
+
+        If :class:`M_CAPABILITIES` ``can_media_config == False``, ``<count>`` will be 0, and ``<speeds>`` will be empty.
+
     """
 
     code: typing.ClassVar[int] = 93
@@ -692,22 +694,24 @@ class M_CFPCONFIGEXT:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        portspeed_list: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
+        count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        speeds: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        portspeed_list: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
+        count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        speeds: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get a list of port count and corresponding speeds supported by the current module config.
+        """Get port count and maximum speeds of each port of the module.
 
-        :return: a list of port count and corresponding speeds supported by the current module config
+        :return: port count and maximum speeds of each port of the module
         :rtype: M_CFPCONFIGEXT.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, portspeed_list: typing.List[int]) -> "Token":
-        return Token(self._connection, build_set_request(self, module=self._module, portspeed_list=portspeed_list))
+    def set(self, count: int, speeds: typing.List[int]) -> "Token":
+        return Token(self._connection, build_set_request(self, module=self._module, count=count, speeds=speeds))
 
 
 @register_command
