@@ -1,7 +1,7 @@
 Resource Management
 ========================
 
-.. versionadded:: v1.1
+.. versionadded:: 1.1
     
 .. warning:: 
 
@@ -11,10 +11,24 @@ The following high-level functions handle test resource management, e.g. connect
 
 -------
 
-.. currentmodule:: xoa_driver.hlfuncs.rmgt
+.. currentmodule:: xoa_driver.hlfunc.mgmt
     
 .. autofunction:: connect
 
-.. autofunction:: port_reserve
+.. autofunction:: get_port
 
-.. autofunction:: port_reset
+.. autofunction:: get_ports
+
+.. autofunction:: reserve_port
+
+.. autofunction:: reset_port
+
+.. autofunction:: free_port
+
+.. autofunction:: reserve_module
+
+.. autofunction:: free_module
+
+.. autofunction:: reserve_tester
+
+.. autofunction:: free_tester
