@@ -20,7 +20,7 @@ from .enums import *  # noqa: F403
 @dataclass
 class PL1_AUTONEGINFO:
     """
-    .. versionadded:: 2.0
+    .. versionadded:: 1.1
 
     .. warning::
 
@@ -78,7 +78,7 @@ class PL1_AUTONEGINFO:
 @dataclass
 class PL1_LINKTRAININFO:
     """
-    .. versionadded:: 2.0
+    .. versionadded:: 1.1
 
     .. warning::
 
@@ -266,7 +266,7 @@ class PL1_LINKTRAININFO:
 @dataclass
 class PL1_LOG:
     """
-    .. versionadded:: 2.0
+    .. versionadded:: 1.1
 
     .. warning::
 
@@ -305,7 +305,7 @@ class PL1_LOG:
 @dataclass
 class PL1_CFG_TMP:
     """
-    .. versionadded:: 2.0
+    .. versionadded:: 1.1
 
     .. warning::
 
@@ -363,7 +363,7 @@ class PL1_CFG_TMP:
 @dataclass
 class PL1_LINKTRAIN_CMD:
     """
-    .. versionadded:: 2.0
+    .. versionadded:: 1.1
 
     .. warning::
 

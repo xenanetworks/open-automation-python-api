@@ -730,7 +730,7 @@ class PayloadType(IntEnum):
     INC8 = INCREMENTING = 1
     """
     
-    .. versionchanged:: v2.0
+    .. versionchanged:: 1.1
 
     Incrementing with 0xFF (8-bit mode)
     """
@@ -744,7 +744,7 @@ class PayloadType(IntEnum):
     DEC8 = DECREMENTING = 4
     """
     
-    .. versionchanged:: v2.0
+    .. versionchanged:: 1.1
 
     Decrementing with 0xFF (8-bit mode)
     """
@@ -752,7 +752,7 @@ class PayloadType(IntEnum):
     INC16 = 5
     """
     
-    .. versionadded:: v2.0
+    .. versionadded:: 1.1
 
     Incrementing with 0xFFFF (16-bit mode)
     """
@@ -760,7 +760,7 @@ class PayloadType(IntEnum):
     DEC16 = 6
     """
     
-    .. versionadded:: v2.0
+    .. versionadded:: 1.1
 
     Decrementing with 0xFFFF (16-bit mode)
     """
@@ -1073,7 +1073,7 @@ class MediaConfigurationType(IntEnum):
     QSFP28 = QSFP28_NRZ = 1
     """
     
-    .. versionchanged:: v2.0
+    .. versionchanged:: 1.1
 
     QSFP28 (NRZ)
     """
@@ -1087,7 +1087,7 @@ class MediaConfigurationType(IntEnum):
     QSFP56 = QSFP56_PAM4 = 4
     """
     
-    .. versionchanged:: v2.0
+    .. versionchanged:: 1.1
     
     QSFP56 (PAM4)
     """
@@ -1095,7 +1095,7 @@ class MediaConfigurationType(IntEnum):
     QSFPDD = QSFPDD_PAM4 = 5
     """
     
-    .. versionchanged:: v2.0
+    .. versionchanged:: 1.1
     
     QSFP-DD (PAM4)
     """
@@ -1106,7 +1106,7 @@ class MediaConfigurationType(IntEnum):
     SFP_DD = SFPDD = 7
     """
     
-    .. versionchanged:: v2.0
+    .. versionchanged:: 1.1
 
     SFP-DD
     """
@@ -1117,7 +1117,7 @@ class MediaConfigurationType(IntEnum):
     QSFP_DD_NRZ = QSFPDD_NRZ = 9
     """
     
-    .. versionchanged:: v2.0
+    .. versionchanged:: 1.1
 
     QSFP-DD (NRZ)
     """
@@ -1356,10 +1356,10 @@ class PRBSStatisticsMode(IntEnum):
 class AutoNegMode(IntEnum):
     """Auto Neg Mode"""
     
-    ANEG_OFF = 0
+    OFF = 0
     """Auto Neg Off"""
     
-    ANEG_ON = 1
+    ON = 1
     """Auto Neg On"""
 
 
@@ -1558,17 +1558,17 @@ class AutoNegFECStatus(IntEnum):
 class LinkTrainingMode(IntEnum):
     """Link Training Mode"""
 
-    AUTO = 0
-    """Auto mode: LT starts after ANEG"""
+    AUTOSTART = 0
+    """Auto start link training after autoneg. Requires autoneg enabled"""
 
-    FORCE_ENABLE = 1
-    """Mission mode: automatically LT for TGA"""
+    AUTOCOMPLETE = 1
+    """Auto complete link training."""
 
-    FORCE_DISABLE = 2
+    DISABLE = 2
     """Disable"""
 
     INTERACTIVE = 3
-    """Manual mode: LT manual operation"""
+    """Manual link training procedure"""
 
 
 class PAM4FrameSize(IntEnum):
@@ -1604,10 +1604,10 @@ class NRZPreset(IntEnum):
 class TimeoutMode(IntEnum):
     """Link Training Timeout Mode"""
     
-    DEFAULT_TIMEOUT = 0
+    DEFAULT = 0
     """Default Timeout"""
     
-    TIMEOUT_DISABLED = 255
+    DISABLED = 255
     """Timeout Disabled"""
 
 
@@ -2508,7 +2508,7 @@ class LinkTrainFrameLock(IntEnum):
 class Layer1ConfigType(IntEnum):
     """
     
-    .. versionadded:: 2.0
+    .. versionadded:: 1.1
 
     .. warning::
 
@@ -2527,7 +2527,7 @@ class Layer1ConfigType(IntEnum):
 class Layer1LogType(IntEnum):
     """
     
-    .. versionadded:: 2.0
+    .. versionadded:: 1.1
 
     .. warning::
 

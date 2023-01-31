@@ -1,7 +1,7 @@
 High-Level Functions
 ===============================
 
-.. versionadded:: v1.1
+.. versionadded:: 1.1
     
 .. warning:: 
 
