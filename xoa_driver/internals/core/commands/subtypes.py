@@ -28,7 +28,7 @@ class NdpChunk:
 
 
 class NdpChunkList(xt.XmpDefaultList):
-    element_type = NdpChunk  # type: ignore
+    element_type = NdpChunk  # type
 
 @add_on
 @dataclass
@@ -42,7 +42,7 @@ class DhcpChunk:
 
 
 class DhcpChunkList(xt.XmpDefaultList):
-    element_type = DhcpChunk # type: ignore
+    element_type = DhcpChunk # type
     
 
 @add_on
@@ -61,7 +61,19 @@ class GroupAddressElem:
 
 
 class GroupAddressPool(xt.XmpDefaultList):
-    element_type = GroupAddressElem # type: ignore
+    element_type = GroupAddressElem # type
     
 class VlanTags(xt.XmpDefaultList):
     element_type = xt.XmpHex2 # type
+    
+@add_on
+@dataclass
+class QueueStatsElem:
+    rx_bytes: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # Total Received Bytes
+    rx_packets: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # Total Received Packets
+    tx_bytes: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # Total Sent Bytes
+    tx_packets: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # Total Sent Packets
+
+
+class QueueStatsList(xt.XmpDefaultList):
+    element_type = QueueStatsElem # type

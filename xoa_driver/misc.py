@@ -50,5 +50,8 @@ __all__ = (
     "DhcpChunkList",
     "GroupAddressElem",
     "GroupAddressPool",
-    "VlanTags"
+    "VlanTags",
+    "QueueStatsElem",
+    "QueueStatsList"
+    
 )

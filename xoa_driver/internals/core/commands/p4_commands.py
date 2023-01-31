@@ -1498,6 +1498,39 @@ class P4_SPEEDSELECTION:
     set_f100g = functools.partialmethod(set, L47PortSpeed.F100G)
     """Set the port speed mode to 100 Gbit/s."""
 
+@register_command
+@dataclass
+class P4_ETH_QUEUE_COUNTERS:
+    """
+    Get the stats of the all active queues of the port
+    """
+
+    code: typing.ClassVar[int] = 775
+    pushed: typing.ClassVar[bool] = True
+
+    _connection: "interfaces.IConnection"
+    _module: int
+    _port: int
+
+    @dataclass(frozen=True)
+    class GetDataAttr:
+        last_update: XmpField[xt.XmpLong] = XmpField(xt.XmpLong) # long integer, the current time (mSec since module restart)
+        stat_ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong) # long integer, reference time (mSec for P4_TRAFFIC on)
+        num_queues: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        queue_list: XmpField[subtypes.QueueStatsList] = XmpField(subtypes.QueueStatsList)
+
+    def get(self) -> "Token[GetDataAttr]":
+        """Get the stats of the all active queues of the port
+        :return: The current time (mSec since module restart)
+        :rtype: P4_ETH_QUEUE_COUNTERS.GetDataAttr
+        :return: Reference time (mSec for P4_TRAFFIC on)
+        :rtype: P4_ETH_QUEUE_COUNTERS.GetDataAttr
+        :return: Number of Active queues
+        :rtype: P4_ETH_QUEUE_COUNTERS.GetDataAttr
+        :return: A list that each contains stats of a queue
+        :rtype: P4_ETH_QUEUE_COUNTERS.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 @register_command
 @dataclass
