@@ -45,7 +45,7 @@ class M_RESERVATION:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        operation: XmpField[xt.XmpByte] = XmpField(
+        status: XmpField[xt.XmpByte] = XmpField(
             xt.XmpByte, choices=ReservedStatus
         )  # coded byte, containing the operation to perform. The reservation parameters are asymmetric with respect to set/get. When set, it contains the operation to perform. When get, it contains the status.
 
@@ -1416,7 +1416,7 @@ class M_TXCLOCKFILTER_NEW:
 @dataclass
 class M_CLOCKPPBSWEEP:
     """
-    .. versionadded:: v2.0
+    .. versionadded:: 1.1
 
     Start and stop deviation sweep the local clock of the test module, which drives the TX rate of the test ports.
 
@@ -1474,7 +1474,7 @@ class M_CLOCKPPBSWEEP:
 @dataclass
 class M_CLOCKSWEEPSTATUS:
     """
-    .. versionadded:: 2.0
+    .. versionadded:: 1.1
 
     Return the current status of the :class:`M_CLOCKPPBSWEEP` function.
 

@@ -179,7 +179,7 @@ class C_RESERVATION:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        operation: XmpField[xt.XmpByte] = XmpField(
+        status: XmpField[xt.XmpByte] = XmpField(
             xt.XmpByte, choices=ReservedStatus
         )  # coded byte, containing the operation to perform. The reservation parameters are asymmetric with respect to set/get. When set, it contains the operation to perform. When get, it contains the status.
 
