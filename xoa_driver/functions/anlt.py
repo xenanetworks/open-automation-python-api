@@ -67,7 +67,7 @@ async def autoneg_config(
         AutoNegFECOption.NO_FEC,
         PauseMode.NO_PAUSE,
     )
-    c2 = commands.PL1_CFG_TMP(conn, mid, pid, 0, Layer1ConfigType.AN_ALLOW_LOOPBACK).set(value=int(loopback))
+    c2 = commands.PL1_CFG_TMP(conn, mid, pid, 0, Layer1ConfigType.AN_ALLOW_LOOPBACK).set(values=[int(loopback)])
     
     tokens = [c1, c2]
     await apply(*tokens)
@@ -87,7 +87,7 @@ async def autoneg_status(port: GenericAnyPort) -> Dict[str, Any]:
     *_, loopback = await apply(commands.PL1_CFG_TMP(conn, mid, pid, 0, Layer1ConfigType.AN_ALLOW_LOOPBACK).get())
     *_, auto_neg_info = await apply(commands.PL1_AUTONEGINFO(conn, mid, pid, 0).get())
     return {
-        "loopback": "allowed" if loopback.value else "not allowed",
+        "loopback": "allowed" if loopback.values[0] else "not allowed",
         "duration": auto_neg_info.duration_us,
         "successes": auto_neg_info.negotiation_success_count,
         "timeouts": auto_neg_info.negotiation_timeout_count,
@@ -375,7 +375,7 @@ async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
         "is_trained": True if status.status==LinkTrainingStatus.TRAINED else False,
         "failure": status.failure.name.lower(),
         "preset0": "standard" if ltconf.nrz_preset==NRZPreset.NRZ_NO_PRESET else "existing tap value", 
-        "initial_mode": cfg.value,
+        "init_modulation": cfg.value[0],
         "prbs_ber": str(prbs),
         "duration": f"{info.duration_us} us",
         "lock_lost": info.lock_lost_count,
@@ -595,7 +595,7 @@ async def link_recovery(port: GenericAnyPort, enable: bool) -> None:
     :rtype:  None
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
-    await commands.PL1_CFG_TMP(conn, mid, pid, 0, 0).set(enable)
+    await commands.PL1_CFG_TMP(conn, mid, pid, 0, Layer1ConfigType.ANLT_INTERACTIVE_MODE).set(values=[int(enable)])
     return None
 
 
@@ -630,5 +630,5 @@ async def status(
         "autoneg_enabled": (autoneg.mode),
         "link_training_mode": (linktrain.mode),
         "link_training_timeout": (linktrain.timeout_mode),
-        "link_recovery": (link_recovery.on_off),
+        "link_recovery": (link_recovery.values[0]),
     }
