@@ -287,8 +287,8 @@ class PL1_LOG:
     @dataclass(frozen=True)
     class GetDataAttr:
 
-        log_string: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  
-        # TODO: the type of this param returned from xenaserver will be a JSON. 
+        log_string: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        # TODO: the type of this param returned from xenaserver will be a JSON.
         # Then xoa-driver should parse it into a Python dict.
         # We will need to modify this as soon as the part on xenaserver is ready.
 
@@ -327,13 +327,13 @@ class PL1_CFG_TMP:
     class GetDataAttr:
         """Data structure of the get response.
         """
-        value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=OnOff)
+        value: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
 
     @dataclass(frozen=True)
     class SetDataAttr:
         """Data structure of the set action.
         """
-        value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=OnOff)
+        value: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
 
     def get(self) -> "Token[GetDataAttr]":
         """Get various L1 parameters
@@ -350,13 +350,6 @@ class PL1_CFG_TMP:
         :type value: int
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._type], value=value))
-
-    set_on = functools.partialmethod(set, OnOff.ON)
-    """Set it on.
-    """
-    set_off = functools.partialmethod(set, OnOff.OFF)
-    """Set it off.
-    """
 
 
 @register_command
