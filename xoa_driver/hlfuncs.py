@@ -2,11 +2,11 @@
 
 from xoa_driver.functions import(
     anlt,
-    mgmt as rmgt,
+    mgmt,
 )
 
 
 __all__ = (
     "anlt",
-    "rmgt"
+    "mgmt"
 )
