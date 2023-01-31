@@ -22,7 +22,8 @@ from xoa_driver.enums import (
     Layer1ConfigType,
     Layer1LogType,
     LinkTrainingStatusMode,
-    LinkTrainingStatus
+    LinkTrainingStatus,
+    AutoNegMode
 )
 from xoa_driver.misc import Token
 from xoa_driver.utils import apply
@@ -136,7 +137,10 @@ async def lt_config(
 
     :param port: the port to configure LT on
     :type port: :class:`~xoa_driver.ports.GenericAnyPort`
-    :param mode: the mode of link training, "mission"=lt automatically done for TGA mission, "auto"=lt starts automatically after aneg, "interactive"=lt in manual operation, "disable"=disable lt
+    :param mode: the mode of link training. 
+    "autocomplete"=to set the port to start link training without performing auto-negotiation. "autostart"=to set the port to start link training automatically after auto-negotiation. Requires auto-negotiation is enabled.
+    "interactive"=to set the port to manually perform link training procedure.
+    "disable"=to set the port to stop link training.
     :type mode: str
     :param preset0: should the preset0 (out-of-sync) use existing tap values (true) or standard values (false)
     :type preset0: bool
@@ -146,53 +150,53 @@ async def lt_config(
     :rtype: None
     """
     assert mode in (
-        "mission",
+        "autocomplete",
         "disable",
-        "auto",
+        "autostart",
         "interactive",
-    ), "Para 'mode' not in ('mission', 'disable', 'auto', 'interactive')!"
+    ), "Para 'mode' not in ('autocomplete', 'disable', 'autostart', 'interactive')!"
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     t = (mode, preset0, timeout)
     tokens = []
-    if t == ('mission', True, True):
-        md, ps, tm = (LinkTrainingMode.FORCE_ENABLE, NRZPreset.NRZ_WITH_PRESET, TimeoutMode.DEFAULT_TIMEOUT)
-    elif t == ('mission', True, False):
-        md, ps, tm = (LinkTrainingMode.FORCE_ENABLE, NRZPreset.NRZ_WITH_PRESET, TimeoutMode.TIMEOUT_DISABLED)
-    elif t == ('mission', False, True):
-        md, ps, tm = (LinkTrainingMode.FORCE_ENABLE, NRZPreset.NRZ_NO_PRESET, TimeoutMode.DEFAULT_TIMEOUT)
-    elif t == ('mission', False, False):
-        md, ps, tm = (LinkTrainingMode.FORCE_ENABLE, NRZPreset.NRZ_NO_PRESET, TimeoutMode.TIMEOUT_DISABLED)
+    if t == ('autocomplete', True, True):
+        md, ps, tm = (LinkTrainingMode.AUTOCOMPLETE, NRZPreset.NRZ_WITH_PRESET, TimeoutMode.DEFAULT)
+    elif t == ('autocomplete', True, False):
+        md, ps, tm = (LinkTrainingMode.AUTOCOMPLETE, NRZPreset.NRZ_WITH_PRESET, TimeoutMode.DISABLED)
+    elif t == ('autocomplete', False, True):
+        md, ps, tm = (LinkTrainingMode.AUTOCOMPLETE, NRZPreset.NRZ_NO_PRESET, TimeoutMode.DEFAULT)
+    elif t == ('autocomplete', False, False):
+        md, ps, tm = (LinkTrainingMode.AUTOCOMPLETE, NRZPreset.NRZ_NO_PRESET, TimeoutMode.DISABLED)
 
     elif t == ('disable', True, True):
-        md, ps, tm = (LinkTrainingMode.FORCE_DISABLE, NRZPreset.NRZ_WITH_PRESET, TimeoutMode.DEFAULT_TIMEOUT)
+        md, ps, tm = (LinkTrainingMode.DISABLE, NRZPreset.NRZ_WITH_PRESET, TimeoutMode.DEFAULT)
     elif t == ('disable', True, False):
-        md, ps, tm = (LinkTrainingMode.FORCE_DISABLE, NRZPreset.NRZ_WITH_PRESET, TimeoutMode.TIMEOUT_DISABLED)
+        md, ps, tm = (LinkTrainingMode.DISABLE, NRZPreset.NRZ_WITH_PRESET, TimeoutMode.DISABLED)
     elif t == ('disable', False, True):
-        md, ps, tm = (LinkTrainingMode.FORCE_DISABLE, NRZPreset.NRZ_NO_PRESET, TimeoutMode.DEFAULT_TIMEOUT)
+        md, ps, tm = (LinkTrainingMode.DISABLE, NRZPreset.NRZ_NO_PRESET, TimeoutMode.DEFAULT)
     elif t == ('disable', False, False):
-        md, ps, tm = (LinkTrainingMode.FORCE_DISABLE, NRZPreset.NRZ_NO_PRESET, TimeoutMode.TIMEOUT_DISABLED)
+        md, ps, tm = (LinkTrainingMode.DISABLE, NRZPreset.NRZ_NO_PRESET, TimeoutMode.DISABLED)
 
     elif t == ('interactive', True, True):
-        md, ps, tm = (LinkTrainingMode.INTERACTIVE, NRZPreset.NRZ_WITH_PRESET, TimeoutMode.DEFAULT_TIMEOUT)
+        md, ps, tm = (LinkTrainingMode.INTERACTIVE, NRZPreset.NRZ_WITH_PRESET, TimeoutMode.DEFAULT)
     elif t == ('interactive', True, False):
-        md, ps, tm = (LinkTrainingMode.INTERACTIVE, NRZPreset.NRZ_WITH_PRESET, TimeoutMode.TIMEOUT_DISABLED)
+        md, ps, tm = (LinkTrainingMode.INTERACTIVE, NRZPreset.NRZ_WITH_PRESET, TimeoutMode.DISABLED)
     elif t == ('interactive', False, True):
-        md, ps, tm = (LinkTrainingMode.INTERACTIVE, NRZPreset.NRZ_NO_PRESET, TimeoutMode.DEFAULT_TIMEOUT)
+        md, ps, tm = (LinkTrainingMode.INTERACTIVE, NRZPreset.NRZ_NO_PRESET, TimeoutMode.DEFAULT)
     elif t == ('interactive', False, False):
-        md, ps, tm = (LinkTrainingMode.INTERACTIVE, NRZPreset.NRZ_NO_PRESET, TimeoutMode.TIMEOUT_DISABLED)
+        md, ps, tm = (LinkTrainingMode.INTERACTIVE, NRZPreset.NRZ_NO_PRESET, TimeoutMode.DISABLED)
 
-    elif t == ('auto', True, True):
-        md, ps, tm = (LinkTrainingMode.AUTO, NRZPreset.NRZ_WITH_PRESET, TimeoutMode.DEFAULT_TIMEOUT)
-    elif t == ('auto', True, False):
-        md, ps, tm = (LinkTrainingMode.AUTO, NRZPreset.NRZ_WITH_PRESET, TimeoutMode.TIMEOUT_DISABLED)
-    elif t == ('auto', False, True):
-        md, ps, tm = (LinkTrainingMode.AUTO, NRZPreset.NRZ_NO_PRESET, TimeoutMode.DEFAULT_TIMEOUT)
+    elif t == ('autostart', True, True):
+        md, ps, tm = (LinkTrainingMode.AUTOSTART, NRZPreset.NRZ_WITH_PRESET, TimeoutMode.DEFAULT)
+    elif t == ('autostart', True, False):
+        md, ps, tm = (LinkTrainingMode.AUTOSTART, NRZPreset.NRZ_WITH_PRESET, TimeoutMode.DISABLED)
+    elif t == ('autostart', False, True):
+        md, ps, tm = (LinkTrainingMode.AUTOSTART, NRZPreset.NRZ_NO_PRESET, TimeoutMode.DEFAULT)
     else:
-        md, ps, tm = (LinkTrainingMode.AUTO, NRZPreset.NRZ_NO_PRESET, TimeoutMode.TIMEOUT_DISABLED)
+        md, ps, tm = (LinkTrainingMode.AUTOSTART, NRZPreset.NRZ_NO_PRESET, TimeoutMode.DISABLED)
 
     tokens += [
         commands.PP_LINKTRAIN(conn, mid, pid).set(
-            mode=LinkTrainingMode.FORCE_DISABLE,
+            mode=LinkTrainingMode.DISABLE,
             pam4_frame_size=PAM4FrameSize.P16K_FRAME,
             nrz_pam4_init_cond=LinkTrainingInitCondition.NO_INIT,
             nrz_preset=ps,
@@ -266,7 +270,7 @@ async def lt_preset(port: GenericAnyPort, lane: int, preset: int) -> None:
     :return:
     :rtype: None
     """
-    assert preset in range(1, 6), "Para 'preset' not in (1, 2, 3, 4, 5)!"
+    assert preset in range(1, 5), "Para 'preset' not in (1, 2, 3, 4, 5)!"
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     await apply(
         commands.PL1_LINKTRAIN_CMD(conn, mid, pid, lane).set(cmd=LinkTrainCmd.CMD_PRESET, arg=LinkTrainPresets.from_str(str(preset)))
@@ -276,7 +280,7 @@ async def lt_preset(port: GenericAnyPort, lane: int, preset: int) -> None:
 
 
 async def lt_encoding(port: GenericAnyPort, lane: int, encoding: str) -> None:
-    """Ask the remote port to use the preset of the specified lane.
+    """Ask the remote port to use the encoding of the specified lane.
 
     :param port: port to configure
     :type port: :class:`~xoa_driver.ports.GenericAnyPort`
@@ -287,10 +291,30 @@ async def lt_encoding(port: GenericAnyPort, lane: int, encoding: str) -> None:
     :return:
     :rtype: None
     """
-    assert encoding in range(1, 6), "Para 'encoding' not in (nrz, pam2, pam4, pam4pre)!"
+    assert encoding in ("nrz", "pam2", "pam4", "pam4pre"), "Para 'encoding' not in (nrz, pam2, pam4, pam4pre)!"
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     await apply(
         commands.PL1_LINKTRAIN_CMD(conn, mid, pid, lane).set(cmd=LinkTrainCmd.CMD_ENCODING, arg=LinkTrainEncoding.from_str(str(encoding)))
+        )
+    return None
+
+
+async def lt_im(port: GenericAnyPort, lane: int, encoding: str) -> None:
+    """To set the initial modulation for the lane.
+
+    :param port: port to configure
+    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :param lane: lane index, starting from 0
+    :type lane: int
+    :param encoding: link training encoding (nrz/pam2, pam4, pam4pre)
+    :type encoding: str
+    :return:
+    :rtype: None
+    """
+    assert encoding in ("nrz", "pam2", "pam4", "pam4pre"), "Para 'encoding' not in (nrz, pam2, pam4, pam4pre)!"
+    conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
+    await apply(
+        commands.PL1_CFG_TMP(conn, mid, pid, lane, Layer1ConfigType.LT_INITIAL_MODULATION).set(values=[LinkTrainEncoding.from_str(str(encoding))])
         )
     return None
 
@@ -363,7 +387,7 @@ async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
         commands.PP_LINKTRAINSTATUS(conn, mid, pid, lane).get(),
         commands.PL1_LINKTRAININFO(conn, mid, pid, lane, 0).get(),
         commands.PP_LINKTRAIN(conn, mid, pid).get(),
-        commands.PL1_CFG_TMP(conn, mid, pid, lane, 2).get()
+        commands.PL1_CFG_TMP(conn, mid, pid, lane, Layer1ConfigType.LT_INITIAL_MODULATION).get()
     )
     getcontext().prec = 8
     total_bit_count = Decimal(info.prbs_total_bits_high << 32) + Decimal(info.prbs_total_error_bits_low)
@@ -627,8 +651,8 @@ async def status(
     ]
     *_, link_recovery, autoneg, linktrain = await apply(*tokens)
     return {
-        "autoneg_enabled": (autoneg.mode),
-        "link_training_mode": (linktrain.mode),
-        "link_training_timeout": (linktrain.timeout_mode),
-        "link_recovery": (link_recovery.values[0]),
+        "autoneg_enabled": autoneg.mode.name.lower(),
+        "link_training_mode": linktrain.mode.name.lower(),
+        "link_training_timeout": linktrain.timeout_mode.name.lower(),
+        "link_recovery": "on" if link_recovery.values[0]==1 else "off"
     }
