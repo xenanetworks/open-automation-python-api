@@ -10,6 +10,8 @@ from xoa_driver.utils import apply
 from xoa_driver.internals.hli_v2.ports.port_l23.family_l import FamilyL
 from xoa_driver.internals.hli_v2.ports.port_l23.family_l1 import FamilyL1
 from xoa_driver.ports import GenericAnyPort
+from xoa_driver.modules import GenericAnyModule
+from xoa_driver.testers import GenericAnyTester
 from xoa_driver.testers import L23Tester, L47Tester, GenericAnyTester
 from xoa_driver.lli import commands
 
@@ -77,11 +79,13 @@ def get_ports(
         module = tester.modules.obtain(module_id)
     except KeyError:
         raise NoSuchModuleError(module_id)
-    ports = list(module.ports)
+    ports = []
+    for port in module.ports:
+        ports.append(port)
     return ports
 
 
-async def reserve_port(port: GenericAnyPort, force: bool) -> None:
+async def reserve_port(port: GenericAnyPort, force: bool = True) -> None:
     """Reserve a port regardless whether it is owned by others or not.
 
     :param port: The port to reserve
@@ -132,4 +136,92 @@ async def free_port(port: GenericAnyPort) -> None:
         await port.reservation.set_relinquish()
     elif r.status == ReservedStatus.RESERVED_BY_YOU:
         await port.reservation.set_release()
+    return None
+
+
+async def reserve_module(module: GenericAnyModule, force: bool = True) -> None:
+    """Reserve a module regardless whether it is owned by others or not.
+
+    :param module: The module to reserve
+    :type module: :class:`~xoa_driver.modules.GenericAnyModule`
+    :param force: Should force reserve the module
+    :type force: boolean
+    :return:
+    :rtype: None
+    """
+    tokens = []
+    r = await module.reservation.get()
+    if force:
+        if r.status == ReservedStatus.RESERVED_BY_OTHER:
+            for p in module.ports:
+                await free_port(port=p)
+            tokens.append(module.reservation.set_reserve())
+        elif r.status == ReservedStatus.RELEASED:
+            tokens.append(module.reservation.set_reserve())
+    else:
+        if r.status == ReservedStatus.RELEASED:
+            tokens.append(module.reservation.set_reserve())
+    await apply(*tokens)
+    return None
+
+
+async def free_module(module: GenericAnyModule) -> None:
+    """Free a module. If the module is reserved by you, release the module. If the module is reserved by others, relinquish the module. The module should have no owner afterwards.
+
+    :param module: The module to free
+    :type module: :class:`~xoa_driver.modules.GenericAnyModule`
+    :return:
+    :rtype: None
+    """
+    r = await module.reservation.get()
+    if r.status == ReservedStatus.RESERVED_BY_OTHER:
+        await module.reservation.set_relinquish()
+    elif r.status == ReservedStatus.RESERVED_BY_YOU:
+        await module.reservation.set_release()
+    for p in module.ports:
+        await free_port(port=p)
+    return None
+
+
+async def reserve_tester(tester: GenericAnyTester, force: bool = True) -> None:
+    """Reserve a tester regardless whether it is owned by others or not.
+
+    :param tester: The tester to reserve
+    :type tester: :class:`~xoa_driver.testers.GenericAnyTester`
+    :param force: Should force reserve the tester
+    :type force: boolean
+    :return:
+    :rtype: None
+    """
+    tokens = []
+    r = await tester.reservation.get()
+    if force:
+        if r.status == ReservedStatus.RESERVED_BY_OTHER:
+            for m in tester.modules:
+                await free_module(m)
+            tokens.append(tester.reservation.set_reserve())
+        elif r.status == ReservedStatus.RELEASED:
+            tokens.append(tester.reservation.set_reserve())
+    else:
+        if r.status == ReservedStatus.RELEASED:
+            tokens.append(tester.reservation.set_reserve())
+    await apply(*tokens)
+    return None
+
+
+async def free_tester(tester: GenericAnyTester) -> None:
+    """Free a tester. If the tester is reserved by you, release the tester. If the tester is reserved by others, relinquish the tester. The tester should have no owner afterwards.
+
+    :param tester: The tester to free
+    :type tester: :class:`~xoa_driver.testers.GenericAnyTester`
+    :return:
+    :rtype: None
+    """
+    r = await tester.reservation.get()
+    if r.status == ReservedStatus.RESERVED_BY_OTHER:
+        await tester.reservation.set_relinquish()
+    elif r.status == ReservedStatus.RESERVED_BY_YOU:
+        await tester.reservation.set_release()
+    for m in tester.modules:
+        await free_module(m)
     return None
