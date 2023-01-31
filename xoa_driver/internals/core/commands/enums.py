@@ -1652,14 +1652,15 @@ class IsPresent(IntEnum):
 
 class LicenseSpeed(IntEnum):
     UNDEFINED = 0
-    F1G = 1
-    F2_5G = 2
-    F5G = 3
-    F10G = 4
-    F25G = 5
-    F40G = 6
-    F50G = 7
-    F100G = 8
+    F100M = 1
+    F1G = 2
+    F2_5G = 3
+    F5G = 4
+    F10G = 5
+    F25G = 6
+    F40G = 7
+    F50G = 8
+    F100G = 9
 
 
 class TLSVersion(IntEnum):
