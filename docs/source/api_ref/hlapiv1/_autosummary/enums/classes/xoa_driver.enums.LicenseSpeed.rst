@@ -20,6 +20,7 @@
     .. autosummary::
     
         ~LicenseSpeed.UNDEFINED
+        ~LicenseSpeed.F100M
         ~LicenseSpeed.F1G
         ~LicenseSpeed.F2_5G
         ~LicenseSpeed.F5G
