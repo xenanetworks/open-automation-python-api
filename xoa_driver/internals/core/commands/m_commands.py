@@ -675,22 +675,11 @@ class M_CFPCONFIGEXT:
     combinations are possible: 2x10G, 4x10G, 8x10G, 2x25G, 4x25G, 8x25G, 1x40G,
     2x40G, 2x50G, 4x50G, 8x50G, 1x100G, 2x100G, 4x100G, 2x200G, and 1x400G.
     (replaces :class:`M_CFPCONFIG`)
-<<<<<<< HEAD
     .. note::
         ``<port_count>`` is an integers, specifying the number of ports.
         ``<portspeed_list>`` is a list of integers, specifying a number of port speeds in Mbps.
         The number of port speeds equals the value of the number of ports.
         For example if the configuration is 4x25G, ``<portspeed_list>`` will be ``[4, 25000, 25000, 25000, 25000]``.
-=======
-
-    .. note::
-
-        ``<speeds>`` is a list of integers. The number of elements of the list equals ``<count>``.
-        For example if the configuration is 4x25G, ``<count>`` will be ``4``, and ``<speeds>`` will be ``[25000, 25000, 25000, 25000]``.
-
-        If :class:`M_CAPABILITIES` ``can_media_config == False``, ``<count>`` will be 0, and ``<speeds>`` will be empty.
-
->>>>>>> 8bab5d9eb88f74f4b4d56c87eaff67bb727d7d46
     """
 
     code: typing.ClassVar[int] = 93
@@ -701,7 +690,6 @@ class M_CFPCONFIGEXT:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-<<<<<<< HEAD
         port_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         portspeed_list: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
 
@@ -713,31 +701,12 @@ class M_CFPCONFIGEXT:
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of port count and corresponding speeds supported by the current module config.
         :return: a list of port count and corresponding speeds supported by the current module config
-=======
-        count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
-        speeds: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
-
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
-        speeds: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
-
-    def get(self) -> "Token[GetDataAttr]":
-        """Get port count and maximum speeds of each port of the module.
-
-        :return: port count and maximum speeds of each port of the module
->>>>>>> 8bab5d9eb88f74f4b4d56c87eaff67bb727d7d46
         :rtype: M_CFPCONFIGEXT.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module))
 
-<<<<<<< HEAD
     def set(self, port_count: int, portspeed_list: typing.List[int]) -> "Token":
         return Token(self._connection, build_set_request(self, module=self._module, port_count=port_count, portspeed_list=portspeed_list))
-=======
-    def set(self, count: int, speeds: typing.List[int]) -> "Token":
-        return Token(self._connection, build_set_request(self, module=self._module, count=count, speeds=speeds))
->>>>>>> 8bab5d9eb88f74f4b4d56c87eaff67bb727d7d46
 
 
 @register_command
