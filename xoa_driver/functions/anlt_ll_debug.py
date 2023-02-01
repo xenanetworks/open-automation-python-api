@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 from functools import partialmethod
 from typing import Dict
 from xoa_driver.enums import (
@@ -35,7 +36,7 @@ class AnLtLowLevelDebug:
     LT_RX_ANALYZER_RD_PAGE = 0x3C
     LT_RX_ANALYZER_RD_DATA = 0x3D
 
-    def __init__(self, port: GenericAnyPort, lane: int):
+    def __init__(self, port: GenericAnyPort, lane: int) -> None:
         """
         :param port: port to select
         :type port: :class:`~xoa_driver.ports.GenericAnyPort`
@@ -66,7 +67,7 @@ class AnLtLowLevelDebug:
         v = int((await r.get()).value, 16)
         # Set bit 2
         v |= 1 << 2
-        await r.set('0x{0:08X}'.format(v))
+        await r.set('0x{0:08X}'.format(v)) # in XOA-Driver V2 `0x` preffix will be drop from the hex strings
         # Clear bit 2
         v &= ~(1 << 2)
         await r.set('0x{0:08X}'.format(v))
@@ -108,8 +109,8 @@ class AnLtLowLevelDebug:
 
     lt_rx_analyzer_status_get = partialmethod(__get, reg=LT_RX_ANALYZER_STATUS)
 
-    lt_rx_analyzer_rd_addr_get= partialmethod(__get, reg=LT_RX_ANALYZER_RD_ADDR)
-    lt_rx_analyzer_rd_addr_set= partialmethod(__set, reg=LT_RX_ANALYZER_RD_ADDR)
+    lt_rx_analyzer_rd_addr_get = partialmethod(__get, reg=LT_RX_ANALYZER_RD_ADDR)
+    lt_rx_analyzer_rd_addr_set = partialmethod(__set, reg=LT_RX_ANALYZER_RD_ADDR)
 
     lt_rx_analyzer_rd_page_get = partialmethod(__get, reg=LT_RX_ANALYZER_RD_PAGE)
     lt_rx_analyzer_rd_page_set = partialmethod(__set, reg=LT_RX_ANALYZER_RD_PAGE)
@@ -145,28 +146,29 @@ class AnLtLowLevelDebug:
         return {
             "total_bits": total_bits,
             "error_bits": error_bits,
-            "ber": error_bits/total_bits
+            "ber": error_bits / total_bits
         }
 
-    async def lt_rx_analyzer_dump(self):
+    async def lt_rx_analyzer_dump(self) -> None:
         """This will dump the 320bit words in the capture buffer"""
-        trigger_pos = await self.lt_rx_analyzer_config_get()
-        print("Trigger position: %d" % trigger_pos)
-        capture_done = await self.lt_rx_analyzer_status_get()
-        print("Analyzer status: %d" % capture_done)
-        if capture_done:
-            print("Capture:")
-            for r in range(0, 256):
-                # Set the read address
-                await self.lt_rx_analyzer_rd_addr_set(value=r)
-                print('{0:02X}'.format(r), end=': ')
-                for p in range(0, 10):
-                    # Read the data
-                    await self.lt_rx_analyzer_rd_page_set(value=p)
-                    d = await self.lt_rx_analyzer_rd_data_get()
-                    print('{0:08X}'.format(d), end=' ')
-                print("")
-        else:
+        trigger_pos, capture_done = await asyncio.gather(
+            self.lt_rx_analyzer_config_get(),
+            self.lt_rx_analyzer_status_get(),
+        )
+        print("Trigger position: ", trigger_pos)
+        print("Analyzer status: ", capture_done)
+        if not capture_done:
             print("No capture")
-            return
+            return None
+        print("Capture:")
+        for r in range(0, 256):
+            # Set the read address
+            await self.lt_rx_analyzer_rd_addr_set(value=r)
+            print('{0:02X}'.format(r), end=': ')
+            for p in range(0, 10):
+                # Read the data
+                await self.lt_rx_analyzer_rd_page_set(value=p)
+                d = await self.lt_rx_analyzer_rd_data_get()
+                print('{0:08X}'.format(d), end=' ')
+            print()
         print("Done")
