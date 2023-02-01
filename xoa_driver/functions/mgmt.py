@@ -11,7 +11,6 @@ from xoa_driver.internals.hli_v2.ports.port_l23.family_l import FamilyL
 from xoa_driver.internals.hli_v2.ports.port_l23.family_l1 import FamilyL1
 from xoa_driver.ports import GenericAnyPort
 from xoa_driver.modules import GenericAnyModule
-from xoa_driver.testers import GenericAnyTester
 from xoa_driver.testers import L23Tester, L47Tester, GenericAnyTester
 from xoa_driver.lli import commands
 
@@ -225,3 +224,4 @@ async def free_tester(tester: GenericAnyTester) -> None:
     for m in tester.modules:
         await free_module(m)
     return None
+
