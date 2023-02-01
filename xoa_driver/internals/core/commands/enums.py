@@ -1558,17 +1558,17 @@ class AutoNegFECStatus(IntEnum):
 class LinkTrainingMode(IntEnum):
     """Link Training Mode"""
 
-    AUTOSTART = 0
-    """Auto start link training after autoneg. Requires autoneg enabled"""
+    START_AFTER_AUTONEG = 0
+    """To set the port to start link training after autoneg is completed. Requires autoneg enabled prior to link training."""
 
-    AUTOCOMPLETE = 1
-    """Auto complete link training."""
+    STANDALONE = 1
+    """The port will do LT by itself."""
 
     DISABLE = 2
-    """Disable"""
+    """Disable link training on the port."""
 
     INTERACTIVE = 3
-    """Manual link training procedure"""
+    """The port will not do LT by itself but wait for manual instructions."""
 
 
 class PAM4FrameSize(IntEnum):

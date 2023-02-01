@@ -352,13 +352,13 @@ async def lt_config(
     t = (mode, preset0, timeout)
     tokens = []
     if t == ('autocomplete', True, True):
-        md, ps, tm = (LinkTrainingMode.AUTOCOMPLETE, NRZPreset.NRZ_WITH_PRESET, TimeoutMode.DEFAULT)
+        md, ps, tm = (LinkTrainingMode.STANDALONE, NRZPreset.NRZ_WITH_PRESET, TimeoutMode.DEFAULT)
     elif t == ('autocomplete', True, False):
-        md, ps, tm = (LinkTrainingMode.AUTOCOMPLETE, NRZPreset.NRZ_WITH_PRESET, TimeoutMode.DISABLED)
+        md, ps, tm = (LinkTrainingMode.STANDALONE, NRZPreset.NRZ_WITH_PRESET, TimeoutMode.DISABLED)
     elif t == ('autocomplete', False, True):
-        md, ps, tm = (LinkTrainingMode.AUTOCOMPLETE, NRZPreset.NRZ_NO_PRESET, TimeoutMode.DEFAULT)
+        md, ps, tm = (LinkTrainingMode.STANDALONE, NRZPreset.NRZ_NO_PRESET, TimeoutMode.DEFAULT)
     elif t == ('autocomplete', False, False):
-        md, ps, tm = (LinkTrainingMode.AUTOCOMPLETE, NRZPreset.NRZ_NO_PRESET, TimeoutMode.DISABLED)
+        md, ps, tm = (LinkTrainingMode.STANDALONE, NRZPreset.NRZ_NO_PRESET, TimeoutMode.DISABLED)
 
     elif t == ('disable', True, True):
         md, ps, tm = (LinkTrainingMode.DISABLE, NRZPreset.NRZ_WITH_PRESET, TimeoutMode.DEFAULT)
@@ -379,13 +379,13 @@ async def lt_config(
         md, ps, tm = (LinkTrainingMode.INTERACTIVE, NRZPreset.NRZ_NO_PRESET, TimeoutMode.DISABLED)
 
     elif t == ('autostart', True, True):
-        md, ps, tm = (LinkTrainingMode.AUTOSTART, NRZPreset.NRZ_WITH_PRESET, TimeoutMode.DEFAULT)
+        md, ps, tm = (LinkTrainingMode.START_AFTER_AUTONEG, NRZPreset.NRZ_WITH_PRESET, TimeoutMode.DEFAULT)
     elif t == ('autostart', True, False):
-        md, ps, tm = (LinkTrainingMode.AUTOSTART, NRZPreset.NRZ_WITH_PRESET, TimeoutMode.DISABLED)
+        md, ps, tm = (LinkTrainingMode.START_AFTER_AUTONEG, NRZPreset.NRZ_WITH_PRESET, TimeoutMode.DISABLED)
     elif t == ('autostart', False, True):
-        md, ps, tm = (LinkTrainingMode.AUTOSTART, NRZPreset.NRZ_NO_PRESET, TimeoutMode.DEFAULT)
+        md, ps, tm = (LinkTrainingMode.START_AFTER_AUTONEG, NRZPreset.NRZ_NO_PRESET, TimeoutMode.DEFAULT)
     else:
-        md, ps, tm = (LinkTrainingMode.AUTOSTART, NRZPreset.NRZ_NO_PRESET, TimeoutMode.DISABLED)
+        md, ps, tm = (LinkTrainingMode.START_AFTER_AUTONEG, NRZPreset.NRZ_NO_PRESET, TimeoutMode.DISABLED)
 
     tokens += [
         commands.PP_LINKTRAIN(conn, mid, pid).set(
