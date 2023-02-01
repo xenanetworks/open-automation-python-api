@@ -383,7 +383,7 @@ class PS_INSERTFCS:
 @dataclass
 class PS_AUTOADJUST:
     """
-    .. versionadded:: v1.1
+    .. versionadded:: 1.1
     
     Executing PS_AUTOADJUST will adjust the packet length distribution (:class:`PS_PACKETLENGTH`) of the stream:
     
@@ -839,7 +839,7 @@ class PS_BURST:
         the number of packets in each burst, and how densely they are packed together.
 
         :return: the number of packets lumped together in a burst, and the percentage of the available spacing that is inserted between bursts
-        :rtype: PS_BURST.GetDataAttr
+        :rtype: ~PS_BURST.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._stream_xindex]))
 
@@ -1396,7 +1396,7 @@ class PS_BURSTGAP:
         burst defined in the next stream starts (inter-burst gap).
 
         :return: the gap between packets in a burst
-        :rtype: Token[GetDataAttr]
+        :rtype: PS_BURSTGAP.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._stream_xindex]))
 

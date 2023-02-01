@@ -14,7 +14,6 @@ from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
 from .enums import *  # noqa: F403
-# from . import subtypes
 
 
 @register_command
@@ -46,7 +45,7 @@ class M_RESERVATION:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        operation: XmpField[xt.XmpByte] = XmpField(
+        status: XmpField[xt.XmpByte] = XmpField(
             xt.XmpByte, choices=ReservedStatus
         )  # coded byte, containing the operation to perform. The reservation parameters are asymmetric with respect to set/get. When set, it contains the operation to perform. When get, it contains the status.
 
@@ -393,7 +392,7 @@ class M_CFPCONFIG:
     type is NOTFLEXIBLE then it reflects the transceiver currently in the CFP cage.
     If the CFP type is FLEXIBLE (or NOTPRESENT) then the configuration can be changed
     explicitly. The following combinations are possible: 4x10G, 8x10G, 1x40G, 2x40G,
-    and 1x100G. (replaced by ``M_CFPCONFIGEXT``)
+    and 1x100G. (replaced by :class:`M_CFPCONFIGEXT`)
     """
 
     code: typing.ClassVar[int] = 85
@@ -560,10 +559,9 @@ class M_CAPABILITIES:
 class M_MEDIASUPPORT:
     """
     This command shows the available speeds on a module. The structure of the returned value is
-    [<cage_type> <available_speed_count> [<ports_per_speed> <speed>] ].
-    [<ports_per_speed> <speed>] are repeated until all speeds supported by the <cage_type> has been listed.
-    [<cage_type> <available_speed_count>] are repeated for all cage types on the module
-    including the related <ports_per_speed> <speed> information.
+    ``[ <cage_type> <available_speed_count> [<ports_per_speed> <speed>] ]``.
+    ``[<ports_per_speed> <speed>]`` is repeated until all speeds supported by the ``<cage_type>`` has been listed.
+    ``[<cage_type> <available_speed_count>]`` is repeated for all cage types on the module including the related ``<ports_per_speed> <speed>`` information.
     """
 
     code: typing.ClassVar[int] = 90
@@ -577,12 +575,12 @@ class M_MEDIASUPPORT:
         media_info_list: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)  # coded integer, media information
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the
+        """Get the media supports by the port, including cage type, available speed count, ports per speed, and the corresponding speed.
 
         :return:
-            a list of integers. The structure of the returned value is [<cage_type> <available_speed_count>[<ports_per_speed> <speed>] ].
-            [<ports_per_speed> <speed>] are repeated until all speeds supported by the <cage_type> has been listed.
-            [<cage_type> <available_speed_count>] are repeated for all cage types on the module including the related <ports_per_speed> <speed> information.
+            a list of integers. The structure of the returned value is ``[ <cage_type> <available_speed_count>[<ports_per_speed> <speed>] ]``.
+            ``[<ports_per_speed> <speed>]`` is repeated until all speeds supported by the ``<cage_type>`` has been listed.
+            ``[<cage_type> <available_speed_count>]`` is repeated for all cage types on the module including the related ``<ports_per_speed> <speed>`` information.
 
         :rtype: M_MEDIASUPPORT.GetDataAttr
         """
@@ -677,11 +675,22 @@ class M_CFPCONFIGEXT:
     combinations are possible: 2x10G, 4x10G, 8x10G, 2x25G, 4x25G, 8x25G, 1x40G,
     2x40G, 2x50G, 4x50G, 8x50G, 1x100G, 2x100G, 4x100G, 2x200G, and 1x400G.
     (replaces :class:`M_CFPCONFIG`)
+<<<<<<< HEAD
     .. note::
         ``<port_count>`` is an integers, specifying the number of ports.
         ``<portspeed_list>`` is a list of integers, specifying a number of port speeds in Mbps.
         The number of port speeds equals the value of the number of ports.
         For example if the configuration is 4x25G, ``<portspeed_list>`` will be ``[4, 25000, 25000, 25000, 25000]``.
+=======
+
+    .. note::
+
+        ``<speeds>`` is a list of integers. The number of elements of the list equals ``<count>``.
+        For example if the configuration is 4x25G, ``<count>`` will be ``4``, and ``<speeds>`` will be ``[25000, 25000, 25000, 25000]``.
+
+        If :class:`M_CAPABILITIES` ``can_media_config == False``, ``<count>`` will be 0, and ``<speeds>`` will be empty.
+
+>>>>>>> 8bab5d9eb88f74f4b4d56c87eaff67bb727d7d46
     """
 
     code: typing.ClassVar[int] = 93
@@ -692,6 +701,7 @@ class M_CFPCONFIGEXT:
 
     @dataclass(frozen=True)
     class SetDataAttr:
+<<<<<<< HEAD
         port_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         portspeed_list: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
 
@@ -703,12 +713,31 @@ class M_CFPCONFIGEXT:
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of port count and corresponding speeds supported by the current module config.
         :return: a list of port count and corresponding speeds supported by the current module config
+=======
+        count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        speeds: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
+
+    @dataclass(frozen=True)
+    class GetDataAttr:
+        count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        speeds: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
+
+    def get(self) -> "Token[GetDataAttr]":
+        """Get port count and maximum speeds of each port of the module.
+
+        :return: port count and maximum speeds of each port of the module
+>>>>>>> 8bab5d9eb88f74f4b4d56c87eaff67bb727d7d46
         :rtype: M_CFPCONFIGEXT.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module))
 
+<<<<<<< HEAD
     def set(self, port_count: int, portspeed_list: typing.List[int]) -> "Token":
         return Token(self._connection, build_set_request(self, module=self._module, port_count=port_count, portspeed_list=portspeed_list))
+=======
+    def set(self, count: int, speeds: typing.List[int]) -> "Token":
+        return Token(self._connection, build_set_request(self, module=self._module, count=count, speeds=speeds))
+>>>>>>> 8bab5d9eb88f74f4b4d56c87eaff67bb727d7d46
 
 
 @register_command
@@ -1413,7 +1442,7 @@ class M_TXCLOCKFILTER_NEW:
 @dataclass
 class M_CLOCKPPBSWEEP:
     """
-    .. versionadded:: v1.1
+    .. versionadded:: 1.1
 
     Start and stop deviation sweep the local clock of the test module, which drives the TX rate of the test ports.
 

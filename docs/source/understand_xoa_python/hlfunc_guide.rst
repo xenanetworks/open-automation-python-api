@@ -117,6 +117,6 @@ As described in :doc:`../test_resource_mgt`, you need to reserve the test resour
 
 1. Connect to chassis
 2. Reserve/Release/Reset ports
-3. Reserve/Release chassis (in future release)
-4. Reserve/Release module (in future release)
+3. Reserve/Release chassis
+4. Reserve/Release module
 5. Disconnect
