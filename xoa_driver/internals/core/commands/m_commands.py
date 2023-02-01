@@ -666,24 +666,22 @@ class M_MULTIUSER:
     """Enable multiple sessions to control the same module.
     """
 
-
 @register_command
 @dataclass
 class M_CFPCONFIGEXT:
     """
     This property defines the current number of ports and the speed of each of them
-    on a CFP test module. If the CFP type is NOTFLEXIBLE then it reflects the
-    transceiver currently in the CFP cage. If the CFP type is FLEXIBLE (or
-    NOTPRESENT) then the configuration can be changed explicitly. The following
+    on a CFP test module. If the CFP type is ``NOTFLEXIBLE`` then it reflects the
+    transceiver currently in the CFP cage. If the CFP type is ``FLEXIBLE`` (or
+    ``NOTPRESENT``) then the configuration can be changed explicitly. The following
     combinations are possible: 2x10G, 4x10G, 8x10G, 2x25G, 4x25G, 8x25G, 1x40G,
     2x40G, 2x50G, 4x50G, 8x50G, 1x100G, 2x100G, 4x100G, 2x200G, and 1x400G.
-    (replaces M_CFPCONFIG)
-
+    (replaces :class:`M_CFPCONFIG`)
     .. note::
-
-        <port_count_speeds_list> is a list of integers, where the first element is the number of ports followed by a number of port speeds in Mbps.
+        ``<port_count>`` is an integers, specifying the number of ports.
+        ``<portspeed_list>`` is a list of integers, specifying a number of port speeds in Mbps.
         The number of port speeds equals the value of the number of ports.
-        For example if the configuration is 4x25G, <port_count_speeds_list> will be [4, 25000, 25000, 25000, 25000].
+        For example if the configuration is 4x25G, ``<portspeed_list>`` will be ``[4, 25000, 25000, 25000, 25000]``.
     """
 
     code: typing.ClassVar[int] = 93
@@ -694,22 +692,23 @@ class M_CFPCONFIGEXT:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        portspeed_list: XmpField[subtypes.PortSpeedChuckList] = XmpField(subtypes.PortSpeedChuckList)
+        port_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        portspeed_list: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        portspeed_list: XmpField[subtypes.PortSpeedChuckList] = XmpField(subtypes.PortSpeedChuckList)
+        port_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        portspeed_list: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of port count and corresponding speeds supported by the current module config.
-
         :return: a list of port count and corresponding speeds supported by the current module config
         :rtype: M_CFPCONFIGEXT.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, portspeed_list: typing.List[int]) -> "Token":
-        return Token(self._connection, build_set_request(self, module=self._module, portspeed_list=portspeed_list))
+    def set(self, port_count: int, portspeed_list: typing.List[int]) -> "Token":
+        return Token(self._connection, build_set_request(self, module=self._module, port_count=port_count, portspeed_list=portspeed_list))
 
 
 @register_command

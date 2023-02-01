@@ -58,7 +58,7 @@ class Response:
         )
 
     def __repr__(self) -> str:
-        return utils.format_repr(cast(utils.XmProtocol, self))
+        return utils.format_repr(self)
 
     def __bytes__(self) -> bytes:
         return bytes(self.header) + self.raw_data
@@ -86,7 +86,7 @@ class Response:
                 dic[field_name] = self.__parse_xmp_str(self.__calc_str_len(back))
             else:
                 length = self.__calc_xmp_type_length(generic_type)
-                value_bytes = self.raw_data[self.__cursor:self.__cursor + length]
+                value_bytes = self.raw_data[self.__cursor : self.__cursor + length]
                 if (not issubclass(generic_type, XmpDefaultList)) and not value_bytes:
                     raise NotEnoughBytesLeft(self.class_name, back, field_name)
                 dic[field_name] = generic_type.from_bytes(value_bytes)
@@ -148,6 +148,6 @@ class Response:
         return all(
             (
                 self.header.cmd_type == const.CommandType.COMMAND_VALUE,
-                self.values is not None
+                self.values is not None,
             )
         )

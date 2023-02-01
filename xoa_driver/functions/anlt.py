@@ -20,7 +20,8 @@ from xoa_driver.internals.hli_v1.ports.port_l23.family_l1 import FamilyL1
 from xoa_driver.ports import GenericAnyPort
 from xoa_driver.testers import L23Tester, L47Tester, GenericAnyTester
 from xoa_driver.lli import commands
-from .exceptions import NotConnectedError, NoSuchModuleError
+from xoa_driver.enums import SyncStatus
+from .exceptions import NotConnectedError, NoSuchModuleError, NoSuchPortError
 
 PcsPmaSupported = (FamilyL, FamilyL1)
 AutoNegSupported = (FamilyL, FamilyL1)
@@ -69,22 +70,42 @@ def obtain_ports_of_module(
     return ports
 
 
-def obtain_port(
-    tester: GenericAnyTester,
-    module_id: int,
-    port_id: int,
-) -> GenericAnyPort:
+def obtain_ports(
+    tester: GenericAnyTester, module_id: int = -1, port_id: int = -1
+) -> tuple[GenericAnyPort]:
     if tester is None:
         raise NotConnectedError()
-    try:
-        module = tester.modules.obtain(module_id)
-    except KeyError:
-        raise NoSuchModuleError(module_id)
-    try:
-        port = module.ports.obtain(port_id)
-    except KeyError:
-        raise NoSuchModuleError(port_id)
-    return port
+    if module_id == -1:
+        modules = tuple(tester.modules)
+    else:
+        try:
+            modules = tester.modules.obtain_multiple(module_id)
+        except KeyError:
+            raise NoSuchModuleError(module_id)
+    ports = []
+    for module in modules:
+        if port_id == -1:
+            ports.extend(list(module.ports))
+        else:
+            try:
+                port = module.ports.obtain(port_id)
+                ports.append(port)
+            except KeyError:
+                raise NoSuchPortError(port_id)
+
+    return tuple(ports)
+
+
+async def tester_serial_no(tester: L23Tester) -> str:
+    """Get the serial number of a tester
+
+    :param port: The tester to get
+    :type port: :class:`~xoa_driver.testers.L23Tester`
+    :return:
+    :rtype: str
+    """
+
+    return (await tester.serial_no.get()).serial_number
 
 
 async def port_force_reserve(port: GenericAnyPort) -> None:
@@ -104,6 +125,32 @@ async def port_force_reserve(port: GenericAnyPort) -> None:
         tokens.append(port.reservation.set_reserve())
     await apply(*tokens)
     return None
+
+
+async def port_sync_status(port: GenericAnyPort) -> str:
+    """Get the sync status of a port
+
+    :param port: The port to query
+    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :return:
+    :rtype: :class:`~xoa_driver.enums.SyncStatus`
+    """
+    s = (await port.sync_status.get()).sync_status
+    return SyncStatus(s).name.upper()
+
+
+async def port_reserve_status(port: GenericAnyPort) -> bool:
+    """Get the reserved user of a port
+
+    :param port: The port to query
+    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :return:
+    :rtype: bool
+    """
+    return (
+        ReservedStatus((await port.reservation.get()).status)
+        == ReservedStatus.RESERVED_BY_YOU
+    )
 
 
 async def port_reset(port: GenericAnyPort) -> None:
@@ -132,7 +179,7 @@ async def port_release(port: GenericAnyPort) -> None:
 
 async def anlt_status(
     port: GenericAnyPort,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Get ANLT status
 
     :param port: the port to get ANLT status from
