@@ -42,200 +42,8 @@ AutoNegSupported = (FamilyL, FamilyL1)
 LinkTrainingSupported = FamilyL
 
 
-<<<<<<< HEAD
-async def connect(
-    tester_type: str,
-    host: str,
-    username: str,
-    password: str = "xena",
-    port: int = 22606,
-) -> GenericAnyTester:
-    """Connect to a Xena tester.
-
-    :param tester_type: Tester type, either "l23" or "l47"
-    :type tester_type: str
-    :param host: IP address or hostname of the tester.
-    :type host: str
-    :param username: Username used to log on the tester
-    :type username: str
-    :param password: Password of the tester, defaults to "xena"
-    :type password: str, optional
-    :param port: the port number for establishing the TCP connection, defaults to 22606
-    :type port: int, optional
-    :return: tester object
-    :rtype: :class:`~xoa_driver.testers.GenericAnyTester`
-    """
-    assert tester_type in ("l23", "l47"), "Para 'tester_type' not in ('l23', 'l47')!"
-    class_ = {"l23": L23Tester, "l47": L47Tester}[tester_type]
-    current_tester = await class_(host, username, password, port, debug=True)
-    return current_tester
-
-
-def obtain_ports_of_module(
-    tester: GenericAnyTester,
-    module_id: int,
-) -> list[GenericAnyPort]:
-    if tester is None:
-        raise NotConnectedError()
-    try:
-        module = tester.modules.obtain(module_id)
-    except KeyError:
-        raise NoSuchModuleError(module_id)
-    ports = list(module.ports)
-    return ports
-
-
-def obtain_ports(
-    tester: GenericAnyTester, module_id: int = -1, port_id: int = -1
-) -> tuple[GenericAnyPort]:
-    if tester is None:
-        raise NotConnectedError()
-    if module_id == -1:
-        modules = tuple(tester.modules)
-    else:
-        try:
-            modules = tester.modules.obtain_multiple(module_id)
-        except KeyError:
-            raise NoSuchModuleError(module_id)
-    ports = []
-    for module in modules:
-        if port_id == -1:
-            ports.extend(list(module.ports))
-        else:
-            try:
-                port = module.ports.obtain(port_id)
-                ports.append(port)
-            except KeyError:
-                raise NoSuchPortError(port_id)
-
-    return tuple(ports)
-
-
-async def tester_serial_no(tester: L23Tester) -> str:
-    """Get the serial number of a tester
-
-    :param port: The tester to get
-    :type port: :class:`~xoa_driver.testers.L23Tester`
-    :return:
-    :rtype: str
-    """
-
-    return (await tester.serial_no.get()).serial_number
-
-
-async def port_force_reserve(port: GenericAnyPort) -> None:
-    """Reserve a port regardless whether it is owned by others or not.
-
-    :param port: The port to reserve
-    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
-    :return:
-    :rtype: None
-    """
-    tokens = []
-    r = await port.reservation.get()
-    if r.status == ReservedStatus.RESERVED_BY_OTHER:
-        tokens.append(port.reservation.set_relinquish())
-        tokens.append(port.reservation.set_reserve())
-    elif r.status == ReservedStatus.RELEASED:
-        tokens.append(port.reservation.set_reserve())
-    await apply(*tokens)
-    return None
-
-
-async def port_sync_status(port: GenericAnyPort) -> str:
-    """Get the sync status of a port
-
-    :param port: The port to query
-    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
-    :return:
-    :rtype: :class:`~xoa_driver.enums.SyncStatus`
-    """
-    s = (await port.sync_status.get()).sync_status
-    return SyncStatus(s).name.upper()
-
-
-async def port_reserve_status(port: GenericAnyPort) -> bool:
-    """Get the reserved user of a port
-
-    :param port: The port to query
-    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
-    :return:
-    :rtype: bool
-    """
-    return (
-        ReservedStatus((await port.reservation.get()).status)
-        == ReservedStatus.RESERVED_BY_YOU
-    )
-
-
-async def port_reset(port: GenericAnyPort) -> None:
-    """Reset a port
-
-    :param port: The port to reset
-    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
-    :return:
-    :rtype: None
-    """
-    await port.reset.set()
-    return None
-
-
-async def port_release(port: GenericAnyPort) -> None:
-    """Reset a port
-
-    :param port: The port to release
-    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
-    :return:
-    :rtype: None
-    """
-    await port.reservation.set_release()
-    return None
-
-
-async def anlt_status(
-    port: GenericAnyPort,
-) -> dict[str, Any]:
-    """Get ANLT status
-
-    :param port: the port to get ANLT status from
-    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
-    :return: ANLT status
-    :rtype: typing.Dict[str, Any]
-    """
-
-    # if not isinstance(port, LinkTrainingSupported):
-    #     raise NotSupportLinkTrainError(port)
-    conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
-    r0 = commands.PL1_CFG_TMP(
-        _connection=conn, _module=mid, _port=pid, _serdes_xindex=0, _type=0
-    ).get()
-    r1 = commands.PP_AUTONEGSTATUS(_connection=conn, _module=mid, _port=pid).get()
-    r2 = commands.PP_LINKTRAIN(_connection=port._conn, _module=mid, _port=pid).get()
-
-    tokens = [
-        # PL1_CFG_TMP[0,0] ?,
-        r0,
-        # port.pcs_pma.auto_neg.status.get(),
-        r1,
-        # port.pcs_pma.link_training.settings.get(),
-        r2,
-    ]
-    *_, link_recovery, autoneg, linktrain = await apply(*tokens)
-    return {
-        "auto_neg_enabled": (autoneg.mode),
-        "link_train_mode": (linktrain.mode),
-        "link_train_timeout": (linktrain.timeout_mode),
-        "link_recovery": (link_recovery.on_off),
-    }
-
-
-async def an_config(
-    port: GenericAnyPort,
-    allow_loopback: bool,
-=======
 async def autoneg_config(
     port: GenericAnyPort,
->>>>>>> 8bab5d9eb88f74f4b4d56c87eaff67bb727d7d46
     enable: bool,
     loopback: bool
     ) -> None:
@@ -253,16 +61,15 @@ async def autoneg_config(
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     autoneg_enabled = AutoNegMode(enable)
 
+    c1 = commands.PL1_CFG_TMP(conn, mid, pid, 0, Layer1ConfigType.AN_ALLOW_LOOPBACK).set(values=[int(loopback)])
 
-    c1 = commands.PP_AUTONEG(conn, mid, pid).set(
+    c2 = commands.PP_AUTONEG(conn, mid, pid).set(
         autoneg_enabled,
         AutoNegTecAbility.DEFAULT_TECH_MODE,
         AutoNegFECOption.NO_FEC,
         AutoNegFECOption.NO_FEC,
         PauseMode.NO_PAUSE,
     )
-    c2 = commands.PL1_CFG_TMP(conn, mid, pid, 0, Layer1ConfigType.AN_ALLOW_LOOPBACK).set(values=[int(loopback)])
-    
     tokens = [c1, c2]
     await apply(*tokens)
     return None
