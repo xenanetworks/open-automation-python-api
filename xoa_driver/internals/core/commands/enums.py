@@ -813,14 +813,14 @@ class MediaConfigurationType(IntEnum):
     QSFP56 = QSFP56_PAM4 = 4
     """
     .. versionchanged:: v2.0
-    
+
     QSFP56 (PAM4)
     """
 
     QSFPDD = QSFPDD_PAM4 = 5
     """
     .. versionchanged:: v2.0
-    
+
     QSFP-DD (PAM4)
     """
 
@@ -1923,6 +1923,13 @@ class Layer1ConfigType (IntEnum):
 
     AN_ALLOW_LOOPBACK = 1
     """Auto-negitiation allow loopback"""
+
+    LT_INITIAL_MODULATION = 2
+    """The initial modulation (0=PAM2, 2=PAM4, 3=PAM4_WITH_PRECODING) """
+
+    LL_DEBUG_INFO = 3
+    """Return the an/lt module base and RX and TX (serdes index, base address)"""
+
 
 
 class LinkTrainCmd(IntEnum):
