@@ -249,9 +249,9 @@ class PL1_LINKTRAININFO:
 
         num_overruns:  XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # Number of overruns
 
-        num_last_ic_received:  XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # Last preset request receuved
+        last_ic_received:  XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # Last preset request received
 
-        num_last_ic_sent:  XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # Last preset request sent
+        last_ic_sent:  XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # Last preset request sent
 
     def get(self) -> "Token[GetDataAttr]":
         """Get L1 link training information. Information is per Serdes and split into a number of pages.
