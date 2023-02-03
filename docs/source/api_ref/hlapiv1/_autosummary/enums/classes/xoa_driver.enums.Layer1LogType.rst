@@ -1,9 +1,9 @@
-﻿TimeoutMode
-===========
+﻿Layer1LogType
+=============
 
 
 
-.. autoclass:: xoa_driver.enums.TimeoutMode
+.. autoclass:: xoa_driver.enums.Layer1LogType
     :members:
     :show-inheritance:
     :inherited-members:
@@ -19,7 +19,7 @@
 
     .. autosummary::
     
-        ~TimeoutMode.DEFAULT
-        ~TimeoutMode.DISABLED
+        ~Layer1LogType.AN
+        ~Layer1LogType.LT
     
     

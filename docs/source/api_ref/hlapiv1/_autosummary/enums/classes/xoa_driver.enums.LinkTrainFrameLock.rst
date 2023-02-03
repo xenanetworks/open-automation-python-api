@@ -1,9 +1,9 @@
-﻿TimeoutMode
-===========
+﻿LinkTrainFrameLock
+====================
 
 
 
-.. autoclass:: xoa_driver.enums.TimeoutMode
+.. autoclass:: xoa_driver.enums.LinkTrainFrameLock
     :members:
     :show-inheritance:
     :inherited-members:
@@ -19,7 +19,7 @@
 
     .. autosummary::
     
-        ~TimeoutMode.DEFAULT
-        ~TimeoutMode.DISABLED
+        ~LinkTrainFrameLock.LOCKED
+        ~LinkTrainFrameLock.LOST
     
     

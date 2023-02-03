@@ -16,6 +16,7 @@ The low-level Python APIs are categorized into six groups:
 
 
 .. toctree::
+    :maxdepth: 1
 
     l23/index
     l47/index

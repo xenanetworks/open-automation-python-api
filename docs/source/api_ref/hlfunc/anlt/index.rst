@@ -1,7 +1,7 @@
 Auto-Negotiation and Link Training
 ===================================
 
-.. versionadded:: v1.1
+.. versionadded:: 1.1
     
 .. warning:: 
 
@@ -13,17 +13,13 @@ The following high-level functions are for auto-negotiation and link training.
 
 .. currentmodule:: xoa_driver.hlfuncs.anlt
 
-.. autofunction:: anlt_status
+.. autofunction:: autoneg_timeout
 
-.. autofunction:: an_config
+.. autofunction:: autoneg_config
 
-.. autofunction:: an_status
+.. autofunction:: autoneg_status
 
-.. autofunction:: an_log
-
-.. autofunction:: lt_config
-
-.. autofunction:: lt_clear
+.. autofunction:: autoneg_log
 
 .. autofunction:: lt_coeff_inc
 
@@ -31,7 +27,9 @@ The following high-level functions are for auto-negotiation and link training.
 
 .. autofunction:: lt_preset
 
-.. autofunction:: lt_preset0
+.. autofunction:: lt_encoding
+
+.. autofunction:: lt_im
 
 .. autofunction:: lt_trained
 
@@ -44,3 +42,5 @@ The following high-level functions are for auto-negotiation and link training.
 .. autofunction:: txtap_set
 
 .. autofunction:: link_recovery
+
+.. autofunction:: status

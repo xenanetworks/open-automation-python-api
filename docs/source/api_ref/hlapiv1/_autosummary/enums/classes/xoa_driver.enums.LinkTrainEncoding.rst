@@ -1,9 +1,9 @@
-﻿L1LinkTrainFrameLock
+﻿LinkTrainEncoding
 ====================
 
 
 
-.. autoclass:: xoa_driver.enums.L1LinkTrainFrameLock
+.. autoclass:: xoa_driver.enums.LinkTrainEncoding
     :members:
     :show-inheritance:
     :inherited-members:
@@ -19,7 +19,10 @@
 
     .. autosummary::
     
-        ~L1LinkTrainFrameLock.LOCKED
-        ~L1LinkTrainFrameLock.LOST
+        ~LinkTrainEncoding.PAM2
+        ~LinkTrainEncoding.PAM4
+        ~LinkTrainEncoding.PAM4_WITH_PRECODING
+        ~LinkTrainEncoding.UNKNOWN
+
     
     

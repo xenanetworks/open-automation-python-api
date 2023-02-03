@@ -18,7 +18,6 @@
     .. rubric:: Attributes
 
     .. autosummary::
-    
         ~PayloadType.PATTERN
         ~PayloadType.INC8
         ~PayloadType.PRBS
