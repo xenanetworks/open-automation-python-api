@@ -2,11 +2,15 @@
 
 from xoa_driver.functions import(
     anlt,
-    resource_management as rmgt,
+    mgmt,
+    anlt_ll_debug,
+    exceptions
 )
 
 
 __all__ = (
     "anlt",
-    "rmgt"
+    "mgmt",
+    "anlt_ll_debug",
+    "exceptions"
 )
