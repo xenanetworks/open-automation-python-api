@@ -134,6 +134,15 @@ async def free_port(port: GenericAnyPort) -> None:
     return None
 
 
+async def free_ports(module: GenericAnyModule) -> None:
+    """Free all ports on a module.
+
+    :param module: The module object
+    :type module: GenericAnyModule
+    """
+    await asyncio.gather(*[free_port(port=p) for p in module.ports])
+
+
 async def reserve_module(module: GenericAnyModule, force: bool = True) -> None:
     """Reserve a module regardless whether it is owned by others or not.
 
@@ -147,9 +156,8 @@ async def reserve_module(module: GenericAnyModule, force: bool = True) -> None:
     tokens = []
     r = await module.reservation.get()
     if force:
+        await free_ports(module)
         if r.operation == ReservedStatus.RESERVED_BY_OTHER:
-            for p in module.ports:
-                await free_port(port=p)
             tokens.append(module.reservation.set_reserve())
         elif r.operation == ReservedStatus.RELEASED:
             tokens.append(module.reservation.set_reserve())
