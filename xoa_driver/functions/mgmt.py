@@ -147,14 +147,14 @@ async def reserve_module(module: GenericAnyModule, force: bool = True) -> None:
     tokens = []
     r = await module.reservation.get()
     if force:
-        if r.status == ReservedStatus.RESERVED_BY_OTHER:
+        if r.operation == ReservedStatus.RESERVED_BY_OTHER:
             for p in module.ports:
                 await free_port(port=p)
             tokens.append(module.reservation.set_reserve())
-        elif r.status == ReservedStatus.RELEASED:
+        elif r.operation == ReservedStatus.RELEASED:
             tokens.append(module.reservation.set_reserve())
     else:
-        if r.status == ReservedStatus.RELEASED:
+        if r.operation == ReservedStatus.RELEASED:
             tokens.append(module.reservation.set_reserve())
     await apply(*tokens)
     return None
@@ -169,9 +169,9 @@ async def free_module(module: GenericAnyModule) -> None:
     :rtype: None
     """
     r = await module.reservation.get()
-    if r.status == ReservedStatus.RESERVED_BY_OTHER:
+    if r.operation == ReservedStatus.RESERVED_BY_OTHER:
         await module.reservation.set_relinquish()
-    elif r.status == ReservedStatus.RESERVED_BY_YOU:
+    elif r.operation == ReservedStatus.RESERVED_BY_YOU:
         await module.reservation.set_release()
     await asyncio.gather(*[free_port(port=p) for p in module.ports])
     return None
@@ -190,14 +190,14 @@ async def reserve_tester(tester: GenericAnyTester, force: bool = True) -> None:
     tokens = []
     r = await tester.reservation.get()
     if force:
-        if r.status == ReservedStatus.RESERVED_BY_OTHER:
+        if r.operation == ReservedStatus.RESERVED_BY_OTHER:
             for m in tester.modules:
                 await free_module(m)
             tokens.append(tester.reservation.set_reserve())
-        elif r.status == ReservedStatus.RELEASED:
+        elif r.operation == ReservedStatus.RELEASED:
             tokens.append(tester.reservation.set_reserve())
     else:
-        if r.status == ReservedStatus.RELEASED:
+        if r.operation == ReservedStatus.RELEASED:
             tokens.append(tester.reservation.set_reserve())
     await apply(*tokens)
     return None
@@ -212,9 +212,9 @@ async def free_tester(tester: GenericAnyTester) -> None:
     :rtype: None
     """
     r = await tester.reservation.get()
-    if r.status == ReservedStatus.RESERVED_BY_OTHER:
+    if r.operation == ReservedStatus.RESERVED_BY_OTHER:
         await tester.reservation.set_relinquish()
-    elif r.status == ReservedStatus.RESERVED_BY_YOU:
+    elif r.operation == ReservedStatus.RESERVED_BY_YOU:
         await tester.reservation.set_release()
     for m in tester.modules:
         await free_module(m)
