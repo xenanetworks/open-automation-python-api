@@ -20,7 +20,7 @@ from .enums import *  # noqa: F403
 @dataclass
 class PL1_AUTONEGINFO:
     """
-    .. versionadded:: 2.0
+    .. versionadded:: 1.1
 
     .. warning::
 
@@ -78,7 +78,7 @@ class PL1_AUTONEGINFO:
 @dataclass
 class PL1_LINKTRAININFO:
     """
-    .. versionadded:: 2.0
+    .. versionadded:: 1.1
 
     .. warning::
 
@@ -241,9 +241,9 @@ class PL1_LINKTRAININFO:
 
         prbs_total_error_bits_low: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # PRBS total error bits (least significant 32-bit).
 
-        frame_lock: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4, choices=L1LinkTrainFrameLock)  # frame lock status of the local end.
+        frame_lock: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4, choices=LinkTrainFrameLock)  # frame lock status of the local end.
 
-        remote_frame_lock: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4, choices=L1LinkTrainFrameLock)  # frame lock status of the remote end.
+        remote_frame_lock: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4, choices=LinkTrainFrameLock)  # frame lock status of the remote end.
 
         num_frame_errors:  XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # Number of frame errors received
 
@@ -266,7 +266,7 @@ class PL1_LINKTRAININFO:
 @dataclass
 class PL1_LOG:
     """
-    .. versionadded:: 2.0
+    .. versionadded:: 1.1
 
     .. warning::
 
@@ -305,7 +305,7 @@ class PL1_LOG:
 @dataclass
 class PL1_CFG_TMP:
     """
-    .. versionadded:: 2.0
+    .. versionadded:: 1.1
 
     .. warning::
 
@@ -327,13 +327,13 @@ class PL1_CFG_TMP:
     class GetDataAttr:
         """Data structure of the get response.
         """
-        value: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
+        values: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
 
     @dataclass(frozen=True)
     class SetDataAttr:
         """Data structure of the set action.
         """
-        value: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
+        values: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
 
     def get(self) -> "Token[GetDataAttr]":
         """Get various L1 parameters
@@ -343,13 +343,13 @@ class PL1_CFG_TMP:
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._type]))
 
-    def set(self, value: int) -> "Token":
+    def set(self, values: typing.List[int]) -> "Token":
         """Get various L1 parameters
 
-        :param value: whether it is on or off
-        :type value: int
+        :param values: L1 parameters
+        :type values: typing.List[int]
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._type], value=value))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._type], values=values))
 
 
 @register_command
