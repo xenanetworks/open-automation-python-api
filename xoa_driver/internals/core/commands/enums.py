@@ -3,7 +3,7 @@
 from enum import IntEnum
 
 
-#: L23 Enums
+#region L23 enums
 class ReservedStatus(IntEnum):
     """Test resource reservation status"""
     RELEASED = 0
@@ -12,7 +12,6 @@ class ReservedStatus(IntEnum):
     """Test resource is reserved by you."""
     RESERVED_BY_OTHER = 2
     """Test resource is reserved by another user."""
-
 
 class ReservedAction(IntEnum):
     """Reservation actions."""
@@ -536,9 +535,10 @@ class PayloadType(IntEnum):
 
     INC8 = INCREMENTING = 1
     """
-    .. versionchanged:: v2.0
+    .. versionchanged:: 1.1
 
     Incrementing with 0xFF (8-bit mode)
+
     """
 
     PRBS = 2
@@ -549,21 +549,21 @@ class PayloadType(IntEnum):
 
     DEC8 = DECREMENTING = 4
     """
-    .. versionchanged:: v2.0
+    .. versionchanged:: 1.1
 
     Decrementing with 0xFF (8-bit mode)
     """
 
     INC16 = 5
     """
-    .. versionadded:: v2.0
+    .. versionadded:: 1.1
 
     Incrementing with 0xFFFF (16-bit mode)
     """
 
     DEC16 = 6
     """
-    .. versionadded:: v2.0
+    .. versionadded:: 1.1
 
     Decrementing with 0xFFFF (16-bit mode)
     """
@@ -799,7 +799,7 @@ class MediaConfigurationType(IntEnum):
 
     QSFP28 = QSFP28_NRZ = 1
     """
-    .. versionchanged:: v2.0
+    .. versionchanged:: 1.1
 
     QSFP28 (NRZ)
     """
@@ -812,14 +812,14 @@ class MediaConfigurationType(IntEnum):
 
     QSFP56 = QSFP56_PAM4 = 4
     """
-    .. versionchanged:: v2.0
+    .. versionchanged:: 1.1
 
     QSFP56 (PAM4)
     """
 
     QSFPDD = QSFPDD_PAM4 = 5
     """
-    .. versionchanged:: v2.0
+    .. versionchanged:: 1.1
 
     QSFP-DD (PAM4)
     """
@@ -829,7 +829,7 @@ class MediaConfigurationType(IntEnum):
 
     SFP_DD = SFPDD = 7
     """
-    .. versionchanged:: v2.0
+    .. versionchanged:: 1.1
 
     SFP-DD
     """
@@ -839,7 +839,7 @@ class MediaConfigurationType(IntEnum):
 
     QSFP_DD_NRZ = QSFPDD_NRZ = 9
     """
-    .. versionchanged:: v2.0
+    .. versionchanged:: 1.1
 
     QSFP-DD (NRZ)
     """
@@ -1026,86 +1026,6 @@ class PRBSStatisticsMode(IntEnum):
     """Per Second"""
 
 
-class AutoNegMode(IntEnum):
-    """Auto Neg Mode"""
-    ANEG_OFF = 0
-    """Auto Neg Off"""
-    ANEG_ON = 1
-    """Auto Neg On"""
-
-
-class AutoNegTecAbility(IntEnum):
-    """Auto Neg Technical Abilities"""
-    DEFAULT_TECH_MODE = 0
-    """Default Tech Mode"""
-    IEEE_10G_KR = 4
-    """IEEE 10G KR"""
-    IEEE_40G_CR4 = 16
-    """IEEE 40G CR4"""
-    IEEE_100G_KR4 = 128
-    """IEEE 100G KR4"""
-    IEEE_100G_CR4 = 256
-    """IEEE 100G CR4"""
-    IEEE_25GBASE_CRS_KRS = 512
-    """IEEE 25GBASE CRS KRS"""
-    IEEE_25GBASE_CR_KR = 1024
-    """IEEE 25GBASE CR KR"""
-    IEEE_50GBASE_CR_KR = 8192
-    """IEEE 50GBASE CR KR"""
-    IEEE_100GBASE_CR2_KR2 = 16384
-    """IEEE 100GBASE CR2 KR2"""
-    IEEE_200GBASE_CR4_KR4 = 32768
-    """IEEE 200GBASE CR4 KR4"""
-    IEEE_100GBASE_KR1 = 65536
-    """IEEE 100GBASE KR1"""
-    IEEE_200GBASE_KR2 = 131072
-    """IEEE 200GBASE KR2"""
-    IEEE_400GBASE_KR4 = 262144
-    """IEEE 400GBASE KR4"""
-    EC_25GBASE_KR1 = 16777216
-    """EC 25GBASE KR1"""
-    EC_25GBASE_CR1 = 33554432
-    """EC 25GBASE CR1"""
-    EC_50GBASE_KR2 = 67108864
-    """EC 50GBASE KR2"""
-    EC_50GBASE_CR2 = 134217728
-    """EC 50GBASE CR2"""
-    EC_400GBASE_KR8 = 268435456
-    """EC 400GBASE KR8"""
-    EC_800GBASE_KR8 = 536870912
-    """EC 800GBASE KR8"""
-    EC_50G_CR1_KR1 = 503
-    """EC 50G CR1 KR1"""
-    BAM_50G_CR1_KR1 = 504
-    """BAM 50G CR1 KR1"""
-    BAM_50G_CR2_KR2 = 505
-    """BAM 50G CR2 KR2"""
-    BAM_100G_CR2_KR2 = 1002
-    """BAM 100G CR2 KR2"""
-    BAM_100G_CR4_KR4 = 1003
-    """BAM 100G CR4 KR4"""
-    BAM_200G_CR2_KR2 = 2002
-    """BAM 200G CR2 KR2"""
-    BAM_400G_CR8_KR8 = 4001
-    """BAM 400G CR8 KR8"""
-
-
-class AutoNegFECOption(IntEnum):
-    """Auto Neg FEC Options"""
-    DEFAULT_FEC = 0
-    """Default FEC"""
-    NO_FEC = 1
-    """No FEC"""
-    FCFEC = 2
-    """Firecode FEC"""
-    RSFEC_CL91 = 4
-    """RS FEC Cl91"""
-    RS528 = 256
-    """RS 528"""
-    RS544 = 512
-    """RS 544"""
-    RS272 = 1024
-    """RS 272"""
 
 
 class PauseMode(IntEnum):
@@ -1118,127 +1038,6 @@ class PauseMode(IntEnum):
     """Asymmetric Pause"""
 
 
-class AutoNegFECType(IntEnum):
-    """Auto Neg FEC Type"""
-    PENDING = 0
-    """Pending"""
-    NO_FEC = 1
-    """No FEC"""
-    RS_FEC = 513
-    """RS FEC"""
-    FC_FEC = 257
-    """Firecode FEC"""
-
-
-class AutoNegStatus(IntEnum):
-    """Auto Neg Status"""
-    UNKNOWN = 0
-    """Unknown"""
-    ENABLE = 1
-    """Enabled"""
-    TRANSMIT_DISABLE = 2
-    """Transmit Disabled"""
-    ABILITY_DETECT = 3
-    """Ability Detected"""
-    ACKNOWLEDGE_DETECT = 4
-    """Acknowledge Detected"""
-    COMPLETE_ACKNOWLEDGE = 5
-    """Complete Acknowledge"""
-    NEXT_PAGE_WAIT = 6
-    """Next Page Wait"""
-    AN_GOOD_CHECK = 7
-    """AN Good Check"""
-    AN_GOOD = 8
-    """AN Good"""
-
-
-class AutoNegFECStatus(IntEnum):
-    """Auto Neg FEC Status"""
-    DEFAULT_FEC = 0
-    """Default FEC"""
-    NO_FEC = 1
-    """No FEC"""
-    FC_FEC = 2
-    """Firecode FEC"""
-    RSFEC_CL91 = 4
-    """RS FEC Cl91"""
-    RS528 = 256
-    """RS 528"""
-    RS544 = 512
-    """RS 544"""
-    RS272 = 1024
-    """RS 272"""
-
-
-class LinkTrainingMode(IntEnum):
-    """Link Training Mode"""
-    AUTO = 0
-    """Auto"""
-    FORCE_ENABLE = 1
-    """Forced Enable"""
-    FORCE_DISABLE = 2
-    """Forced Disable"""
-    INTERACTIVE = 3
-
-
-class PAM4FrameSize(IntEnum):
-    """PAM4 Frame Size"""
-    P16K_FRAME = 0
-    """16K Frame Size"""
-    P4K_FRAME = 1
-    """4K Frame Size"""
-
-
-class LinkTrainingInitCondition(IntEnum):
-    """Link Training Initialization Condition"""
-    NO_INIT = 0
-    """No Initialization"""
-    INIT_ENABLED = 1
-    """Initialization Enabled"""
-
-
-class NRZPreset(IntEnum):
-    """Link Training NRZ Preset"""
-    NRZ_NO_PRESET = 0
-    """NRZ without Preset"""
-    NRZ_WITH_PRESET = 1
-    """NRZ with Preset"""
-
-
-class TimeoutMode(IntEnum):
-    """Link Training Timeout Mode"""
-    DEFAULT_TIMEOUT = 0
-    """Default Timeout"""
-    TIMEOUT_DISABLED = 255
-    """Timeout Disabled"""
-
-
-class LinkTrainingStatusMode(IntEnum):
-    """Link Training Status Mode"""
-    DISABLED = 0
-    """Disabled"""
-    ENABLED = 1
-    """Enabled"""
-
-
-class LinkTrainingStatus(IntEnum):
-    """Link Training Status"""
-    NOT_TRAINED = 0
-    """Not Trained"""
-    TRAINED = 1
-    """Trained"""
-
-
-class LinkTrainingFailureType(IntEnum):
-    """Link Training Failure Type"""
-    NO_FAILURE = 0
-    """No Failure"""
-    FRAME_LOCK_ERROR = 1
-    """Frame Lock Error"""
-    SNR_BELOW_THRESHOLD = 2
-    """SNR Below Threshold"""
-    TIME_OUT_FAILURE = 3
-    """Timeout Failure"""
 
 
 class MulticastHeaderFormat(IntEnum):
@@ -1411,15 +1210,39 @@ class TrafficEngine(IntEnum):
     """Micro TGA"""
 
 
-class L1LinkTrainFrameLock(IntEnum):
+class LinkTrainFrameLock(IntEnum):
     """L1 Link Training Frame Lock Status"""
     LOCKED = 1
     """Frame Lock detected"""
     LOST = 2
     """No Frame Lock detected"""
 
+class PPMSweepMode(IntEnum):
+    """Module clock PPM Sweep Modes"""
+    OFF = 0
+    """Off"""
+    TRIANGLE = 1
+    """Triangle sweeping"""
 
-#: L47 Enums
+
+class PPMSweepStatus(IntEnum):
+    """Module clock PPM Sweep Status"""
+    OFF = 0
+    """Off"""
+    SWEEPING = 1
+    """The module is sweeping"""
+
+
+class ReconciliationSublayerSupport(IntEnum):
+    """Reconciliation Sublayer Support"""
+    NO_SUPPORT = 0
+    """Not Supported"""
+    FAULT_SIGNALING = 1
+    """Supported, which means P_FAULTSTATUS and P_FAULTSIGNALLING are supported by the port."""
+
+#endregion
+
+#region L47 enums
 class Role(IntEnum):
     """L47 port role"""
     CLIENT = 0
@@ -1687,8 +1510,9 @@ class ReplaySyncBasedOn(IntEnum):
     PER_CONN = 0
     PER_USER = 1
 
+#endregion
 
-#: Impairment Enums
+#region Impairment enums
 class CorruptionType(IntEnum):
     """Impairment corruption type"""
     OFF = 0
@@ -1816,8 +1640,9 @@ class ImpairmentTypeIndex(IntEnum):
     SHAPER = 6
     """Shaper"""
 
+#endregion
 
-#: TSN Enums
+#region TSN enums
 class TSNConfigProfile(IntEnum):
     """TSN PTP Configuration profile"""
     AUTOMOTIVE = 0
@@ -1883,138 +1708,481 @@ class TSNStatisticsTypes(IntEnum):
     SYNCRATE = 4
     """Sync rate."""
 
+#endregion
 
-class PPMSweepMode(IntEnum):
-    """Module clock PPM Sweep Modes"""
-    OFF = 0
-    """Off"""
-    TRIANGLE = 1
-    """Triangle sweeping"""
+#region ANLT enums
 
-
-class PPMSweepStatus(IntEnum):
-    """Module clock PPM Sweep Status"""
-    OFF = 0
-    """Off"""
-    SWEEPING = 1
-    """The module is sweeping"""
+class AutoNegMode(IntEnum):
+    """Auto Neg Mode"""
+    ANEG_OFF = 0
+    """Auto Neg Off"""
+    ANEG_ON = 1
+    """Auto Neg On"""
 
 
-class ReconciliationSublayerSupport(IntEnum):
-    """Reconciliation Sublayer Support"""
-    NO_SUPPORT = 0
-    """Not Supported"""
-    FAULT_SIGNALING = 1
-    """Supported, which means P_FAULTSTATUS and P_FAULTSIGNALLING are supported by the port."""
+class AutoNegTecAbility(IntEnum):
+    """Auto Neg Technical Abilities"""
+    DEFAULT_TECH_MODE = 0
+    """Default Tech Mode"""
+    IEEE_10G_KR = 4
+    """IEEE 10G KR"""
+    IEEE_40G_CR4 = 16
+    """IEEE 40G CR4"""
+    IEEE_100G_KR4 = 128
+    """IEEE 100G KR4"""
+    IEEE_100G_CR4 = 256
+    """IEEE 100G CR4"""
+    IEEE_25GBASE_CRS_KRS = 512
+    """IEEE 25GBASE CRS KRS"""
+    IEEE_25GBASE_CR_KR = 1024
+    """IEEE 25GBASE CR KR"""
+    IEEE_50GBASE_CR_KR = 8192
+    """IEEE 50GBASE CR KR"""
+    IEEE_100GBASE_CR2_KR2 = 16384
+    """IEEE 100GBASE CR2 KR2"""
+    IEEE_200GBASE_CR4_KR4 = 32768
+    """IEEE 200GBASE CR4 KR4"""
+    IEEE_100GBASE_KR1 = 65536
+    """IEEE 100GBASE KR1"""
+    IEEE_200GBASE_KR2 = 131072
+    """IEEE 200GBASE KR2"""
+    IEEE_400GBASE_KR4 = 262144
+    """IEEE 400GBASE KR4"""
+    EC_25GBASE_KR1 = 16777216
+    """EC 25GBASE KR1"""
+    EC_25GBASE_CR1 = 33554432
+    """EC 25GBASE CR1"""
+    EC_50GBASE_KR2 = 67108864
+    """EC 50GBASE KR2"""
+    EC_50GBASE_CR2 = 134217728
+    """EC 50GBASE CR2"""
+    EC_400GBASE_KR8 = 268435456
+    """EC 400GBASE KR8"""
+    EC_800GBASE_KR8 = 536870912
+    """EC 800GBASE KR8"""
+    EC_50G_CR1_KR1 = 503
+    """EC 50G CR1 KR1"""
+    BAM_50G_CR1_KR1 = 504
+    """BAM 50G CR1 KR1"""
+    BAM_50G_CR2_KR2 = 505
+    """BAM 50G CR2 KR2"""
+    BAM_100G_CR2_KR2 = 1002
+    """BAM 100G CR2 KR2"""
+    BAM_100G_CR4_KR4 = 1003
+    """BAM 100G CR4 KR4"""
+    BAM_200G_CR2_KR2 = 2002
+    """BAM 200G CR2 KR2"""
+    BAM_400G_CR8_KR8 = 4001
+    """BAM 400G CR8 KR8"""
+
+
+class AutoNegFECOption(IntEnum):
+    """Auto Neg FEC Options"""
+    DEFAULT_FEC = 0
+    """Default FEC"""
+    NO_FEC = 1
+    """No FEC"""
+    FCFEC = 2
+    """Firecode FEC"""
+    RSFEC_CL91 = 4
+    """RS FEC Cl91"""
+    RS528 = 256
+    """RS 528"""
+    RS544 = 512
+    """RS 544"""
+    RS272 = 1024
+    """RS 272"""
+
+
+class AutoNegFECType(IntEnum):
+    """Auto Neg FEC Type"""
+    PENDING = 0
+    """Pending"""
+    NO_FEC = 1
+    """No FEC"""
+    RS_FEC = 513
+    """RS FEC"""
+    FC_FEC = 257
+    """Firecode FEC"""
+
+
+class AutoNegStatus(IntEnum):
+    """Auto Neg Status"""
+    UNKNOWN = 0
+    """Unknown"""
+    ENABLE = 1
+    """Enabled"""
+    TRANSMIT_DISABLE = 2
+    """Transmit Disabled"""
+    ABILITY_DETECT = 3
+    """Ability Detected"""
+    ACKNOWLEDGE_DETECT = 4
+    """Acknowledge Detected"""
+    COMPLETE_ACKNOWLEDGE = 5
+    """Complete Acknowledge"""
+    NEXT_PAGE_WAIT = 6
+    """Next Page Wait"""
+    AN_GOOD_CHECK = 7
+    """AN Good Check"""
+    AN_GOOD = 8
+    """AN Good"""
+
+
+class AutoNegFECStatus(IntEnum):
+    """Auto Neg FEC Status"""
+    DEFAULT_FEC = 0
+    """Default FEC"""
+    NO_FEC = 1
+    """No FEC"""
+    FC_FEC = 2
+    """Firecode FEC"""
+    RSFEC_CL91 = 4
+    """RS FEC Cl91"""
+    RS528 = 256
+    """RS 528"""
+    RS544 = 512
+    """RS 544"""
+    RS272 = 1024
+    """RS 272"""
+
+
+class LinkTrainingMode(IntEnum):
+    """Link Training Mode"""
+
+    START_AFTER_AUTONEG = 0
+    """Link training starts automatically after autoneg is completed"""
+
+    STANDALONE = 1
+    """Link training procedure is done automatically by the port"""
+
+    DISABLED = 2
+    """Link training is disabled"""
+
+    INTERACTIVE = 3
+    """Link training in interactive mode, requiring manual operation."""
+
+    UNKNOWN = 255
+    """Unknown link training mode"""
+
+    @staticmethod
+    def from_str(label: str):
+        dict = {
+            "start_after_autoneg": LinkTrainingMode.START_AFTER_AUTONEG,
+            "standalone": LinkTrainingMode.STANDALONE,
+            "disable": LinkTrainingMode.DISABLED,
+            "interactive": LinkTrainingMode.INTERACTIVE
+            }
+        if label.lower() in dict:
+            return dict[label.lower()]
+        else:
+            return LinkTrainingMode.UNKNOWN
+
+
+class PAM4FrameSize(IntEnum):
+    """PAM4 Frame Size"""
+    P16K_FRAME = 0
+    """16K Frame Size"""
+    P4K_FRAME = 1
+    """4K Frame Size"""
+
+
+class LinkTrainingInitCondition(IntEnum):
+    """Link Training Initialization Condition"""
+    NO_INIT = 0
+    """No Initialization"""
+    INIT_ENABLED = 1
+    """Initialization Enabled"""
+
+
+class NRZPreset(IntEnum):
+    """Link Training NRZ Preset"""
+    NRZ_NO_PRESET = 0
+    """NRZ without Preset"""
+    NRZ_WITH_PRESET = 1
+    """NRZ with Preset"""
+
+
+class TimeoutMode(IntEnum):
+    """Link Training Timeout Mode"""
+    DEFAULT = 0
+    """Default Timeout"""
+    DISABLED = 255
+    """Timeout Disabled"""
+
+
+class LinkTrainingStatusMode(IntEnum):
+    """Link Training Status Mode"""
+    DISABLED = 0
+    """Disabled"""
+    ENABLED = 1
+    """Enabled"""
+
+
+class LinkTrainingStatus(IntEnum):
+    """Link Training Status"""
+    NOT_TRAINED = 0
+    """Not Trained"""
+    TRAINED = 1
+    """Trained"""
+
+
+class LinkTrainingFailureType(IntEnum):
+    """Link Training Failure Type"""
+    NO_FAILURE = 0
+    """No Failure"""
+    FRAME_LOCK_ERROR = 1
+    """Frame Lock Error"""
+    SNR_BELOW_THRESHOLD = 2
+    """SNR Below Threshold"""
+    TIME_OUT_FAILURE = 3
+    """Timeout Failure"""
 
 
 class Layer1ConfigType (IntEnum):
     """
-    .. versionadded:: 2.0
-
-    .. warning::
-
-        Still in beta mode. Subjected to changes
+    .. versionadded:: 1.1
 
     Enums for PL1_CFG_TMP's type.
     """
-    ANLT_INTERACTIVE_MODE = 0
-    """ANLT Interactive mode"""
+    ANLT_INTERACTIVE = 0
+    """ANLT Interactive mode config"""
 
-    AN_ALLOW_LOOPBACK = 1
-    """Auto-negitiation allow loopback"""
+    AN_LOOPBACK = 1
+    """Auto-negotiation loopback config"""
 
     LT_INITIAL_MODULATION = 2
-    """The initial modulation (0=PAM2, 2=PAM4, 3=PAM4_WITH_PRECODING) """
+    """The initial modulation (0=PAM2, 1=PAM4, 2=PAM4_WITH_PRECODING) """
 
     LL_DEBUG_INFO = 3
     """Return the an/lt module base and RX and TX (serdes index, base address)"""
 
 
+class Layer1LogType(IntEnum):
+    """
+    
+    .. versionadded:: 1.1
+
+    .. warning::
+
+        Still in beta mode. Subjected to changes
+
+    Enums for PL1_LOG's type.
+    """
+    
+    AN = 0
+    """Log for auto-neg"""
+
+    LT = 1
+    """Log for link training"""
+
 
 class LinkTrainCmd(IntEnum):
-    """No operation. Used for 'ping' testing"""
+    """
+    .. versionadded:: 1.1
+    
+    Link Training commands
+    
+    """
+    
     CMD_NOP = 0
-    """Increment the coeff provided in ARG"""
+    """No operation. Used for 'ping' testing"""
+    
     CMD_INC = 1
-    """Decrement the coeff provided in ARG"""
+    """Increment the coeff provided in ARG"""
+    
     CMD_DEC = 2
-    """Set the preset provided in ARG"""
+    """Decrement the coeff provided in ARG"""
+    
     CMD_PRESET = 3
-    """Set encoding provided in ARG"""
+    """Set the preset provided in ARG"""
+    
     CMD_ENCODING = 4
-    """Signal training completed"""
+    """Set encoding provided in ARG"""
+    
     CMD_LOCAL_TRAINED = 255
+    """Signal training completed"""
 
 
 class LinkTrainPresets(IntEnum):
-    """Preset 1"""
+    """
+    .. versionadded:: 1.1
+    
+    Link Training presets
+    
+    """
+    
     PRESET_1 = 0
-    """Preset 2"""
+    """Preset 1"""
+    
     PRESET_2 = 1
-    """Preset 3"""
+    """Preset 2"""
+    
     PRESET_3 = 2
-    """Preset 4"""
+    """Preset 3"""
+    
     PRESET_4 = 3
-    """Preset 5"""
+    """Preset 4"""
+    
     PRESET_5 = 4
+    """Preset 5"""
+
+    UNKNOWN = 255
+    """Unknown coeff"""
+
+    @staticmethod
+    def from_str(label: str):
+        dict = {
+            "1": LinkTrainPresets.PRESET_1,
+            "2": LinkTrainPresets.PRESET_2,
+            "3": LinkTrainPresets.PRESET_3,
+            "4": LinkTrainPresets.PRESET_4,
+            "5": LinkTrainPresets.PRESET_5
+            }
+        if label.lower() in dict:
+            return dict[label.lower()]
+        else:
+            return LinkTrainPresets.UNKNOWN
 
 
 class LinkTrainCoeffs(IntEnum):
-    """Pre1 coeff c(-1)"""
+    """
+    .. versionadded:: 1.1
+
+
+    Link Training coefficients
+    
+    """
+    
     PRE1 = 0
-    """Main coeff c(0)"""
+    """Pre1 coeff c(-1)"""
+    
     MAIN = 1
-    """Post coeff c(1)"""
+    """Main coeff c(0)"""
+    
     POST = 2
-    """Pre2 coeff c(-2)"""
+    """Post coeff c(1)"""
+    
     PRE2 = 3
-    """Pre3 coeff c(-3)"""
+    """Pre2 coeff c(-2)"""
+    
     PRE3 = 4
+    """Pre3 coeff c(-3)"""
+
+    UNKNOWN = 255
+    """Unknown coeff"""
+
+    @staticmethod
+    def from_str(label: str):
+        dict = {
+            "pre1": LinkTrainCoeffs.PRE1,
+            "pre2": LinkTrainCoeffs.PRE2,
+            "pre3": LinkTrainCoeffs.PRE3,
+            "main": LinkTrainCoeffs.MAIN,
+            "post": LinkTrainCoeffs.POST
+            }
+        if label.lower() in dict:
+            return dict[label.lower()]
+        else:
+            return LinkTrainCoeffs.UNKNOWN
 
 
 class LinkTrainEncoding(IntEnum):
-    """PAM2"""
-    PAM2 = 0
-    """PAM4"""
+    """
+    .. versionadded:: 1.1
+
+    Link Training Encoding
+    
+    """
+    
+    NRZ = PAM2 = 0
+    """NRZ (PAM2)"""
+    
     PAM4 = 1
-    """PAM4_WITH_PRECODING"""
+    """PAM4"""
+
     PAM4_WITH_PRECODING = 2
+    """PAM4 with precoding"""
+
+    UNKNOWN = 255
+    """PAM4 with precoding"""
+
+    @staticmethod
+    def from_str(label: str):
+        dict = {
+            "nrz": LinkTrainEncoding.NRZ,
+            "pam2": LinkTrainEncoding.PAM2,
+            "pre3": LinkTrainEncoding.PAM4,
+            "main": LinkTrainEncoding.PAM4_WITH_PRECODING
+            }
+        if label.lower() in dict:
+            return dict[label.lower()]
+        else:
+            return LinkTrainEncoding.UNKNOWN
 
 
 class LinkTrainCmdResults(IntEnum):
-    """Unknown result"""
+    """
+    .. versionadded:: 1.1
+
+    Link Training Command Results
+    
+    """
+    
     UNKNOWN = 0x00 | 0
-    """Command successfully completed"""
+    """Unknown result"""
+    
     SUCCESS = 0x00 | 1
-    """Command tiemout"""
+    """Command successfully completed"""
+    
     TIMEOUT = 0x00 | 2
-    """Command failed"""
+    """Command timeout"""
+    
     FAILED = 0x00 | 3
-    """Coeff did not update"""
+    """Command failed"""
+    
     COEFF_STS_NOT_UPDATED = 0x80 | 0
-    """Coeff updated"""
+    """Coeff did not update"""
+    
     COEFF_STS_UPDATED = 0x80 | 1
-    """Coeff at limit"""
+    """Coeff updated"""
+    
     COEFF_STS_AT_LIMIT = 0x80 | 2
-    """Coeff not supported"""
+    """Coeff at limit"""
+    
     COEFF_STS_NOT_SUPPORTED = 0x80 | 3
-    """EQ limit reached"""
+    """Coeff not supported"""
+    
     COEFF_STS_EQ_LIMIT = 0x80 | 4
-    """Coeff and EQ limit reached"""
+    """EQ limit reached"""
+    
     COEFF_STS_C_AND_EQ_LIMIT = 0x80 | 6
+    """Coeff and EQ limit reached"""
 
 
 class LinkTrainCmdFlags(IntEnum):
-    """New command"""
+    """
+    .. versionadded:: 1.1
+
+    Link Training Command Flags
+    
+    """
+    
     NEW = 1
-    """Command in progress"""
+    """New command"""
+    
     IN_PROGRESS = 2
-    """Command done"""
+    """Command in progress"""
+    
     DONE = 4
-    """Link locked"""
+    """Command done"""
+    
     LOCK = 8
-    """Link lock lost"""
+    """Link locked"""
+    
     LOCK_LOST = 16
-    """Overrun detected"""
+    """Link lock lost"""
+    
     OVERRUN = 32
+    """Overrun detected"""
+
+#endregion
