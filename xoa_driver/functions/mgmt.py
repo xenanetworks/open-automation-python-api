@@ -1,17 +1,16 @@
 from __future__ import annotations
-
+import asyncio
 from typing import Any, Dict, List
 from xoa_driver.enums import (
     ReservedStatus,
 )
-
 from xoa_driver.misc import Token
 from xoa_driver.utils import apply
 from xoa_driver.internals.hli_v2.ports.port_l23.family_l import FamilyL
 from xoa_driver.internals.hli_v2.ports.port_l23.family_l1 import FamilyL1
 from xoa_driver.ports import GenericAnyPort
 from xoa_driver.modules import GenericAnyModule
-from xoa_driver.testers import L23Tester, L47Tester, GenericAnyTester
+from xoa_driver.testers import L23Tester, L47Tester, L23VeTester, L47VeTester, GenericAnyTester
 from xoa_driver.lli import commands
 
 from .exceptions import (
@@ -44,8 +43,8 @@ async def connect(
     :return: tester object
     :rtype: :class:`~xoa_driver.testers.GenericAnyTester`
     """
-    assert tester_type in ("l23", "l47"), "Para 'tester_type' not in ('l23', 'l47')!"
-    class_ = {"l23": L23Tester, "l47": L47Tester}[tester_type]
+    assert tester_type in ("l23", "l47"), "Para 'tester_type' not in ('l23', 'l47', 'l23ve', 'l47ve')!"
+    class_ = {"l23": L23Tester, "l47": L47Tester, "l23ve": L23VeTester, "l47ve": L47VeTester}[tester_type]
     current_tester = await class_(host, username, password, port, debug=True)
     return current_tester
 
@@ -78,10 +77,7 @@ def get_ports(
         module = tester.modules.obtain(module_id)
     except KeyError:
         raise NoSuchModuleError(module_id)
-    ports = []
-    for port in module.ports:
-        ports.append(port)
-    return ports
+    return list(module.ports)
 
 
 async def reserve_port(port: GenericAnyPort, force: bool = True) -> None:
@@ -177,8 +173,7 @@ async def free_module(module: GenericAnyModule) -> None:
         await module.reservation.set_relinquish()
     elif r.status == ReservedStatus.RESERVED_BY_YOU:
         await module.reservation.set_release()
-    for p in module.ports:
-        await free_port(port=p)
+    await asyncio.gather(*[free_port(port=p) for p in module.ports])
     return None
 
 
