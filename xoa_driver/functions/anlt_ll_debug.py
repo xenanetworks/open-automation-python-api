@@ -52,11 +52,11 @@ class AnLtLowLevelDebug:
     async def init(self) -> None:
         inf = await commands.PL1_CFG_TMP(self.conn, self.mid, self.pid, self.lane, Layer1ConfigType.LL_DEBUG_INFO).get()
         self.inf = AnLtLowLevelInfo(
-            base=inf.value[0],
-            rx_gtm_base=inf.value[1],
-            rx_serdes=inf.value[2],
-            tx_gtm_base=inf.value[3],
-            tx_serdes=inf.value[4]
+            base=inf.values[0],
+            rx_gtm_base=inf.values[1],
+            rx_serdes=inf.values[2],
+            tx_gtm_base=inf.values[3],
+            tx_serdes=inf.values[4]
         )
 
     async def lane_reset(self) -> None:
