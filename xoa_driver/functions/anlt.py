@@ -31,7 +31,7 @@ from xoa_driver.lli import commands
 from xoa_driver.enums import SyncStatus
 from .exceptions import NotConnectedError, NoSuchModuleError, NoSuchPortError
 
-from decimal import Decimal
+from decimal import Decimal, getcontext
 
 PcsPmaSupported = (FamilyL, FamilyL1)
 AutoNegSupported = (FamilyL, FamilyL1)
@@ -562,7 +562,7 @@ async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
         commands.PP_LINKTRAIN(conn, mid, pid).get(),
         commands.PL1_CFG_TMP(conn, mid, pid, lane, Layer1ConfigType.LT_INITIAL_MODULATION).get()
     )
-    getcontext().prec = 8
+    getcontext().prec = 6
     total_bit_count = Decimal(info.prbs_total_bits_high << 32) + Decimal(info.prbs_total_error_bits_low)
     total_error_bit_count = Decimal(info.prbs_total_error_bits_high << 32) + Decimal(info.prbs_total_error_bits_low)
     prbs = total_error_bit_count / total_bit_count if total_bit_count > 0 else Decimal('NaN')
@@ -573,7 +573,7 @@ async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
         "failure": status.failure.name.lower(),
         "preset0": "standard" if ltconf.nrz_preset==NRZPreset.NRZ_NO_PRESET else "existing tap value", 
         "init_modulation": cfg.value[0],
-        "prbs_ber": str(prbs),
+        "ber": str(prbs),
         "duration": f"{info.duration_us} us",
         "lock_lost": info.lock_lost_count,
         "frame_lock": info.frame_lock.name.lower(),
