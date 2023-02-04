@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from typing import Any, Dict, List
 from xoa_driver.enums import (
-    ReservedStatus,
     AutoNegFECOption,
     AutoNegMode,
     AutoNegTecAbility,
@@ -13,11 +12,8 @@ from xoa_driver.enums import (
     LinkTrainingInitCondition,
     LinkTrainingMode,
     LinkTrainCmd,
-    LinkTrainCmdFlags,
-    LinkTrainCmdResults,
     LinkTrainEncoding,
     LinkTrainCoeffs,
-    LinkTrainFrameLock,
     LinkTrainPresets,
     Layer1ConfigType,
     Layer1LogType,
@@ -35,7 +31,7 @@ from xoa_driver.lli import commands
 from xoa_driver.enums import SyncStatus
 from .exceptions import NotConnectedError, NoSuchModuleError, NoSuchPortError
 
-from decimal import *
+from decimal import Decimal
 
 PcsPmaSupported = (FamilyL, FamilyL1)
 AutoNegSupported = (FamilyL, FamilyL1)
@@ -47,42 +43,48 @@ async def do_anlt(
     should_do_lt: bool,
     an_allow_loopback: bool,
     lt_preset0_std: bool,
-    lt_initial_mod: dict,
-    lt_interactive: bool
+    lt_initial_modulations: Dict[str, LinkTrainEncoding],
+    should_lt_interactive: bool
     ) -> None:
     """_summary_
 
-    :param port: _description_
+    :param port: port to select
     :type port: GenericAnyPort
-    :param should_do_an: _description_
+    :param should_do_an: should the port do autoneg?
     :type should_do_an: bool
-    :param should_do_lt: _description_
+    :param should_do_lt: should the port do link training?
     :type should_do_lt: bool
-    :param an_allow_loopback: _description_
+    :param an_allow_loopback: should the autoneg allow loopback?
     :type an_allow_loopback: bool
-    :param lt_preset0_std: _description_
+    :param lt_preset0_std: should lt preset0 uses the standard values or the existing tap values?
     :type lt_preset0_std: bool
-    :param lt_initial_mod: _description_
-    :type lt_initial_mod: dict
-    :param lt_interactive: _description_
-    :type lt_interactive: bool
+    :param lt_initial_modulations: the initial modulations of each lane (serdes)
+    :type lt_initial_modulations: Dict[str, LinkTrainEncoding]
+    :param should_lt_interactive: should perform link training manually?
+    :type should_lt_interactive: bool
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
 
+    tokens = []
+    tokens += [
+        # Set autoneg timeout
+        commands.PP_LINKTRAIN(conn, mid, pid).set(
+            mode=LinkTrainingMode.DISABLED,
+            pam4_frame_size=PAM4FrameSize.P16K_FRAME,
+            nrz_pam4_init_cond=LinkTrainingInitCondition.NO_INIT,
+            nrz_preset=NRZPreset.NRZ_NO_PRESET,
+            timeout_mode=TimeoutMode.DEFAULT
+        ),
+        # Set autoneg allow-loopback
+        commands.PL1_CFG_TMP(conn, mid, pid, 0, Layer1ConfigType.AN_LOOPBACK).set(
+            values=[int(an_allow_loopback)]
+        )
+    ]
     if should_do_an:
         if should_do_lt:
-            tokens = []
+            # AN + LT
             tokens += [
-                commands.PP_LINKTRAIN(conn, mid, pid).set(
-                    mode=LinkTrainingMode.DISABLED,
-                    pam4_frame_size=PAM4FrameSize.P16K_FRAME,
-                    nrz_pam4_init_cond=LinkTrainingInitCondition.NO_INIT,
-                    nrz_preset=NRZPreset.NRZ_NO_PRESET,
-                    timeout_mode=TimeoutMode.DEFAULT
-                ),
-                commands.PL1_CFG_TMP(conn, mid, pid, 0, Layer1ConfigType.AN_LOOPBACK).set(
-                    values=[int(an_allow_loopback)]
-                ),
+                # Disable autoneg
                 commands.PP_AUTONEG(conn, mid, pid).set(
                     AutoNegMode.ANEG_OFF,
                     AutoNegTecAbility.DEFAULT_TECH_MODE,
@@ -90,9 +92,16 @@ async def do_anlt(
                     AutoNegFECOption.NO_FEC,
                     PauseMode.NO_PAUSE,
                 ),
-                commands.PL1_CFG_TMP(conn, mid, pid, 0, Layer1ConfigType.LT_INITIAL_MODULATION).set(
-                    values=[LinkTrainEncoding.PAM2]
-                ),
+            ]
+            # Configure link training initial modulations for the specified lanes (serdes)
+            for lane_str, im in lt_initial_modulations.items():
+                tokens += [
+                    commands.PL1_CFG_TMP(conn, mid, pid, int(lane_str), Layer1ConfigType.LT_INITIAL_MODULATION).set(
+                        values=[im]
+                    )
+                ]
+            tokens += [
+                # Set link training state back to DISABLE first and then START_AFTER_AUTONEG
                 commands.PP_LINKTRAIN(conn, mid, pid).set(
                     mode=LinkTrainingMode.DISABLED,
                     pam4_frame_size=PAM4FrameSize.P16K_FRAME,
@@ -107,6 +116,8 @@ async def do_anlt(
                     nrz_preset=NRZPreset.NRZ_WITH_PRESET if lt_preset0_std else NRZPreset.NRZ_NO_PRESET,
                     timeout_mode=TimeoutMode.DEFAULT
                 ),
+
+                # Enable autoneg
                 commands.PL1_CFG_TMP(conn, mid, pid, 0, Layer1ConfigType.AN_LOOPBACK).set(
                     values=[int(an_allow_loopback)]
                 ),
@@ -119,20 +130,11 @@ async def do_anlt(
                 ),
             ]
         else:
-            tokens = []
+            # AN only
             tokens += [
-                commands.PP_LINKTRAIN(conn, mid, pid).set(
-                    mode=LinkTrainingMode.DISABLED,
-                    pam4_frame_size=PAM4FrameSize.P16K_FRAME,
-                    nrz_pam4_init_cond=LinkTrainingInitCondition.NO_INIT,
-                    nrz_preset=NRZPreset.NRZ_NO_PRESET,
-                    timeout_mode=TimeoutMode.DEFAULT
-                ),
-                commands.PL1_CFG_TMP(conn, mid, pid, 0, Layer1ConfigType.AN_LOOPBACK).set(
-                    values=[int(an_allow_loopback)]
-                ),
+                # Enable autoneg
                 commands.PP_AUTONEG(conn, mid, pid).set(
-                    AutoNegMode.ANEG_OFF,
+                    AutoNegMode.ANEG_ON,
                     AutoNegTecAbility.DEFAULT_TECH_MODE,
                     AutoNegFECOption.NO_FEC,
                     AutoNegFECOption.NO_FEC,
@@ -141,19 +143,10 @@ async def do_anlt(
             ]
     else:
         if should_do_lt:
-            if lt_interactive:
-                tokens = []
+            if should_lt_interactive:
+                # LT only (interactive mode)
                 tokens += [
-                    commands.PP_LINKTRAIN(conn, mid, pid).set(
-                        mode=LinkTrainingMode.DISABLED,
-                        pam4_frame_size=PAM4FrameSize.P16K_FRAME,
-                        nrz_pam4_init_cond=LinkTrainingInitCondition.NO_INIT,
-                        nrz_preset=NRZPreset.NRZ_NO_PRESET,
-                        timeout_mode=TimeoutMode.DEFAULT
-                    ),
-                    commands.PL1_CFG_TMP(conn, mid, pid, 0, Layer1ConfigType.AN_LOOPBACK).set(
-                        values=[int(an_allow_loopback)]
-                    ),
+                    # Disable autoneg
                     commands.PP_AUTONEG(conn, mid, pid).set(
                         AutoNegMode.ANEG_OFF,
                         AutoNegTecAbility.DEFAULT_TECH_MODE,
@@ -161,9 +154,52 @@ async def do_anlt(
                         AutoNegFECOption.NO_FEC,
                         PauseMode.NO_PAUSE,
                     ),
-                    commands.PL1_CFG_TMP(conn, mid, pid, 0, Layer1ConfigType.LT_INITIAL_MODULATION).set(
-                        values=[LinkTrainEncoding.PAM2]
+                ]
+                # Configure link training initial modulations for the specified lanes (serdes)
+                for lane_str, im in lt_initial_modulations.items():
+                    tokens += [
+                        commands.PL1_CFG_TMP(conn, mid, pid, int(lane_str), Layer1ConfigType.LT_INITIAL_MODULATION).set(
+                            values=[im]
+                        )
+                    ]
+                tokens += [
+                    # Set link training state back to DISABLE first and then INTERACTIVE
+                    commands.PP_LINKTRAIN(conn, mid, pid).set(
+                        mode=LinkTrainingMode.DISABLED,
+                        pam4_frame_size=PAM4FrameSize.P16K_FRAME,
+                        nrz_pam4_init_cond=LinkTrainingInitCondition.NO_INIT,
+                        nrz_preset=NRZPreset.NRZ_WITH_PRESET if lt_preset0_std else NRZPreset.NRZ_NO_PRESET,
+                        timeout_mode=TimeoutMode.DEFAULT
                     ),
+                    commands.PP_LINKTRAIN(conn, mid, pid).set(
+                    mode=LinkTrainingMode.INTERACTIVE,
+                    pam4_frame_size=PAM4FrameSize.P16K_FRAME,
+                    nrz_pam4_init_cond=LinkTrainingInitCondition.NO_INIT,
+                    nrz_preset=NRZPreset.NRZ_WITH_PRESET if lt_preset0_std else NRZPreset.NRZ_NO_PRESET,
+                    timeout_mode=TimeoutMode.DISABLED
+                    )
+                ]
+            else:
+                # LT only (standalone mode)
+                tokens += [
+                    # Disable autoneg
+                    commands.PP_AUTONEG(conn, mid, pid).set(
+                        AutoNegMode.ANEG_OFF,
+                        AutoNegTecAbility.DEFAULT_TECH_MODE,
+                        AutoNegFECOption.NO_FEC,
+                        AutoNegFECOption.NO_FEC,
+                        PauseMode.NO_PAUSE,
+                    ),
+                ]
+                # Configure link training initial modulations for the specified lanes (serdes)
+                for lane_str, im in lt_initial_modulations.items():
+                    tokens += [
+                        commands.PL1_CFG_TMP(conn, mid, pid, int(lane_str), Layer1ConfigType.LT_INITIAL_MODULATION).set(
+                            values=[im]
+                        )
+                    ]
+                tokens += [
+                    # Set link training state back to DISABLE first and then STANDALONE
                     commands.PP_LINKTRAIN(conn, mid, pid).set(
                         mode=LinkTrainingMode.DISABLED,
                         pam4_frame_size=PAM4FrameSize.P16K_FRAME,
@@ -179,85 +215,19 @@ async def do_anlt(
                     timeout_mode=TimeoutMode.DISABLED
                     )
                 ]
-            else:
-                tokens = []
-                tokens += [
-                    commands.PP_LINKTRAIN(conn, mid, pid).set(
-                        mode=LinkTrainingMode.DISABLED,
-                        pam4_frame_size=PAM4FrameSize.P16K_FRAME,
-                        nrz_pam4_init_cond=LinkTrainingInitCondition.NO_INIT,
-                        nrz_preset=NRZPreset.NRZ_NO_PRESET,
-                        timeout_mode=TimeoutMode.DEFAULT
-                    ),
-                    commands.PL1_CFG_TMP(conn, mid, pid, 0, Layer1ConfigType.AN_LOOPBACK).set(
-                        values=[int(an_allow_loopback)]
-                    ),
-                    commands.PP_AUTONEG(conn, mid, pid).set(
-                        AutoNegMode.ANEG_OFF,
-                        AutoNegTecAbility.DEFAULT_TECH_MODE,
-                        AutoNegFECOption.NO_FEC,
-                        AutoNegFECOption.NO_FEC,
-                        PauseMode.NO_PAUSE,
-                    ),
-                    commands.PL1_CFG_TMP(conn, mid, pid, 0, Layer1ConfigType.LT_INITIAL_MODULATION).set(
-                        values=[LinkTrainEncoding.PAM2]
-                    ),
-                    commands.PP_LINKTRAIN(conn, mid, pid).set(
-                        mode=LinkTrainingMode.DISABLED,
-                        pam4_frame_size=PAM4FrameSize.P16K_FRAME,
-                        nrz_pam4_init_cond=LinkTrainingInitCondition.NO_INIT,
-                        nrz_preset=NRZPreset.NRZ_WITH_PRESET if lt_preset0_std else NRZPreset.NRZ_NO_PRESET,
-                        timeout_mode=TimeoutMode.DEFAULT
-                    ),
-                    commands.PP_LINKTRAIN(conn, mid, pid).set(
-                        mode=LinkTrainingMode.STANDALONE,
-                        pam4_frame_size=PAM4FrameSize.P16K_FRAME,
-                        nrz_pam4_init_cond=LinkTrainingInitCondition.NO_INIT,
-                        nrz_preset=NRZPreset.NRZ_WITH_PRESET if lt_preset0_std else NRZPreset.NRZ_NO_PRESET,
-                        timeout_mode=TimeoutMode.DEFAULT
-                    )
-                ]
         else:
-            tokens = []
+            # No AN, no LT
             tokens += [
-                commands.PP_LINKTRAIN(conn, mid, pid).set(
-                    mode=LinkTrainingMode.DISABLED,
-                    pam4_frame_size=PAM4FrameSize.P16K_FRAME,
-                    nrz_pam4_init_cond=LinkTrainingInitCondition.NO_INIT,
-                    nrz_preset=NRZPreset.NRZ_NO_PRESET,
-                    timeout_mode=TimeoutMode.DEFAULT
-                ),
-                commands.PL1_CFG_TMP(conn, mid, pid, 0, Layer1ConfigType.AN_LOOPBACK).set(
-                    values=[int(an_allow_loopback)]
-                ),
                 commands.PP_AUTONEG(conn, mid, pid).set(
                     AutoNegMode.ANEG_OFF,
                     AutoNegTecAbility.DEFAULT_TECH_MODE,
                     AutoNegFECOption.NO_FEC,
                     AutoNegFECOption.NO_FEC,
                     PauseMode.NO_PAUSE,
-                ),
-                commands.PL1_CFG_TMP(conn, mid, pid, 0, Layer1ConfigType.LT_INITIAL_MODULATION).set(
-                    values=[LinkTrainEncoding.PAM2]
-                ),
-                commands.PP_LINKTRAIN(conn, mid, pid).set(
-                    mode=LinkTrainingMode.DISABLED,
-                    pam4_frame_size=PAM4FrameSize.P16K_FRAME,
-                    nrz_pam4_init_cond=LinkTrainingInitCondition.NO_INIT,
-                    nrz_preset=NRZPreset.NRZ_WITH_PRESET if lt_preset0_std else NRZPreset.NRZ_NO_PRESET,
-                    timeout_mode=TimeoutMode.DEFAULT
-                ),
-                commands.PP_LINKTRAIN(conn, mid, pid).set(
-                mode=LinkTrainingMode.STANDALONE,
-                pam4_frame_size=PAM4FrameSize.P16K_FRAME,
-                nrz_pam4_init_cond=LinkTrainingInitCondition.NO_INIT,
-                nrz_preset=NRZPreset.NRZ_WITH_PRESET if lt_preset0_std else NRZPreset.NRZ_NO_PRESET,
-                timeout_mode=TimeoutMode.DISABLED
                 )
             ]
         await apply(*tokens)
         
-            
             
             
 
