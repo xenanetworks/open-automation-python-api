@@ -54,6 +54,20 @@ def get_port(
     module_id: int,
     port_id: int,
 ) -> GenericAnyPort:
+    """_summary_
+
+    :param tester: _description_
+    :type tester: GenericAnyTester
+    :param module_id: _description_
+    :type module_id: int
+    :param port_id: _description_
+    :type port_id: int
+    :raises NotConnectedError: _description_
+    :raises NoSuchModuleError: _description_
+    :raises NoSuchModuleError: _description_
+    :return: _description_
+    :rtype: GenericAnyPort
+    """
     if tester is None:
         raise NotConnectedError()
     try:
@@ -71,6 +85,17 @@ def get_ports(
     tester: GenericAnyTester,
     module_id: int,
 ) -> list[GenericAnyPort]:
+    """Get all port objects on a module
+
+    :param tester: The tester object
+    :type tester: GenericAnyTester
+    :param module_id: module index
+    :type module_id: int
+    :raises NotConnectedError: _description_
+    :raises NoSuchModuleError: _description_
+    :return: _description_
+    :rtype: list[GenericAnyPort]
+    """
     if tester is None:
         raise NotConnectedError()
     try:
