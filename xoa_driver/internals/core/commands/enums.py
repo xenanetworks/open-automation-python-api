@@ -2111,8 +2111,8 @@ class LinkTrainEncoding(IntEnum):
         dict = {
             "nrz": LinkTrainEncoding.NRZ,
             "pam2": LinkTrainEncoding.PAM2,
-            "pre3": LinkTrainEncoding.PAM4,
-            "main": LinkTrainEncoding.PAM4_WITH_PRECODING
+            "pam4": LinkTrainEncoding.PAM4,
+            "pam4pre": LinkTrainEncoding.PAM4_WITH_PRECODING
             }
         if label.lower() in dict:
             return dict[label.lower()]
