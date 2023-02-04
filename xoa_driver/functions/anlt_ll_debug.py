@@ -9,7 +9,8 @@ from xoa_driver.enums import (
 from xoa_driver.ports import GenericAnyPort
 from xoa_driver.lli import commands
 from dataclasses import dataclass
-
+from decimal import Decimal
+from typing import Dict, Union
 
 @dataclass
 class AnLtLowLevelInfo:
@@ -67,7 +68,7 @@ class AnLtLowLevelDebug:
         v = int((await r.get()).value, 16)
         # Set bit 2
         v |= 1 << 2
-        await r.set('0x{0:08X}'.format(v)) # in XOA-Driver V2 `0x` preffix will be drop from the hex strings
+        await r.set('0x{0:08X}'.format(v)) # in XOA-Driver V2 `0x` prefix will be drop from the hex strings
         # Clear bit 2
         v &= ~(1 << 2)
         await r.set('0x{0:08X}'.format(v))
@@ -117,7 +118,7 @@ class AnLtLowLevelDebug:
 
     lt_rx_analyzer_rd_data_get = partialmethod(__get, reg=LT_RX_ANALYZER_RD_DATA)
 
-    async def lt_prbs(self) -> Dict[str, int]:
+    async def lt_prbs(self) -> Dict[str, Union[int, float]]:
         cfg = await self.lt_rx_config_get()
         cfg &= ~(3 << 21)  # Clear bit 22-21
         cfg |= (1 << 20)  # Set bit 20
@@ -143,10 +144,11 @@ class AnLtLowLevelDebug:
         v = await self.lt_rx_error_stat1_get()
         error_bits |= (v << 32)
         error_bits &= 0x0000ffffffffffff
+        ber = Decimal(error_bits) / Decimal(total_bits) if total_bits > 0 else Decimal('NaN')
         return {
             "total_bits": total_bits,
             "error_bits": error_bits,
-            "ber": error_bits / total_bits
+            "ber": float(ber)
         }
 
     async def lt_rx_analyzer_dump(self) -> None:
