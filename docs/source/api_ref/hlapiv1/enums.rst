@@ -23,6 +23,7 @@ Enum Classes
     CaptureSize
     ChassisSessionType
     ChassisShutdownAction
+    CommandStatus
     CongestionType
     CorruptionType
     CustomDefaultCommand
