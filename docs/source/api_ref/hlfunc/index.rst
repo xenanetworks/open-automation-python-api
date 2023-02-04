@@ -12,7 +12,7 @@ HL-FUNC provides high-level abstraction functions on top of the object-oriented 
 HL-FUNC consists of sub-libraries where functions are grouped based on functionalities, such as :term:`ANLT<ANLT>`. Complex operation sequences are wrapped inside high-level functions, e.g. initiating link training, reserving ports, etc.
 
 .. toctree::
-    :maxdepth: 1
+    :maxdepth: 2
 
     mgmt/index
     anlt/index
