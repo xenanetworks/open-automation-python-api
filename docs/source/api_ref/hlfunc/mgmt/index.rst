@@ -16,8 +16,6 @@ The following high-level functions handle test resource management, e.g. connect
 HL Port Functions
 -------------------------
 
-.. autofunction:: get_port
-
 .. autofunction:: get_ports
 
 .. autofunction:: reserve_port
