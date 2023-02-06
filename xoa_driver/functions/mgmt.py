@@ -1,59 +1,32 @@
 from __future__ import annotations
 import asyncio
 from typing import Any, Dict, List
-from xoa_driver.enums import (
-    ReservedStatus,
-)
+from xoa_driver.enums import ReservedStatus
 from xoa_driver.misc import Token
 from xoa_driver.utils import apply
 from xoa_driver.internals.hli_v2.ports.port_l23.family_l import FamilyL
 from xoa_driver.internals.hli_v2.ports.port_l23.family_l1 import FamilyL1
 from xoa_driver.ports import GenericAnyPort
 from xoa_driver.modules import GenericAnyModule
-from xoa_driver.testers import L23Tester, L47Tester, L23VeTester, L47VeTester, GenericAnyTester
+from xoa_driver.testers import (
+    L23Tester,
+    L47Tester,
+    L23VeTester,
+    L47VeTester,
+    GenericAnyTester,
+)
 from xoa_driver.lli import commands
 
-from .exceptions import (
-    NotConnectedError,
-    NoSuchModuleError,
-)
+from .exceptions import NotConnectedError, NoSuchModuleError, NoSuchPortError
+
 PcsPmaSupported = (FamilyL, FamilyL1)
 AutoNegSupported = (FamilyL, FamilyL1)
 LinkTrainingSupported = FamilyL
 
-async def connect(
-    tester_type: str,
-    host: str,
-    username: str,
-    password: str = "xena",
-    port: int = 22606,
-) -> GenericAnyTester:
-    """Connect to a Xena tester.
 
-    :param tester_type: Tester type, either "l23" or "l47"
-    :type tester_type: str
-    :param host: IP address or hostname of the tester.
-    :type host: str
-    :param username: Username used to log on the tester
-    :type username: str
-    :param password: Password of the tester, defaults to "xena"
-    :type password: str, optional
-    :param port: the port number for establishing the TCP connection, defaults to 22606
-    :type port: int, optional
-    :return: tester object
-    :rtype: :class:`~xoa_driver.testers.GenericAnyTester`
-    """
-    assert tester_type in ("l23", "l47"), "Para 'tester_type' not in ('l23', 'l47', 'l23ve', 'l47ve')!"
-    class_ = {"l23": L23Tester, "l47": L47Tester, "l23ve": L23VeTester, "l47ve": L47VeTester}[tester_type]
-    current_tester = await class_(host, username, password, port, debug=True)
-    return current_tester
-
-
-def get_port(
-    tester: GenericAnyTester,
-    module_id: int,
-    port_id: int,
-) -> GenericAnyPort:
+def get_ports(
+    tester: GenericAnyTester, module_id: int = -1, port_id: int = -1
+) -> tuple[GenericAnyPort]:
     """_summary_
 
     :param tester: _description_
@@ -70,39 +43,25 @@ def get_port(
     """
     if tester is None:
         raise NotConnectedError()
-    try:
-        module = tester.modules.obtain(module_id)
-    except KeyError:
-        raise NoSuchModuleError(module_id)
-    try:
-        port = module.ports.obtain(port_id)
-    except KeyError:
-        raise NoSuchModuleError(port_id)
-    return port
-
-
-def get_ports(
-    tester: GenericAnyTester,
-    module_id: int,
-) -> list[GenericAnyPort]:
-    """Get all port objects on a module
-
-    :param tester: The tester object
-    :type tester: GenericAnyTester
-    :param module_id: module index
-    :type module_id: int
-    :raises NotConnectedError: _description_
-    :raises NoSuchModuleError: _description_
-    :return: _description_
-    :rtype: list[GenericAnyPort]
-    """
-    if tester is None:
-        raise NotConnectedError()
-    try:
-        module = tester.modules.obtain(module_id)
-    except KeyError:
-        raise NoSuchModuleError(module_id)
-    return list(module.ports)
+    if module_id == -1:
+        modules = tester.modules
+    else:
+        try:
+            module = tester.modules.obtain(module_id)
+        except KeyError:
+            raise NoSuchModuleError(module_id)
+        modules = (module,)
+    ports = []
+    for module in modules:
+        if port_id == -1:
+            ports.extend(module.ports)
+        else:
+            try:
+                port = module.ports.obtain(port_id)
+            except KeyError:
+                raise NoSuchPortError(port_id)
+            ports.append(port)
+    return tuple(ports)
 
 
 async def reserve_port(port: GenericAnyPort, force: bool = True) -> None:
@@ -138,7 +97,7 @@ async def reset_port(port: GenericAnyPort) -> None:
     :return:
     :rtype: None
     """
-    await reserve_port(port)
+    await reserve_port(port, False)
     await port.reset.set()
     return None
 
@@ -252,4 +211,3 @@ async def free_tester(tester: GenericAnyTester) -> None:
     for m in tester.modules:
         await free_module(m)
     return None
-
