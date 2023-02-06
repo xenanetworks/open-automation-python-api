@@ -29,11 +29,11 @@
 
     .. autosummary::
     
-        ~xoa_driver.internals.hli_v1.testers._base_tester.info
-        ~L47Tester.version_no_minor
-        ~L47Tester.build_string
-        ~L47Tester.management_interface
-        ~L47Tester.modules
+        ~xoa_driver.internals.hli_v1.testers._base_tester.BaseTester.info
+        ~L47VeTester.version_no_minor
+        ~L47VeTester.build_string
+        ~xoa_driver.internals.hli_v1.testers.l47_tester.L47Tester.management_interface
+        ~xoa_driver.internals.hli_v1.testers.l47_tester.L47Tester.modules
         ~xoa_driver.internals.hli_v1.testers._base_tester.BaseTester.session
         ~xoa_driver.internals.hli_v1.testers._base_tester.BaseTester.name
         ~xoa_driver.internals.hli_v1.testers._base_tester.BaseTester.comment

@@ -29,7 +29,7 @@
 
     .. autosummary::
     
-        ~xoa_driver.internals.hli_v1.testers._base_tester.info
+        ~xoa_driver.internals.hli_v1.testers._base_tester.BaseTester.info
         ~L23VeTester.multiuser
         ~L23VeTester.traffic
         ~L23VeTester.traffic_sync

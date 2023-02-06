@@ -40,38 +40,45 @@ from xoa_driver.internals.core.commands import (
 class GAckTcp:
     """TCP ACK configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, group_idx: int) -> None:
-        self.duplicate_tresholds = P4G_TCP_DUP_THRES(conn, module_id, port_id, group_idx)
+        self.duplicate_thresholds = P4G_TCP_DUP_THRES(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_TCP_DUP_THRES
+        
+        :type: P4G_TCP_DUP_THRES
         """
         self.frequency = P4G_TCP_ACK_FREQUENCY(conn, module_id, port_id, group_idx)  # TODO: probably need a better name to be closer to cmd description
         """
-        Representation of P4G_TCP_ACK_FREQUENCY
+        
+        :type: P4G_TCP_ACK_FREQUENCY
         """
         self.timeout = P4G_TCP_ACK_TIMEOUT(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_TCP_ACK_TIMEOUT
+        
+        :type: P4G_TCP_ACK_TIMEOUT
         """
 
 
-class GRetransmitionTimeoutTcp:
-    """TCP Retransmition Timeout configuration"""
+class GRetransmissionTimeoutTcp:
+    """TCP Retransmission Timeout configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, group_idx: int) -> None:
         self.syn_value = P4G_TCP_SYN_RTO(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_TCP_SYN_RTO
+        
+        :type: P4G_TCP_SYN_RTO
         """
         self.value = P4G_TCP_RTO(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_TCP_RTO
+        
+        :type: P4G_TCP_RTO
         """
         self.range_limits = P4G_TCP_RTO_MINMAX(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_TCP_RTO_MINMAX
+        
+        :type: P4G_TCP_RTO_MINMAX
         """
         self.prolonged_mode = P4G_TCP_RTO_PROLONGED_MODE(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_TCP_RTO_PROLONGED_MODE
+        
+        :type: P4G_TCP_RTO_PROLONGED_MODE
         """
 
 
@@ -80,15 +87,18 @@ class GStateCountersTcp:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, group_idx: int) -> None:
         self.current = P4G_TCP_STATE_CURRENT(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_TCP_STATE_CURRENT
+        
+        :type: P4G_TCP_STATE_CURRENT
         """
         self.total = P4G_TCP_STATE_TOTAL(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_TCP_STATE_TOTAL
+        
+        :type: P4G_TCP_STATE_TOTAL
         """
         self.rate = P4G_TCP_STATE_RATE(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_TCP_STATE_RATE
+        
+        :type: P4G_TCP_STATE_RATE
         """
 
 
@@ -97,15 +107,18 @@ class GMaxSegmentSize:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, group_idx: int) -> None:
         self.type = P4G_TCP_MSS_TYPE(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_TCP_MSS_TYPE
+        
+        :type: P4G_TCP_MSS_TYPE
         """
         self.range_limits = P4G_TCP_MSS_MINMAX(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_TCP_MSS_MINMAX
+        
+        :type: P4G_TCP_MSS_MINMAX
         """
         self.fixed_value = P4G_TCP_MSS_VALUE(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_TCP_MSS_VALUE
+        
+        :type: P4G_TCP_MSS_VALUE
         """
 
 
@@ -114,11 +127,13 @@ class GPacketCountersTcp:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, group_idx: int) -> None:
         self.rx = P4G_TCP_RX_PACKET_COUNTERS(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_TCP_RX_PACKET_COUNTERS
+        
+        :type: P4G_TCP_RX_PACKET_COUNTERS
         """
         self.tx = P4G_TCP_TX_PACKET_COUNTERS(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_TCP_TX_PACKET_COUNTERS
+        
+        :type: P4G_TCP_TX_PACKET_COUNTERS
         """
 
 
@@ -127,11 +142,13 @@ class GPayloadCountersTcp:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, group_idx: int) -> None:
         self.rx = P4G_TCP_RX_PAYLOAD_COUNTERS(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_TCP_RX_PAYLOAD_COUNTERS
+        
+        :type: P4G_TCP_RX_PAYLOAD_COUNTERS
         """
         self.tx = P4G_TCP_TX_PAYLOAD_COUNTERS(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_TCP_TX_PAYLOAD_COUNTERS
+        
+        :type: P4G_TCP_TX_PAYLOAD_COUNTERS
         """
 
 
@@ -140,11 +157,13 @@ class GCountersTcp:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, group_idx: int) -> None:
         self.retransmission = P4G_TCP_RETRANSMIT_COUNTERS(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_TCP_RETRANSMIT_COUNTERS
+        
+        :type: P4G_TCP_RETRANSMIT_COUNTERS
         """
         self.error = P4G_TCP_ERROR_COUNTERS(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_TCP_ERROR_COUNTERS
+        
+        :type: P4G_TCP_ERROR_COUNTERS
         """
         self.packet = GPacketCountersTcp(conn, module_id, port_id, group_idx)
         """Packet counters"""
@@ -159,11 +178,13 @@ class GRxHistogramTcp:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, group_idx: int) -> None:
         self.total_bytes = P4G_TCP_RX_TOTAL_BYTES_HIST(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_TCP_RX_TOTAL_BYTES_HIST
+        
+        :type: P4G_TCP_RX_TOTAL_BYTES_HIST
         """
         self.good_bytes = P4G_TCP_RX_GOOD_BYTES_HIST(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_TCP_RX_GOOD_BYTES_HIST
+        
+        :type: P4G_TCP_RX_GOOD_BYTES_HIST
         """
 
 
@@ -172,11 +193,13 @@ class GTxHistogramTcp:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, group_idx: int) -> None:
         self.total_bytes = P4G_TCP_TX_TOTAL_BYTES_HIST(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_TCP_TX_TOTAL_BYTES_HIST
+        
+        :type: P4G_TCP_TX_TOTAL_BYTES_HIST
         """
         self.good_bytes = P4G_TCP_TX_GOOD_BYTES_HIST(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_TCP_TX_GOOD_BYTES_HIST
+        
+        :type: P4G_TCP_TX_GOOD_BYTES_HIST
         """
 
 
@@ -185,11 +208,13 @@ class GConnHistogramTcp:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, group_idx: int) -> None:
         self.establish_times = P4G_TCP_ESTABLISH_HIST(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_TCP_ESTABLISH_HIST
+        
+        :type: P4G_TCP_ESTABLISH_HIST
         """
         self.close_times = P4G_TCP_CLOSE_HIST(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_TCP_CLOSE_HIST
+        
+        :type: P4G_TCP_CLOSE_HIST
         """
 
 
@@ -209,11 +234,13 @@ class GReceiverWindowTcp:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, group_idx: int) -> None:
         self.size = P4G_TCP_WINDOW_SIZE(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_TCP_WINDOW_SIZE
+        
+        :type: P4G_TCP_WINDOW_SIZE
         """
         self.scaling = P4G_TCP_WINDOW_SCALING(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_TCP_WINDOW_SCALING
+        
+        :type: P4G_TCP_WINDOW_SCALING
         """
 
 
@@ -222,11 +249,13 @@ class GCongestionWindowTcp:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, group_idx: int) -> None:
         self.congestion_mode = P4G_TCP_CONGESTION_MODE(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_TCP_CONGESTION_MODE
+        
+        :type: P4G_TCP_CONGESTION_MODE
         """
         self.icwnd_calc_method = P4G_TCP_ICWND_CALC_METHOD(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_TCP_ICWND_CALC_METHOD
+        
+        :type: P4G_TCP_ICWND_CALC_METHOD
         """
 
 
@@ -235,27 +264,51 @@ class GTcp:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, group_idx: int) -> None:
         self.clear_post_test_statistics = P4G_CLEAR_POST_STAT(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_CLEAR_POST_STAT
+        
+        :type: P4G_CLEAR_POST_STAT
         """
         self.rtt_value = P4G_TCP_RTT_VALUE(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_TCP_RTT_VALUE
+        
+        :type: P4G_TCP_RTT_VALUE
         """
         self.iss_treshold = P4G_TCP_ISSTHRESH(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_TCP_ISSTHRESH
+        
+        :type: P4G_TCP_ISSTHRESH
         """
         self.mss = GMaxSegmentSize(conn, module_id, port_id, group_idx)
-        """Max segment size config"""
-        self.rto = GRetransmitionTimeoutTcp(conn, module_id, port_id, group_idx)
-        """Retransmission timeout config"""
+        """Max segment size config
+        
+        :type: GMaxSegmentSize
+        """
+        self.rto = GRetransmissionTimeoutTcp(conn, module_id, port_id, group_idx)
+        """Retransmission timeout config
+        
+        :type: GRetransmissionTimeoutTcp
+        """
         self.ack = GAckTcp(conn, module_id, port_id, group_idx)
-        """ACK config"""
+        """ACK config
+        
+        :type: GAckTcp
+        """
         self.rwnd = GReceiverWindowTcp(conn, module_id, port_id, group_idx)
-        """RWND config"""
+        """RWND config
+        
+        :type: GReceiverWindowTcp
+        """
         self.cwnd = GCongestionWindowTcp(conn, module_id, port_id, group_idx)
-        """CWND config"""
+        """CWND config
+        
+        :type: GCongestionWindowTcp
+        """
         self.counters = GCountersTcp(conn, module_id, port_id, group_idx)
-        """Counters"""
+        """Counters.
+        
+        :type: GCountersTcp
+        """
         self.histogram = GHistogramTcp(conn, module_id, port_id, group_idx)
-        """Histogram"""
+        """Histogram.
+        
+        :type: GHistogramTcp
+        """

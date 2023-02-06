@@ -14,4 +14,7 @@ class GenuineFilterIdx(BaseFilterIdx):
     def __init__(self, conn: "itf.IConnection", kind: "kind.IndicesKind", observer: "idx_obs.IndicesObserver") -> None:
         super().__init__(conn, kind, observer)
         self.string = PF_STRING(conn, *kind)
-        """Representation of PF_STRING"""
+        """String representation of the filter.
+
+        :type:  PF_STRING
+        """

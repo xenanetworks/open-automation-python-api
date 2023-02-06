@@ -1,7 +1,7 @@
-Connection Group
+Connection Group Classes
 =================================
 
-This module contains the **L47 connection group commands** that deal with configuration of TCP connections and are specific to L47. The commands have the form ``P4G_<xxx>`` and require a module index id and a port index id, and a connection group index id.
+This module contains the **L47 connection group classes** that deal with configuration of TCP connections and are specific to L47. The commands have the form ``P4G_<xxx>`` and require a module index id and a port index id, and a connection group index id.
 
 A :term:`Connection Group (CG) <CG>` is the basic building block when creating L47 traffic. A :term:`CG` consists of a number of TCP connections - between one and millions. A CG has a role, which is either client or server. In order to create TCP connections between two ports on a L47 chassis, two matching :term:`CGs<CG>` must be configured - one on each port - one configured as client and the other configured as server.
 

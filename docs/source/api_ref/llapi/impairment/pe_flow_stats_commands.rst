@@ -1,5 +1,5 @@
-Impairment Statistics (Flow Level)
-===================================
+Impairment Statistics Classes (Flow Level)
+============================================
 
 This module contains the **impairment flow statistics commands**.
 

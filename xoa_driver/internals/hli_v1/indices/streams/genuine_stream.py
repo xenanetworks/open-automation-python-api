@@ -19,7 +19,10 @@ class GSInjectError(SInjectError):
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, stream_idx: int) -> None:
         super().__init__(conn, module_id, port_id, stream_idx)
         self.frame_checksum = PS_INJECTFCSERR(conn, module_id, port_id, stream_idx)
-        """Representation of PS_INJECTFCSERR"""
+        """Inject FCS error
+
+        :type: PS_INJECTFCSERR
+        """
 
 
 class GenuineStreamIdx(BaseStreamIdx):
@@ -27,6 +30,13 @@ class GenuineStreamIdx(BaseStreamIdx):
     def __init__(self, conn: "itf.IConnection", kind: "kind.IndicesKind", observer: "idx_obs.IndicesObserver") -> None:
         super().__init__(conn, kind, observer)
         self.insert_packets_checksum = PS_INSERTFCS(conn, *kind)
-        """Representation of PS_INSERTFCS"""
+        """Whether a valid frame checksum is added to the packets of a stream.
+
+        :type:  PS_INSERTFCS
+        """
+
         self.inject_err = GSInjectError(conn, *kind)
-        """Error injection configuration"""
+        """Error injection configuration
+
+        :type: GSInjectError
+        """

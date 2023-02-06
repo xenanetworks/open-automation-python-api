@@ -84,13 +84,19 @@ class BasePort(ABC, Generic[PortStateStorage]):
         return self.info.reservation == reserved_status
 
     is_released = functools.partialmethod(__is_reservation, enums.ReservedStatus.RELEASED)
-    """Check if port is released"""
+    """
+    Check if port is released
+    """
 
     is_reserved_by_me = functools.partialmethod(__is_reservation, enums.ReservedStatus.RESERVED_BY_YOU)
-    """Check if port is released by me"""
+    """
+    Check if port is released by me
+    """
 
     is_reserved_by_others = functools.partialmethod(__is_reservation, enums.ReservedStatus.RESERVED_BY_OTHER)
-    """Check if port is released by others"""
+    """
+    Check if port is released by others
+    """
 
     @property
     @abstractmethod
@@ -99,13 +105,21 @@ class BasePort(ABC, Generic[PortStateStorage]):
         raise NotImplementedError()
 
     on_reservation_change = functools.partialmethod(utils.on_event, P_RESERVATION)
-    """Register a callback to the event that the port's reservation status changes."""
+    """
+    Register a callback to the event that the port's reservation status changes.
+    """
 
     on_receive_sync_change = functools.partialmethod(utils.on_event, P_RECEIVESYNC)
-    """Register a callback to the event that the port's SYNC status changes."""
+    """
+    Register a callback to the event that the port's SYNC status changes.
+    """
 
     on_reserved_by_change = functools.partialmethod(utils.on_event, P_RESERVEDBY)
-    """Register a callback to the event that the port's reservation ownership changes."""
+    """
+    Register a callback to the event that the port's reservation ownership changes.
+    """
 
     on_interface_change = functools.partialmethod(utils.on_event, P_INTERFACE)
-    """Register a callback to the event that the port's physical interface type changes."""
+    """
+    Register a callback to the event that the port's physical interface type changes.
+    """

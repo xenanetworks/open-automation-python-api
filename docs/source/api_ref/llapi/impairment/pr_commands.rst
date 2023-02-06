@@ -1,5 +1,5 @@
-RX Statistics (Flow Level)
-=================================
+RX Statistics Classes (Flow Level)
+===================================
 
 This module contains the **impairment flow RX statistics commands**.
 

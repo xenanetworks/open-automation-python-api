@@ -1,7 +1,7 @@
-Length Term
+Length Term Classes
 =================================
 
-This module contains the **L23 port length term commands** that deal with configuration of the length term on the received traffic of a port.
+This module contains the **L23 port length term classes** that deal with configuration of the length term on the received traffic of a port.
 
 The length term command names all have the form ``PL_<xxx>``, and require both a module index id and a port index id, as well as a sub-index identifying a particular length term.
 

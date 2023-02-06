@@ -1,4 +1,4 @@
-L23 (Valkyrie)
+L23 Classes
 =========================
 
 .. toctree::

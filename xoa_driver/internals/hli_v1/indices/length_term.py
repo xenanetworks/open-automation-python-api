@@ -26,11 +26,16 @@ class LengthTermIdx(BaseIndex):
     def __init__(self, conn: "itf.IConnection", kind: "kind.IndicesKind", observer: "idx_obs.IndicesObserver") -> None:
         super().__init__(conn, kind, observer)
         self.length = PL_LENGTH(conn, *kind)
-        """Representation of pl_commands.PL_LENGTH"""
+        """Configure length term
+        :type: PL_LENGTH
+        """
 
     async def delete(self):
         await PL_DELETE(self._conn, *self.kind).set()
-        """Representation of pl_commands.PL_DELETE"""
+        """Delete length term.
+        :type: PL_DELETE
+        """
+
         self._observer.notify(idx_obs.IndexEvents.DEL, self)
 
     @classmethod

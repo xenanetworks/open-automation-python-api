@@ -10,8 +10,8 @@ async def my_awesome_func():
     await establish_connection(handler, "192.168.1.198")
     await utils.apply(
         cmd.C_LOGON(handler).set("xena"),
-        cmd.C_OWNER(handler).set("JonDoe"),
-    ) # establish connection using username "JonDoe".
+        cmd.C_OWNER(handler).set("xoa"),
+    ) # establish connection using username "xoa".
 
     reservation = await cmd.P_RESERVATION(handler, 0, 0).get() # port 0/0
     if not reservation == enums.ReservedStatus.RELEASED:

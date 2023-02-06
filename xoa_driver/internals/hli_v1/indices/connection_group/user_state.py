@@ -13,13 +13,16 @@ class GUserState:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, group_idx: int) -> None:
         self.current = P4G_USER_STATE_CURRENT(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_USER_STATE_CURRENT
+        
+        :type: P4G_USER_STATE_CURRENT
         """
         self.total = P4G_USER_STATE_TOTAL(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_USER_STATE_TOTAL
+        
+        :type: P4G_USER_STATE_TOTAL
         """
         self.rate = P4G_USER_STATE_RATE(conn, module_id, port_id, group_idx)
         """
-        Representation of P4G_USER_STATE_RATE
+        
+        :type: P4G_USER_STATE_RATE
         """

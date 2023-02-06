@@ -343,7 +343,7 @@ class ModuleL47(bm.BaseModule["modules_state.ModuleLocalState"]):
         self.packet_engine = PacketEngine(conn, self.module_id)
         """L47 packet engine.
         
-        :type: PacketEngine
+        :type: ~xoa_driver.internals.hli_v1.modules.module_l47.PacketEngine
         """
 
         self.ports: pm.PortsManager[ports.PortL47] = pm.PortsManager(

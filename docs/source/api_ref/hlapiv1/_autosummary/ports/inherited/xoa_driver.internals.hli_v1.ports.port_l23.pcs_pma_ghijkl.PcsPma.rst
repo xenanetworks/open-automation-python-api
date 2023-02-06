@@ -1,5 +1,5 @@
-﻿PcsPma
-======
+﻿PcsPma (PCS/PMA GHIJKL)
+=======================
 
 
 
@@ -29,5 +29,6 @@
         ~PcsPma.error_gen
         ~PcsPma.rx
         ~PcsPma.phy
+        ~PcsPma.prbs_config
     
     

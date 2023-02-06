@@ -1,7 +1,7 @@
-RX Statistics
+RX Statistics Classes
 =================================
 
-This module contains the **L23 port RX statistics commands** that provide quantitative information about the received packets on a port.
+This module contains the **L23 port RX statistics classes** that provide quantitative information about the received packets on a port.
 
 The command names all have the form ``PR_<xxx>`` and require both a module index id and a port index id. Those commands dealing with a specific received test payload id and a specific filter also have a sub-index id.
 

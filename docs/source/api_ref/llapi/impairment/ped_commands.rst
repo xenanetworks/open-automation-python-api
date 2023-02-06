@@ -1,4 +1,4 @@
-Impairment Distribution
+Impairment Distribution Classes
 =================================
 
 This module contains the **impairment port distribution commands**.

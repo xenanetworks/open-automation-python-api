@@ -395,6 +395,8 @@ class PS_INSERTFCS:
 @dataclass
 class PS_AUTOADJUST:
     """
+    .. versionadded:: v2.0
+    
     Executing PS_AUTOADJUST will adjust the packet length distribution (:class:`PS_PACKETLENGTH`) of the stream:
 
         (1) Set the type of packet length distribution (:class:`PS_PACKETLENGTH` ``<length_type>``) to ``FIXED``.
@@ -885,7 +887,7 @@ class PS_BURST:
         the number of packets in each burst, and how densely they are packed together.
 
         :return: the number of packets lumped together in a burst, and the percentage of the available spacing that is inserted between bursts
-        :rtype: PS_BURST.GetDataAttr
+        :rtype: ~PS_BURST.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._stream_xindex]))
 
@@ -1488,7 +1490,7 @@ class PS_BURSTGAP:
         burst defined in the next stream starts (inter-burst gap).
 
         :return: the gap between packets in a burst
-        :rtype: Token[GetDataAttr]
+        :rtype: PS_BURSTGAP.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._stream_xindex]))
 
@@ -1716,7 +1718,7 @@ class PS_MODIFIEREXT:
     """
     An extended packet modifier for a stream header. The headers of each packet
     transmitted for the stream will be varied according to the modifier
-    specification. The modifier acts on 24 bits and takes up the space for two
+    specification. The modifier acts on 32 bits and takes up the space for two
     16-bit modifiers to do this. This command requires two sub-indices, one for
     the stream and one for the modifier. A modifier is positioned at a fixed place
     in the header, selects a number of consecutive bits starting from that position,

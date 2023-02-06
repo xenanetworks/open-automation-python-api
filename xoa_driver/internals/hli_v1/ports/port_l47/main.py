@@ -192,7 +192,7 @@ class PortL47(base_port.BasePort["ports_state.PortL47LocalState"]):
         self.packet_engine = PacketEngine(self._conn, module_id, port_id)
         """L47 packet engine.
         
-        :type: PacketEngine
+        :type: ~xoa_driver.internals.hli_v1.ports.port_l47.packet_engine.PacketEngine
         """
 
         self.connection_groups: "im.IndexManager[ConnectionGroupIdx]" = im.IndexManager(

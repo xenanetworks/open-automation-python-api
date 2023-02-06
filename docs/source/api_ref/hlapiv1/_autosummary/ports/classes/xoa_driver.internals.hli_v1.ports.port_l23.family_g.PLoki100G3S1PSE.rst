@@ -37,6 +37,7 @@
     
         ~xoa_driver.internals.hli_v1.ports.port_l23.family_g.FamilyG.dynamic
         ~xoa_driver.internals.hli_v1.ports.port_l23.family_g.FamilyG.pcs_pma
+        ~xoa_driver.internals.hli_v1.ports.port_l23.family_g.FamilyG.ser_des
         ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.BasePortL23Genuine.info
         ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.BasePortL23Genuine.flash
         ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.BasePortL23Genuine.status

@@ -1,7 +1,7 @@
-Module
+Module Classes
 =================================
 
-This module contains the **L47 module commands**.
+This module contains the **L47 module classes**.
 
 -------
 

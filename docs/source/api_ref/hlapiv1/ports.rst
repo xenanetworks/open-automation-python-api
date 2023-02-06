@@ -82,26 +82,31 @@ Package ``xoa_driver.ports`` includes port classes for Valkyrie, Vulcan, Chimera
     ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23_genuine.PortStatistics
 
     ~xoa_driver.internals.hli_v1.ports.port_l23.family_d.FamilyD
-    ~xoa_driver.internals.hli_v1.ports.port_l23.family_e.LowPowerMode
     ~xoa_driver.internals.hli_v1.ports.port_l23.family_e.FamilyE
-    ~xoa_driver.internals.hli_v1.ports.port_l23.family_f.Runt
-    ~xoa_driver.internals.hli_v1.ports.port_l23.family_f.Preamble
     ~xoa_driver.internals.hli_v1.ports.port_l23.family_f.FamilyF
     ~xoa_driver.internals.hli_v1.ports.port_l23.family_g.FamilyG
     ~xoa_driver.internals.hli_v1.ports.port_l23.family_h.FamilyH
     ~xoa_driver.internals.hli_v1.ports.port_l23.family_i.FamilyI
-    ~xoa_driver.internals.hli_v1.ports.port_l23.family_i.PcsPma
-    ~xoa_driver.internals.hli_v1.ports.port_l23.family_i.Fault
-    ~xoa_driver.internals.hli_v1.ports.port_l23.family_j.PcsPma
     ~xoa_driver.internals.hli_v1.ports.port_l23.family_j.FamilyJ
-    ~xoa_driver.internals.hli_v1.ports.port_l23.family_k.PcsPma
     ~xoa_driver.internals.hli_v1.ports.port_l23.family_k.FamilyK
-    ~xoa_driver.internals.hli_v1.ports.port_l23.family_l.PcsPma
     ~xoa_driver.internals.hli_v1.ports.port_l23.family_l.FamilyL
-    ~xoa_driver.internals.hli_v1.ports.port_l23.family_l1.PcsPma
     ~xoa_driver.internals.hli_v1.ports.port_l23.family_l1.FamilyL1
     ~xoa_driver.internals.hli_v1.ports.port_l23.family_m.FamilyM
+    ~xoa_driver.internals.hli_v1.ports.port_l23.family_i.PcsPma
+    ~xoa_driver.internals.hli_v1.ports.port_l23.family_j.PcsPma
+    ~xoa_driver.internals.hli_v1.ports.port_l23.family_k.PcsPma
+    ~xoa_driver.internals.hli_v1.ports.port_l23.family_l.PcsPma
+    ~xoa_driver.internals.hli_v1.ports.port_l23.family_l1.PcsPma
+    ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_l.PcsPma
+    ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_l.PcsPmaL1
+    ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_ghijkl.PcsPma
+    ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_ijkl_chimera.PcsPma
+
+    ~xoa_driver.internals.hli_v1.ports.port_l23.family_i.Fault
     ~xoa_driver.internals.hli_v1.ports.port_l23.fault_jkl.Fault
+    ~xoa_driver.internals.hli_v1.ports.port_l23.family_e.LowPowerMode
+    ~xoa_driver.internals.hli_v1.ports.port_l23.family_f.Runt
+    ~xoa_driver.internals.hli_v1.ports.port_l23.family_f.Preamble
     ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_ghijkl.PcsPmaAlarms
     ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_ghijkl.PcsPmaTransceiver
     ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_ghijkl.PcsPmaRxLaneStatus
@@ -109,7 +114,7 @@ Package ``xoa_driver.ports`` includes port classes for Valkyrie, Vulcan, Chimera
     ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_ghijkl.PcsPmaRx
     ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_ghijkl.PcsPmaPhy
     ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_ghijkl.Lane
-    ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_ghijkl.PcsPma
+    
     ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_ghijkl.PRBSConfig
     ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_ghijkl.SDEyeDiagram
     ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_ghijkl.SDPhy
@@ -117,16 +122,11 @@ Package ``xoa_driver.ports`` includes port classes for Valkyrie, Vulcan, Chimera
     ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_ghijkl.SerDes
     ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_ijkl_chimera.LinkFlap
     ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_ijkl_chimera.PmaPulseErrInj
-    ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_ijkl_chimera.PcsPma
     ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_l.AutoNeg
     ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_l.LinkTrain
-    ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_l.PcsPma
-    ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_l.PcsPmaL1
-    ~xoa_driver.internals.hli_v1.ports.port_l23.port_l23ve.L23VEPortStatistics
     
     ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_capture.ObtainCaptured
     ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_capture.PortCapture
-
     ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.TxSinglePacket
     ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.TxConfiguration
     ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.Rate
@@ -146,7 +146,6 @@ Package ``xoa_driver.ports`` includes port classes for Valkyrie, Vulcan, Chimera
 
     ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_transceiver.PortTransceiver
     ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_transmission_statistics.PortTransmissionStatistics
-
 
     ~xoa_driver.internals.hli_v1.ports.port_l23.chimera.pe_custom_distribution.CustomDistribution
     ~xoa_driver.internals.hli_v1.ports.port_l23.chimera.pe_custom_distribution.CustomDistributions
@@ -196,3 +195,5 @@ Package ``xoa_driver.ports`` includes port classes for Valkyrie, Vulcan, Chimera
     ~xoa_driver.internals.hli_v1.ports.port_l47.counters.PCounters
     ~xoa_driver.internals.hli_v1.ports.port_l47.main.PCapture
     ~xoa_driver.internals.hli_v1.ports.port_l47.packet_engine.PacketEngine
+
+    ~xoa_driver.internals.hli_v1.ports.port_l23.port_l23ve.L23VEPortStatistics

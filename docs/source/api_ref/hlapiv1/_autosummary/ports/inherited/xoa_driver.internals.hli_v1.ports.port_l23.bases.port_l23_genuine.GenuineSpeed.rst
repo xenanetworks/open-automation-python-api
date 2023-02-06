@@ -25,7 +25,7 @@
     .. autosummary::
     
         ~GenuineSpeed.mode
-        ~GenuineSpeed.current
-        ~GenuineSpeed.reduction
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.Speed.current
+        ~xoa_driver.internals.hli_v1.ports.port_l23.bases.port_l23.Speed.reduction
     
     

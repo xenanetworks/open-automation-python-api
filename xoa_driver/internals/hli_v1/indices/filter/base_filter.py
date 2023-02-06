@@ -28,14 +28,29 @@ class BaseFilterIdx(BaseIndex):
         super().__init__(conn, kind, observer)
 
         self.comment = PF_COMMENT(conn, *kind)
-        """Representation of PF_COMMENT"""
+        """Description of the filter.
+
+        :type:  PF_COMMENT
+        """
+
         self.enable = PF_ENABLE(conn, *kind)
-        """Representation of PF_ENABLE"""
+        """Enable or disable the filter.
+
+        :type:  PF_ENABLE
+        """
+
         self.condition = PF_CONDITION(conn, *kind)
-        """Representation of PF_CONDITION"""
+        """Filter condition configuration.
+
+        :type:  PF_CONDITION
+        """
 
     async def delete(self):
-        """Representation of PF_DELETE"""
+        """Delete filter.
+        
+        :type:  PF_DELETE
+        """
+
         await PF_DELETE(self._conn, *self.kind).set()
         self._observer.notify(idx_obs.IndexEvents.DEL, self)
 

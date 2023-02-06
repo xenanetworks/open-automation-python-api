@@ -22,13 +22,12 @@ Tester Classes
     :template: class.rst
 
     ~xoa_driver.internals.hli_v1.testers._base_tester.BaseTester
-    ~xoa_driver.internals.hli_v1.testers._base_manager.ResourcesBaseManager
-
     ~xoa_driver.internals.hli_v1.testers._tester_session.TesterSession
     ~xoa_driver.internals.hli_v1.testers.genuine.management_interface.ManagementInterface
     ~xoa_driver.internals.hli_v1.testers.genuine.l_23.rest_api.RestApiServer
     ~xoa_driver.internals.hli_v1.testers.genuine.l_23.time_keeper.TimeKeeper
     ~xoa_driver.internals.hli_v1.testers.genuine.l_23.upload_file.UploadFile
+
     ~xoa_driver.internals.utils.modules_manager.L23ModuleData
     ~xoa_driver.internals.utils.modules_manager.L47ModuleData
     ~xoa_driver.internals.utils.modules_manager.ModuleData
@@ -41,3 +40,5 @@ Tester Classes
     ~xoa_driver.internals.state_storage.ports_state.PortL23GenuineLocalState
     ~xoa_driver.internals.state_storage.ports_state.PortL23LocalState
     ~xoa_driver.internals.state_storage.ports_state.PortL47LocalState
+
+    ~xoa_driver.internals.utils._base_manager.ResourcesBaseManager

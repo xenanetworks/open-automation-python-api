@@ -1,4 +1,4 @@
-Impairment (Chimera)
+Impairment Classes
 =============================
 
 .. toctree::

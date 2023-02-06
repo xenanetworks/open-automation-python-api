@@ -213,6 +213,12 @@ class PcsPma:
         :type: PcsPmaPhy
         """
 
+        self.prbs_config = PRBSConfig(conn, *port.kind)
+        """PCS/PMA PRBS Configuration
+        
+        :type: PRBSConfig
+        """
+
         self.lanes: Tuple["Lane", ...] = tuple(
             Lane(self._conn, *self.__port.kind, lane_idx=idx)
             for idx in range(self.__port.info.capabilities.lane_count)

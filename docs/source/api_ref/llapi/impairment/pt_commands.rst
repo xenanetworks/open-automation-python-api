@@ -1,5 +1,5 @@
-TX Statistics (Flow Level)
-=================================
+TX Statistics Classes (Flow Level)
+===================================
 
 This module contains the **impairment flow TX statistics commands**.
 

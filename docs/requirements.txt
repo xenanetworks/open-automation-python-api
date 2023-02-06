@@ -9,3 +9,4 @@ loguru
 sphinx-book-theme
 sphinx-copybutton
 sphinx-remove-toctrees
+typing_extensions>=4.3.0

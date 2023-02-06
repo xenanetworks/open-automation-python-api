@@ -32,7 +32,7 @@ class ModuleData:
 
 
 class L23ModuleData(ModuleData):
-    """L23 module data, extension of :class:`ModuleData`.
+    """L23 module data
     """
     async def get_revision(self, conn) -> None:
         """Return the module name of the L23 module.
@@ -42,7 +42,7 @@ class L23ModuleData(ModuleData):
 
 
 class L47ModuleData(ModuleData):
-    """L47 module data, extension of :class:`ModuleData`.
+    """L47 module data
     """
     async def get_revision(self, conn) -> None:
         """Return the module name of the L47 module.
@@ -57,7 +57,7 @@ ModuleDataType = Union[Type["L23ModuleData"], Type["L47ModuleData"]]
 
 
 class ModulesManager(ResourcesBaseManager[MT]):
-    """Module Index Manager, extension of :class:`ResourcesBaseManager`
+    """Module Index Manager
     """
 
     __slots__ = ("_conn", "__m_types_obtainer")

@@ -63,7 +63,7 @@ class PortLocalState:
 
 
 class PortChimeraLocalState(PortLocalState):
-    """Chimera port's local state, extension of :class:`PortLocalState`
+    """Chimera port's local state
     """
     __slots__ = ("capabilities",)
     capabilities: "P_CAPABILITIES.GetDataAttr"
@@ -77,7 +77,7 @@ class PortChimeraLocalState(PortLocalState):
 
 
 class PortL23LocalState(PortLocalState):
-    """L23 port's local state, extension of :class:`PortLocalState`
+    """L23 port's local state
     """
     __slots__ = (
         "capabilities",
@@ -103,7 +103,7 @@ class PortL23LocalState(PortLocalState):
 
 
 class PortL23GenuineLocalState(PortL23LocalState):
-    """L23 port's local state, extension of :class:`PortL23LocalState`
+    """L23 port's local state
     """
     __slots__ = ("port_possible_speed_modes",)
 
@@ -129,7 +129,7 @@ class PortL23GenuineLocalState(PortL23LocalState):
 
 
 class PortL47LocalState(PortLocalState):
-    """L47 port's local state, extension of :class:`PortLocalState`
+    """L47 port's local state
     """
     __slots__ = (
         "capabilities",

@@ -1,7 +1,7 @@
-Capture
+Capture Classes
 =================================
 
-This module contains the **L23 port capture commands** that deal with configuration of the capture criteria and inspection of the captured data from a port.
+This module contains the **L23 port capture classes** that deal with configuration of the capture criteria and inspection of the captured data from a port.
 
 Whether the port is enabled for capturing packets is specified by the ``P_CAPTURE`` command. Captured packets are indexed starting from 0, and are stored in a buffer that is cleared before capture starts. While on, the capture configuration parameters cannot be changed.
 
@@ -18,7 +18,7 @@ PC_TRIGGER
 .. autoclass:: PC_TRIGGER
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
+    :exclude-members: SetDataAttr
 
 
 PC_KEEP
@@ -27,7 +27,7 @@ PC_KEEP
 .. autoclass:: PC_KEEP
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
+    :exclude-members: SetDataAttr
 
 
 PC_STATS
@@ -36,7 +36,7 @@ PC_STATS
 .. autoclass:: PC_STATS
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
+    :exclude-members: SetDataAttr
 
 
 PC_EXTRA
@@ -45,7 +45,7 @@ PC_EXTRA
 .. autoclass:: PC_EXTRA
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
+    :exclude-members: SetDataAttr
 
 
 PC_PACKET
@@ -54,4 +54,4 @@ PC_PACKET
 .. autoclass:: PC_PACKET
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
+    :exclude-members: SetDataAttr

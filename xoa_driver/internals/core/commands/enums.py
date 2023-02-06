@@ -530,20 +530,43 @@ class LengthType(IntEnum):
 
 class PayloadType(IntEnum):
     """Packet payload type"""
+
     PATTERN = 0
     """Pattern"""
-    INC8 = 1
-    """Incrementing with 0xFF (8-bit mode)"""
+
+    INC8 = INCREMENTING = 1
+    """
+    .. versionchanged:: v2.0
+
+    Incrementing with 0xFF (8-bit mode)
+    """
+
     PRBS = 2
     """PRBS"""
+
     RANDOM = 3
     """Random"""
-    DEC8 = 4
-    """Decrementing with 0xFF (8-bit mode)"""
+
+    DEC8 = DECREMENTING = 4
+    """
+    .. versionchanged:: v2.0
+
+    Decrementing with 0xFF (8-bit mode)
+    """
+
     INC16 = 5
-    """Incrementing with 0xFFFF (16-bit mode)"""
+    """
+    .. versionadded:: v2.0
+
+    Incrementing with 0xFFFF (16-bit mode)
+    """
+
     DEC16 = 6
-    """Decrementing with 0xFFFF (16-bit mode"""
+    """
+    .. versionadded:: v2.0
+
+    Decrementing with 0xFFFF (16-bit mode)
+    """
 
 
 class MDIXMode(IntEnum):
@@ -773,38 +796,75 @@ class MediaConfigurationType(IntEnum):
     """Module Media Configuration Type"""
     CFP4 = 0
     """CFP4"""
-    QSFP28_NRZ = 1
-    """QSFP28 (NRZ)"""
+
+    QSFP28 = QSFP28_NRZ = 1
+    """
+    .. versionchanged:: v2.0
+
+    QSFP28 (NRZ)
+    """
+
     CXP = 2
     """CXP"""
+
     SFP28 = 3
     """SFP28"""
-    QSFP56_PAM4 = 4
-    """QSFP56 (PAM4)"""
-    QSFPDD_PAM4 = 5
-    """QSFP-DD (PAM4)"""
+
+    QSFP56 = QSFP56_PAM4 = 4
+    """
+    .. versionchanged:: v2.0
+
+    QSFP56 (PAM4)
+    """
+
+    QSFPDD = QSFPDD_PAM4 = 5
+    """
+    .. versionchanged:: v2.0
+
+    QSFP-DD (PAM4)
+    """
+
     SFP56 = 6
     """SFP56"""
-    SFPDD = 7
-    """SFP-DD"""
+
+    SFP_DD = SFPDD = 7
+    """
+    .. versionchanged:: v2.0
+
+    SFP-DD
+    """
+
     SFP112 = 8
     """SFP112"""
-    QSFPDD_NRZ = 9
-    """QSFP-DD (NRZ)"""
+
+    QSFP_DD_NRZ = QSFPDD_NRZ = 9
+    """
+    .. versionchanged:: v2.0
+
+    QSFP-DD (NRZ)
+    """
+
     QSFP28_PAM4 = 10
     """QSFP28 (PAM4)"""
+
     CFP = 99
     """CFP"""
+
     BASE_T1 = 100
     """BASE-T1"""
+
     BASE_T1S = 101
     """BASE-T1S"""
+
     QSFPDD800 = 110
     """QSFP-DD800"""
+
     QSFP112 = 111
     """QSFP112"""
+
     OSFP800 = 112
     """OSFP800"""
+
     UNKNOWN = 255
 
 
@@ -1118,12 +1178,15 @@ class LinkTrainingMode(IntEnum):
     """Forced Enable"""
     FORCE_DISABLE = 2
     """Forced Disable"""
+    INTERACTIVE = 3
 
 
 class PAM4FrameSize(IntEnum):
     """PAM4 Frame Size"""
-    N16K_FRAME = 0
-    N4K_FRAME = 1
+    P16K_FRAME = 0
+    """16K Frame Size"""
+    P4K_FRAME = 1
+    """4K Frame Size"""
 
 
 class LinkTrainingInitCondition(IntEnum):
@@ -1837,7 +1900,7 @@ class PPMSweepStatus(IntEnum):
     """The module is sweeping"""
 
 
-class ReconciliationSublayerSupport (IntEnum):
+class ReconciliationSublayerSupport(IntEnum):
     """Reconciliation Sublayer Support"""
     NO_SUPPORT = 0
     """Not Supported"""
@@ -1845,11 +1908,113 @@ class ReconciliationSublayerSupport (IntEnum):
     """Supported, which means P_FAULTSTATUS and P_FAULTSIGNALLING are supported by the port."""
 
 
-class PL1_CFG_TMP_TYPE (IntEnum):
-    """Enums for PL1_CFG_TMP's type (beta)
+class Layer1ConfigType (IntEnum):
+    """
+    .. versionadded:: 2.0
 
-    .. versionadded:: 1.1
+    .. warning::
 
+        Still in beta mode. Subjected to changes
+
+    Enums for PL1_CFG_TMP's type.
     """
     ANLT_INTERACTIVE_MODE = 0
     """ANLT Interactive mode"""
+
+    AN_ALLOW_LOOPBACK = 1
+    """Auto-negitiation allow loopback"""
+
+    LT_INITIAL_MODULATION = 2
+    """The initial modulation (0=PAM2, 2=PAM4, 3=PAM4_WITH_PRECODING) """
+
+    LL_DEBUG_INFO = 3
+    """Return the an/lt module base and RX and TX (serdes index, base address)"""
+
+
+
+class LinkTrainCmd(IntEnum):
+    """No operation. Used for 'ping' testing"""
+    CMD_NOP = 0
+    """Increment the coeff provided in ARG"""
+    CMD_INC = 1
+    """Decrement the coeff provided in ARG"""
+    CMD_DEC = 2
+    """Set the preset provided in ARG"""
+    CMD_PRESET = 3
+    """Set encoding provided in ARG"""
+    CMD_ENCODING = 4
+    """Signal training completed"""
+    CMD_LOCAL_TRAINED = 255
+
+
+class LinkTrainPresets(IntEnum):
+    """Preset 1"""
+    PRESET_1 = 0
+    """Preset 2"""
+    PRESET_2 = 1
+    """Preset 3"""
+    PRESET_3 = 2
+    """Preset 4"""
+    PRESET_4 = 3
+    """Preset 5"""
+    PRESET_5 = 4
+
+
+class LinkTrainCoeffs(IntEnum):
+    """Pre1 coeff c(-1)"""
+    PRE1 = 0
+    """Main coeff c(0)"""
+    MAIN = 1
+    """Post coeff c(1)"""
+    POST = 2
+    """Pre2 coeff c(-2)"""
+    PRE2 = 3
+    """Pre3 coeff c(-3)"""
+    PRE3 = 4
+
+
+class LinkTrainEncoding(IntEnum):
+    """PAM2"""
+    PAM2 = 0
+    """PAM4"""
+    PAM4 = 1
+    """PAM4_WITH_PRECODING"""
+    PAM4_WITH_PRECODING = 2
+
+
+class LinkTrainCmdResults(IntEnum):
+    """Unknown result"""
+    UNKNOWN = 0x00 | 0
+    """Command successfully completed"""
+    SUCCESS = 0x00 | 1
+    """Command tiemout"""
+    TIMEOUT = 0x00 | 2
+    """Command failed"""
+    FAILED = 0x00 | 3
+    """Coeff did not update"""
+    COEFF_STS_NOT_UPDATED = 0x80 | 0
+    """Coeff updated"""
+    COEFF_STS_UPDATED = 0x80 | 1
+    """Coeff at limit"""
+    COEFF_STS_AT_LIMIT = 0x80 | 2
+    """Coeff not supported"""
+    COEFF_STS_NOT_SUPPORTED = 0x80 | 3
+    """EQ limit reached"""
+    COEFF_STS_EQ_LIMIT = 0x80 | 4
+    """Coeff and EQ limit reached"""
+    COEFF_STS_C_AND_EQ_LIMIT = 0x80 | 6
+
+
+class LinkTrainCmdFlags(IntEnum):
+    """New command"""
+    NEW = 1
+    """Command in progress"""
+    IN_PROGRESS = 2
+    """Command done"""
+    DONE = 4
+    """Link locked"""
+    LOCK = 8
+    """Link lock lost"""
+    LOCK_LOST = 16
+    """Overrun detected"""
+    OVERRUN = 32

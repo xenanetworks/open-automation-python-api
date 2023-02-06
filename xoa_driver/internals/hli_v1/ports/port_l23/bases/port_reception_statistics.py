@@ -17,6 +17,10 @@ from xoa_driver.internals.core.commands import (
     PR_FILTER,
     PR_CLEAR,
     PR_PFCSTATS,
+    PR_TOTALEXT,
+    PR_NOTPLDEXT,
+    PR_TPLDTRAFFICEXT,
+    PR_FILTEREXT,
     # genuine only
     PR_CALIBRATE,
     PR_UAT_STATUS,
@@ -35,6 +39,12 @@ class PrsTPLD:
         """L23 port's statistics of traffic with TPLD.
 
         :type: PR_TPLDTRAFFIC
+        """
+
+        self.traffic_ext = PR_TPLDTRAFFICEXT(conn, module_id, port_id, tpld_idx)
+        """L23 port's statistics of traffic with TPLD. (extended)
+        
+        :type: PR_TPLDTRAFFICEXT
         """
 
         self.errors = PR_TPLDERRORS(conn, module_id, port_id, tpld_idx)
@@ -72,10 +82,22 @@ class PortReceptionStatistics:
         :type: PR_TOTAL
         """
 
+        self.total_ext = PR_TOTALEXT(conn, module_id, port_id)
+        """L23 port's total traffic statistics. (extended)
+        
+        :type: PR_TOTALEXT
+        """
+
         self.no_tpld = PR_NOTPLD(conn, module_id, port_id)
         """L23 port's statistics of traffic without TPLD.
 
         :type: PR_NOTPLD
+        """
+
+        self.no_tpld_ext = PR_NOTPLDEXT(conn, module_id, port_id)
+        """L23 port's statistics of traffic without TPLD. (extended)
+        
+        :type: PR_NOTPLDEXT
         """
 
         self.extra = PR_EXTRA(conn, module_id, port_id)
@@ -104,6 +126,22 @@ class PortReceptionStatistics:
         """
 
         return PR_FILTER(
+            self.__conn,
+            self.__module_id,
+            self.__port_id,
+            filter
+        )
+
+    def obtain_filter_statistics_ext(self, filter: int) -> "PR_FILTEREXT":
+        """Obtain L23 port filtered traffic statistics. (extended)
+
+        :param filter: index of the filter
+        :type filter: int
+        :return: filtered traffic statistics
+        :rtype: PR_FILTEREXT
+        """
+
+        return PR_FILTEREXT(
             self.__conn,
             self.__module_id,
             self.__port_id,
@@ -163,6 +201,8 @@ class GenuinePortReceptionStatistics(PortReceptionStatistics):
 
         self.uat = GPrsUat(conn, module_id, port_id)
         """L23 port UAT info.
+
+        :type: GPrsUat
         """
 
 # endregion

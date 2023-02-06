@@ -18,8 +18,8 @@
         ~ModulesManager.fill
         ~ModulesManager.fill_l23
         ~ModulesManager.fill_l47
-        ~ModulesManager.obtain
-        ~ModulesManager.obtain_multiple
+        ~xoa_driver.internals.utils._base_manager.ResourcesBaseManager.obtain
+        ~xoa_driver.internals.utils._base_manager.ResourcesBaseManager.obtain_multiple
     
     
 

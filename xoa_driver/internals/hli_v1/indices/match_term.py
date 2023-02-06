@@ -27,15 +27,30 @@ class MatchTermIdx(BaseIndex):
         super().__init__(conn, kind, observer)
 
         self.protocol = PM_PROTOCOL(conn, *kind)
-        """Representation of pm_commands.PM_PROTOCOL"""
+        """The protocol segments assumed on the packets received on the port.
+
+        :type: PM_PROTOCOL
+        """
+
         self.position = PM_POSITION(conn, *kind)
-        """Representation of pm_commands.PM_POSITION"""
+        """The position within each received packet where content matching begins for the port.
+
+        :type: PM_POSITION
+        """
+
         self.match = PM_MATCH(conn, *kind)
-        """Representation of pm_commands.PM_MATCH"""
+        """The value that must be found at the match term position for packets received on the port.
+
+        :type: PM_MATCH
+        """
 
     async def delete(self):
         await PM_DELETE(self._conn, *self.kind).set()
-        """Representation of pm_commands.PM_DELETE"""
+        """Delete the match term.
+        
+        :type: PM_DELETE
+        """
+
         self._observer.notify(idx_obs.IndexEvents.DEL, self)
 
     @classmethod

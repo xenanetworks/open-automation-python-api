@@ -29,7 +29,7 @@
 
     .. autosummary::
     
-        ~xoa_driver.internals.hli_v1.testers._base_tester.info
+        ~xoa_driver.internals.hli_v1.testers._base_tester.BaseTester.info
         ~L47Tester.build_string
         ~L47Tester.management_interface
         ~L47Tester.modules

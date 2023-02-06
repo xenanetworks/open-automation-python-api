@@ -9,8 +9,8 @@ async def my_awesome_func():
     await establish_connection(handler, "192.168.1.198")
     await utils.apply(
         cmd.C_LOGON(handler).set("xena"),
-        cmd.C_OWNER(handler).set("JonDoe"),
-    ) # establish connection using username "JonDoe".
+        cmd.C_OWNER(handler).set("xoa"),
+    ) # establish connection using username "xoa".
 
     print(await cmd.P_SPEEDS_SUPPORTED(handler, 0, 0).get()) # get speeds supported of port 0/0
     print(await cmd.P_SPEEDS_SUPPORTED(handler, 0, 1).get())# get speeds supported of port 0/1

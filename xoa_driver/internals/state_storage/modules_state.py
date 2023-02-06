@@ -89,7 +89,7 @@ class MediaInfo:
 
 
 class ModuleL23LocalState(ModuleLocalState):
-    """L23 Module local state, extension of :class:`ModuleLocalState`
+    """L23 Module local state
     """
     __slots__ = ("__media_info_list",)
 
