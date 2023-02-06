@@ -226,7 +226,7 @@ async def do_anlt(
                     PauseMode.NO_PAUSE,
                 )
             ]
-        await apply(*tokens)
+    await apply(*tokens)
         
             
             
