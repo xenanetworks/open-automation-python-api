@@ -199,7 +199,7 @@ async def my_awesome_func() -> None:
         port.on_speed_selection_change
 
         port.streams.create()
-        stream = port.streams.index(0)
+        stream = port.streams.obtain(0)
         stream.comment
         stream.tpld_id
         stream.enable
@@ -249,7 +249,7 @@ async def my_awesome_func() -> None:
         modifier_ex.specification
 
         port.datasets.create()
-        dataset = port.datasets.index(0)
+        dataset = port.datasets.obtain(0)
         dataset.enable
         dataset.source
         dataset.range
@@ -257,7 +257,7 @@ async def my_awesome_func() -> None:
         dataset.kind
 
         port.filters.create()
-        filter = port.filters.index(0)
+        filter = port.filters.obtain(0)
         filter.comment
         filter.condition
         filter.enable
@@ -265,11 +265,11 @@ async def my_awesome_func() -> None:
         filter.kind
 
         port.length_terms.create()
-        length_term = port.length_terms.index(0)
+        length_term = port.length_terms.obtain(0)
         length_term.length
 
         port.match_terms.create()
-        match_term = port.match_terms.index(0)
+        match_term = port.match_terms.obtain(0)
         match_term.match
         match_term.position
         match_term.protocol.set()
@@ -529,7 +529,7 @@ async def my_awesome_func2() -> None:
         port.counters.total_tx
 
         port.connection_groups.create()
-        cg = port.connection_groups.index(0)
+        cg = port.connection_groups.obtain(0)
 
         cg.comment
         cg.counters.clear
@@ -811,7 +811,7 @@ async def my_awesome_func3() -> None:
         port.on_traffic_change
 
         port.streams.create()
-        stream = port.streams.index(0)
+        stream = port.streams.obtain(0)
         stream.comment
         stream.tpld_id
         stream.enable
@@ -861,7 +861,7 @@ async def my_awesome_func3() -> None:
         modifier_ex.specification
 
         port.filters.create()
-        filter = port.filters.index(0)
+        filter = port.filters.obtain(0)
         filter.comment
         filter.condition
         filter.enable
@@ -869,11 +869,11 @@ async def my_awesome_func3() -> None:
         filter.kind
 
         port.length_terms.create()
-        length_term = port.length_terms.index(0)
+        length_term = port.length_terms.obtain(0)
         length_term.length
 
         port.match_terms.create()
-        match_term = port.match_terms.index(0)
+        match_term = port.match_terms.obtain(0)
         match_term.match
         match_term.position
         match_term.protocol.set()
@@ -938,7 +938,7 @@ async def my_awesome_func2() -> None:
         port.counters.total_tx
 
         port.connection_groups.create()
-        cg = port.connection_groups.index(0)
+        cg = port.connection_groups.obtain(0)
 
         cg.comment
         cg.counters.clear
