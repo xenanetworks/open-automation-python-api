@@ -248,7 +248,7 @@ async def do_anlt(
     await apply(*tokens)
 
 
-def autoneg_timeout(port: GenericAnyPort, timeout: bool):
+def _autoneg_timeout(port: GenericAnyPort, timeout: bool):
     """Configure auto-negotiation's timeout
 
     :param port: the port to configure AN
@@ -278,7 +278,7 @@ def autoneg_timeout(port: GenericAnyPort, timeout: bool):
     return tokens
 
 
-def autoneg_config(port: GenericAnyPort, enable: bool, loopback: bool):
+def _autoneg_config(port: GenericAnyPort, enable: bool, loopback: bool):
     """Configure auto-negotiation
 
     :param port: the port to configure AN
@@ -345,22 +345,22 @@ async def autoneg_status(port: GenericAnyPort) -> Dict[str, Any]:
     }
 
 
-async def autoneg_log(port: GenericAnyPort) -> str:
-    """Get the auto-negotiation log messages
+# async def autoneg_log(port: GenericAnyPort) -> str:
+#     """Get the auto-negotiation log messages
 
-    :param port: the port to get auto-negotiation logs
-    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
-    :return: auto-negotiation log
-    :rtype: str
-    """
-    conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
-    serdes_xindex = 0
-    _type = 0
-    *_, log = await apply(commands.PL1_LOG(conn, mid, pid, serdes_xindex, _type).get())
-    return log.log_string
+#     :param port: the port to get auto-negotiation logs
+#     :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+#     :return: auto-negotiation log
+#     :rtype: str
+#     """
+#     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
+#     serdes_xindex = 0
+#     _type = 0
+#     *_, log = await apply(commands.PL1_LOG(conn, mid, pid, serdes_xindex, _type).get())
+#     return log.log_string
 
 
-def lt_config(
+def _lt_config(
     port: GenericAnyPort, mode: LinkTrainingMode, preset0: bool, timeout: bool
 ):
     """Configure link training on a port.
@@ -465,7 +465,7 @@ async def lt_encoding(port: GenericAnyPort, lane: int, encoding: str) -> None:
     :type port: :class:`~xoa_driver.ports.GenericAnyPort`
     :param lane: lane index, starting from 0
     :type lane: int
-    :param encoding: link training encoding (nrz_pam2, pam4, pam4pre)
+    :param encoding: link training encoding (nrz, pam4, pam4pre)
     :type encoding: str
     :return:
     :rtype: None
@@ -477,24 +477,26 @@ async def lt_encoding(port: GenericAnyPort, lane: int, encoding: str) -> None:
     return None
 
 
-async def lt_im(port: GenericAnyPort, lane: int, encoding: str) -> None:
+def _lt_im(port: GenericAnyPort, lane: int, encoding: str):
     """To set the initial modulation for the lane.
 
     :param port: port to configure
     :type port: :class:`~xoa_driver.ports.GenericAnyPort`
     :param lane: lane index, starting from 0
     :type lane: int
-    :param encoding: link training encoding (nrz/pam2, pam4, pam4pre)
+    :param encoding: link training encoding (nrz, pam4, pam4pre)
     :type encoding: str
     :return:
     :rtype: None
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
-    await commands.PL1_CFG_TMP(
-        conn, mid, pid, lane, Layer1ConfigType.LT_INITIAL_MODULATION
-    ).set(values=[LinkTrainEncoding[encoding.upper()]])
+    tokens = []
+    tokens += [
+        commands.PL1_CFG_TMP(conn, mid, pid, lane, Layer1ConfigType.LT_INITIAL_MODULATION).set(
+            values=[LinkTrainEncoding[encoding.upper()]])
+    ]
 
-    return None
+    return tokens
 
 
 async def lt_trained(port: GenericAnyPort, lane: int) -> None:
@@ -516,23 +518,23 @@ async def lt_trained(port: GenericAnyPort, lane: int) -> None:
     return None
 
 
-async def lt_log(port: GenericAnyPort, lane: int) -> str:
-    """Show the link training trace log.
+# async def lt_log(port: GenericAnyPort, lane: int) -> str:
+#     """Show the link training trace log.
 
-    :param port: port to configure
-    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
-    :param lane: lane index, starting from 0
-    :type lane: int
-    :param live: should show the live LT log
-    :type lane: bool
-    :return:
-    :rtype: str
-    """
-    conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
-    *_, log = await apply(
-        commands.PL1_LOG(conn, mid, pid, lane, Layer1LogType.LT).get()
-    )
-    return log.log_string
+#     :param port: port to configure
+#     :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+#     :param lane: lane index, starting from 0
+#     :type lane: int
+#     :param live: should show the live LT log
+#     :type lane: bool
+#     :return:
+#     :rtype: str
+#     """
+#     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
+#     *_, log = await apply(
+#         commands.PL1_LOG(conn, mid, pid, lane, Layer1LogType.LT).get()
+#     )
+#     return log.log_string
 
 
 async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
@@ -829,11 +831,28 @@ async def status(
         ).get(),
         commands.PP_AUTONEGSTATUS(conn, mid, pid).get(),
         commands.PP_LINKTRAIN(conn, mid, pid).get(),
+        commands.P_CAPABILITIES(conn, mid, pid).get(),
     ]
-    *_, link_recovery, autoneg, linktrain = await apply(*tokens)
+    *_, link_recovery, autoneg, linktrain, capabilities = await apply(*tokens)
     return {
         "autoneg_enabled": AutoNegMode(autoneg.mode).name.lower().lstrip("aneg_"),
         "link_training_mode": LinkTrainingMode(linktrain.mode).name.lower(),
         "link_training_timeout": TimeoutMode(linktrain.timeout_mode).name.lower(),
         "link_recovery": "on" if link_recovery.values[0] == 1 else "off",
+        "serdes_count": capabilities.serdes_count,
     }
+
+
+async def anlt_log(port: GenericAnyPort) -> str:
+    """Get the anlt log messages
+
+    :param port: the port object
+    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :return: anlt log
+    :rtype: str
+    """
+    conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
+    serdes_xindex = 0
+    _type = 0
+    *_, log = await apply(commands.PL1_LOG(conn, mid, pid, serdes_xindex, _type).get())
+    return log.log_string
