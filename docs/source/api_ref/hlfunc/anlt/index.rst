@@ -16,13 +16,7 @@ The following high-level functions are for auto-negotiation and link training.
 HL Auto-Negotiation Functions
 ------------------------------
 
-.. autofunction:: autoneg_timeout
-
-.. autofunction:: autoneg_config
-
 .. autofunction:: autoneg_status
-
-.. autofunction:: autoneg_log
 
 
 HL Link Training Functions
@@ -36,11 +30,7 @@ HL Link Training Functions
 
 .. autofunction:: lt_encoding
 
-.. autofunction:: lt_im
-
 .. autofunction:: lt_trained
-
-.. autofunction:: lt_log
 
 .. autofunction:: lt_status
 
@@ -56,3 +46,5 @@ HL ANLT Functions
 .. autofunction:: link_recovery
 
 .. autofunction:: status
+
+.. autofunction:: anlt_log

@@ -2189,7 +2189,7 @@ class LinkTrainEncoding(IntEnum):
 
     """
 
-    NRZ_PAM2 = 0
+    NRZ = 0
     """NRZ (PAM2)"""
 
     PAM4 = 1

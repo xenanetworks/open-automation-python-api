@@ -19,7 +19,7 @@
 
     .. autosummary::
     
-        ~LinkTrainEncoding.PAM2
+        ~LinkTrainEncoding.NRZ
         ~LinkTrainEncoding.PAM4
         ~LinkTrainEncoding.PAM4_WITH_PRECODING
         ~LinkTrainEncoding.UNKNOWN
