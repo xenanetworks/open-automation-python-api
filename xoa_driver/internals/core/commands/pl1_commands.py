@@ -268,11 +268,7 @@ class PL1_LOG:
     """
     .. versionadded:: 1.1
 
-    .. warning::
-
-        Still in beta mode. Subjected to changes
-
-    Return a log line of either AN or LT for the given Serdes. The log string line contains the latest 100 lines.
+    Return ANLT log messages in json format.
     """
 
     code: typing.ClassVar[int] = 387
@@ -281,24 +277,19 @@ class PL1_LOG:
     _connection: "interfaces.IConnection"
     _module: int
     _port: int
-    _serdes_xindex: int
-    _type: int
 
     @dataclass(frozen=True)
     class GetDataAttr:
 
         log_string: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
-        # TODO: the type of this param returned from xenaserver will be a JSON.
-        # Then xoa-driver should parse it into a Python dict.
-        # We will need to modify this as soon as the part on xenaserver is ready.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Return a log line of either AN (``<_type> = 0``) or LT (``<_type> = 1``) for the given Serdes. (latest 100 lines)
+        """Return anlt log in json format
 
-        :return: a log line from AN/LT for the given Serdes.
+        :return: anlt log in json format
         :rtype: PL1_LOG.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
 @register_command
