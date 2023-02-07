@@ -3,9 +3,10 @@
 from enum import IntEnum
 
 
-#region L23 enums
+# region L23 enums
 class ReservedStatus(IntEnum):
     """Test resource reservation status"""
+
     RELEASED = 0
     """Test resource is released."""
     RESERVED_BY_YOU = 1
@@ -13,8 +14,10 @@ class ReservedStatus(IntEnum):
     RESERVED_BY_OTHER = 2
     """Test resource is reserved by another user."""
 
+
 class ReservedAction(IntEnum):
     """Reservation actions."""
+
     RELEASE = 0
     """Release the test resource."""
     RESERVE = 1
@@ -25,6 +28,7 @@ class ReservedAction(IntEnum):
 
 class ChassisShutdownAction(IntEnum):
     """Chassis shutdown actions."""
+
     RESTART = 1
     """Restart after shutdown."""
     POWER_OFF = 2
@@ -33,6 +37,7 @@ class ChassisShutdownAction(IntEnum):
 
 class OnOff(IntEnum):
     """On or Off."""
+
     OFF = 0
     """Off"""
     ON = 1
@@ -41,6 +46,7 @@ class OnOff(IntEnum):
 
 class RESTControlAction(IntEnum):
     """Controls of Valkyrie REST server."""
+
     START = 0
     """Start the REST server on the chassis."""
     STOP = 1
@@ -51,6 +57,7 @@ class RESTControlAction(IntEnum):
 
 class ServiceStatus(IntEnum):
     """Service status."""
+
     SERVICE_OFF = 0
     """Service is off."""
     SERVICE_ON = 1
@@ -59,6 +66,7 @@ class ServiceStatus(IntEnum):
 
 class ChassisSessionType(IntEnum):
     """The type of the session between the client and the chassis."""
+
     MANAGER = 1
     """Connection on port 22606 running binary command (used by ValkyrieManager & VulcanManager)."""
     SCRIPT = 2
@@ -67,6 +75,7 @@ class ChassisSessionType(IntEnum):
 
 class TimingSource(IntEnum):
     """Module's time sync mode."""
+
     CHASSIS = 0
     """Module syncs to chassis's clock."""
     EXTERNAL = 1
@@ -77,6 +86,7 @@ class TimingSource(IntEnum):
 
 class MediaCFPState(IntEnum):
     """Modules' CFP state"""
+
     NOT_CFP = 0
     """This is not a CFP-based test module."""
     NOT_PRESENT = 1
@@ -89,6 +99,7 @@ class MediaCFPState(IntEnum):
 
 class MediaCFPType(IntEnum):
     """Module's Media CFP Type. What kind of transceiver, may have multiple ports"""
+
     CFP_UNKNOWN = 0
     """CFP unknown"""
     CFP_INVALID = 1
@@ -167,6 +178,7 @@ class MediaCFPType(IntEnum):
 
 class SMAInputFunction(IntEnum):
     """SMA input function"""
+
     NOT_USED = 0
     """SMA input not used"""
     TX2MHZ = 1
@@ -177,6 +189,7 @@ class SMAInputFunction(IntEnum):
 
 class SMAOutputFunction(IntEnum):
     """SMA output function"""
+
     DISABLED = 0
     """Disabled"""
     PASSTHROUGH = 1
@@ -207,6 +220,7 @@ class SMAOutputFunction(IntEnum):
 
 class SMAStatus(IntEnum):
     """SMA status"""
+
     OK = 0
     """Status OK"""
     NO_VALID_SIGNAL = 1
@@ -215,6 +229,7 @@ class SMAStatus(IntEnum):
 
 class HasDemo(IntEnum):
     """Demo or not"""
+
     NON_DEMO = 0
     """Not a demo unit"""
     DEMO = 1
@@ -223,6 +238,7 @@ class HasDemo(IntEnum):
 
 class IsValid(IntEnum):
     """Whether it is valid"""
+
     INVALID = 0
     """Invalid"""
     VALID = 1
@@ -231,6 +247,7 @@ class IsValid(IntEnum):
 
 class IsPermanent(IntEnum):
     """Whether it is permanent"""
+
     NON_PERMANENT = 0
     """Not permanent"""
     PERMANENT = 1
@@ -246,6 +263,7 @@ class YesNo(IntEnum):
 
 class UpdateState(IntEnum):
     """License update state"""
+
     NONE = 0
     """None"""
     UPDATING = 1
@@ -258,6 +276,7 @@ class UpdateState(IntEnum):
 
 class IsOnline(IntEnum):
     """Chassis online or not"""
+
     OFFLINE = 0
     """Chassis offline"""
     ONLINE = 1
@@ -266,6 +285,7 @@ class IsOnline(IntEnum):
 
 class PortSpeedMode(IntEnum):
     """Port speed mode"""
+
     AUTO = 0
     """Auto negotiate with peer"""
     F10M = 1
@@ -314,6 +334,7 @@ class PortSpeedMode(IntEnum):
 
 class SyncStatus(IntEnum):
     """Port sync status"""
+
     NO_SYNC = 0
     """Not sync"""
     IN_SYNC = 1
@@ -322,6 +343,7 @@ class SyncStatus(IntEnum):
 
 class LoopbackMode(IntEnum):
     """Port loopback mode"""
+
     NONE = 0
     """Off"""
     L1RX2TX = 1
@@ -340,6 +362,7 @@ class LoopbackMode(IntEnum):
 
 class TrafficOnOff(IntEnum):
     """Traffic status"""
+
     OFF = 0
     """Traffic off"""
     ON = 1
@@ -357,6 +380,7 @@ class StartOrStop(IntEnum):
 
 class LatencyMode(IntEnum):
     """Latency measurement mode"""
+
     LAST2LAST = 0
     """Last-to-Last"""
     FIRST2LAST = 1
@@ -393,6 +417,7 @@ class PacketDetailSelection(IntEnum):
 
 class OnOffWithSuppress(IntEnum):
     """Stream status"""
+
     OFF = 0
     """Off"""
     ON = 1
@@ -403,6 +428,7 @@ class OnOffWithSuppress(IntEnum):
 
 class ProtocolOption(IntEnum):
     """Protocol header options"""
+
     ETHERNET = 1
     """Ethernet II"""
     VLAN = 2
@@ -497,14 +523,15 @@ class ProtocolOption(IntEnum):
     """EtherType"""
 
     # Generate RAW form 1...64 bytes
-    _ignore_ = 'ProtocolOption i'
+    _ignore_ = "ProtocolOption i"
     ProtocolOption = vars()
     for i in range(1, 65):
-        ProtocolOption['RAW_%d' % i] = 256 - i  # type: ignore
+        ProtocolOption["RAW_%d" % i] = 256 - i  # type: ignore
 
 
 class ModifierAction(IntEnum):
     """Modifier action mode"""
+
     INC = 0
     """Incrementing"""
     DEC = 1
@@ -515,6 +542,7 @@ class ModifierAction(IntEnum):
 
 class LengthType(IntEnum):
     """Packet length type"""
+
     FIXED = 0
     """Fixed"""
     INCREMENTING = 1
@@ -571,6 +599,7 @@ class PayloadType(IntEnum):
 
 class MDIXMode(IntEnum):
     """MDIX mode"""
+
     AUTO = 0
     """Auto"""
     MDI = 1
@@ -588,6 +617,7 @@ class LengthCheckType(IntEnum):
 
 class StartTrigger(IntEnum):
     """Capture start trigger"""
+
     ON = 0
     """From Traffic On"""
     FCSERR = 1
@@ -600,6 +630,7 @@ class StartTrigger(IntEnum):
 
 class StopTrigger(IntEnum):
     """Capture stop trigger"""
+
     FULL = 0
     """Until Capture Buffer Full"""
     FCSERR = 1
@@ -614,6 +645,7 @@ class StopTrigger(IntEnum):
 
 class PacketType(IntEnum):
     """Type of Packet to Keep in Capture Buffer"""
+
     ALL = 0
     """All Packets"""
     FCSERR = 1
@@ -630,6 +662,7 @@ class PacketType(IntEnum):
 
 class InjectErrorType(IntEnum):
     """Lane Injection Error Type"""
+
     HEADERERROR = 1
     """Header Error"""
     ALIGNERROR = 2
@@ -640,6 +673,7 @@ class InjectErrorType(IntEnum):
 
 class HeaderLockStatus(IntEnum):
     """Physical Lane Header Lock Status"""
+
     HEADEROFF = 0
     """Header Lock Off"""
     HEADERON = 1
@@ -652,6 +686,7 @@ class HeaderLockStatus(IntEnum):
 
 class AlignLockStatus(IntEnum):
     """Physical Lane Alignment Lock Status"""
+
     ALIGNOFF = 0
     """Alignment Lock Off"""
     ALIGNON = 1
@@ -664,6 +699,7 @@ class AlignLockStatus(IntEnum):
 
 class PRBSLockStatus(IntEnum):
     """Physical Lane PRBS Lock Status"""
+
     PRBSOFF = 0
     """PRBS Lock Off"""
     PRBSON = 1
@@ -676,6 +712,7 @@ class PRBSLockStatus(IntEnum):
 
 class MulticastOperation(IntEnum):
     """IGMPv2 Request Type"""
+
     OFF = 0
     """Off"""
     ON = 1
@@ -688,6 +725,7 @@ class MulticastOperation(IntEnum):
 
 class MulticastExtOperation(IntEnum):
     """IGMPv2/v3Request Type"""
+
     OFF = 0
     """Off"""
     ON = 1
@@ -710,6 +748,7 @@ class MulticastExtOperation(IntEnum):
 
 class IGMPVersion(IntEnum):
     """IGMP Version"""
+
     IGMPV2 = 0
     """IGMP Version 2"""
     IGMPV3 = 1
@@ -718,6 +757,7 @@ class IGMPVersion(IntEnum):
 
 class TXMode(IntEnum):
     """Port TX Mode"""
+
     NORMAL = 0
     """Normal"""
     STRICTUNIFORM = 1
@@ -730,6 +770,7 @@ class TXMode(IntEnum):
 
 class PayloadMode(IntEnum):
     """Payload Mode"""
+
     NORMAL = 0
     """Normal"""
     EXTPL = 1
@@ -740,6 +781,7 @@ class PayloadMode(IntEnum):
 
 class BRRMode(IntEnum):
     """BRR Mode"""
+
     SLAVE = 0
     """Slave Mode"""
     MASTER = 1
@@ -748,6 +790,7 @@ class BRRMode(IntEnum):
 
 class TXClockSource(IntEnum):
     """TX Clock Source"""
+
     MODULELOCALCLOCK = 0
     """Module Local Clock"""
     SMAINPUT = 1
@@ -772,6 +815,7 @@ class TXClockSource(IntEnum):
 
 class TXClockStatus(IntEnum):
     """TX Clock Status"""
+
     OK = 0
     """Clock OK"""
     NOVALIDTXCLK = 1
@@ -780,6 +824,7 @@ class TXClockStatus(IntEnum):
 
 class LoopBandwidth(IntEnum):
     """Loop Bandwidth"""
+
     BW103HZ = 1
     """Loop Bandwidth = 103 Hz"""
     BW207HZ = 2
@@ -794,6 +839,7 @@ class LoopBandwidth(IntEnum):
 
 class MediaConfigurationType(IntEnum):
     """Module Media Configuration Type"""
+
     CFP4 = 0
     """CFP4"""
 
@@ -870,6 +916,7 @@ class MediaConfigurationType(IntEnum):
 
 class TXHState(IntEnum):
     """Recent Change in EEE State on TX"""
+
     TXH_NA = 0
     """Leaving or Going Into"""
     TXH_X = 1
@@ -878,6 +925,7 @@ class TXHState(IntEnum):
 
 class RXHState(IntEnum):
     """Recent Change in EEE State on RX"""
+
     RXH_NA = 0
     """Leaving or Going Into"""
     RXH_X = 1
@@ -886,6 +934,7 @@ class RXHState(IntEnum):
 
 class TXCState(IntEnum):
     """TX EEE State"""
+
     TXC_ACTIVE = 0
     """Active"""
     TXC_LPI = 1
@@ -894,6 +943,7 @@ class TXCState(IntEnum):
 
 class RXCState(IntEnum):
     """RX EEE State"""
+
     RXC_ACTIVE = 0
     """Active"""
     RXC_LPI = 1
@@ -902,6 +952,7 @@ class RXCState(IntEnum):
 
 class LinkState(IntEnum):
     """Low Power Mode Link State"""
+
     LINK_DOWN = 0
     """Link Down"""
     LINK_UP = 1
@@ -910,6 +961,7 @@ class LinkState(IntEnum):
 
 class FaultSignaling(IntEnum):
     """Fault Signaling Behavior"""
+
     NORMAL = 0
     """Normal"""
     FORCE_LOCAL = 1
@@ -922,6 +974,7 @@ class FaultSignaling(IntEnum):
 
 class LocalFaultStatus(IntEnum):
     """Local Fault Status"""
+
     OK = 0
     """OK"""
     LOCAL_FAULT = 1
@@ -930,6 +983,7 @@ class LocalFaultStatus(IntEnum):
 
 class RemoteFaultStatus(IntEnum):
     """Remote Fault Status"""
+
     OK = 0
     """OK"""
     REMOTE_FAULT = 1
@@ -938,6 +992,7 @@ class RemoteFaultStatus(IntEnum):
 
 class TPLDMode(IntEnum):
     """Test Payload Mode"""
+
     NORMAL = 0
     """Normal"""
     MICRO = 1
@@ -946,6 +1001,7 @@ class TPLDMode(IntEnum):
 
 class SerdesStatus(IntEnum):
     """Serdes Status"""
+
     STOPPED = 0
     """Stopped"""
     STARTED = 1
@@ -958,6 +1014,7 @@ class SerdesStatus(IntEnum):
 
 class FECMode(IntEnum):
     """FEX Mode"""
+
     OFF = 0
     """Off"""
     ON = 1
@@ -974,6 +1031,7 @@ class FECMode(IntEnum):
 
 class PRBSInsertedType(IntEnum):
     """PRBS Type"""
+
     CAUI_VIRTUAL = 0
     """CAUI Virtual"""
     PHY_LINE = 1
@@ -986,6 +1044,7 @@ class PRBSInsertedType(IntEnum):
 
 class PRBSPolynomial(IntEnum):
     """PRBS Polynomial"""
+
     PRBS7 = 0
     """PRBS-7"""
     PRBS9 = 1
@@ -1012,6 +1071,7 @@ class PRBSPolynomial(IntEnum):
 
 class PRBSInvertState(IntEnum):
     """PRBS Invert State"""
+
     NON_INVERTED = 0
     """Non-inverted"""
     INVERTED = 1
@@ -1020,16 +1080,16 @@ class PRBSInvertState(IntEnum):
 
 class PRBSStatisticsMode(IntEnum):
     """PRBS Statistics Mode"""
+
     ACCUMULATIVE = 0
     """Accumulative"""
     PERSECOND = 1
     """Per Second"""
 
 
-
-
 class PauseMode(IntEnum):
     """Pause Mode"""
+
     NO_PAUSE = 0
     """No Pause"""
     SYM_PAUSE = 1
@@ -1038,10 +1098,9 @@ class PauseMode(IntEnum):
     """Asymmetric Pause"""
 
 
-
-
 class MulticastHeaderFormat(IntEnum):
     """Additional Header to IGMPv2/v3 Packets"""
+
     NOHDR = 0
     """No Header"""
     VLAN = 1
@@ -1050,12 +1109,14 @@ class MulticastHeaderFormat(IntEnum):
 
 class PFCMode(IntEnum):
     """Priority Flow Control (PFC) Mode"""
+
     VLAN_PCP = 128
     """VLAN PCP"""
 
 
 class PRBSOnOff(IntEnum):
     """PRBS Status"""
+
     PRBSOFF = 0
     """PRBS Off"""
     PRBSON = 1
@@ -1064,6 +1125,7 @@ class PRBSOnOff(IntEnum):
 
 class ErrorOnOff(IntEnum):
     """PRBS Error Injection Status"""
+
     ERRORSOFF = 0
     """PRBS Error Injection Off"""
     ERRORSON = 1
@@ -1072,6 +1134,7 @@ class ErrorOnOff(IntEnum):
 
 class PRBSPattern(IntEnum):
     """PRBS Pattern"""
+
     PRBS7 = 0
     """PRBS-7"""
     PRBS9 = 1
@@ -1088,6 +1151,7 @@ class PRBSPattern(IntEnum):
 
 class PHYSignalStatus(IntEnum):
     """PHY Signal Status"""
+
     NO_SIGNAL = 0
     """No Signal"""
     NO_CDRLOCK = 2
@@ -1098,6 +1162,7 @@ class PHYSignalStatus(IntEnum):
 
 class OnOffDefault(IntEnum):
     """On Off Default Status"""
+
     OFF = 0
     """Off"""
     ON = 1
@@ -1108,6 +1173,7 @@ class OnOffDefault(IntEnum):
 
 class TimeKeeperLicenseFileState(IntEnum):
     """TimeKeeper License File State"""
+
     NA = 0
     """Not Available"""
     INV = 1
@@ -1118,6 +1184,7 @@ class TimeKeeperLicenseFileState(IntEnum):
 
 class TimeKeeperLicenseType(IntEnum):
     """TimeKeeper License Type"""
+
     UNDEF = 0
     """Undefined"""
     CLIENT = 1
@@ -1128,6 +1195,7 @@ class TimeKeeperLicenseType(IntEnum):
 
 class TimeKeeperLicenseError(IntEnum):
     """TimeKeeper License Error"""
+
     NO_LICENSE_ERROR = 0
     """No License Error"""
     INVALID_SERIALNO = 1
@@ -1138,6 +1206,7 @@ class TimeKeeperLicenseError(IntEnum):
 
 class SystemUpdateStatus(IntEnum):
     """System Update Status"""
+
     OK = 0
     """Update OK"""
     FAILED_SCRIPT = 1
@@ -1158,6 +1227,7 @@ class SystemUpdateStatus(IntEnum):
 
 class TimeKeeperServiceStatus(IntEnum):
     """TimeKeeper Service Status"""
+
     STOPPED = 0
     """Service Stopped"""
     STARTED = 1
@@ -1168,6 +1238,7 @@ class TimeKeeperServiceStatus(IntEnum):
 
 class TimeKeeperServiceAction(IntEnum):
     """TimeKeeper Service Action"""
+
     STOP = 0
     """Stop"""
     START = 1
@@ -1178,6 +1249,7 @@ class TimeKeeperServiceAction(IntEnum):
 
 class CustomDefaultCommand(IntEnum):
     """Custom Default Command"""
+
     SET = 0
     """Set Custom Default"""
     CLEAR = 1
@@ -1186,6 +1258,7 @@ class CustomDefaultCommand(IntEnum):
 
 class CustomDefaultScope(IntEnum):
     """Custom Default Scope"""
+
     ALL = 0
     """All"""
     INSTANCE = 1
@@ -1194,6 +1267,7 @@ class CustomDefaultScope(IntEnum):
 
 class TrafficError(IntEnum):
     """Traffic Error"""
+
     NOT_PREPARED = 0
     """Not Prepared"""
     RATE_LENGTH_ERROR = 1
@@ -1204,6 +1278,7 @@ class TrafficError(IntEnum):
 
 class TrafficEngine(IntEnum):
     """Traffic Engine"""
+
     TGA = 1
     """Normal TGA"""
     MICRO_TGA = 2
@@ -1212,13 +1287,16 @@ class TrafficEngine(IntEnum):
 
 class LinkTrainFrameLock(IntEnum):
     """L1 Link Training Frame Lock Status"""
+
     LOCKED = 1
     """Frame Lock detected"""
     LOST = 2
     """No Frame Lock detected"""
 
+
 class PPMSweepMode(IntEnum):
     """Module clock PPM Sweep Modes"""
+
     OFF = 0
     """Off"""
     TRIANGLE = 1
@@ -1227,6 +1305,7 @@ class PPMSweepMode(IntEnum):
 
 class PPMSweepStatus(IntEnum):
     """Module clock PPM Sweep Status"""
+
     OFF = 0
     """Off"""
     SWEEPING = 1
@@ -1235,16 +1314,19 @@ class PPMSweepStatus(IntEnum):
 
 class ReconciliationSublayerSupport(IntEnum):
     """Reconciliation Sublayer Support"""
+
     NO_SUPPORT = 0
     """Not Supported"""
     FAULT_SIGNALING = 1
     """Supported, which means P_FAULTSTATUS and P_FAULTSIGNALLING are supported by the port."""
 
-#endregion
 
-#region L47 enums
+# endregion
+
+# region L47 enums
 class Role(IntEnum):
     """L47 port role"""
+
     CLIENT = 0
     """Client"""
     SERVER = 1
@@ -1253,6 +1335,7 @@ class Role(IntEnum):
 
 class Timescale(IntEnum):
     """Time scale"""
+
     MSECS = 0
     """Milliseconds"""
     SECONDS = 1
@@ -1265,6 +1348,7 @@ class Timescale(IntEnum):
 
 class MSSType(IntEnum):
     """TCP Maximum Segment Type"""
+
     FIXED = 0
     """Fixed"""
     INCREMENT = 1
@@ -1275,6 +1359,7 @@ class MSSType(IntEnum):
 
 class RTOType(IntEnum):
     """TCP RTO Type"""
+
     STATIC = 0
     """Static RTO"""
     DYNAMIC = 1
@@ -1283,6 +1368,7 @@ class RTOType(IntEnum):
 
 class CongestionType(IntEnum):
     """TCP Congestion Control Algorithm"""
+
     NONE = 0
     """No TCP Congestion Control"""
     RENO = 1
@@ -1298,6 +1384,7 @@ class IsEnabled(IntEnum):
 
 class AlgorithmMethod(IntEnum):
     """Algorithm to calculate the TCP initial congestion window (ICWND)"""
+
     RFC5681 = 0
     """RFC 5681"""
     RFC2581 = 1
@@ -1313,6 +1400,7 @@ class AutoOrManual(IntEnum):
 
 class EmbedIP(IntEnum):
     """Should Embed IP in MAC"""
+
     DONT_EMBED_IP = 0
     """Do not embed"""
     EMBED_IP = 1
@@ -1321,6 +1409,7 @@ class EmbedIP(IntEnum):
 
 class ApplicationLayerBehavior(IntEnum):
     """L47 Test Application Type"""
+
     NONE = 0
     """TCP connections are created according to the client and server ranges, and ramped up/down as specified in the load profile. But no payload is transmitted."""
     RAW = 1
@@ -1331,6 +1420,7 @@ class ApplicationLayerBehavior(IntEnum):
 
 class TrafficScenario(IntEnum):
     """Traffic direction scenario"""
+
     DOWNLOAD = 0
     """Server transmits payload to client."""
     UPLOAD = 1
@@ -1343,6 +1433,7 @@ class TrafficScenario(IntEnum):
 
 class PayloadGenerationMethod(IntEnum):
     """Payload generation method."""
+
     FIXED = 0
     """Payload has a fixed value."""
     INCREMENT = 1
@@ -1360,6 +1451,7 @@ class InfiniteOrFinite(IntEnum):
 
 class WhoClose(IntEnum):
     """How to close TCP connection when all payload has been transmitted."""
+
     NONE = 0
     """Keep the connection open after last byte is transmitted"""
     CLIENT = 1
@@ -1370,6 +1462,7 @@ class WhoClose(IntEnum):
 
 class LifecycleMode(IntEnum):
     """Connection lifecycle mode"""
+
     ONCE = 0
     """Connections are established during the ramp-up phase and not closed until the ramp-down phase of the load profile. That is, each configured connection only exists once."""
     IMMORTAL = 1
@@ -1380,6 +1473,7 @@ class LifecycleMode(IntEnum):
 
 class L47IPVersion(IntEnum):
     """IP version of the Connection Group"""
+
     IPV4 = 4
     """IPv4"""
     IPV6 = 6
@@ -1388,6 +1482,7 @@ class L47IPVersion(IntEnum):
 
 class L47ProtocolType(IntEnum):
     """L4 protocol of the Connection Group"""
+
     TCP = 0
     """TCP"""
     UDP = 1
@@ -1396,6 +1491,7 @@ class L47ProtocolType(IntEnum):
 
 class L47TrafficState(IntEnum):
     """L47 traffic state"""
+
     OFF = 0
     """Off"""
     ON = 1
@@ -1410,6 +1506,7 @@ class L47TrafficState(IntEnum):
 
 class L47PortState(IntEnum):
     """L47 port state"""
+
     OFF = 0
     """Off"""
     PREPARE = 1
@@ -1432,6 +1529,7 @@ class L47PortState(IntEnum):
 
 class L47PortSpeed(IntEnum):
     """L47 port speed mode"""
+
     AUTO = 0
     """Auto"""
     F100M = 1
@@ -1456,6 +1554,7 @@ class L47PortSpeed(IntEnum):
 
 class CaptureSize(IntEnum):
     """Capture size"""
+
     FULL = 0
     """Capture whole packets"""
     SMALL = 1
@@ -1486,6 +1585,7 @@ class LicenseSpeed(IntEnum):
 
 class TLSVersion(IntEnum):
     """TLS protocol version"""
+
     SSLV3 = 0
     """SSL v3"""
     TLS10 = 1
@@ -1510,11 +1610,13 @@ class ReplaySyncBasedOn(IntEnum):
     PER_CONN = 0
     PER_USER = 1
 
-#endregion
 
-#region Impairment enums
+# endregion
+
+# region Impairment enums
 class CorruptionType(IntEnum):
     """Impairment corruption type"""
+
     OFF = 0
     """Off"""
     ETH = 1
@@ -1531,6 +1633,7 @@ class CorruptionType(IntEnum):
 
 class PolicerMode(IntEnum):
     """Policer mode"""
+
     L1 = 0
     """Policer performed at Layer 1 level. I.e. including the preamble and min inter-packet gap."""
     L2 = 1
@@ -1539,6 +1642,7 @@ class PolicerMode(IntEnum):
 
 class FilterUse(IntEnum):
     """Use of filter."""
+
     OFF = 0
     """No filtering will be done"""
     AND = 1
@@ -1547,6 +1651,7 @@ class FilterUse(IntEnum):
 
 class InfoAction(IntEnum):
     """Action of filter."""
+
     EXCLUDE = 0
     """Matching packets are excluded from the flow"""
     INCLUDE = 1
@@ -1555,6 +1660,7 @@ class InfoAction(IntEnum):
 
 class L2PlusPresent(IntEnum):
     """Presence of Layer-2+ protocols"""
+
     NA = 0
     """No Layer 2+ protocols"""
     VLAN1 = 1
@@ -1567,6 +1673,7 @@ class L2PlusPresent(IntEnum):
 
 class L3PlusPresent(IntEnum):
     """Presence of Layer-3 protocols"""
+
     NA = 0
     """No Layer 3 protocols"""
     IP4 = 1
@@ -1577,6 +1684,7 @@ class L3PlusPresent(IntEnum):
 
 class FilterMode(IntEnum):
     """Impairment Filter Mode"""
+
     BASIC = 0
     """Basic Mode"""
     EXTENDED = 1
@@ -1585,6 +1693,7 @@ class FilterMode(IntEnum):
 
 class ImpairmentLatencyMode(IntEnum):
     """Impairment Latency Mode"""
+
     NORMAL = 0
     """Normal"""
     EXTENDED = 1
@@ -1593,6 +1702,7 @@ class ImpairmentLatencyMode(IntEnum):
 
 class ShadowWorkingSelection(IntEnum):
     """Shadow Working Selection"""
+
     SHADOW = 0
     """Shadow"""
     WORKING = 1
@@ -1601,6 +1711,7 @@ class ShadowWorkingSelection(IntEnum):
 
 class FilterType(IntEnum):
     """Filter Type for Impairment"""
+
     SHADOW = 0
     """Shadow Copy"""
     WORKING = 1
@@ -1609,6 +1720,7 @@ class FilterType(IntEnum):
 
 class FilterVlanType(IntEnum):
     """VLAN PCP Settings for VLAN Filter"""
+
     INNER = 0
     """VLAN1 (0) (INNER VLAN Tag is specified for the filter – used also when only 1 VLAN), indicates single/inner VLAN-TPID=0x8100"""
     OUTER = 1
@@ -1617,6 +1729,7 @@ class FilterVlanType(IntEnum):
 
 class LatencyTypeCustomDist(IntEnum):
     """Latency Type for Custom Distribution"""
+
     INTERPACKET_DISTRIBUTION = 0
     """Interpacket Distribution"""
     LATENCY_DISTRIBUTION = 1
@@ -1625,6 +1738,7 @@ class LatencyTypeCustomDist(IntEnum):
 
 class ImpairmentTypeIndex(IntEnum):
     """Impairment Type Index"""
+
     DROP = 0
     """Drop"""
     MISORDER = 1
@@ -1640,11 +1754,13 @@ class ImpairmentTypeIndex(IntEnum):
     SHAPER = 6
     """Shaper"""
 
-#endregion
 
-#region TSN enums
+# endregion
+
+# region TSN enums
 class TSNConfigProfile(IntEnum):
     """TSN PTP Configuration profile"""
+
     AUTOMOTIVE = 0
     """Defaults suitable for automotive testing"""
     IEEE1588V2 = 1
@@ -1653,6 +1769,7 @@ class TSNConfigProfile(IntEnum):
 
 class TSNPortRole(IntEnum):
     """TSN port role"""
+
     GRANDMASTER = 0
     """Grandmaster role"""
     SLAVE = 1
@@ -1665,6 +1782,7 @@ class TSNDeviationMode(IntEnum):
 
 class TSNTimeSource(IntEnum):
     """TSN time source"""
+
     ATOMIC = 0x10
     """Atomic"""
     GPS = 0x20
@@ -1685,6 +1803,7 @@ class TSNTimeSource(IntEnum):
 
 class TSNHistogramSource(IntEnum):
     """Data source for TSN histogram"""
+
     DRIFT = 0
     """Post-servo offset to Grandmaster"""
     DRIFTPRE = 1
@@ -1697,6 +1816,7 @@ class TSNHistogramSource(IntEnum):
 
 class TSNStatisticsTypes(IntEnum):
     """TSN Statistics Types"""
+
     ALL = 0
     """All."""
     PACKETCOUNT = 1
@@ -1708,12 +1828,15 @@ class TSNStatisticsTypes(IntEnum):
     SYNCRATE = 4
     """Sync rate."""
 
-#endregion
 
-#region ANLT enums
+# endregion
+
+# region ANLT enums
+
 
 class AutoNegMode(IntEnum):
     """Auto Neg Mode"""
+
     ANEG_OFF = 0
     """Auto Neg Off"""
     ANEG_ON = 1
@@ -1722,6 +1845,7 @@ class AutoNegMode(IntEnum):
 
 class AutoNegTecAbility(IntEnum):
     """Auto Neg Technical Abilities"""
+
     DEFAULT_TECH_MODE = 0
     """Default Tech Mode"""
     IEEE_10G_KR = 4
@@ -1778,6 +1902,7 @@ class AutoNegTecAbility(IntEnum):
 
 class AutoNegFECOption(IntEnum):
     """Auto Neg FEC Options"""
+
     DEFAULT_FEC = 0
     """Default FEC"""
     NO_FEC = 1
@@ -1796,6 +1921,7 @@ class AutoNegFECOption(IntEnum):
 
 class AutoNegFECType(IntEnum):
     """Auto Neg FEC Type"""
+
     PENDING = 0
     """Pending"""
     NO_FEC = 1
@@ -1808,6 +1934,7 @@ class AutoNegFECType(IntEnum):
 
 class AutoNegStatus(IntEnum):
     """Auto Neg Status"""
+
     UNKNOWN = 0
     """Unknown"""
     ENABLE = 1
@@ -1830,6 +1957,7 @@ class AutoNegStatus(IntEnum):
 
 class AutoNegFECStatus(IntEnum):
     """Auto Neg FEC Status"""
+
     DEFAULT_FEC = 0
     """Default FEC"""
     NO_FEC = 1
@@ -1864,22 +1992,10 @@ class LinkTrainingMode(IntEnum):
     UNKNOWN = 255
     """Unknown link training mode"""
 
-    @staticmethod
-    def from_str(label: str):
-        dict = {
-            "start_after_autoneg": LinkTrainingMode.START_AFTER_AUTONEG,
-            "standalone": LinkTrainingMode.STANDALONE,
-            "disable": LinkTrainingMode.DISABLED,
-            "interactive": LinkTrainingMode.INTERACTIVE
-            }
-        if label.lower() in dict:
-            return dict[label.lower()]
-        else:
-            return LinkTrainingMode.UNKNOWN
-
 
 class PAM4FrameSize(IntEnum):
     """PAM4 Frame Size"""
+
     P16K_FRAME = 0
     """16K Frame Size"""
     P4K_FRAME = 1
@@ -1888,6 +2004,7 @@ class PAM4FrameSize(IntEnum):
 
 class LinkTrainingInitCondition(IntEnum):
     """Link Training Initialization Condition"""
+
     NO_INIT = 0
     """No Initialization"""
     INIT_ENABLED = 1
@@ -1896,6 +2013,7 @@ class LinkTrainingInitCondition(IntEnum):
 
 class NRZPreset(IntEnum):
     """Link Training NRZ Preset"""
+
     NRZ_NO_PRESET = 0
     """NRZ without Preset"""
     NRZ_WITH_PRESET = 1
@@ -1904,6 +2022,7 @@ class NRZPreset(IntEnum):
 
 class TimeoutMode(IntEnum):
     """Link Training Timeout Mode"""
+
     DEFAULT = 0
     """Default Timeout"""
     DISABLED = 255
@@ -1912,6 +2031,7 @@ class TimeoutMode(IntEnum):
 
 class LinkTrainingStatusMode(IntEnum):
     """Link Training Status Mode"""
+
     DISABLED = 0
     """Disabled"""
     ENABLED = 1
@@ -1920,6 +2040,7 @@ class LinkTrainingStatusMode(IntEnum):
 
 class LinkTrainingStatus(IntEnum):
     """Link Training Status"""
+
     NOT_TRAINED = 0
     """Not Trained"""
     TRAINED = 1
@@ -1928,6 +2049,7 @@ class LinkTrainingStatus(IntEnum):
 
 class LinkTrainingFailureType(IntEnum):
     """Link Training Failure Type"""
+
     NO_FAILURE = 0
     """No Failure"""
     FRAME_LOCK_ERROR = 1
@@ -1938,12 +2060,13 @@ class LinkTrainingFailureType(IntEnum):
     """Timeout Failure"""
 
 
-class Layer1ConfigType (IntEnum):
+class Layer1ConfigType(IntEnum):
     """
     .. versionadded:: 1.1
 
     Enums for PL1_CFG_TMP's type.
     """
+
     ANLT_INTERACTIVE = 0
     """ANLT Interactive mode config"""
 
@@ -1959,7 +2082,7 @@ class Layer1ConfigType (IntEnum):
 
 class Layer1LogType(IntEnum):
     """
-    
+
     .. versionadded:: 1.1
 
     .. warning::
@@ -1968,7 +2091,7 @@ class Layer1LogType(IntEnum):
 
     Enums for PL1_LOG's type.
     """
-    
+
     AN = 0
     """Log for auto-neg"""
 
@@ -1979,26 +2102,26 @@ class Layer1LogType(IntEnum):
 class LinkTrainCmd(IntEnum):
     """
     .. versionadded:: 1.1
-    
+
     Link Training commands
-    
+
     """
-    
+
     CMD_NOP = 0
     """No operation. Used for 'ping' testing"""
-    
+
     CMD_INC = 1
     """Increment the coeff provided in ARG"""
-    
+
     CMD_DEC = 2
     """Decrement the coeff provided in ARG"""
-    
+
     CMD_PRESET = 3
     """Set the preset provided in ARG"""
-    
+
     CMD_ENCODING = 4
     """Set encoding provided in ARG"""
-    
+
     CMD_LOCAL_TRAINED = 255
     """Signal training completed"""
 
@@ -2006,42 +2129,28 @@ class LinkTrainCmd(IntEnum):
 class LinkTrainPresets(IntEnum):
     """
     .. versionadded:: 1.1
-    
+
     Link Training presets
-    
+
     """
-    
+
     PRESET_1 = 0
     """Preset 1"""
-    
+
     PRESET_2 = 1
     """Preset 2"""
-    
+
     PRESET_3 = 2
     """Preset 3"""
-    
+
     PRESET_4 = 3
     """Preset 4"""
-    
+
     PRESET_5 = 4
     """Preset 5"""
 
     UNKNOWN = 255
     """Unknown coeff"""
-
-    @staticmethod
-    def from_str(label: str):
-        dict = {
-            "1": LinkTrainPresets.PRESET_1,
-            "2": LinkTrainPresets.PRESET_2,
-            "3": LinkTrainPresets.PRESET_3,
-            "4": LinkTrainPresets.PRESET_4,
-            "5": LinkTrainPresets.PRESET_5
-            }
-        if label.lower() in dict:
-            return dict[label.lower()]
-        else:
-            return LinkTrainPresets.UNKNOWN
 
 
 class LinkTrainCoeffs(IntEnum):
@@ -2050,40 +2159,26 @@ class LinkTrainCoeffs(IntEnum):
 
 
     Link Training coefficients
-    
+
     """
-    
+
     PRE1 = 0
     """Pre1 coeff c(-1)"""
-    
+
     MAIN = 1
     """Main coeff c(0)"""
-    
+
     POST = 2
     """Post coeff c(1)"""
-    
+
     PRE2 = 3
     """Pre2 coeff c(-2)"""
-    
+
     PRE3 = 4
     """Pre3 coeff c(-3)"""
 
     UNKNOWN = 255
     """Unknown coeff"""
-
-    @staticmethod
-    def from_str(label: str):
-        dict = {
-            "pre1": LinkTrainCoeffs.PRE1,
-            "pre2": LinkTrainCoeffs.PRE2,
-            "pre3": LinkTrainCoeffs.PRE3,
-            "main": LinkTrainCoeffs.MAIN,
-            "post": LinkTrainCoeffs.POST
-            }
-        if label.lower() in dict:
-            return dict[label.lower()]
-        else:
-            return LinkTrainCoeffs.UNKNOWN
 
 
 class LinkTrainEncoding(IntEnum):
@@ -2091,12 +2186,12 @@ class LinkTrainEncoding(IntEnum):
     .. versionadded:: 1.1
 
     Link Training Encoding
-    
+
     """
-    
-    NRZ = PAM2 = 0
+
+    NRZ_PAM2 = 0
     """NRZ (PAM2)"""
-    
+
     PAM4 = 1
     """PAM4"""
 
@@ -2106,55 +2201,42 @@ class LinkTrainEncoding(IntEnum):
     UNKNOWN = 255
     """PAM4 with precoding"""
 
-    @staticmethod
-    def from_str(label: str):
-        dict = {
-            "nrz": LinkTrainEncoding.NRZ,
-            "pam2": LinkTrainEncoding.PAM2,
-            "pam4": LinkTrainEncoding.PAM4,
-            "pam4pre": LinkTrainEncoding.PAM4_WITH_PRECODING
-            }
-        if label.lower() in dict:
-            return dict[label.lower()]
-        else:
-            return LinkTrainEncoding.UNKNOWN
-
 
 class LinkTrainCmdResults(IntEnum):
     """
     .. versionadded:: 1.1
 
     Link Training Command Results
-    
+
     """
-    
+
     UNKNOWN = 0x00 | 0
     """Unknown result"""
-    
+
     SUCCESS = 0x00 | 1
     """Command successfully completed"""
-    
+
     TIMEOUT = 0x00 | 2
     """Command timeout"""
-    
+
     FAILED = 0x00 | 3
     """Command failed"""
-    
+
     COEFF_STS_NOT_UPDATED = 0x80 | 0
     """Coeff did not update"""
-    
+
     COEFF_STS_UPDATED = 0x80 | 1
     """Coeff updated"""
-    
+
     COEFF_STS_AT_LIMIT = 0x80 | 2
     """Coeff at limit"""
-    
+
     COEFF_STS_NOT_SUPPORTED = 0x80 | 3
     """Coeff not supported"""
-    
+
     COEFF_STS_EQ_LIMIT = 0x80 | 4
     """EQ limit reached"""
-    
+
     COEFF_STS_C_AND_EQ_LIMIT = 0x80 | 6
     """Coeff and EQ limit reached"""
 
@@ -2164,25 +2246,26 @@ class LinkTrainCmdFlags(IntEnum):
     .. versionadded:: 1.1
 
     Link Training Command Flags
-    
+
     """
-    
+
     NEW = 1
     """New command"""
-    
+
     IN_PROGRESS = 2
     """Command in progress"""
-    
+
     DONE = 4
     """Command done"""
-    
+
     LOCK = 8
     """Link locked"""
-    
+
     LOCK_LOST = 16
     """Link lock lost"""
-    
+
     OVERRUN = 32
     """Overrun detected"""
 
-#endregion
+
+# endregion

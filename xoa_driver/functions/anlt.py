@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Dict, List
+from typing import Any, Dict
 from xoa_driver.enums import (
     AutoNegFECOption,
     AutoNegMode,
@@ -19,23 +19,19 @@ from xoa_driver.enums import (
     Layer1LogType,
     LinkTrainingStatusMode,
     LinkTrainingStatus,
-    AutoNegMode
+    AutoNegMode,
 )
-from xoa_driver.misc import Token
 from xoa_driver.utils import apply
 from xoa_driver.internals.hli_v1.ports.port_l23.family_l import FamilyL
 from xoa_driver.internals.hli_v1.ports.port_l23.family_l1 import FamilyL1
 from xoa_driver.ports import GenericAnyPort
-from xoa_driver.testers import L23Tester, L47Tester, GenericAnyTester
 from xoa_driver.lli import commands
-from xoa_driver.enums import SyncStatus
-from .exceptions import NotConnectedError, NoSuchModuleError, NoSuchPortError
 
-from decimal import Decimal, getcontext
 
 PcsPmaSupported = (FamilyL, FamilyL1)
 AutoNegSupported = (FamilyL, FamilyL1)
 LinkTrainingSupported = FamilyL
+
 
 async def do_anlt(
     port: GenericAnyPort,
@@ -44,8 +40,8 @@ async def do_anlt(
     an_allow_loopback: bool,
     lt_preset0_std: bool,
     lt_initial_modulations: Dict[str, LinkTrainEncoding],
-    should_lt_interactive: bool
-    ) -> None:
+    should_lt_interactive: bool,
+) -> None:
     """_summary_
 
     :param port: port to select
@@ -73,12 +69,12 @@ async def do_anlt(
             pam4_frame_size=PAM4FrameSize.P16K_FRAME,
             nrz_pam4_init_cond=LinkTrainingInitCondition.NO_INIT,
             nrz_preset=NRZPreset.NRZ_NO_PRESET,
-            timeout_mode=TimeoutMode.DEFAULT
+            timeout_mode=TimeoutMode.DEFAULT,
         ),
         # Set autoneg allow-loopback
         commands.PL1_CFG_TMP(conn, mid, pid, 0, Layer1ConfigType.AN_LOOPBACK).set(
             values=[int(an_allow_loopback)]
-        )
+        ),
     ]
     if should_do_an:
         if should_do_lt:
@@ -96,9 +92,13 @@ async def do_anlt(
             # Configure link training initial modulations for the specified lanes (serdes)
             for lane_str, im in lt_initial_modulations.items():
                 tokens += [
-                    commands.PL1_CFG_TMP(conn, mid, pid, int(lane_str), Layer1ConfigType.LT_INITIAL_MODULATION).set(
-                        values=[im]
-                    )
+                    commands.PL1_CFG_TMP(
+                        conn,
+                        mid,
+                        pid,
+                        int(lane_str),
+                        Layer1ConfigType.LT_INITIAL_MODULATION,
+                    ).set(values=[im])
                 ]
             tokens += [
                 # Set link training state back to DISABLE first and then START_AFTER_AUTONEG
@@ -106,21 +106,24 @@ async def do_anlt(
                     mode=LinkTrainingMode.DISABLED,
                     pam4_frame_size=PAM4FrameSize.P16K_FRAME,
                     nrz_pam4_init_cond=LinkTrainingInitCondition.NO_INIT,
-                    nrz_preset=NRZPreset.NRZ_WITH_PRESET if lt_preset0_std else NRZPreset.NRZ_NO_PRESET,
-                    timeout_mode=TimeoutMode.DEFAULT
+                    nrz_preset=NRZPreset.NRZ_WITH_PRESET
+                    if lt_preset0_std
+                    else NRZPreset.NRZ_NO_PRESET,
+                    timeout_mode=TimeoutMode.DEFAULT,
                 ),
                 commands.PP_LINKTRAIN(conn, mid, pid).set(
                     mode=LinkTrainingMode.START_AFTER_AUTONEG,
                     pam4_frame_size=PAM4FrameSize.P16K_FRAME,
                     nrz_pam4_init_cond=LinkTrainingInitCondition.NO_INIT,
-                    nrz_preset=NRZPreset.NRZ_WITH_PRESET if lt_preset0_std else NRZPreset.NRZ_NO_PRESET,
-                    timeout_mode=TimeoutMode.DEFAULT
+                    nrz_preset=NRZPreset.NRZ_WITH_PRESET
+                    if lt_preset0_std
+                    else NRZPreset.NRZ_NO_PRESET,
+                    timeout_mode=TimeoutMode.DEFAULT,
                 ),
-
                 # Enable autoneg
-                commands.PL1_CFG_TMP(conn, mid, pid, 0, Layer1ConfigType.AN_LOOPBACK).set(
-                    values=[int(an_allow_loopback)]
-                ),
+                commands.PL1_CFG_TMP(
+                    conn, mid, pid, 0, Layer1ConfigType.AN_LOOPBACK
+                ).set(values=[int(an_allow_loopback)]),
                 commands.PP_AUTONEG(conn, mid, pid).set(
                     AutoNegMode.ANEG_ON,
                     AutoNegTecAbility.DEFAULT_TECH_MODE,
@@ -158,9 +161,13 @@ async def do_anlt(
                 # Configure link training initial modulations for the specified lanes (serdes)
                 for lane_str, im in lt_initial_modulations.items():
                     tokens += [
-                        commands.PL1_CFG_TMP(conn, mid, pid, int(lane_str), Layer1ConfigType.LT_INITIAL_MODULATION).set(
-                            values=[im]
-                        )
+                        commands.PL1_CFG_TMP(
+                            conn,
+                            mid,
+                            pid,
+                            int(lane_str),
+                            Layer1ConfigType.LT_INITIAL_MODULATION,
+                        ).set(values=[im])
                     ]
                 tokens += [
                     # Set link training state back to DISABLE first and then INTERACTIVE
@@ -168,16 +175,20 @@ async def do_anlt(
                         mode=LinkTrainingMode.DISABLED,
                         pam4_frame_size=PAM4FrameSize.P16K_FRAME,
                         nrz_pam4_init_cond=LinkTrainingInitCondition.NO_INIT,
-                        nrz_preset=NRZPreset.NRZ_WITH_PRESET if lt_preset0_std else NRZPreset.NRZ_NO_PRESET,
-                        timeout_mode=TimeoutMode.DEFAULT
+                        nrz_preset=NRZPreset.NRZ_WITH_PRESET
+                        if lt_preset0_std
+                        else NRZPreset.NRZ_NO_PRESET,
+                        timeout_mode=TimeoutMode.DEFAULT,
                     ),
                     commands.PP_LINKTRAIN(conn, mid, pid).set(
-                    mode=LinkTrainingMode.INTERACTIVE,
-                    pam4_frame_size=PAM4FrameSize.P16K_FRAME,
-                    nrz_pam4_init_cond=LinkTrainingInitCondition.NO_INIT,
-                    nrz_preset=NRZPreset.NRZ_WITH_PRESET if lt_preset0_std else NRZPreset.NRZ_NO_PRESET,
-                    timeout_mode=TimeoutMode.DISABLED
-                    )
+                        mode=LinkTrainingMode.INTERACTIVE,
+                        pam4_frame_size=PAM4FrameSize.P16K_FRAME,
+                        nrz_pam4_init_cond=LinkTrainingInitCondition.NO_INIT,
+                        nrz_preset=NRZPreset.NRZ_WITH_PRESET
+                        if lt_preset0_std
+                        else NRZPreset.NRZ_NO_PRESET,
+                        timeout_mode=TimeoutMode.DISABLED,
+                    ),
                 ]
             else:
                 # LT only (standalone mode)
@@ -194,9 +205,13 @@ async def do_anlt(
                 # Configure link training initial modulations for the specified lanes (serdes)
                 for lane_str, im in lt_initial_modulations.items():
                     tokens += [
-                        commands.PL1_CFG_TMP(conn, mid, pid, int(lane_str), Layer1ConfigType.LT_INITIAL_MODULATION).set(
-                            values=[im]
-                        )
+                        commands.PL1_CFG_TMP(
+                            conn,
+                            mid,
+                            pid,
+                            int(lane_str),
+                            Layer1ConfigType.LT_INITIAL_MODULATION,
+                        ).set(values=[im])
                     ]
                 tokens += [
                     # Set link training state back to DISABLE first and then STANDALONE
@@ -204,16 +219,20 @@ async def do_anlt(
                         mode=LinkTrainingMode.DISABLED,
                         pam4_frame_size=PAM4FrameSize.P16K_FRAME,
                         nrz_pam4_init_cond=LinkTrainingInitCondition.NO_INIT,
-                        nrz_preset=NRZPreset.NRZ_WITH_PRESET if lt_preset0_std else NRZPreset.NRZ_NO_PRESET,
-                        timeout_mode=TimeoutMode.DEFAULT
+                        nrz_preset=NRZPreset.NRZ_WITH_PRESET
+                        if lt_preset0_std
+                        else NRZPreset.NRZ_NO_PRESET,
+                        timeout_mode=TimeoutMode.DEFAULT,
                     ),
                     commands.PP_LINKTRAIN(conn, mid, pid).set(
-                    mode=LinkTrainingMode.STANDALONE,
-                    pam4_frame_size=PAM4FrameSize.P16K_FRAME,
-                    nrz_pam4_init_cond=LinkTrainingInitCondition.NO_INIT,
-                    nrz_preset=NRZPreset.NRZ_WITH_PRESET if lt_preset0_std else NRZPreset.NRZ_NO_PRESET,
-                    timeout_mode=TimeoutMode.DISABLED
-                    )
+                        mode=LinkTrainingMode.STANDALONE,
+                        pam4_frame_size=PAM4FrameSize.P16K_FRAME,
+                        nrz_pam4_init_cond=LinkTrainingInitCondition.NO_INIT,
+                        nrz_preset=NRZPreset.NRZ_WITH_PRESET
+                        if lt_preset0_std
+                        else NRZPreset.NRZ_NO_PRESET,
+                        timeout_mode=TimeoutMode.DISABLED,
+                    ),
                 ]
         else:
             # No AN, no LT
@@ -227,14 +246,9 @@ async def do_anlt(
                 )
             ]
     await apply(*tokens)
-        
-            
-            
 
-def autoneg_timeout(
-    port: GenericAnyPort,
-    timeout: bool
-    ):
+
+def autoneg_timeout(port: GenericAnyPort, timeout: bool):
     """Configure auto-negotiation's timeout
 
     :param port: the port to configure AN
@@ -254,7 +268,9 @@ def autoneg_timeout(
             pam4_frame_size=PAM4FrameSize.P16K_FRAME,
             nrz_pam4_init_cond=LinkTrainingInitCondition.NO_INIT,
             nrz_preset=NRZPreset.NRZ_NO_PRESET,
-            timeout_mode=TimeoutMode.DISABLED if timeout==False else TimeoutMode.DEFAULT,
+            timeout_mode=TimeoutMode.DISABLED
+            if timeout == False
+            else TimeoutMode.DEFAULT,
         )
     ]
     # await apply(*tokens)
@@ -262,11 +278,7 @@ def autoneg_timeout(
     return tokens
 
 
-def autoneg_config(
-    port: GenericAnyPort,
-    enable: bool,
-    loopback: bool
-    ):
+def autoneg_config(port: GenericAnyPort, enable: bool, loopback: bool):
     """Configure auto-negotiation
 
     :param port: the port to configure AN
@@ -292,12 +304,9 @@ def autoneg_config(
             AutoNegFECOption.NO_FEC,
             AutoNegFECOption.NO_FEC,
             PauseMode.NO_PAUSE,
-        )
+        ),
     ]
-    # await apply(*tokens)
-    # return None
     return tokens
-
 
 
 async def autoneg_status(port: GenericAnyPort) -> Dict[str, Any]:
@@ -309,7 +318,9 @@ async def autoneg_status(port: GenericAnyPort) -> Dict[str, Any]:
     :rtype: typing.Dict[str, Any]
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
-    *_, loopback = await apply(commands.PL1_CFG_TMP(conn, mid, pid, 0, Layer1ConfigType.AN_LOOPBACK).get())
+    *_, loopback = await apply(
+        commands.PL1_CFG_TMP(conn, mid, pid, 0, Layer1ConfigType.AN_LOOPBACK).get()
+    )
     *_, auto_neg_info = await apply(commands.PL1_AUTONEGINFO(conn, mid, pid, 0).get())
     return {
         "loopback": "allowed" if loopback.values[0] else "not allowed",
@@ -349,14 +360,9 @@ async def autoneg_log(port: GenericAnyPort) -> str:
     return log.log_string
 
 
-
-
 def lt_config(
-    port: GenericAnyPort,
-    mode: LinkTrainingMode,
-    preset0: bool,
-    timeout: bool
-    ):
+    port: GenericAnyPort, mode: LinkTrainingMode, preset0: bool, timeout: bool
+):
     """Configure link training on a port.
 
     :param port: the port to configure LT on
@@ -377,104 +383,101 @@ def lt_config(
             mode=LinkTrainingMode.DISABLED,
             pam4_frame_size=PAM4FrameSize.P16K_FRAME,
             nrz_pam4_init_cond=LinkTrainingInitCondition.NO_INIT,
-            nrz_preset=NRZPreset.NRZ_WITH_PRESET if preset0 else NRZPreset.NRZ_NO_PRESET,
+            nrz_preset=NRZPreset.NRZ_WITH_PRESET
+            if preset0
+            else NRZPreset.NRZ_NO_PRESET,
             timeout_mode=TimeoutMode.DEFAULT if timeout else TimeoutMode.DISABLED,
         ),
         commands.PP_LINKTRAIN(conn, mid, pid).set(
             mode=mode,
             pam4_frame_size=PAM4FrameSize.P16K_FRAME,
             nrz_pam4_init_cond=LinkTrainingInitCondition.NO_INIT,
-            nrz_preset=NRZPreset.NRZ_WITH_PRESET if preset0 else NRZPreset.NRZ_NO_PRESET,
+            nrz_preset=NRZPreset.NRZ_WITH_PRESET
+            if preset0
+            else NRZPreset.NRZ_NO_PRESET,
             timeout_mode=TimeoutMode.DEFAULT if timeout else TimeoutMode.DISABLED,
         ),
     ]
-    # await apply(*tokens)
-    # return None
     return tokens
 
 
-async def lt_coeff_inc(port: GenericAnyPort, lane: int, emphasis: LinkTrainCoeffs) -> None:
+async def lt_coeff_inc(port: GenericAnyPort, lane: int, emphasis: str) -> None:
     """Ask the remote port to increase coeff of the specified lane.
 
     :param port: the port to configure
     :type port: :class:`~xoa_driver.ports.GenericAnyPort`
     :param lane: lane index, starting from 0
     :type lane: int
-    :param emphasis: coefficient index (-3, -2, -1, 0, 1)
-    :type emphasis: LinkTrainCoeffs
+    :param emphasis: coefficient index (pre1, pre2, pre3, main, post)
+    :type emphasis: str
     :return:
     :rtype: None
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
-    
-    await apply(
-        commands.PL1_LINKTRAIN_CMD(conn, mid, pid, lane).set(cmd=LinkTrainCmd.CMD_INC, arg=emphasis)
-        )
+    await commands.PL1_LINKTRAIN_CMD(conn, mid, pid, lane).set(
+        cmd=LinkTrainCmd.CMD_INC, arg=LinkTrainCoeffs[emphasis.upper()]
+    )
     return None
 
 
-async def lt_coeff_dec(port: GenericAnyPort, lane: int, emphasis: LinkTrainCoeffs) -> None:
+async def lt_coeff_dec(port: GenericAnyPort, lane: int, emphasis: str) -> None:
     """Ask the remote port to decrease coeff of the specified lane.
 
     :param port: the port to configure
     :type port: :class:`~xoa_driver.ports.GenericAnyPort`
     :param lane: lane index, starting from 0
     :type lane: int
-    :param coeff: coefficient index (-3, -2, -1, 0, 1)
-    :type coeff: LinkTrainCoeffs
-    :param value: the decrease value
-    :type count: int
+    :param emphasis: coefficient index (pre1, pre2, pre3, main, post)
+    :type emphasis: str
     :return:
     :rtype: None
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
-    
-    await apply(
-        commands.PL1_LINKTRAIN_CMD(conn, mid, pid, lane).set(cmd=LinkTrainCmd.CMD_INC, arg=emphasis)
-        )
+    await commands.PL1_LINKTRAIN_CMD(conn, mid, pid, lane).set(
+        cmd=LinkTrainCmd.CMD_INC, arg=LinkTrainCoeffs[emphasis.upper()]
+    )
     return None
 
 
-async def lt_preset(port: GenericAnyPort, lane: int, preset: LinkTrainPresets) -> None:
+async def lt_preset(port: GenericAnyPort, lane: int, preset: int) -> None:
     """Ask the remote port to use the preset of the specified lane.
 
     :param port: port to configure
     :type port: :class:`~xoa_driver.ports.GenericAnyPort`
     :param lane: lane index, starting from 0
     :type lane: int
-    :param preset: preset index to select for the lane, 1,2,3,4,5
+    :param preset: preset index to select for the lane, 0,1,2,3,4,
     :type preset: int
     :return:
     :rtype: None
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
-    await apply(
-        commands.PL1_LINKTRAIN_CMD(conn, mid, pid, lane).set(cmd=LinkTrainCmd.CMD_PRESET, arg=preset)
-        )
+    await commands.PL1_LINKTRAIN_CMD(conn, mid, pid, lane).set(
+        cmd=LinkTrainCmd.CMD_PRESET, arg=LinkTrainPresets(preset)
+    )
     return None
 
 
-
-async def lt_encoding(port: GenericAnyPort, lane: int, encoding: LinkTrainEncoding) -> None:
+async def lt_encoding(port: GenericAnyPort, lane: int, encoding: str) -> None:
     """Ask the remote port to use the encoding of the specified lane.
 
     :param port: port to configure
     :type port: :class:`~xoa_driver.ports.GenericAnyPort`
     :param lane: lane index, starting from 0
     :type lane: int
-    :param encoding: link training encoding (nrz/pam2, pam4, pam4pre)
+    :param encoding: link training encoding (nrz_pam2, pam4, pam4pre)
     :type encoding: str
     :return:
     :rtype: None
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
-    await apply(
-        commands.PL1_LINKTRAIN_CMD(conn, mid, pid, lane).set(cmd=LinkTrainCmd.CMD_ENCODING, arg=encoding)
-        )
+    await commands.PL1_LINKTRAIN_CMD(conn, mid, pid, lane).set(
+        cmd=LinkTrainCmd.CMD_ENCODING, arg=LinkTrainEncoding[encoding.upper()]
+    )
     return None
 
 
-def lt_im(port: GenericAnyPort, lane: int, encoding: LinkTrainEncoding):
+async def lt_im(port: GenericAnyPort, lane: int, encoding: str) -> None:
     """To set the initial modulation for the lane.
 
     :param port: port to configure
@@ -487,11 +490,11 @@ def lt_im(port: GenericAnyPort, lane: int, encoding: LinkTrainEncoding):
     :rtype: None
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
-    tokens = []
-    tokens.append(commands.PL1_CFG_TMP(conn, mid, pid, lane, Layer1ConfigType.LT_INITIAL_MODULATION).set(values=[encoding]))
-    # await apply(*tokens)
-    # return None
-    return tokens
+    await commands.PL1_CFG_TMP(
+        conn, mid, pid, lane, Layer1ConfigType.LT_INITIAL_MODULATION
+    ).set(values=[LinkTrainEncoding[encoding.upper()]])
+
+    return None
 
 
 async def lt_trained(port: GenericAnyPort, lane: int) -> None:
@@ -506,8 +509,10 @@ async def lt_trained(port: GenericAnyPort, lane: int) -> None:
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     await apply(
-        commands.PL1_LINKTRAIN_CMD(conn, mid, pid, lane).set(cmd=LinkTrainCmd.CMD_LOCAL_TRAINED, arg=0)
+        commands.PL1_LINKTRAIN_CMD(conn, mid, pid, lane).set(
+            cmd=LinkTrainCmd.CMD_LOCAL_TRAINED, arg=0
         )
+    )
     return None
 
 
@@ -524,9 +529,10 @@ async def lt_log(port: GenericAnyPort, lane: int) -> str:
     :rtype: str
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
-    *_, log = await apply(commands.PL1_LOG(conn, mid, pid, lane, Layer1LogType.LT).get())
+    *_, log = await apply(
+        commands.PL1_LOG(conn, mid, pid, lane, Layer1LogType.LT).get()
+    )
     return log.log_string
-
 
 
 async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
@@ -540,38 +546,43 @@ async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
     :rtype: str
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
-    
-    def decode_ic(value: int) -> str:
-        dict = {
-            "INDV": 0,
-            "Preset 4": 1,
-            "Preset 1": 2,
-            "Preset 5": 3,
-            "Preset 2": 4,
-            "Preset 3": 5,
-            }
-        if value in dict.values():
-            position = list(dict.values()).index(value)
-            return list(dict.keys())[position]
-        else:
-            return "Reserved"
-    
-    *_, status, info, ltconf, cfg= await apply(
+
+    def decode_ic(key: int) -> str:
+        dic = {
+            0: "INDV",
+            1: "Preset 4",
+            2: "Preset 1",
+            3: "Preset 5",
+            4: "Preset 2",
+            5: "Preset 3",
+        }
+        return dic.get(key, "Reserved")
+
+    *_, status, info, ltconf, cfg = await apply(
         commands.PP_LINKTRAINSTATUS(conn, mid, pid, lane).get(),
         commands.PL1_LINKTRAININFO(conn, mid, pid, lane, 0).get(),
         commands.PP_LINKTRAIN(conn, mid, pid).get(),
-        commands.PL1_CFG_TMP(conn, mid, pid, lane, Layer1ConfigType.LT_INITIAL_MODULATION).get()
+        commands.PL1_CFG_TMP(
+            conn, mid, pid, lane, Layer1ConfigType.LT_INITIAL_MODULATION
+        ).get(),
     )
-    getcontext().prec = 6
-    total_bit_count = Decimal(info.prbs_total_bits_high << 32) + Decimal(info.prbs_total_error_bits_low)
-    total_error_bit_count = Decimal(info.prbs_total_error_bits_high << 32) + Decimal(info.prbs_total_error_bits_low)
-    prbs = total_error_bit_count / total_bit_count if total_bit_count > 0 else Decimal('NaN')
+    total_bit_count = (info.prbs_total_bits_high << 32) + (
+        info.prbs_total_error_bits_low
+    )
+    total_error_bit_count = (info.prbs_total_error_bits_high << 32) + (
+        info.prbs_total_error_bits_low
+    )
+    prbs = (
+        total_error_bit_count / total_bit_count if total_bit_count > 0 else float("nan")
+    )
 
     return {
-        "is_enabled": True if status.mode==LinkTrainingStatusMode.ENABLED else False,
-        "is_trained": True if status.status==LinkTrainingStatus.TRAINED else False,
+        "is_enabled": True if status.mode == LinkTrainingStatusMode.ENABLED else False,
+        "is_trained": True if status.status == LinkTrainingStatus.TRAINED else False,
         "failure": status.failure.name.lower(),
-        "preset0": "standard" if ltconf.nrz_preset==NRZPreset.NRZ_NO_PRESET else "existing tap value", 
+        "preset0": "standard value"
+        if ltconf.nrz_preset == NRZPreset.NRZ_NO_PRESET
+        else "existing tap value",
         "init_modulation": cfg.value[0],
         "ber": str(prbs),
         "duration": f"{info.duration_us} us",
@@ -584,11 +595,11 @@ async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
         "last_ic_sent": decode_ic(info.last_ic_sent),
         "c(-3)": {
             "current_level": info.pre3_current_level,
-            "+reg": {
+            "+req": {
                 "rx": info.pre3_rx_increment_req_count,
                 "tx": info.pre3_tx_increment_req_count,
             },
-            "-reg": {
+            "-req": {
                 "rx": info.pre3_rx_decrement_req_count,
                 "tx": info.pre3_tx_decrement_req_count,
             },
@@ -611,11 +622,11 @@ async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
         },
         "c(-2)": {
             "current_level": info.pre2_current_level,
-            "+reg": {
+            "+req": {
                 "rx": info.pre2_rx_increment_req_count,
                 "tx": info.pre2_tx_increment_req_count,
             },
-            "-reg": {
+            "-req": {
                 "rx": info.pre2_rx_decrement_req_count,
                 "tx": info.pre2_tx_decrement_req_count,
             },
@@ -792,13 +803,15 @@ async def link_recovery(port: GenericAnyPort, enable: bool) -> None:
     :rtype:  None
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
-    await commands.PL1_CFG_TMP(conn, mid, pid, 0, Layer1ConfigType.ANLT_INTERACTIVE).set(values=[int(enable)])
+    await commands.PL1_CFG_TMP(
+        conn, mid, pid, 0, Layer1ConfigType.ANLT_INTERACTIVE
+    ).set(values=[int(enable)])
     return None
 
 
 async def status(
     port: GenericAnyPort,
-    ) -> Dict[str, Any]:
+) -> Dict[str, Any]:
     """Get the overview of ANLT status
 
     :param port: the port to get ANLT status from
@@ -810,16 +823,17 @@ async def status(
     # if not isinstance(port, LinkTrainingSupported):
     #     raise NotSupportLinkTrainError(port)
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
-    tokens = []
-    tokens += [
-        commands.PL1_CFG_TMP(conn, mid, pid, 0, Layer1ConfigType.ANLT_INTERACTIVE).get(),
+    tokens = [
+        commands.PL1_CFG_TMP(
+            conn, mid, pid, 0, Layer1ConfigType.ANLT_INTERACTIVE
+        ).get(),
         commands.PP_AUTONEGSTATUS(conn, mid, pid).get(),
-        commands.PP_LINKTRAIN(conn, mid, pid).get()
+        commands.PP_LINKTRAIN(conn, mid, pid).get(),
     ]
     *_, link_recovery, autoneg, linktrain = await apply(*tokens)
     return {
-        "autoneg_enabled": autoneg.mode.name.lower(),
-        "link_training_mode": linktrain.mode.name.lower(),
-        "link_training_timeout": linktrain.timeout_mode.name.lower(),
-        "link_recovery": "on" if link_recovery.values[0]==1 else "off"
+        "autoneg_enabled": AutoNegMode(autoneg.mode).name.lower().lstrip("aneg_"),
+        "link_training_mode": LinkTrainingMode(linktrain.mode).name.lower(),
+        "link_training_timeout": TimeoutMode(linktrain.timeout_mode).name.lower(),
+        "link_recovery": "on" if link_recovery.values[0] == 1 else "off",
     }
