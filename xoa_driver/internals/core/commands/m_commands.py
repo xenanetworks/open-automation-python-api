@@ -1,6 +1,6 @@
-#: L23 Module Commands
-
+from __future__ import annotations
 from dataclasses import dataclass
+import ipaddress
 import typing
 import functools
 
@@ -10,10 +10,43 @@ from ..protocol.command_builders import (
 )
 from .. import interfaces
 from ..transporter.token import Token
-from ..protocol.fields import data_types as xt
-from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *  # noqa: F403
+from ..protocol.payload import (
+    field,
+    RequestBodyStruct,
+    ResponseBodyStruct,
+    XmpByte,
+    XmpHex,
+    XmpInt,
+    XmpLong,
+    XmpSequence,
+    XmpStr,
+    Hex,
+)
+from .enums import (
+    ReservedStatus,
+    ReservedAction,
+    OnOff,
+    TimingSource,
+    MediaCFPState,
+    MediaCFPType,
+    SMAInputFunction,
+    SMAOutputFunction,
+    SMAStatus,
+    HasDemo,
+    IsValid,
+    IsPermanent,
+    YesNo,
+    UpdateState,
+    IsOnline,
+    TXClockSource,
+    TXClockStatus,
+    LoopBandwidth,
+    MediaConfigurationType,
+    ImpairmentLatencyMode,
+    PPMSweepStatus,
+    PPMSweepMode,
+)
 
 
 @register_command
@@ -34,45 +67,43 @@ class M_RESERVATION:
     code: typing.ClassVar[int] = 72
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        operation: XmpField[xt.XmpByte] = XmpField(
-            xt.XmpByte, choices=ReservedAction
-        )
+    class GetDataAttr(ResponseBodyStruct):
+        operation: ReservedStatus = field(XmpByte())
         """coded byte, containing the operation to perform. The reservation parameters are asymmetric with respect to set/get. When set, it contains the operation to perform. When get, it contains the status."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        operation: XmpField[xt.XmpByte] = XmpField(
-            xt.XmpByte, choices=ReservedStatus
-        )
+    class SetDataAttr(RequestBodyStruct):
+        operation: ReservedAction = field(XmpByte())
         """coded byte, containing the operation to perform. The reservation parameters are asymmetric with respect to set/get. When set, it contains the operation to perform. When get, it contains the status."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the reservation status of the test module.
 
         :return: the reservation status of the test module
         :rtype: M_RESERVATION.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, operation: ReservedAction) -> "Token":
+    def set(self, operation: ReservedAction) -> Token[None]:
         """Set the reservation status of the test module.
 
         :param operation: reservation operation to perform
         :type operation: ReservedAction
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, operation=operation))
 
     set_release = functools.partialmethod(set, ReservedAction.RELEASE)
     """Release the test module.
     """
+
     set_reserve = functools.partialmethod(set, ReservedAction.RESERVE)
     """Reserve the test module.
     """
+
     set_relinquish = functools.partialmethod(set, ReservedAction.RELINQUISH)
     """Release the ownership of the test module from another user.
     """
@@ -89,20 +120,20 @@ class M_RESERVEDBY:
     code: typing.ClassVar[int] = 73
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        username: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class GetDataAttr(ResponseBodyStruct):
+        username: str = field(XmpStr())
         """string, containing the name of the current owner of the module."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the username who has reserved the test module.
 
         :return: the username who has reserved the test module
         :rtype: M_RESERVEDBY.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -116,20 +147,20 @@ class M_MODEL:
     code: typing.ClassVar[int] = 75
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        model: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class GetDataAttr(ResponseBodyStruct):
+        model: str = field(XmpStr())
         """string, the legacy model P/N name of a Xena test module."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Gets the legacy model P/N name of a Xena test module.
 
         :return: the legacy model P/N name of a Xena test module
         :rtype: M_MODEL.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -143,20 +174,20 @@ class M_SERIALNO:
     code: typing.ClassVar[int] = 76
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        serial_number: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        serial_number: int = field(XmpInt())
         """integer, the serial number of this module."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Gets the unique serial number of the test module.
 
         :return: the serial number of this test module
         :rtype: M_SERIALNO.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -170,20 +201,20 @@ class M_VERSIONNO:
     code: typing.ClassVar[int] = 77
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        version: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        version: int = field(XmpInt())
         """integer, the hardware image version number."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Gets the version number of the hardware image installed on the test module.
 
         :return: the hardware image version number of the test module
         :rtype: M_VERSIONNO.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -197,20 +228,20 @@ class M_STATUS:
     code: typing.ClassVar[int] = 79
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        temperature: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        temperature: int = field(XmpInt())
         """integer, temperature of the main hardware chip, in degrees Celsius."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the status readings of the test module
 
         :return: temperature of the main hardware chip, in degrees Celsius
         :rtype: M_STATUS.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -229,20 +260,20 @@ class M_PORTCOUNT:
     code: typing.ClassVar[int] = 80
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        port_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        port_count: int = field(XmpInt())
         """integer, the maximum number of ports."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Gets the maximum number of ports on a module.
 
         :return: the maximum number of ports on the test module
         :rtype: M_PORTCOUNT.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -258,18 +289,16 @@ class M_UPGRADE:
     code: typing.ClassVar[int] = 81
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        magic: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class SetDataAttr(RequestBodyStruct):
+        magic: int = field(XmpInt())
         """integer, must be the special value -1480937026."""
-
-        image_name: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        image_name: str = field(XmpStr())
         """string, the fully qualified name of a file previously uploaded to the chassis."""
 
-    def set(self, image_name: str) -> "Token":
+    def set(self, image_name: str) -> Token[None]:
         """Transfers a hardware image file from the chassis to a module. This image will
         take effect when the chassis is powered-on the next time. The transfer takes
         approximately 3 minutes, but no further action is required by the client.
@@ -277,7 +306,8 @@ class M_UPGRADE:
         :param image_name: the fully qualified name of a file previously uploaded to the chassis
         :type image_name: str
         """
-        return Token(self._connection, build_set_request(self, module=self._module, magic=-1480937026, image_name=image_name))
+
+        return Token(self._connection, build_set_request(self, module=self._module, image_name=image_name))
 
 
 @register_command
@@ -293,17 +323,14 @@ class M_UPGRADEPROGRESS:
     code: typing.ClassVar[int] = 82
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        progress: XmpField[xt.XmpInt] = XmpField(
-            xt.XmpInt
-        )
+    class GetDataAttr(ResponseBodyStruct):
+        progress: int = field(XmpInt())
         """integer, the current stage within the three phases. 0: Failure. 1-100: Erase completion percentage. 101-200: Write completion percentage. 201-300: Verify completion percentage."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the current stage of an ongoing hardware image
         upgrade operation. This is for information only; the upgrade operation runs to
         completion by itself. The progress values are pushed to the client without it
@@ -312,6 +339,7 @@ class M_UPGRADEPROGRESS:
         :param progress: the current stage within the three phases. 0: Failure. 1-100: Erase completion percentage. 101-200: Write completion percentage. 201-300: Verify completion percentage.
         :type progress: M_UPGRADEPROGRESS.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -330,41 +358,43 @@ class M_TIMESYNC:
     code: typing.ClassVar[int] = 83
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        source: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TimingSource)
+    class GetDataAttr(ResponseBodyStruct):
+        source: int = field(XmpByte())
         """coded byte, selecting the time sync mode."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        source: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TimingSource)
+    class SetDataAttr(RequestBodyStruct):
+        source: int = field(XmpByte())
         """coded byte, selecting the time sync mode."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the time sync mode of the test module timestamp clock.
 
         :return: the time sync mode of the test module timestamp clock
         :rtype: M_TIMESYNC.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, source: TimingSource) -> "Token":
+    def set(self, source: TimingSource) -> Token[None]:
         """Set the time sync mode of the test module timestamp clock.
 
         :param mode: the time sync mode of the test module timestamp clock
         :type mode: TimingSource
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, source=source))
 
     set_chassis = functools.partialmethod(set, TimingSource.CHASSIS)
     """Set the time sync mode of the test module to Chassis Mode.
     """
+
     set_external = functools.partialmethod(set, TimingSource.EXTERNAL)
     """Set the time sync mode of the test module to External Mode.
     """
+
     set_module = functools.partialmethod(set, TimingSource.MODULE)
     """Set the time sync mode of the test module to Module Mode.
     """
@@ -380,18 +410,16 @@ class M_CFPTYPE:
     code: typing.ClassVar[int] = 84
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        state: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=MediaCFPState)
+    class GetDataAttr(ResponseBodyStruct):
+        state: MediaCFPState = field(XmpByte())
         """coded byte, specifying the CFP state."""
-
-        type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=MediaCFPType)
+        type: MediaCFPType = field(XmpByte())
         """coded byte, specifying the CFP type."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get CFP type information about the transceiver currently inserted into the cage.
 
         :return:
@@ -399,6 +427,7 @@ class M_CFPTYPE:
             - the CFP type
         :rtype: M_CFPTYPE.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -416,26 +445,22 @@ class M_CFPCONFIG:
     code: typing.ClassVar[int] = 85
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        port_count: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
+    class GetDataAttr(ResponseBodyStruct):
+        port_count: int = field(XmpByte())
         """byte, number of ports."""
-
-        port_speed: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
+        port_speed: int = field(XmpByte())
         """byte, port speed, in Gbps."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        port_count: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
+    class SetDataAttr(RequestBodyStruct):
+        port_count: int = field(XmpByte())
         """byte, number of ports."""
-
-        port_speed: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
+        port_speed: int = field(XmpByte())
         """byte, port speed, in Gbps."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the current number of ports and their speed of a CFP test module.
 
         :return:
@@ -443,9 +468,10 @@ class M_CFPCONFIG:
             - port speed, in Gbps
         :rtype: M_CFPCONFIG.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, port_count: int, port_speed: int) -> "Token":
+    def set(self, port_count: int, port_speed: int) -> Token[None]:
         """Set the current number of ports and their speed of a CFP test module.
 
         :param port_count: number of ports
@@ -453,6 +479,7 @@ class M_CFPCONFIG:
         :param port_speed: port speed, in Gbps
         :type port_speed: int
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, port_count=port_count, port_speed=port_speed))
 
 
@@ -466,33 +493,33 @@ class M_COMMENT:
     code: typing.ClassVar[int] = 86
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        comment: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class GetDataAttr(ResponseBodyStruct):
+        comment: str = field(XmpStr())
         """string, the user-specified comment/description for the module."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        comment: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class SetDataAttr(RequestBodyStruct):
+        comment: str = field(XmpStr())
         """string, the user-specified comment/description for the module."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the user-defined description string of a module.
 
         :return: the user-specified comment/description for the module
         :rtype: M_COMMENT.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, comment: str) -> "Token":
+    def set(self, comment: str) -> Token[None]:
         """Set the user-defined description string of a module.
 
         :param comment: the user-specified comment/description for the module
         :type comment: str
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, comment=comment))
 
 
@@ -506,37 +533,33 @@ class M_TIMEADJUSTMENT:
     code: typing.ClassVar[int] = 88
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        adjust: XmpField[xt.XmpInt] = XmpField(
-            xt.XmpInt
-        )
+    class GetDataAttr(ResponseBodyStruct):
+        adjust: int = field(XmpInt())
         """integer, adjustment in nanoseconds. This value should be a multiple of 8 as it will be converted to a number of 125 MHz clocks."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        adjust: XmpField[xt.XmpInt] = XmpField(
-            xt.XmpInt
-        )
+    class SetDataAttr(RequestBodyStruct):
+        adjust: int = field(XmpInt())
         """integer, adjustment in nanoseconds. This value should be a multiple of 8 as it will be converted to a number of 125 MHz clocks."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the time adjustment value for the module clock.
 
         :return: the time adjustment value for the module clock
         :rtype: M_TIMEADJUSTMENT.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, adjust: int) -> "Token":
+    def set(self, adjust: int) -> Token[None]:
         """Set the time adjustment value for the module clock. This value should be a multiple of 8 as it will be converted to a number of 125 MHz clocks.
 
         :param adjust: the time adjustment value for the module clock
         :type adjust: int
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, adjust=adjust))
 
 
@@ -550,36 +573,28 @@ class M_CAPABILITIES:
     code: typing.ClassVar[int] = 89
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        can_advanced_timing: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=YesNo)
+    class GetDataAttr(ResponseBodyStruct):
+        can_advanced_timing: YesNo = field(XmpInt())
         """coded integer, is advanced timing functions supported?"""
-
-        can_local_time_adjust: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=YesNo)
+        can_local_time_adjust: YesNo = field(XmpInt())
         """coded integer, is local time adjustment supported?"""
-
-        can_media_config: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=YesNo)
+        can_media_config: YesNo = field(XmpInt())
         """coded integer, is module media configuration supported?"""
-
-        require_multi_image: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=YesNo)
+        require_multi_image: YesNo = field(XmpInt())
         """coded integer, does this module switch images during runtime?"""
-
-        is_chimera: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=YesNo)
+        is_chimera: YesNo = field(XmpInt())
         """coded integer, is this a Chimera module?"""
-
-        max_clock_ppm: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        max_clock_ppm: int = field(XmpInt())
         """integer, maximum supported absolute +- clock ppm setting."""
-
-        can_tsn: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=YesNo)
+        can_tsn: YesNo = field(XmpInt())
         """coded integer, does this module support Time Sensitive Networking (TSN) ?"""
-
-        can_ppm_sweep: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=YesNo)
+        can_ppm_sweep: YesNo = field(XmpInt())
         """coded integer, does this module support Local Clock Adjustment/Sweep (aka. PPM Sweep) ?"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the test module capabilities.
 
         :return:
@@ -594,6 +609,7 @@ class M_CAPABILITIES:
 
         :rtype: M_CAPABILITIES.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -610,15 +626,14 @@ class M_MEDIASUPPORT:
     code: typing.ClassVar[int] = 90
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        media_info_list: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
+    class GetDataAttr(ResponseBodyStruct):
+        media_info_list: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """coded integer, media information"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the media supports by the port, including cage type, available speed count, ports per speed, and the corresponding speed.
 
         :return:
@@ -628,6 +643,7 @@ class M_MEDIASUPPORT:
 
         :rtype: M_MEDIASUPPORT.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -641,28 +657,21 @@ class M_FPGAREIMAGE:
     code: typing.ClassVar[int] = 91
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        key_code: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class SetDataAttr(RequestBodyStruct):
+        key_code: int = field(XmpInt())
         """integer, must be 42."""
 
-    def set(self) -> "Token":
+    def set(self) -> Token[None]:
         """Reload the FPGA image.
 
         :param key_code: must be 42.
         :type key_code: int.
         """
-        return Token(
-            self._connection,
-            build_set_request(
-                self,
-                module=self._module,
-                key_code=42,
-            ),
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module))
 
 
 @register_command
@@ -675,38 +684,39 @@ class M_MULTIUSER:
     code: typing.ClassVar[int] = 92
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+    class GetDataAttr(ResponseBodyStruct):
+        on_off: OnOff = field(XmpByte())
         """coded byte, enable or disable multiple sessions to control the same module."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+    class SetDataAttr(RequestBodyStruct):
+        on_off: OnOff = field(XmpByte())
         """coded byte, enable or disable multiple sessions to control the same module."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the status of multiple sessions controlling the same module.
 
         :return: the status of multiple sessions controlling the same module
         :rtype: M_MULTIUSER.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, on_off: OnOff) -> "Token":
+    def set(self, on_off: OnOff) -> Token[None]:
         """Enable or disable multiple sessions to control the same module.
 
         :param on_off: Enable or disable multiple sessions to control the same module
         :type on_off: OnOff
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, on_off=on_off))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """Disable multiple sessions to control the same module.
     """
+
     set_on = functools.partialmethod(set, OnOff.ON)
     """Enable multiple sessions to control the same module.
     """
@@ -734,26 +744,27 @@ class M_CFPCONFIGEXT:
     code: typing.ClassVar[int] = 93
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        portspeed_list: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
+    class GetDataAttr(ResponseBodyStruct):
+        portspeed_list: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        portspeed_list: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
+    class SetDataAttr(RequestBodyStruct):
+        portspeed_list: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get a list of port count and corresponding speeds supported by the current module config.
 
         :return: a list of port count and corresponding speeds supported by the current module config
         :rtype: M_CFPCONFIGEXT.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, portspeed_list: typing.List[int]) -> "Token":
+    def set(self, portspeed_list: typing.List[int]) -> Token[None]:
+        """"""
+
         return Token(self._connection, build_set_request(self, module=self._module, portspeed_list=portspeed_list))
 
 
@@ -768,33 +779,33 @@ class M_CLOCKPPB:
     code: typing.ClassVar[int] = 94
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        ppb: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        ppb: int = field(XmpInt())
         """integer, adjustment from nominal value, in parts-per-billion, positive or negative."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        ppb: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class SetDataAttr(RequestBodyStruct):
+        ppb: int = field(XmpInt())
         """integer, adjustment from nominal value, in parts-per-billion, positive or negative."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the module clock adjustment in ppb.
 
         :return: the module clock adjustment in ppb
         :rtype: M_CLOCKPPB.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, ppb: int) -> "Token":
+    def set(self, ppb: int) -> Token[None]:
         """Set the module clock adjustment in ppb.
 
         :param ppb: adjustment from nominal value, in parts-per-billion, positive or negative
         :type ppb: int
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, ppb=ppb))
 
 
@@ -808,41 +819,43 @@ class M_SMAINPUT:
     code: typing.ClassVar[int] = 95
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        sma_in: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=SMAInputFunction)
+    class GetDataAttr(ResponseBodyStruct):
+        sma_in: SMAInputFunction = field(XmpByte())
         """coded byte, specifying the function of the SMA input."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        sma_in: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=SMAInputFunction)
+    class SetDataAttr(RequestBodyStruct):
+        sma_in: SMAInputFunction = field(XmpByte())
         """coded byte, specifying the function of the SMA input."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the function of the SMA (SubMiniature version A) input of the module
 
         :return: the function of the SMA (SubMiniature version A) input of the module
         :rtype: M_SMAINPUT.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, sma_in: SMAInputFunction) -> "Token":
+    def set(self, sma_in: SMAInputFunction) -> Token[None]:
         """Set the function of the SMA (SubMiniature version A) input of the module
 
         :param sma_in: the function of the SMA (SubMiniature version A) input of the module
         :type sma_in: SMAInputFunction
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, sma_in=sma_in))
 
     set_notused = functools.partialmethod(set, SMAInputFunction.NOT_USED)
     """Set SMA input to Not Used
     """
+
     set_tx2mhz = functools.partialmethod(set, SMAInputFunction.TX2MHZ)
     """Set SMA input to TX Clock Ref. 2.048 MHz
     """
+
     set_tx10mhz = functools.partialmethod(set, SMAInputFunction.TX10MHZ)
     """Set SMA input to TX Clock Ref. 10.0 MHz
     """
@@ -858,71 +871,83 @@ class M_SMAOUTPUT:
     code: typing.ClassVar[int] = 96
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        sma_out: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=SMAOutputFunction)
+    class GetDataAttr(ResponseBodyStruct):
+        sma_out: SMAOutputFunction = field(XmpByte())
         """coded byte, specifying the function of the SMA output."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        sma_out: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=SMAOutputFunction)
+    class SetDataAttr(RequestBodyStruct):
+        sma_out: SMAOutputFunction = field(XmpByte())
         """coded byte, specifying the function of the SMA output."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the function of the SMA (SubMiniature version A) output of the module
 
         :return: the function of the SMA (SubMiniature version A) output of the module
         :rtype: M_SMAOUTPUT.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, sma_out: SMAOutputFunction) -> "Token":
+    def set(self, sma_out: SMAOutputFunction) -> Token[None]:
         """Set the function of the SMA (SubMiniature version A) output of the module
 
         :param sma_out: the function of the SMA (SubMiniature version A) output of the module
         :type sma_out: SMAOutputFunction
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, sma_out=sma_out))
 
     set_disabled = functools.partialmethod(set, SMAOutputFunction.DISABLED)
     """Set SMA output function to Disabled.
     """
+
     set_passthrough = functools.partialmethod(set, SMAOutputFunction.PASSTHROUGH)
     """Set SMA output function to Pass-Through.
     """
+
     set_p0sof = functools.partialmethod(set, SMAOutputFunction.P0SOF)
     """Set SMA output function to Port 0 Start-of-Frame Pulse.
     """
+
     set_p1sof = functools.partialmethod(set, SMAOutputFunction.P1SOF)
     """Set SMA output function to Port 1 Start-of-Frame Pulse.
     """
+
     set_ref2mhz = functools.partialmethod(set, SMAOutputFunction.REF2MHZ)
     """Set SMA output function to TX Clock (nom. 2.048 MHz).
     """
+
     set_ref10mhz = functools.partialmethod(set, SMAOutputFunction.REF10MHZ)
     """Set SMA output function to TX Clock (nom. 10.0 MHz).
     """
+
     set_ref125mhz = functools.partialmethod(set, SMAOutputFunction.REF125MHZ)
     """Set SMA output function to TX Clock (nom. 125 MHz).
     """
+
     set_ref156mhz = functools.partialmethod(set, SMAOutputFunction.REF156MHZ)
     """Set SMA output function to TX Clock (nom. 156.25 MHz).
     """
+
     set_p0rxclk = functools.partialmethod(set, SMAOutputFunction.P0RXCLK)
     """Set SMA output function to Port 0 RX Clock (nom. 10.0 MHz).
     """
+
     set_p1rxclk = functools.partialmethod(set, SMAOutputFunction.P1RXCLK)
     """Set SMA output function to Port 1 RX Clock (nom. 10.0 MHz).
     """
+
     set_p0rxclk2mhz = functools.partialmethod(set, SMAOutputFunction.P0RXCLK2MHZ)
     """Set SMA output function to Port 0 RX Clock (nom. 2.048 MHz).
     """
+
     set_p1rxclk2mhz = functools.partialmethod(set, SMAOutputFunction.P1RXCLK2MHZ)
     """Set SMA output function to Port 1 RX Clock (nom. 2.048 MHz).
     """
+
     set_ts_pps = functools.partialmethod(set, SMAOutputFunction.TS_PPS)
     """Set SMA output function to Timing Source (Pulse-Per-Second).
     """
@@ -938,20 +963,20 @@ class M_SMASTATUS:
     code: typing.ClassVar[int] = 97
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        status: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=SMAStatus)
+    class GetDataAttr(ResponseBodyStruct):
+        status: SMAStatus = field(XmpByte())
         """coded byte, specifying the status of the SMA input."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the status of the SMA input
 
         :return: the status of the SMA input
         :rtype: M_SMASTATUS.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -965,20 +990,20 @@ class M_NAME:
     code: typing.ClassVar[int] = 99
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        name: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class GetDataAttr(ResponseBodyStruct):
+        name: str = field(XmpStr())
         """string, the name for the module."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the name of the module.
 
         :return: the name of the module
         :rtype: M_NAME.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -992,20 +1017,20 @@ class M_REVISION:
     code: typing.ClassVar[int] = 100
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        revision: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class GetDataAttr(ResponseBodyStruct):
+        revision: str = field(XmpStr())
         """string, the model P/N name of a Xena test module."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the model P/N name of a Xena test module.
 
         :return: the model P/N name of a Xena test module.
         :rtype: M_REVISION.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -1020,33 +1045,33 @@ class M_MEDIA:
     code: typing.ClassVar[int] = 342
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        media_config: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=MediaConfigurationType)  
+    class GetDataAttr(ResponseBodyStruct):
+        media_config: MediaConfigurationType = field(XmpByte())
         """coded byte, specifying the active front port: CFP4, QSFP28, CXP, SFP28."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        media_config: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=MediaConfigurationType)
+    class SetDataAttr(RequestBodyStruct):
+        media_config: MediaConfigurationType = field(XmpByte())
         """coded byte, specifying the active front port: CFP4, QSFP28, CXP, SFP28."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the media type of the test module.
 
         :return: the media type of the test module
         :rtype: M_MEDIA.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, media_config: MediaConfigurationType) -> "Token":
+    def set(self, media_config: MediaConfigurationType) -> Token[None]:
         """Set the media type of the test module.
 
         :param media_config: the media type of the test module
         :type media_config: MediaType
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, media_config=media_config))
 
 
@@ -1060,32 +1085,28 @@ class M_CLOCKSYNCSTATUS:
     code: typing.ClassVar[int] = 370
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        m_clock_diff: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+    class GetDataAttr(ResponseBodyStruct):
+        m_clock_diff: int = field(XmpLong())
         """long integer, module clock diff"""
-
-        m_correction: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        m_correction: int = field(XmpLong())
         """long integer, module correction"""
-
-        m_tune_is_increase: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        m_tune_is_increase: int = field(XmpLong())
         """long integer, whether module tune is increased"""
-
-        m_tune_value: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        m_tune_value: int = field(XmpLong())
         """long integer, module tune value"""
-
-        m_is_steady_state: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        m_is_steady_state: int = field(XmpLong())
         """long integer, whether module is in steady state"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the test module's clock sync status.
 
         :return: the test module's clock sync status
         :rtype: M_CLOCKSYNCSTATUS.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -1099,33 +1120,26 @@ class M_LICENSE_DEMO_INFO:
     code: typing.ClassVar[int] = 400
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        demo: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=HasDemo)
+    class GetDataAttr(ResponseBodyStruct):
+        demo: HasDemo = field(XmpByte())
         """coded byte, specifies if this is a demo module or not."""
-
-        valid: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=IsValid)
+        valid: IsValid = field(XmpByte())
         """coded byte, if this is a demo module, specifies if the demo license is valid."""
-
-        permanent: XmpField[xt.XmpByte] = XmpField(
-            xt.XmpByte, choices=IsPermanent
-        )
+        permanent: IsPermanent = field(XmpByte())
         """coded byte, if this is a demo module and the demo license is valid, specifies if the demo license is permanent."""
-
-        expiration: XmpField[xt.XmpLong] = XmpField(
-            xt.XmpLong
-        )
+        expiration: int = field(XmpLong())
         """long integer, if this is a demo module and the demo license is valid and not permanent, specifies the expiration date of the demo license - in seconds since Jan 1, 1970."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get info of the demo status of the test module. Only applicable to L47 test module.
 
         :return: info of the demo status of the test module.
         :rtype: M_LICENSE_DEMO_INFO.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -1139,30 +1153,24 @@ class M_LICENSE_MAINTENANCE_INFO:
     code: typing.ClassVar[int] = 401
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        valid: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=IsValid)
+    class GetDataAttr(ResponseBodyStruct):
+        valid: IsValid = field(XmpByte())
         """coded byte, specifies if the maintenance license is valid."""
-
-        permanent: XmpField[xt.XmpByte] = XmpField(
-            xt.XmpByte, choices=IsPermanent
-        )
+        permanent: IsPermanent = field(XmpByte())
         """coded byte, if the maintenance license is valid, specifies if the maintenance license is permanent."""
-
-        expiration: XmpField[xt.XmpLong] = XmpField(
-            xt.XmpLong
-        )
+        expiration: int = field(XmpLong())
         """long integer, if the maintenance license is valid and not permanent, specifies the expiration date of the maintenance license - in seconds since Jan 1, 1970."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the info about the maintenance license status for the module. Only applicable to L47 test module.
 
         :return: the info about the maintenance license status for the test module
         :rtype: M_LICENSE_MAINTENANCE_INFO.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -1179,20 +1187,20 @@ class M_LICENSE_CWB_DETECTED:
     code: typing.ClassVar[int] = 402
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        detected: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)
+    class GetDataAttr(ResponseBodyStruct):
+        detected: YesNo = field(XmpByte())
         """coded byte, specifies if clock-windback is detected."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get whether clock-windback is detected.
 
         :return: whether clock-windback is detected
         :rtype: M_LICENSE_CWB_DETECTED.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -1212,23 +1220,17 @@ class M_LICENSE_UPDATE:
     code: typing.ClassVar[int] = 403
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
+    class SetDataAttr(RequestBodyStruct):
         pass
 
-    def set(self) -> "Token":
+    def set(self) -> Token[None]:
         """Start license update
         """
-        return Token(
-            self._connection,
-            build_set_request(
-                self,
-                module=self._module,
-            ),
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module))
 
 
 @register_command
@@ -1241,32 +1243,28 @@ class M_LICENSE_UPDATE_STATUS:
     code: typing.ClassVar[int] = 404
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        update_state: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=UpdateState)
+    class GetDataAttr(ResponseBodyStruct):
+        update_state: UpdateState = field(XmpByte())
         """coded byte, specifies the state of the license update procedure"""
-
-        last_update: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        last_update: int = field(XmpLong())
         """long integer, time for the last update request - in seconds since Jan 1, 1979"""
-
-        last_success: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        last_success: int = field(XmpLong())
         """long integer, time for the last successful update - in seconds since Jan 1, 1979"""
-
-        last_fail: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        last_fail: int = field(XmpLong())
         """long integer, time for the last failed update - in seconds since Jan 1, 1979"""
-
-        info: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        info: str = field(XmpStr())
         """string, info about the last license update operation - reason for failed update."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the status of the latest license update operation.
 
         :return: the status of the latest license update operation
         :rtype: M_LICENSE_UPDATE_STATUS.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -1280,20 +1278,20 @@ class M_LICENSE_LIST_BSON:
     code: typing.ClassVar[int] = 405
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        bson: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)
+    class GetDataAttr(ResponseBodyStruct):
+        bson: list[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
         """list of hex bytes, bson document containing the list of locally stored licenses"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the a list of locally stored licenses - formatted as a BSON document.
 
         :return: a list of locally stored licenses - formatted as a BSON document.
         :rtype: M_LICENSE_LIST_BSON.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -1311,38 +1309,39 @@ class M_LICENSE_ONLINE:
     code: typing.ClassVar[int] = 406
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=IsOnline)
+    class GetDataAttr(ResponseBodyStruct):
+        mode: IsOnline = field(XmpByte())
         """coded byte, chassis online/offline mode."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=IsOnline)
+    class SetDataAttr(RequestBodyStruct):
+        mode: IsOnline = field(XmpByte())
         """coded byte, chassis online/offline mode."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the current online/offline mode of the L47 tester.
 
         :return: the current online/offline mode of the L47 tester
         :rtype: M_LICENSE_ONLINE.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, mode: IsOnline) -> "Token":
+    def set(self, mode: IsOnline) -> Token[None]:
         """Set the current online/offline mode of the L47 tester.
 
         :param mode: the current online/offline mode of the L47 tester
         :type mode: IsOnline
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, mode=mode))
 
     set_offline = functools.partialmethod(set, IsOnline.OFFLINE)
     """Set the L47 tester to offline mode.
     """
+
     set_online = functools.partialmethod(set, IsOnline.ONLINE)
     """Set the L47 tester to online mode.
     """
@@ -1359,62 +1358,71 @@ class M_TXCLOCKSOURCE_NEW:
     code: typing.ClassVar[int] = 410
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        tx_clock: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TXClockSource)
+    class GetDataAttr(ResponseBodyStruct):
+        tx_clock: TXClockSource = field(XmpByte())
         """coded byte, specifying what drives the port TX rates."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        tx_clock: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TXClockSource)
+    class SetDataAttr(RequestBodyStruct):
+        tx_clock: TXClockSource = field(XmpByte())
         """coded byte, specifying what drives the port TX rates."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the test module's TX clock source settings.
 
         :return: the test module's TX clock source settings.
         :rtype: M_TXCLOCKSOURCE_NEW.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, tx_clock: TXClockSource) -> "Token":
+    def set(self, tx_clock: TXClockSource) -> Token[None]:
         """Set the test module's TX clock source settings.
 
         :param tx_clock: the test module's TX clock source settings
         :type tx_clock: TXClockSource
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, tx_clock=tx_clock))
 
     set_modulelocalclock = functools.partialmethod(set, TXClockSource.MODULELOCALCLOCK)
     """Set the test module's TX clock source to Module Local Clock
     """
+
     set_smainput = functools.partialmethod(set, TXClockSource.SMAINPUT)
     """Set the test module's TX clock source to SMA Input
     """
+
     set_p0rxclk = functools.partialmethod(set, TXClockSource.P0RXCLK)
     """Set the test module's TX clock source to Port 0 RX Clock
     """
+
     set_p1rxclk = functools.partialmethod(set, TXClockSource.P1RXCLK)
     """Set the test module's TX clock source to Port 1 RX Clock
     """
+
     set_p2rxclk = functools.partialmethod(set, TXClockSource.P2RXCLK)
     """Set the test module's TX clock source to Port 2 RX Clock
     """
+
     set_p3rxclk = functools.partialmethod(set, TXClockSource.P3RXCLK)
     """Set the test module's TX clock source to Port 3 RX Clock
     """
+
     set_p4rxclk = functools.partialmethod(set, TXClockSource.P4RXCLK)
     """Set the test module's TX clock source to Port 4 RX Clock
     """
+
     set_p5rxclk = functools.partialmethod(set, TXClockSource.P5RXCLK)
     """Set the test module's TX clock source to Port 5 RX Clock
     """
+
     set_p6rxclk = functools.partialmethod(set, TXClockSource.P6RXCLK)
     """Set the test module's TX clock source to Port 6 RX Clock
     """
+
     set_p7rxclk = functools.partialmethod(set, TXClockSource.P7RXCLK)
     """Set the test module's TX clock source to Port 7 RX Clock
     """
@@ -1431,20 +1439,20 @@ class M_TXCLOCKSTATUS_NEW:
     code: typing.ClassVar[int] = 411
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        status: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TXClockStatus)
+    class GetDataAttr(ResponseBodyStruct):
+        status: TXClockStatus = field(XmpByte())
         """coded byte, specifying the status of the TX clock."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the status of whether a valid clock is present for the test module.
 
         :return: the status of whether a valid clock is present for the test module.
         :rtype: M_TXCLOCKSTATUS_NEW.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -1459,47 +1467,51 @@ class M_TXCLOCKFILTER_NEW:
     code: typing.ClassVar[int] = 412
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        filter_bandwidth: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=LoopBandwidth)
+    class GetDataAttr(ResponseBodyStruct):
+        filter_bandwidth: LoopBandwidth = field(XmpByte())
         """coded byte, the loop bandwidth on the TX clock filter."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        filter_bandwidth: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=LoopBandwidth)
+    class SetDataAttr(RequestBodyStruct):
+        filter_bandwidth: LoopBandwidth = field(XmpByte())
         """coded byte, the loop bandwidth on the TX clock filter."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the setting of the loop bandwidth on the TX clock filter.
 
         :return: the setting of the loop bandwidth on the TX clock filter.
         :rtype: M_TXCLOCKFILTER_NEW.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, filter_bandwidth: LoopBandwidth) -> "Token":
+    def set(self, filter_bandwidth: LoopBandwidth) -> Token[None]:
         """Set the setting of the loop bandwidth on the TX clock filter.
 
         :param filter_bandwidth: the setting of the loop bandwidth on the TX clock filter
         :type filter_bandwidth: LoopBandwidth
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, filter_bandwidth=filter_bandwidth))
 
     set_bw103hz = functools.partialmethod(set, LoopBandwidth.BW103HZ)
     """Set the loop bandwidth on the TX clock filter to BW = 103 Hz.
     """
+
     set_bw207hz = functools.partialmethod(set, LoopBandwidth.BW207HZ)
     """Set the loop bandwidth on the TX clock filter to BW = 207 Hz.
     """
+
     set_bw416hz = functools.partialmethod(set, LoopBandwidth.BW416HZ)
     """Set the loop bandwidth on the TX clock filter to BW = 416 Hz.
     """
+
     set_bw1683hz = functools.partialmethod(set, LoopBandwidth.BW1683HZ)
     """Set the loop bandwidth on the TX clock filter to BW = 1683 Hz.
     """
+
     set_bw7019hz = functools.partialmethod(set, LoopBandwidth.BW7019HZ)
     """Set the loop bandwidth on the TX clock filter to BW = 7019 Hz.
     """
@@ -1519,52 +1531,43 @@ class M_CLOCKPPBSWEEP:
     code: typing.ClassVar[int] = 413
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        mode: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=PPMSweepMode)
-        """coded byte, specifying the sweeping function: OFF or TRIANGLE"""
-
-        ppb_step: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
-        """integer >=0, the numeric clock adjustment in ppb per step of the sweep. If set to 0, the sweep will use as small steps as possible, creating a "linear" sweep of the clock rate."""
-
-        step_delay: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
-        """integer >0 the delay in µs between each step in the sweep. If ppb_step is 0: The total time in µs to sweep linearly from 0 to max_ppb."""
-
-        max_ppb: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
-        """integer != 0, the numeric maximum clock adjustment. The sign of max_ppb determines if the sweep will start with positive or negative offsets. When the next step would exceed the limit set by max_ppb, the sweep changes direction. I.e. the deviation will sweep from 0 to max_ppb, to (-max_ppb), and back to 0."""
-
-        loops: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
-        """integer >=0, the number of full sweeps performed. 0 means "indefinitely"."""
-
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        mode: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=PPMSweepMode)
+    class GetDataAttr(ResponseBodyStruct):
+        mode: PPMSweepMode = field(XmpInt())
         """coded byte, specifying the sweeping function."""
-
-        ppb_step: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        ppb_step: int = field(XmpInt())
         """integer >=0, the numeric clock adjustment in ppb per step of the sweep. If set to 0, the sweep will use as small steps as possible, creating a "linear" sweep of the clock rate."""
-
-        step_delay: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        step_delay: int = field(XmpInt())
         """integer >0 the delay in µs between each step in the sweep. If ppb_step is 0: The total time in µs to sweep linearly from 0 to max_ppb."""
-
-        max_ppb: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        max_ppb: int = field(XmpInt())
         """integer != 0, the numeric maximum clock adjustment. The sign of max_ppb determines if the sweep will start with positive or negative offsets. When the next step would exceed the limit set by max_ppb, the sweep changes direction. I.e. the deviation will sweep from 0 to max_ppb, to (-max_ppb), and back to 0."""
-
-        loops: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        loops: int = field(XmpInt())
         """integer >=0, the number of full sweeps performed. 0 means "indefinitely"."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    class SetDataAttr(RequestBodyStruct):
+        mode: PPMSweepMode = field(XmpInt())
+        """coded byte, specifying the sweeping function: OFF or TRIANGLE"""
+        ppb_step: int = field(XmpInt())
+        """integer >=0, the numeric clock adjustment in ppb per step of the sweep. If set to 0, the sweep will use as small steps as possible, creating a "linear" sweep of the clock rate."""
+        step_delay: int = field(XmpInt())
+        """integer >0 the delay in µs between each step in the sweep. If ppb_step is 0: The total time in µs to sweep linearly from 0 to max_ppb."""
+        max_ppb: int = field(XmpInt())
+        """integer != 0, the numeric maximum clock adjustment. The sign of max_ppb determines if the sweep will start with positive or negative offsets. When the next step would exceed the limit set by max_ppb, the sweep changes direction. I.e. the deviation will sweep from 0 to max_ppb, to (-max_ppb), and back to 0."""
+        loops: int = field(XmpInt())
+        """integer >=0, the number of full sweeps performed. 0 means "indefinitely"."""
+
+    def get(self) -> Token[GetDataAttr]:
         """Get the PPM sweep parameters from the module.
 
         :return: the PPM sweep parameters from the module.
         :rtype: M_CLOCKPPBSWEEP.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, mode: PPMSweepMode, ppb_step: int, step_delay: int, max_ppb: int, loops: int) -> "Token":
+    def set(self, mode: PPMSweepMode, ppb_step: int, step_delay: int, max_ppb: int, loops: int) -> Token[None]:
         """Set the PPM sweep parameters of the module.
 
         :param mode: specifying the sweeping function: OFF or TRIANGLE.
@@ -1578,6 +1581,7 @@ class M_CLOCKPPBSWEEP:
         :param loops: >=0, the number of full sweeps performed. 0 means "indefinitely".
         :type loops: int
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, mode=mode, ppb_step=ppb_step, step_delay=step_delay, max_ppb=max_ppb, loops=loops))
 
 
@@ -1594,29 +1598,26 @@ class M_CLOCKSWEEPSTATUS:
     code: typing.ClassVar[int] = 414
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        state: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PPMSweepStatus)
+    class GetDataAttr(ResponseBodyStruct):
+        state: PPMSweepStatus = field(XmpByte())
         """coded byte, specifying if a sweep is active: OFF or SWEEPING"""
-
-        curr_sweep: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        curr_sweep: int = field(XmpInt())
         """integer >=0, the current full sweep number, counting from 0."""
-
-        curr_step: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        curr_step: int = field(XmpInt())
         """integer >=0 the current step number inside the sweep, counting from 0."""
-
-        max_steps: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        max_steps: int = field(XmpInt())
         """integer, >0, the total number of steps comprising a full sweep. For "linear" sweeps (ppb_step=0, see M_CLOCKPPBSWEEP) this number is determined by the chassis. In other cases, the number is implicitly given by the M_CLOCKPPBSWEEP parameters."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the current status of the :class:`M_CLOCKPPBSWEEP` function.
 
         :return: the current status of the :class:`M_CLOCKPPBSWEEP` function.
         :rtype: M_CLOCKSWEEPSTATUS.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -1635,38 +1636,39 @@ class M_LATENCYMODE:
     code: typing.ClassVar[int] = 450
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=ImpairmentLatencyMode)
+    class GetDataAttr(ResponseBodyStruct):
+        mode: ImpairmentLatencyMode = field(XmpByte())
         """coded byte, specifying latency mode."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=ImpairmentLatencyMode)
+    class SetDataAttr(RequestBodyStruct):
+        mode: ImpairmentLatencyMode = field(XmpByte())
         """coded byte, specifying latency mode."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the latency mode of the Chimera module.
 
         :return: the latency mode of the Chimera module.
         :rtype: M_LATENCYMODE.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, mode: ImpairmentLatencyMode) -> "Token":
+    def set(self, mode: ImpairmentLatencyMode) -> Token[None]:
         """Set the latency mode of the Chimera module.
 
         :param mode: the bypass mode of the impairment emulator.
         :type mode: ImpairmentLatencyMode
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, mode=mode))
 
     set_normal = functools.partialmethod(set, ImpairmentLatencyMode.NORMAL)
     """Set the latency mode of the Chimera module to NORMAL
     """
+
     set_extended = functools.partialmethod(set, ImpairmentLatencyMode.EXTENDED)
     """Set the latency mode of the Chimera module to EXTENDED
     """
@@ -1683,38 +1685,39 @@ class M_EMULBYPASS:
     code: typing.ClassVar[int] = 454
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+    class GetDataAttr(ResponseBodyStruct):
+        on_off: OnOff = field(XmpByte())
         """coded byte, whether the emulator bypass is enabled."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+    class SetDataAttr(RequestBodyStruct):
+        on_off: OnOff = field(XmpByte())
         """coded byte, whether the emulator bypass is enabled."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the status of bypass mode of the impairment emulator.
 
         :return: the status of bypass mode of the impairment emulator.
         :rtype: M_EMULBYPASS.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, on_off: OnOff) -> "Token":
+    def set(self, on_off: OnOff) -> Token[None]:
         """Set the bypass mode of the impairment emulator.
 
         :param on_off: the bypass mode of the impairment emulator.
         :type on_off: OnOff
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, on_off=on_off))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """Disable the bypass mode of the impairment emulator.
     """
+
     set_on = functools.partialmethod(set, OnOff.ON)
     """Enable the bypass mode of the impairment emulator.
     """

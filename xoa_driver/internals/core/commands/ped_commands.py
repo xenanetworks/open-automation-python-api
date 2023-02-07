@@ -1,8 +1,8 @@
-#: Impairment Port Distribution Commands
-
+from __future__ import annotations
 from dataclasses import dataclass
-import functools
+import ipaddress
 import typing
+import functools
 
 from ..protocol.command_builders import (
     build_get_request,
@@ -10,10 +10,16 @@ from ..protocol.command_builders import (
 )
 from .. import interfaces
 from ..transporter.token import Token
-from ..protocol.fields import data_types as xt
-from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *  # noqa: F403
+from ..protocol.payload import (
+    field,
+    RequestBodyStruct,
+    ResponseBodyStruct,
+    XmpByte,
+    XmpInt,
+    XmpLong,
+)
+from .enums import OnOff
 
 
 @register_command
@@ -34,37 +40,34 @@ class PED_SCHEDULE:
     code: typing.ClassVar[int] = 1611
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _flow_xindex: int
     _impairment_type_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        duration: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        duration: int = field(XmpInt())
         """integer, specifies the "on" period. Units = multiples of 10 ms (range 1 to 65535), default is 1"""
-
-        period: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        period: int = field(XmpInt())
         """integer, specifies the "total" period. Units = multiples of 10 ms (range 0 to 65535), default is 0"""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        duration: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class SetDataAttr(RequestBodyStruct):
+        duration: int = field(XmpInt())
         """integer, specifies the "on" period. Units = multiples of 10 ms (range 1 to 65535), default is 1"""
-
-        period: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        period: int = field(XmpInt())
         """integer, specifies the "total" period. Units = multiples of 10 ms (range 0 to 65535), default is 0"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the impairment scheduler configuration.
 
         :return: the impairment scheduler configuration
         :rtype: PED_SCHEDULE.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
-    def set(self, duration: int, period: int) -> "Token":
+    def set(self, duration: int, period: int) -> Token[None]:
         """Set the impairment scheduler configuration.
 
         :param duration: specifies the "on" period. Units = multiples of 10 ms (range 1 to 65535), default is 1
@@ -72,10 +75,8 @@ class PED_SCHEDULE:
         :param period: specifies the "total" period. Units = multiples of 10 ms (range 0 to 65535), default is 0
         :type period: int
         """
-        return Token(
-            self._connection,
-            build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], duration=duration, period=period),
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], duration=duration, period=period))
 
 
 @register_command
@@ -93,23 +94,23 @@ class PED_ONESHOTSTATUS:
     code: typing.ClassVar[int] = 1612
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _flow_xindex: int
     _impairment_type_xindex: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        one_shot_status: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
+    class GetDataAttr(ResponseBodyStruct):
+        one_shot_status: int = field(XmpByte())
         """byte, specifies the status."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the one-shot completion status.
 
         :return: the one-shot completion status
         :rtype: PED_ONESHOTSTATUS.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
 
@@ -123,29 +124,21 @@ class PED_OFF:
     code: typing.ClassVar[int] = 1620
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _flow_xindex: int
     _impairment_type_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
+    class SetDataAttr(RequestBodyStruct):
         pass
 
-    def set(self) -> "Token":
+    def set(self) -> Token[None]:
         """Configure Impairments Distribution to OFF. Assigning a different distribution than OFF to an impairment
         will activate the impairment. To de-activate the impairment assign distribution OFF.
         """
-        return Token(
-            self._connection,
-            build_set_request(
-                self,
-                module=self._module,
-                port=self._port,
-                indices=[self._flow_xindex, self._impairment_type_xindex],
-            ),
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
 
 @register_command
@@ -164,46 +157,37 @@ class PED_FIXED:
     code: typing.ClassVar[int] = 1621
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _flow_xindex: int
     _impairment_type_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        probability: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        probability: int = field(XmpInt())
         """integer, specifies the fixed probability in ppm. Default value is 0."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        probability: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class SetDataAttr(RequestBodyStruct):
+        probability: int = field(XmpInt())
         """integer, specifies the fixed probability in ppm. Default value is 0."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the probability of a Fixed Rate distribution.
 
         :return: the fixed probability in ppm. Default value is 0.
         :rtype: PED_FIXED.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
-    def set(self, probability: int) -> "Token":
+    def set(self, probability: int) -> Token[None]:
         """Set the probability of a Fixed Rate distribution.
 
         :param probability: the fixed probability in ppm. Default value is 0.
         :type probability: int
         """
-        return Token(
-            self._connection,
-            build_set_request(
-                self,
-                module=self._module,
-                port=self._port,
-                indices=[self._flow_xindex, self._impairment_type_xindex],
-                probability=probability
-            )
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], probability=probability))
 
 
 @register_command
@@ -219,46 +203,37 @@ class PED_RANDOM:
     code: typing.ClassVar[int] = 1622
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _flow_xindex: int
     _impairment_type_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        probability: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        probability: int = field(XmpInt())
         """integer, specifies the random probability in ppm. Default value is 0."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        probability: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class SetDataAttr(RequestBodyStruct):
+        probability: int = field(XmpInt())
         """integer, specifies the random probability in ppm. Default value is 0."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the probability of a Random Rate distribution.
 
         :return: specifies the random probability in ppm. Default value is 0.
         :rtype: PED_RANDOM.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
-    def set(self, probability: int) -> "Token":
+    def set(self, probability: int) -> Token[None]:
         """Set the probability of a Random Rate distribution.
 
         :param probability: specifies the random probability in ppm. Default value is 0.
         :type probability: int
         """
-        return Token(
-            self._connection,
-            build_set_request(
-                self,
-                module=self._module,
-                port=self._port,
-                indices=[self._flow_xindex, self._impairment_type_xindex],
-                probability=probability
-            )
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], probability=probability))
 
 
 @register_command
@@ -271,37 +246,34 @@ class PED_BER:
     code: typing.ClassVar[int] = 1623
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _flow_xindex: int
     _impairment_type_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        coef: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        coef: int = field(XmpInt())
         """integer, specifies the coefficient for BER. Default value: 1 (Range is 1 to 9)."""
-
-        exp: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        exp: int = field(XmpInt())
         """integer, specifies the exponent for BER. Default value: -10 (Range is -18 to -1)."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        coef: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class SetDataAttr(RequestBodyStruct):
+        coef: int = field(XmpInt())
         """integer, specifies the coefficient for BER. Default value: 1 (Range is 1 to 9)."""
-
-        exp: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        exp: int = field(XmpInt())
         """integer, specifies the exponent for BER. Default value: -10 (Range is -18 to -1)."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the configuration of Bit Error Rate distribution.
 
         :return: the configuration of Bit Error Rate distribution
         :rtype: PED_BER.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
-    def set(self, coef: int, exp: int) -> "Token":
+    def set(self, coef: int, exp: int) -> Token[None]:
         """Set the configuration of Bit Error Rate distribution.
 
         :param coef: specifies the coefficient for BER. Default value: 1 (Range is 1 to 9).
@@ -309,6 +281,7 @@ class PED_BER:
         :param exp: specifies the exponent for BER. Default value: -10 (Range is -18 to -1).
         :type exp: int
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], coef=coef, exp=exp))
 
 
@@ -327,39 +300,37 @@ class PED_FIXEDBURST:
     code: typing.ClassVar[int] = 1624
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _flow_xindex: int
     _impairment_type_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        burst_size: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        burst_size: int = field(XmpInt())
         """integer, specifies the burst size (Range 1 - 16383). Default value = 1."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        burst_size: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class SetDataAttr(RequestBodyStruct):
+        burst_size: int = field(XmpInt())
         """integer, specifies the burst size (Range 1 - 16383). Default value = 1."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the configuration of Fixed Burst distribution.
 
         :return: configuration of Fixed Burst distribution.
         :rtype: PED_FIXEDBURST.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
-    def set(self, burst_size: int) -> "Token":
+    def set(self, burst_size: int) -> Token[None]:
         """Set the configuration of Fixed Burst distribution.
 
         :param burst_size: specifies the burst size (Range 1 - 16383). Default value = 1.
         :type burst_size: int
         """
-        return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], burst_size=burst_size)
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], burst_size=burst_size))
 
 
 @register_command
@@ -372,43 +343,38 @@ class PED_RANDOMBURST:
     code: typing.ClassVar[int] = 1625
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _flow_xindex: int
     _impairment_type_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        minimum: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        minimum: int = field(XmpInt())
         """integer, specifies minimum burst size. Default value: 0 (Range 0 to 65535)"""
-
-        maximum: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        maximum: int = field(XmpInt())
         """integer, specifies maximum burst size. Default value: 0 (Range 0 to 65535)"""
-
-        probability: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        probability: int = field(XmpInt())
         """integer, specifies the per packet probability of initiating a burst in ppm. Default value: 0."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        minimum: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class SetDataAttr(RequestBodyStruct):
+        minimum: int = field(XmpInt())
         """integer, specifies minimum burst size. Default value: 0 (Range 0 to 65535)"""
-
-        maximum: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        maximum: int = field(XmpInt())
         """integer, specifies maximum burst size. Default value: 0 (Range 0 to 65535)"""
-
-        probability: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        probability: int = field(XmpInt())
         """integer, specifies the per packet probability of initiating a burst in ppm. Default value: 0."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the configuration of Random Burst distribution.
 
         :return: configuration of Random Burst distribution.
         :rtype: PED_RANDOMBURST.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
-    def set(self, minimum: int, maximum: int, probability: int) -> "Token":
+    def set(self, minimum: int, maximum: int, probability: int) -> Token[None]:
         """Set the configuration of Random Burst distribution.
 
         :param minimum: specifies minimum burst size. Default value: 0 (Range 0 to 65535)
@@ -418,18 +384,8 @@ class PED_RANDOMBURST:
         :param probability: specifies the per packet probability of initiating a burst in ppm. Default value: 0.
         :type probability: int
         """
-        return Token(
-            self._connection,
-            build_set_request(
-                self,
-                module=self._module,
-                port=self._port,
-                indices=[self._flow_xindex, self._impairment_type_xindex],
-                minimum=minimum,
-                maximum=maximum,
-                probability=probability
-            ),
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], minimum=minimum, maximum=maximum, probability=probability))
 
 
 @register_command
@@ -442,49 +398,42 @@ class PED_GE:
     code: typing.ClassVar[int] = 1626
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _flow_xindex: int
     _impairment_type_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        good_state_prob: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        good_state_prob: int = field(XmpInt())
         """integer, specifies the good state probability in ppm. Default value: 0."""
-
-        good_state_trans_prob: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        good_state_trans_prob: int = field(XmpInt())
         """integer, specifies the good state transition probability in ppm. Default value: 0."""
-
-        bad_prob: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        bad_state_prob: int = field(XmpInt())
         """integer, specifies the bad state probability in ppm. Default value: 0."""
-
-        bad_state_trans_prob: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        bad_state_trans_prob: int = field(XmpInt())
         """integer, specifies the bad state transition probability in ppm. Default value: 0."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        good_state_prob: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class SetDataAttr(RequestBodyStruct):
+        good_state_prob: int = field(XmpInt())
         """integer, specifies the good state probability in ppm. Default value: 0."""
-
-        good_state_trans_prob: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        good_state_trans_prob: int = field(XmpInt())
         """integer, specifies the good state transition probability in ppm. Default value: 0."""
-
-        bad_state_prob: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        bad_prob: int = field(XmpInt())
         """integer, specifies the bad state probability in ppm. Default value: 0."""
-
-        bad_state_trans_prob: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        bad_state_trans_prob: int = field(XmpInt())
         """integer, specifies the bad state transition probability in ppm. Default value: 0."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the configuration of Gilbert-Elliot distribution.
 
         :return: the configuration of Gilbert-Elliot distribution.
         :rtype: PED_GE.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
-    def set(self, good_state_prob: int, good_state_trans_prob: int, bad_state_prob: int, bad_state_trans_prob: int) -> "Token":
+    def set(self, good_state_prob: int, good_state_trans_prob: int, bad_state_prob: int, bad_state_trans_prob: int) -> Token[None]:
         """Set the configuration of Gilbert-Elliot distribution.
 
         :param good_state_prob: specifies the good state probability in ppm. Default value: 0.
@@ -496,19 +445,8 @@ class PED_GE:
         :param bad_state_trans_prob: specifies the bad state transition probability in ppm. Default value: 0.
         :type bad_state_trans_prob: int
         """
-        return Token(
-            self._connection,
-            build_set_request(
-                self,
-                module=self._module,
-                port=self._port,
-                indices=[self._flow_xindex, self._impairment_type_xindex],
-                good_state_prob=good_state_prob,
-                good_state_trans_prob=good_state_trans_prob,
-                bad_state_prob=bad_state_prob,
-                bad_state_trans_prob=bad_state_trans_prob,
-            ),
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], good_state_prob=good_state_prob, good_state_trans_prob=good_state_trans_prob, bad_state_prob=bad_state_prob, bad_state_trans_prob=bad_state_trans_prob))
 
 
 @register_command
@@ -526,45 +464,34 @@ class PED_UNI:
     code: typing.ClassVar[int] = 1627
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _flow_xindex: int
     _impairment_type_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        minimum: XmpField[xt.XmpLong] = XmpField(
-            xt.XmpLong
-        )
+    class GetDataAttr(ResponseBodyStruct):
+        minimum: int = field(XmpLong())
         """long, in case of iid != DELAY, specifies the minimum no. of packets. Default value: 0 (Range 0 to 4194288). In case of iid = DELAY, specifies the minimum latency limit. Unit is nanosecond (must be multiples of 100 ns). Default value: minimum latency."""
-
-        maximum: XmpField[xt.XmpLong] = XmpField(
-            xt.XmpLong
-        )
+        maximum: int = field(XmpLong())
         """long, in case of iid != DELAY, specifies the maximum no. of packets. Default value: 0 (Range 0 to 4194288). In case of iid = DELAY, specifies the maximum latency limit. Unit is nanosecond (must be multiples of 100 ns). Default value: minimum latency."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        minimum: XmpField[xt.XmpLong] = XmpField(
-            xt.XmpLong
-        )
+    class SetDataAttr(RequestBodyStruct):
+        minimum: int = field(XmpLong())
         """long, in case of iid != DELAY, specifies the minimum no. of packets. Default value: 0 (Range 0 to 4194288). In case of iid = DELAY, specifies the minimum latency limit. Unit is nanosecond (must be multiples of 100 ns). Default value: minimum latency."""
-
-        maximum: XmpField[xt.XmpLong] = XmpField(
-            xt.XmpLong
-        )
+        maximum: int = field(XmpLong())
         """long, in case of iid != DELAY, specifies the maximum no. of packets. Default value: 0 (Range 0 to 4194288). In case of iid = DELAY, specifies the maximum latency limit. Unit is nanosecond (must be multiples of 100 ns). Default value: minimum latency."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the configuration of Uniform distribution.
 
         :return: the configuration of Uniform distribution.
         :rtype: PED_UNI.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
-    def set(self, minimum: int, maximum: int) -> "Token":
+    def set(self, minimum: int, maximum: int) -> Token[None]:
         """Set the configuration of Uniform distribution.
 
         :param minimum: in case of iid != DELAY, specifies the minimum no. of packets. Default value: 0 (Range 0 to 4194288). In case of iid = DELAY, specifies the minimum latency limit. Unit is nanosecond (must be multiples of 100 ns). Default value: minimum latency.
@@ -572,10 +499,8 @@ class PED_UNI:
         :param maximum: in case of iid != DELAY, specifies the maximum no. of packets. Default value: 0 (Range 0 to 4194288). In case of iid = DELAY, specifies the maximum latency limit. Unit is nanosecond (must be multiples of 100 ns). Default value: minimum latency.
         :type maximum: int
         """
-        return Token(
-            self._connection,
-            build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], minimum=minimum, maximum=maximum),
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], minimum=minimum, maximum=maximum))
 
 
 @register_command
@@ -595,45 +520,34 @@ class PED_GAUSS:
     code: typing.ClassVar[int] = 1628
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _flow_xindex: int
     _impairment_type_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        mean: XmpField[xt.XmpLong] = XmpField(
-            xt.XmpLong
-        )
+    class GetDataAttr(ResponseBodyStruct):
+        mean: int = field(XmpLong())
         """long, specifies the Gaussian mean. In case of iid != DELAY, specifies the Gaussian mean value as number of packets.Default value: 0 packets (Range 0 to 4194288). In case of iid = DELAY, specifies the Gaussian mean value. Units is nanosecond (must be multiples of 100 ns)."""
-
-        std_deviation: XmpField[xt.XmpLong] = XmpField(
-            xt.XmpLong
-        )
+        std_deviation: int = field(XmpLong())
         """long, specifies the Gaussian standard deviation. In case of iid != DELAY, specifies the standard deviation as number of packets. Default value: 0 packets (Range 0 to 4194288). In case of iid = DELAY, specifies the the Gaussian standard deviation. Units is nanosecond (must be multiples of 100 ns). Default value: 0 ns."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        mean: XmpField[xt.XmpLong] = XmpField(
-            xt.XmpLong
-        )
+    class SetDataAttr(RequestBodyStruct):
+        mean: int = field(XmpLong())
         """long, specifies the Gaussian mean. In case of iid != DELAY, specifies the Gaussian mean value as number of packets.Default value: 0 packets (Range 0 to 4194288). In case of iid = DELAY, specifies the Gaussian mean value. Units is nanosecond (must be multiples of 100 ns)."""
-
-        std_deviation: XmpField[xt.XmpLong] = XmpField(
-            xt.XmpLong
-        )
+        std_deviation: int = field(XmpLong())
         """long, specifies the Gaussian standard deviation. In case of iid != DELAY, specifies the standard deviation as number of packets. Default value: 0 packets (Range 0 to 4194288). In case of iid = DELAY, specifies the the Gaussian standard deviation. Units is nanosecond (must be multiples of 100 ns). Default value: 0 ns."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the configuration of Gaussian distribution.
 
         :return: the configuration of Gaussian distribution
         :rtype: PED_GAUSS.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
-    def set(self, mean: int, std_deviation: int) -> "Token":
+    def set(self, mean: int, std_deviation: int) -> Token[None]:
         """Set the configuration of Gaussian distribution.
 
         :param mean: specifies the Gaussian mean.
@@ -641,10 +555,8 @@ class PED_GAUSS:
         :param std_deviation: specifies the Gaussian standard deviation.
         :type std_deviation: int
         """
-        return Token(
-            self._connection,
-            build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], mean=mean, std_deviation=std_deviation),
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], mean=mean, std_deviation=std_deviation))
 
 
 @register_command
@@ -666,40 +578,36 @@ class PED_POISSON:
     code: typing.ClassVar[int] = 1629
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _flow_xindex: int
     _impairment_type_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        mean: XmpField[xt.XmpLong] = XmpField(
-            xt.XmpLong
-        )
+    class GetDataAttr(ResponseBodyStruct):
+        mean: int = field(XmpLong())
         """long, specifies the Poisson mean value. In case of iid = DELAY specifies the Poisson mean. Unit is nanosecond (must be multiples of 100ns). Default value: 0 ns. In case of iid != DELAY specifies the Poisson mean in number of packets packets. Default value: 9 packets (Range 0 to 4194288)."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        mean: XmpField[xt.XmpLong] = XmpField(
-            xt.XmpLong
-        )
+    class SetDataAttr(RequestBodyStruct):
+        mean: int = field(XmpLong())
         """long, specifies the Poisson mean value. In case of iid = DELAY specifies the Poisson mean. Unit is nanosecond (must be multiples of 100ns). Default value: 0 ns. In case of iid != DELAY specifies the Poisson mean in number of packets packets. Default value: 9 packets (Range 0 to 4194288)."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the configuration of Poisson distribution.
 
         :return: the configuration of Poisson distribution
         :rtype: PED_POISSON.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
-    def set(self, mean: int) -> "Token":
+    def set(self, mean: int) -> Token[None]:
         """Set the configuration of Poisson distribution.
 
         :param mean: specifies the Poisson mean value.
         :type mean: int
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], mean=mean))
 
 
@@ -722,41 +630,34 @@ class PED_GAMMA:
     code: typing.ClassVar[int] = 1630
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _flow_xindex: int
     _impairment_type_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        shape: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+    class GetDataAttr(ResponseBodyStruct):
+        shape: int = field(XmpLong())
         """long, specifies the shape. Units: none. Default value: 0."""
-
-        scale: XmpField[xt.XmpLong] = XmpField(
-            xt.XmpLong
-        )
+        scale: int = field(XmpLong())
         """long, specifies the Gamma function scale parameter. In case of iid = DELAY, units: nanosecond (must be multiples of 100 ns). Default value: 0 ns. In case of iid != DELAY, units: number of packets.Default value: 0 packets."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        shape: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+    class SetDataAttr(RequestBodyStruct):
+        shape: int = field(XmpLong())
         """long, specifies the shape. Units: none. Default value: 0."""
-
-        scale: XmpField[xt.XmpLong] = XmpField(
-            xt.XmpLong
-        )
+        scale: int = field(XmpLong())
         """long, specifies the Gamma function scale parameter. In case of iid = DELAY, units: nanosecond (must be multiples of 100 ns). Default value: 0 ns. In case of iid != DELAY, units: number of packets.Default value: 0 packets."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the configuration of Gamma distribution.
 
         :return: the configuration of Gamma distribution
         :rtype: PED_GAMMA.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
-    def set(self, shape: int, scale: int) -> "Token":
+    def set(self, shape: int, scale: int) -> Token[None]:
         """Set the configuration of Gamma distribution.
 
         :param shape: specifies the shape. Units: none. Default value: 0.
@@ -764,10 +665,8 @@ class PED_GAMMA:
         :param scale: specifies the Gamma function scale parameter.
         :type scale: int
         """
-        return Token(
-            self._connection,
-            build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], shape=shape, scale=scale),
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], shape=shape, scale=scale))
 
 
 @register_command
@@ -789,39 +688,37 @@ class PED_CUST:
     code: typing.ClassVar[int] = 1631
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _flow_xindex: int
     _impairment_type_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        cust_id: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        cust_id: int = field(XmpInt())
         """integer, custom distribution identifier."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        cust_id: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class SetDataAttr(RequestBodyStruct):
+        cust_id: int = field(XmpInt())
         """integer, custom distribution identifier."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the custom distribution identifier that is associated to a flow and impairment type.
 
         :return: custom distribution identifier
         :rtype: PED_CUST.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
-    def set(self, cust_id: int) -> "Token":
+    def set(self, cust_id: int) -> Token[None]:
         """Associate a custom distribution to a flow and impairment type.
 
         :param cust_id: custom distribution identifier
         :type cust_id: int
         """
-        return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], cust_id=cust_id)
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], cust_id=cust_id))
 
 
 @register_command
@@ -840,40 +737,36 @@ class PED_CONST:
     code: typing.ClassVar[int] = 1640
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _flow_xindex: int
     _impairment_type_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        delay: XmpField[xt.XmpLong] = XmpField(
-            xt.XmpLong
-        )
+    class GetDataAttr(ResponseBodyStruct):
+        delay: int = field(XmpLong())
         """long, specifies the constant delay/latency time. Unit is nanosecond (must be multiples of 100 ns). Default value: Minimum supported per speed and FEC mode."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        delay: XmpField[xt.XmpLong] = XmpField(
-            xt.XmpLong
-        )
+    class SetDataAttr(RequestBodyStruct):
+        delay: int = field(XmpLong())
         """long, specifies the constant delay/latency time. Unit is nanosecond (must be multiples of 100 ns). Default value: Minimum supported per speed and FEC mode."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the configuration of Constant Delay distribution (DELAY only).
 
         :return: the configuration of Constant Delay distribution (DELAY only)
         :rtype: PED_CONST.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
-    def set(self, delay: int) -> "Token":
+    def set(self, delay: int) -> Token[None]:
         """Set the configuration of Constant Delay distribution (DELAY only).
 
         :param delay: specifies the constant delay/latency time. Unit is nanosecond (must be multiples of 100 ns). Default value: Minimum supported per speed and FEC mode.
         :type delay: int
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], delay=delay))
 
 
@@ -892,40 +785,36 @@ class PED_ACCBURST:
     code: typing.ClassVar[int] = 1641
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _flow_xindex: int
     _impairment_type_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        delay: XmpField[xt.XmpLong] = XmpField(
-            xt.XmpLong
-        )
+    class GetDataAttr(ResponseBodyStruct):
+        delay: int = field(XmpLong())
         """long, specifies the burst delay time. Units = nanosecond (must multiples of 100 ns). Default value: minimum latency."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        delay: XmpField[xt.XmpLong] = XmpField(
-            xt.XmpLong
-        )
+    class SetDataAttr(RequestBodyStruct):
+        delay: int = field(XmpLong())
         """long, specifies the burst delay time. Units = nanosecond (must multiples of 100 ns). Default value: minimum latency."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the configuration of Accumulate & Burst distribution (DELAY only).
 
         :return: the configuration of Accumulate & Burst distribution (DELAY only)
         :rtype: PED_ACCBURST.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
-    def set(self, delay: int) -> "Token":
+    def set(self, delay: int) -> Token[None]:
         """Set the configuration of Accumulate & Burst distribution (DELAY only).
 
         :param delay: specifies the burst delay time. Units = nanosecond (must multiples of 100 ns). Default value: minimum latency.
         :type delay: int
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], delay=delay))
 
 
@@ -944,37 +833,34 @@ class PED_STEP:
     code: typing.ClassVar[int] = 1642
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _flow_xindex: int
     _impairment_type_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        low: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+    class GetDataAttr(ResponseBodyStruct):
+        low: int = field(XmpLong())
         """long, specifies the packet delay in the 'low' state of the step. Units = nanosecond (must be multiples of 100 ns)."""
-
-        high: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        high: int = field(XmpLong())
         """long, specifies the packet delay in the 'high' state of the step. Units = nanosecond (must be multiples of 100 ns)."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        low: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+    class SetDataAttr(RequestBodyStruct):
+        low: int = field(XmpLong())
         """long, specifies the packet delay in the 'low' state of the step. Units = nanosecond (must be multiples of 100 ns)."""
-
-        high: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        high: int = field(XmpLong())
         """long, specifies the packet delay in the 'high' state of the step. Units = nanosecond (must be multiples of 100 ns)."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the configuration of Step distribution (DELAY only).
 
         :return: the configuration of Step distribution (DELAY only)
         :rtype: PED_STEP.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
-    def set(self, low: int, high: int) -> "Token":
+    def set(self, low: int, high: int) -> Token[None]:
         """Set the configuration of Step distribution (DELAY only).
 
         :param low: specifies the packet delay in the 'low' state of the step. Units = nanosecond (must be multiples of 100 ns).
@@ -982,12 +868,10 @@ class PED_STEP:
         :param high: specifies the packet delay in the 'high' state of the step. Units = nanosecond (must be multiples of 100 ns).
         :type high: int
         """
-        return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], low=low, high=high)
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], low=low, high=high))
 
 
-# TODO: add descriptions
 @register_command
 @dataclass
 class PED_ENABLE:
@@ -1003,39 +887,40 @@ class PED_ENABLE:
     code: typing.ClassVar[int] = 1644
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _flow_xindex: int
     _impairment_type_xindex: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+    class GetDataAttr(ResponseBodyStruct):
+        action: OnOff = field(XmpByte())
         """coded byte, specifying whether impairment is enabled."""
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+    class SetDataAttr(RequestBodyStruct):
+        action: OnOff = field(XmpByte())
         """coded byte, specifying whether impairment is enabled."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the status of this impairment distribution.
 
         :return: the status of this impairment distribution
         :rtype: PED_ENABLE.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex]))
 
-    def set(self, action: OnOff) -> "Token[GetDataAttr]":
+    def set(self, action: OnOff) -> Token[GetDataAttr]:
         """Set the status of this impairment distribution.
 
         :param action: the status of this impairment distribution
         :type action: OnOff
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], action=action))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """Disable impairment distribution"""
+
     set_on = functools.partialmethod(set, OnOff.ON)
     """Enable impairment distribution"""

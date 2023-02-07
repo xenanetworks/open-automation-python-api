@@ -1931,7 +1931,6 @@ class Layer1ConfigType (IntEnum):
     """Return the an/lt module base and RX and TX (serdes index, base address)"""
 
 
-
 class LinkTrainCmd(IntEnum):
     """No operation. Used for 'ping' testing"""
     CMD_NOP = 0

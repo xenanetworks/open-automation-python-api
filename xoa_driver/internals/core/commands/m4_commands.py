@@ -1,7 +1,6 @@
-"""
-L47 Module Commands
-"""
+from __future__ import annotations
 from dataclasses import dataclass
+import ipaddress
 import typing
 import functools
 
@@ -11,10 +10,23 @@ from ..protocol.command_builders import (
 )
 from .. import interfaces
 from ..transporter.token import Token
-from ..protocol.fields import data_types as xt
-from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *  # noqa: F403
+from ..protocol.payload import (
+    field,
+    RequestBodyStruct,
+    ResponseBodyStruct,
+    XmpByte,
+    XmpHex,
+    XmpInt,
+    XmpLong,
+    XmpSequence,
+    XmpStr,
+    Hex,
+)
+from .enums import (
+    CaptureSize,
+    ReplayParserState,
+)
 
 
 @register_command
@@ -27,20 +39,20 @@ class M4_SYSTEMID:
     code: typing.ClassVar[int] = 803
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        system_id: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class GetDataAttr(ResponseBodyStruct):
+        system_id: str = field(XmpStr())
         """string, module system identifier."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the system identifier of a L47 module.
 
         :return: the system identifier of a L47 module.
         :rtype: M4_SYSTEMID.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -56,20 +68,20 @@ class M4_VERSIONNO:
     code: typing.ClassVar[int] = 804
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        version_string: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class GetDataAttr(ResponseBodyStruct):
+        version_string: str = field(XmpStr())
         """string, module version string."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get a version string containing a combination of information regarding the software version and the build environment.
 
         :return: a version string containing a combination of information regarding the software version and the build environment
         :rtype: M4_VERSIONNO.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -83,20 +95,20 @@ class M4_SYSTEM_STATUS:
     code: typing.ClassVar[int] = 805
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        status_string: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class GetDataAttr(ResponseBodyStruct):
+        status_string: str = field(XmpStr())
         """string, module status string."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the L47 module system status in a text string
 
         :return: the L47 module system status in a text string
         :rtype: M4_SYSTEM_STATUS.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -110,41 +122,34 @@ class M4_COMPATIBLE_CLIENT_VERSION:
     code: typing.ClassVar[int] = 806
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        recommended_major: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        recommended_major: int = field(XmpInt())
         """string, recommended major version."""
-
-        recommended_minor: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        recommended_minor: int = field(XmpInt())
         """string, recommended minor version."""
-
-        recommended_minor_2: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        recommended_minor_2: int = field(XmpInt())
         """string, recommended minor 2 version."""
-
-        recommended_minor_3: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        recommended_minor_3: int = field(XmpInt())
         """string, recommended minor 3 version."""
-
-        required_major: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        required_major: int = field(XmpInt())
         """string, required major version."""
-
-        required_minor: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        required_minor: int = field(XmpInt())
         """string, required minor version."""
-
-        required_minor_2: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        required_minor_2: int = field(XmpInt())
         """string, required minor 2 version."""
-
-        required_minor_3: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        required_minor_3: int = field(XmpInt())
         """string, required minor 3 version."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the recommended and required VulcanMananger client version.
 
         :return: the recommended and required VulcanMananger client version.
         :rtype: M4_COMPATIBLE_CLIENT_VERSION.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -158,20 +163,20 @@ class M4_TIME:
     code: typing.ClassVar[int] = 807
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        time_now: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+    class GetDataAttr(ResponseBodyStruct):
+        time_now: int = field(XmpLong())
         """long integer, the current time (mSec since module restart)"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the module time in millisecond.
 
         :return: the module time in millisecond.
         :rtype: M4_TIME.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -185,58 +190,47 @@ class M4_SYSTEM_TIME:
     code: typing.ClassVar[int] = 808
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        year: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        year: int = field(XmpInt())
         """integer, the year."""
-
-        month: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        month: int = field(XmpInt())
         """integer, the month."""
-
-        day: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        day: int = field(XmpInt())
         """integer, the day of the mont."""
-
-        hour: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        hour: int = field(XmpInt())
         """integer, the hour."""
-
-        minute: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        minute: int = field(XmpInt())
         """integer, the minute."""
-
-        second: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        second: int = field(XmpInt())
         """integer, the second."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        year: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class SetDataAttr(RequestBodyStruct):
+        year: int = field(XmpInt())
         """integer, the year."""
-
-        month: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        month: int = field(XmpInt())
         """integer, the month."""
-
-        day: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        day: int = field(XmpInt())
         """integer, the day of the mont."""
-
-        hour: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        hour: int = field(XmpInt())
         """integer, the hour."""
-
-        minute: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        minute: int = field(XmpInt())
         """integer, the minute."""
-
-        second: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        second: int = field(XmpInt())
         """integer, the second."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the modules system time in UTC.
 
         :return: the modules system time in UTC.
         :rtype: M4_SYSTEM_TIME.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, year: int, month: int, day: int, hour: int, minute: int, second: int) -> "Token":
+    def set(self, year: int, month: int, day: int, hour: int, minute: int, second: int) -> Token[None]:
         """Set the modules system time in UTC.
 
         :param year: the year
@@ -252,6 +246,7 @@ class M4_SYSTEM_TIME:
         :param second: the second
         :type second: int
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, year=year, month=month, day=day, hour=hour, minute=minute, second=second))
 
 
@@ -265,23 +260,22 @@ class M4_MEM_INFO:
     code: typing.ClassVar[int] = 809
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        year: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+    class GetDataAttr(ResponseBodyStruct):
+        year: int = field(XmpLong())
         """long integer, total memory."""
-
-        month: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        month: int = field(XmpLong())
         """long integer, free memory."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the system memory information.
 
         :return: the system memory information.
         :rtype: M4_MEM_INFO.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -296,37 +290,38 @@ class M4_CAPTURE_SIZE:
     code: typing.ClassVar[int] = 810
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        size: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=CaptureSize)
+    class GetDataAttr(ResponseBodyStruct):
+        size: CaptureSize = field(XmpByte())
         """coded byte, specifying whether to capture whole packets or truncated packets."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        size: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=CaptureSize)
+    class SetDataAttr(RequestBodyStruct):
+        size: CaptureSize = field(XmpByte())
         """coded byte, specifying whether to capture whole packets or truncated packets."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get whether to capture whole packets(large) or truncated packets.
 
         :return: whether to capture whole packets(large) or truncated packets.
         :rtype: M4_CAPTURE_SIZE.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, size: CaptureSize) -> "Token":
+    def set(self, size: CaptureSize) -> Token[None]:
         """Set whether to capture whole packets(large) or truncated packets.
 
         :param size: specifying whether to capture whole packets or truncated packets.
         :type size: CaptureSize
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, size=size))
 
     set_full = functools.partialmethod(set, CaptureSize.FULL)
     """Capture whole packets"""
+
     set_small = functools.partialmethod(set, CaptureSize.SMALL)
     """Capture truncated packets"""
 
@@ -342,57 +337,38 @@ class M4_LICENSE_INFO:
     code: typing.ClassVar[int] = 820
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        pes_available: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        pes_available: int = field(XmpInt())
         """integer, number of PEs that are licensed on the module, and can be used simultaneously."""
-
-        pes_free: XmpField[xt.XmpInt] = XmpField(
-            xt.XmpInt
-        )
+        pes_free: int = field(XmpInt())
         """integer, number of free PE licenses on the module 1G available: integer, number of 1G licenses on the module, that can be used simultaneously."""
-
-        N1g_available: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        N1g_available: int = field(XmpInt())
         """integer, number of 1G speed licenses that are licensed on the module, and can be used simultaneously."""
-
-        N1g_free: XmpField[xt.XmpInt] = XmpField(
-            xt.XmpInt
-        )
+        N1g_free: int = field(XmpInt())
         """integer, number of 1G speed licenses on the module 1G available: integer, number of 1G licenses on the module, that can be used simultaneously."""
-
-        N10g_available: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        N10g_available: int = field(XmpInt())
         """integer, number of 10G speed licenses that are licensed on the module, and can be used simultaneously."""
-
-        N10g_free: XmpField[xt.XmpInt] = XmpField(
-            xt.XmpInt
-        )
+        N10g_free: int = field(XmpInt())
         """integer, number of free 10G speed licenses on the module 1G available: integer, number of 1G licenses on the module, that can be used simultaneously."""
-
-        N25g_available: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        N25g_available: int = field(XmpInt())
         """integer, number of 25G speed licenses that are licensed on the module, and can be used simultaneously."""
-
-        N25g_free: XmpField[xt.XmpInt] = XmpField(
-            xt.XmpInt
-        )
+        N25g_free: int = field(XmpInt())
         """integer, number of free 25G speed licenses on the module 1G available: integer, number of 1G licenses on the module, that can be used simultaneously."""
-
-        N40g_available: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        N40g_available: int = field(XmpInt())
         """integer, number of 40G speed licenses that are licensed on the module, and can be used simultaneously."""
-
-        N40g_free: XmpField[xt.XmpInt] = XmpField(
-            xt.XmpInt
-        )
+        N40g_free: int = field(XmpInt())
         """integer, number of free 40G speed licenses on the module 1G available: integer, number of 1G licenses on the module, that can be used simultaneously."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the number of available and free PE licenses.
 
         :return: the number of available and free PE licenses
         :rtype: M4_LICENSE_INFO.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -418,20 +394,20 @@ class M4_REPLAY_PARSE_START:
     code: typing.ClassVar[int] = 830
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        filename: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class SetDataAttr(RequestBodyStruct):
+        filename: str = field(XmpStr())
         """string, filename (including relative path and excluding the '.pcap' extension)."""
 
-    def set(self, filename: str) -> "Token":
+    def set(self, filename: str) -> Token[None]:
         """Start parsing an uploaded Capture File
 
         :param filename: filename (including relative path and excluding the '.pcap' extension).
         :type filename: str
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, filename=filename))
 
 
@@ -446,23 +422,17 @@ class M4_REPLAY_PARSE_STOP:
     code: typing.ClassVar[int] = 831
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
+    class SetDataAttr(RequestBodyStruct):
         pass
 
-    def set(self) -> "Token":
+    def set(self) -> Token[None]:
         """Stop parsing a Capture File.
         """
-        return Token(
-            self._connection,
-            build_set_request(
-                self,
-                module=self._module,
-            ),
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module))
 
 
 @register_command
@@ -477,20 +447,20 @@ class M4_REPLAY_PARSE_STATE:
     code: typing.ClassVar[int] = 832
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        state: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=ReplayParserState)
+    class GetDataAttr(ResponseBodyStruct):
+        state: ReplayParserState = field(XmpByte())
         """coded byte, state of the replay parser"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get capture file parsing state.
 
         :return: capture file parsing state
         :rtype: M4_REPLAY_PARSE_STATE.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -504,33 +474,33 @@ class M4_REPLAY_PARSER_PARAMS:
     code: typing.ClassVar[int] = 833
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        tcp_port: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        tcp_port: int = field(XmpInt())
         """integer, server TCP Port of dummy TCP connection inserted in UDP only replay files"""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        tcp_port: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class SetDataAttr(RequestBodyStruct):
+        tcp_port: int = field(XmpInt())
         """integer, server TCP Port of dummy TCP connection inserted in UDP only replay files"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the configuration of parameters for the parsing of pcap files.
 
         :return: the configuration of parameters for the parsing of pcap files
         :rtype: M4_REPLAY_PARSER_PARAMS.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, tcp_port: int) -> "Token":
+    def set(self, tcp_port: int) -> Token[None]:
         """Set the configuration of parameters for the parsing of pcap files.
 
         :param tcp_port: server-side TCP port of the dummy TCP connection inserted in UDP.
         :type tcp_port: int
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, tcp_port=tcp_port))
 
 
@@ -545,20 +515,20 @@ class M4_REPLAY_FILE_LIST_BSON:
     code: typing.ClassVar[int] = 840
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        bson: XmpField[xt.XmpByteList] = XmpField(xt.XmpByteList)
+    class GetDataAttr(ResponseBodyStruct):
+        bson: list[int] = field(XmpSequence(types_chunk=[XmpByte()]))
         """list of hex bytes, bson document containing the file list"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the replay file list in BSON document format.
 
         :return: the replay file list in BSON format
         :rtype: M4_REPLAY_FILE_LIST_BSON.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -573,20 +543,20 @@ class M4_REPLAY_FILE_LIST:
     code: typing.ClassVar[int] = 841
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        file_list: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class GetDataAttr(ResponseBodyStruct):
+        file_list: str = field(XmpStr())
         """string, comma separated list of filenames excluding the '.bson' extension."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Generate a list of Replay Files in BSON document on the tester.
 
         :return: a list of Replay Files in BSON document on the tester
         :rtype: M4_REPLAY_FILE_LIST.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -601,20 +571,20 @@ class M4_CAPTURE_FILE_LIST_BSON:
     code: typing.ClassVar[int] = 842
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        bson: XmpField[xt.XmpByteList] = XmpField(xt.XmpByteList)
+    class GetDataAttr(ResponseBodyStruct):
+        bson: list[int] = field(XmpSequence(types_chunk=[XmpByte()]))
         """list of hex bytes, bson document containing the file list"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the capture file list in BSON document.
 
         :return: the capture file list in BSON document
         :rtype: M4_CAPTURE_FILE_LIST_BSON.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -629,20 +599,20 @@ class M4_CAPTURE_FILE_LIST:
     code: typing.ClassVar[int] = 843
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        file_list: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class GetDataAttr(ResponseBodyStruct):
+        file_list: str = field(XmpStr())
         """string, comma separated list of filenames excluding the '.pcap' extension."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Generate a list of Capture Files in BSON document on the tester.
 
         :return: list of Capture Files in BSON document on the tester
         :rtype: M4_CAPTURE_FILE_LIST.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
 
@@ -658,20 +628,20 @@ class M4_REPLAY_FILE_DELETE:
     code: typing.ClassVar[int] = 845
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        filename: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class SetDataAttr(RequestBodyStruct):
+        filename: str = field(XmpStr())
         """string, file name (including relative path and excluding the '.bson' extension)."""
 
-    def set(self, filename: str) -> "Token":
+    def set(self, filename: str) -> Token[None]:
         """Delete a Replay File in the Replay File directory.
 
         :param filename: file name (including relative path and excluding the ``.bson`` extension).
         :type filename: str
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, filename=filename))
 
 
@@ -687,20 +657,20 @@ class M4_CAPTURE_FILE_DELETE:
     code: typing.ClassVar[int] = 846
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        filename: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class SetDataAttr(RequestBodyStruct):
+        filename: str = field(XmpStr())
         """string, file name (including relative path and excluding the '.pcap' extension)."""
 
-    def set(self, filename: str) -> "Token":
+    def set(self, filename: str) -> Token[None]:
         """Delete a Capture File in the Capture File directory.
 
         :param filename: file name (including relative path and excluding the ``.pcap`` extension).
         :type filename: str
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, filename=filename))
 
 
@@ -714,18 +684,18 @@ class M4_TLS_CIPHER_SUITES:
     code: typing.ClassVar[int] = 852
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        cipher_suites: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)
+    class GetDataAttr(ResponseBodyStruct):
+        cipher_suites: list[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
         """list of hex bytes, list of IANA values of supported cipher suites"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get a list of supported TLS Cipher Suites.
 
         :return: list of IANA values of supported cipher suites
         :rtype: M4_TLS_CIPHER_SUITES.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))

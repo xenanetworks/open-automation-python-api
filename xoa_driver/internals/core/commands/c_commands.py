@@ -1,5 +1,4 @@
-#: Chassis Commands
-
+from __future__ import annotations
 from dataclasses import dataclass
 import ipaddress
 import typing
@@ -11,10 +10,35 @@ from ..protocol.command_builders import (
 )
 from .. import interfaces
 from ..transporter.token import Token
-from ..protocol.fields import data_types as xt
-from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *  # noqa: F403
+from ..protocol.payload import (
+    field,
+    RequestBodyStruct,
+    ResponseBodyStruct,
+    XmpByte,
+    XmpHex,
+    XmpInt,
+    XmpIPv4Address,
+    XmpLong,
+    XmpMacAddress,
+    XmpSequence,
+    XmpStr,
+    Hex
+)
+from .enums import (
+    ReservedStatus,
+    ReservedAction,
+    ChassisShutdownAction,
+    OnOff,
+    RESTControlAction,
+    ServiceStatus,
+    ChassisSessionType,
+    TimeKeeperLicenseFileState,
+    TimeKeeperLicenseType,
+    TimeKeeperLicenseError,
+    TimeKeeperServiceStatus,
+    TimeKeeperServiceAction
+)
 
 
 @register_command
@@ -29,19 +53,19 @@ class C_LOGON:
     code: typing.ClassVar[int] = 1
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        password: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class SetDataAttr(RequestBodyStruct):
+        password: str = field(XmpStr())
         """string, containing the password value."""
 
-    def set(self, password: str) -> "Token":
+    def set(self, password: str) -> Token[None]:
         """Set the password for creating a tester management session and logging on to the tester.
 
         :param password: password for creating a tester management session and logging on to the tester.
         :type password: str
         """
+
         return Token(self._connection, build_set_request(self, password=password))
 
 
@@ -63,32 +87,32 @@ class C_OWNER:
     code: typing.ClassVar[int] = 2
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        username: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class GetDataAttr(ResponseBodyStruct):
+        username: str = field(XmpStr())
         """string, containing the name of the owner of this session."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        username: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class SetDataAttr(RequestBodyStruct):
+        username: str = field(XmpStr())
         """string, containing the name of the owner of this session."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the username of this chassis management session.
 
         :return: The username of this chassis management session.
         :rtype: C_OWNER.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
 
-    def set(self, username: str) -> "Token":
+        return Token(self._connection, build_get_request(self, ))
+
+    def set(self, username: str) -> Token[None]:
         """Set the username of this chassis management session.
 
         :param username: the username of this chassis management session.
         :type username: str
         """
+
         return Token(self._connection, build_set_request(self, username=username))
 
 
@@ -103,20 +127,20 @@ class C_KEEPALIVE:
     code: typing.ClassVar[int] = 3
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        tick_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        tick_count: int = field(XmpInt())
         """integer, an increasing number from the chassis."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the tick count value.
 
         :return: an increasing number from the chassis.
         :rtype: C_KEEPALIVE.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
+
+        return Token(self._connection, build_get_request(self, ))
 
 
 @register_command
@@ -130,32 +154,32 @@ class C_TIMEOUT:
     code: typing.ClassVar[int] = 4
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        second_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        second_count: int = field(XmpInt())
         """integer, the maximum idle interval, default is 130 seconds."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        second_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class SetDataAttr(RequestBodyStruct):
+        second_count: int = field(XmpInt())
         """integer, the maximum idle interval, default is 130 seconds."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the timeout value.
 
         :return: the maximum idle interval, default is 130 seconds.
         :rtype: C_TIMEOUT.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
 
-    def set(self, second_count: int) -> "Token":
+        return Token(self._connection, build_get_request(self, ))
+
+    def set(self, second_count: int) -> Token[None]:
         """Set the timeout value.
 
         :param second_count: the maximum idle interval, default is 130 seconds.
         :type second_count: int
         """
+
         return Token(self._connection, build_set_request(self, second_count=second_count))
 
 
@@ -175,44 +199,42 @@ class C_RESERVATION:
     code: typing.ClassVar[int] = 5
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        operation: XmpField[xt.XmpByte] = XmpField(
-            xt.XmpByte, choices=ReservedAction
-        )
+    class GetDataAttr(ResponseBodyStruct):
+        operation: ReservedStatus = field(XmpByte())
         """coded byte, containing the operation to perform. The reservation parameters are asymmetric with respect to set/get. When set, it contains the operation to perform. When get, it contains the status."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        operation: XmpField[xt.XmpByte] = XmpField(
-            xt.XmpByte, choices=ReservedStatus
-        )
+    class SetDataAttr(RequestBodyStruct):
+        operation: ReservedAction = field(XmpByte())
         """coded byte, containing the operation to perform. The reservation parameters are asymmetric with respect to set/get. When set, it contains the operation to perform. When get, it contains the status."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the chassis reservation status.
 
         :return: the status of chassis reservation.
         :rtype: C_RESERVATION.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
 
-    def set(self, operation: ReservedAction) -> "Token":
+        return Token(self._connection, build_get_request(self, ))
+
+    def set(self, operation: ReservedAction) -> Token[None]:
         """Set the chassis reservation operation to be performed.
 
         :param operation: reservation operation to be performed.
         :type operation: ReservedAction
         """
+
         return Token(self._connection, build_set_request(self, operation=operation))
 
     set_release = functools.partialmethod(set, ReservedAction.RELEASE)
     """Release the ownership of the tester.
     """
+
     set_reserve = functools.partialmethod(set, ReservedAction.RESERVE)
     """Reserve the tester.
     """
+
     set_relinquish = functools.partialmethod(set, ReservedAction.RELINQUISH)
     """Release the ownership of the tester from another user.
     """
@@ -229,20 +251,20 @@ class C_RESERVEDBY:
     code: typing.ClassVar[int] = 6
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        username: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class GetDataAttr(ResponseBodyStruct):
+        username: str = field(XmpStr())
         """string, containing the name of the current owner of the chassis."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the username of the current owner of the tester.
 
         :return: the username of the current owner of the tester.
         :rtype: C_RESERVEDBY.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
+
+        return Token(self._connection, build_get_request(self, ))
 
 
 @register_command
@@ -256,16 +278,16 @@ class C_LOGOFF:
     code: typing.ClassVar[int] = 7
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
+    class SetDataAttr(RequestBodyStruct):
         pass
 
-    def set(self) -> "Token":
+    def set(self) -> Token[None]:
         """Log off from the tester and close the management session.
         """
-        return Token(self._connection, build_set_request(self))
+
+        return Token(self._connection, build_set_request(self, ))
 
 
 @register_command
@@ -279,27 +301,27 @@ class C_DOWN:
     code: typing.ClassVar[int] = 8
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        magic: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class SetDataAttr(RequestBodyStruct):
+        magic: int = field(XmpInt())
         """integer, must be the special value -1480937026."""
-
-        operation: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=ChassisShutdownAction)
+        operation: ChassisShutdownAction = field(XmpByte())
         """coded byte, what to do after shutting chassis down."""
 
-    def set(self, operation: ChassisShutdownAction) -> "Token":
+    def set(self, operation: ChassisShutdownAction) -> Token[None]:
         """Shuts down the chassis, and either restarts it in a clean state or leaves it powered off.
 
         :param operation: what to do after shutting chassis down.
         :type operation: ChassisShutdownAction
         """
-        return Token(self._connection, build_set_request(self, magic=-1480937026, operation=operation))
+
+        return Token(self._connection, build_set_request(self, operation=operation))
 
     set_restart = functools.partialmethod(set, ChassisShutdownAction.RESTART)
     """Shuts down the tester and then restarts it.
     """
+
     set_poweroff = functools.partialmethod(set, ChassisShutdownAction.POWER_OFF)
     """Shuts down the tester and leaves it powered off.
     """
@@ -316,65 +338,47 @@ class C_CAPABILITIES:
     code: typing.ClassVar[int] = 9
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        version: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        version: int = field(XmpInt())
         """integer, chassis software build number."""
-
-        max_name_len: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        max_name_len: int = field(XmpInt())
         """integer, max ASCII characters in chassis name."""
-
-        max_comment_len: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        max_comment_len: int = field(XmpInt())
         """integer, max ASCII characters in chassis comment."""
-
-        max_password_len: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        max_password_len: int = field(XmpInt())
         """integer, max ASCII characters in chassis password."""
-
-        max_ext_rate: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        max_ext_rate: int = field(XmpInt())
         """integer, maximum rate for external traffic."""
-
-        max_session_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        max_session_count: int = field(XmpInt())
         """integer, max number of management and scripting sessions."""
-
-        max_chain_depth: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        max_chain_depth: int = field(XmpInt())
         """integer, max chain index."""
-
-        max_module_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        max_module_count: int = field(XmpInt())
         """integer, maximum number of L23 modules."""
-
-        max_protocol_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        max_protocol_count: int = field(XmpInt())
         """integer, max protocol segments in a packet."""
-
-        can_stream_based_arp: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        can_stream_based_arp: int = field(XmpInt())
         """integer, does server support stream-based ARP/NDP?"""
-
-        can_sync_traffic_start: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        can_sync_traffic_start: int = field(XmpInt())
         """integer, does server support synchronous traffic start?"""
-
-        can_read_log_files: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        can_read_log_files: int = field(XmpInt())
         """integer, can clients read debug log files from server?"""
-
-        can_par_module_upgrade: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        can_par_module_upgrade: int = field(XmpInt())
         """integer, can server handle parallel module upgrades?"""
-
-        can_upgrade_timekeeper: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        can_upgrade_timekeeper: int = field(XmpInt())
         """integer, is server capable of upgrading the TimeKeeper application?"""
-
-        can_custom_defaults: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        can_custom_defaults: int = field(XmpInt())
         """integer, can server handle custom default values for XMP parameters?"""
-
-        can_latency_f2f: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        can_latency_f2f: int = field(XmpInt())
         """integer, can server handle first-to-first latency mode?"""
-
-        max_owner_name_length: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        max_owner_name_length: int = field(XmpInt())
         """integer, max number of ASCII characters in C_OWNER name"""
-
-        can_read_temperatures: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        can_read_temperatures: int = field(XmpInt())
         """integer, can the server read out chassis and/or CPU temperatures? (C_TEMPERATURE ?)"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the internal limits (capabilities) of the tester.
 
         :return: A series of integer values specifying various internal limits
@@ -399,7 +403,8 @@ class C_CAPABILITIES:
 
         :rtype: C_CAPABILITIES.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
+
+        return Token(self._connection, build_get_request(self, ))
 
 
 @register_command
@@ -412,20 +417,20 @@ class C_MODEL:
     code: typing.ClassVar[int] = 10
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        model: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class GetDataAttr(ResponseBodyStruct):
+        model: str = field(XmpStr())
         """string, the Xena model designation for the chassis."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the model of this Xena tester.
 
         :return: the model of the Xena tester
         :rtype: C_MODEL.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
+
+        return Token(self._connection, build_get_request(self, ))
 
 
 @register_command
@@ -438,20 +443,20 @@ class C_SERIALNO:
     code: typing.ClassVar[int] = 11
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        serial_number: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        serial_number: int = field(XmpInt())
         """integer, the serial number of this chassis."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the serial number of this Xena tester.
 
         :return: the serial number of the Xena tester
         :rtype: C_SERIALNO.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
+
+        return Token(self._connection, build_get_request(self, ))
 
 
 @register_command
@@ -465,23 +470,22 @@ class C_VERSIONNO:
     code: typing.ClassVar[int] = 12
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        chassis_major_version: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        chassis_major_version: int = field(XmpInt())
         """integer, the chassis firmware major version number."""
-
-        pci_driver_version: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        pci_driver_version: int = field(XmpInt())
         """integer, the cXena PCI driver version."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Gets the major version numbers for the tester firmware and the Xena PCI driver installed on the chassis.
 
         :return: the firmware major version number of the tester and the PCI driver version
         :rtype: C_VERSIONNO.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
+
+        return Token(self._connection, build_get_request(self, ))
 
 
 @register_command
@@ -500,20 +504,20 @@ class C_PORTCOUNTS:
     code: typing.ClassVar[int] = 13
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        port_counts: XmpField[xt.XmpByteList] = XmpField(xt.XmpByteList)
+    class GetDataAttr(ResponseBodyStruct):
+        port_counts: list[int] = field(XmpSequence(types_chunk=[XmpByte()]))
         """list of bytes, the number of ports, typically 2 or 6, or 0 for an empty slot."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the number of ports in each module slot of the tester, and indirectly the number of slots and modules.
 
         :return: the number of ports of each module slot of the tester, 0 for an empty slot.
         :rtype: C_PORTCOUNTS.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
+
+        return Token(self._connection, build_get_request(self, ))
 
 
 @register_command
@@ -539,14 +543,13 @@ class C_PORTERRORS:
     code: typing.ClassVar[int] = 16
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        error_count: XmpField[xt.XmpLongList] = XmpField(xt.XmpLongList)
+    class GetDataAttr(ResponseBodyStruct):
+        error_count: list[int] = field(XmpSequence(types_chunk=[XmpLong()]))
         """list of long integers, the total number of errors across all streams, and including FCS errors."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Gets the number of errors detected across all streams on each port of each
         test module of the chassis. The counts are ordered in sequence with those of
         the module in the lowest numbered chassis slot first. Empty slots are skipped
@@ -556,7 +559,8 @@ class C_PORTERRORS:
         :return: the total number of errors across all streams, and including FCS errors.
         :rtype: C_PORTERRORS.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
+
+        return Token(self._connection, build_get_request(self, ))
 
 
 @register_command
@@ -572,14 +576,13 @@ class C_REMOTEPORTCOUNTS:
     code: typing.ClassVar[int] = 17
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        port_counts: XmpField[xt.XmpByteList] = XmpField(xt.XmpByteList)
+    class GetDataAttr(ResponseBodyStruct):
+        port_counts: list[int] = field(XmpSequence(types_chunk=[XmpByte()]))
         """list of bytes, the number of ports, typically 2 or 6, or 0 for an empty slot."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Gets the number of ports of each remote module. A remote module is a
         relative to the xenaserver, for example, xenal47server. The first integer in
         the returned list is always 0 because it represents the xenaserver, which is
@@ -588,7 +591,8 @@ class C_REMOTEPORTCOUNTS:
         :return: the number of ports of each module slot of the tester, 0 for an empty slot.
         :rtype: C_REMOTEPORTCOUNTS.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
+
+        return Token(self._connection, build_get_request(self, ))
 
 
 @register_command
@@ -602,20 +606,20 @@ class C_BUILDSTRING:
     code: typing.ClassVar[int] = 19
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        build_string: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class GetDataAttr(ResponseBodyStruct):
+        build_string: str = field(XmpStr())
         """string, identify the hostname of the PC that builds the xenaserver"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the build string of the xenaserver.
 
         :return: build string that identifies the hostname of the PC that builds the xenaserver
         :rtype: C_BUILDSTRING.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
+
+        return Token(self._connection, build_get_request(self, ))
 
 
 @register_command
@@ -630,32 +634,32 @@ class C_NAME:
     code: typing.ClassVar[int] = 20
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        chassis_name: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class GetDataAttr(ResponseBodyStruct):
+        chassis_name: str = field(XmpStr())
         """string, containing the name of the chassis."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        chassis_name: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class SetDataAttr(RequestBodyStruct):
+        chassis_name: str = field(XmpStr())
         """string, containing the name of the chassis."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the name of the tester
 
         :return: the name of the tester
         :rtype: C_NAME.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
 
-    def set(self, chassis_name: str) -> "Token":
+        return Token(self._connection, build_get_request(self, ))
+
+    def set(self, chassis_name: str) -> Token[None]:
         """Set the name of the tester
 
         :param chassis_name: the name of the tester
         :type chassis_name: str
         """
+
         return Token(self._connection, build_set_request(self, chassis_name=chassis_name))
 
 
@@ -669,32 +673,32 @@ class C_COMMENT:
     code: typing.ClassVar[int] = 21
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        comment: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class GetDataAttr(ResponseBodyStruct):
+        comment: str = field(XmpStr())
         """string, containing the description of the chassis."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        comment: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class SetDataAttr(RequestBodyStruct):
+        comment: str = field(XmpStr())
         """string, containing the description of the chassis."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the description of the tester.
 
         :return: the description of the tester
         :rtype: C_COMMENT.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
 
-    def set(self, comment: str) -> "Token":
+        return Token(self._connection, build_get_request(self, ))
+
+    def set(self, comment: str) -> Token[None]:
         """Set the description of the tester.
 
         :param comment: the description of the tester
         :type comment: str
         """
+
         return Token(self._connection, build_set_request(self, comment=comment))
 
 
@@ -708,32 +712,32 @@ class C_PASSWORD:
     code: typing.ClassVar[int] = 22
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        password: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class GetDataAttr(ResponseBodyStruct):
+        password: str = field(XmpStr())
         """string, containing the password for the chassis."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        password: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class SetDataAttr(RequestBodyStruct):
+        password: str = field(XmpStr())
         """string, containing the password for the chassis."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the password of the tester.
 
         :return: the password of the tester
         :rtype: C_PASSWORD.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
 
-    def set(self, password: str) -> "Token":
+        return Token(self._connection, build_get_request(self, ))
+
+    def set(self, password: str) -> Token[None]:
         """Set the password of the tester.
 
         :param password: the password of the tester
         :type password: str
         """
+
         return Token(self._connection, build_set_request(self, password=password))
 
 
@@ -747,31 +751,25 @@ class C_IPADDRESS:
     code: typing.ClassVar[int] = 24
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        ipv4_address: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)
+    class GetDataAttr(ResponseBodyStruct):
+        ipv4_address: ipaddress.IPv4Address = field(XmpIPv4Address())
         """address, the static IP address of the chassis."""
-
-        subnet_mask: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)
+        subnet_mask: ipaddress.IPv4Address = field(XmpIPv4Address())
         """address, the subnet mask of the local network segment."""
-
-        gateway: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)
+        gateway: ipaddress.IPv4Address = field(XmpIPv4Address())
         """address, the gateway of the local network segment."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        ipv4_address: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)
+    class SetDataAttr(RequestBodyStruct):
+        ipv4_address: ipaddress.IPv4Address = field(XmpIPv4Address())
         """address, the static IP address of the chassis."""
-
-        subnet_mask: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)
+        subnet_mask: ipaddress.IPv4Address = field(XmpIPv4Address())
         """address, the subnet mask of the local network segment."""
-
-        gateway: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)
+        gateway: ipaddress.IPv4Address = field(XmpIPv4Address())
         """address, the gateway of the local network segment."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the IP configuration information of the tester.
 
         :return:
@@ -780,14 +778,10 @@ class C_IPADDRESS:
             - the gateway of the local network segment
         :rtype: C_IPADDRESS.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
 
-    def set(
-        self,
-        ipv4_address: typing.Union[str, int, ipaddress.IPv4Address],
-        subnet_mask: typing.Union[str, int, ipaddress.IPv4Address],
-        gateway: typing.Union[str, int, ipaddress.IPv4Address],
-    ) -> "Token":
+        return Token(self._connection, build_get_request(self, ))
+
+    def set(self, ipv4_address: typing.Union[str, int, ipaddress.IPv4Address], subnet_mask: typing.Union[str, int, ipaddress.IPv4Address], gateway: typing.Union[str, int, ipaddress.IPv4Address]) -> Token[None]:
         """the IP configuration information of the tester.
 
         :param ipv4_address: the static IP address of the chassis
@@ -797,6 +791,7 @@ class C_IPADDRESS:
         :param gateway: the gateway of the local network segment
         :type gateway: typing.Union[str, int, ipaddress.IPv4Address]
         """
+
         return Token(self._connection, build_set_request(self, ipv4_address=ipv4_address, subnet_mask=subnet_mask, gateway=gateway))
 
 
@@ -810,37 +805,38 @@ class C_DHCP:
     code: typing.ClassVar[int] = 25
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+    class GetDataAttr(ResponseBodyStruct):
+        on_off: OnOff = field(XmpByte())
         """coded byte, whether DHCP is enabled or disabled."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+    class SetDataAttr(RequestBodyStruct):
+        on_off: OnOff = field(XmpByte())
         """coded byte, whether DHCP is enabled or disabled."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get whether DHCP is enabled for getting management IP.
 
         :return: whether DHCP is enabled.
         :rtype: C_DHCP.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
 
-    def set(self, on_off: OnOff) -> "Token":
+        return Token(self._connection, build_get_request(self, ))
+
+    def set(self, on_off: OnOff) -> Token[None]:
         """Set DHCP for getting management IP.
 
         :param on_off: whether DHCP is enabled or disabled.
         :type on_off: OnOff
         """
+
         return Token(self._connection, build_set_request(self, on_off=on_off))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """Disable DHCP for for getting management IP.
     """
+
     set_on = functools.partialmethod(set, OnOff.ON)
     """Enable on to DHCP for for getting management IP.
     """
@@ -856,20 +852,20 @@ class C_MACADDRESS:
     code: typing.ClassVar[int] = 26
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        mac_address: XmpField[xt.XmpMacAddress] = XmpField(xt.XmpMacAddress)
+    class GetDataAttr(ResponseBodyStruct):
+        mac_address: Hex = field(XmpMacAddress())
         """six hex bytes, indicating the MAC address"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the MAC address for the chassis management port.
 
         :return: the MAC address for the chassis management port
         :rtype: C_MACADDRESS.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
+
+        return Token(self._connection, build_get_request(self, ))
 
 
 @register_command
@@ -882,32 +878,32 @@ class C_HOSTNAME:
     code: typing.ClassVar[int] = 27
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        hostname: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class GetDataAttr(ResponseBodyStruct):
+        hostname: str = field(XmpStr())
         """string, hostname for chassis (default value "xena-")"""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        hostname: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class SetDataAttr(RequestBodyStruct):
+        hostname: str = field(XmpStr())
         """string, hostname for chassis (default value "xena-")"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the chassis hostname used when DHCP is enabled.
 
         :return: the chassis hostname
         :rtype: C_HOSTNAME.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
 
-    def set(self, hostname: str) -> "Token":
+        return Token(self._connection, build_get_request(self, ))
+
+    def set(self, hostname: str) -> Token[None]:
         """Set the chassis hostname.
 
         :param hostname: the chassis hostname
         :type hostname: str
         """
+
         return Token(self._connection, build_set_request(self, hostname=hostname))
 
 
@@ -925,37 +921,38 @@ class C_FLASH:
     code: typing.ClassVar[int] = 28
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+    class GetDataAttr(ResponseBodyStruct):
+        on_off: OnOff = field(XmpByte())
         """coded byte, determines whether to blink all test port LEDs."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+    class SetDataAttr(RequestBodyStruct):
+        on_off: OnOff = field(XmpByte())
         """coded byte, determines whether to blink all test port LEDs."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the status of test port LEDs.
 
         :return: the blinking status of test port LEDs
         :rtype: C_FLASH.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
 
-    def set(self, on_off: OnOff) -> "Token":
+        return Token(self._connection, build_get_request(self, ))
+
+    def set(self, on_off: OnOff) -> Token[None]:
         """Set test ports LEDs blinking status.
 
         :param on_off: determines whether to blink all test port LEDs.
         :type on_off: OnOff
         """
+
         return Token(self._connection, build_set_request(self, on_off=on_off))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """Disable flashing test port LEDs.
     """
+
     set_on = functools.partialmethod(set, OnOff.ON)
     """Enable flashing test port LEDs.
     """
@@ -971,23 +968,22 @@ class C_DEBUGLOGS:
     code: typing.ClassVar[int] = 30
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        message_length: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        message_length: int = field(XmpInt())
         """integer, length of the message."""
-
-        data: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)
+        data: list[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
         """list of hex bytes, all the logs of a chassis"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get chassis logs.
 
         :return: length of the message and all the logs of the chassis
         :rtype: C_DEBUGLOGS.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
+
+        return Token(self._connection, build_get_request(self, ))
 
 
 @register_command
@@ -1000,20 +996,17 @@ class C_TEMPERATURE:
     code: typing.ClassVar[int] = 31
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        mb1_temperature: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        mb1_temperature: int = field(XmpInt())
         """integer, the temperature of motherboard 1. Unit is millidegree Celsius."""
-
-        mb2_temperature: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        mb2_temperature: int = field(XmpInt())
         """integer, the temperature of motherboard 2. Unit is millidegree Celsius."""
-
-        cpu_temperature: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        cpu_temperature: int = field(XmpInt())
         """integer, the temperature of CPU. Unit is millidegree Celsius."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get chassis temperature readings.
 
         :return:
@@ -1022,7 +1015,8 @@ class C_TEMPERATURE:
             - the temperature of CPU (millidegree Celsius)
         :rtype: C_TEMPERATURE.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
+
+        return Token(self._connection, build_get_request(self, ))
 
 
 @register_command
@@ -1035,32 +1029,32 @@ class C_RESTPORT:
     code: typing.ClassVar[int] = 32
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        tcp_port: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        tcp_port: int = field(XmpInt())
         """integer, containing the TCP port number (default 57911)"""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        tcp_port: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class SetDataAttr(RequestBodyStruct):
+        tcp_port: int = field(XmpInt())
         """integer, containing the TCP port number (default 57911)"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the TCP port number used by the REST API server.
 
         :return: the TCP port number used by the REST API server
         :rtype: xt.XmpInt
         """
-        return Token(self._connection, build_get_request(self))
 
-    def set(self, tcp_port: int) -> "Token":
+        return Token(self._connection, build_get_request(self, ))
+
+    def set(self, tcp_port: int) -> Token[None]:
         """Set the TCP port number used by the REST API server.
 
         :param tcp_port: the TCP port number (default 57911)
         :type tcp_port: int
         """
+
         return Token(self._connection, build_set_request(self, tcp_port=tcp_port))
 
 
@@ -1075,37 +1069,38 @@ class C_RESTENABLE:
     code: typing.ClassVar[int] = 33
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+    class GetDataAttr(ResponseBodyStruct):
+        on_off: OnOff = field(XmpByte())
         """coded byte, determines whether REST API server should be enabled or disabled."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+    class SetDataAttr(RequestBodyStruct):
+        on_off: OnOff = field(XmpByte())
         """coded byte, determines whether REST API server should be enabled or disabled."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the On/Off status of the REST API server.
 
         :return: the status of the REST API server, whether it is enabled.
         :rtype: xt.XmpByte
         """
-        return Token(self._connection, build_get_request(self))
 
-    def set(self, on_off: OnOff) -> "Token":
+        return Token(self._connection, build_get_request(self, ))
+
+    def set(self, on_off: OnOff) -> Token[None]:
         """Set the On/Off status of the REST API server.
 
         :param on_off: determines whether REST API server should be enabled or disabled
         :type on_off: OnOff
         """
+
         return Token(self._connection, build_set_request(self, on_off=on_off))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """Disable the REST API server.
     """
+
     set_on = functools.partialmethod(set, OnOff.ON)
     """Enable the REST API server.
     """
@@ -1122,19 +1117,19 @@ class C_RESTCONTROL:
     code: typing.ClassVar[int] = 34
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        operation: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=RESTControlAction)
+    class SetDataAttr(RequestBodyStruct):
+        operation: RESTControlAction = field(XmpByte())
         """coded byte, what to do with the REST API server."""
 
-    def set(self, operation: RESTControlAction) -> "Token":
+    def set(self, operation: RESTControlAction) -> Token[None]:
         """Controlling the REST API server.
 
         :param operation: what to do with the REST API server
         :type operation: RESTControlAction
         """
+
         return Token(self._connection, build_set_request(self, operation=operation))
 
 
@@ -1150,20 +1145,20 @@ class C_RESTSTATUS:
     code: typing.ClassVar[int] = 35
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        status: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=ServiceStatus)
+    class GetDataAttr(ResponseBodyStruct):
+        status: ServiceStatus = field(XmpByte())
         """coded byte, determines the REST API server running status."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the operation status of th REST API server.
 
         :return: the operation status of th REST API server
         :rtype: C_RESTSTATUS.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
+
+        return Token(self._connection, build_get_request(self, ))
 
 
 @register_command
@@ -1177,32 +1172,32 @@ class C_WATCHDOG:
     code: typing.ClassVar[int] = 36
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        timer_value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        timer_value: int = field(XmpInt())
         """integer, the timer value that reboots the chassis. Unit = second."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        timer_value: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class SetDataAttr(RequestBodyStruct):
+        timer_value: int = field(XmpInt())
         """integer, the timer value that reboots the chassis. Unit = second."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the time value that reboots the chassis if it stalls for a long time.
 
         :return: the timer value that reboots the chassis. Unit = second.
         :rtype: C_WATCHDOG.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
 
-    def set(self, timer_value: int) -> "Token":
+        return Token(self._connection, build_get_request(self, ))
+
+    def set(self, timer_value: int) -> Token[None]:
         """Set the time value that reboots the chassis if it stalls for a long time.
 
         :param timer_value: the timer value that reboots the chassis
         :type timer_value: int
         """
+
         return Token(self._connection, build_set_request(self, timer_value=timer_value))
 
 
@@ -1216,27 +1211,20 @@ class C_INDICES:
     code: typing.ClassVar[int] = 40
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        """Returned data structure.
-
-        Attributes:
-
-        :attr session_ids: the session indices for all current sessions on the chassis
-        :type session_ids: List[int]
-        """
-        session_ids: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
+    class GetDataAttr(ResponseBodyStruct):
+        session_ids: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, the session indices for all current sessions on the chassis."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Gets the session indices for all current sessions on the chassis.
 
         :return: the session indices for all current sessions on the chassis
         :rtype: C_INDICES.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
+
+        return Token(self._connection, build_get_request(self, ))
 
 
 @register_command
@@ -1246,35 +1234,27 @@ class C_STATSESSION:
     Gets information and statistics for a particular session on the chassis.
     """
 
-    # Buggy command the string lenght is imposible to determinate if operation_count number become very big
-
     code: typing.ClassVar[int] = 41
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
-    session_xindex: int
+    _connection: 'interfaces.IConnection'
+    _session_xindex: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        session_type: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=ChassisSessionType)
+    class GetDataAttr(ResponseBodyStruct):
+        session_type: ChassisSessionType = field(XmpInt())
         """coded integer, which kind of session."""
-
-        ipv4_address: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)
+        ipv4_address: ipaddress.IPv4Address = field(XmpIPv4Address())
         """address, client IP address."""
-
-        owner: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        owner: str = field(XmpStr())
         """string, the name of the session owner."""
-
-        operation_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        operation_count: int = field(XmpLong())
         """long integer, number of operations done during the session."""
-
-        requested_byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        requested_byte_count: int = field(XmpLong())
         """long integer, number of bytes received by the chassis."""
-
-        responded_byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        responded_byte_count: int = field(XmpLong())
         """long integer, number of bytes sent by the chassis."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Gets information and statistics for a particular session on the chassis.
 
         :return:
@@ -1286,7 +1266,8 @@ class C_STATSESSION:
             - number of bytes sent by the chassis
         :rtype: C_STATSESSION.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, indices=[self.session_xindex]))
+
+        return Token(self._connection, build_get_request(self, indices=[self._session_xindex]))
 
 
 @register_command
@@ -1299,30 +1280,30 @@ class C_TKLICFILE:
     code: typing.ClassVar[int] = 49
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        license_content: XmpField[xt.XmpByteList] = XmpField(xt.XmpByteList)  # TODO: probably wrong type
+    class GetDataAttr(ResponseBodyStruct):
+        license_content: list[int] = field(XmpSequence(types_chunk=[XmpByte()]))
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        license_content: XmpField[xt.XmpByteList] = XmpField(xt.XmpByteList)  # TODO: probably wrong type
+    class SetDataAttr(RequestBodyStruct):
+        license_content: list[int] = field(XmpSequence(types_chunk=[XmpByte()]))
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get Xena TimeKeeper license file content.
 
         :return: Xena TimeKeeper license file content
         :rtype: C_TKLICFILE.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
 
-    def set(self, license_content: str) -> "Token":
+        return Token(self._connection, build_get_request(self, ))
+
+    def set(self, license_content: str) -> Token[None]:
         """Set Xena TimeKeeper license file content.
 
         :param license_content: Xena TimeKeeper license file content
         :type license_content: str
         """
+
         return Token(self._connection, build_set_request(self, license_content=license_content))
 
 
@@ -1336,20 +1317,17 @@ class C_TKLICSTATE:
     code: typing.ClassVar[int] = 50
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        license_file_state: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TimeKeeperLicenseFileState)
+    class GetDataAttr(ResponseBodyStruct):
+        license_file_state: TimeKeeperLicenseFileState = field(XmpByte())
         """coded byte, timekeeper license state."""
-
-        license_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TimeKeeperLicenseType)
+        license_type: TimeKeeperLicenseType = field(XmpByte())
         """coded byte, license type."""
-
-        license_errors: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList, choices=TimeKeeperLicenseError)
+        license_errors: list[TimeKeeperLicenseError] = field(XmpSequence(types_chunk=[XmpInt()]))
         """coded integers, license errors."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the state of the Xena TimeKeeper license file content.
 
         :return:
@@ -1358,7 +1336,8 @@ class C_TKLICSTATE:
             - license errors
         :rtype: C_TKLICSTATE.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
+
+        return Token(self._connection, build_get_request(self, ))
 
 
 @register_command
@@ -1373,29 +1352,23 @@ class C_FILESTART:
     code: typing.ClassVar[int] = 51
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        file_type: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)
+    class SetDataAttr(RequestBodyStruct):
+        file_type: Hex = field(XmpHex(size=4))
         """four hex bytes, little-endian integer, the file type, should be 1."""
-
-        size: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)
+        size: Hex = field(XmpHex(size=4))
         """four hex bytes, little-endian integer, the number of bytes in the file."""
-
-        time: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)
+        time: Hex = field(XmpHex(size=4))
         """four hex bytes, little-endian integer, the Linux date+time of the file."""
-
-        mode: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)
+        mode: Hex = field(XmpHex(size=4))
         """four hex bytes, little-endian integer, the Linux permissions of the file."""
-
-        checksum: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)
+        checksum: Hex = field(XmpHex(size=4))
         """four hex bytes, little-endian integer, the checksum of the file."""
-
-        name: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+        name: str = field(XmpStr())
         """string, the name and location of the file, as a full path."""
 
-    def set(self, file_type: str, size: str, time: str, mode: str, checksum: str, name: str) -> "Token":
+    def set(self, file_type: str, size: str, time: str, mode: str, checksum: str, name: str) -> Token[None]:
         """Initiates upload of a file to the chassis.
 
         :param file_type: the file type, should be 1
@@ -1411,6 +1384,7 @@ class C_FILESTART:
         :param name: the name and location of the file, as a full path
         :type name: str
         """
+
         return Token(self._connection, build_set_request(self, file_type=file_type, size=size, time=time, mode=mode, checksum=checksum, name=name))
 
 
@@ -1424,17 +1398,15 @@ class C_FILEDATA:
     code: typing.ClassVar[int] = 52
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        offset: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class SetDataAttr(RequestBodyStruct):
+        offset: int = field(XmpInt())
         """integer, the position within the file."""
-
-        data_bytes: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)
+        data_bytes: list[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
         """list of hex bytes, the data content of a section of the file."""
 
-    def set(self, offset: int, data_bytes: str) -> "Token":
+    def set(self, offset: int, data_bytes: str) -> Token[None]:
         """Uploads a fragment of a file to the chassis.
 
         :param offset: the position within the file
@@ -1442,6 +1414,7 @@ class C_FILEDATA:
         :param data_bytes: the data content of a section of the file
         :type data_bytes: str
         """
+
         return Token(self._connection, build_set_request(self, offset=offset, data_bytes=data_bytes))
 
 
@@ -1456,17 +1429,17 @@ class C_FILEFINISH:
     code: typing.ClassVar[int] = 53
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        magic: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class SetDataAttr(RequestBodyStruct):
+        magic: int = field(XmpInt())
         """integer, must be the special value -1480937026."""
 
-    def set(self) -> "Token":
+    def set(self) -> Token[None]:
         """Completes upload of a file to the chassis. After validation it will replace any existing file with the same name.
         """
-        return Token(self._connection, build_set_request(self, magic=-1480937026))
+
+        return Token(self._connection, build_set_request(self, ))
 
 
 @register_command
@@ -1480,17 +1453,15 @@ class C_TRAFFIC:
     code: typing.ClassVar[int] = 55
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+    class SetDataAttr(RequestBodyStruct):
+        on_off: OnOff = field(XmpByte())
         """coded byte, determines whether to start or stop traffic generation."""
-
-        module_ports: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
+        module_ports: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, specifies ports on modules, which should stop or start generating traffic."""
 
-    def set(self, on_off: OnOff, module_ports: typing.List[int]) -> "Token":
+    def set(self, on_off: OnOff, module_ports: typing.List[int]) -> Token[None]:
         """Starts or stops the traffic on a number of ports on the chassis simultaneously.
 
         :param on_off: determines whether to start or stop traffic generation
@@ -1498,11 +1469,13 @@ class C_TRAFFIC:
         :param module_ports: specifies ports on modules, which should stop or start generating traffic
         :type module_ports: typing.List[int]
         """
+
         return Token(self._connection, build_set_request(self, on_off=on_off, module_ports=module_ports))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """Stop the traffic on a number of ports on the chassis simultaneously.
     """
+
     set_on = functools.partialmethod(set, OnOff.ON)
     """Start the traffic on a number of ports on the chassis simultaneously.
     """
@@ -1520,20 +1493,17 @@ class C_VERSIONNO_MINOR:
     code: typing.ClassVar[int] = 56
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        chassis_minor_version: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        chassis_minor_version: int = field(XmpInt())
         """integer, the chassis firmware minor version number."""
-
-        reserved_1: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        reserved_1: int = field(XmpInt())
+        """integer, reserved."""
+        reserved_2: int = field(XmpInt())
         """integer, reserved."""
 
-        reserved_2: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
-        """integer, reserved."""
-
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the minor version number for the chassis firmware.
 
         :return:
@@ -1542,7 +1512,8 @@ class C_VERSIONNO_MINOR:
             - reserved, 0
         :rtype: C_VERSIONNO_MINOR.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
+
+        return Token(self._connection, build_get_request(self, ))
 
 
 @register_command
@@ -1556,19 +1527,19 @@ class C_START:
     code: typing.ClassVar[int] = 60
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        module_ports: XmpField[xt.XmpByteList] = XmpField(xt.XmpByteList)
+    class SetDataAttr(RequestBodyStruct):
+        module_ports: list[int] = field(XmpSequence(types_chunk=[XmpByte()]))
         """list of bytes, specifies ports on modules, which should stop or start generating traffic."""
 
-    def set(self, module_ports: typing.List[int]) -> "Token":
+    def set(self, module_ports: typing.List[int]) -> Token[None]:
         """Start traffic on N ports and each port is described by (module index, port index).
 
         :param module_ports: specifies ports on modules, which should stop or start generating traffic
         :type module_ports: typing.List[int]
         """
+
         return Token(self._connection, build_set_request(self, module_ports=module_ports))
 
 
@@ -1582,19 +1553,19 @@ class C_STOP:
     code: typing.ClassVar[int] = 61
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        module_ports: XmpField[xt.XmpByteList] = XmpField(xt.XmpByteList)
+    class SetDataAttr(RequestBodyStruct):
+        module_ports: list[int] = field(XmpSequence(types_chunk=[XmpByte()]))
         """list of bytes, specifies ports on modules, which should stop or start generating traffic."""
 
-    def set(self, module_ports: typing.List[int]) -> "Token":
+    def set(self, module_ports: typing.List[int]) -> Token[None]:
         """Stop traffic on N ports and each port is described by (module index, port index).
 
         :param module_ports: specifies ports on modules, which should stop or start generating traffic
         :type module_ports: typing.List[int]
         """
+
         return Token(self._connection, build_set_request(self, module_ports=module_ports))
 
 
@@ -1609,41 +1580,38 @@ class C_MULTIUSER:
     code: typing.ClassVar[int] = 62
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(
-            xt.XmpByte, choices=OnOff
-        )
+    class GetDataAttr(ResponseBodyStruct):
+        on_off: OnOff = field(XmpByte())
         """coded byte, enable or disable the ability to control one resource from several different TCP connections"""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(
-            xt.XmpByte, choices=OnOff
-        )
+    class SetDataAttr(RequestBodyStruct):
+        on_off: OnOff = field(XmpByte())
         """coded byte, enable or disable the ability to control one resource from several different TCP connections"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the status of the ability to control one resource from several different TCP connections.
 
         :return: the status of the ability to control one resource from several different TCP connections
         :rtype: C_MULTIUSER.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
 
-    def set(self, on_off: OnOff) -> "Token":
+        return Token(self._connection, build_get_request(self, ))
+
+    def set(self, on_off: OnOff) -> Token[None]:
         """Enable or disable the ability to control one resource from several different TCP connections.
 
         :param on_off: enable or disable the ability to control one resource from several different TCP connections
         :type on_off: OnOff
         """
+
         return Token(self._connection, build_set_request(self, on_off=on_off))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """Disable the ability to control one resource from several different TCP.
     """
+
     set_on = functools.partialmethod(set, OnOff.ON)
     """Enable the ability to control one resource from several different TCP.
     """
@@ -1659,19 +1627,19 @@ class C_SCRIPT:
     code: typing.ClassVar[int] = 64
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        command_string: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class SetDataAttr(RequestBodyStruct):
+        command_string: str = field(XmpStr())
         """string, text CLI command"""
 
-    def set(self, command_string: str) -> "Token":
+    def set(self, command_string: str) -> Token[None]:
         """Set the CLI commands through a binary XMP session.
 
         :param command_string: text CLI command
         :type command_string: str
         """
+
         return Token(self._connection, build_set_request(self, command_string=command_string))
 
 
@@ -1685,26 +1653,14 @@ class C_TKSTATUS:
     code: typing.ClassVar[int] = 65
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        status_string: XmpField[xt.XmpStr] = XmpField(
-            xt.XmpStr
-        )
-        """string. Version, TimeKeeper license expiration, and TimeKeeper status. The string is formatted as shown in the example below. Each line is separated by \n."""
+    class GetDataAttr(ResponseBodyStruct):
+        status_string: str = field(XmpStr())
+        """string. Version, TimeKeeper license expiration, and TimeKeeper status. The string is formatted as shown in the example below. Each line is separated by 
+."""
 
-        """TimeKeeper Status\n"""
-
-        """================================================================================\n"""
-
-        """TimeKeeper version 8.0.3\n"""
-
-        """License expires in 33 days (including grace period)\n"""
-
-        """TimeKeeper is not running\n"""
-
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the version and status of TimeKeeper
 
         :return:
@@ -1719,7 +1675,8 @@ class C_TKSTATUS:
 
         :rtype: C_TKSTATUS.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
+
+        return Token(self._connection, build_get_request(self, ))
 
 
 @register_command
@@ -1732,40 +1689,42 @@ class C_TKSVCSTATE:
     code: typing.ClassVar[int] = 66
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        state: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TimeKeeperServiceAction)
+    class GetDataAttr(ResponseBodyStruct):
+        state: TimeKeeperServiceStatus = field(XmpByte())
         """coded byte, TimeKeeper service state"""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        state: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TimeKeeperServiceStatus)
+    class SetDataAttr(RequestBodyStruct):
+        state: TimeKeeperServiceAction = field(XmpByte())
         """coded byte, TimeKeeper service state"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get TimeKeeper service state
 
         :return: TimeKeeper service state
         :rtype: C_TKSVCSTATE.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
 
-    def set(self, state: TimeKeeperServiceAction) -> "Token":
+        return Token(self._connection, build_get_request(self, ))
+
+    def set(self, state: TimeKeeperServiceAction) -> Token[None]:
         """Control TimeKeeper service state
 
         :param state: TimeKeeper service state
         :type state: TimeKeeperServiceAction
         """
+
         return Token(self._connection, build_set_request(self, state=state))
 
     set_stop = functools.partialmethod(set, TimeKeeperServiceAction.STOP)
     """Stop the TimerKeeper service.
     """
+
     set_start = functools.partialmethod(set, TimeKeeperServiceAction.START)
     """Start the TimerKeeper service.
     """
+
     set_restart = functools.partialmethod(set, TimeKeeperServiceAction.RESTART)
     """Restart the TimerKeeper service.
     """
@@ -1781,32 +1740,32 @@ class C_TKCONFIG:
     code: typing.ClassVar[int] = 67
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        config_file: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class GetDataAttr(ResponseBodyStruct):
+        config_file: str = field(XmpStr())
         """string, TimeKeeper config file content"""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        config_file: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class SetDataAttr(RequestBodyStruct):
+        config_file: str = field(XmpStr())
         """string, TimeKeeper config file content"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get TimeKeeper config file content.
 
         :return: TimeKeeper config file content
         :rtype: C_TKCONFIG.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
 
-    def set(self, config_file: str) -> "Token":
+        return Token(self._connection, build_get_request(self, ))
+
+    def set(self, config_file: str) -> Token[None]:
         """Set TimeKeeper config file content.
 
         :param config_file: TimeKeeper config file content
         :type config_file: str
         """
+
         return Token(self._connection, build_set_request(self, config_file=config_file))
 
 
@@ -1820,20 +1779,20 @@ class C_TKGPSSTATE:
     code: typing.ClassVar[int] = 68
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        status: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class GetDataAttr(ResponseBodyStruct):
+        status: str = field(XmpStr())
         """string, TimeKeeper GPS status"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get TimeKeeper GPS status.
 
         :return: TimeKeeper GPS status
         :rtype: C_TKGPSSTATE.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
+
+        return Token(self._connection, build_get_request(self, ))
 
 
 @register_command
@@ -1846,20 +1805,20 @@ class C_TIME:
     code: typing.ClassVar[int] = 69
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        local_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+    class GetDataAttr(ResponseBodyStruct):
+        local_time: int = field(XmpLong())
         """long integer, local chassis time in seconds"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get local chassis time in seconds.
 
         :return: local chassis time in seconds
         :rtype: C_TIME.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
+
+        return Token(self._connection, build_get_request(self, ))
 
 
 @register_command
@@ -1880,35 +1839,25 @@ class C_TRAFFICSYNC:
     code: typing.ClassVar[int] = 70
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
-        """coded byte, determines whether to start or stop traffic generation."""
-
-        timestamp: XmpField[xt.XmpLong] = XmpField(
-            xt.XmpLong
-        )
-        """long integer, the time where traffic should be started, expressed as the number of seconds since January 1 2010, 00"""
-
-        module_ports: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
-        """list of integers, specifies ports on modules, which should stop or start traffic generation."""
-
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+    class GetDataAttr(ResponseBodyStruct):
+        on_off: OnOff = field(XmpByte())
         """coded byte, status traffic generation."""
-
-        timestamp: XmpField[xt.XmpLong] = XmpField(
-            xt.XmpLong
-        )
+        timestamp: int = field(XmpLong())
         """long integer, the time where traffic should be started, expressed as the number of seconds since January 1 2010, 00"""
-
-        module_ports: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
+        module_ports: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, specifies ports on modules, which should stop or start traffic generation."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    class SetDataAttr(RequestBodyStruct):
+        on_off: OnOff = field(XmpByte())
+        """coded byte, determines whether to start or stop traffic generation."""
+        timestamp: int = field(XmpLong())
+        """long integer, the time where traffic should be started, expressed as the number of seconds since January 1 2010, 00"""
+        module_ports: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        """list of integers, specifies ports on modules, which should stop or start traffic generation."""
+
+    def get(self) -> Token[GetDataAttr]:
         """Get the status of traffic generation.
 
         :return:
@@ -1917,9 +1866,10 @@ class C_TRAFFICSYNC:
             - ports on modules, which should stop or start traffic generation
         :rtype: C_TRAFFICSYNC.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
 
-    def set(self, on_off: OnOff, timestamp: int, module_ports: typing.List[int]) -> "Token":
+        return Token(self._connection, build_get_request(self, ))
+
+    def set(self, on_off: OnOff, timestamp: int, module_ports: typing.List[int]) -> Token[None]:
         """Set the status of traffic generation.
 
         :param on_off: determines whether to start or stop traffic generation
@@ -1929,11 +1879,13 @@ class C_TRAFFICSYNC:
         :param module_ports: specifies ports on modules, which should stop or start traffic generation.
         :type module_ports: typing.List[int]
         """
+
         return Token(self._connection, build_set_request(self, on_off=on_off, timestamp=timestamp, module_ports=module_ports))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """Stop traffic generation on the given ports simultaneously on different chassis.
     """
+
     set_on = functools.partialmethod(set, OnOff.ON)
     """Start traffic generation on the given ports simultaneously on different chassis.
     """
@@ -1949,11 +1901,10 @@ class C_TKSTATUSEXT:
     code: typing.ClassVar[int] = 71
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        status_string: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class GetDataAttr(ResponseBodyStruct):
+        status_string: str = field(XmpStr())
         """string, extended status in JSON format. The string is formatted as shown in the example below.
         {
             "FormatVersion": 1,
@@ -1973,7 +1924,7 @@ class C_TKSTATUSEXT:
         
         """
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the TimeKeeper version and status.
 
         :return: extended status in JSON format. The string is formatted as shown in the example below.
@@ -1997,4 +1948,5 @@ class C_TKSTATUSEXT:
 
         :rtype: C_TKSTATUSEXT.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self))
+
+        return Token(self._connection, build_get_request(self, ))

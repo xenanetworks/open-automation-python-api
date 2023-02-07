@@ -87,7 +87,7 @@ class OrderedMeta(type):
         return dict()
 
 
-@dataclass_transform(kw_only_default=True, field_descriptors=(field, FieldSpecs))
+@dataclass_transform(kw_only_default=True, field_descriptors=(field, FieldSpecs,))
 class RequestBodyStruct(metaclass=OrderedMeta):
     """Request Body class"""
 
@@ -100,9 +100,12 @@ class RequestBodyStruct(metaclass=OrderedMeta):
             if name not in kwargs:
                 raise AttributeError(f"[{name}] is required!")
             setattr(self, name, kwargs[name])
-        nbytes = self._buffer.getbuffer().nbytes
+        nbytes = self.nbytes()
         padding = bytes(4 - (nbytes % 4) if nbytes % 4 else 0)
         self._buffer.write(padding)
+    
+    def nbytes(self) -> int:
+        return self._buffer.getbuffer().nbytes
 
     def to_hex(self) -> str:
         return self.to_bytes().hex()

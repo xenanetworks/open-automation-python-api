@@ -1,5 +1,4 @@
-#: L23 Port Transceiver Commands
-
+from __future__ import annotations
 from dataclasses import dataclass
 import typing
 
@@ -9,10 +8,16 @@ from ..protocol.command_builders import (
 )
 from .. import interfaces
 from ..transporter.token import Token
-from ..protocol.fields import data_types as xt
-from ..protocol.fields.field import XmpField
 from ..registry import register_command
-# from .enums import *  # noqa: F403
+from ..protocol.payload import (
+    field,
+    RequestBodyStruct,
+    ResponseBodyStruct,
+    XmpByte,
+    XmpHex,
+    XmpSequence,
+    Hex,
+)
 
 
 @register_command
@@ -26,36 +31,36 @@ class PX_RW:
     code: typing.ClassVar[int] = 501
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _page_xindex: int
     _register_xaddress: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        value: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)
+    class GetDataAttr(ResponseBodyStruct):
+        value: Hex = field(XmpHex(size=4))
         """4 hex bytes, register value of the port transceiver"""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        value: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)
+    class SetDataAttr(RequestBodyStruct):
+        value: Hex = field(XmpHex(size=4))
         """4 hex bytes, register value of the port transceiver"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the register value of a transceiver.
 
         :return: the register value of a transceiver
         :rtype: PX_RW.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._page_xindex, self._register_xaddress]))
 
-    def set(self, value: str) -> "Token":
+    def set(self, value: str) -> Token[None]:
         """Set the register value of a transceiver.
 
         :param value: register value of a transceiver
         :type value: str
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._page_xindex, self._register_xaddress], value=value))
 
 
@@ -71,38 +76,38 @@ class PX_RW_SEQ:
     code: typing.ClassVar[int] = 503
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _page_xindex: int
     _register_xaddress: int
-    _byte_count: int
+    _byte_xcount: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        value: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)
+    class GetDataAttr(ResponseBodyStruct):
+        value: list[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
         """the bytes to be read or written in one I2C transaction. The number of bytes in the ``<value>`` equals ``<byte_count>``."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        value: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)
+    class SetDataAttr(RequestBodyStruct):
+        value: list[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
         """the bytes to be read or written in one I2C transaction. The number of bytes in the ``<value>`` equals ``<byte_count>``."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the register value of a transceiver in one I2C transaction.
 
         :return: the register value of a transceiver
         :rtype: PX_RW_SEQ.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._page_xindex, self._register_xaddress, self._byte_count]))
 
-    def set(self, value: str) -> "Token":
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._page_xindex, self._register_xaddress, self._byte_xcount]))
+
+    def set(self, value: str) -> Token[None]:
         """Set the register value of a transceiver in one I2C transaction.
 
         :param value: register value of a transceiver
         :type value: str
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._page_xindex, self._register_xaddress, self._byte_count], value=value))
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._page_xindex, self._register_xaddress, self._byte_xcount], value=value))
 
 
 @register_command
@@ -114,35 +119,35 @@ class PX_MII:
     code: typing.ClassVar[int] = 537
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _register_xaddress: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        value: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)
+    class GetDataAttr(ResponseBodyStruct):
+        value: Hex = field(XmpHex(size=2))
         """2 hex bytes, register value of the transceiver"""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        value: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)
+    class SetDataAttr(RequestBodyStruct):
+        value: Hex = field(XmpHex(size=2))
         """2 hex bytes, register value of the transceiver"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the register value of a transceiver.
 
         :return: the register value of a transceiver
         :rtype: PX_MII.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._register_xaddress]))
 
-    def set(self, value: str) -> "Token":
+    def set(self, value: str) -> Token[None]:
         """Set the register value of a transceiver.
 
         :param value: register value of a transceiver
         :type value: str
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._register_xaddress], value=value))
 
 
@@ -156,22 +161,21 @@ class PX_TEMPERATURE:
     code: typing.ClassVar[int] = 538
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        integral_part: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
+    class GetDataAttr(ResponseBodyStruct):
+        integral_part: int = field(XmpByte())
         """byte, temperature value before the decimal digit."""
-
-        fractional_part: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
+        fractional_part: int = field(XmpByte())
         """byte, 1/256th of a degree Celsius after the decimal digit."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get transceiver temperature in degrees Celsius.
 
         :return: temperature value before the decimal digit, and 1/256th of a degree Celsius after the decimal digit.
         :rtype: PX_TEMPERATURE.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))

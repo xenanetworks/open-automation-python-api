@@ -1,13 +1,13 @@
+from __future__ import annotations
 from typing import TYPE_CHECKING, Type
 
 if TYPE_CHECKING:
     from . import struct_header
 from . import struct_response
 from . import struct_request
-from .constants import (
-    CommandType,
-    NOTHING,
-)
+from .constants import CommandType
+
+from .payload import ResponseBodyStruct
 from xoa_driver.internals.core.interfaces import (
     ICmdOnlySet,
     ICmdOnlyGet,
@@ -17,39 +17,37 @@ from xoa_driver.internals.core.interfaces import (
 
 def build_set_request(cls: ICmdOnlySet, **kwargs) -> "struct_request.Request":
     indices = kwargs.pop("indices", [])
-    module = kwargs.pop("module", NOTHING)
-    port = kwargs.pop("port", NOTHING)
+    module = kwargs.pop("module", None)
+    port = kwargs.pop("port", None)
     req_values = cls.SetDataAttr(**kwargs)
-    set_get = CommandType.COMMAND_VALUE.value
     return struct_request.Request(
-        type(cls).__name__,
-        indices,
-        set_get,
-        cls.code,
-        module,
-        port,
-        req_values
+        class_name=type(cls).__name__,
+        cmd_type=CommandType.COMMAND_VALUE,
+        cmd_code=cls.code,
+        module_index=module,
+        port_index=port,
+        indices=indices,
+        values=req_values
     )
 
 
 def build_get_request(cls: ICmdOnlyGet, **kwargs) -> "struct_request.Request":
     indices = kwargs.pop("indices", [])
-    module = kwargs.pop("module", NOTHING)
-    port = kwargs.pop("port", NOTHING)
+    module = kwargs.pop("module", None)
+    port = kwargs.pop("port", None)
     req_values = None
-    set_get = CommandType.COMMAND_QUERY.value
     return struct_request.Request(
-        type(cls).__name__,
-        indices,
-        set_get,
-        cls.code,
-        module,
-        port,
-        req_values
+        class_name=type(cls).__name__,
+        cmd_type=CommandType.COMMAND_QUERY,
+        cmd_code=cls.code,
+        module_index=module,
+        port_index=port,
+        indices=indices,
+        values=req_values
     )
 
 
-def build_from_bytes(cls: Type[CMD_TYPE], header: "struct_header.ResponseHeader", data: bytes) -> "struct_response.Response":
+def build_from_bytes(cls: Type[CMD_TYPE], header: "struct_header.ResponseHeader", data: memoryview) -> "struct_response.Response":
     """Parse bytes retrieved from server to Response structure."""
-    properties_structure = getattr(cls, "GetDataAttr", None)
+    properties_structure: Type[ResponseBodyStruct] | None = getattr(cls, "GetDataAttr", None)
     return struct_response.Response(header, cls.__name__, data, properties_structure)

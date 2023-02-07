@@ -1,5 +1,4 @@
-#: L23 Port RX Statistics Commands
-
+from __future__ import annotations
 from dataclasses import dataclass
 import typing
 
@@ -9,10 +8,17 @@ from ..protocol.command_builders import (
 )
 from .. import interfaces
 from ..transporter.token import Token
-from ..protocol.fields import data_types as xt
-from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *  # noqa: F403
+from ..protocol.payload import (
+    field,
+    RequestBodyStruct,
+    ResponseBodyStruct,
+    XmpByte,
+    XmpInt,
+    XmpLong,
+    XmpSequence,
+)
+from .enums import OnOff
 
 
 @register_command
@@ -29,37 +35,32 @@ class PR_TPLDJITTER:
     code: typing.ClassVar[int] = 239
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _test_payload_xindex: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        min_val: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+    class GetDataAttr(ResponseBodyStruct):
+        min_val: int = field(XmpLong())
         """long integer, nanoseconds, minimum jitter for test payload stream"""
-
-        avg_val: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        avg_val: int = field(XmpLong())
         """long integer, nanoseconds, average jitter for test payload stream"""
-
-        max_val: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        max_val: int = field(XmpLong())
         """long integer, nanoseconds, maximum jitter for test payload stream"""
-
-        avg_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        avg_last_sec: int = field(XmpLong())
         """long integer, nanoseconds, average jitter over last 1-second period"""
-
-        min_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        min_last_sec: int = field(XmpLong())
         """long integer, nanoseconds, minimum jitter during last 1-second period"""
-
-        max_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        max_last_sec: int = field(XmpLong())
         """long integer, nanoseconds, maximum jitter during last 1-second period"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get statistics concerning the jitter experienced by the packets with a particular test payload id received on a port.
 
         :return: minimum|average|maximum jitter (nanoseconds), average|average|maximum jitter over last 1-second period (nanoseconds)
         :rtype: PR_TPLDJITTER.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._test_payload_xindex]))
 
 
@@ -73,25 +74,21 @@ class PR_TOTAL:
     code: typing.ClassVar[int] = 240
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+    class GetDataAttr(ResponseBodyStruct):
+        bit_count_last_sec: int = field(XmpLong())
         """long integer, number of bits received in the last second."""
-
-        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        packet_count_last_sec: int = field(XmpLong())
         """long integer, number of packets received in the last second."""
-
-        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        byte_count_since_cleared: int = field(XmpLong())
         """long integer, number of bytes received since statistics were cleared."""
-
-        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        packet_count_since_cleared: int = field(XmpLong())
         """long integer, number of packets received since statistics were cleared."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get statistics concerning all the packets received on a port.
 
         :return:
@@ -102,6 +99,7 @@ class PR_TOTAL:
 
         :rtype: PR_TOTAL.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
@@ -116,25 +114,21 @@ class PR_NOTPLD:
     code: typing.ClassVar[int] = 241
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+    class GetDataAttr(ResponseBodyStruct):
+        bit_count_last_sec: int = field(XmpLong())
         """long integer, number of bits received in the last second."""
-
-        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        packet_count_last_sec: int = field(XmpLong())
         """long integer, number of packets received in the last second."""
-
-        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        byte_count_since_cleared: int = field(XmpLong())
         """long integer, number of bytes received since statistics were cleared."""
-
-        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        packet_count_since_cleared: int = field(XmpLong())
         """long integer, number of packets received since statistics were cleared."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get statistics concerning the packets without a test payload received on a port.
 
         :return:
@@ -145,6 +139,7 @@ class PR_NOTPLD:
 
         :rtype: PR_NOTPLD.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
@@ -158,42 +153,35 @@ class PR_EXTRA:
     code: typing.ClassVar[int] = 242
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        fcs_error_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+    class GetDataAttr(ResponseBodyStruct):
+        fcs_error_count: int = field(XmpLong())
         """long integer, number of packets with frame checksum errors."""
-
-        pause_frame_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        pause_frame_count: int = field(XmpLong())
         """long integer, number of Ethernet pause frames."""
-
-        rx_arp_request_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        rx_arp_request_count: int = field(XmpLong())
         """long integer, number of ARP request packets received."""
-
-        rx_arp_reply_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        rx_arp_reply_count: int = field(XmpLong())
         """long integer, number of ARP reply packets received."""
-
-        rx_ping_request_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        rx_ping_request_count: int = field(XmpLong())
         """long integer, number of PING request packets received."""
-
-        rx_ping_reply_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        rx_ping_reply_count: int = field(XmpLong())
         """long integer, number of PING reply packets received."""
-
-        gap_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        gap_count: int = field(XmpLong())
         """long integer, number of gap-monitored gaps encountered."""
-
-        gap_duration: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        gap_duration: int = field(XmpLong())
         """long integer, combined duration of gap-monitored gaps encountered, microseconds."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get statistics concerning special packets received on a port since statistics were cleared.
 
         :return: number of packets with fcs error frames, pause frames, arp rxreq, arp rxrsp, ping rxreq, ping rxrsp, gap events, and gap microseconds.
         :rtype: PR_EXTRA.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
@@ -209,16 +197,15 @@ class PR_TPLDS:
     code: typing.ClassVar[int] = 243
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        test_payload_identifiers: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
+    class GetDataAttr(ResponseBodyStruct):
+        test_payload_identifiers: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, the identifiers of the test payload."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the set of test payload IDs observed among the received packets since
         receive statistics were cleared. Traffic statistics for these test payload
         streams will have non-zero byte and packet count.
@@ -226,6 +213,7 @@ class PR_TPLDS:
         :return: the identifiers of the test payload
         :rtype: PR_TPLDS.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
@@ -240,26 +228,22 @@ class PR_TPLDTRAFFIC:
     code: typing.ClassVar[int] = 244
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _test_payload_xindex: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+    class GetDataAttr(ResponseBodyStruct):
+        bit_count_last_sec: int = field(XmpLong())
         """long integer, number of bits received in the last second."""
-
-        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        packet_count_last_sec: int = field(XmpLong())
         """long integer, number of packets received in the last second."""
-
-        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        byte_count_since_cleared: int = field(XmpLong())
         """long integer, number of bytes received since statistics were cleared."""
-
-        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        packet_count_since_cleared: int = field(XmpLong())
         """long integer, number of packets received since statistics were cleared."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get traffic statistics concerning the packets with a particular test payload
         identifier received on a port.
 
@@ -271,6 +255,7 @@ class PR_TPLDTRAFFIC:
 
         :rtype: PR_TPLDTRAFFIC.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._test_payload_xindex]))
 
 
@@ -291,26 +276,22 @@ class PR_TPLDERRORS:
     code: typing.ClassVar[int] = 245
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _test_payload_xindex: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        dummy: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+    class GetDataAttr(ResponseBodyStruct):
+        dummy: int = field(XmpLong())
         """long integer, not in use."""
-
-        non_inc_seq_event_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        non_inc_seq_event_count: int = field(XmpLong())
         """long integer, number of non-incrementing-sequence-number events."""
-
-        swapped_seq_misorder_event_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        swapped_seq_misorder_event_count: int = field(XmpLong())
         """long integer, number of swapped-sequence-number misorder events."""
-
-        non_inc_payload_packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        non_inc_payload_packet_count: int = field(XmpLong())
         """long integer, number of packets with non-incrementing payload content."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get statistics concerning errors in the packets with a particular test payload id received on a port.
 
         :return:
@@ -321,6 +302,7 @@ class PR_TPLDERRORS:
 
         :rtype: PR_TPLDERRORS.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._test_payload_xindex]))
 
 
@@ -340,37 +322,32 @@ class PR_TPLDLATENCY:
     code: typing.ClassVar[int] = 246
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _test_payload_xindex: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        min_val: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+    class GetDataAttr(ResponseBodyStruct):
+        min_val: int = field(XmpLong())
         """long integer, nanoseconds, minimum latency for test payload stream"""
-
-        avg_val: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        avg_val: int = field(XmpLong())
         """long integer, nanoseconds, average latency for test payload stream"""
-
-        max_val: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        max_val: int = field(XmpLong())
         """long integer, nanoseconds, maximum latency for test payload stream"""
-
-        avg_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        avg_last_sec: int = field(XmpLong())
         """long integer, nanoseconds, average latency over last 1-second period"""
-
-        min_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        min_last_sec: int = field(XmpLong())
         """long integer, nanoseconds, minimum latency during last 1-second period"""
-
-        max_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        max_last_sec: int = field(XmpLong())
         """long integer, nanoseconds, maximum latency during last 1-second period"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get statistics concerning the latency experienced by the packets with a particular test payload id received on a port.
 
         :return: minimum|average|maximum latency (nanoseconds), average|average|maximum latency over last 1-second period (nanoseconds)
         :rtype: PR_TPLDLATENCY.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._test_payload_xindex]))
 
 
@@ -385,26 +362,22 @@ class PR_FILTER:
     code: typing.ClassVar[int] = 247
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _filter_xindex: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+    class GetDataAttr(ResponseBodyStruct):
+        bit_count_last_sec: int = field(XmpLong())
         """long integer, number of bits received in the last second."""
-
-        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        packet_count_last_sec: int = field(XmpLong())
         """long integer, number of packets received in the last second."""
-
-        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        byte_count_since_cleared: int = field(XmpLong())
         """long integer, number of bytes received since statistics were cleared."""
-
-        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        packet_count_since_cleared: int = field(XmpLong())
         """long integer, number of packets received since statistics were cleared."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get statistics concerning the packets satisfying the condition of a particular filter for a port
 
         :return:
@@ -415,6 +388,7 @@ class PR_FILTER:
 
         :rtype: PR_FILTER.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._filter_xindex]))
 
 
@@ -429,26 +403,19 @@ class PR_CLEAR:
     code: typing.ClassVar[int] = 248
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
+    class SetDataAttr(RequestBodyStruct):
         pass
 
-    def set(self) -> "Token":
+    def set(self) -> Token[None]:
         """Clear all the receive statistics for a port. The byte and packet counts will
         restart at zero.
         """
-        return Token(
-            self._connection,
-            build_set_request(
-                self,
-                module=self._module,
-                port=self._port,
-            ),
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port))
 
 
 @register_command
@@ -463,27 +430,20 @@ class PR_CALIBRATE:
     code: typing.ClassVar[int] = 249
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
+    class SetDataAttr(RequestBodyStruct):
         pass
 
-    def set(self) -> "Token":
+    def set(self) -> Token[None]:
         """Calibrate the latency calculation for packets received on a port. The lowest
         detected latency value (across all Test Payload IDs) will be set as the new
         base.
         """
-        return Token(
-            self._connection,
-            build_set_request(
-                self,
-                module=self._module,
-                port=self._port,
-            ),
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port))
 
 
 @register_command
@@ -497,22 +457,22 @@ class PR_UAT_STATUS:
     code: typing.ClassVar[int] = 252
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        status: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+    class GetDataAttr(ResponseBodyStruct):
+        status: OnOff = field(XmpByte())
         """coded byte, specifies the state of the affected stream counter."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the current UAT (UnAvailable Time) state, which is used
         in Valkyrie1564.
 
         :return: the state of the affected stream counter
         :rtype: PR_UAT_STATUS.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
@@ -526,22 +486,22 @@ class PR_UAT_TIME:
     code: typing.ClassVar[int] = 256
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        time: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        time: int = field(XmpInt())
         """integer, number of unavailable seconds."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the current UAT (UnAvailable Time) state, which is used
         in Valkyrie1564.
 
         :return: number of unavailable seconds
         :rtype: PR_UAT_TIME.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
@@ -557,36 +517,30 @@ class PR_TOTALEXT:
     code: typing.ClassVar[int] = 257
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+    class GetDataAttr(ResponseBodyStruct):
+        bit_count_last_sec: int = field(XmpLong())
         """long integer, number of bits received in the last second."""
-
-        byte_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        byte_count_last_sec: int = field(XmpLong())
         """long integer, number of bytes received in the last second."""
-
-        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        packet_count_last_sec: int = field(XmpLong())
         """long integer, number of packets received in the last second."""
-
-        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        byte_count_since_cleared: int = field(XmpLong())
         """long integer, number of bytes received since statistics were cleared."""
-
-        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        packet_count_since_cleared: int = field(XmpLong())
         """long integer, number of packets received since statistics were cleared."""
+        fcs_error_count: int = field(XmpLong())
 
-        fcs_error_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets received with fcs error frames
-        # long integer, number of oversize packets received since last clear; -1 if this counter is not supported by the tester.
-        oversize_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
-        # long integer, number of undersize packets received since last clear; -1 if this counter is not supported by the tester.
-        undersize_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
-        # long integer, number of jabber packets received since last clear; -1 if this counter is not supported by the tester.
-        jabber_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        oversize_count: int = field(XmpLong())
 
-    def get(self) -> "Token[GetDataAttr]":
+        undersize_count: int = field(XmpLong())
+
+        jabber_count: int = field(XmpLong())
+
+    def get(self) -> Token[GetDataAttr]:
         """Get statistics concerning all the packets received on a port.
 
         :return:
@@ -602,6 +556,7 @@ class PR_TOTALEXT:
 
         :rtype: PR_TOTALEXT.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
@@ -617,28 +572,23 @@ class PR_NOTPLDEXT:
     code: typing.ClassVar[int] = 258
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+    class GetDataAttr(ResponseBodyStruct):
+        bit_count_last_sec: int = field(XmpLong())
         """long integer, number of bits received in the last second."""
-
-        byte_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        byte_count_last_sec: int = field(XmpLong())
         """long integer, number of bytes received in the last second."""
-
-        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        packet_count_last_sec: int = field(XmpLong())
         """long integer, number of packets received in the last second."""
-
-        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        byte_count_since_cleared: int = field(XmpLong())
         """long integer, number of bytes received since statistics were cleared."""
-
-        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        packet_count_since_cleared: int = field(XmpLong())
         """long integer, number of packets received since statistics were cleared."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get statistics concerning the packets without a test payload received on a port.
 
         :return:
@@ -650,6 +600,7 @@ class PR_NOTPLDEXT:
 
         :rtype: PR_NOTPLDEXT.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
@@ -665,29 +616,24 @@ class PR_TPLDTRAFFICEXT:
     code: typing.ClassVar[int] = 259
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _test_payload_xindex: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+    class GetDataAttr(ResponseBodyStruct):
+        bit_count_last_sec: int = field(XmpLong())
         """long integer, number of bits received in the last second."""
-
-        byte_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        byte_count_last_sec: int = field(XmpLong())
         """long integer, number of bytes received in the last second."""
-
-        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        packet_count_last_sec: int = field(XmpLong())
         """long integer, number of packets received in the last second."""
-
-        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        byte_count_since_cleared: int = field(XmpLong())
         """long integer, number of bytes received since statistics were cleared."""
-
-        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        packet_count_since_cleared: int = field(XmpLong())
         """long integer, number of packets received since statistics were cleared."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get traffic statistics concerning the packets with a particular test payload
         identifier received on a port.
 
@@ -700,6 +646,7 @@ class PR_TPLDTRAFFICEXT:
 
         :rtype: PR_TPLDTRAFFICEXT.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._test_payload_xindex]))
 
 
@@ -715,29 +662,24 @@ class PR_FILTEREXT:
     code: typing.ClassVar[int] = 260
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _filter_xindex: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+    class GetDataAttr(ResponseBodyStruct):
+        bit_count_last_sec: int = field(XmpLong())
         """long integer, number of bits received in the last second."""
-
-        byte_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        byte_count_last_sec: int = field(XmpLong())
         """long integer, number of bytes received in the last second."""
-
-        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        packet_count_last_sec: int = field(XmpLong())
         """long integer, number of packets received in the last second."""
-
-        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        byte_count_since_cleared: int = field(XmpLong())
         """long integer, number of bytes received since statistics were cleared."""
-
-        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        packet_count_since_cleared: int = field(XmpLong())
         """long integer, number of packets received since statistics were cleared."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get statistics concerning the packets satisfying the condition of a particular filter for a port
 
         :return:
@@ -749,6 +691,7 @@ class PR_FILTEREXT:
 
         :rtype: PR_FILTEREXT.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._filter_xindex]))
 
 
@@ -764,45 +707,37 @@ class PR_PFCSTATS:
     code: typing.ClassVar[int] = 374
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+    class GetDataAttr(ResponseBodyStruct):
+        packet_count: int = field(XmpLong())
         """long integer, the total number of Priority Flow Control (PFC) packets received since statistics were cleared."""
-
-        quanta_pri_0: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        quanta_pri_0: int = field(XmpLong())
         """the total number of valid PFC quanta received on the port for priority level 0 since statistics were cleared"""
-
-        quanta_pri_1: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        quanta_pri_1: int = field(XmpLong())
         """the total number of valid PFC quanta received on the port for priority level 1 since statistics were cleared"""
-
-        quanta_pri_2: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        quanta_pri_2: int = field(XmpLong())
         """the total number of valid PFC quanta received on the port for priority level 2 since statistics were cleared"""
-
-        quanta_pri_3: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        quanta_pri_3: int = field(XmpLong())
         """the total number of valid PFC quanta received on the port for priority level 3 since statistics were cleared"""
-
-        quanta_pri_4: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        quanta_pri_4: int = field(XmpLong())
         """the total number of valid PFC quanta received on the port for priority level 4 since statistics were cleared"""
-
-        quanta_pri_5: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        quanta_pri_5: int = field(XmpLong())
         """the total number of valid PFC quanta received on the port for priority level 5 since statistics were cleared"""
-
-        quanta_pri_6: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        quanta_pri_6: int = field(XmpLong())
         """the total number of valid PFC quanta received on the port for priority level 6 since statistics were cleared"""
-
-        quanta_pri_7: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        quanta_pri_7: int = field(XmpLong())
         """the total number of valid PFC quanta received on the port for priority level 7 since statistics were cleared"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the statistics of received Priority Flow Control (PFC) packets on a port.
 
         :return: the total number of Priority Flow Control (PFC) packets received since statistics were cleared
         :rtype: PR_PFCSTATS.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
@@ -817,26 +752,22 @@ class PR_FLOWTOTAL:
     code: typing.ClassVar[int] = 1741
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _flow_xindex: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        l2_bps: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+    class GetDataAttr(ResponseBodyStruct):
+        l2_bps: int = field(XmpLong())
         """long integer, number of bits received at layer 2 in the last second for the flow."""
-
-        pps: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        pps: int = field(XmpLong())
         """long integer, number of packets received in the last second for the flow."""
-
-        byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        byte_count: int = field(XmpLong())
         """long integer, number of bytes received since statistics were cleared for the flow."""
-
-        packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        packet_count: int = field(XmpLong())
         """long integer, number of packets received since statistics were cleared for the flow."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """(Chimera only) Get statistics concerning all the packets received from a flow between this receive port and its partner TX port.
 
         :return:
@@ -847,6 +778,7 @@ class PR_FLOWTOTAL:
 
         :rtype: PR_FLOWTOTAL.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
 
 
@@ -861,24 +793,16 @@ class PR_FLOWCLEAR:
     code: typing.ClassVar[int] = 1743
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _flow_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
+    class SetDataAttr(RequestBodyStruct):
         pass
 
-    def set(self) -> "Token":
+    def set(self) -> Token[None]:
         """(Chimera only) Clear all the receive statistics on a particular flow for a Chimera port. The byte and packet counts will restart at zero.
         """
-        return Token(
-            self._connection,
-            build_set_request(
-                self,
-                module=self._module,
-                port=self._port,
-                indices=[self._flow_xindex],
-            ),
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))

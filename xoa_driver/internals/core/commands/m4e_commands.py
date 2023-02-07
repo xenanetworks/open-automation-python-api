@@ -1,7 +1,6 @@
-"""
-L47 Module Packet Engine Commands
-"""
+from __future__ import annotations
 from dataclasses import dataclass
+import ipaddress
 import typing
 import functools
 
@@ -11,10 +10,16 @@ from ..protocol.command_builders import (
 )
 from .. import interfaces
 from ..transporter.token import Token
-from ..protocol.fields import data_types as xt
-from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *  # noqa: F403
+from ..protocol.payload import (
+    field,
+    RequestBodyStruct,
+    ResponseBodyStruct,
+    XmpByte,
+    XmpHex,
+    Hex,
+)
+from .enums import ResourceAllocationMode
 
 
 @register_command
@@ -27,37 +32,38 @@ class M4E_MODE:
     code: typing.ClassVar[int] = 850
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=ResourceAllocationMode)
+    class GetDataAttr(ResponseBodyStruct):
+        mode: ResourceAllocationMode = field(XmpByte())
         """coded byte, resource allocation mode."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=ResourceAllocationMode)
+    class SetDataAttr(RequestBodyStruct):
+        mode: ResourceAllocationMode = field(XmpByte())
         """coded byte, resource allocation mode."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the resource allocation mode.
 
         :return: resource allocation mode
         :rtype: M4E_MODE.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, mode: ResourceAllocationMode) -> "Token":
+    def set(self, mode: ResourceAllocationMode) -> Token[None]:
         """Set the resource allocation mode.
 
         :param mode: resource allocation mode
         :type mode: ResourceAllocationMode
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, mode=mode))
 
     set_simple = functools.partialmethod(set, ResourceAllocationMode.SIMPLE)
     """Set resource allocation mode to Simple."""
+
     set_advanced = functools.partialmethod(set, ResourceAllocationMode.ADVANCED)
     """Set resource allocation mode to Advanced."""
 
@@ -72,31 +78,31 @@ class M4E_RESERVE:
     code: typing.ClassVar[int] = 851
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        mask: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)
+    class GetDataAttr(ResponseBodyStruct):
+        mask: Hex = field(XmpHex(size=8))
         """eight hex bytes, bitmask of PEs to reserve"""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        mask: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)
+    class SetDataAttr(RequestBodyStruct):
+        mask: Hex = field(XmpHex(size=8))
         """eight hex bytes, bitmask of PEs to reserve"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the PEs reserved.
 
         :return: the number of PEs reserved.
         :rtype: M4E_RESERVE.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, mask: str) -> "Token":
+    def set(self, mask: str) -> Token[None]:
         """Set PEs reserved.
 
         :param mask: bitmask of PEs to reserve
         :type mask: str
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, mask=mask))

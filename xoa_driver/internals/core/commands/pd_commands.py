@@ -1,5 +1,4 @@
-#: L23 Port Histogram Commands
-
+from __future__ import annotations
 from dataclasses import dataclass
 import typing
 import functools
@@ -10,10 +9,22 @@ from ..protocol.command_builders import (
 )
 from .. import interfaces
 from ..transporter.token import Token
-from ..protocol.fields import data_types as xt
-from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *  # noqa: F403
+from ..protocol.payload import (
+    field,
+    RequestBodyStruct,
+    ResponseBodyStruct,
+    XmpByte,
+    XmpInt,
+    XmpLong,
+    XmpSequence,
+
+)
+from .enums import (
+    OnOff,
+    SourceType,
+    PacketDetailSelection,
+)
 
 
 @register_command
@@ -26,34 +37,34 @@ class PD_INDICES:
     code: typing.ClassVar[int] = 140
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        histogram_indices: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
+    class GetDataAttr(ResponseBodyStruct):
+        histogram_indices: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, histogram indices"""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        histogram_indices: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
+    class SetDataAttr(RequestBodyStruct):
+        histogram_indices: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, histogram indices"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the histogram indices for each of N histograms.
 
         :return: the histogram indices for each of N histograms
         :rtype: PD_INDICES.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, histogram_indices: typing.List[int]) -> "Token":
+    def set(self, histogram_indices: typing.List[int]) -> Token[None]:
         """Set the histogram indices for each of N histograms.
 
         :param histogram_indices: histogram indices
         :type histogram_indices: List[int]
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, histogram_indices=histogram_indices))
 
 
@@ -67,27 +78,19 @@ class PD_CREATE:
     code: typing.ClassVar[int] = 141
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _dataset_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
+    class SetDataAttr(RequestBodyStruct):
         pass
 
-    def set(self) -> "Token":
+    def set(self) -> Token[None]:
         """Create a histogram definition with the specified sub-index value.
         """
-        return Token(
-            self._connection,
-            build_set_request(
-                self,
-                module=self._module,
-                port=self._port,
-                indices=[self._dataset_xindex],
-            ),
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._dataset_xindex]))
 
 
 @register_command
@@ -100,27 +103,19 @@ class PD_DELETE:
     code: typing.ClassVar[int] = 142
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _dataset_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
+    class SetDataAttr(RequestBodyStruct):
         pass
 
-    def set(self) -> "Token":
+    def set(self) -> Token[None]:
         """Delete an existing histogram definition.
         """
-        return Token(
-            self._connection,
-            build_set_request(
-                self,
-                module=self._module,
-                port=self._port,
-                indices=[self._dataset_xindex],
-            ),
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._dataset_xindex]))
 
 
 @register_command
@@ -136,40 +131,41 @@ class PD_ENABLE:
     code: typing.ClassVar[int] = 143
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _dataset_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+    class GetDataAttr(ResponseBodyStruct):
+        on_off: OnOff = field(XmpByte())
         """coded integer, whether the histogram is enabled."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+    class SetDataAttr(RequestBodyStruct):
+        on_off: OnOff = field(XmpByte())
         """coded integer, whether the histogram is enabled."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get whether a histogram is currently active on a port.
 
         :return: whether the histogram is enabled
         :rtype: OnOff
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._dataset_xindex]))
 
-    def set(self, on_off: OnOff) -> "Token":
+    def set(self, on_off: OnOff) -> Token[None]:
         """Set whether a histogram is currently active on a port.
 
         :param on_off: whether the histogram is enabled
         :type on_off: OnOff
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._dataset_xindex], on_off=on_off))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """Disable the histogram on the port.
     """
+
     set_on = functools.partialmethod(set, OnOff.ON)
     """Enable the histogram on the port.
     """
@@ -186,42 +182,37 @@ class PD_SOURCE:
     code: typing.ClassVar[int] = 144
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _dataset_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        source_type: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=SourceType)
+    class GetDataAttr(ResponseBodyStruct):
+        source_type: SourceType = field(XmpInt())
         """coded integer, specifying what is counted and for which packets."""
-
-        which_packets: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=PacketDetailSelection)
+        which_packets: PacketDetailSelection = field(XmpInt())
         """coded integer, specifying a further detail on which packets to count."""
-
-        identity: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        identity: int = field(XmpInt())
         """integer, test payload id or filter id for the wanted packets."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        source_type: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=SourceType)
+    class SetDataAttr(RequestBodyStruct):
+        source_type: SourceType = field(XmpInt())
         """coded integer, specifying what is counted and for which packets."""
-
-        which_packets: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=PacketDetailSelection)
+        which_packets: PacketDetailSelection = field(XmpInt())
         """coded integer, specifying a further detail on which packets to count."""
-
-        identity: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        identity: int = field(XmpInt())
         """integer, test payload id or filter id for the wanted packets."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the source criteria specifying what is counted, and for which packets, by a histogram of a port.
 
         :return: what is counted and for which packets, a further detail on which packets to count, test payload id or filter id for the wanted packets
         :rtype: PD_SOURCE.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._dataset_xindex]))
 
-    def set(self, source_type: SourceType, which_packets: PacketDetailSelection, identity: int) -> "Token":
+    def set(self, source_type: SourceType, which_packets: PacketDetailSelection, identity: int) -> Token[None]:
         """Set the source criteria specifying what is counted, and for which packets, by a histogram of a port.
 
         :param source_type: what is counted and for which packets
@@ -231,12 +222,8 @@ class PD_SOURCE:
         :param identity: test payload id or filter id for the wanted packets
         :type identity: int
         """
-        return Token(
-            self._connection,
-            build_set_request(
-                self, module=self._module, port=self._port, indices=[self._dataset_xindex], source_type=source_type, which_packets=which_packets, identity=identity
-            ),
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._dataset_xindex], source_type=source_type, which_packets=which_packets, identity=identity))
 
 
 @register_command
@@ -256,46 +243,37 @@ class PD_RANGE:
     code: typing.ClassVar[int] = 145
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _dataset_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        start: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        start: int = field(XmpInt())
         """integer, first value going into the second bucket."""
-
-        step: XmpField[xt.XmpInt] = XmpField(
-            xt.XmpInt
-        )
+        step: int = field(XmpInt())
         """integer, the span of each middle bucket: (1) 1,2,4,8,16,32,64,128,256,512 (bytes, non-latency histograms). (2) 16,32,64,128,...,1048576,2097152 (nanoseconds, latency histograms)."""
-
-        bucket_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        bucket_count: int = field(XmpInt())
         """integer, the total number of buckets."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        start: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class SetDataAttr(RequestBodyStruct):
+        start: int = field(XmpInt())
         """integer, first value going into the second bucket."""
-
-        step: XmpField[xt.XmpInt] = XmpField(
-            xt.XmpInt
-        )
+        step: int = field(XmpInt())
         """integer, the span of each middle bucket: (1) 1,2,4,8,16,32,64,128,256,512 (bytes, non-latency histograms). (2) 16,32,64,128,...,1048576,2097152 (nanoseconds, latency histograms)."""
-
-        bucket_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        bucket_count: int = field(XmpInt())
         """integer, the total number of buckets."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the bucket ranges used for classifying the packets counted by a histogram of a port.
 
         :return: first value going into the second bucket, the span of each middle bucket, the total number of buckets
         :rtype: PD_RANGE.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._dataset_xindex]))
 
-    def set(self, start: int, step: int, bucket_count: int) -> "Token":
+    def set(self, start: int, step: int, bucket_count: int) -> Token[None]:
         """Set the bucket ranges used for classifying the packets counted by a histogram of a port.
         The packets are either counted by length, measured in bytes, by inter-
         frame gap to the preceding packet,  also measured in bytes, or by latency in
@@ -312,10 +290,8 @@ class PD_RANGE:
         :param bucket_count: the total number of buckets
         :type bucket_count: int
         """
-        return Token(
-            self._connection,
-            build_set_request(self, module=self._module, port=self._port, indices=[self._dataset_xindex], start=start, step=step, bucket_count=bucket_count),
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._dataset_xindex], start=start, step=step, bucket_count=bucket_count))
 
 
 @register_command
@@ -330,20 +306,20 @@ class PD_SAMPLES:
     code: typing.ClassVar[int] = 146
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _dataset_xindex: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        packet_counts: XmpField[xt.XmpLongList] = XmpField(xt.XmpLongList)
+    class GetDataAttr(ResponseBodyStruct):
+        packet_counts: list[int] = field(XmpSequence(types_chunk=[XmpLong()]))
         """list of long integers, the number of packets counted for each bucket."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get current set of counts collected by a histogram for a port.
 
         :return: the number of packets counted for each bucket
         :rtype: PD_SAMPLES.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._dataset_xindex]))

@@ -13,7 +13,8 @@ from .types import (
     XmpMacAddress,
     XmpSequence,
     XmpShort,
-    XmpStr
+    XmpStr,
+    Hex
 )
 
 __all__ = (
@@ -29,7 +30,8 @@ __all__ = (
     "XmpMacAddress",
     "XmpSequence",
     "XmpShort",
-    "XmpStr"
+    "XmpStr",
+    "Hex",
 )
 
 

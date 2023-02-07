@@ -1,5 +1,4 @@
-#: L47 Port Packet Engine Commands
-
+from __future__ import annotations
 from dataclasses import dataclass
 import typing
 
@@ -9,10 +8,15 @@ from ..protocol.command_builders import (
 )
 from .. import interfaces
 from ..transporter.token import Token
-from ..protocol.fields import data_types as xt
-from ..protocol.fields.field import XmpField
 from ..registry import register_command
-# from .enums import *  # noqa: F403"""
+from ..protocol.payload import (
+    field,
+    RequestBodyStruct,
+    ResponseBodyStruct,
+    XmpByte,
+    XmpHex,
+    Hex,
+)
 
 
 @register_command
@@ -25,34 +29,34 @@ class P4E_ASSIGN:
     code: typing.ClassVar[int] = 675
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        mask: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)
+    class GetDataAttr(ResponseBodyStruct):
+        mask: Hex = field(XmpHex(size=8))
         """eight hex bytes, a bitmask specifying which PEs should be assigned to this port"""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        mask: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)
+    class SetDataAttr(RequestBodyStruct):
+        mask: Hex = field(XmpHex(size=8))
         """eight hex bytes, a bitmask specifying which PEs should be assigned to this port"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the assigned PEs on the port.
 
         :return: previously reserved PEs
         :rtype: P4E_ASSIGN.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, mask: str) -> "Token":
+    def set(self, mask: str) -> Token[None]:
         """Assign the previously reserved PEs to the port.
 
         :param mask: a bitmask specifying which PEs should be assigned to this port
         :type mask: str
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, mask=mask))
 
 
@@ -66,23 +70,21 @@ class P4E_AVAILABLE:
     code: typing.ClassVar[int] = 676
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        available_pe_count: XmpField[xt.XmpByte] = XmpField(
-            xt.XmpByte
-        )
+    class GetDataAttr(ResponseBodyStruct):
+        available_pe_count: int = field(XmpByte())
         """byte, total number of PEs that can be allocated to the port - including the PEs already allocated to the port."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the number of PEs available for allocation.
 
         :return: the number of PEs available for allocation.
         :rtype: P4E_AVAILABLE.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
@@ -96,34 +98,34 @@ class P4E_ALLOCATE:
     code: typing.ClassVar[int] = 677
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        pe_count_alloc: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
+    class GetDataAttr(ResponseBodyStruct):
+        pe_count_alloc: int = field(XmpByte())
         """byte, the total number of PEs to allocate to this port - including the PEs already allocated to the port."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        pe_count_alloc: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
+    class SetDataAttr(RequestBodyStruct):
+        pe_count_alloc: int = field(XmpByte())
         """byte, the total number of PEs to allocate to this port - including the PEs already allocated to the port."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the number of PEs allocated to this port.
 
         :return: the total number of PEs to allocate to this port - including the PEs already allocated to the port.
         :rtype: P4E_ALLOCATE.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, pe_count_alloc: int) -> "Token":
+    def set(self, pe_count_alloc: int) -> Token[None]:
         """Allocate a number of PEs to this port.
 
         :param pe_count_alloc: the total number of PEs to allocate to this port - including the PEs already allocated to the port.
         :type pe_count_alloc: int
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, pe_count_alloc=pe_count_alloc))
 
 
@@ -138,22 +140,21 @@ class P4E_ALLOCATION_INFO:
     code: typing.ClassVar[int] = 678
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        available: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)
+    class GetDataAttr(ResponseBodyStruct):
+        available: Hex = field(XmpHex(size=8))
         """eight hex bytes (64-bit) mask of available PEs"""
-
-        allocated: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)
+        allocated: Hex = field(XmpHex(size=8))
         """eight hex bytes (64-bit) mask of PEs assigned to this port"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get PEs allocation information.
 
         :return: PEs allocation information
         :rtype: P4E_ALLOCATION_INFO.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))

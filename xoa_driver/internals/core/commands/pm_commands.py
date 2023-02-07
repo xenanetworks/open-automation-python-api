@@ -1,5 +1,4 @@
-#: L23 Port Match Term Commands
-
+from __future__ import annotations
 from dataclasses import dataclass
 import typing
 
@@ -9,10 +8,18 @@ from ..protocol.command_builders import (
 )
 from .. import interfaces
 from ..transporter.token import Token
-from ..protocol.fields import data_types as xt
-from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *  # noqa: F403
+from ..protocol.payload import (
+    field,
+    RequestBodyStruct,
+    ResponseBodyStruct,
+    XmpByte,
+    XmpHex,
+    XmpInt,
+    XmpSequence,
+    Hex,
+)
+from .enums import ProtocolOption
 
 
 @register_command
@@ -30,34 +37,34 @@ class PM_INDICES:
     code: typing.ClassVar[int] = 200
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        match_term_xindices: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
+    class GetDataAttr(ResponseBodyStruct):
+        match_term_xindices: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, the sub-index of a match term definition for the port."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        match_term_xindices: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
+    class SetDataAttr(RequestBodyStruct):
+        match_term_xindices: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, the sub-index of a match term definition for the port."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the full list of which match terms are defined for a port.
 
         :return: the full list of which match terms are defined for a port
         :rtype: PM_INDICES.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, match_term_xindices: typing.List[int]) -> "Token":
+    def set(self, match_term_xindices: typing.List[int]) -> Token[None]:
         """Creates a new empty match term for each value that is not already in use, and delete each match term that is not mentioned in the list
 
         :param match_term_xindices: the sub-index of a match term definition for the port
         :type match_term_xindices: List[int]
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, match_term_xindices=match_term_xindices))
 
 
@@ -71,27 +78,19 @@ class PM_CREATE:
     code: typing.ClassVar[int] = 201
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _match_term_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
+    class SetDataAttr(RequestBodyStruct):
         pass
 
-    def set(self) -> "Token":
+    def set(self) -> Token[None]:
         """Creates an empty match term definition with the specified sub-index value.
         """
-        return Token(
-            self._connection,
-            build_set_request(
-                self,
-                module=self._module,
-                port=self._port,
-                indices=[self._match_term_xindex],
-            ),
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._match_term_xindex]))
 
 
 @register_command
@@ -106,27 +105,19 @@ class PM_DELETE:
     code: typing.ClassVar[int] = 202
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _match_term_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
+    class SetDataAttr(RequestBodyStruct):
         pass
 
-    def set(self) -> "Token":
+    def set(self) -> Token[None]:
         """Deletes the match term definition with the specified sub-index value.
         """
-        return Token(
-            self._connection,
-            build_set_request(
-                self,
-                module=self._module,
-                port=self._port,
-                indices=[self._match_term_xindex],
-            ),
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._match_term_xindex]))
 
 
 @register_command
@@ -142,39 +133,35 @@ class PM_PROTOCOL:
     code: typing.ClassVar[int] = 203
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _match_term_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        segments: XmpField[xt.XmpByteList] = XmpField(
-            xt.XmpByteList, choices=ProtocolOption
-        )
+    class GetDataAttr(ResponseBodyStruct):
+        segments: ProtocolOption = field(XmpSequence(types_chunk=[XmpByte()]))
         """list of coded bytes, a number specifying a built-in protocol segment: Uses the same coded values as the PS_HEADERPROTOCOL parameter."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        segments: XmpField[xt.XmpByteList] = XmpField(
-            xt.XmpByteList, choices=ProtocolOption
-        )
+    class SetDataAttr(RequestBodyStruct):
+        segments: ProtocolOption = field(XmpSequence(types_chunk=[XmpByte()]))
         """list of coded bytes, a number specifying a built-in protocol segment: Uses the same coded values as the PS_HEADERPROTOCOL parameter."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the protocol segments assumed on the packets received on the port.
 
         :return: a number specifying a built-in protocol segment: Uses the same coded values as the PS_HEADERPROTOCOL parameter.
         :rtype: PM_PROTOCOL.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._match_term_xindex]))
 
-    def set(self, segments: typing.List[ProtocolOption]) -> "Token":
+    def set(self, segments: typing.List[ProtocolOption]) -> Token[None]:
         """Set the protocol segments assumed on the packets received on the port.
 
         :param segments: a number specifying a built-in protocol segment: Uses the same coded values as the PS_HEADERPROTOCOL parameter
         :type segments: List[ProtocolOption]
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._match_term_xindex], segments=segments))
 
 
@@ -188,35 +175,35 @@ class PM_POSITION:
     code: typing.ClassVar[int] = 204
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _match_term_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        byte_offset: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        byte_offset: int = field(XmpInt())
         """integer, offset from the start of the packet bytes."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        byte_offset: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class SetDataAttr(RequestBodyStruct):
+        byte_offset: int = field(XmpInt())
         """integer, offset from the start of the packet bytes."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the position within each received packet where content matching begins for the port.
 
         :return: offset from the start of the packet bytes
         :rtype: PM_POSITION.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._match_term_xindex]))
 
-    def set(self, byte_offset: int) -> "Token":
+    def set(self, byte_offset: int) -> Token[None]:
         """Set the position within each received packet where content matching begins for the port.
 
         :param byte_offset: offset from the start of the packet bytes
         :type byte_offset: int
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._match_term_xindex], byte_offset=byte_offset))
 
 
@@ -231,36 +218,33 @@ class PM_MATCH:
     code: typing.ClassVar[int] = 205
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _match_term_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        mask: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)
+    class GetDataAttr(ResponseBodyStruct):
+        mask: Hex = field(XmpHex(size=8))
         """eight hex bytes, which bits are significant in the match operation."""
-
-        value: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)
+        value: Hex = field(XmpHex(size=8))
         """eight hex bytes, the value that must be found for the match term to be true."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        mask: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)
+    class SetDataAttr(RequestBodyStruct):
+        mask: Hex = field(XmpHex(size=8))
         """eight hex bytes, which bits are significant in the match operation."""
-
-        value: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)
+        value: Hex = field(XmpHex(size=8))
         """eight hex bytes, the value that must be found for the match term to be true."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the value that must be found at the match term position for packets received on the port.
 
         :return: which bits are significant in the match operation, and the value that must be found for the match term to be true.
         :rtype: PM_MATCH.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._match_term_xindex]))
 
-    def set(self, mask: str, value: str) -> "Token":
+    def set(self, mask: str, value: str) -> Token[None]:
         """Set the value that must be found at the match term position for packets received on the port.
 
         :param mask: which bits are significant in the match operation
@@ -268,4 +252,5 @@ class PM_MATCH:
         :param value: the value that must be found for the match term to be true
         :type value: str
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._match_term_xindex], mask=mask, value=value))

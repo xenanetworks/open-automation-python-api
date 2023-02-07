@@ -1,7 +1,6 @@
+from __future__ import annotations
 import asyncio
 from typing import (
-    Dict,
-    List,
     Callable,
     Final,
     Any,
@@ -21,7 +20,7 @@ class EventsObserver:
     __slots__ = ("__events", "__loop", )
 
     def __init__(self) -> None:
-        self.__events: Dict[int, List[CB]] = defaultdict(list)
+        self.__events: dict[int, list[CB]] = defaultdict(list)
         self.__loop = asyncio.get_event_loop()
 
     def dispatch(self, evt: int, *args, **kwargs) -> None:

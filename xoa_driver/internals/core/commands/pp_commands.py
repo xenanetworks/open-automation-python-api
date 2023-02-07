@@ -1,5 +1,4 @@
-#: L23 High-speed Port Commands
-
+from __future__ import annotations
 from dataclasses import dataclass
 import typing
 import functools
@@ -10,10 +9,53 @@ from ..protocol.command_builders import (
 )
 from .. import interfaces
 from ..transporter.token import Token
-from ..protocol.fields import data_types as xt
-from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *  # noqa: F403
+from ..protocol.payload import (
+    field,
+    RequestBodyStruct,
+    ResponseBodyStruct,
+    XmpByte,
+    XmpHex,
+    XmpInt,
+    XmpLong,
+    XmpSequence,
+    XmpStr,
+    Hex,
+)
+from .enums import (
+    OnOff,
+    StartOrStop,
+    InjectErrorType,
+    HeaderLockStatus,
+    AlignLockStatus,
+    PRBSLockStatus,
+    SerdesStatus,
+    FECMode,
+    PRBSInsertedType,
+    PRBSPolynomial,
+    PRBSInvertState,
+    PRBSStatisticsMode,
+    AutoNegMode,
+    AutoNegTecAbility,
+    AutoNegFECOption,
+    PauseMode,
+    AutoNegFECType,
+    AutoNegStatus,
+    AutoNegFECStatus,
+    LinkTrainingMode,
+    PAM4FrameSize,
+    LinkTrainingInitCondition,
+    NRZPreset,
+    TimeoutMode,
+    LinkTrainingStatusMode,
+    LinkTrainingStatus,
+    LinkTrainingFailureType,
+    PRBSOnOff,
+    ErrorOnOff,
+    PRBSPattern,
+    PHYSignalStatus,
+    OnOffDefault,
+)
 
 
 @register_command
@@ -27,45 +69,37 @@ class PP_ALARMS_ERRORS:
     code: typing.ClassVar[int] = 272
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        total_alarms: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        total_alarms: int = field(XmpInt())
         """integer, total number of triggered alarms"""
-
-        valid_mask: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)
+        valid_mask: Hex = field(XmpHex(size=8))
         """8 hex bytes, mask of valid alarms"""
-
-        los_error_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        los_error_count: int = field(XmpLong())
         """long integer, number of no-sync alarms"""
-
-        total_pcs_error_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        total_pcs_error_count: int = field(XmpLong())
         """long integer, number of errors of PCS error alarm"""
-
-        total_fec_error_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        total_fec_error_count: int = field(XmpLong())
         """long integer, number of errors of FEC error alarm"""
-
-        total_header_error_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        total_header_error_count: int = field(XmpLong())
         """long integer, number of errors of header error alarm"""
-
-        total_align_error_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        total_align_error_count: int = field(XmpLong())
         """long integer, number of errors of alignment error alarm"""
-
-        total_bip_error_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        total_bip_error_count: int = field(XmpLong())
         """long integer, number of errors of BIP error alarm"""
-
-        total_higher_error_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        total_higher_error_count: int = field(XmpLong())
         """long integer, number of errors of high BER error alarm"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the error count of each alarm, PCS Error, FEC Error, Header Error, Align Error, BIP Error, and High BER Error.
 
         :return: the error count of each alarm, PCS Error, FEC Error, Header Error, Align Error, BIP Error, and High BER Error.
         :rtype: PP_ALARMS_ERRORS.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
@@ -80,36 +114,33 @@ class PP_TXLANECONFIG:
     code: typing.ClassVar[int] = 280
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _lane_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        virt_lane_index: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        virt_lane_index: int = field(XmpInt())
         """integer, virtual lane index."""
-
-        skew: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        skew: int = field(XmpInt())
         """integer, the inserted skew on the lane, in bit units."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        virt_lane_index: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class SetDataAttr(RequestBodyStruct):
+        virt_lane_index: int = field(XmpInt())
         """integer, virtual lane index."""
-
-        skew: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        skew: int = field(XmpInt())
         """integer, the inserted skew on the lane, in bit units."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the virtual lane index and artificial skew for data transmitted on a specified physical lane.
 
         :return: virtual lane index, and the inserted skew on the lane, in bit units.
         :rtype: PP_TXLANECONFIG.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._lane_xindex]))
 
-    def set(self, virt_lane_index: int, skew: int) -> "Token":
+    def set(self, virt_lane_index: int, skew: int) -> Token[None]:
         """Set the virtual lane index and artificial skew for data transmitted on a specified physical lane.
 
         :param virt_lane_index: virtual lane index
@@ -117,9 +148,8 @@ class PP_TXLANECONFIG:
         :param skew: the inserted skew on the lane, in bit units
         :type skew: int
         """
-        return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._lane_xindex], virt_lane_index=virt_lane_index, skew=skew)
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._lane_xindex], virt_lane_index=virt_lane_index, skew=skew))
 
 
 @register_command
@@ -132,32 +162,32 @@ class PP_TXLANEINJECT:
     code: typing.ClassVar[int] = 281
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _lane_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        inject_error_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InjectErrorType)
+    class SetDataAttr(RequestBodyStruct):
+        inject_error_type: InjectErrorType = field(XmpByte())
         """coded byte, specifying what kind of error to inject."""
 
-    def set(self, inject_error_type: InjectErrorType) -> "Token":
+    def set(self, inject_error_type: InjectErrorType) -> Token[None]:
         """Inject a particular kind of CAUI error into a specific physical lane.
 
         :param inject_error_type: specifying what kind of error to inject
         :type inject_error_type: InjectErrorType
         """
-        return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._lane_xindex], inject_error_type=inject_error_type)
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._lane_xindex], inject_error_type=inject_error_type))
 
     set_headererror = functools.partialmethod(set, InjectErrorType.HEADERERROR)
     """Inject Header error into a specific physical lane.
     """
+
     set_alignerror = functools.partialmethod(set, InjectErrorType.ALIGNERROR)
     """Inject Alignment error into a specific physical lane.
     """
+
     set_bip8error = functools.partialmethod(set, InjectErrorType.BIP8ERROR)
     """Inject BIP8 error into a specific physical lane.
     """
@@ -174,43 +204,38 @@ class PP_TXPRBSCONFIG:
     code: typing.ClassVar[int] = 282
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _serdes_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        prbs_seed: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        prbs_seed: int = field(XmpInt())
         """integer, PRBS seed value."""
-
-        prbs_on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSOnOff)
+        prbs_on_off: PRBSOnOff = field(XmpByte())
         """code byte, whether this SerDes is transmitting PRBS data."""
-
-        error_on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=ErrorOnOff)
+        error_on_off: ErrorOnOff = field(XmpByte())
         """code byte, whether bit-level errors are injected into this SerDes."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        prbs_seed: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class SetDataAttr(RequestBodyStruct):
+        prbs_seed: int = field(XmpInt())
         """integer, PRBS seed value."""
-
-        prbs_on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSOnOff)
+        prbs_on_off: PRBSOnOff = field(XmpByte())
         """code byte, whether this SerDes is transmitting PRBS data."""
-
-        error_on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=ErrorOnOff)
+        error_on_off: ErrorOnOff = field(XmpByte())
         """code byte, whether bit-level errors are injected into this SerDes."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the PRBS configuration for a particular SerDes. When PRBS is enabled for any SerDes
         then the overall link is compromised and drops out of sync.
 
         :return: the PRBS configuration for a particular SerDes
         :rtype: PP_TXPRBSCONFIG.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex]))
 
-    def set(self, prbs_seed: int, prbs_on_off: PRBSOnOff, error_on_off: ErrorOnOff) -> "Token":
+    def set(self, prbs_seed: int, prbs_on_off: PRBSOnOff, error_on_off: ErrorOnOff) -> Token[None]:
         """Set the PRBS configuration for a particular SerDes.
 
         :param prbs_seed: not used, set to 0.
@@ -220,12 +245,8 @@ class PP_TXPRBSCONFIG:
         :param error_on_off: whether bit-level errors are injected into this SerDes
         :type error_on_off: ErrorOnOff
         """
-        return Token(
-            self._connection,
-            build_set_request(
-                self, module=self._module, port=self._port, indices=[self._serdes_xindex], prbs_seed=prbs_seed, prbs_on_off=prbs_on_off, error_on_off=error_on_off
-            ),
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], prbs_seed=prbs_seed, prbs_on_off=prbs_on_off, error_on_off=error_on_off))
 
 
 @register_command
@@ -239,36 +260,36 @@ class PP_TXERRORRATE:
     code: typing.ClassVar[int] = 283
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        rate: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+    class GetDataAttr(ResponseBodyStruct):
+        rate: int = field(XmpLong())
         """long integer, the number of bits between each error. 0, no error injection."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        rate: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+    class SetDataAttr(RequestBodyStruct):
+        rate: int = field(XmpLong())
         """long integer, the number of bits between each error. 0, no error injection."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the rate of continuous bit-level error injection. Errors are injected evenly
         across the SerDes where injection is enabled.
 
         :return: the number of bits between each error. 0, no error injection
         :rtype: PP_TXERRORRATE.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, rate: int) -> "Token":
+    def set(self, rate: int) -> Token[None]:
         """Set the rate of continuous bit-level error injection. Errors are injected evenly
         across the SerDes where injection is enabled.
 
         :param rate: the number of bits between each error. 0, no error injection
         :type rate: int
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, rate=rate))
 
 
@@ -282,26 +303,19 @@ class PP_TXINJECTONE:
     code: typing.ClassVar[int] = 284
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
+    class SetDataAttr(RequestBodyStruct):
         pass
 
-    def set(self) -> "Token":
+    def set(self) -> Token[None]:
         """Inject a single bit-level error into one of the SerDes where injection is
         enabled.
         """
-        return Token(
-            self._connection,
-            build_set_request(
-                self,
-                module=self._module,
-                port=self._port,
-            ),
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port))
 
 
 @register_command
@@ -314,29 +328,21 @@ class PP_RXTOTALSTATS:
     code: typing.ClassVar[int] = 285
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        total_corrected_fec_symbol_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+    class GetDataAttr(ResponseBodyStruct):
+        total_corrected_fec_symbol_count: int = field(XmpLong())
         """integer, total corrected FEC symbols count."""
-
-        total_uncorrectable_fec_block_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        total_uncorrectable_fec_block_count: int = field(XmpLong())
         """integer, total uncorrectable FEC blocks count."""
-
-        total_pre_ber: XmpField[xt.XmpLong] = XmpField(
-            xt.XmpLong
-        )
+        total_pre_ber: int = field(XmpLong())
         """integer, total pre-FEC BER estimate sent as "total_pre_ber = received_bits / total_corfecerrs". To get the real total pre-BER, calculate the inverse: 1/total_pre_ber. If zero physical bit errors have been detected, the negative value "-received_bits" is provided, which can be used to generate the "< BER" value."""
-
-        total_post_ber: XmpField[xt.XmpLong] = XmpField(
-            xt.XmpLong
-        )
+        total_post_ber: int = field(XmpLong())
         """integer, total post-FEC BER estimate sent as "total_post_ber = received_bits / total_estimated_uncorrectable_errors". To get the real total post-BER, calculate the inverse: 1/total_post_ber. If zero physical bit errors have been detected, the negative value "-received_bits" is provided, which can be used to generate the "< BER" value."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get FEC Total counters of the port:
             1. total corrected FEC symbols count.
             2. total uncorrectable FEC blocks count.
@@ -351,6 +357,7 @@ class PP_RXTOTALSTATS:
 
         :rtype: PP_RXTOTALSTATS.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
@@ -364,33 +371,28 @@ class PP_RXFECSTATS:
     code: typing.ClassVar[int] = 286
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        stats_type: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+    class GetDataAttr(ResponseBodyStruct):
+        stats_type: int = field(XmpLong())
         """long integer, currently always 0."""
-
-        value_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        value_count: int = field(XmpLong())
         """long integer, number of values."""
-
-        correction_stats: XmpField[xt.XmpLongListStopToKeep8] = XmpField(
-            xt.XmpLongListStopToKeep8
-        )
+        correction_stats: list[int] = field(XmpSequence(types_chunk=[XmpLong()], length=8))
         """list of long integers, array of length value_count-1. The correction_stats array shows how many FEC blocks have been seen with [0, 1, 2, 3....15, >15] symbol errors."""
-
-        rx_uncorrectable_code_word_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        rx_uncorrectable_code_word_count: int = field(XmpLong())
         """long integer, the number of received uncorrectable code words."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get statistics on how many FEC blocks have been seen with a given number of symbol errors.
 
         :return: stats type (currently always 0), number of values, correction stats array, and the number of received uncorrectable code words. The correction stats array shows how many FEC blocks have been seen with [0, 1, 2, 3....15, >15] symbol errors, length = value_count-1.
 
         :rtype: PP_RXFECSTATS.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
@@ -404,41 +406,36 @@ class PP_LINKFLAP_PARAMS:
     code: typing.ClassVar[int] = 287
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        duration: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        duration: int = field(XmpInt())
         """integer, 0 ms - 1000 ms; increments of 1 ms; 0 = permanently link down."""
-
-        period: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        period: int = field(XmpInt())
         """integer, 10 ms - 50000 ms; number of ms - must be multiple of 10 ms."""
-
-        repetition: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        repetition: int = field(XmpInt())
         """integer, 1 - 64K; 0 = continuous."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        duration: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class SetDataAttr(RequestBodyStruct):
+        duration: int = field(XmpInt())
         """integer, 0 ms - 1000 ms; increments of 1 ms; 0 = permanently link down."""
-
-        period: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        period: int = field(XmpInt())
         """integer, 10 ms - 50000 ms; number of ms - must be multiple of 10 ms."""
-
-        repetition: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        repetition: int = field(XmpInt())
         """integer, 1 - 64K; 0 = continuous."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get port 'link flap' settings.
 
         :return: duration, period, and repetition of link flapping.
         :rtype: PP_LINKFLAP_PARAMS.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, duration: int, period: int, repetition: int) -> "Token":
+    def set(self, duration: int, period: int, repetition: int) -> Token[None]:
         """Set port 'link flap' settings. Notice: Period must be larger than duration.
 
         :param duration: 0 ms - 1000 ms; increments of 1 ms; 0 = permanently link down.
@@ -448,6 +445,7 @@ class PP_LINKFLAP_PARAMS:
         :param repetition: 1 - 64K; 0 = continuous.
         :type repetition: int
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, duration=duration, period=period, repetition=repetition))
 
 
@@ -461,39 +459,40 @@ class PP_LINKFLAP_ENABLE:
     code: typing.ClassVar[int] = 288
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+    class GetDataAttr(ResponseBodyStruct):
+        on_off: OnOff = field(XmpByte())
         """coded byte, whether link flap is enabled."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+    class SetDataAttr(RequestBodyStruct):
+        on_off: OnOff = field(XmpByte())
         """coded byte, whether link flap is enabled."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the port 'link flap' status of the port.
 
         :return: whether link flap is enabled
         :rtype: PP_LINKFLAP_ENABLE.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, on_off: OnOff) -> "Token":
+    def set(self, on_off: OnOff) -> Token[None]:
         """Set the port 'link flap' status of the port.
 
         :param on_off: whether link flap is enabled
         :type on_off: OnOff
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, on_off=on_off))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """Disable the port 'link flap'.
     """
+
     set_on = functools.partialmethod(set, OnOff.ON)
     """Enable the port 'link flap'.
     """
@@ -513,53 +512,44 @@ class PP_PMAERRPUL_PARAMS:
     code: typing.ClassVar[int] = 289
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        duration: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        duration: int = field(XmpInt())
         """integer, 0 ms - 5000m s; increments of 1 ms; 0 = constant BER"""
-
-        period: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        period: int = field(XmpInt())
         """integer, 10 ms - 50000 ms; number of ms - must be multiple of 10 ms"""
-
-        repetition: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        repetition: int = field(XmpInt())
         """integer, 1 - 64K; 0 = continuous"""
-
-        coeff: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        coeff: int = field(XmpInt())
         """long integer, (0.01 < coeff < 9.99) * 100"""
-
-        exp: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, climb=(-16, -4))
+        exp: int = field(XmpInt(climb=(-16, -4)))
         """integer, -3 < exp < -17"""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        duration: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class SetDataAttr(RequestBodyStruct):
+        duration: int = field(XmpInt())
         """integer, 0 ms - 5000m s; increments of 1 ms; 0 = constant BER"""
-
-        period: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        period: int = field(XmpInt())
         """integer, 10 ms - 50000 ms; number of ms - must be multiple of 10 ms"""
-
-        repetition: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        repetition: int = field(XmpInt())
         """integer, 1 - 64K; 0 = continuous"""
-
-        coeff: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        coeff: int = field(XmpInt())
         """long integer, (0.01 < coeff < 9.99) * 100"""
-
-        exp: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, climb=(-16, -4))
+        exp: int = field(XmpInt(climb=(-16, -4)))
         """integer, -3 < exp < -17"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get PMA pulse error injection settings.
 
         :return: PMA pulse error injection settings
         :rtype: PP_PMAERRPUL_PARAMS.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, duration: int, period: int, repetition: int, coeff: int, exp: int) -> "Token":
+    def set(self, duration: int, period: int, repetition: int, coeff: int, exp: int) -> Token[None]:
         """Set PMA pulse error injection settings.
 
         :param duration: 0 ms - 5000m s; increments of 1 ms; 0 = constant BER
@@ -573,6 +563,7 @@ class PP_PMAERRPUL_PARAMS:
         :param exp: -3 < exp < -17
         :type exp: int
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, duration=duration, period=period, repetition=repetition, coeff=coeff, exp=exp))
 
 
@@ -587,26 +578,25 @@ class PP_RXLANELOCK:
     code: typing.ClassVar[int] = 290
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _lane_xindex: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        header_lock: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=HeaderLockStatus)
+    class GetDataAttr(ResponseBodyStruct):
+        header_lock: HeaderLockStatus = field(XmpByte())
         """coded byte, whether this lane has achieved header lock."""
-
-        align_lock: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=AlignLockStatus)
+        align_lock: AlignLockStatus = field(XmpByte())
         """coded byte, whether this lane has achieved alignment lock."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get whether the receiver has achieved header lock and alignment lock on the data
         received on a specified physical lane.
 
         :return: whether this lane has achieved header lock, and whether this lane has achieved alignment lock.
         :rtype: PP_RXLANELOCK.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._lane_xindex]))
 
 
@@ -622,25 +612,24 @@ class PP_RXLANESTATUS:
     code: typing.ClassVar[int] = 291
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _lane_xindex: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        virtual_lane: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        virtual_lane: int = field(XmpInt())
         """integer, the logical lane number."""
-
-        skew: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        skew: int = field(XmpInt())
         """integer, the measured skew on the lane, in bit units."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the virtual lane index and actual skew for data received on a specified physical lane.
 
         :return: the virtual lane index and actual skew for data received on a specified physical lane
         :rtype: PP_RXLANESTATUS.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._lane_xindex]))
 
 
@@ -655,37 +644,31 @@ class PP_RXLANEERRORS:
     code: typing.ClassVar[int] = 292
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _lane_xindex: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        header_error_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+    class GetDataAttr(ResponseBodyStruct):
+        header_error_count: int = field(XmpLong())
         """long integer, the number of header errors."""
-
-        alignment_error_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        alignment_error_count: int = field(XmpLong())
         """long integer, the number of alignment errors."""
-
-        bip8_error_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        bip8_error_count: int = field(XmpLong())
         """long integer, the number of bip8 errors."""
-
-        corrected_fec_error_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        corrected_fec_error_count: int = field(XmpLong())
         """long integer, corrected FEC bit errors."""
-
-        pre_ber: XmpField[xt.XmpLong] = XmpField(
-            xt.XmpLong
-        )
+        pre_ber: int = field(XmpLong())
         """long integer, received_bits / corfecerrs. To get the pre_ber, calculate the inverse: 1/pre_ber. If zero bit errors have been received, the negative value "-received_bits" is provided, which can be used to generate the "< BER" value."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get statistics about errors detected at the physical coding sub-layer on the data
         received on a specified physical lane.
 
         :return: the number of header errors, the number of alignment errors, the number of bip8 errors, and corrected FEC bit errors
         :rtype: PP_RXLANEERRORS.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._lane_xindex]))
 
 
@@ -700,29 +683,27 @@ class PP_RXPRBSSTATUS:
     code: typing.ClassVar[int] = 293
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _serdes_xindex: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+    class GetDataAttr(ResponseBodyStruct):
+        byte_count: int = field(XmpLong())
         """long integer, the number of bytes received while in PRBS lock."""
-
-        error_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)
+        error_count: int = field(XmpLong())
         """long integer, the number of errors detected while in PRBS lock."""
-
-        lock: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSLockStatus)
+        lock: PRBSLockStatus = field(XmpByte())
         """coded byte, whether this lane is in PRBS lock."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the statistics about PRBS pattern detection on the data received on a specified
         SerDes.
 
         :return: the number of bytes received while in PRBS lock, the number of errors detected while in PRBS lock, and whether this SerDes is in PRBS lock.
         :rtype: PP_RXPRBSSTATUS.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex]))
 
 
@@ -736,25 +717,18 @@ class PP_RXCLEAR:
     code: typing.ClassVar[int] = 294
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
+    class SetDataAttr(RequestBodyStruct):
         pass
 
-    def set(self) -> "Token":
+    def set(self) -> Token[None]:
         """Clear all the PCS/PMA receiver statistics for a port.
         """
-        return Token(
-            self._connection,
-            build_set_request(
-                self,
-                module=self._module,
-                port=self._port,
-            ),
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port))
 
 
 @register_command
@@ -770,21 +744,21 @@ class PP_RXLASERPOWER:
     code: typing.ClassVar[int] = 295
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        nanowatts: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
+    class GetDataAttr(ResponseBodyStruct):
+        nanowatts: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, received signal level, in nanowatts. 0, when no signal."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the readings of the optical power level of the received signal.
 
         :return: received signal level, in nanowatts. 0, when no signal.
         :rtype: PP_RXLASERPOWER.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
@@ -801,21 +775,21 @@ class PP_TXLASERPOWER:
     code: typing.ClassVar[int] = 296
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        nanowatts: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
+    class GetDataAttr(ResponseBodyStruct):
+        nanowatts: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, received signal level, in nanowatts. 0, when no signal."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the reading of the optical power level of the transmission signal.
 
         :return: received signal level, in nanowatts. 0, when no signal.
         :rtype: PP_TXLASERPOWER.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
@@ -829,39 +803,40 @@ class PP_PMAERRPUL_ENABLE:
     code: typing.ClassVar[int] = 300
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+    class GetDataAttr(ResponseBodyStruct):
+        on_off: OnOff = field(XmpByte())
         """coded byte, whether PMA pulse error inject is enabled."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)
+    class SetDataAttr(RequestBodyStruct):
+        on_off: OnOff = field(XmpByte())
         """coded byte, whether PMA pulse error inject is enabled."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the status of 'PMA pulse error inject'.
 
         :return: whether PMA pulse error inject is enabled
         :rtype: PP_PMAERRPUL_ENABLE.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, on_off: OnOff) -> "Token":
+    def set(self, on_off: OnOff) -> Token[None]:
         """Set the status of 'PMA pulse error inject'.
 
         :param on_off: whether PMA pulse error inject is enabled
         :type on_off: OnOff
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, on_off=on_off))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """Disable 'PMA pulse error inject'.
     """
+
     set_on = functools.partialmethod(set, OnOff.ON)
     """Enable 'PMA pulse error inject'.
     """
@@ -878,46 +853,45 @@ class PP_EYEMEASURE:
     code: typing.ClassVar[int] = 353
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _serdes_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        status: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=StartOrStop)
+    class GetDataAttr(ResponseBodyStruct):
+        status: SerdesStatus = field(XmpByte())
         """coded byte, status of the serdes."""
-
-        dummy: XmpField[xt.XmpByteList] = XmpField(xt.XmpByteList)
+        dummy: list[int] = field(XmpSequence(types_chunk=[XmpByte()]))
         """list of bytes, should always be 0, reserved for future expansion."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        status: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=SerdesStatus)
+    class SetDataAttr(RequestBodyStruct):
+        status: StartOrStop = field(XmpByte())
         """coded byte, status of the serdes."""
-
-        dummy: XmpField[xt.XmpByteList] = XmpField(xt.XmpByteList)
+        dummy: list[int] = field(XmpSequence(types_chunk=[XmpByte()]))
         """list of bytes, should always be 0, reserved for future expansion."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the status of the BER eye-measure data gathering process.
 
         :return: status of the serdes
         :rtype: PP_EYEMEASURE.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex]))
 
-    def set(self, status: StartOrStop) -> "Token":
+    def set(self, status: StartOrStop) -> Token[None]:
         """Start/stop a new BER eye-measure on a 25G serdes.
 
         :param status: status of the serdes
         :type status: StartOrStop
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], status=status, dummy=[0]))
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], status=status))
 
     set_stop = functools.partialmethod(set, StartOrStop.STOP)
     """Start a new BER eye-measure on a 25G serdes.
     """
+
     set_start = functools.partialmethod(set, StartOrStop.START)
     """Stop a new BER eye-measure on a 25G serdes.
     """
@@ -933,36 +907,33 @@ class PP_EYERESOLUTION:
     code: typing.ClassVar[int] = 354
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _serdes_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        x_resolution: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        x_resolution: int = field(XmpInt())
         """integer, number of columns, must be between 9 and 65 and be in the form 2^n+1"""
-
-        y_resolution: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        y_resolution: int = field(XmpInt())
         """integer, number of columns, must be between 7 and 255 and be in the form 2^n-1"""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        x_resolution: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class SetDataAttr(RequestBodyStruct):
+        x_resolution: int = field(XmpInt())
         """integer, number of columns, must be between 9 and 65 and be in the form 2^n+1"""
-
-        y_resolution: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        y_resolution: int = field(XmpInt())
         """integer, number of columns, must be between 7 and 255 and be in the form 2^n-1"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the resolution used for the next BER eye-measurement.
 
         :return: x resolution and y resolution
         :rtype: PP_EYERESOLUTION.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex]))
 
-    def set(self, x_resolution: int, y_resolution: int) -> "Token":
+    def set(self, x_resolution: int, y_resolution: int) -> Token[None]:
         """Set the resolution used for the next BER eye-measurement.
 
         :param x_resolution: number of columns, must be between 9 and 65 and be in the form 2^n+1
@@ -970,10 +941,8 @@ class PP_EYERESOLUTION:
         :param y_resolution: number of columns, must be between 7 and 255 and be in the form 2^n-1
         :type y_resolution: int
         """
-        return Token(
-            self._connection,
-            build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], x_resolution=x_resolution, y_resolution=y_resolution),
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], x_resolution=x_resolution, y_resolution=y_resolution))
 
 
 @register_command
@@ -991,34 +960,29 @@ class PP_EYEREAD:
     code: typing.ClassVar[int] = 355
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _serdes_xindex: int
     _colum_xindex: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        x_resolution: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        x_resolution: int = field(XmpInt())
         """integer, specifying X resolution."""
-
-        y_resolution: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        y_resolution: int = field(XmpInt())
         """integer, specifying Y resolution."""
-
-        valid_column_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        valid_column_count: int = field(XmpInt())
         """integer, specifying the number of valid columns."""
-
-        values: XmpField[xt.XmpIntList] = XmpField(
-            xt.XmpIntList
-        )
+        values: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, showing the number of bit errors measured out of a total of 1M bits at each of the individual sampling points (x=timeaxis, y = 0/1 threshold)."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Read a single column of a measured BER eye on a 25G serdes.
 
         :return: x resolution, y resolution, number of valid columns, and the number of bit errors measured out of a total of 1M bits at each of the individual sampling points (x=timeaxis, y = 0/1 threshold).
         :rtype: PP_EYEREAD.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._colum_xindex]))
 
 
@@ -1036,71 +1000,52 @@ class PP_EYEINFO:
     code: typing.ClassVar[int] = 356
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _serdes_xindex: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        width_mui: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        width_mui: int = field(XmpInt())
         """integer, value and unit 0..1000 (mUI), group = Horizontal bathtub curve"""
-
-        height_mv: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        height_mv: int = field(XmpInt())
         """integer, value and unit 0..1000 (mV), group = Vertical bathtub curve"""
-
-        h_slope_left: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        h_slope_left: int = field(XmpInt())
         """integer, value and unit (Q/UI) *100, signed integer, group = Horizontal bathtub curve"""
-
-        h_slope_right: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        h_slope_right: int = field(XmpInt())
         """integer, value and unit (Q/UI) *100, signed integer, group = Horizontal bathtub curve"""
-
-        y_intercept_left: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        y_intercept_left: int = field(XmpInt())
         """integer, value and unit (Q) * 100, signed integer, group = Horizontal bathtub curve"""
-
-        y_intercept_right: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        y_intercept_right: int = field(XmpInt())
         """integer, value and unit (Q) * 100, signed integer, group = Horizontal bathtub curve"""
-
-        r_squared_fit_left: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        r_squared_fit_left: int = field(XmpInt())
         """integer, value and unit Int * 100, group = Horizontal bathtub curve"""
-
-        r_squared_fit_right: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        r_squared_fit_right: int = field(XmpInt())
         """integer, value and unit Int * 100, group = Horizontal bathtub curve"""
-
-        est_rj_rms_left: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        est_rj_rms_left: int = field(XmpInt())
         """integer, value and unit (mUI) * 1000, group = Horizontal bathtub curve"""
-
-        est_rj_rms_right: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        est_rj_rms_right: int = field(XmpInt())
         """integer, value and unit (mUI) * 1000, group = Horizontal bathtub curve"""
-
-        est_dj_pp: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        est_dj_pp: int = field(XmpInt())
         """integer, value and unit (mUI) * 1000, group = Horizontal bathtub curve"""
-
-        v_slope_bottom: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        v_slope_bottom: int = field(XmpInt())
         """integer, value and unit (mV/Q) *100, signed integer, group = Vertical bathtub curve"""
-
-        v_slope_top: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        v_slope_top: int = field(XmpInt())
         """integer, value and unit (mV/Q) *100, signed integer, group = Vertical bathtub curve"""
-
-        x_intercept_bottom: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        x_intercept_bottom: int = field(XmpInt())
         """integer, value and unit (Q) *100), signed integer, group = Vertical bathtub curve"""
-
-        x_intercept_top: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        x_intercept_top: int = field(XmpInt())
         """integer, value and unit (Q) *100, signed integer, group = Vertical bathtub curve"""
-
-        r_squared_fit_bottom: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        r_squared_fit_bottom: int = field(XmpInt())
         """integer, value and unit Int * 100, group = Vertical bathtub curve"""
-
-        r_squared_fit_top: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        r_squared_fit_top: int = field(XmpInt())
         """integer, value and unit Int * 100, group = Vertical bathtub curve"""
-
-        est_rj_rms_bottom: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        est_rj_rms_bottom: int = field(XmpInt())
+        """integer, value and unit (mV) * 1000, group = Vertical bathtub curve"""
+        est_rj_rms_top: int = field(XmpInt())
         """integer, value and unit (mV) * 1000, group = Vertical bathtub curve"""
 
-        est_rj_rms_top: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
-        """integer, value and unit (mV) * 1000, group = Vertical bathtub curve"""
-
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Read out BER eye-measurement information such as the vertical and horizontal
         bathtub curve information on a 25G serdes. This must be called after "PP_EYEMEASURE"
         has run to return valid results.  Use "get" to see the status of the data
@@ -1109,6 +1054,7 @@ class PP_EYEINFO:
         :return: BER eye-measurement information such as the vertical and horizontal bathtub curve information on a 25G serdes
         :rtype: PP_EYEINFO.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex]))
 
 
@@ -1126,89 +1072,62 @@ class PP_PHYTXEQ:
     code: typing.ClassVar[int] = 358
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _serdes_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        pre1: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        pre1: int = field(XmpInt())
         """integer, preemphasis, (range: Module dependent), default = 0 (neutral)."""
-
-        main: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        main: int = field(XmpInt())
         """integer, amplification, (range: Module dependent), default = 0 (neutral)."""
-
-        post1: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        post1: int = field(XmpInt())
         """integer, postemphasis, (range: Module dependent), default = 0 (neutral)."""
-
-        pre2: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        pre2: int = field(XmpInt())
         """integer, preemphasis, (range: Module dependent), default = 0 (neutral)."""
-
-        post2: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        post2: int = field(XmpInt())
         """integer, postemphasis, (range: Module dependent), default = 0 (neutral)."""
-
-        post3: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        post3: int = field(XmpInt())
         """integer, postemphasis, (range: Module dependent), default = 0 (neutral)."""
-
-        mode: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        mode: int = field(XmpInt())
         """integer, value must be 4"""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        pre1: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class SetDataAttr(RequestBodyStruct):
+        pre1: int = field(XmpInt())
         """integer, preemphasis, (range: Module dependent), default = 0 (neutral)."""
-
-        main: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        main: int = field(XmpInt())
         """integer, amplification, (range: Module dependent), default = 0 (neutral)."""
-
-        post1: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        post1: int = field(XmpInt())
         """integer, postemphasis, (range: Module dependent), default = 0 (neutral)."""
-
-        pre2: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        pre2: int = field(XmpInt())
         """integer, preemphasis, (range: Module dependent), default = 0 (neutral)."""
-
-        post2: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        post2: int = field(XmpInt())
         """integer, postemphasis, (range: Module dependent), default = 0 (neutral)."""
-
-        post3: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        post3: int = field(XmpInt())
         """integer, postemphasis, (range: Module dependent), default = 0 (neutral)."""
-
-        mode: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        mode: int = field(XmpInt())
         """integer, value must be 4"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the equalizer settings of the on-board PHY in the
         transmission direction (towards the transceiver cage) on Thor and Loki modules.
 
         :return: preemphasis, (range: Module dependent), default = 0 (neutral).
         :rtype: PP_PHYTXEQ.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex]))
 
-    def set(self, pre2: int, pre1: int, main: int, post1: int, post2: int, post3: int) -> "Token":
+    def set(self, pre2: int, pre1: int, main: int, post1: int, post2: int, post3: int) -> Token[None]:
         """Set the equalizer settings of the on-board PHY in the
         transmission direction (towards the transceiver cage) on Thor and Loki modules.
 
         :param pre1: preemphasis, (range: Module dependent), default = 0 (neutral)
         :type pre1: List[int]
         """
-        return Token(
-            self._connection,
-            build_set_request(
-                self,
-                module=self._module,
-                port=self._port,
-                indices=[self._serdes_xindex],
-                pre2=pre2,
-                pre1=pre1,
-                main=main,
-                post1=post1,
-                post2=post2,
-                post3=post3,
-                mode=4
-            )
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], pre2=pre2, pre1=pre1, main=main, post1=post1, post2=post2, post3=post3))
 
 
 @register_command
@@ -1224,24 +1143,24 @@ class PP_PHYRETUNE:
     code: typing.ClassVar[int] = 359
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _serdes_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        dummy: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
+    class SetDataAttr(RequestBodyStruct):
+        dummy: int = field(XmpByte())
         """byte, reserved for future improvements, always set to 1"""
 
-    def set(self, dummy: int) -> "Token":
+    def set(self, dummy: int) -> Token[None]:
         """Trigger a new retuning of the receive equalizer on the PHY for one of the 25G
         serdes.
 
         :param dummy: reserved for future improvements, always set to 1
         :type dummy: int
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], dummy=1))
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], dummy=dummy))
 
 
 @register_command
@@ -1257,35 +1176,35 @@ class PP_PHYAUTOTUNE:
     code: typing.ClassVar[int] = 360
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _serdes_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
+    class GetDataAttr(ResponseBodyStruct):
+        on_off: int = field(XmpByte())
         """coded byte, enable/disable automatic receiving PHY retuning. Default is enabled."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)
+    class SetDataAttr(RequestBodyStruct):
+        on_off: int = field(XmpByte())
         """coded byte, enable/disable automatic receiving PHY retuning. Default is enabled."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get whether the auto PHY retuning is enabled.
 
         :return: enable/disable automatic receiving PHY retuning
         :rtype: PP_PHYAUTOTUNE.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex]))
 
-    def set(self, on_off: OnOff) -> "Token":
+    def set(self, on_off: OnOff) -> Token[None]:
         """Enable/disable automatic receiving PHY retuning. Default is enabled.
 
         :param on_off: Enable/disable automatic receiving PHY retuning. Default is enabled
         :type on_off: OnOff
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], on_off=on_off))
 
 
@@ -1299,22 +1218,22 @@ class PP_EYEBER:
     code: typing.ClassVar[int] = 361
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _serdes_xindex: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        eye_ber_estimation: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
+    class GetDataAttr(ResponseBodyStruct):
+        eye_ber_estimation: str = field(XmpStr())
         """string, BER estimations of an eye diagram"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """GEt BER estimations of an eye diagram.
 
         :return: BER estimations of an eye diagram
         :rtype: PP_EYEBER.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex]))
 
 
@@ -1328,53 +1247,44 @@ class PP_PHYAUTONEG:
     code: typing.ClassVar[int] = 362
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        fec_mode: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=OnOff)
+    class GetDataAttr(ResponseBodyStruct):
+        fec_mode: OnOff = field(XmpInt())
         """coded integer, FEC mode ON or OFF."""
-
-        reserved_1: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        reserved_1: int = field(XmpInt())
+        """integer, reserved for future use."""
+        reserved_2: int = field(XmpInt())
+        """integer, reserved for future use."""
+        reserved_3: int = field(XmpInt())
+        """integer, reserved for future use."""
+        reserved_4: int = field(XmpInt())
         """integer, reserved for future use."""
 
-        reserved_2: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
-        """integer, reserved for future use."""
-
-        reserved_3: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
-        """integer, reserved for future use."""
-
-        reserved_4: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
-        """integer, reserved for future use."""
-
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        fec_mode: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=OnOff)
+    class SetDataAttr(RequestBodyStruct):
+        fec_mode: OnOff = field(XmpInt())
         """coded integer, FEC mode ON or OFF."""
-
-        reserved_1: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        reserved_1: int = field(XmpInt())
+        """integer, reserved for future use."""
+        reserved_2: int = field(XmpInt())
+        """integer, reserved for future use."""
+        reserved_3: int = field(XmpInt())
+        """integer, reserved for future use."""
+        reserved_4: int = field(XmpInt())
         """integer, reserved for future use."""
 
-        reserved_2: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
-        """integer, reserved for future use."""
-
-        reserved_3: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
-        """integer, reserved for future use."""
-
-        reserved_4: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
-        """integer, reserved for future use."""
-
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get auto-negotiation settings of the PHY.
 
         :return: FEC mode ON or OFF
         :rtype: PP_PHYAUTONEG.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, fec_mode: OnOff, reserved_1: int, reserved_2: int, reserved_3: int, reserved_4: int) -> "Token":
+    def set(self, fec_mode: OnOff, reserved_1: int, reserved_2: int, reserved_3: int, reserved_4: int) -> Token[None]:
         """Set auto-negotiation settings of the PHY.
 
         :param fec_mode: FEC mode ON or OFF
@@ -1388,16 +1298,13 @@ class PP_PHYAUTONEG:
         :param reserved_4: reserved for future use.
         :type reserved_4: int
         """
-        return Token(
-            self._connection,
-            build_set_request(
-                self, module=self._module, port=self._port, fec_mode=fec_mode, reserved_1=reserved_1, reserved_2=reserved_2, reserved_3=reserved_3, reserved_4=reserved_4
-            ),
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, fec_mode=fec_mode, reserved_1=reserved_1, reserved_2=reserved_2, reserved_3=reserved_3, reserved_4=reserved_4))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """Enable auto-negotiation settings of the PHY.
     """
+
     set_on = functools.partialmethod(set, OnOff.ON)
     """Disable auto-negotiation settings of the PHY.
     """
@@ -1413,41 +1320,36 @@ class PP_TXPRBSTYPE:
     code: typing.ClassVar[int] = 364
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        prbs_inserted_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSInsertedType)
+    class GetDataAttr(ResponseBodyStruct):
+        prbs_inserted_type: PRBSInsertedType = field(XmpByte())
         """coded byte, PRBS inserted type."""
-
-        prbs_pattern: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSPattern)
+        prbs_pattern: PRBSPattern = field(XmpByte())
         """coded byte, PRBS pattern."""
-
-        invert: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSInvertState)
+        invert: PRBSInvertState = field(XmpByte())
         """coded byte, PRBS invert state."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        prbs_inserted_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSInsertedType)
+    class SetDataAttr(RequestBodyStruct):
+        prbs_inserted_type: PRBSInsertedType = field(XmpByte())
         """coded byte, PRBS inserted type."""
-
-        prbs_pattern: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSPattern)
+        prbs_pattern: PRBSPattern = field(XmpByte())
         """coded byte, PRBS pattern."""
-
-        invert: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSInvertState)
+        invert: PRBSInvertState = field(XmpByte())
         """coded byte, PRBS invert state."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the TX PRBS type used when the interface is in PRBS mode.
 
         :return: PRBS inserted type, PRBS pattern, and PRBS invert state.
         :rtype: PP_TXPRBSTYPE.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, prbs_inserted_type: PRBSInsertedType, prbs_pattern: PRBSPattern, invert: PRBSInvertState) -> "Token":
+    def set(self, prbs_inserted_type: PRBSInsertedType, prbs_pattern: PRBSPattern, invert: PRBSInvertState) -> Token[None]:
         """Set the TX PRBS type used when the interface is in PRBS mode.
 
         :param prbs_inserted_type: PRBS inserted type
@@ -1457,9 +1359,8 @@ class PP_TXPRBSTYPE:
         :param invert: PRBS invert state
         :type invert: PRBSInvertState
         """
-        return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, prbs_inserted_type=prbs_inserted_type, prbs_pattern=prbs_pattern, invert=invert)
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, prbs_inserted_type=prbs_inserted_type, prbs_pattern=prbs_pattern, invert=invert))
 
 
 @register_command
@@ -1472,47 +1373,40 @@ class PP_RXPRBSTYPE:
     code: typing.ClassVar[int] = 365
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        prbs_inserted_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSInsertedType)
+    class GetDataAttr(ResponseBodyStruct):
+        prbs_inserted_type: PRBSInsertedType = field(XmpByte())
         """coded byte, PRBS inserted type."""
-
-        prbs_pattern: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSPattern)
+        prbs_pattern: PRBSPattern = field(XmpByte())
         """coded byte, PRBS pattern."""
-
-        invert: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSInvertState)
+        invert: PRBSInvertState = field(XmpByte())
         """coded byte, PRBS invert state."""
-
-        statistics_mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSStatisticsMode)
+        statistics_mode: PRBSStatisticsMode = field(XmpByte())
         """coded byte, PRBS statistics mode"""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        prbs_inserted_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSInsertedType)
+    class SetDataAttr(RequestBodyStruct):
+        prbs_inserted_type: PRBSInsertedType = field(XmpByte())
         """coded byte, PRBS inserted type."""
-
-        prbs_pattern: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSPattern)
+        prbs_pattern: PRBSPattern = field(XmpByte())
         """coded byte, PRBS pattern."""
-
-        invert: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSInvertState)
+        invert: PRBSInvertState = field(XmpByte())
         """coded byte, PRBS invert state."""
-
-        statistics_mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSStatisticsMode)
+        statistics_mode: PRBSStatisticsMode = field(XmpByte())
         """coded byte, PRBS statistics mode"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the RX PRBS type used when the interface is in PRBS mode.
 
         :return: PRBS inserted type, PRBS pattern, PRBS invert state, and PRBS statistics mode.
         :rtype: PP_RXPRBSTYPE.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, prbs_inserted_type: PRBSInsertedType, prbs_pattern: PRBSPattern, invert: PRBSInvertState, statistics_mode: PRBSStatisticsMode) -> "Token":
+    def set(self, prbs_inserted_type: PRBSInsertedType, prbs_pattern: PRBSPattern, invert: PRBSInvertState, statistics_mode: PRBSStatisticsMode) -> Token[None]:
         """Set the RX PRBS type used when the interface is in PRBS mode.
 
         :param prbs_inserted_type: PRBS inserted type
@@ -1524,12 +1418,8 @@ class PP_RXPRBSTYPE:
         :param statistics_mode: PRBS statistics mode
         :type statistics_mode: PRBSStatisticsMode
         """
-        return Token(
-            self._connection,
-            build_set_request(
-                self, module=self._module, port=self._port, prbs_inserted_type=prbs_inserted_type, prbs_pattern=prbs_pattern, invert=invert, statistics_mode=statistics_mode
-            ),
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, prbs_inserted_type=prbs_inserted_type, prbs_pattern=prbs_pattern, invert=invert, statistics_mode=statistics_mode))
 
 
 @register_command
@@ -1542,57 +1432,44 @@ class PP_FECMODE:
     code: typing.ClassVar[int] = 366
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FECMode)
+    class GetDataAttr(ResponseBodyStruct):
+        mode: FECMode = field(XmpByte())
         """coded byte, FEC mode for port."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FECMode)
+    class SetDataAttr(RequestBodyStruct):
+        mode: FECMode = field(XmpByte())
         """coded byte, FEC mode for port."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the FEC mode for port that supports FEC.
 
         :return: the FEC mode for port
         :rtype: PP_FECMODE.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, mode: FECMode) -> "Token":
+    def set(self, mode: FECMode) -> Token[None]:
         """Set the FEC mode for port that supports FEC.
 
         :param mode: FEC mode for port
         :type mode: FECMode
         """
+
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, mode=mode))
 
     set_off = functools.partialmethod(set, FECMode.OFF)
     """Turn FEC off."""
 
-    """Turn FEC off.
-    """
     set_rs_fec = functools.partialmethod(set, FECMode.RS_FEC)
     """Turn RS FEC on, either RS-FEC KR or RS-FEC KP, automatically selected based on the FEC modes supported by the port."""
 
-    """Turn RS FEC on, either RS-FEC KR or RS-FEC KP, automatically selected based on the FEC modes supported by the port.
-    """
     set_fc_fec = functools.partialmethod(set, FECMode.FC_FEC)
     """Turn Firecode FEC on."""
-
-    """Turn Firecode FEC on.
-    """
-
-    """set_on = functools.partialmethod(set, FECMode.ON)  # Turn RS FEC on, either RS-FEC KR or RS-FEC KP, automatically selected based on the FEC modes supported by the port."""
-
-    """set_rs_fec_kr = functools.partialmethod(set, FECMode.RS_FEC_KR)  # Explicitly turn RS-FEC KR on."""
-
-    """set_rs_fec_kp = functools.partialmethod(set, FECMode.RS_FEC_KP)  # Explicitly turn RS-FEC KP on."""
 
 
 @register_command
@@ -1605,36 +1482,33 @@ class PP_EYEDWELLBITS:
     code: typing.ClassVar[int] = 367
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _serdes_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        min_dwell_bit_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        min_dwell_bit_count: int = field(XmpInt())
         """integer, minimum dwell bits for an eye capture"""
-
-        max_dwell_bit_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        max_dwell_bit_count: int = field(XmpInt())
         """integer, maximum dwell bits for an eye capture"""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        min_dwell_bit_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class SetDataAttr(RequestBodyStruct):
+        min_dwell_bit_count: int = field(XmpInt())
         """integer, minimum dwell bits for an eye capture"""
-
-        max_dwell_bit_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        max_dwell_bit_count: int = field(XmpInt())
         """integer, maximum dwell bits for an eye capture"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the min and max dwell bits for an eye capture.
 
         :return: the min and the max dwell bits for an eye capture
         :rtype: PP_EYEDWELLBITS.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex]))
 
-    def set(self, min_dwell_bit_count: int, max_dwell_bit_count: int) -> "Token":
+    def set(self, min_dwell_bit_count: int, max_dwell_bit_count: int) -> Token[None]:
         """Set the min and max dwell bits for an eye capture.
 
         :param min_dwell_bit_count: minimum dwell bits for an eye capture
@@ -1642,17 +1516,8 @@ class PP_EYEDWELLBITS:
         :param max_dwell_bit_count: maximum dwell bits for an eye capture
         :type max_dwell_bit_count: int
         """
-        return Token(
-            self._connection,
-            build_set_request(
-                self,
-                module=self._module,
-                port=self._port,
-                indices=[self._serdes_xindex],
-                min_dwell_bit_count=min_dwell_bit_count,
-                max_dwell_bit_count=max_dwell_bit_count,
-            ),
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], min_dwell_bit_count=min_dwell_bit_count, max_dwell_bit_count=max_dwell_bit_count))
 
 
 @register_command
@@ -1665,21 +1530,21 @@ class PP_PHYSIGNALSTATUS:
     code: typing.ClassVar[int] = 375
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        phy_signal_status: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PHYSignalStatus)
+    class GetDataAttr(ResponseBodyStruct):
+        phy_signal_status: PHYSignalStatus = field(XmpByte())
         """coded byte, PHY signal status"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the PHY signal status.
 
         :return: PHY signal status
         :rtype: PP_PHYSIGNALSTATUS.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
@@ -1693,47 +1558,40 @@ class PP_PRBSTYPE:
     code: typing.ClassVar[int] = 378
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        prbs_inserted_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSInsertedType)
+    class GetDataAttr(ResponseBodyStruct):
+        prbs_inserted_type: PRBSInsertedType = field(XmpByte())
         """coded byte, specifying where the PRBS is inserted."""
-
-        polynomial: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSPolynomial)
-        """coded byte, specifying which PRBS to use."""
-
-        invert: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSInvertState)
-        """coded byte, specifying if the PRBS is inverted."""
-
-        statistics_mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSStatisticsMode)
-        """coded byte, specifying PRBS statistics mode, accumulative or for last second"""
-
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        prbs_inserted_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSInsertedType)
-        """coded byte, specifying where the PRBS is inserted."""
-
-        polynomial: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSPolynomial)
+        polynomial: PRBSPolynomial = field(XmpByte())
         """coded byte, specifying which PRBS that is used."""
-
-        invert: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSInvertState)
+        invert: PRBSInvertState = field(XmpByte())
         """coded byte, specifying if the PRBS is inverted."""
-
-        statistics_mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PRBSStatisticsMode)
+        statistics_mode: PRBSStatisticsMode = field(XmpByte())
         """coded byte, specifying PRBS statistics mode, accumulative or for last second"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    class SetDataAttr(RequestBodyStruct):
+        prbs_inserted_type: PRBSInsertedType = field(XmpByte())
+        """coded byte, specifying where the PRBS is inserted."""
+        polynomial: PRBSPolynomial = field(XmpByte())
+        """coded byte, specifying which PRBS to use."""
+        invert: PRBSInvertState = field(XmpByte())
+        """coded byte, specifying if the PRBS is inverted."""
+        statistics_mode: PRBSStatisticsMode = field(XmpByte())
+        """coded byte, specifying PRBS statistics mode, accumulative or for last second"""
+
+    def get(self) -> Token[GetDataAttr]:
         """Get the PRBS type used when the interface is in PRBS mode.
 
         :return: where the PRBS is inserted, which PRBS that is used, if the PRBS is inverted, and PRBS statistics mode
         :rtype: PP_PRBSTYPE.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, prbs_inserted_type: PRBSInsertedType, polynomial: PRBSPolynomial, invert: PRBSInvertState, statistics_mode: PRBSStatisticsMode) -> "Token":
+    def set(self, prbs_inserted_type: PRBSInsertedType, polynomial: PRBSPolynomial, invert: PRBSInvertState, statistics_mode: PRBSStatisticsMode) -> Token[None]:
         """Set the PRBS type used when the interface is in PRBS mode.
 
         :param prbs_inserted_type: specifying where the PRBS is inserted
@@ -1745,12 +1603,8 @@ class PP_PRBSTYPE:
         :param statistics_mode: specifying PRBS statistics mode, accumulative or for last second
         :type statistics_mode: PRBSStatisticsMode
         """
-        return Token(
-            self._connection,
-            build_set_request(
-                self, module=self._module, port=self._port, prbs_inserted_type=prbs_inserted_type, polynomial=polynomial, invert=invert, statistics_mode=statistics_mode
-            ),
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, prbs_inserted_type=prbs_inserted_type, polynomial=polynomial, invert=invert, statistics_mode=statistics_mode))
 
 
 @register_command
@@ -1763,47 +1617,40 @@ class PP_PHYSETTINGS:
     code: typing.ClassVar[int] = 379
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        link_training_on_off: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=OnOff)
+    class GetDataAttr(ResponseBodyStruct):
+        link_training_on_off: OnOff = field(XmpInt())
         """coded integer, enabling/disabling link training."""
-
-        precode_on_off: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=OnOffDefault)
+        precode_on_off: OnOffDefault = field(XmpInt())
         """coded integer, enabling/disabling link precode."""
-
-        graycode_on_off: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=OnOff)
+        graycode_on_off: OnOff = field(XmpInt())
         """coded integer, enabling/disabling link graycode."""
-
-        pam4_msb_lsb_swap: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=OnOff)
+        pam4_msb_lsb_swap: OnOff = field(XmpInt())
         """coded integer, enabling/disabling PAM4 MSB/LSB swap."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        link_training_on_off: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=OnOff)
+    class SetDataAttr(RequestBodyStruct):
+        link_training_on_off: OnOff = field(XmpInt())
         """coded integer, enabling/disabling link training."""
-
-        precode_on_off: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=OnOffDefault)
+        precode_on_off: OnOffDefault = field(XmpInt())
         """coded integer, enabling/disabling link precode."""
-
-        graycode_on_off: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=OnOff)
+        graycode_on_off: OnOff = field(XmpInt())
         """coded integer, enabling/disabling link graycode."""
-
-        pam4_msb_lsb_swap: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=OnOff)
+        pam4_msb_lsb_swap: OnOff = field(XmpInt())
         """coded integer, enabling/disabling PAM4 MSB/LSB swap."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get low-level PHY settings.
 
         :return: low-level PHY settings
         :rtype: PP_PHYSETTINGS.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, link_training_on_off: OnOff, precode_on_off: OnOffDefault, graycode_on_off: OnOff, pam4_msb_lsb_swap: OnOff) -> "Token":
+    def set(self, link_training_on_off: OnOff, precode_on_off: OnOffDefault, graycode_on_off: OnOff, pam4_msb_lsb_swap: OnOff) -> Token[None]:
         """Set low-level PHY settings.
 
         :param link_training_on_off: enabling/disabling link training
@@ -1815,18 +1662,8 @@ class PP_PHYSETTINGS:
         :param pam4_msb_lsb_swap: enabling/disabling PAM4 MSB/LSB swap.
         :type pam4_msb_lsb_swap: OnOff
         """
-        return Token(
-            self._connection,
-            build_set_request(
-                self,
-                module=self._module,
-                port=self._port,
-                link_training_on_off=link_training_on_off,
-                precode_on_off=precode_on_off,
-                graycode_on_off=graycode_on_off,
-                pam4_msb_lsb_swap=pam4_msb_lsb_swap
-            ),
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, link_training_on_off=link_training_on_off, precode_on_off=precode_on_off, graycode_on_off=graycode_on_off, pam4_msb_lsb_swap=pam4_msb_lsb_swap))
 
 
 @register_command
@@ -1839,42 +1676,37 @@ class PP_PHYRXEQ:
     code: typing.ClassVar[int] = 380
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _serdes_xindex: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        auto: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class GetDataAttr(ResponseBodyStruct):
+        auto: int = field(XmpInt())
         """integer, auto on or off"""
-
-        ctle: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        ctle: int = field(XmpInt())
         """integer, Continuous Time Linear equalization"""
-
-        reserved: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        reserved: int = field(XmpInt())
         """integer, reserved"""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        auto: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+    class SetDataAttr(RequestBodyStruct):
+        auto: int = field(XmpInt())
         """integer, auto on or off"""
-
-        ctle: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        ctle: int = field(XmpInt())
         """integer, Continuous Time Linear equalization"""
-
-        reserved: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        reserved: int = field(XmpInt())
         """integer, reserved"""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get RX EQ parameters.
 
         :return: auto on or off, CTLE, and reserved.
         :rtype: PP_PHYRXEQ.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex]))
 
-    def set(self, auto: int, ctle: int, reserved: int) -> "Token":
+    def set(self, auto: int, ctle: int, reserved: int) -> Token[None]:
         """Set RX EQ parameters.
 
         :param auto:  auto on or off
@@ -1884,9 +1716,8 @@ class PP_PHYRXEQ:
         :param reserved: reserved
         :type reserved: int
         """
-        return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], auto=auto, ctle=ctle, reserved=-1)
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], auto=auto, ctle=ctle, reserved=reserved))
 
 
 @register_command
@@ -1900,53 +1731,44 @@ class PP_AUTONEG:
     code: typing.ClassVar[int] = 381
     pushed: typing.ClassVar[bool] = False
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        mode: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=AutoNegMode)
+    class GetDataAttr(ResponseBodyStruct):
+        mode: AutoNegMode = field(XmpInt())
         """coded integer, mode"""
-
-        tec_ability: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=AutoNegTecAbility)
+        tec_ability: AutoNegTecAbility = field(XmpInt())
         """coded integer, technical ability."""
-
-        fec_capable: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=AutoNegFECOption)
+        fec_capable: AutoNegFECOption = field(XmpInt())
         """coded integer, FEC capable."""
-
-        fec_requested: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=AutoNegFECOption)
+        fec_requested: AutoNegFECOption = field(XmpInt())
         """coded integer, FEC requested."""
-
-        pause_mode: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=PauseMode)
+        pause_mode: PauseMode = field(XmpInt())
         """coded integer, pause mode."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        mode: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=AutoNegMode)
+    class SetDataAttr(RequestBodyStruct):
+        mode: AutoNegMode = field(XmpInt())
         """coded integer, mode"""
-
-        tec_ability: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=AutoNegTecAbility)
+        tec_ability: AutoNegTecAbility = field(XmpInt())
         """coded integer, technical ability."""
-
-        fec_capable: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=AutoNegFECOption)
+        fec_capable: AutoNegFECOption = field(XmpInt())
         """coded integer, FEC capable."""
-
-        fec_requested: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=AutoNegFECOption)
+        fec_requested: AutoNegFECOption = field(XmpInt())
         """coded integer, FEC requested."""
-
-        pause_mode: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=PauseMode)
+        pause_mode: PauseMode = field(XmpInt())
         """coded integer, pause mode."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the auto-negotiation settings of the PHY.
 
         :return: auto-negotiation settings of the PHY including mode, technical ability, FEC capable, FEC requested, and pause mode.
         :rtype: PP_AUTONEG.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, mode: AutoNegMode, tec_ability: AutoNegTecAbility, fec_capable: AutoNegFECOption, fec_requested: AutoNegFECOption, pause_mode: PauseMode) -> "Token":
+    def set(self, mode: AutoNegMode, tec_ability: AutoNegTecAbility, fec_capable: AutoNegFECOption, fec_requested: AutoNegFECOption, pause_mode: PauseMode) -> Token[None]:
         """Set the auto-negotiation settings of the PHY.
 
         :param mode: auto neg mode
@@ -1960,12 +1782,8 @@ class PP_AUTONEG:
         :param pause_mode: pause mode
         :type pause_mode: PauseMode
         """
-        return Token(
-            self._connection,
-            build_set_request(
-                self, module=self._module, port=self._port, mode=mode, tec_ability=tec_ability, fec_capable=fec_capable, fec_requested=fec_requested, pause_mode=pause_mode
-            ),
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, mode=mode, tec_ability=tec_ability, fec_capable=fec_capable, fec_requested=fec_requested, pause_mode=pause_mode))
 
 
 @register_command
@@ -1978,39 +1796,33 @@ class PP_AUTONEGSTATUS:
     code: typing.ClassVar[int] = 382
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        mode: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=AutoNegMode)
+    class GetDataAttr(ResponseBodyStruct):
+        mode: AutoNegMode = field(XmpInt())
         """coded integer, mode"""
-
-        fec: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=AutoNegFECType)
+        fec: AutoNegFECType = field(XmpInt())
         """codec integer, FEC."""
-
-        auto_state: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=AutoNegStatus)
+        auto_state: AutoNegStatus = field(XmpInt())
         """coded integer, auto-negotiation state."""
-
-        tec_ability: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=AutoNegTecAbility)
+        tec_ability: AutoNegTecAbility = field(XmpInt())
         """coded integer, technical ability."""
-
-        fec_capable: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=AutoNegFECStatus)
+        fec_capable: AutoNegFECStatus = field(XmpInt())
         """coded integer, FEC capable partner."""
-
-        fec_requested: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=AutoNegFECStatus)
+        fec_requested: AutoNegFECStatus = field(XmpInt())
         """coded integer, FEC requested partner."""
-
-        pause_mode: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=PauseMode)
+        pause_mode: PauseMode = field(XmpInt())
         """coded integer, pause mode."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the status of auto-negotiation settings of the PHY.
 
         :return: the status of auto-negotiation settings of the PHY
         :rtype: PP_AUTONEGSTATUS.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
@@ -2025,55 +1837,44 @@ class PP_LINKTRAIN:
     code: typing.ClassVar[int] = 383
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
 
-    @dataclass(frozen=True)
-    class SetDataAttr:
-        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=LinkTrainingMode)
+    class GetDataAttr(ResponseBodyStruct):
+        mode: LinkTrainingMode = field(XmpByte())
         """coded byte, link training mode"""
-
-        pam4_frame_size: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PAM4FrameSize)
+        pam4_frame_size: PAM4FrameSize = field(XmpByte())
         """codec byte, PAM4 frame size."""
-
-        nrz_pam4_init_cond: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=LinkTrainingInitCondition)
+        nrz_pam4_init_cond: LinkTrainingInitCondition = field(XmpByte())
         """coded byte, link training init condition."""
-
-        nrz_preset: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=NRZPreset)
+        nrz_preset: NRZPreset = field(XmpByte())
         """coded byte, NRZ preset."""
-
-        timeout_mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TimeoutMode)
+        timeout_mode: TimeoutMode = field(XmpByte())
         """coded byte, timeout mode."""
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=LinkTrainingMode)
+    class SetDataAttr(RequestBodyStruct):
+        mode: LinkTrainingMode = field(XmpByte())
         """coded byte, link training mode"""
-
-        pam4_frame_size: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PAM4FrameSize)
+        pam4_frame_size: PAM4FrameSize = field(XmpByte())
         """codec byte, PAM4 frame size."""
-
-        nrz_pam4_init_cond: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=LinkTrainingInitCondition)
+        nrz_pam4_init_cond: LinkTrainingInitCondition = field(XmpByte())
         """coded byte, link training init condition."""
-
-        nrz_preset: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=NRZPreset)
+        nrz_preset: NRZPreset = field(XmpByte())
         """coded byte, NRZ preset."""
-
-        timeout_mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TimeoutMode)
+        timeout_mode: TimeoutMode = field(XmpByte())
         """coded byte, timeout mode."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get the link training settings of the port.
 
         :return: the link training settings, including mode, PAM4 frame size, link training init condition, NRZ preset, and timeout mode.
         :rtype: PP_LINKTRAIN.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(
-        self, mode: LinkTrainingMode, pam4_frame_size: PAM4FrameSize, nrz_pam4_init_cond: LinkTrainingInitCondition, nrz_preset: NRZPreset, timeout_mode: TimeoutMode
-    ) -> "Token":
+    def set(self, mode: LinkTrainingMode, pam4_frame_size: PAM4FrameSize, nrz_pam4_init_cond: LinkTrainingInitCondition, nrz_preset: NRZPreset, timeout_mode: TimeoutMode) -> Token[None]:
         """Set the link training settings of the port.
 
         :param mode: link training mode
@@ -2087,19 +1888,8 @@ class PP_LINKTRAIN:
         :param timeout_mode: timeout mode
         :type timeout_mode: TimeoutMode
         """
-        return Token(
-            self._connection,
-            build_set_request(
-                self,
-                module=self._module,
-                port=self._port,
-                mode=mode,
-                pam4_frame_size=pam4_frame_size,
-                nrz_pam4_init_cond=nrz_pam4_init_cond,
-                nrz_preset=nrz_preset,
-                timeout_mode=timeout_mode,
-            ),
-        )
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, mode=mode, pam4_frame_size=pam4_frame_size, nrz_pam4_init_cond=nrz_pam4_init_cond, nrz_preset=nrz_preset, timeout_mode=timeout_mode))
 
 
 @register_command
@@ -2113,26 +1903,24 @@ class PP_LINKTRAINSTATUS:
     code: typing.ClassVar[int] = 384
     pushed: typing.ClassVar[bool] = True
 
-    _connection: "interfaces.IConnection"
+    _connection: 'interfaces.IConnection'
     _module: int
     _port: int
     _lane_xindex: int
 
-    @dataclass(frozen=True)
-    class GetDataAttr:
-        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=LinkTrainingStatusMode)
+    class GetDataAttr(ResponseBodyStruct):
+        mode: LinkTrainingStatusMode = field(XmpByte())
         """coded byte, link training mode"""
-
-        status: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=LinkTrainingStatus)
+        status: LinkTrainingStatus = field(XmpByte())
         """coded byte, lane status."""
-
-        failure: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=LinkTrainingFailureType)
+        failure: LinkTrainingFailureType = field(XmpByte())
         """coded byte, failure type."""
 
-    def get(self) -> "Token[GetDataAttr]":
+    def get(self) -> Token[GetDataAttr]:
         """Get link training status of a lane of a port.
 
         :return: link training status of a lane of a port, including mode, lane status, and failure type.
         :rtype: PP_LINKTRAINSTATUS.GetDataAttr
         """
+
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._lane_xindex]))

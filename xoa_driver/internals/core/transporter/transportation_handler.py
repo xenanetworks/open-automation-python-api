@@ -93,7 +93,7 @@ class TransportationHandler(asyncio.Protocol):
             if not packet_position:
                 return None
             del self.aggregate[packet_position]
-        # self.__log.draw_separator()
+
 
     def read_data_with_magic_word(self, extractor: bytearray) -> Optional[slice]:
         # read data which starts from magic word.
@@ -168,7 +168,6 @@ class TransportationHandler(asyncio.Protocol):
         if self.__transport is None:
             raise BrokenPipeError("No socket!")
         self.__transport.write(requests)
-        # self.__log.draw_separator()
 
     def close(self) -> None:
         """Close connection with xenaserver."""
