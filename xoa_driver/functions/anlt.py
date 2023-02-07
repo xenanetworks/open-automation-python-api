@@ -318,10 +318,10 @@ async def autoneg_status(port: GenericAnyPort) -> Dict[str, Any]:
     :rtype: typing.Dict[str, Any]
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
-    *_, loopback = await apply(
-        commands.PL1_CFG_TMP(conn, mid, pid, 0, Layer1ConfigType.AN_LOOPBACK).get()
+    *_, loopback, auto_neg_info = await apply(
+        commands.PL1_CFG_TMP(conn, mid, pid, 0, Layer1ConfigType.AN_LOOPBACK).get(),
+        commands.PL1_AUTONEGINFO(conn, mid, pid, 0).get(),
     )
-    *_, auto_neg_info = await apply(commands.PL1_AUTONEGINFO(conn, mid, pid, 0).get())
     return {
         "loopback": "allowed" if loopback.values[0] else "not allowed",
         "duration": auto_neg_info.duration_us,
