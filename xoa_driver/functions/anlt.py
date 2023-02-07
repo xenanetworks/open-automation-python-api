@@ -853,7 +853,5 @@ async def anlt_log(port: GenericAnyPort) -> str:
     :rtype: str
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
-    serdes_xindex = 0
-    _type = 0
-    *_, log = await apply(commands.PL1_LOG(conn, mid, pid, serdes_xindex, _type).get())
+    *_, log = await apply(commands.PL1_LOG(conn, mid, pid).get())
     return log.log_string
