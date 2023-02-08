@@ -328,7 +328,7 @@ async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
         "preset0": "standard value"
         if ltconf.nrz_preset == NRZPreset.NRZ_NO_PRESET
         else "existing tap value",
-        "init_modulation": cfg.value[0],
+        "init_modulation": cfg.values[0],
         "ber": str(prbs),
         "duration": f"{info.duration_us} us",
         "lock_lost": info.lock_lost_count,
