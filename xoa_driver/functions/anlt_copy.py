@@ -26,6 +26,8 @@ from xoa_driver.internals.hli_v1.ports.port_l23.family_l import FamilyL
 from xoa_driver.internals.hli_v1.ports.port_l23.family_l1 import FamilyL1
 from xoa_driver.ports import GenericAnyPort
 from xoa_driver.lli import commands
+from xoa_driver.internals.core import interfaces as itf
+from xoa_driver.misc import Token
 
 
 PcsPmaSupported = (FamilyL, FamilyL1)
@@ -33,7 +35,7 @@ AutoNegSupported = (FamilyL, FamilyL1)
 LinkTrainingSupported = FamilyL
 
 
-def _pp_autoneg(group, on: bool):
+def _pp_autoneg(group: tuple["itf.IConnection", int, int], on: bool) -> list[Token]:
     conn, mid, pid = group
     state = AutoNegMode.ANEG_ON if on else AutoNegMode.ANEG_OFF
     return [
@@ -49,7 +51,7 @@ def _pp_autoneg(group, on: bool):
 
 def _pp_link_train(
     group, mode: LinkTrainingMode, nrz_preset: NRZPreset, timeout_mode: TimeoutMode
-):
+) -> list[Token]:
     conn, mid, pid = group
     return [
         commands.PP_LINKTRAIN(conn, mid, pid).set(
@@ -62,7 +64,9 @@ def _pp_link_train(
     ]
 
 
-def _pl1_cfg_tmp(group, lane: int, config_type: Layer1ConfigType, values: int):
+def _pl1_cfg_tmp(
+    group, lane: int, config_type: Layer1ConfigType, values: int
+) -> list[Token]:
     conn, mid, pid = group
     return [
         commands.PL1_CFG_TMP(conn, mid, pid, lane, config_type).set(
@@ -111,9 +115,13 @@ async def do_anlt(
     tokens += _pl1_cfg_tmp(
         group, 0, Layer1ConfigType.AN_LOOPBACK, int(an_allow_loopback)
     )
-    if should_do_lt:
+
+    dis_an = (not should_do_an) or should_do_lt
+    if dis_an:
         # Disable autoneg
         tokens += _pp_autoneg(group, False)
+
+    if should_do_lt:
         for lane_str, im in lt_initial_modulations.items():
             tokens += _pl1_cfg_tmp(
                 group,
@@ -121,27 +129,19 @@ async def do_anlt(
                 Layer1ConfigType.LT_INITIAL_MODULATION,
                 int(im),
             )
-        tokens += _pp_link_train(
-            group, LinkTrainingMode.DISABLED, nrz_preset, TimeoutMode.DEFAULT
-        )
+
         if should_do_an:
             timeout_mode = TimeoutMode.DEFAULT
             lt_mode = LinkTrainingMode.START_AFTER_AUTONEG
+        elif should_lt_interactive:
+            lt_mode = LinkTrainingMode.INTERACTIVE
+            timeout_mode = TimeoutMode.DEFAULT
         else:
+            lt_mode = LinkTrainingMode.STANDALONE
             timeout_mode = TimeoutMode.DISABLED
-            if should_lt_interactive:
-                lt_mode = LinkTrainingMode.INTERACTIVE
-            else:
-                lt_mode = LinkTrainingMode.STANDALONE
         tokens += _pp_link_train(group, lt_mode, nrz_preset, timeout_mode)
 
     if should_do_an:
-        tokens += _pl1_cfg_tmp(
-            group,
-            0,
-            Layer1ConfigType.AN_LOOPBACK,
-            int(an_allow_loopback),
-        )
         tokens += _pp_autoneg(group, True)
 
     await apply(*tokens)
