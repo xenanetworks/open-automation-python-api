@@ -483,7 +483,20 @@ class PE_BANDSHAPER:
         :type buffer_size: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], on_off=on_off, mode=mode, cir=cir, cbs=cbs, buffer_size=buffer_size))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._flow_xindex],
+                on_off=on_off,
+                mode=mode,
+                cir=cir,
+                cbs=cbs,
+                buffer_size=buffer_size
+            )
+        )
 
 
 @register_command

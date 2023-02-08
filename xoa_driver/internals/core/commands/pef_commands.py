@@ -49,9 +49,11 @@ class PEF_INIT:
 
         There are 2 register copies used to configure the filters:
 
-            (1) ``Shadow-copy (type value = 0)`` temporary copy configured by sever. Values stored in ``shadow-copy`` have no immediate effect on the flow filters. PEF_APPLY will pass the values from the ``shadow-copy`` to the ``working-copy``.
+            (1) ``Shadow-copy (type value = 0)`` temporary copy configured by sever.
+                Values stored in ``shadow-copy`` have no immediate effect on the flow filters. PEF_APPLY will pass the values from the ``shadow-copy`` to the ``working-copy``.
 
-            (2) ``Working-copy (type value = 1)`` reflects what is currently used for filtering in the FPGA. ``Working-copy`` cannot be written directly. Only ``shadow-copy`` allows direct write.
+            (2) ``Working-copy (type value = 1)`` reflects what is currently used for filtering in the FPGA.
+                ``Working-copy`` cannot be written directly. Only ``shadow-copy`` allows direct write.
 
             (3) All ``set`` actions are performed on ``shadow-copy`` ONLY.
 
@@ -930,13 +932,13 @@ class PEF_IPV4SRCADDR:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
 
-    def set(self, use: OnOff, value: typing.Union[str, int, ipaddress.IPv4Address], mask: str) -> Token[None]:
+    def set(self, use: OnOff, value: ipaddress.IPv4Address, mask: str) -> Token[None]:
         """Set the IPv4 Source Address settings for the IPv4 filter.
 
         :param use: specifies the use of IPv4 Source Address information
         :type use: OnOff
         :param value: specifying the four bytes of the address. Default value: 0.0.0.0
-        :type value: typing.Union[str, int, ipaddress.IPv4Address]
+        :type value: ipaddress.IPv4Address
         :param mask: specifying the filter mask of the value. Default value: 0xFFFFFFFF
         :type mask: str
         """
@@ -996,13 +998,13 @@ class PEF_IPV4DESTADDR:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
 
-    def set(self, use: OnOff, value: typing.Union[str, int, ipaddress.IPv4Address], mask: str) -> Token[None]:
+    def set(self, use: OnOff, value: ipaddress.IPv4Address, mask: str) -> Token[None]:
         """Set the IPv4 Destination Address settings for the IPv4 filter.
 
         :param use: specifies the use of IPv4 Destination Address information
         :type use: OnOff
         :param value: specifying the four bytes of the address. Default value: 0.0.0.0
-        :type value: typing.Union[str, int, ipaddress.IPv4Address]
+        :type value: ipaddress.IPv4Address
         :param mask: specifying the filter mask of the value. Default value: 0xFFFFFFFF
         :type mask: str
         """
@@ -2143,11 +2145,15 @@ class PEF_PROTOCOL:
 
     class GetDataAttr(ResponseBodyStruct):
         segment_list: ProtocolOption = field(XmpSequence(types_chunk=[XmpByte()]))
-        """list of bytes, specifying the list of protocol segment types in the order they are expected in a frame. First segment type must be ETHERNET; the following can be chosen freely."""
+        """list of bytes, specifying the list of protocol segment types in the order they are expected in a frame. First segment type must be ETHERNET;
+        the following can be chosen freely.
+        """
 
     class SetDataAttr(RequestBodyStruct):
         segment_list: ProtocolOption = field(XmpSequence(types_chunk=[XmpByte()]))
-        """list of bytes, specifying the list of protocol segment types in the order they are expected in a frame. First segment type must be ETHERNET; the following can be chosen freely."""
+        """list of bytes, specifying the list of protocol segment types in the order they are expected in a frame. First segment type must be ETHERNET;
+        the following can be chosen freely.
+        """
 
     def get(self) -> Token[GetDataAttr]:
         """Get the sequence of protocol segments that can be matched.
@@ -2161,7 +2167,8 @@ class PEF_PROTOCOL:
     def set(self, segment_list: typing.List[ProtocolOption]) -> Token[None]:
         """Set the sequence of protocol segments that can be matched.
 
-        :param segment_list: specifying the list of protocol segment types in the order they are expected in a frame. First segment type must be ``ETHERNET``; the following can be chosen freely.
+        :param segment_list: specifying the list of protocol segment types in the order they are expected in a frame.
+        First segment type must be ``ETHERNET``; the following can be chosen freely.
         :type segment_list: typing.List[ProtocolOption]
         """
 

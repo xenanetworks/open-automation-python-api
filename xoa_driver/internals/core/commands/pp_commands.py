@@ -246,7 +246,18 @@ class PP_TXPRBSCONFIG:
         :type error_on_off: ErrorOnOff
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], prbs_seed=prbs_seed, prbs_on_off=prbs_on_off, error_on_off=error_on_off))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._serdes_xindex],
+                prbs_seed=prbs_seed,
+                prbs_on_off=prbs_on_off,
+                error_on_off=error_on_off
+            )
+        )
 
 
 @register_command
@@ -338,9 +349,15 @@ class PP_RXTOTALSTATS:
         total_uncorrectable_fec_block_count: int = field(XmpLong())
         """integer, total uncorrectable FEC blocks count."""
         total_pre_ber: int = field(XmpLong())
-        """integer, total pre-FEC BER estimate sent as "total_pre_ber = received_bits / total_corfecerrs". To get the real total pre-BER, calculate the inverse: 1/total_pre_ber. If zero physical bit errors have been detected, the negative value "-received_bits" is provided, which can be used to generate the "< BER" value."""
+        """integer, total pre-FEC BER estimate sent as "total_pre_ber = received_bits / total_corfecerrs".
+        To get the real total pre-BER, calculate the inverse: 1/total_pre_ber. If zero physical bit errors have been detected,
+        the negative value "-received_bits" is provided, which can be used to generate the "< BER" value.
+        """
         total_post_ber: int = field(XmpLong())
-        """integer, total post-FEC BER estimate sent as "total_post_ber = received_bits / total_estimated_uncorrectable_errors". To get the real total post-BER, calculate the inverse: 1/total_post_ber. If zero physical bit errors have been detected, the negative value "-received_bits" is provided, which can be used to generate the "< BER" value."""
+        """integer, total post-FEC BER estimate sent as "total_post_ber = received_bits / total_estimated_uncorrectable_errors".
+        To get the real total post-BER, calculate the inverse: 1/total_post_ber. If zero physical bit errors have been detected,
+        the negative value "-received_bits" is provided, which can be used to generate the "< BER" value.
+        """
 
     def get(self) -> Token[GetDataAttr]:
         """Get FEC Total counters of the port:
@@ -388,7 +405,8 @@ class PP_RXFECSTATS:
     def get(self) -> Token[GetDataAttr]:
         """Get statistics on how many FEC blocks have been seen with a given number of symbol errors.
 
-        :return: stats type (currently always 0), number of values, correction stats array, and the number of received uncorrectable code words. The correction stats array shows how many FEC blocks have been seen with [0, 1, 2, 3....15, >15] symbol errors, length = value_count-1.
+        :return: stats type (currently always 0), number of values, correction stats array, and the number of received uncorrectable code words.
+        The correction stats array shows how many FEC blocks have been seen with [0, 1, 2, 3....15, >15] symbol errors, length = value_count-1.
 
         :rtype: PP_RXFECSTATS.GetDataAttr
         """
@@ -659,7 +677,9 @@ class PP_RXLANEERRORS:
         corrected_fec_error_count: int = field(XmpLong())
         """long integer, corrected FEC bit errors."""
         pre_ber: int = field(XmpLong())
-        """long integer, received_bits / corfecerrs. To get the pre_ber, calculate the inverse: 1/pre_ber. If zero bit errors have been received, the negative value "-received_bits" is provided, which can be used to generate the "< BER" value."""
+        """long integer, received_bits / corfecerrs. To get the pre_ber, calculate the inverse: 1/pre_ber.
+        If zero bit errors have been received, the negative value "-received_bits" is provided, which can be used to generate the "< BER" value.
+        """
 
     def get(self) -> Token[GetDataAttr]:
         """Get statistics about errors detected at the physical coding sub-layer on the data
@@ -942,7 +962,17 @@ class PP_EYERESOLUTION:
         :type y_resolution: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], x_resolution=x_resolution, y_resolution=y_resolution))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._serdes_xindex],
+                x_resolution=x_resolution,
+                y_resolution=y_resolution
+            )
+        )
 
 
 @register_command
@@ -979,7 +1009,8 @@ class PP_EYEREAD:
     def get(self) -> Token[GetDataAttr]:
         """Read a single column of a measured BER eye on a 25G serdes.
 
-        :return: x resolution, y resolution, number of valid columns, and the number of bit errors measured out of a total of 1M bits at each of the individual sampling points (x=timeaxis, y = 0/1 threshold).
+        :return: x resolution, y resolution, number of valid columns, and the number of bit errors measured out of a total of 1M bits
+        at each of the individual sampling points (x=timeaxis, y = 0/1 threshold).
         :rtype: PP_EYEREAD.GetDataAttr
         """
 
@@ -1127,7 +1158,16 @@ class PP_PHYTXEQ:
         :type pre1: List[int]
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], pre2=pre2, pre1=pre1, main=main, post1=post1, post2=post2, post3=post3))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._serdes_xindex],
+                pre2=pre2,
+                pre1=pre1,
+                main=main, post1=post1, post2=post2, post3=post3))
 
 
 @register_command
@@ -1299,7 +1339,18 @@ class PP_PHYAUTONEG:
         :type reserved_4: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, fec_mode=fec_mode, reserved_1=reserved_1, reserved_2=reserved_2, reserved_3=reserved_3, reserved_4=reserved_4))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port, fec_mode=fec_mode,
+                reserved_1=reserved_1,
+                reserved_2=reserved_2,
+                reserved_3=reserved_3,
+                reserved_4=reserved_4
+            )
+        )
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """Enable auto-negotiation settings of the PHY.
@@ -1360,7 +1411,17 @@ class PP_TXPRBSTYPE:
         :type invert: PRBSInvertState
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, prbs_inserted_type=prbs_inserted_type, prbs_pattern=prbs_pattern, invert=invert))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                prbs_inserted_type=prbs_inserted_type,
+                prbs_pattern=prbs_pattern,
+                invert=invert
+            )
+        )
 
 
 @register_command
@@ -1419,7 +1480,18 @@ class PP_RXPRBSTYPE:
         :type statistics_mode: PRBSStatisticsMode
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, prbs_inserted_type=prbs_inserted_type, prbs_pattern=prbs_pattern, invert=invert, statistics_mode=statistics_mode))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                prbs_inserted_type=prbs_inserted_type,
+                prbs_pattern=prbs_pattern,
+                invert=invert,
+                statistics_mode=statistics_mode
+            )
+        )
 
 
 @register_command
@@ -1517,7 +1589,17 @@ class PP_EYEDWELLBITS:
         :type max_dwell_bit_count: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], min_dwell_bit_count=min_dwell_bit_count, max_dwell_bit_count=max_dwell_bit_count))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._serdes_xindex],
+                min_dwell_bit_count=min_dwell_bit_count,
+                max_dwell_bit_count=max_dwell_bit_count
+            )
+        )
 
 
 @register_command
@@ -1604,7 +1686,18 @@ class PP_PRBSTYPE:
         :type statistics_mode: PRBSStatisticsMode
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, prbs_inserted_type=prbs_inserted_type, polynomial=polynomial, invert=invert, statistics_mode=statistics_mode))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                prbs_inserted_type=prbs_inserted_type,
+                polynomial=polynomial,
+                invert=invert,
+                statistics_mode=statistics_mode
+            )
+        )
 
 
 @register_command
@@ -1663,7 +1756,18 @@ class PP_PHYSETTINGS:
         :type pam4_msb_lsb_swap: OnOff
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, link_training_on_off=link_training_on_off, precode_on_off=precode_on_off, graycode_on_off=graycode_on_off, pam4_msb_lsb_swap=pam4_msb_lsb_swap))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                link_training_on_off=link_training_on_off,
+                precode_on_off=precode_on_off,
+                graycode_on_off=graycode_on_off,
+                pam4_msb_lsb_swap=pam4_msb_lsb_swap
+            )
+        )
 
 
 @register_command
@@ -1783,7 +1887,19 @@ class PP_AUTONEG:
         :type pause_mode: PauseMode
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, mode=mode, tec_ability=tec_ability, fec_capable=fec_capable, fec_requested=fec_requested, pause_mode=pause_mode))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                mode=mode,
+                tec_ability=tec_ability,
+                fec_capable=fec_capable,
+                fec_requested=fec_requested,
+                pause_mode=pause_mode
+            )
+        )
 
 
 @register_command
@@ -1874,7 +1990,14 @@ class PP_LINKTRAIN:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, mode: LinkTrainingMode, pam4_frame_size: PAM4FrameSize, nrz_pam4_init_cond: LinkTrainingInitCondition, nrz_preset: NRZPreset, timeout_mode: TimeoutMode) -> Token[None]:
+    def set(
+        self,
+        mode: LinkTrainingMode,
+        pam4_frame_size: PAM4FrameSize,
+        nrz_pam4_init_cond: LinkTrainingInitCondition,
+        nrz_preset: NRZPreset,
+        timeout_mode: TimeoutMode
+    ) -> Token[None]:
         """Set the link training settings of the port.
 
         :param mode: link training mode
@@ -1889,7 +2012,19 @@ class PP_LINKTRAIN:
         :type timeout_mode: TimeoutMode
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, mode=mode, pam4_frame_size=pam4_frame_size, nrz_pam4_init_cond=nrz_pam4_init_cond, nrz_preset=nrz_preset, timeout_mode=timeout_mode))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                mode=mode,
+                pam4_frame_size=pam4_frame_size,
+                nrz_pam4_init_cond=nrz_pam4_init_cond,
+                nrz_preset=nrz_preset,
+                timeout_mode=timeout_mode
+            )
+        )
 
 
 @register_command

@@ -217,11 +217,15 @@ class PS_PACKETLIMIT:
 
     class GetDataAttr(ResponseBodyStruct):
         packet_count: int = field(XmpInt())
-        """integer, the number of packets that the port will send. When Port TX Mode is set to NORMAL, STRICT UNIFORM or BURST: 0 or -1 (disable packet limitation). When Port TX Mode is set to SEQUENTIAL: 1 or larger (minimum value since the port transmits at least 1 packet per stream per round)."""
+        """integer, the number of packets that the port will send. When Port TX Mode is set to NORMAL, STRICT UNIFORM or BURST: 0 or -1 (disable packet limitation).
+        When Port TX Mode is set to SEQUENTIAL: 1 or larger (minimum value since the port transmits at least 1 packet per stream per round).
+        """
 
     class SetDataAttr(RequestBodyStruct):
         packet_count: int = field(XmpInt())
-        """integer, the number of packets that the port will send. When Port TX Mode is set to NORMAL, STRICT UNIFORM or BURST: 0 or -1 (disable packet limitation). When Port TX Mode is set to SEQUENTIAL: 1 or larger (minimum value since the port transmits at least 1 packet per stream per round)."""
+        """integer, the number of packets that the port will send. When Port TX Mode is set to NORMAL, STRICT UNIFORM or BURST: 0 or -1 (disable packet limitation).
+        When Port TX Mode is set to SEQUENTIAL: 1 or larger (minimum value since the port transmits at least 1 packet per stream per round).
+        """
 
     def get(self) -> Token[GetDataAttr]:
         """If Port TX Mode is NORMAL, STRICT UNIFORM or BURST: get the number of packets that will be transmitted when traffic is started on a port.
@@ -339,7 +343,10 @@ class PS_TPLDID:
         :type test_payload_identifier: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._stream_xindex], test_payload_identifier=test_payload_identifier))
+        return Token(
+            self._connection,
+            build_set_request(self, module=self._module, port=self._port, indices=[self._stream_xindex], test_payload_identifier=test_payload_identifier)
+        )
 
 
 @register_command
@@ -402,13 +409,17 @@ class PS_AUTOADJUST:
 
         (1) Set the type of packet length distribution (:class:`PS_PACKETLENGTH` ``<length_type>``) to ``FIXED``.
 
-        (2) Set the lower limit on the packet length (:class:`PS_PACKETLENGTH` ``<min_val>``) to exactly fit the specified protocol headers, TPLD and FCS (but never set to less than 64).
+        (2) Set the lower limit on the packet length (:class:`PS_PACKETLENGTH` ``<min_val>``) to exactly fit the specified protocol headers,
+        TPLD and FCS (but never set to less than 64).
 
-        (3) Set the payload type of packets transmitted for the stream (:class:`PS_PAYLOAD` ``<payload_type>``) to ``PATTERN``. 
+        (3) Set the payload type of packets transmitted for the stream (:class:`PS_PAYLOAD` ``<payload_type>``) to ``PATTERN``.
 
-        (4) If necessary, also set the maximum number of header content bytes (`P_MAXHEADERLENGTH <p_maxheaderlength_label>` ``<max_header_length>``) that can be freely specified for each generated stream of the port to a higher value, if needed to accommodate the header size of the stream (implicitly given by the `PS_PACKETHEADER` command).
+        (4) If necessary, also set the maximum number of header content bytes (`P_MAXHEADERLENGTH <p_maxheaderlength_label>` ``<max_header_length>``)
+        that can be freely specified for each generated stream of the port to a higher value, if needed to accommodate the header size of the stream
+        (implicitly given by the `PS_PACKETHEADER` command).
 
-        (5) If the needed maximum header length (`P_MAXHEADERLENGTH <p_maxheaderlength_label>` ``<max_header_length>``) is not possible with the actual number of active streams for the port, the command will fail with :`<BADVALUE>`.
+        (5) If the needed maximum header length (`P_MAXHEADERLENGTH <p_maxheaderlength_label>` ``<max_header_length>``)
+        is not possible with the actual number of active streams for the port, the command will fail with :`<BADVALUE>`.
     """
 
     code: typing.ClassVar[int] = 159
@@ -584,7 +595,10 @@ class PS_MODIFIEREXTRANGE:
         :type max_val: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._stream_xindex, self._modifier_xindex], min_val=min_val, step=step, max_val=max_val))
+        return Token(
+            self._connection,
+            build_set_request(self, module=self._module, port=self._port, indices=[self._stream_xindex, self._modifier_xindex], min_val=min_val, step=step, max_val=max_val)
+        )
 
 
 @register_command
@@ -654,7 +668,10 @@ class PS_MODIFIERRANGE:
         :type max_val: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._stream_xindex, self._modifier_xindex], min_val=min_val, step=step, max_val=max_val))
+        return Token(
+            self._connection,
+            build_set_request(self, module=self._module, port=self._port, indices=[self._stream_xindex, self._modifier_xindex], min_val=min_val, step=step, max_val=max_val)
+        )
 
 
 @register_command
@@ -1109,7 +1126,8 @@ class PS_MODIFIER:
         bits in each packet. Packets can be repeated so that a certain number of
         identical packets are transmitted before applying the next modification.
 
-        :return: the byte position from the start of the packet, the mask specifying which bits to affect, which action to perform on the affected bits, and how many times to repeat on each packet
+        :return: the byte position from the start of the packet, the mask specifying which bits to affect, which action to perform on the affected bits,
+        and how many times to repeat on each packet
         :rtype: PS_MODIFIER.GetDataAttr
         """
 
@@ -1134,7 +1152,19 @@ class PS_MODIFIER:
         :type repetition: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._stream_xindex, self._modifier_xindex], position=position, mask=mask, action=action, repetition=repetition))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._stream_xindex, self._modifier_xindex],
+                position=position,
+                mask=mask,
+                action=action,
+                repetition=repetition
+            )
+        )
 
     set_inc = functools.partialmethod(set, action=ModifierAction.INC)
     """Set a packet modifier action to incrementing.
@@ -1215,7 +1245,18 @@ class PS_PACKETLENGTH:
         :type max_val: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._stream_xindex], length_type=length_type, min_val=min_val, max_val=max_val))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._stream_xindex],
+                length_type=length_type,
+                min_val=min_val,
+                max_val=max_val
+            )
+        )
 
     set_fixed = functools.partialmethod(set, LengthType.FIXED)
     """Set the packet length distribution to Fixed.
@@ -1464,7 +1505,10 @@ class PS_BURSTGAP:
         :type inter_burst_gap: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._stream_xindex], inter_packet_gap=inter_packet_gap, inter_burst_gap=inter_burst_gap))
+        return Token(
+            self._connection,
+            build_set_request(self, module=self._module, port=self._port, indices=[self._stream_xindex], inter_packet_gap=inter_packet_gap, inter_burst_gap=inter_burst_gap)
+        )
 
 
 @register_command
@@ -1714,7 +1758,19 @@ class PS_MODIFIEREXT:
         :type repetition: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._stream_xindex, self._modifier_xindex], position=position, mask=mask, action=action, repetition=repetition))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._stream_xindex, self._modifier_xindex],
+                position=position,
+                mask=mask,
+                action=action,
+                repetition=repetition
+            )
+        )
 
     set_inc = functools.partialmethod(set, action=ModifierAction.INC)
     """Set modifier action to Incrementing.
@@ -1955,7 +2011,16 @@ class PS_CDFDATA:
         :type hex_data: str
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._stream_xindex, self._custom_data_field_xindex], hex_data=hex_data))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._stream_xindex, self._custom_data_field_xindex],
+                hex_data=hex_data
+            )
+        )
 
 
 @register_command

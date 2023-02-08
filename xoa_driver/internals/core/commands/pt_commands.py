@@ -45,7 +45,8 @@ class PT_TOTAL:
     def get(self) -> Token[GetDataAttr]:
         """Get statistics concerning all the packets transmitted on a port.
 
-        :return: number of bits transmitted in the last second, number of packets transmitted in the last second, number of bytes transmitted since statistics were cleared, and number of packets transmitted since statistics were cleared.
+        :return: number of bits transmitted in the last second, number of packets transmitted in the last second,
+        number of bytes transmitted since statistics were cleared, and number of packets transmitted since statistics were cleared.
         :rtype: PT_TOTAL.GetDataAttr
         """
 
@@ -80,7 +81,8 @@ class PT_NOTPLD:
     def get(self) -> Token[GetDataAttr]:
         """Get statistics concerning the packets without a test payload transmitted on a port.
 
-        :return: number of bits transmitted in the last second, number of packets transmitted in the last second, number of bytes transmitted since statistics were cleared, and number of packets transmitted since statistics were cleared
+        :return: number of bits transmitted in the last second, number of packets transmitted in the last second,
+        number of bytes transmitted since statistics were cleared, and number of packets transmitted since statistics were cleared
         :rtype: PT_NOTPLD.GetDataAttr
         """
 
@@ -116,7 +118,8 @@ class PT_STREAM:
     def get(self) -> Token[GetDataAttr]:
         """Get statistics concerning the packets of a specific stream transmitted on a port.
 
-        :return: number of bits transmitted in the last second, number of packets transmitted in the last second, number of bytes transmitted since statistics were cleared, and number of packets transmitted since statistics were cleared.
+        :return: number of bits transmitted in the last second, number of packets transmitted in the last second,
+        number of bytes transmitted since statistics were cleared, and number of packets transmitted since statistics were cleared.
         :rtype: PT_STREAM.GetDataAttr
         """
 
@@ -182,7 +185,8 @@ class PT_TOTALEXT:
     """
     .. versionadded: v1.1
 
-    An extension to :class:`PT_TOTAL` that also includes a calculation of bytes transmitted in the last second. It returns list of long integers; this list may be expanded in future software releases.
+    An extension to :class:`PT_TOTAL` that also includes a calculation of bytes transmitted in the last second.
+    It returns list of long integers; this list may be expanded in future software releases.
     """
 
     code: typing.ClassVar[int] = 236
@@ -207,7 +211,9 @@ class PT_TOTALEXT:
     def get(self) -> Token[GetDataAttr]:
         """Get statistics concerning all the packets transmitted on a port.
 
-        :return: number of bits transmitted in the last second, number of bytes transmitted in the last second, number of packets transmitted in the last second, number of bytes transmitted since statistics were cleared, and number of packets transmitted since statistics were cleared.
+        :return: number of bits transmitted in the last second, number of bytes transmitted in the last second,
+        number of packets transmitted in the last second, number of bytes transmitted since statistics were cleared,
+        and number of packets transmitted since statistics were cleared.
         :rtype: PT_TOTALEXT.GetDataAttr
         """
 
@@ -220,7 +226,8 @@ class PT_NOTPLDEXT:
     """
     .. versionadded: v1.1
 
-    An extension to :class:`PT_NOTPLD` that also includes a calculation of bytes transmitted in the last second. It returns list of long integers; this list may be expanded in future software releases.
+    An extension to :class:`PT_NOTPLD` that also includes a calculation of bytes transmitted in the last second.
+    It returns list of long integers; this list may be expanded in future software releases.
     """
 
     code: typing.ClassVar[int] = 237
@@ -245,7 +252,9 @@ class PT_NOTPLDEXT:
     def get(self) -> Token[GetDataAttr]:
         """Get statistics concerning the packets without a test payload transmitted on a port.
 
-        :return: number of bits transmitted in the last second, number of bytes transmitted in the last second, number of packets transmitted in the last second, number of bytes transmitted since statistics were cleared, and number of packets transmitted since statistics were cleared
+        :return: number of bits transmitted in the last second, number of bytes transmitted in the last second,
+        number of packets transmitted in the last second, number of bytes transmitted since statistics were cleared,
+        and number of packets transmitted since statistics were cleared
         :rtype: PT_NOTPLDEXT.GetDataAttr
         """
 
@@ -258,7 +267,8 @@ class PT_STREAMEXT:
     """
     .. versionadded: v1.1
 
-    An extension to :class:`PT_STREAM` that also includes a calculation of bytes transmitted in the last second. It returns list of long integers; this list may be expanded in future software releases.
+    An extension to :class:`PT_STREAM` that also includes a calculation of bytes transmitted in the last second.
+    It returns list of long integers; this list may be expanded in future software releases.
     """
 
     code: typing.ClassVar[int] = 238
@@ -284,7 +294,9 @@ class PT_STREAMEXT:
     def get(self) -> Token[GetDataAttr]:
         """Get statistics concerning the packets of a specific stream transmitted on a port.
 
-        :return: number of bits transmitted in the last second, number of bytes transmitted in the last second, number of packets transmitted in the last second, number of bytes transmitted since statistics were cleared, and number of packets transmitted since statistics were cleared.
+        :return: number of bits transmitted in the last second, number of bytes transmitted in the last second,
+        number of packets transmitted in the last second, number of bytes transmitted since statistics were cleared,
+        and number of packets transmitted since statistics were cleared.
         :rtype: PT_STREAMEXT.GetDataAttr
         """
 

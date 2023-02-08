@@ -39,7 +39,9 @@ class PEC_INDICES:
 
     .. note::
 
-        Custom distributions which are currently defined are not affected when mentioned in a PEC_INDICES set command. Custom distributions which are currently assigned to an impairment cannot be deleted and any attempt of deleting such a custom distribution using either PEC_DELETE` or PEC_INDICES` will result in an error.
+        Custom distributions which are currently defined are not affected when mentioned in a PEC_INDICES set command.
+        Custom distributions which are currently assigned to an impairment cannot be deleted and any attempt of deleting
+        such a custom distribution using either PEC_DELETE` or PEC_INDICES` will result in an error.
 
     """
 
@@ -140,7 +142,19 @@ class PEC_VAL:
         :type data_x: List[int]
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._custom_distribution_xindex], linear=linear, symmetric=symmetric, entry_count=entry_count, data_x=data_x))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._custom_distribution_xindex],
+                linear=linear,
+                symmetric=symmetric,
+                entry_count=entry_count,
+                data_x=data_x
+            )
+        )
 
 
 @register_command
@@ -193,7 +207,8 @@ class PEC_DELETE:
 
     .. note::
 
-        Once a customer has defined a customer distribution using PEC_VAL, it is defined until it is explicitly deleted.Only customer distributions which are not referenced by any impairments, can be deleted.
+        Once a customer has defined a customer distribution using PEC_VAL, it is defined until it is explicitly deleted.
+        Only customer distributions which are not referenced by any impairments, can be deleted.
 
     """
 
@@ -223,7 +238,8 @@ class PEC_DISTTYPE:
 
     .. note::
 
-        Using PEC_DISTTYPE as set has no effect. The distribution type is determined upon custom distribution creation and cannot be modified later. However, it is legal to issue the PEC_DISTTYPE set command with no effect.
+        Using PEC_DISTTYPE as set has no effect. The distribution type is determined upon custom distribution creation and cannot be modified later.
+        However, it is legal to issue the PEC_DISTTYPE set command with no effect.
 
     """
 

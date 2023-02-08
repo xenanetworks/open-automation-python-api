@@ -203,11 +203,15 @@ class C_RESERVATION:
 
     class GetDataAttr(ResponseBodyStruct):
         operation: ReservedStatus = field(XmpByte())
-        """coded byte, containing the operation to perform. The reservation parameters are asymmetric with respect to set/get. When set, it contains the operation to perform. When get, it contains the status."""
+        """coded byte, containing the operation to perform. The reservation parameters are asymmetric with respect to set/get.
+        When set, it contains the operation to perform. When get, it contains the status.
+        """
 
     class SetDataAttr(RequestBodyStruct):
         operation: ReservedAction = field(XmpByte())
-        """coded byte, containing the operation to perform. The reservation parameters are asymmetric with respect to set/get. When set, it contains the operation to perform. When get, it contains the status."""
+        """coded byte, containing the operation to perform. The reservation parameters are asymmetric with respect to set/get.
+        When set, it contains the operation to perform. When get, it contains the status.
+        """
 
     def get(self) -> Token[GetDataAttr]:
         """Get the chassis reservation status.
@@ -781,15 +785,15 @@ class C_IPADDRESS:
 
         return Token(self._connection, build_get_request(self, ))
 
-    def set(self, ipv4_address: typing.Union[str, int, ipaddress.IPv4Address], subnet_mask: typing.Union[str, int, ipaddress.IPv4Address], gateway: typing.Union[str, int, ipaddress.IPv4Address]) -> Token[None]:
+    def set(self, ipv4_address: ipaddress.IPv4Address, subnet_mask: ipaddress.IPv4Address, gateway: ipaddress.IPv4Address) -> Token[None]:
         """the IP configuration information of the tester.
 
         :param ipv4_address: the static IP address of the chassis
-        :type ipv4_address: typing.Union[str, int, ipaddress.IPv4Address]
+        :type ipv4_address: ipaddress.IPv4Address
         :param subnet_mask: the subnet mask of the local network segment
-        :type subnet_mask: typing.Union[str, int, ipaddress.IPv4Address]
+        :type subnet_mask: ipaddress.IPv4Address
         :param gateway: the gateway of the local network segment
-        :type gateway: typing.Union[str, int, ipaddress.IPv4Address]
+        :type gateway: ipaddress.IPv4Address
         """
 
         return Token(self._connection, build_set_request(self, ipv4_address=ipv4_address, subnet_mask=subnet_mask, gateway=gateway))
@@ -1657,8 +1661,9 @@ class C_TKSTATUS:
 
     class GetDataAttr(ResponseBodyStruct):
         status_string: str = field(XmpStr())
-        """string. Version, TimeKeeper license expiration, and TimeKeeper status. The string is formatted as shown in the example below. Each line is separated by 
-."""
+        """string. Version, TimeKeeper license expiration, and TimeKeeper status.
+        The string is formatted as shown in the example below. Each line is separated by.
+        """
 
     def get(self) -> Token[GetDataAttr]:
         """Get the version and status of TimeKeeper
@@ -1921,7 +1926,6 @@ class C_TKSTATUSEXT:
                 "updatetime": 1637916837
             }
         }
-        
         """
 
     def get(self) -> Token[GetDataAttr]:

@@ -1,6 +1,5 @@
 from __future__ import annotations
 from dataclasses import dataclass
-import ipaddress
 import typing
 import functools
 
@@ -76,7 +75,17 @@ class PED_SCHEDULE:
         :type period: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], duration=duration, period=period))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._flow_xindex, self._impairment_type_xindex],
+                duration=duration,
+                period=period
+            )
+        )
 
 
 @register_command
@@ -187,7 +196,16 @@ class PED_FIXED:
         :type probability: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], probability=probability))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._flow_xindex, self._impairment_type_xindex],
+                probability=probability
+            )
+        )
 
 
 @register_command
@@ -233,7 +251,16 @@ class PED_RANDOM:
         :type probability: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], probability=probability))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._flow_xindex, self._impairment_type_xindex],
+                probability=probability
+            )
+        )
 
 
 @register_command
@@ -330,7 +357,10 @@ class PED_FIXEDBURST:
         :type burst_size: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], burst_size=burst_size))
+        return Token(
+            self._connection,
+            build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], burst_size=burst_size)
+        )
 
 
 @register_command
@@ -385,7 +415,18 @@ class PED_RANDOMBURST:
         :type probability: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], minimum=minimum, maximum=maximum, probability=probability))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._flow_xindex, self._impairment_type_xindex],
+                minimum=minimum,
+                maximum=maximum,
+                probability=probability
+            )
+        )
 
 
 @register_command
@@ -446,7 +487,19 @@ class PED_GE:
         :type bad_state_trans_prob: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], good_state_prob=good_state_prob, good_state_trans_prob=good_state_trans_prob, bad_state_prob=bad_state_prob, bad_state_trans_prob=bad_state_trans_prob))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._flow_xindex, self._impairment_type_xindex],
+                good_state_prob=good_state_prob,
+                good_state_trans_prob=good_state_trans_prob,
+                bad_state_prob=bad_state_prob,
+                bad_state_trans_prob=bad_state_trans_prob
+            )
+        )
 
 
 @register_command
@@ -472,15 +525,23 @@ class PED_UNI:
 
     class GetDataAttr(ResponseBodyStruct):
         minimum: int = field(XmpLong())
-        """long, in case of iid != DELAY, specifies the minimum no. of packets. Default value: 0 (Range 0 to 4194288). In case of iid = DELAY, specifies the minimum latency limit. Unit is nanosecond (must be multiples of 100 ns). Default value: minimum latency."""
+        """long, in case of iid != DELAY, specifies the minimum no. of packets. Default value: 0 (Range 0 to 4194288).
+        In case of iid = DELAY, specifies the minimum latency limit. Unit is nanosecond (must be multiples of 100 ns). Default value: minimum latency.
+        """
         maximum: int = field(XmpLong())
-        """long, in case of iid != DELAY, specifies the maximum no. of packets. Default value: 0 (Range 0 to 4194288). In case of iid = DELAY, specifies the maximum latency limit. Unit is nanosecond (must be multiples of 100 ns). Default value: minimum latency."""
+        """long, in case of iid != DELAY, specifies the maximum no. of packets. Default value: 0 (Range 0 to 4194288).
+        In case of iid = DELAY, specifies the maximum latency limit. Unit is nanosecond (must be multiples of 100 ns). Default value: minimum latency.
+        """
 
     class SetDataAttr(RequestBodyStruct):
         minimum: int = field(XmpLong())
-        """long, in case of iid != DELAY, specifies the minimum no. of packets. Default value: 0 (Range 0 to 4194288). In case of iid = DELAY, specifies the minimum latency limit. Unit is nanosecond (must be multiples of 100 ns). Default value: minimum latency."""
+        """long, in case of iid != DELAY, specifies the minimum no. of packets. Default value: 0 (Range 0 to 4194288).
+        In case of iid = DELAY, specifies the minimum latency limit. Unit is nanosecond (must be multiples of 100 ns). Default value: minimum latency.
+        """
         maximum: int = field(XmpLong())
-        """long, in case of iid != DELAY, specifies the maximum no. of packets. Default value: 0 (Range 0 to 4194288). In case of iid = DELAY, specifies the maximum latency limit. Unit is nanosecond (must be multiples of 100 ns). Default value: minimum latency."""
+        """long, in case of iid != DELAY, specifies the maximum no. of packets. Default value: 0 (Range 0 to 4194288).
+        In case of iid = DELAY, specifies the maximum latency limit. Unit is nanosecond (must be multiples of 100 ns). Default value: minimum latency.
+        """
 
     def get(self) -> Token[GetDataAttr]:
         """Get the configuration of Uniform distribution.
@@ -494,13 +555,18 @@ class PED_UNI:
     def set(self, minimum: int, maximum: int) -> Token[None]:
         """Set the configuration of Uniform distribution.
 
-        :param minimum: in case of iid != DELAY, specifies the minimum no. of packets. Default value: 0 (Range 0 to 4194288). In case of iid = DELAY, specifies the minimum latency limit. Unit is nanosecond (must be multiples of 100 ns). Default value: minimum latency.
+        :param minimum: in case of iid != DELAY, specifies the minimum no. of packets. Default value: 0 (Range 0 to 4194288).
+        In case of iid = DELAY, specifies the minimum latency limit. Unit is nanosecond (must be multiples of 100 ns). Default value: minimum latency.
         :type minimum: int
-        :param maximum: in case of iid != DELAY, specifies the maximum no. of packets. Default value: 0 (Range 0 to 4194288). In case of iid = DELAY, specifies the maximum latency limit. Unit is nanosecond (must be multiples of 100 ns). Default value: minimum latency.
+        :param maximum: in case of iid != DELAY, specifies the maximum no. of packets. Default value: 0 (Range 0 to 4194288).
+        In case of iid = DELAY, specifies the maximum latency limit. Unit is nanosecond (must be multiples of 100 ns). Default value: minimum latency.
         :type maximum: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], minimum=minimum, maximum=maximum))
+        return Token(
+            self._connection,
+            build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], minimum=minimum, maximum=maximum)
+        )
 
 
 @register_command
@@ -511,9 +577,13 @@ class PED_GAUSS:
 
     .. note::
 
-        In case of ``_impairment_type_xindex != DELAY``: (1) mean plus 3 times standard deviation should be less than or equal to max allowed (4194288). (2) mean should always be at least 3 times the standard deviation, this to ensure that the impairment distance is always positive.
+        In case of ``_impairment_type_xindex != DELAY``:
+            (1) mean plus 3 times standard deviation should be less than or equal to max allowed (4194288).
+            (2) mean should always be at least 3 times the standard deviation, this to ensure that the impairment distance is always positive.
 
-        In case of ``_impairment_type_xindex = DELAY``: (1) mean plus 3 times standard deviation should be less than or equal to the maximum latency. (2) mean minus 3 times the standard deviation should be greater than or equal to minimum latency.
+        In case of ``_impairment_type_xindex = DELAY``:
+            (1) mean plus 3 times standard deviation should be less than or equal to the maximum latency.
+            (2) mean minus 3 times the standard deviation should be greater than or equal to minimum latency.
 
     """
 
@@ -528,15 +598,24 @@ class PED_GAUSS:
 
     class GetDataAttr(ResponseBodyStruct):
         mean: int = field(XmpLong())
-        """long, specifies the Gaussian mean. In case of iid != DELAY, specifies the Gaussian mean value as number of packets.Default value: 0 packets (Range 0 to 4194288). In case of iid = DELAY, specifies the Gaussian mean value. Units is nanosecond (must be multiples of 100 ns)."""
+        """long, specifies the Gaussian mean. In case of iid != DELAY, specifies the Gaussian mean value as number of packets.Default value: 0 packets (Range 0 to 4194288).
+        In case of iid = DELAY, specifies the Gaussian mean value. Units is nanosecond (must be multiples of 100 ns).
+        """
         std_deviation: int = field(XmpLong())
-        """long, specifies the Gaussian standard deviation. In case of iid != DELAY, specifies the standard deviation as number of packets. Default value: 0 packets (Range 0 to 4194288). In case of iid = DELAY, specifies the the Gaussian standard deviation. Units is nanosecond (must be multiples of 100 ns). Default value: 0 ns."""
+        """long, specifies the Gaussian standard deviation. In case of iid != DELAY, specifies the standard deviation as number of packets.
+        Default value: 0 packets (Range 0 to 4194288). In case of iid = DELAY, specifies the the Gaussian standard deviation.
+        Units is nanosecond (must be multiples of 100 ns). Default value: 0 ns.
+        """
 
     class SetDataAttr(RequestBodyStruct):
         mean: int = field(XmpLong())
-        """long, specifies the Gaussian mean. In case of iid != DELAY, specifies the Gaussian mean value as number of packets.Default value: 0 packets (Range 0 to 4194288). In case of iid = DELAY, specifies the Gaussian mean value. Units is nanosecond (must be multiples of 100 ns)."""
+        """long, specifies the Gaussian mean. In case of iid != DELAY, specifies the Gaussian mean value as number of packets.Default value: 0 packets (Range 0 to 4194288).
+        In case of iid = DELAY, specifies the Gaussian mean value. Units is nanosecond (must be multiples of 100 ns)."""
         std_deviation: int = field(XmpLong())
-        """long, specifies the Gaussian standard deviation. In case of iid != DELAY, specifies the standard deviation as number of packets. Default value: 0 packets (Range 0 to 4194288). In case of iid = DELAY, specifies the the Gaussian standard deviation. Units is nanosecond (must be multiples of 100 ns). Default value: 0 ns."""
+        """long, specifies the Gaussian standard deviation. In case of iid != DELAY, specifies the standard deviation as number of packets.
+        Default value: 0 packets (Range 0 to 4194288). In case of iid = DELAY, specifies the the Gaussian standard deviation.
+        Units is nanosecond (must be multiples of 100 ns). Default value: 0 ns.
+        """
 
     def get(self) -> Token[GetDataAttr]:
         """Get the configuration of Gaussian distribution.
@@ -556,7 +635,10 @@ class PED_GAUSS:
         :type std_deviation: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], mean=mean, std_deviation=std_deviation))
+        return Token(
+            self._connection,
+            build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], mean=mean, std_deviation=std_deviation)
+        )
 
 
 @register_command
@@ -586,11 +668,15 @@ class PED_POISSON:
 
     class GetDataAttr(ResponseBodyStruct):
         mean: int = field(XmpLong())
-        """long, specifies the Poisson mean value. In case of iid = DELAY specifies the Poisson mean. Unit is nanosecond (must be multiples of 100ns). Default value: 0 ns. In case of iid != DELAY specifies the Poisson mean in number of packets packets. Default value: 9 packets (Range 0 to 4194288)."""
+        """long, specifies the Poisson mean value. In case of iid = DELAY specifies the Poisson mean. Unit is nanosecond (must be multiples of 100ns).
+        Default value: 0 ns. In case of iid != DELAY specifies the Poisson mean in number of packets packets. Default value: 9 packets (Range 0 to 4194288).
+        """
 
     class SetDataAttr(RequestBodyStruct):
         mean: int = field(XmpLong())
-        """long, specifies the Poisson mean value. In case of iid = DELAY specifies the Poisson mean. Unit is nanosecond (must be multiples of 100ns). Default value: 0 ns. In case of iid != DELAY specifies the Poisson mean in number of packets packets. Default value: 9 packets (Range 0 to 4194288)."""
+        """long, specifies the Poisson mean value. In case of iid = DELAY specifies the Poisson mean. Unit is nanosecond (must be multiples of 100ns).
+        Default value: 0 ns. In case of iid != DELAY specifies the Poisson mean in number of packets packets. Default value: 9 packets (Range 0 to 4194288).
+        """
 
     def get(self) -> Token[GetDataAttr]:
         """Get the configuration of Poisson distribution.
@@ -619,9 +705,12 @@ class PED_GAMMA:
 
     .. note::
 
-        Mean and Standard deviation are calculated from Shape and Scale parameters and validation is performed using those. standard deviation = [SQRT(shape * scale * scale)]mean = [shape * scale].
+        Mean and Standard deviation are calculated from Shape and Scale parameters and validation is performed using those.
+        standard deviation = [SQRT(shape * scale * scale)]mean = [shape * scale].
 
-        In case of ``_impairment_type_xindex != DELAY``, (1) mean plus 4 times standard deviation should be less than or equal to max allowed(4194288). (2)shape and scale should be greater than or equal to 0.
+        In case of ``_impairment_type_xindex != DELAY``,
+        (1) mean plus 4 times standard deviation should be less than or equal to max allowed(4194288).
+        (2)shape and scale should be greater than or equal to 0.
 
         In case of ``_impairment_type_xindex = DELAY``, mean plus 4 times standard deviation should be less than or equal to the maximum latency.
 
@@ -640,13 +729,17 @@ class PED_GAMMA:
         shape: int = field(XmpLong())
         """long, specifies the shape. Units: none. Default value: 0."""
         scale: int = field(XmpLong())
-        """long, specifies the Gamma function scale parameter. In case of iid = DELAY, units: nanosecond (must be multiples of 100 ns). Default value: 0 ns. In case of iid != DELAY, units: number of packets.Default value: 0 packets."""
+        """long, specifies the Gamma function scale parameter. In case of iid = DELAY, units: nanosecond
+        (must be multiples of 100 ns). Default value: 0 ns. In case of iid != DELAY, units: number of packets.Default value: 0 packets.
+        """
 
     class SetDataAttr(RequestBodyStruct):
         shape: int = field(XmpLong())
         """long, specifies the shape. Units: none. Default value: 0."""
         scale: int = field(XmpLong())
-        """long, specifies the Gamma function scale parameter. In case of iid = DELAY, units: nanosecond (must be multiples of 100 ns). Default value: 0 ns. In case of iid != DELAY, units: number of packets.Default value: 0 packets."""
+        """long, specifies the Gamma function scale parameter. In case of iid = DELAY, units: nanosecond (must be multiples of 100 ns). Default value: 0 ns.
+        In case of iid != DELAY, units: number of packets.Default value: 0 packets.
+        """
 
     def get(self) -> Token[GetDataAttr]:
         """Get the configuration of Gamma distribution.
@@ -666,7 +759,17 @@ class PED_GAMMA:
         :type scale: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._impairment_type_xindex], shape=shape, scale=scale))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._flow_xindex, self._impairment_type_xindex],
+                shape=shape,
+                scale=scale
+            )
+        )
 
 
 @register_command
@@ -679,9 +782,14 @@ class PED_CUST:
 
         Before associating a custom distribution, the below validation checks are applied.
 
-        In case of ``_impairment_type_xindex != DELAY``, (1) Custom values should be less than or equal to max allowed (4194288). (2) Custom distribution bust contain 512 values.
+        In case of ``_impairment_type_xindex != DELAY``,
+        (1) Custom values should be less than or equal to max allowed (4194288).
+        (2) Custom distribution bust contain 512 values.
 
-        In case of ``_impairment_type_xindex = DELAY``, (1) Custom values should be less than or equal to the maximum latency. (2) Custom values should be greater than or equal to minimum latency. (3) Custom distribution should contain 1024 values.
+        In case of ``_impairment_type_xindex = DELAY``,
+        (1) Custom values should be less than or equal to the maximum latency.
+        (2) Custom values should be greater than or equal to minimum latency.
+        (3) Custom distribution should contain 1024 values.
 
     """
 

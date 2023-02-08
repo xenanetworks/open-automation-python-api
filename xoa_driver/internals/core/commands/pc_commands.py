@@ -103,7 +103,18 @@ class PC_TRIGGER:
         :type stop_criteria_filter: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, start_criteria=start_criteria, start_criteria_filter=start_criteria_filter, stop_criteria=stop_criteria, stop_criteria_filter=stop_criteria_filter))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                start_criteria=start_criteria,
+                start_criteria_filter=start_criteria_filter,
+                stop_criteria=stop_criteria,
+                stop_criteria_filter=stop_criteria_filter
+            )
+        )
 
 
 @register_command
@@ -211,7 +222,7 @@ class PC_STATS:
 
     class GetDataAttr(ResponseBodyStruct):
         status: int = field(XmpLong())
-        """Capture status, 1 if capture has been stopped because of overflow, 0 if still running. 
+        """Capture status, 1 if capture has been stopped because of overflow, 0 if still running.
 
         :type: int
         """

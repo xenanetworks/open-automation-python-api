@@ -1,6 +1,5 @@
 from __future__ import annotations
 from dataclasses import dataclass
-import ipaddress
 import typing
 import functools
 
@@ -72,11 +71,15 @@ class M_RESERVATION:
 
     class GetDataAttr(ResponseBodyStruct):
         operation: ReservedStatus = field(XmpByte())
-        """coded byte, containing the operation to perform. The reservation parameters are asymmetric with respect to set/get. When set, it contains the operation to perform. When get, it contains the status."""
+        """coded byte, containing the operation to perform. The reservation parameters are asymmetric with respect to set/get.
+        When set, it contains the operation to perform. When get, it contains the status.
+        """
 
     class SetDataAttr(RequestBodyStruct):
         operation: ReservedAction = field(XmpByte())
-        """coded byte, containing the operation to perform. The reservation parameters are asymmetric with respect to set/get. When set, it contains the operation to perform. When get, it contains the status."""
+        """coded byte, containing the operation to perform. The reservation parameters are asymmetric with respect to set/get.
+        When set, it contains the operation to perform. When get, it contains the status.
+        """
 
     def get(self) -> Token[GetDataAttr]:
         """Get the reservation status of the test module.
@@ -253,7 +256,9 @@ class M_PORTCOUNT:
 
     .. note::
 
-        For a CFP-type module this number refers to the maximum number of ports possible on the module regardless of the media configuration. So if a CFP-type module can be set in for instance either 1x100G mode or 8x10G mode then this command will always return 8. If you want the current number of ports for a CFP-type module you need to read the M_CFPCONFIG` command which returns the number of current ports.
+        For a CFP-type module this number refers to the maximum number of ports possible on the module regardless of the media configuration.
+        So if a CFP-type module can be set in for instance either 1x100G mode or 8x10G mode then this command will always return 8.
+        If you want the current number of ports for a CFP-type module you need to read the M_CFPCONFIG` command which returns the number of current ports.
 
     """
 
@@ -328,7 +333,12 @@ class M_UPGRADEPROGRESS:
 
     class GetDataAttr(ResponseBodyStruct):
         progress: int = field(XmpInt())
-        """integer, the current stage within the three phases. 0: Failure. 1-100: Erase completion percentage. 101-200: Write completion percentage. 201-300: Verify completion percentage."""
+        """integer, the current stage within the three phases.
+            0: Failure.
+            1-100: Erase completion percentage.
+            101-200: Write completion percentage
+            201-300: Verify completion percentage.
+        """
 
     def get(self) -> Token[GetDataAttr]:
         """Get the current stage of an ongoing hardware image
@@ -336,7 +346,11 @@ class M_UPGRADEPROGRESS:
         completion by itself. The progress values are pushed to the client without it
         having to request them.
 
-        :param progress: the current stage within the three phases. 0: Failure. 1-100: Erase completion percentage. 101-200: Write completion percentage. 201-300: Verify completion percentage.
+        :param progress: the current stage within the three phases.
+            0: Failure.
+            1-100: Erase completion percentage.
+            101-200: Write completion percentage.
+            201-300: Verify completion percentage.
         :type progress: M_UPGRADEPROGRESS.GetDataAttr
         """
 
@@ -1131,7 +1145,9 @@ class M_LICENSE_DEMO_INFO:
         permanent: IsPermanent = field(XmpByte())
         """coded byte, if this is a demo module and the demo license is valid, specifies if the demo license is permanent."""
         expiration: int = field(XmpLong())
-        """long integer, if this is a demo module and the demo license is valid and not permanent, specifies the expiration date of the demo license - in seconds since Jan 1, 1970."""
+        """long integer, if this is a demo module and the demo license is valid and not permanent,
+        specifies the expiration date of the demo license - in seconds since Jan 1, 1970.
+        """
 
     def get(self) -> Token[GetDataAttr]:
         """Get info of the demo status of the test module. Only applicable to L47 test module.
@@ -1538,11 +1554,15 @@ class M_CLOCKPPBSWEEP:
         mode: PPMSweepMode = field(XmpInt())
         """coded byte, specifying the sweeping function."""
         ppb_step: int = field(XmpInt())
-        """integer >=0, the numeric clock adjustment in ppb per step of the sweep. If set to 0, the sweep will use as small steps as possible, creating a "linear" sweep of the clock rate."""
+        """integer >=0, the numeric clock adjustment in ppb per step of the sweep.
+        If set to 0, the sweep will use as small steps as possible, creating a "linear" sweep of the clock rate.
+        """
         step_delay: int = field(XmpInt())
         """integer >0 the delay in µs between each step in the sweep. If ppb_step is 0: The total time in µs to sweep linearly from 0 to max_ppb."""
         max_ppb: int = field(XmpInt())
-        """integer != 0, the numeric maximum clock adjustment. The sign of max_ppb determines if the sweep will start with positive or negative offsets. When the next step would exceed the limit set by max_ppb, the sweep changes direction. I.e. the deviation will sweep from 0 to max_ppb, to (-max_ppb), and back to 0."""
+        """integer != 0, the numeric maximum clock adjustment. The sign of max_ppb determines if the sweep will start with positive or negative offsets.
+        When the next step would exceed the limit set by max_ppb, the sweep changes direction. I.e. the deviation will sweep from 0 to max_ppb, to (-max_ppb), and back to 0.
+        """
         loops: int = field(XmpInt())
         """integer >=0, the number of full sweeps performed. 0 means "indefinitely"."""
 
@@ -1550,11 +1570,15 @@ class M_CLOCKPPBSWEEP:
         mode: PPMSweepMode = field(XmpInt())
         """coded byte, specifying the sweeping function: OFF or TRIANGLE"""
         ppb_step: int = field(XmpInt())
-        """integer >=0, the numeric clock adjustment in ppb per step of the sweep. If set to 0, the sweep will use as small steps as possible, creating a "linear" sweep of the clock rate."""
+        """integer >=0, the numeric clock adjustment in ppb per step of the sweep.
+        If set to 0, the sweep will use as small steps as possible, creating a "linear" sweep of the clock rate.
+        """
         step_delay: int = field(XmpInt())
         """integer >0 the delay in µs between each step in the sweep. If ppb_step is 0: The total time in µs to sweep linearly from 0 to max_ppb."""
         max_ppb: int = field(XmpInt())
-        """integer != 0, the numeric maximum clock adjustment. The sign of max_ppb determines if the sweep will start with positive or negative offsets. When the next step would exceed the limit set by max_ppb, the sweep changes direction. I.e. the deviation will sweep from 0 to max_ppb, to (-max_ppb), and back to 0."""
+        """integer != 0, the numeric maximum clock adjustment. The sign of max_ppb determines if the sweep will start with positive or negative offsets.
+        When the next step would exceed the limit set by max_ppb, the sweep changes direction. I.e. the deviation will sweep from 0 to max_ppb, to (-max_ppb), and back to 0.
+        """
         loops: int = field(XmpInt())
         """integer >=0, the number of full sweeps performed. 0 means "indefinitely"."""
 
@@ -1572,11 +1596,15 @@ class M_CLOCKPPBSWEEP:
 
         :param mode: specifying the sweeping function: OFF or TRIANGLE.
         :type mode: PPMSweepMode
-        :param ppb_step: >=0, the numeric clock adjustment in ppb per step of the sweep. If set to 0, the sweep will use as small steps as possible, creating a "linear" sweep of the clock rate.
+        :param ppb_step: >=0, the numeric clock adjustment in ppb per step of the sweep.
+            If set to 0, the sweep will use as small steps as possible, creating a "linear" sweep of the clock rate.
         :type ppb_step: int
         :param step_delay: >0 the delay in µs between each step in the sweep. If ppb_step is 0: The total time in µs to sweep linearly from 0 to max_ppb.
         :type step_delay: int
-        :param max_ppb: != 0, the numeric maximum clock adjustment. The sign of max_ppb determines if the sweep will start with positive or negative offsets. When the next step would exceed the limit set by max_ppb, the sweep changes direction. I.e. the deviation will sweep from 0 to max_ppb, to (-max_ppb), and back to 0.
+        :param max_ppb: != 0, the numeric maximum clock adjustment.
+            The sign of max_ppb determines if the sweep will start with positive or negative offsets.
+            When the next step would exceed the limit set by max_ppb, the sweep changes direction.
+            I.e. the deviation will sweep from 0 to max_ppb, to (-max_ppb), and back to 0.
         :type max_ppb: int
         :param loops: >=0, the number of full sweeps performed. 0 means "indefinitely".
         :type loops: int
@@ -1609,7 +1637,9 @@ class M_CLOCKSWEEPSTATUS:
         curr_step: int = field(XmpInt())
         """integer >=0 the current step number inside the sweep, counting from 0."""
         max_steps: int = field(XmpInt())
-        """integer, >0, the total number of steps comprising a full sweep. For "linear" sweeps (ppb_step=0, see M_CLOCKPPBSWEEP) this number is determined by the chassis. In other cases, the number is implicitly given by the M_CLOCKPPBSWEEP parameters."""
+        """integer, >0, the total number of steps comprising a full sweep. For "linear" sweeps (ppb_step=0, see M_CLOCKPPBSWEEP)
+        this number is determined by the chassis. In other cases, the number is implicitly given by the M_CLOCKPPBSWEEP parameters.
+        """
 
     def get(self) -> Token[GetDataAttr]:
         """Get the current status of the :class:`M_CLOCKPPBSWEEP` function.
@@ -1625,7 +1655,8 @@ class M_CLOCKSWEEPSTATUS:
 @dataclass
 class M_LATENCYMODE:
     """
-    Configures the latency mode for Chimera module. In extended latency mode, the FPGA allows all latency parameters to be 10 times higher, at the cost of reduced latency precision.
+    Configures the latency mode for Chimera module. In extended latency mode, the FPGA allows all latency parameters to be 10 times higher,
+    at the cost of reduced latency precision.
 
     .. note::
 

@@ -320,7 +320,21 @@ class PF_CONDITION:
 
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._filter_xindex], and_expression_0=and_expression_0, and_not_expression_0=and_not_expression_0, and_expression_1=and_expression_1, and_not_expression_1=and_not_expression_1, and_expression_2=and_expression_2, and_expression_3=and_expression_3))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._filter_xindex],
+                and_expression_0=and_expression_0,
+                and_not_expression_0=and_not_expression_0,
+                and_expression_1=and_expression_1,
+                and_not_expression_1=and_not_expression_1,
+                and_expression_2=and_expression_2,
+                and_expression_3=and_expression_3
+            )
+        )
 
 
 @register_command

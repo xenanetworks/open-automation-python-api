@@ -1550,9 +1550,17 @@ class LifecycleMode(IntEnum):
     ONCE = 0
     """Connections are established during the ramp-up phase and not closed until the ramp-down phase of the load profile. That is, each configured connection only exists once."""
     IMMORTAL = 1
-    """Connections are established during the ramp-up phase of the load profile, and are closed after the configured lifetime (configured by  P4G_RAW_CONN_LIFETIME). As connections close, new connections are established, attempting to keep the concurrent number of established connections constant. A new connection will have the same IP address as the connection it replaces, but will have a new TCP port number. This will simulate that the user (defined by the client IP address) is living on, and creates new connections as old connections close."""
+    """Connections are established during the ramp-up phase of the load profile, and are closed after the configured lifetime (configured by  P4G_RAW_CONN_LIFETIME).
+    As connections close, new connections are established, attempting to keep the concurrent number of established connections constant.
+    A new connection will have the same IP address as the connection it replaces, but will have a new TCP port number.
+    This will simulate that the user (defined by the client IP address) is living on, and creates new connections as old connections close.
+    """
     REINCARNATE = 2
-    """Connections are established during the ramp-up phase of the load profile, and are closed after the configured lifetime (configured by  P4G_RAW_CONN_LIFETIME). As connections close, new connections are established, attempting to keep the concurrent number of established connections constant. A new connection will have the same TCP port number as the connection it replaces, but will have a new IP address. This will simulate that the user (defined by the client IP address) ceases to exist, and new users appear as old users die."""
+    """Connections are established during the ramp-up phase of the load profile, and are closed after the configured lifetime (configured by  P4G_RAW_CONN_LIFETIME).
+    As connections close, new connections are established, attempting to keep the concurrent number of established connections constant.
+    A new connection will have the same TCP port number as the connection it replaces, but will have a new IP address.
+    This will simulate that the user (defined by the client IP address) ceases to exist, and new users appear as old users die.
+    """
 
 
 class L47IPVersion(IntEnum):

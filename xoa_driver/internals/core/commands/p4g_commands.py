@@ -359,11 +359,11 @@ class P4G_CLIENT_RANGE:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
 
-    def set(self, ipv4_address: typing.Union[str, int, ipaddress.IPv4Address], address_count: int, start_port: int, port_count: int, max_address_count: int) -> Token[None]:
+    def set(self, ipv4_address: ipaddress.IPv4Address, address_count: int, start_port: int, port_count: int, max_address_count: int) -> Token[None]:
         """Set the number of client sockets (ip address, port number)
 
         :param ipv4_address: the start IP address of the address range
-        :type ipv4_address: typing.Union[str, int, ipaddress.IPv4Address]
+        :type ipv4_address: ipaddress.IPv4Address
         :param address_count: the number of IP addresses
         :type address_count: int
         :param start_port: the starting port number of the port range
@@ -374,7 +374,20 @@ class P4G_CLIENT_RANGE:
         :type max_address_count: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], ipv4_address=ipv4_address, address_count=address_count, start_port=start_port, port_count=port_count, max_address_count=max_address_count))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._group_xindex],
+                ipv4_address=ipv4_address,
+                address_count=address_count,
+                start_port=start_port,
+                port_count=port_count,
+                max_address_count=max_address_count
+            )
+        )
 
 
 @register_command
@@ -421,11 +434,11 @@ class P4G_SERVER_RANGE:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
 
-    def set(self, ipv4_address: typing.Union[str, int, ipaddress.IPv4Address], address_count: int, start_port: int, port_count: int) -> Token[None]:
+    def set(self, ipv4_address: ipaddress.IPv4Address, address_count: int, start_port: int, port_count: int) -> Token[None]:
         """Set the number of server sockets (ip address, port number)
 
         :param ipv4_address: the start IP address of the address range
-        :type ipv4_address: typing.Union[str, int, ipaddress.IPv4Address]
+        :type ipv4_address: ipaddress.IPv4Address
         :param address_count: the number of IP addresses
         :type address_count: int
         :param start_port: the starting port number of the port range
@@ -434,7 +447,19 @@ class P4G_SERVER_RANGE:
         :type port_count: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], ipv4_address=ipv4_address, address_count=address_count, start_port=start_port, port_count=port_count))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._group_xindex],
+                ipv4_address=ipv4_address,
+                address_count=address_count,
+                start_port=start_port,
+                port_count=port_count
+            )
+        )
 
 
 @register_command
@@ -549,7 +574,19 @@ class P4G_LP_SHAPE:
         :type rampdown_duration: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], star_time=star_time, rampup_duration=rampup_duration, steady_duration=steady_duration, rampdown_duration=rampdown_duration))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._group_xindex],
+                star_time=star_time,
+                rampup_duration=rampup_duration,
+                steady_duration=steady_duration,
+                rampdown_duration=rampdown_duration
+            )
+        )
 
 
 @register_command
@@ -1526,7 +1563,18 @@ class P4G_TCP_SYN_RTO:
         :type backoff: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], retrans_timeout=retrans_timeout, retry_count=retry_count, backoff=backoff))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._group_xindex],
+                retrans_timeout=retrans_timeout,
+                retry_count=retry_count,
+                backoff=backoff
+            )
+        )
 
 
 @register_command
@@ -1586,7 +1634,19 @@ class P4G_TCP_RTO:
         :type backoff: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], rto_type=rto_type, retrans_timeout=retrans_timeout, retry_count=retry_count, backoff=backoff))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._group_xindex],
+                rto_type=rto_type,
+                retrans_timeout=retrans_timeout,
+                retry_count=retry_count,
+                backoff=backoff
+            )
+        )
 
     set_static = functools.partialmethod(set, RTOType.STATIC)
     """RTO is constant as configured"""
@@ -1920,13 +1980,15 @@ class P4G_TCP_RTO_PROLONGED_MODE:
         mode: IsEnabled = field(XmpByte())
         """byte, specifying whether to enable/disable prolonged retransmission mode"""
         timeout: int = field(XmpInt())
-        """retransmission timeout in milliseconds, when prolonged mode is enabled. when mode is set to 0, the value of the timeout is ignored, when mode is set to 1, the value of the timeout may not be 0"""
+        """retransmission timeout in milliseconds, when prolonged mode is enabled.
+        When mode is set to 0, the value of the timeout is ignored, when mode is set to 1, the value of the timeout may not be 0"""
 
     class SetDataAttr(RequestBodyStruct):
         mode: IsEnabled = field(XmpByte())
         """byte, specifying whether to enable/disable prolonged retransmission mode"""
         timeout: int = field(XmpInt())
-        """retransmission timeout in milliseconds, when prolonged mode is enabled. when mode is set to 0, the value of the timeout is ignored, when mode is set to 1, the value of the timeout may not be 0"""
+        """retransmission timeout in milliseconds, when prolonged mode is enabled.
+        When mode is set to 0, the value of the timeout is ignored, when mode is set to 1, the value of the timeout may not be 0"""
 
     def get(self) -> Token[GetDataAttr]:
         """Get TCP retransmission prolonged mode.
@@ -1942,7 +2004,8 @@ class P4G_TCP_RTO_PROLONGED_MODE:
 
         :param mode: specifying whether to enable/disable prolonged retransmission mode
         :type mode: IsEnabled
-        :param timeout: retransmission timeout in milliseconds, when prolonged mode is enabled. When ``mode`` is set to 0, the value of the timeout is ignored. When ``mode`` is set to 1, the value of the timeout may not be 0.
+        :param timeout: retransmission timeout in milliseconds, when prolonged mode is enabled.
+        When ``mode`` is set to 0, the value of the timeout is ignored. When ``mode`` is set to 1, the value of the timeout may not be 0.
         :type timeout: int
         """
 
@@ -2113,7 +2176,8 @@ class P4G_TCP_ACK_FREQUENCY:
 class P4G_TCP_ACK_TIMEOUT:
     """
     Delayed ACK timeout in microsecondsA pure ACK for the last RX packet will be
-    sent after P4G_TCP_ACK_TIMEOUT` microseconds in case it cannot be sent by other means, ie. a number of packets received since last ACK is less than P4G_TCP_ACK_FREQUENCY` and there is no TX packets to sent (to piggy-back an ACK)
+    sent after P4G_TCP_ACK_TIMEOUT` microseconds in case it cannot be sent by other means,
+    ie. a number of packets received since last ACK is less than P4G_TCP_ACK_FREQUENCY` and there is no TX packets to sent (to piggy-back an ACK)
     """
 
     code: typing.ClassVar[int] = 642
@@ -2396,16 +2460,19 @@ class P4G_L2_GW:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
 
-    def set(self, ipv4_address: typing.Union[str, int, ipaddress.IPv4Address], mac_address: str) -> Token[None]:
+    def set(self, ipv4_address: ipaddress.IPv4Address, mac_address: str) -> Token[None]:
         """Set a default gateway for IPv4.
 
         :param ipv4_address: IPv5 address of the gateway
-        :type ipv4_address: typing.Union[str, int, ipaddress.IPv4Address]
+        :type ipv4_address: ipaddress.IPv4Address
         :param mac_address: the MAC address of the gateway
         :type mac_address: str
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], ipv4_address=ipv4_address, mac_address=mac_address))
+        return Token(
+            self._connection,
+            build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], ipv4_address=ipv4_address, mac_address=mac_address)
+        )
 
 
 @register_command
@@ -2444,16 +2511,19 @@ class P4G_L2_IPV6_GW:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
 
-    def set(self, ipv6_address: typing.Union[str, int, ipaddress.IPv6Address], mac_address: str) -> Token[None]:
+    def set(self, ipv6_address: ipaddress.IPv6Address, mac_address: str) -> Token[None]:
         """Set the default gateway for IPv6.
 
         :param ipv6_address: the 16 bytes of IPv6 address of gateway
-        :type ipv6_address: typing.Union[str, int, ipaddress.IPv6Address]
+        :type ipv6_address: ipaddress.IPv6Address
         :param mac_address: the MAC address of the gateway
         :type mac_address: str
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], ipv6_address=ipv6_address, mac_address=mac_address))
+        return Token(
+            self._connection,
+            build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], ipv6_address=ipv6_address, mac_address=mac_address)
+        )
 
 
 @register_command
@@ -2836,13 +2906,15 @@ class P4G_RAW_CLOSE_CONN:
 
     In raw test scenario ``DOWNLOAD``, the server can close the connection, when all payload has been transmitted.
 
-    In raw test scenario ``UPLOAD``, the client can close the connection, when all payload has been transmitted. In any case, both server and client Connection Groups must be configured with the same value of this parameter.
+    In raw test scenario ``UPLOAD``, the client can close the connection, when all payload has been transmitted.
+    In any case, both server and client Connection Groups must be configured with the same value of this parameter.
 
     In raw test scenario ``BOTH`` (bidirectional), this parameter is N/A and will be ignored.
 
     In a transaction scenario, where P4G_RAW_HAS_DOWNLOAD_REQ` is set to ``YES``, both client and server can close the connection, when the last transaction has been completed.
 
-    When P4G_RAW_CONN_INCARNATION` is set to ``IMMORTAL`` or ``REINCARNATE``, and this command is set to ``NONE``, connections will be closed after 'connection lifetime', set by P4G_RAW_CONN_LIFETIME`.
+    When P4G_RAW_CONN_INCARNATION` is set to ``IMMORTAL`` or ``REINCARNATE``, and this command is set to ``NONE``,
+    connections will be closed after 'connection lifetime', set by P4G_RAW_CONN_LIFETIME`.
 
     .. note::
 
@@ -3040,7 +3112,17 @@ class P4G_RAW_TX_DURING_RAMP:
         :type should_close_conn_ramp_down: YesNo
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], should_close_conn_ramp_up=should_close_conn_ramp_up, should_close_conn_ramp_down=should_close_conn_ramp_down))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._group_xindex],
+                should_close_conn_ramp_up=should_close_conn_ramp_up,
+                should_close_conn_ramp_down=should_close_conn_ramp_down
+            )
+        )
 
 
 @register_command
@@ -3088,7 +3170,10 @@ class P4G_RAW_TX_TIME_OFFSET:
         :type stop_offset: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], start_offset=start_offset, stop_offset=stop_offset))
+        return Token(
+            self._connection,
+            build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], start_offset=start_offset, stop_offset=stop_offset)
+        )
 
 
 @register_command
@@ -3184,7 +3269,10 @@ class P4G_RAW_BURSTY_CONF:
         :type inactive_duration: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], active_duration=active_duration, inactive_duration=inactive_duration))
+        return Token(
+            self._connection,
+            build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], active_duration=active_duration, inactive_duration=inactive_duration)
+        )
 
 
 @register_command
@@ -3425,7 +3513,8 @@ class P4G_TRANSACTION_HIST_CONF:
 @dataclass
 class P4G_RAW_RX_PAYLOAD_LEN:
     """
-    Specify the length of the payload the Client should expect to receive before sending the next download request to the Server. Should be configured identical to the P4G_RAW_PAYLOAD_TOTAL_LEN` for the Server. If mode is set to INFINITE, effectively no request/response repetitions will be performed.
+    Specify the length of the payload the Client should expect to receive before sending the next download request to the Server.
+    Should be configured identical to the P4G_RAW_PAYLOAD_TOTAL_LEN` for the Server. If mode is set to INFINITE, effectively no request/response repetitions will be performed.
 
     .. note::
 
@@ -3584,10 +3673,18 @@ class P4G_RAW_CONN_INCARNATION:
     """Connections are established during the ramp-up phase and not closed until the ramp-down phase of the load profile. That is, each configured connection only exists once."""
 
     set_immortal = functools.partialmethod(set, LifecycleMode.IMMORTAL)
-    """Connections are established during the ramp-up phase of the load profile, and are closed after the configured lifetime (configured by P4G_RAW_CONN_LIFETIME`). As connections close, new connections are established, attempting to keep the concurrent number of established connections constant. A new connection will have the same IP address as the connection it replaces, but will have a new TCP port number. This will simulate that the user (defined by the client IP address) is living on, and creates new connections as old connections close."""
+    """Connections are established during the ramp-up phase of the load profile, and are closed after the configured lifetime (configured by P4G_RAW_CONN_LIFETIME`).
+    As connections close, new connections are established, attempting to keep the concurrent number of established connections constant.
+    A new connection will have the same IP address as the connection it replaces, but will have a new TCP port number.
+    This will simulate that the user (defined by the client IP address) is living on, and creates new connections as old connections close.
+    """
 
     set_reincarnate = functools.partialmethod(set, LifecycleMode.REINCARNATE)
-    """Connections are established during the ramp-up phase of the load profile, and are closed after the configured lifetime (configured by P4G_RAW_CONN_LIFETIME`). As connections close, new connections are established, attempting to keep the concurrent number of established connections constant. A new connection will have the same TCP port number as the connection it replaces, but will have a new IP address. This will simulate that the user (defined by the client IP address) ceases to exist, and new users appear as old users die."""
+    """Connections are established during the ramp-up phase of the load profile, and are closed after the configured lifetime (configured by P4G_RAW_CONN_LIFETIME`).
+    As connections close, new connections are established, attempting to keep the concurrent number of established connections constant.
+    A new connection will have the same TCP port number as the connection it replaces, but will have a new IP address.
+    This will simulate that the user (defined by the client IP address) ceases to exist, and new users appear as old users die.
+    """
 
 
 @register_command
@@ -3802,11 +3899,11 @@ class P4G_IPV6_CLIENT_RANGE:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
 
-    def set(self, ipv6_address: typing.Union[str, int, ipaddress.IPv6Address], address_count: int, start_port: int, port_count: int, max_address_count: int) -> Token[None]:
+    def set(self, ipv6_address: ipaddress.IPv6Address, address_count: int, start_port: int, port_count: int, max_address_count: int) -> Token[None]:
         """Set the number of client sockets (IPv6 address, port number).
 
         :param ipv6_address: the start ip address of the address range
-        :type ipv6_address: typing.Union[str, int, ipaddress.IPv6Address]
+        :type ipv6_address: ipaddress.IPv6Address
         :param address_count: the number of IPv6 addresses
         :type address_count: int
         :param start_port: the start port number of the port range
@@ -3817,7 +3914,20 @@ class P4G_IPV6_CLIENT_RANGE:
         :type max_address_count: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], ipv6_address=ipv6_address, address_count=address_count, start_port=start_port, port_count=port_count, max_address_count=max_address_count))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._group_xindex],
+                ipv6_address=ipv6_address,
+                address_count=address_count,
+                start_port=start_port,
+                port_count=port_count,
+                max_address_count=max_address_count
+            )
+        )
 
 
 @register_command
@@ -3864,11 +3974,11 @@ class P4G_IPV6_SERVER_RANGE:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
 
-    def set(self, ipv6_address: typing.Union[str, int, ipaddress.IPv6Address], address_count: int, start_port: int, port_count: int) -> Token[None]:
+    def set(self, ipv6_address: ipaddress.IPv6Address, address_count: int, start_port: int, port_count: int) -> Token[None]:
         """Set the number of server sockets (IPv6 address, port number).
 
         :param ipv6_address: the start IPv6 address of the address range
-        :type ipv6_address: typing.Union[str, int, ipaddress.IPv6Address]
+        :type ipv6_address: ipaddress.IPv6Address
         :param address_count: the number of IPv6 addresses
         :type address_count: int
         :param start_port: the start port number of the port range
@@ -3877,7 +3987,19 @@ class P4G_IPV6_SERVER_RANGE:
         :type port_count: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], ipv6_address=ipv6_address, address_count=address_count, start_port=start_port, port_count=port_count))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._group_xindex],
+                ipv6_address=ipv6_address,
+                address_count=address_count,
+                start_port=start_port,
+                port_count=port_count
+            )
+        )
 
 
 @register_command
@@ -5382,7 +5504,8 @@ class P4G_CLEAR_POST_STAT:
 @dataclass
 class P4G_RECALC_TIME_HIST:
     """
-    Recalculates connection time histograms (retrieved with: P4G_TCP_ESTABLISH_HIST` and P4G_TCP_CLOSE_HIST`). Used in case time histogram configuration has been changed (using P4G_TIME_HIST_CONF`).
+    Recalculates connection time histograms (retrieved with: P4G_TCP_ESTABLISH_HIST` and P4G_TCP_CLOSE_HIST`).
+    Used in case time histogram configuration has been changed (using P4G_TIME_HIST_CONF`).
     """
 
     code: typing.ClassVar[int] = 791
@@ -5407,8 +5530,9 @@ class P4G_RECALC_TIME_HIST:
 @dataclass
 class P4G_RECALC_PAYLOAD_HIST:
     """
-    Recalculates connection payload histograms (retrieved with: P4G_TCP_RX_TOTAL_BYTES_HIST`, P4G_TCP_RX_GOOD_BYTES_HIST`, P4G_TCP_TX_TOTAL_BYTES_HIST` and P4G_TCP_TX_GOOD_BYTES_HIST`). Used in case
-    payload histogram configuration has been changed (using P4G_PAYLOAD_HIST_CONF`)
+    Recalculates connection payload histograms (retrieved with:
+    P4G_TCP_RX_TOTAL_BYTES_HIST`, P4G_TCP_RX_GOOD_BYTES_HIST`, P4G_TCP_TX_TOTAL_BYTES_HIST` and P4G_TCP_TX_GOOD_BYTES_HIST`).
+    Used in case payload histogram configuration has been changed (using P4G_PAYLOAD_HIST_CONF`)
     """
 
     code: typing.ClassVar[int] = 792
@@ -5460,7 +5584,8 @@ class P4G_RECALC_TRANSACTION_HIST:
 class P4G_REPLAY_FILE_INDICES:
     """
     Returns an index list of configured Replay Files for this Connection Group.
-    These are the Replay File Index that are used for P4G_REPLAY_FILE_NAME` and P4G_REPLAY_FILE_CLEAR` commands.  More than one Replay File can be configured for a Connection Group. When configuring a Replay File for a Connection Group, it must have an index.
+    These are the Replay File Index that are used for P4G_REPLAY_FILE_NAME` and P4G_REPLAY_FILE_CLEAR` commands.
+    More than one Replay File can be configured for a Connection Group. When configuring a Replay File for a Connection Group, it must have an index.
     """
 
     code: typing.ClassVar[int] = 900
@@ -5641,13 +5766,25 @@ class P4G_REPLAY_USER_INCARNATION:
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], mode=mode))
 
     set_once = functools.partialmethod(set, LifecycleMode.ONCE)
-    """Users are created and its connections are established during the ramp-up phase and not closed until the ramp-down phase of the load profile. That is, each configured user only exists once."""
+    """Users are created and its connections are established during the ramp-up phase and not closed until the ramp-down phase of the load profile.
+    That is, each configured user only exists once.
+    """
 
     set_immortal = functools.partialmethod(set, LifecycleMode.IMMORTAL)
-    """Users are created and its connections are established during the ramp-up phase of the load profile. Each connection is closed when all payload in the Replay File for that connection has been transmitted. A user is destroyed when all its connections are closed. As users are destroyed, new users are created, attempting to keep the concurrent number of users constant. A new user will have the same IP address as the user he replaces, but the new connections will have new TCP/UDP port numbers. This will simulate that the user is living on, and creates new connections as old connections close."""
+    """Users are created and its connections are established during the ramp-up phase of the load profile.
+    Each connection is closed when all payload in the Replay File for that connection has been transmitted.
+    A user is destroyed when all its connections are closed. As users are destroyed, new users are created, attempting to keep the concurrent number of users constant.
+    A new user will have the same IP address as the user he replaces, but the new connections will have new TCP/UDP port numbers.
+    This will simulate that the user is living on, and creates new connections as old connections close.
+    """
 
     set_reincarnate = functools.partialmethod(set, LifecycleMode.REINCARNATE)
-    """Users are created and its connections are established during the ramp-up phase of the load profile. Each connection is closed when all payload in the Replay File for that connection has been transmitted. A user is destroyed when all its connections are closed. As users are destroyed, new users are created, attempting to keep the concurrent number of users constant. A new user will have a different IP address than the user it replaces, but its connection will have the same TCP/UDP port numbers. This will simulate that the user ceases to exist, and new users appear as old users die."""
+    """Users are created and its connections are established during the ramp-up phase of the load profile.
+    Each connection is closed when all payload in the Replay File for that connection has been transmitted. A user is destroyed when all its
+    connections are closed. As users are destroyed, new users are created, attempting to keep the concurrent number of users constant.
+    A new user will have a different IP address than the user it replaces, but its connection will have the same TCP/UDP port numbers.
+    This will simulate that the user ceases to exist, and new users appear as old users die.
+    """
 
 
 @register_command

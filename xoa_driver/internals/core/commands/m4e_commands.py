@@ -1,6 +1,5 @@
 from __future__ import annotations
 from dataclasses import dataclass
-import ipaddress
 import typing
 import functools
 

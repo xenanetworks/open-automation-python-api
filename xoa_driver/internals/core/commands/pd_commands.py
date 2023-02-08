@@ -223,7 +223,18 @@ class PD_SOURCE:
         :type identity: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._dataset_xindex], source_type=source_type, which_packets=which_packets, identity=identity))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._dataset_xindex],
+                source_type=source_type,
+                which_packets=which_packets,
+                identity=identity
+            )
+        )
 
 
 @register_command
@@ -252,7 +263,10 @@ class PD_RANGE:
         start: int = field(XmpInt())
         """integer, first value going into the second bucket."""
         step: int = field(XmpInt())
-        """integer, the span of each middle bucket: (1) 1,2,4,8,16,32,64,128,256,512 (bytes, non-latency histograms). (2) 16,32,64,128,...,1048576,2097152 (nanoseconds, latency histograms)."""
+        """integer, the span of each middle bucket:
+            (1) 1,2,4,8,16,32,64,128,256,512 (bytes, non-latency histograms).
+            (2) 16,32,64,128,...,1048576,2097152 (nanoseconds, latency histograms).
+        """
         bucket_count: int = field(XmpInt())
         """integer, the total number of buckets."""
 
@@ -260,7 +274,10 @@ class PD_RANGE:
         start: int = field(XmpInt())
         """integer, first value going into the second bucket."""
         step: int = field(XmpInt())
-        """integer, the span of each middle bucket: (1) 1,2,4,8,16,32,64,128,256,512 (bytes, non-latency histograms). (2) 16,32,64,128,...,1048576,2097152 (nanoseconds, latency histograms)."""
+        """integer, the span of each middle bucket:
+            (1) 1,2,4,8,16,32,64,128,256,512 (bytes, non-latency histograms).
+            (2) 16,32,64,128,...,1048576,2097152 (nanoseconds, latency histograms).
+        """
         bucket_count: int = field(XmpInt())
         """integer, the total number of buckets."""
 
@@ -285,13 +302,26 @@ class PD_RANGE:
 
         :param start: first value going into the second bucket
         :type start: int
-        :param step: the span of each middle bucket: (1) 1,2,4,8,16,32,64,128,256,512 (bytes, non-latency histograms). (2) 16,32,64,128,...,1048576,2097152 (nanoseconds, latency histograms)
+        :param step: the span of each middle bucket:
+            (1) 1,2,4,8,16,32,64,128,256,512 (bytes, non-latency histograms).
+            (2) 16,32,64,128,...,1048576,2097152 (nanoseconds, latency histograms)
         :type step: int
         :param bucket_count: the total number of buckets
         :type bucket_count: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._dataset_xindex], start=start, step=step, bucket_count=bucket_count))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._dataset_xindex],
+                start=start,
+                step=step,
+                bucket_count=bucket_count
+            )
+        )
 
 
 @register_command

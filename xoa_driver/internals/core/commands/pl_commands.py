@@ -164,7 +164,10 @@ class PL_LENGTH:
         :type size: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._length_term_xindex], length_check_type=length_check_type, size=size))
+        return Token(
+            self._connection,
+            build_set_request(self, module=self._module, port=self._port, indices=[self._length_term_xindex], length_check_type=length_check_type, size=size)
+        )
 
     set_at_most = functools.partialmethod(set, LengthCheckType.AT_MOST)
     """Set the length check to be short than or equal to the given length (at most).

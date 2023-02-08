@@ -85,11 +85,18 @@ class P_RESERVATION:
 
     class GetDataAttr(ResponseBodyStruct):
         status: ReservedStatus = field(XmpByte())
-        """coded byte, containing the operation to perform. The reservation parameters are asymmetric with respect to set/get. When set, it contains the operation to perform. When get, it contains the status."""
+        """coded byte, containing the operation to perform.
+        The reservation parameters are asymmetric with respect to set/get.
+        When set, it contains the operation to perform. When get, it contains the status.
+        """
 
     class SetDataAttr(RequestBodyStruct):
         operation: ReservedAction = field(XmpByte())
-        """coded byte, containing the operation to perform. The reservation parameters are asymmetric with respect to set/get. When set, it contains the operation to perform. When get, it contains the status."""
+        """coded byte, containing the operation to perform.
+        The reservation parameters are asymmetric with respect to set/get.
+        When set, it contains the operation to perform.
+        When get, it contains the status.
+        """
 
     def get(self) -> Token[GetDataAttr]:
         """Get the reservation status of the test port.
@@ -291,7 +298,12 @@ class P_CAPABILITIES:
         can_pcs_pma_config: int = field(XmpInt())
         """integer, whether this port can provide PCS/PMA configuration and status"""
         can_fec: int = field(XmpInt(signed=False))
-        """bit map encoded, [0] = KR FEC, [1] = KP FEC, [2] = FC FEC, [31] = Mandatory (If this bit is set, you have to have FEC mode turned on in either of the supported mode, but you cannot turn FEC off.)"""
+        """bit map encoded,
+            [0] = KR FEC,
+            [1] = KP FEC,
+            [2] = FC FEC,
+            [31] = Mandatory (If this bit is set, you have to have FEC mode turned on in either of the supported mode, but you cannot turn FEC off.)
+        """
         can_fec_stats: int = field(XmpInt())
         """bit map encoded, can this port provide advanced FEC stats of type x? [0] = symbol error distribution"""
         can_tx_eq: int = field(XmpInt())
@@ -303,7 +315,19 @@ class P_CAPABILITIES:
         prbs_inversions_supported: int = field(XmpInt())
         """bit map encoded, [0] = lane-based supports inv, [1] = PHY-based supports inv, [2-31] = reserved"""
         prbs_polys_supported: list[int] = field(XmpSequence(types_chunk=[XmpInt()], length=5))
-        """5 integers, bit map for each PRBS type (above). [0] = PRBS7, [1] = PRBS9, [2] = PRBS11, [3] = PRBS15, [4] = PRBS23, [5] = PRBS31, [6] = PRBS58, [7] = PRBS49, [8] = PRBS10, [9] = PRBS20, [10] = PRBS13"""
+        """5 integers, bit map for each PRBS type (above).
+            [0] = PRBS7,
+            [1] = PRBS9,
+            [2] = PRBS11,
+            [3] = PRBS15,
+            [4] = PRBS23,
+            [5] = PRBS31,
+            [6] = PRBS58,
+            [7] = PRBS49,
+            [8] = PRBS10,
+            [9] = PRBS20,
+            [10] = PRBS13
+        """
         serdes_count: int = field(XmpInt())
         """integer, number of physical serdes on line-side"""
         lane_count: int = field(XmpInt())
@@ -763,7 +787,7 @@ class P_IPADDRESS:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, ipv4_address: typing.Union[str, int, ipaddress.IPv4Address], subnet_mask: typing.Union[str, int, ipaddress.IPv4Address], gateway: typing.Union[str, int, ipaddress.IPv4Address], wild: typing.Union[str, int, ipaddress.IPv4Address]) -> Token[None]:
+    def set(self, ipv4_address: ipaddress.IPv4Address, subnet_mask: ipaddress.IPv4Address, gateway: ipaddress.IPv4Address, wild: ipaddress.IPv4Address) -> Token[None]:
         """Set the IPv4 address, subnet mask, gateway address and wildcard used for ARP and PING replies of the port.
 
         :param ipv4_address: the IPv4 address of the port
@@ -776,7 +800,10 @@ class P_IPADDRESS:
         :type wild: Union[str, int, ipaddress.IPv4Address]
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, ipv4_address=ipv4_address, subnet_mask=subnet_mask, gateway=gateway, wild=wild))
+        return Token(
+            self._connection,
+            build_set_request(self, module=self._module, port=self._port, ipv4_address=ipv4_address, subnet_mask=subnet_mask, gateway=gateway, wild=wild)
+        )
 
 
 @register_command
@@ -1115,7 +1142,8 @@ class P_TRAFFIC:
 
     .. note::
 
-        From Release 57.1, if any of the specified packet sizes cannot fit into the packet generator, this command will return FAILED and not start the traffic. While traffic is on the streams for this port cannot be enabled or disabled, and the configuration of those streams that are enabled cannot be changed.
+        From Release 57.1, if any of the specified packet sizes cannot fit into the packet generator, this command will return FAILED and not start the traffic.
+        While traffic is on the streams for this port cannot be enabled or disabled, and the configuration of those streams that are enabled cannot be changed.
 
     """
 
@@ -1234,7 +1262,8 @@ class P_XMITONE:
         """list of hex bytes, the data content of the packet to be transmitted."""
 
     def set(self, hex_data: str) -> Token[None]:
-        """Transmits a single packet from a port, independent of the stream definitions, and independent of whether traffic is on. A valid Frame Check Sum is written into the final four bytes.
+        """Transmits a single packet from a port, independent of the stream definitions, and independent of whether traffic is on.
+        A valid Frame Check Sum is written into the final four bytes.
 
         :param hex_data: raw bytes of the packet in hex to transmit
         :rtype: List[str]
@@ -1350,11 +1379,14 @@ class P_LATENCYMODE:
     """
 
     set_last2first = functools.partialmethod(set, LatencyMode.LAST2FIRST)
-    """Set the port latency mode to LAST2FIRST (Last-bit-out to first-bit-in, which subtracts the time taken to transmit the packet itself. The same latency mode must be configured for the transmitting port and the receiving port; otherwise invalid measurements will occur).
+    """Set the port latency mode to LAST2FIRST (Last-bit-out to first-bit-in, which subtracts the time taken to transmit the packet itself.
+    The same latency mode must be configured for the transmitting port and the receiving port; otherwise invalid measurements will occur).
     """
 
     set_first2first = functools.partialmethod(set, LatencyMode.FIRST2FIRST)
-    """Set the port latency mode to FIRST2FIRST (First-bit-out to first-bit-in, which adds the time taken to transmit the packet itself, and subtracts the time taken to transmit the packet itself. The same latency mode must be configured for the transmitting port and the receiving port; otherwise invalid measurements will occur).
+    """Set the port latency mode to FIRST2FIRST
+    (First-bit-out to first-bit-in, which adds the time taken to transmit the packet itself, and subtracts the time taken to transmit the packet itself.
+    The same latency mode must be configured for the transmitting port and the receiving port; otherwise invalid measurements will occur).
     """
 
 
@@ -1434,9 +1466,11 @@ class P_UAT_MODE:
         """integer, time in milliseconds to wait before detection of UAT is started. Default value: 500. This parameter is ignored when state is set to OFF."""
 
     def get(self) -> Token[GetDataAttr]:
-        """Get the state of the affected stream counters and time in milliseconds to wait before detection of UAT is started. Default value: 500. This command is ignored when state is set to OFF.
+        """Get the state of the affected stream counters and time in milliseconds to wait before detection of UAT is started. Default value: 500.
+        This command is ignored when state is set to OFF.
 
-        :return: the state of the affected stream counters and time in milliseconds to wait before detection of UAT is started. Default value: 500. This command is ignored when state is set to OFF.
+        :return: the state of the affected stream counters and time in milliseconds to wait before detection of UAT is started. Default value: 500.
+        This command is ignored when state is set to OFF.
         :rtype: P_UAT_MODE.GetDataAttr
         """
 
@@ -1610,7 +1644,25 @@ class P_MIXWEIGHTS:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, weight_56_bytes: int, weight_60_bytes: int, weight_64_bytes: int, weight_70_bytes: int, weight_78_bytes: int, weight_92_bytes: int, weight_256_bytes: int, weight_496_bytes: int, weight_512_bytes: int, weight_570_bytes: int, weight_576_bytes: int, weight_594_bytes: int, weight_1438_bytes: int, weight_1518_bytes: int, weight_9216_bytes: int, weight_16360_bytes: int) -> Token[None]:
+    def set(
+        self,
+        weight_56_bytes: int,
+        weight_60_bytes: int,
+        weight_64_bytes: int,
+        weight_70_bytes: int,
+        weight_78_bytes: int,
+        weight_92_bytes: int,
+        weight_256_bytes: int,
+        weight_496_bytes: int,
+        weight_512_bytes: int,
+        weight_570_bytes: int,
+        weight_576_bytes: int,
+        weight_594_bytes: int,
+        weight_1438_bytes: int,
+        weight_1518_bytes: int,
+        weight_9216_bytes: int,
+        weight_16360_bytes: int
+    ) -> Token[None]:
         """Set the percentage of each of the
         16 possible frame sizes used in the MIX. The sum of the percentage values specified must
         be 100. The command will affect the mix-distribution for all streams on the port.
@@ -1651,7 +1703,30 @@ class P_MIXWEIGHTS:
         :type weight_16360_bytes: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, weight_56_bytes=weight_56_bytes, weight_60_bytes=weight_60_bytes, weight_64_bytes=weight_64_bytes, weight_70_bytes=weight_70_bytes, weight_78_bytes=weight_78_bytes, weight_92_bytes=weight_92_bytes, weight_256_bytes=weight_256_bytes, weight_496_bytes=weight_496_bytes, weight_512_bytes=weight_512_bytes, weight_570_bytes=weight_570_bytes, weight_576_bytes=weight_576_bytes, weight_594_bytes=weight_594_bytes, weight_1438_bytes=weight_1438_bytes, weight_1518_bytes=weight_1518_bytes, weight_9216_bytes=weight_9216_bytes, weight_16360_bytes=weight_16360_bytes))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                weight_56_bytes=weight_56_bytes,
+                weight_60_bytes=weight_60_bytes,
+                weight_64_bytes=weight_64_bytes,
+                weight_70_bytes=weight_70_bytes,
+                weight_78_bytes=weight_78_bytes,
+                weight_92_bytes=weight_92_bytes,
+                weight_256_bytes=weight_256_bytes,
+                weight_496_bytes=weight_496_bytes,
+                weight_512_bytes=weight_512_bytes,
+                weight_570_bytes=weight_570_bytes,
+                weight_576_bytes=weight_576_bytes,
+                weight_594_bytes=weight_594_bytes,
+                weight_1438_bytes=weight_1438_bytes,
+                weight_1518_bytes=weight_1518_bytes,
+                weight_9216_bytes=weight_9216_bytes,
+                weight_16360_bytes=weight_16360_bytes
+            )
+        )
 
 
 @register_command
@@ -1805,14 +1880,25 @@ class P_CHECKSUM:
 
     class GetDataAttr(ResponseBodyStruct):
         offset: int = field(XmpByte())
-        """byte, the offset in the packet where the calculation of the extra checksum is started from. Set to OFF or 0 to disable. Valid enable range is [8 .. 127, ON]. Please observe that ON equals the value 14. Please also observe that P_CHECKSUM ? will return OFF if set to 0 (or OFF) and that P_CHECKSUM ? will return ON if set to 14 (or ON)."""
+        """byte, the offset in the packet where the calculation of the extra checksum is started from. Set to OFF or 0 to disable.
+        Valid enable range is [8 .. 127, ON].
+        Please observe that ON equals the value 14.
+        Please also observe that P_CHECKSUM ? will return OFF if set to 0 (or OFF) and that P_CHECKSUM ? will return ON if set to 14 (or ON).
+        """
 
     class SetDataAttr(RequestBodyStruct):
         offset: int = field(XmpByte())
-        """byte, the offset in the packet where the calculation of the extra checksum is started from. Set to OFF or 0 to disable. Valid enable range is [8 .. 127]. Please observe that ON equals the value 14. Please also observe that P_CHECKSUM ? will return OFF if set to 0 (or OFF) and that P_CHECKSUM ? will return ON if set to 14 (or ON)."""
+        """byte, the offset in the packet where the calculation of the extra checksum is started from. Set to OFF or 0 to disable.
+        Valid enable range is [8 .. 127].
+        Please observe that ON equals the value 14.
+        Please also observe that P_CHECKSUM ? will return OFF if set to 0 (or OFF) and that P_CHECKSUM ? will return ON if set to 14 (or ON).
+        """
 
     def get(self) -> Token[GetDataAttr]:
-        """Get the offset in the packet where the calculation of the extra checksum is started from. Set to OFF or 0 to disable. Valid enable range is [8 .. 127, ON]. Please observe that ON equals the value 14. Please also observe that P_CHECKSUM ? will return OFF if set to 0 (or OFF) and that P_CHECKSUM ? will return ON if set to 14 (or ON).
+        """Get the offset in the packet where the calculation of the extra checksum is started from. Set to OFF or 0 to disable.
+        Valid enable range is [8 .. 127, ON].
+        Please observe that ON equals the value 14.
+        Please also observe that P_CHECKSUM ? will return OFF if set to 0 (or OFF) and that P_CHECKSUM ? will return ON if set to 14 (or ON).
 
         :return: the offset in the packet where the calculation of the extra checksum is started from
         :rtype: P_CHECKSUM.GetDataAttr
@@ -1821,8 +1907,10 @@ class P_CHECKSUM:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
     def set(self, offset: int) -> Token[None]:
-        """Set the offset in the packet where the calculation of the extra checksum is started from. Set to OFF or 0 to disable. Valid enable range is [8 .. 127, ON].
-        Please observe that ON equals the value 14. Please also observe that P_CHECKSUM ? will return OFF if set to 0 (or OFF) and that P_CHECKSUM ? will return ON if set to 14 (or ON).
+        """Set the offset in the packet where the calculation of the extra checksum is started from.
+        Set to OFF or 0 to disable. Valid enable range is [8 .. 127, ON].
+        Please observe that ON equals the value 14.
+        Please also observe that P_CHECKSUM ? will return OFF if set to 0 (or OFF) and that P_CHECKSUM ? will return ON if set to 14 (or ON).
 
         :param offset:  the offset in the packet where the calculation of the extra checksum is started from
         :type offset: int
@@ -2113,7 +2201,17 @@ class P_MULTICAST:
         :type second_count: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, ipv4_multicast_addresses=ipv4_multicast_addresses, operation=operation, second_count=second_count))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                ipv4_multicast_addresses=ipv4_multicast_addresses,
+                operation=operation,
+                second_count=second_count
+            )
+        )
 
     set_off = functools.partialmethod(set, operation=MulticastOperation.OFF)
     """Set port's multicast operation to Off.
@@ -2190,7 +2288,18 @@ class P_MULTICASTEXT:
         :type igmp_version: IGMPVersion
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, ipv4_multicast_addresses=ipv4_multicast_addresses, operation=operation, second_count=second_count, igmp_version=igmp_version))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                ipv4_multicast_addresses=ipv4_multicast_addresses,
+                operation=operation,
+                second_count=second_count,
+                igmp_version=igmp_version
+            )
+        )
 
 
 @register_command
@@ -2270,16 +2379,30 @@ class P_TXMODE:
 
     class GetDataAttr(ResponseBodyStruct):
         mode: TXMode = field(XmpByte())
-        """coded byte, containing the loopback mode for the port: NORMAL (interleaved packet scheduling), STRICTUNIFORM (strict uniform mode), SEQUENTIAL (sequential packet scheduling), BURST (burst mode)."""
+        """coded byte, containing the loopback mode for the port:
+            NORMAL (interleaved packet scheduling),
+            STRICTUNIFORM (strict uniform mode),
+            SEQUENTIAL (sequential packet scheduling),
+            BURST (burst mode).
+        """
 
     class SetDataAttr(RequestBodyStruct):
         mode: TXMode = field(XmpByte())
-        """coded byte, containing the loopback mode for the port: NORMAL (interleaved packet scheduling), STRICTUNIFORM (strict uniform mode), SEQUENTIAL (sequential packet scheduling), BURST (burst mode)."""
+        """coded byte, containing the loopback mode for the port:
+        NORMAL (interleaved packet scheduling),
+        STRICTUNIFORM (strict uniform mode),
+        SEQUENTIAL (sequential packet scheduling),
+        BURST (burst mode).
+        """
 
     def get(self) -> Token[GetDataAttr]:
         """Get the scheduling mode for outgoing traffic from the port.
 
-        :return: the scheduling mode for outgoing traffic from the port, containing the loopback mode for the port: NORMAL (interleaved packet scheduling), STRICTUNIFORM (strict uniform mode), SEQUENTIAL (sequential packet scheduling), BURST (burst mode).
+        :return: the scheduling mode for outgoing traffic from the port, containing the loopback mode for the port:
+            NORMAL (interleaved packet scheduling),
+            STRICTUNIFORM (strict uniform mode),
+            SEQUENTIAL (sequential packet scheduling),
+            BURST (burst mode).
         :rtype: P_TXMODE.GetDataAttr
         """
 
@@ -2288,7 +2411,11 @@ class P_TXMODE:
     def set(self, mode: TXMode) -> Token[None]:
         """Set the the scheduling mode for outgoing traffic from the port.
 
-        :param mode: the scheduling mode for outgoing traffic from the port, containing the loopback mode for the port: NORMAL (interleaved packet scheduling), STRICTUNIFORM (strict uniform mode), SEQUENTIAL (sequential packet scheduling), BURST (burst mode).
+        :param mode: the scheduling mode for outgoing traffic from the port, containing the loopback mode for the port:
+            NORMAL (interleaved packet scheduling),
+            STRICTUNIFORM (strict uniform mode),
+            SEQUENTIAL (sequential packet scheduling),
+            BURST (burst mode).
         :type mode: TXMode
         """
 
@@ -2374,7 +2501,19 @@ class P_MULTICASTHDR:
         :type dei: OnOff
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, header_count=header_count, header_format=header_format, tag=tag, pcp=pcp, dei=dei))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                header_count=header_count,
+                header_format=header_format,
+                tag=tag,
+                pcp=pcp,
+                dei=dei
+            )
+        )
 
 
 @register_command
@@ -2492,18 +2631,22 @@ class P_RATEL2BPS:
         """long integer, port rate expressed as bits-per-second."""
 
     def get(self) -> Token[GetDataAttr]:
-        """Get the port-level rate of the traffic transmitted for a port in sequential tx mode, expressed in units of bits per-second at layer-2, thus including the Ethernet header but excluding the inter-frame gap.
+        """Get the port-level rate of the traffic transmitted for a port in sequential tx mode,
+        expressed in units of bits per-second at layer-2, thus including the Ethernet header but excluding the inter-frame gap.
 
-        :return: the port-level rate of the traffic transmitted for a port in sequential tx mode, expressed in units of bits per-second at layer-2, thus including the Ethernet header but excluding the inter-frame gap
+        :return: the port-level rate of the traffic transmitted for a port in sequential tx mode,
+        expressed in units of bits per-second at layer-2, thus including the Ethernet header but excluding the inter-frame gap
         :rtype: P_RATEL2BPS.GetDataAttr
         """
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
     def set(self, port_rate_bps: int) -> Token[None]:
-        """Set the port-level rate of the traffic transmitted for a port in sequential tx mode, expressed in units of bits per-second at layer-2, thus including the Ethernet header but excluding the inter-frame gap.
+        """Set the port-level rate of the traffic transmitted for a port in sequential tx mode, expressed in units of bits per-second at layer-2,
+        thus including the Ethernet header but excluding the inter-frame gap.
 
-        :param port_rate_bps: the port-level rate of the traffic transmitted for a port in sequential tx mode, expressed in units of bits per-second at layer-2, thus including the Ethernet header but excluding the inter-frame gap
+        :param port_rate_bps: the port-level rate of the traffic transmitted for a port in sequential tx mode,
+        expressed in units of bits per-second at layer-2, thus including the Ethernet header but excluding the inter-frame gap
         :type port_rate_bps: int
         """
 
@@ -2573,7 +2716,9 @@ class P_PAYLOADMODE:
 @dataclass
 class P_BRRMODE:
     """
-    Selects the Master/Slave setting of 100 Mbit/s (requires Valkyrie release 76.1 or higher) and 1000 Mbit/s (requires Valkyrie release 76.2 or higher) BroadR-Reach copper interfaces.
+    Selects the Master/Slave setting of
+    100 Mbit/s (requires Valkyrie release 76.1 or higher),
+    1000 Mbit/s (requires Valkyrie release 76.2 or higher) BroadR-Reach copper interfaces.
     """
 
     code: typing.ClassVar[int] = 326
@@ -2859,7 +3004,7 @@ class P_IPV6ADDRESS:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, ipv6_address: typing.Union[str, int, ipaddress.IPv6Address], gateway: typing.Union[str, int, ipaddress.IPv6Address], subnet_prefix: int, wildcard_prefix: int) -> Token[None]:
+    def set(self, ipv6_address: ipaddress.IPv6Address, gateway: ipaddress.IPv6Address, subnet_prefix: int, wildcard_prefix: int) -> Token[None]:
         """Set the port's IPv6 settings.
 
         :param ipv6_address: the IPv6 address of the port
@@ -2872,7 +3017,18 @@ class P_IPV6ADDRESS:
         :type wildcard_prefix: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, ipv6_address=ipv6_address, gateway=gateway, subnet_prefix=subnet_prefix, wildcard_prefix=wildcard_prefix))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                ipv6_address=ipv6_address,
+                gateway=gateway,
+                subnet_prefix=subnet_prefix,
+                wildcard_prefix=wildcard_prefix
+            )
+        )
 
 
 @register_command
@@ -3751,7 +3907,22 @@ class P_PFCENABLE:
         :type cos_7: OnOff
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, cos_0=cos_0, cos_1=cos_1, cos_2=cos_2, cos_3=cos_3, cos_4=cos_4, cos_5=cos_5, cos_6=cos_6, cos_7=cos_7))
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                cos_0=cos_0,
+                cos_1=cos_1,
+                cos_2=cos_2,
+                cos_3=cos_3,
+                cos_4=cos_4,
+                cos_5=cos_5,
+                cos_6=cos_6,
+                cos_7=cos_7
+            )
+        )
 
 
 @register_command
@@ -3790,7 +3961,8 @@ class P_TXBURSTPERIOD:
     def set(self, burst_period: int) -> Token[None]:
         """Set the duration in microseconds from the start of one sequence of bursts (from a number of streams) to the start of next sequence of bursts in Burst TX mode.
 
-        :param burst_period: the duration in microseconds from the start of one sequence of bursts (from a number of streams) to the start of next sequence of bursts in Burst TX mode
+        :param burst_period: the duration in microseconds from the start of one sequence of bursts
+        (from a number of streams) to the start of next sequence of bursts in Burst TX mode
         :type burst_period: int
         """
 
