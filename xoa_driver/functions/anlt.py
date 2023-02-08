@@ -136,10 +136,10 @@ async def do_anlt(
             lt_mode = LinkTrainingMode.START_AFTER_AUTONEG
         elif should_lt_interactive:
             lt_mode = LinkTrainingMode.INTERACTIVE
-            timeout_mode = TimeoutMode.DEFAULT
+            timeout_mode = TimeoutMode.DISABLED
         else:
             lt_mode = LinkTrainingMode.STANDALONE
-            timeout_mode = TimeoutMode.DISABLED
+            timeout_mode = TimeoutMode.DEFAULT
         tokens += _pp_link_train(group, LinkTrainingMode.DISABLED, nrz_preset, timeout_mode)
         tokens += _pp_link_train(group, lt_mode, nrz_preset, timeout_mode)
 
