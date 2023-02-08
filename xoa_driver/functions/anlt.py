@@ -183,7 +183,7 @@ async def autoneg_status(port: GenericAnyPort) -> Dict[str, Any]:
     }
 
 
-async def lt_coeff_inc(port: GenericAnyPort, lane: int, emphasis: str) -> None:
+async def lt_coeff_inc(port: GenericAnyPort, lane: int, emphasis: LinkTrainCoeffs) -> None:
     """Ask the remote port to increase coeff of the specified lane.
 
     :param port: the port to configure
@@ -197,12 +197,12 @@ async def lt_coeff_inc(port: GenericAnyPort, lane: int, emphasis: str) -> None:
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     await commands.PL1_LINKTRAIN_CMD(conn, mid, pid, lane).set(
-        cmd=LinkTrainCmd.CMD_INC, arg=LinkTrainCoeffs[emphasis.upper()].value
+        cmd=LinkTrainCmd.CMD_INC, arg=emphasis.value
     )
     return None
 
 
-async def lt_coeff_dec(port: GenericAnyPort, lane: int, emphasis: str) -> None:
+async def lt_coeff_dec(port: GenericAnyPort, lane: int, emphasis: LinkTrainCoeffs) -> None:
     """Ask the remote port to decrease coeff of the specified lane.
 
     :param port: the port to configure
@@ -216,12 +216,12 @@ async def lt_coeff_dec(port: GenericAnyPort, lane: int, emphasis: str) -> None:
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     await commands.PL1_LINKTRAIN_CMD(conn, mid, pid, lane).set(
-        cmd=LinkTrainCmd.CMD_INC, arg=LinkTrainCoeffs[emphasis.upper()].value
+        cmd=LinkTrainCmd.CMD_INC, arg=emphasis.value
     )
     return None
 
 
-async def lt_preset(port: GenericAnyPort, lane: int, preset: int) -> None:
+async def lt_preset(port: GenericAnyPort, lane: int, preset: LinkTrainPresets) -> None:
     """Ask the remote port to use the preset of the specified lane.
 
     :param port: port to configure
@@ -235,12 +235,12 @@ async def lt_preset(port: GenericAnyPort, lane: int, preset: int) -> None:
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     await commands.PL1_LINKTRAIN_CMD(conn, mid, pid, lane).set(
-        cmd=LinkTrainCmd.CMD_PRESET, arg=LinkTrainPresets(preset).value
+        cmd=LinkTrainCmd.CMD_PRESET, arg=preset.value
     )
     return None
 
 
-async def lt_encoding(port: GenericAnyPort, lane: int, encoding: str) -> None:
+async def lt_encoding(port: GenericAnyPort, lane: int, encoding: LinkTrainEncoding) -> None:
     """Ask the remote port to use the encoding of the specified lane.
 
     :param port: port to configure
@@ -254,7 +254,7 @@ async def lt_encoding(port: GenericAnyPort, lane: int, encoding: str) -> None:
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     await commands.PL1_LINKTRAIN_CMD(conn, mid, pid, lane).set(
-        cmd=LinkTrainCmd.CMD_ENCODING, arg=LinkTrainEncoding[encoding.upper()].value
+        cmd=LinkTrainCmd.CMD_ENCODING, arg=encoding.value
     )
     return None
 
