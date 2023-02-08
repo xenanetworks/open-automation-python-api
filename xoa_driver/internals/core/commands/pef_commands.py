@@ -2031,11 +2031,11 @@ class PEF_VALUE:
     _protocol_segment_index: int
 
     class GetDataAttr(ResponseBodyStruct):
-        value: list[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        value: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
         """list of hex bytes, the raw bytes comprising the packet header."""
 
     class SetDataAttr(RequestBodyStruct):
-        value: list[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        value: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
         """list of hex bytes, the raw bytes comprising the packet header."""
 
     def get(self) -> Token[GetDataAttr]:
@@ -2094,10 +2094,10 @@ class PEF_MASK:
     _protocol_segment_index: int
 
     class GetDataAttr(ResponseBodyStruct):
-        masks: list[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        masks: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
 
     class SetDataAttr(RequestBodyStruct):
-        masks: list[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        masks: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
 
     def get(self) -> Token[GetDataAttr]:
         """Get the mask byte values that select the values specified by PEF_VALUE.
@@ -2144,13 +2144,13 @@ class PEF_PROTOCOL:
     _filter_type: FilterType
 
     class GetDataAttr(ResponseBodyStruct):
-        segment_list: ProtocolOption = field(XmpSequence(types_chunk=[XmpByte()]))
+        segment_list: typing.List[ProtocolOption] = field(XmpSequence(types_chunk=[XmpByte()]))
         """list of bytes, specifying the list of protocol segment types in the order they are expected in a frame. First segment type must be ETHERNET;
         the following can be chosen freely.
         """
 
     class SetDataAttr(RequestBodyStruct):
-        segment_list: ProtocolOption = field(XmpSequence(types_chunk=[XmpByte()]))
+        segment_list: typing.List[ProtocolOption] = field(XmpSequence(types_chunk=[XmpByte()]))
         """list of bytes, specifying the list of protocol segment types in the order they are expected in a frame. First segment type must be ETHERNET;
         the following can be chosen freely.
         """

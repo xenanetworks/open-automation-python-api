@@ -1,5 +1,5 @@
 [flake8]
-exclude = .git,.tox,__pycache__,.eggs,build
+exclude = .git,.tox,__pycache__,.eggs,build,xoa_driver/internals/core/commands/__init__.py
 max-line-length = 180
 ignore =
     # E265 block comment should start with '# '

@@ -40,11 +40,11 @@ class PL_INDICES:
     _port: int
 
     class GetDataAttr(ResponseBodyStruct):
-        length_term_xindices: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        length_term_xindices: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, the sub-index of a length term definition for the port."""
 
     class SetDataAttr(RequestBodyStruct):
-        length_term_xindices: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        length_term_xindices: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, the sub-index of a length term definition for the port."""
 
     def get(self) -> Token[GetDataAttr]:
@@ -60,7 +60,7 @@ class PL_INDICES:
         """Create a new empty length term for each value that is not already in use, and deletes each length term that is not mentioned in the list.
 
         :param length_term_xindices: the list of indices of length terms to be created on a port.
-        :type length_term_xindices: List[int]
+        :type length_term_xindices: typing.List[int]
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, length_term_xindices=length_term_xindices))

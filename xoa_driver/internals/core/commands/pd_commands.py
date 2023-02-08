@@ -42,11 +42,11 @@ class PD_INDICES:
     _port: int
 
     class GetDataAttr(ResponseBodyStruct):
-        histogram_indices: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        histogram_indices: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, histogram indices"""
 
     class SetDataAttr(RequestBodyStruct):
-        histogram_indices: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        histogram_indices: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, histogram indices"""
 
     def get(self) -> Token[GetDataAttr]:
@@ -62,7 +62,7 @@ class PD_INDICES:
         """Set the histogram indices for each of N histograms.
 
         :param histogram_indices: histogram indices
-        :type histogram_indices: List[int]
+        :type histogram_indices: typing.List[int]
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, histogram_indices=histogram_indices))
@@ -342,7 +342,7 @@ class PD_SAMPLES:
     _dataset_xindex: int
 
     class GetDataAttr(ResponseBodyStruct):
-        packet_counts: list[int] = field(XmpSequence(types_chunk=[XmpLong()]))
+        packet_counts: typing.List[int] = field(XmpSequence(types_chunk=[XmpLong()]))
         """list of long integers, the number of packets counted for each bucket."""
 
     def get(self) -> Token[GetDataAttr]:

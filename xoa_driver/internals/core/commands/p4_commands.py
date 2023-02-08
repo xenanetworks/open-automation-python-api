@@ -411,7 +411,7 @@ class P4_CAPTURE_GET_FIRST:
         """integer, length of captured portion of the frame"""
         frame_length: int = field(XmpInt())
         """integer, length of the frame"""
-        frame: list[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        frame: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
         """list of hex bytes, the captured frame (capture_len bytes)"""
 
     def get(self) -> Token[GetDataAttr]:
@@ -450,7 +450,7 @@ class P4_CAPTURE_GET_NEXT:
         """integer, length of captured portion of the frame"""
         frame_length: int = field(XmpInt())
         """integer, length of the frame"""
-        frame: list[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        frame: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
         """hex data, the captured frame (capture_len bytes)"""
 
     def get(self) -> Token[GetDataAttr]:
@@ -789,7 +789,7 @@ class P4_TX_MTU:
     _port: int
 
     class GetDataAttr(ResponseBodyStruct):
-        bins: list[int] = field(XmpSequence(types_chunk=[XmpByte()]))
+        bins: typing.List[int] = field(XmpSequence(types_chunk=[XmpByte()]))
         """925 x byte, '1' if any packets were transmitted with the specified layer 3 size, otherwise '0'."""
 
     def get(self) -> Token[GetDataAttr]:
@@ -818,7 +818,7 @@ class P4_RX_MTU:
     _port: int
 
     class GetDataAttr(ResponseBodyStruct):
-        bins: list[int] = field(XmpSequence(types_chunk=[XmpByte()]))
+        bins: typing.List[int] = field(XmpSequence(types_chunk=[XmpByte()]))
         """925 x byte, '1' if any packets were received with the specified layer 3 size, otherwise '0'."""
 
     def get(self) -> Token[GetDataAttr]:
@@ -2000,7 +2000,7 @@ class P4_APTITUDES:
     _port: int
 
     class GetDataAttr(ResponseBodyStruct):
-        bson: list[int] = field(XmpSequence(types_chunk=[XmpByte()]))
+        bson: typing.List[int] = field(XmpSequence(types_chunk=[XmpByte()]))
         """list of hex bytes, bson document containing the ports aptitudes"""
 
     def get(self) -> Token[GetDataAttr]:

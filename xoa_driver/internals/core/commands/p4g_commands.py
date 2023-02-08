@@ -67,11 +67,11 @@ class P4G_INDICES:
     _port: int
 
     class GetDataAttr(ResponseBodyStruct):
-        group_identifiers: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        group_identifiers: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, list of indices identifying Connection Groups."""
 
     class SetDataAttr(RequestBodyStruct):
-        group_identifiers: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        group_identifiers: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, list of indices identifying Connection Groups."""
 
     def get(self) -> Token[GetDataAttr]:
@@ -2767,7 +2767,7 @@ class P4G_RAW_PAYLOAD:
         """integer, the offset in the payload buffer where data is to be written"""
         length: int = field(XmpInt())
         """integer, number of bytes to write"""
-        content: list[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        content: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
         """list of hex bytes, specifying the payload"""
 
     class SetDataAttr(RequestBodyStruct):
@@ -2775,7 +2775,7 @@ class P4G_RAW_PAYLOAD:
         """integer, the offset in the payload buffer where data is to be written"""
         length: int = field(XmpInt())
         """integer, number of bytes to write"""
-        content: list[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        content: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
         """list of hex bytes, specifying the payload"""
 
     def get(self) -> Token[GetDataAttr]:
@@ -3032,13 +3032,13 @@ class P4G_RAW_DOWNLOAD_REQUEST:
     class GetDataAttr(ResponseBodyStruct):
         length: int = field(XmpInt())
         """integer, specifying the number of bytes to write. Maximum request length is 1024 bytes."""
-        content: list[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        content: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
         """list of hex bytes, specifying the request content."""
 
     class SetDataAttr(RequestBodyStruct):
         length: int = field(XmpInt())
         """integer, specifying the number of bytes to write. Maximum request length is 1024 bytes."""
-        content: list[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        content: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
         """list of hex bytes, specifying the request content."""
 
     def get(self) -> Token[GetDataAttr]:
@@ -5597,7 +5597,7 @@ class P4G_REPLAY_FILE_INDICES:
     _group_xindex: int
 
     class GetDataAttr(ResponseBodyStruct):
-        replay_file_indices: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        replay_file_indices: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, indices of configured replay files"""
 
     def get(self) -> Token[GetDataAttr]:
@@ -6075,11 +6075,11 @@ class P4G_TLS_CIPHER_SUITES:
     _group_xindex: int
 
     class GetDataAttr(ResponseBodyStruct):
-        ciphers: list[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        ciphers: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
         """list of hex bytes, sequence of ciphers identified by theirs IANA number in order of priority."""
 
     class SetDataAttr(RequestBodyStruct):
-        ciphers: list[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        ciphers: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
         """list of hex bytes, sequence of ciphers identified by theirs IANA number in order of priority."""
 
     def get(self) -> Token[GetDataAttr]:

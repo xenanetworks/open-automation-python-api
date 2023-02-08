@@ -166,7 +166,7 @@ class PT_EXTRA:
     _port: int
 
     class GetDataAttr(ResponseBodyStruct):
-        tx_arp_req_count: list[int] = field(XmpSequence(types_chunk=[XmpLong()]))
+        tx_arp_req_count: typing.List[int] = field(XmpSequence(types_chunk=[XmpLong()]))
         """long integer, number of ARP requests transmitted"""
 
     def get(self) -> Token[GetDataAttr]:

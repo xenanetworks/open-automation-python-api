@@ -8,6 +8,7 @@ from .payload import RequestBodyStruct
 
 NOT_SET_IDENTIFIER = 0
 
+
 class Request:
     def __init__(
         self,
@@ -47,3 +48,6 @@ class Request:
                 self.values.to_bytes() if self.values else b""
             )
         )
+
+    def update_identifier(self, request_id: int) -> None:
+        self.header.request_identifier = request_id

@@ -511,7 +511,7 @@ class C_PORTCOUNTS:
     _connection: 'interfaces.IConnection'
 
     class GetDataAttr(ResponseBodyStruct):
-        port_counts: list[int] = field(XmpSequence(types_chunk=[XmpByte()]))
+        port_counts: typing.List[int] = field(XmpSequence(types_chunk=[XmpByte()]))
         """list of bytes, the number of ports, typically 2 or 6, or 0 for an empty slot."""
 
     def get(self) -> Token[GetDataAttr]:
@@ -550,7 +550,7 @@ class C_PORTERRORS:
     _connection: 'interfaces.IConnection'
 
     class GetDataAttr(ResponseBodyStruct):
-        error_count: list[int] = field(XmpSequence(types_chunk=[XmpLong()]))
+        error_count: typing.List[int] = field(XmpSequence(types_chunk=[XmpLong()]))
         """list of long integers, the total number of errors across all streams, and including FCS errors."""
 
     def get(self) -> Token[GetDataAttr]:
@@ -583,7 +583,7 @@ class C_REMOTEPORTCOUNTS:
     _connection: 'interfaces.IConnection'
 
     class GetDataAttr(ResponseBodyStruct):
-        port_counts: list[int] = field(XmpSequence(types_chunk=[XmpByte()]))
+        port_counts: typing.List[int] = field(XmpSequence(types_chunk=[XmpByte()]))
         """list of bytes, the number of ports, typically 2 or 6, or 0 for an empty slot."""
 
     def get(self) -> Token[GetDataAttr]:
@@ -977,7 +977,7 @@ class C_DEBUGLOGS:
     class GetDataAttr(ResponseBodyStruct):
         message_length: int = field(XmpInt())
         """integer, length of the message."""
-        data: list[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        data: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
         """list of hex bytes, all the logs of a chassis"""
 
     def get(self) -> Token[GetDataAttr]:
@@ -1218,7 +1218,7 @@ class C_INDICES:
     _connection: 'interfaces.IConnection'
 
     class GetDataAttr(ResponseBodyStruct):
-        session_ids: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        session_ids: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, the session indices for all current sessions on the chassis."""
 
     def get(self) -> Token[GetDataAttr]:
@@ -1287,10 +1287,10 @@ class C_TKLICFILE:
     _connection: 'interfaces.IConnection'
 
     class GetDataAttr(ResponseBodyStruct):
-        license_content: list[int] = field(XmpSequence(types_chunk=[XmpByte()]))
+        license_content: typing.List[int] = field(XmpSequence(types_chunk=[XmpByte()]))
 
     class SetDataAttr(RequestBodyStruct):
-        license_content: list[int] = field(XmpSequence(types_chunk=[XmpByte()]))
+        license_content: typing.List[int] = field(XmpSequence(types_chunk=[XmpByte()]))
 
     def get(self) -> Token[GetDataAttr]:
         """Get Xena TimeKeeper license file content.
@@ -1328,7 +1328,7 @@ class C_TKLICSTATE:
         """coded byte, timekeeper license state."""
         license_type: TimeKeeperLicenseType = field(XmpByte())
         """coded byte, license type."""
-        license_errors: list[TimeKeeperLicenseError] = field(XmpSequence(types_chunk=[XmpInt()]))
+        license_errors: typing.List[TimeKeeperLicenseError] = field(XmpSequence(types_chunk=[XmpInt()]))
         """coded integers, license errors."""
 
     def get(self) -> Token[GetDataAttr]:
@@ -1407,7 +1407,7 @@ class C_FILEDATA:
     class SetDataAttr(RequestBodyStruct):
         offset: int = field(XmpInt())
         """integer, the position within the file."""
-        data_bytes: list[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        data_bytes: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
         """list of hex bytes, the data content of a section of the file."""
 
     def set(self, offset: int, data_bytes: str) -> Token[None]:
@@ -1462,7 +1462,7 @@ class C_TRAFFIC:
     class SetDataAttr(RequestBodyStruct):
         on_off: OnOff = field(XmpByte())
         """coded byte, determines whether to start or stop traffic generation."""
-        module_ports: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        module_ports: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, specifies ports on modules, which should stop or start generating traffic."""
 
     def set(self, on_off: OnOff, module_ports: typing.List[int]) -> Token[None]:
@@ -1534,7 +1534,7 @@ class C_START:
     _connection: 'interfaces.IConnection'
 
     class SetDataAttr(RequestBodyStruct):
-        module_ports: list[int] = field(XmpSequence(types_chunk=[XmpByte()]))
+        module_ports: typing.List[int] = field(XmpSequence(types_chunk=[XmpByte()]))
         """list of bytes, specifies ports on modules, which should stop or start generating traffic."""
 
     def set(self, module_ports: typing.List[int]) -> Token[None]:
@@ -1560,7 +1560,7 @@ class C_STOP:
     _connection: 'interfaces.IConnection'
 
     class SetDataAttr(RequestBodyStruct):
-        module_ports: list[int] = field(XmpSequence(types_chunk=[XmpByte()]))
+        module_ports: typing.List[int] = field(XmpSequence(types_chunk=[XmpByte()]))
         """list of bytes, specifies ports on modules, which should stop or start generating traffic."""
 
     def set(self, module_ports: typing.List[int]) -> Token[None]:
@@ -1851,7 +1851,7 @@ class C_TRAFFICSYNC:
         """coded byte, status traffic generation."""
         timestamp: int = field(XmpLong())
         """long integer, the time where traffic should be started, expressed as the number of seconds since January 1 2010, 00"""
-        module_ports: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        module_ports: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, specifies ports on modules, which should stop or start traffic generation."""
 
     class SetDataAttr(RequestBodyStruct):
@@ -1859,7 +1859,7 @@ class C_TRAFFICSYNC:
         """coded byte, determines whether to start or stop traffic generation."""
         timestamp: int = field(XmpLong())
         """long integer, the time where traffic should be started, expressed as the number of seconds since January 1 2010, 00"""
-        module_ports: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        module_ports: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, specifies ports on modules, which should stop or start traffic generation."""
 
     def get(self) -> Token[GetDataAttr]:

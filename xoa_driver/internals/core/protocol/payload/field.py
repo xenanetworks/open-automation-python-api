@@ -169,7 +169,11 @@ class SequenceSpec(FieldSpecs):
         return None
 
     def get_format_method(self, client_type: Type[Any], is_response: bool) -> Callable[[Any], List[Tuple[Any, ...]]]:
-        client_type = get_args(client_type)[0]
+        try:
+            client_type = get_args(client_type)[0]
+        except IndexError as e:
+            print(client_type)
+            raise e
         if is_response:
             return _prepare_client_chunks(
                 client_type=client_type,

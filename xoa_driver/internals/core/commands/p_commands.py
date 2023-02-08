@@ -314,7 +314,7 @@ class P_CAPABILITIES:
         """bit map encoded, [0] = lane-based, [1] = PHY-based, [2-31] = reserved"""
         prbs_inversions_supported: int = field(XmpInt())
         """bit map encoded, [0] = lane-based supports inv, [1] = PHY-based supports inv, [2-31] = reserved"""
-        prbs_polys_supported: list[int] = field(XmpSequence(types_chunk=[XmpInt()], length=5))
+        prbs_polys_supported: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()], length=5))
         """5 integers, bit map for each PRBS type (above).
             [0] = PRBS7,
             [1] = PRBS9,
@@ -334,9 +334,9 @@ class P_CAPABILITIES:
         """integer, number of lanes (virtual)"""
         tx_eq_tap_count: int = field(XmpInt())
         """integer, number of TXEQ taps"""
-        tx_eq_tap_max_val: list[int] = field(XmpSequence(types_chunk=[XmpInt()], length=10))
+        tx_eq_tap_max_val: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()], length=10))
         """10 integers, max-value of individual TXEQ taps"""
-        tx_eq_tap_min_val: list[int] = field(XmpSequence(types_chunk=[XmpInt()], length=10))
+        tx_eq_tap_min_val: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()], length=10))
         """10 integers, min-value of individual TXEQ taps"""
         max_fec_correctable_symbol_count: int = field(XmpInt())
         """integer, max number of symbols correctable by the current FEC"""
@@ -1258,7 +1258,7 @@ class P_XMITONE:
     _port: int
 
     class SetDataAttr(RequestBodyStruct):
-        hex_data: list[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        hex_data: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
         """list of hex bytes, the data content of the packet to be transmitted."""
 
     def set(self, hex_data: str) -> Token[None]:
@@ -1266,7 +1266,7 @@ class P_XMITONE:
         A valid Frame Check Sum is written into the final four bytes.
 
         :param hex_data: raw bytes of the packet in hex to transmit
-        :rtype: List[str]
+        :rtype: typing.List[str]
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, hex_data=hex_data))
@@ -1942,7 +1942,7 @@ class P_STATUS:
     _port: int
 
     class GetDataAttr(ResponseBodyStruct):
-        optical_power: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        optical_power: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, received signal level for optical ports, in nanowatts, -1 when not available."""
 
     def get(self) -> Token[GetDataAttr]:
@@ -2071,10 +2071,10 @@ class P_ARPRXTABLE:
     _port: int
 
     class GetDataAttr(ResponseBodyStruct):
-        chunks: list[ArpChunk] = field(XmpSequence(types_chunk=[XmpIPv4Address(), XmpShort(), XmpByte(), XmpMacAddress()]))
+        chunks: typing.List[ArpChunk] = field(XmpSequence(types_chunk=[XmpIPv4Address(), XmpShort(), XmpByte(), XmpMacAddress()]))
 
     class SetDataAttr(RequestBodyStruct):
-        chunks: list[ArpChunk] = field(XmpSequence(types_chunk=[XmpIPv4Address(), XmpShort(), XmpByte(), XmpMacAddress()]))
+        chunks: typing.List[ArpChunk] = field(XmpSequence(types_chunk=[XmpIPv4Address(), XmpShort(), XmpByte(), XmpMacAddress()]))
 
     def get(self) -> Token[GetDataAttr]:
         """Get the port's ARP table used to reply to incoming ARP requests.
@@ -2089,7 +2089,7 @@ class P_ARPRXTABLE:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, chunks: list[ArpChunk]) -> Token[None]:
+    def set(self, chunks: typing.List[ArpChunk]) -> Token[None]:
         """Set the port's ARP table used to reply to incoming ARP requests.
 
         :param chunks:
@@ -2097,7 +2097,7 @@ class P_ARPRXTABLE:
             * The prefix used for address matching
             * Whether the target MAC address will be patched with the part of the IP address that is not masked by the prefix
             * The target MAC address to return in the ARP reply
-        :type chunks: List[subtypes.ArpChunkList]
+        :type chunks: typing.List[subtypes.ArpChunkList]
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, chunks=chunks))
@@ -2118,10 +2118,10 @@ class P_NDPRXTABLE:
     _port: int
 
     class GetDataAttr(ResponseBodyStruct):
-        chunks: list[NdpChunk] = field(XmpSequence(types_chunk=[XmpIPv6Address(), XmpShort(), XmpByte(), XmpMacAddress()]))
+        chunks: typing.List[NdpChunk] = field(XmpSequence(types_chunk=[XmpIPv6Address(), XmpShort(), XmpByte(), XmpMacAddress()]))
 
     class SetDataAttr(RequestBodyStruct):
-        chunks: list[NdpChunk] = field(XmpSequence(types_chunk=[XmpIPv6Address(), XmpShort(), XmpByte(), XmpMacAddress()]))
+        chunks: typing.List[NdpChunk] = field(XmpSequence(types_chunk=[XmpIPv6Address(), XmpShort(), XmpByte(), XmpMacAddress()]))
 
     def get(self) -> Token[GetDataAttr]:
         """Get the port's NDP table used to reply to incoming NDP Neighbor Solicitation.
@@ -2136,7 +2136,7 @@ class P_NDPRXTABLE:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, chunks: list[NdpChunk]) -> Token[None]:
+    def set(self, chunks: typing.List[NdpChunk]) -> Token[None]:
         """Set the port's NDP table used to reply to incoming NDP Neighbor Solicitation.
 
         :param chunks:
@@ -2144,7 +2144,7 @@ class P_NDPRXTABLE:
             * The prefix used for address matching
             * Whether the target MAC address will be patched with the part of the IP address that is not masked by the prefix
             * The target MAC address to return in the NDP Neighbor Advertisement
-        :type chunks: List[subtypes.NdpChunkList]
+        :type chunks: typing.List[subtypes.NdpChunkList]
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, chunks=chunks))
@@ -2166,7 +2166,7 @@ class P_MULTICAST:
     _port: int
 
     class GetDataAttr(ResponseBodyStruct):
-        ipv4_multicast_addresses: list[ipaddress.IPv4Address] = field(XmpSequence(types_chunk=[XmpIPv4Address()], length=2))
+        ipv4_multicast_addresses: typing.List[ipaddress.IPv4Address] = field(XmpSequence(types_chunk=[XmpIPv4Address()], length=2))
         """a multicast group address to join or leave"""
         operation: MulticastOperation = field(XmpByte())
         """coded byte, specifying the operation."""
@@ -2174,7 +2174,7 @@ class P_MULTICAST:
         """the interval between repeated joins in seconds."""
 
     class SetDataAttr(RequestBodyStruct):
-        ipv4_multicast_addresses: list[ipaddress.IPv4Address] = field(XmpSequence(types_chunk=[XmpIPv4Address()], length=2))
+        ipv4_multicast_addresses: typing.List[ipaddress.IPv4Address] = field(XmpSequence(types_chunk=[XmpIPv4Address()], length=2))
         """a multicast group address to join or leave"""
         operation: MulticastOperation = field(XmpByte())
         """coded byte, specifying the operation."""
@@ -2190,11 +2190,11 @@ class P_MULTICAST:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, ipv4_multicast_addresses: list[ipaddress.IPv4Address], operation: MulticastOperation, second_count: int) -> Token[None]:
+    def set(self, ipv4_multicast_addresses: typing.List[ipaddress.IPv4Address], operation: MulticastOperation, second_count: int) -> Token[None]:
         """Set the port's multicast information (IGMPv2).
 
         :param ipv4_multicast_addresses: a multicast group address to join or leave
-        :type ipv4_multicast_addresses: List[ipaddress.IPv4Address]
+        :type ipv4_multicast_addresses: typing.List[ipaddress.IPv4Address]
         :param operation: the operation
         :type operation: MulticastOperation
         :param second_count: the interval between repeated joins in seconds.
@@ -2247,7 +2247,7 @@ class P_MULTICASTEXT:
     _port: int
 
     class GetDataAttr(ResponseBodyStruct):
-        ipv4_multicast_addresses: list[ipaddress.IPv4Address] = field(XmpSequence(types_chunk=[XmpIPv4Address()], length=3))
+        ipv4_multicast_addresses: typing.List[ipaddress.IPv4Address] = field(XmpSequence(types_chunk=[XmpIPv4Address()], length=3))
         """list of addresses, up to 8 multicast group addresses to receive an operation"""
         operation: MulticastExtOperation = field(XmpByte())
         """coded byte, specifying the operation."""
@@ -2257,7 +2257,7 @@ class P_MULTICASTEXT:
         """coded byte, specifying the IGMP version."""
 
     class SetDataAttr(RequestBodyStruct):
-        ipv4_multicast_addresses: list[ipaddress.IPv4Address] = field(XmpSequence(types_chunk=[XmpIPv4Address()], length=3))
+        ipv4_multicast_addresses: typing.List[ipaddress.IPv4Address] = field(XmpSequence(types_chunk=[XmpIPv4Address()], length=3))
         """list of addresses, up to 8 multicast group addresses to receive an operation"""
         operation: MulticastExtOperation = field(XmpByte())
         """coded byte, specifying the operation."""
@@ -2275,11 +2275,11 @@ class P_MULTICASTEXT:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, ipv4_multicast_addresses: list[ipaddress.IPv4Address], operation: MulticastExtOperation, second_count: int, igmp_version: IGMPVersion) -> Token[None]:
+    def set(self, ipv4_multicast_addresses: typing.List[ipaddress.IPv4Address], operation: MulticastExtOperation, second_count: int, igmp_version: IGMPVersion) -> Token[None]:
         """Set the port's multicast information (IGMPv2/IGMPv3).
 
         :param ipv4_multicast_addresses: a multicast group address to join or leave
-        :type ipv4_multicast_addresses: List[ipaddress.IPv4Address]
+        :type ipv4_multicast_addresses: typing.List[ipaddress.IPv4Address]
         :param operation: the operation
         :type operation: MulticastExtOperation
         :param second_count: the interval between repeated joins in seconds.
@@ -2318,11 +2318,11 @@ class P_MCSRCLIST:
     _port: int
 
     class GetDataAttr(ResponseBodyStruct):
-        ipv4_addresses: list[ipaddress.IPv4Address] = field(XmpSequence(types_chunk=[XmpIPv4Address()]))
+        ipv4_addresses: typing.List[ipaddress.IPv4Address] = field(XmpSequence(types_chunk=[XmpIPv4Address()]))
         """list of addresses, multicast source list addresses (max 8) in Group Record field of the IGMPv3 membership report packet."""
 
     class SetDataAttr(RequestBodyStruct):
-        ipv4_addresses: list[ipaddress.IPv4Address] = field(XmpSequence(types_chunk=[XmpIPv4Address()]))
+        ipv4_addresses: typing.List[ipaddress.IPv4Address] = field(XmpSequence(types_chunk=[XmpIPv4Address()]))
         """list of addresses, multicast source list addresses (max 8) in Group Record field of the IGMPv3 membership report packet."""
 
     def get(self) -> Token[GetDataAttr]:
@@ -2334,11 +2334,11 @@ class P_MCSRCLIST:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, ipv4_addresses: list[ipaddress.IPv4Address]) -> Token[None]:
+    def set(self, ipv4_addresses: typing.List[ipaddress.IPv4Address]) -> Token[None]:
         """Set the multicast source list of the port.
 
         :param ipv4_addresses: the multicast source list of the port
-        :type ipv4_addresses: List[ipaddress.IPv4Address]
+        :type ipv4_addresses: typing.List[ipaddress.IPv4Address]
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, ipv4_addresses=ipv4_addresses))
@@ -3682,7 +3682,7 @@ class P_LPSUPPORT:
     _port: int
 
     class GetDataAttr(ResponseBodyStruct):
-        eee_capabilities: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        eee_capabilities: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers,EEE capabilities of the port."""
 
     def get(self) -> Token[GetDataAttr]:

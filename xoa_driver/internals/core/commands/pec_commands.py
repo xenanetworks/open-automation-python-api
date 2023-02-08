@@ -53,11 +53,11 @@ class PEC_INDICES:
     _port: int
 
     class GetDataAttr(ResponseBodyStruct):
-        indices: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        indices: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, a list of the indices to the custom distributions which are currently defined on that port, max 40 elements."""
 
     class SetDataAttr(RequestBodyStruct):
-        indices: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        indices: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, a list of the indices to the custom distributions which are currently defined on that port, max 40 elements."""
 
     def get(self) -> Token[GetDataAttr]:
@@ -73,7 +73,7 @@ class PEC_INDICES:
         """Set a list of indices to create new custom distributions.
 
         :param indices: a list of indices to create new custom distributions
-        :type indices: List[int]
+        :type indices: typing.List[int]
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=indices))
@@ -104,7 +104,7 @@ class PEC_VAL:
         """coded byte, reserved for future use, must be set to OFF."""
         entry_count: int = field(XmpInt())
         """integer, defines the number of entries in "dataX" (allowed value: 512,1024). NOTE: For Latency, 1024 entries are used, and for rest, 512 entries are used)"""
-        data_x: list[int] = field(XmpSequence(types_chunk=[XmpLong()]))
+        data_x: typing.List[int] = field(XmpSequence(types_chunk=[XmpLong()]))
         """array of long integers, array size="num_entries", holds values to be filled in the RAM memory."""
 
     class SetDataAttr(RequestBodyStruct):
@@ -114,7 +114,7 @@ class PEC_VAL:
         """coded byte, reserved for future use, must be set to OFF."""
         entry_count: int = field(XmpInt())
         """integer, defines the number of entries in "dataX" (allowed value: 512,1024). NOTE: For Latency, 1024 entries are used, and for rest, 512 entries are used)"""
-        data_x: list[int] = field(XmpSequence(types_chunk=[XmpLong()]))
+        data_x: typing.List[int] = field(XmpSequence(types_chunk=[XmpLong()]))
         """array of long integers, array size="num_entries", holds values to be filled in the RAM memory."""
 
     def get(self) -> Token[GetDataAttr]:
@@ -139,7 +139,7 @@ class PEC_VAL:
         :param entry_count: defines the number of entries in "data_x" (allowed value: 512,1024). For Latency, 1024 entries are used, and for rest, 512 entries are used.
         :type entry_count: int
         :param data_x: array size equals to "entry_count", holds values to be filled in the RAM memory.
-        :type data_x: List[int]
+        :type data_x: typing.List[int]
         """
 
         return Token(

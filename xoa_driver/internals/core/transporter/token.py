@@ -1,12 +1,12 @@
+from __future__ import annotations
 from typing import (
-    TYPE_CHECKING,
     TypeVar,
     Generic,
 )
 from dataclasses import dataclass
-if TYPE_CHECKING:
-    from .. import interfaces
-    from .. import protocol
+
+from .. import interfaces
+from ..protocol.struct_request import Request
 
 
 AwaitableDataType = TypeVar("AwaitableDataType")
@@ -21,8 +21,8 @@ class Token(Generic[AwaitableDataType]):
     """
     __slots__ = ('connection', 'request',)
 
-    connection: "interfaces.IConnection"
-    request: "protocol.Request"
+    connection: interfaces.IConnection
+    request: Request
 
     def __await__(self):
         return self.__ask().__await__()

@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import (
     Iterable,
     Callable,
@@ -5,7 +6,8 @@ from typing import (
     Type,
 )
 from loguru import logger
-from .. import protocol
+from ..protocol.struct_response import Response
+from ..protocol.struct_request import Request
 
 SYMBOL_REQUEST = "<G><w> -> </w></G>"
 SYMBOL_PUSH = "<M><w> -P </w></M>"
@@ -37,13 +39,13 @@ class TransportationLogger:
     def error(self, *args) -> None:
         self.__state.error(self, *args)
 
-    def request_obj(self, request: protocol.Request) -> None:
+    def request_obj(self, request: Request) -> None:
         self.__state.request_obj(self, request)
 
-    def response_obj(self, response: protocol.Response) -> None:
+    def response_obj(self, response: Response) -> None:
         self.__state.response_obj(self, response)
 
-    def push_obj(self, response: protocol.Response) -> None:
+    def push_obj(self, response: Response) -> None:
         self.__state.push_obj(self, response)
 
     def draw_separator(self, symbol: str = "=") -> None:
@@ -60,15 +62,15 @@ class StateDebugOn:
         inst._log(*args, log_fn=logger.error)
 
     @staticmethod
-    def request_obj(inst: "TransportationLogger", request: protocol.Request) -> None:
+    def request_obj(inst: "TransportationLogger", request: Request) -> None:
         inst._log(f"{SYMBOL_REQUEST} {request!r}")
 
     @staticmethod
-    def response_obj(inst: "TransportationLogger", response: protocol.Response) -> None:
+    def response_obj(inst: "TransportationLogger", response: Response) -> None:
         inst._log(f"{SYMBOL_RESPONSE} {response!r}")
 
     @staticmethod
-    def push_obj(inst: "TransportationLogger", response: protocol.Response) -> None:
+    def push_obj(inst: "TransportationLogger", response: Response) -> None:
         inst._log(f"{SYMBOL_PUSH} {response!r}")
 
     @staticmethod
@@ -86,15 +88,15 @@ class StateDebugOff:
         return None
 
     @staticmethod
-    def request_obj(inst: "TransportationLogger", request: protocol.Request) -> None:
+    def request_obj(inst: "TransportationLogger", request: Request) -> None:
         return None
 
     @staticmethod
-    def response_obj(inst: "TransportationLogger", response: protocol.Response) -> None:
+    def response_obj(inst: "TransportationLogger", response: Response) -> None:
         return None
 
     @staticmethod
-    def push_obj(inst: "TransportationLogger", response: protocol.Response) -> None:
+    def push_obj(inst: "TransportationLogger", response: Response) -> None:
         return None
 
     @staticmethod

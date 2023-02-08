@@ -202,7 +202,7 @@ class PR_TPLDS:
     _port: int
 
     class GetDataAttr(ResponseBodyStruct):
-        test_payload_identifiers: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        test_payload_identifiers: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, the identifiers of the test payload."""
 
     def get(self) -> Token[GetDataAttr]:

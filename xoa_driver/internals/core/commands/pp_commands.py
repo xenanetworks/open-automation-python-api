@@ -397,7 +397,7 @@ class PP_RXFECSTATS:
         """long integer, currently always 0."""
         value_count: int = field(XmpLong())
         """long integer, number of values."""
-        correction_stats: list[int] = field(XmpSequence(types_chunk=[XmpLong()], length=8))
+        correction_stats: typing.List[int] = field(XmpSequence(types_chunk=[XmpLong()], length=8))
         """list of long integers, array of length value_count-1. The correction_stats array shows how many FEC blocks have been seen with [0, 1, 2, 3....15, >15] symbol errors."""
         rx_uncorrectable_code_word_count: int = field(XmpLong())
         """long integer, the number of received uncorrectable code words."""
@@ -769,7 +769,7 @@ class PP_RXLASERPOWER:
     _port: int
 
     class GetDataAttr(ResponseBodyStruct):
-        nanowatts: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        nanowatts: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, received signal level, in nanowatts. 0, when no signal."""
 
     def get(self) -> Token[GetDataAttr]:
@@ -800,7 +800,7 @@ class PP_TXLASERPOWER:
     _port: int
 
     class GetDataAttr(ResponseBodyStruct):
-        nanowatts: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        nanowatts: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, received signal level, in nanowatts. 0, when no signal."""
 
     def get(self) -> Token[GetDataAttr]:
@@ -881,13 +881,13 @@ class PP_EYEMEASURE:
     class GetDataAttr(ResponseBodyStruct):
         status: SerdesStatus = field(XmpByte())
         """coded byte, status of the serdes."""
-        dummy: list[int] = field(XmpSequence(types_chunk=[XmpByte()]))
+        dummy: typing.List[int] = field(XmpSequence(types_chunk=[XmpByte()]))
         """list of bytes, should always be 0, reserved for future expansion."""
 
     class SetDataAttr(RequestBodyStruct):
         status: StartOrStop = field(XmpByte())
         """coded byte, status of the serdes."""
-        dummy: list[int] = field(XmpSequence(types_chunk=[XmpByte()]))
+        dummy: typing.List[int] = field(XmpSequence(types_chunk=[XmpByte()]))
         """list of bytes, should always be 0, reserved for future expansion."""
 
     def get(self) -> Token[GetDataAttr]:
@@ -1003,7 +1003,7 @@ class PP_EYEREAD:
         """integer, specifying Y resolution."""
         valid_column_count: int = field(XmpInt())
         """integer, specifying the number of valid columns."""
-        values: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        values: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, showing the number of bit errors measured out of a total of 1M bits at each of the individual sampling points (x=timeaxis, y = 0/1 threshold)."""
 
     def get(self) -> Token[GetDataAttr]:
@@ -1155,7 +1155,7 @@ class PP_PHYTXEQ:
         transmission direction (towards the transceiver cage) on Thor and Loki modules.
 
         :param pre1: preemphasis, (range: Module dependent), default = 0 (neutral)
-        :type pre1: List[int]
+        :type pre1: typing.List[int]
         """
 
         return Token(

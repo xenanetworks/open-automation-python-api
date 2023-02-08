@@ -43,11 +43,11 @@ class PF_INDICES:
     _port: int
 
     class GetDataAttr(ResponseBodyStruct):
-        filter_xindices: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        filter_xindices: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, the list of indices of filters on a port."""
 
     class SetDataAttr(RequestBodyStruct):
-        filter_xindices: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        filter_xindices: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, the list of indices of filters on a port."""
 
     def get(self) -> Token[GetDataAttr]:
@@ -63,7 +63,7 @@ class PF_INDICES:
         """Create a new empty filter for each index value that is not already in use, and deletes each filter that is not mentioned in the list.
 
         :param filter_xindices: the list of indices of filters to be created on a port.
-        :type filter_xindices: List[int]
+        :type filter_xindices: typing.List[int]
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, filter_xindices=filter_xindices))

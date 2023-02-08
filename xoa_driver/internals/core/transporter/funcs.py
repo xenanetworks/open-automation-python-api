@@ -24,6 +24,7 @@ async def establish_connection(transporter: "TransportationHandler", host: str, 
 
     assert isinstance(loop, AbstractEventLoop) or loop is None, "<loop> must be an instance of AbstractEventLoop or None"
     __loop = loop if loop else asyncio.get_event_loop()
+    print(__loop)
     try:
         await __loop.create_connection(lambda: transporter, host=host, port=port)
     except OSError:

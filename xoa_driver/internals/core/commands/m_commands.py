@@ -644,7 +644,7 @@ class M_MEDIASUPPORT:
     _module: int
 
     class GetDataAttr(ResponseBodyStruct):
-        media_info_list: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        media_info_list: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """coded integer, media information"""
 
     def get(self) -> Token[GetDataAttr]:
@@ -762,10 +762,10 @@ class M_CFPCONFIGEXT:
     _module: int
 
     class GetDataAttr(ResponseBodyStruct):
-        portspeed_list: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        portspeed_list: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
 
     class SetDataAttr(RequestBodyStruct):
-        portspeed_list: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        portspeed_list: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
 
     def get(self) -> Token[GetDataAttr]:
         """Get a list of port count and corresponding speeds supported by the current module config.
@@ -1298,7 +1298,7 @@ class M_LICENSE_LIST_BSON:
     _module: int
 
     class GetDataAttr(ResponseBodyStruct):
-        bson: list[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        bson: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
         """list of hex bytes, bson document containing the list of locally stored licenses"""
 
     def get(self) -> Token[GetDataAttr]:

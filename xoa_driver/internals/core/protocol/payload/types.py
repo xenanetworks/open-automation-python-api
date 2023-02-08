@@ -58,7 +58,7 @@ class XmpByte(XmpType[int]):
 class XmpInt(XmpType[int]):
     """Description class of XMP Int type representation"""
 
-    def __init__(self, signed: bool = True) -> None:
+    def __init__(self, *, signed: bool = True, climb: tuple[int, int] | None = None) -> None:
         self.data_format = FMT_INT if signed else FMT_U_INT
         self.repetitions = None
 

@@ -11,7 +11,7 @@ class ReservedRequestID(IntEnum):
         return max(list(cls)[:-1]).value
 
 
-class RequestId:
+class RequestIdCounter:
     """Aggrigator of request ID."""
     __slots__ = ("__req_id", "__lock",)
 

@@ -42,11 +42,11 @@ class PM_INDICES:
     _port: int
 
     class GetDataAttr(ResponseBodyStruct):
-        match_term_xindices: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        match_term_xindices: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, the sub-index of a match term definition for the port."""
 
     class SetDataAttr(RequestBodyStruct):
-        match_term_xindices: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        match_term_xindices: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, the sub-index of a match term definition for the port."""
 
     def get(self) -> Token[GetDataAttr]:
@@ -62,7 +62,7 @@ class PM_INDICES:
         """Creates a new empty match term for each value that is not already in use, and delete each match term that is not mentioned in the list
 
         :param match_term_xindices: the sub-index of a match term definition for the port
-        :type match_term_xindices: List[int]
+        :type match_term_xindices: typing.List[int]
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, match_term_xindices=match_term_xindices))
@@ -139,11 +139,11 @@ class PM_PROTOCOL:
     _match_term_xindex: int
 
     class GetDataAttr(ResponseBodyStruct):
-        segments: ProtocolOption = field(XmpSequence(types_chunk=[XmpByte()]))
+        segments: typing.List[ProtocolOption] = field(XmpSequence(types_chunk=[XmpByte()]))
         """list of coded bytes, a number specifying a built-in protocol segment: Uses the same coded values as the PS_HEADERPROTOCOL parameter."""
 
     class SetDataAttr(RequestBodyStruct):
-        segments: ProtocolOption = field(XmpSequence(types_chunk=[XmpByte()]))
+        segments: typing.List[ProtocolOption] = field(XmpSequence(types_chunk=[XmpByte()]))
         """list of coded bytes, a number specifying a built-in protocol segment: Uses the same coded values as the PS_HEADERPROTOCOL parameter."""
 
     def get(self) -> Token[GetDataAttr]:
@@ -159,7 +159,7 @@ class PM_PROTOCOL:
         """Set the protocol segments assumed on the packets received on the port.
 
         :param segments: a number specifying a built-in protocol segment: Uses the same coded values as the PS_HEADERPROTOCOL parameter
-        :type segments: List[ProtocolOption]
+        :type segments: typing.List[ProtocolOption]
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._match_term_xindex], segments=segments))

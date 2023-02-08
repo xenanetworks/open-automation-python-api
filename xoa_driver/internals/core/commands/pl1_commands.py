@@ -325,10 +325,10 @@ class PL1_CFG_TMP:
     _type: int
 
     class GetDataAttr(ResponseBodyStruct):
-        value: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        value: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
 
     class SetDataAttr(RequestBodyStruct):
-        value: list[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        value: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
 
     def get(self) -> Token[GetDataAttr]:
         """Get various L1 parameters

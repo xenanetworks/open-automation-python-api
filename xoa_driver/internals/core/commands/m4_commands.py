@@ -518,7 +518,7 @@ class M4_REPLAY_FILE_LIST_BSON:
     _module: int
 
     class GetDataAttr(ResponseBodyStruct):
-        bson: list[int] = field(XmpSequence(types_chunk=[XmpByte()]))
+        bson: typing.List[int] = field(XmpSequence(types_chunk=[XmpByte()]))
         """list of hex bytes, bson document containing the file list"""
 
     def get(self) -> Token[GetDataAttr]:
@@ -574,7 +574,7 @@ class M4_CAPTURE_FILE_LIST_BSON:
     _module: int
 
     class GetDataAttr(ResponseBodyStruct):
-        bson: list[int] = field(XmpSequence(types_chunk=[XmpByte()]))
+        bson: typing.List[int] = field(XmpSequence(types_chunk=[XmpByte()]))
         """list of hex bytes, bson document containing the file list"""
 
     def get(self) -> Token[GetDataAttr]:
@@ -687,7 +687,7 @@ class M4_TLS_CIPHER_SUITES:
     _module: int
 
     class GetDataAttr(ResponseBodyStruct):
-        cipher_suites: list[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        cipher_suites: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
         """list of hex bytes, list of IANA values of supported cipher suites"""
 
     def get(self) -> Token[GetDataAttr]:

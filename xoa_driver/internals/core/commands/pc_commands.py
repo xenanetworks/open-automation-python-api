@@ -320,7 +320,7 @@ class PC_PACKET:
     _capture_packet_xindex: int
 
     class GetDataAttr(ResponseBodyStruct):
-        hex_data: list[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        hex_data: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
         """The raw bytes kept for the packet.
 
         :type: list

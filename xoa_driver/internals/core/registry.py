@@ -1,10 +1,8 @@
-from typing import (
-    Dict,
-    Type,
-)
+from __future__ import annotations
+from typing import Type
 from .interfaces import CMD_TYPE
 
-COMMANDS_REGISTRY: Dict[int, Type[CMD_TYPE]] = {}
+COMMANDS_REGISTRY: dict[int, Type[CMD_TYPE]] = dict()
 """A global registry of which map command id to its class implementation."""
 
 
@@ -17,3 +15,10 @@ def register_command(xmc_cls: Type[CMD_TYPE]) -> Type:
         )
     COMMANDS_REGISTRY[xmc_cls.code] = xmc_cls
     return xmc_cls
+
+
+def get_command(command_idx: int):
+    global COMMANDS_REGISTRY
+    xmc_type = COMMANDS_REGISTRY.get(command_idx, None)
+    if not xmc_type:
+        raise RuntimeError(f"Command with id: {command_idx} is not implemented")
