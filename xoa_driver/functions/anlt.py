@@ -299,7 +299,7 @@ async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
             2: "Preset 1",
             3: "Preset 5",
             4: "Preset 2",
-            5: "Preset 3",
+            6: "Preset 3",
         }
         return dic.get(key, "Reserved")
 
