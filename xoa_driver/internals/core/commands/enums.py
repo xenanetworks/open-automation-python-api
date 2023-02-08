@@ -2074,7 +2074,7 @@ class Layer1ConfigType(IntEnum):
     """Auto-negotiation loopback config"""
 
     LT_INITIAL_MODULATION = 2
-    """The initial modulation (0=PAM2, 1=PAM4, 2=PAM4_WITH_PRECODING) """
+    """The initial modulation (0=NRZ, 1=PAM4, 2=PAM4_WITH_PRECODING) """
 
     LL_DEBUG_INFO = 3
     """Return the an/lt module base and RX and TX (serdes index, base address)"""
