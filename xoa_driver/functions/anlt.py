@@ -20,6 +20,8 @@ from xoa_driver.enums import (
     LinkTrainingStatusMode,
     LinkTrainingStatus,
     AutoNegMode,
+    LinkTrainingFailureType,
+    LinkTrainFrameLock,
 )
 from xoa_driver.utils import apply
 from xoa_driver.internals.hli_v1.ports.port_l23.family_l import FamilyL
@@ -322,7 +324,7 @@ async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
     return {
         "is_enabled": True if status.mode == LinkTrainingStatusMode.ENABLED else False,
         "is_trained": True if status.status == LinkTrainingStatus.TRAINED else False,
-        "failure": status.failure.name.lower(),
+        "failure": LinkTrainingFailureType(status.failure).name.lower(),
         "preset0": "standard value"
         if ltconf.nrz_preset == NRZPreset.NRZ_NO_PRESET
         else "existing tap value",
@@ -330,8 +332,8 @@ async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
         "ber": str(prbs),
         "duration": f"{info.duration_us} us",
         "lock_lost": info.lock_lost_count,
-        "frame_lock": info.frame_lock.name.lower(),
-        "remote_frame_lock": info.remote_frame_lock.name.lower(),
+        "frame_lock": LinkTrainFrameLock(info.frame_lock).name.lower(),
+        "remote_frame_lock": LinkTrainFrameLock(info.remote_frame_lock).name.lower(),
         "frame_errors": info.num_frame_errors,
         "overrun_errors": info.num_overruns,
         "last_ic_received": decode_ic(info.last_ic_received),
