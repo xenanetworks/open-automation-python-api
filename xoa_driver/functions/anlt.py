@@ -192,7 +192,7 @@ async def lt_coeff_inc(port: GenericAnyPort, lane: int, emphasis: LinkTrainCoeff
     :type port: :class:`~xoa_driver.ports.GenericAnyPort`
     :param lane: lane index, starting from 0
     :type lane: int
-    :param emphasis: coefficient index (pre1, pre2, pre3, main, post)
+    :param emphasis: coefficient index (pre, pre2, pre3, main, post)
     :type emphasis: str
     :return:
     :rtype: None
@@ -211,7 +211,7 @@ async def lt_coeff_dec(port: GenericAnyPort, lane: int, emphasis: LinkTrainCoeff
     :type port: :class:`~xoa_driver.ports.GenericAnyPort`
     :param lane: lane index, starting from 0
     :type lane: int
-    :param emphasis: coefficient index (pre1, pre2, pre3, main, post)
+    :param emphasis: coefficient index (pre, pre2, pre3, main, post)
     :type emphasis: str
     :return:
     :rtype: None
@@ -502,7 +502,7 @@ async def txtap_set(
     lane: int,
     pre3: int,
     pre2: int,
-    pre1: int,
+    pre: int,
     main: int,
     post1: int,
 ) -> None:
@@ -516,8 +516,8 @@ async def txtap_set(
     :type pre3: int
     :param pre2: pre2 value
     :type pre2: int
-    :param pre1: pre1 value
-    :type pre1: int
+    :param pre: pre value
+    :type pre: int
     :param main: main value
     :type main: int
     :param post1: post1 value
@@ -527,7 +527,7 @@ async def txtap_set(
     """
     conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
     await commands.PP_PHYTXEQ(conn, mid, pid, lane).set(
-        pre1=pre1,
+        pre1=pre,
         main=main,
         post1=post1,
         pre2=pre2,

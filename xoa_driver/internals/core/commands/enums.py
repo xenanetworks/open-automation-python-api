@@ -2164,8 +2164,8 @@ class LinkTrainCoeffs(IntEnum):
 
     """
 
-    PRE1 = 0
-    """Pre1 coeff c(-1)"""
+    PRE = 0
+    """Pre coeff c(-1)"""
 
     MAIN = 1
     """Main coeff c(0)"""
