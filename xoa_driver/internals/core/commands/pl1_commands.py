@@ -20,7 +20,7 @@ from .enums import *  # noqa: F403
 @dataclass
 class PL1_AUTONEGINFO:
     """
-    .. versionadded:: 2.0
+    .. versionadded:: 1.1
 
     .. warning::
 
@@ -78,7 +78,7 @@ class PL1_AUTONEGINFO:
 @dataclass
 class PL1_LINKTRAININFO:
     """
-    .. versionadded:: 2.0
+    .. versionadded:: 1.1
 
     .. warning::
 
@@ -241,17 +241,17 @@ class PL1_LINKTRAININFO:
 
         prbs_total_error_bits_low: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # PRBS total error bits (least significant 32-bit).
 
-        frame_lock: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4, choices=L1LinkTrainFrameLock)  # frame lock status of the local end.
+        frame_lock: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt, choices=LinkTrainFrameLock)  # frame lock status of the local end.
 
-        remote_frame_lock: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4, choices=L1LinkTrainFrameLock)  # frame lock status of the remote end.
+        remote_frame_lock: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt, choices=LinkTrainFrameLock)  # frame lock status of the remote end.
 
         num_frame_errors:  XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # Number of frame errors received
 
         num_overruns:  XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # Number of overruns
 
-        num_last_ic_received:  XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # Last preset request receuved
+        last_ic_received:  XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # Last preset request received
 
-        num_last_ic_sent:  XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # Last preset request sent
+        last_ic_sent:  XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # Last preset request sent
 
     def get(self) -> "Token[GetDataAttr]":
         """Get L1 link training information. Information is per Serdes and split into a number of pages.
@@ -266,13 +266,9 @@ class PL1_LINKTRAININFO:
 @dataclass
 class PL1_LOG:
     """
-    .. versionadded:: 2.0
+    .. versionadded:: 1.1
 
-    .. warning::
-
-        Still in beta mode. Subjected to changes
-
-    Return a log line of either AN or LT for the given Serdes. The log string line contains the latest 100 lines.
+    Return ANLT log messages in json format.
     """
 
     code: typing.ClassVar[int] = 387
@@ -281,31 +277,26 @@ class PL1_LOG:
     _connection: "interfaces.IConnection"
     _module: int
     _port: int
-    _serdes_xindex: int
-    _type: int
 
     @dataclass(frozen=True)
     class GetDataAttr:
 
         log_string: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)
-        # TODO: the type of this param returned from xenaserver will be a JSON.
-        # Then xoa-driver should parse it into a Python dict.
-        # We will need to modify this as soon as the part on xenaserver is ready.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Return a log line of either AN (``<_type> = 0``) or LT (``<_type> = 1``) for the given Serdes. (latest 100 lines)
+        """Return anlt log in json format
 
-        :return: a log line from AN/LT for the given Serdes.
+        :return: anlt log in json format
         :rtype: PL1_LOG.GetDataAttr
         """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
 @register_command
 @dataclass
 class PL1_CFG_TMP:
     """
-    .. versionadded:: 2.0
+    .. versionadded:: 1.1
 
     .. warning::
 
@@ -327,13 +318,13 @@ class PL1_CFG_TMP:
     class GetDataAttr:
         """Data structure of the get response.
         """
-        value: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
+        values: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
 
     @dataclass(frozen=True)
     class SetDataAttr:
         """Data structure of the set action.
         """
-        value: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
+        values: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
 
     def get(self) -> "Token[GetDataAttr]":
         """Get various L1 parameters
@@ -343,13 +334,13 @@ class PL1_CFG_TMP:
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._type]))
 
-    def set(self, value: int) -> "Token":
+    def set(self, values: typing.List[int]) -> "Token":
         """Get various L1 parameters
 
-        :param value: whether it is on or off
-        :type value: int
+        :param values: L1 parameters
+        :type values: typing.List[int]
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._type], value=value))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._type], values=values))
 
 
 @register_command

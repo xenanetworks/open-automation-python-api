@@ -49,7 +49,6 @@ Enum Classes
     IsPermanent
     IsPresent
     IsValid
-    L1LinkTrainFrameLock
     L2PlusPresent
     L3PlusPresent
     L47IPVersion
@@ -59,16 +58,25 @@ Enum Classes
     L47TrafficState
     LatencyMode
     LatencyTypeCustomDist
+    Layer1ConfigType
+    Layer1LogType
     LengthCheckType
     LengthType
     LicenseSpeed
     LifecycleMode
     LinkState
+    LinkTrainCmd
+    LinkTrainCmdFlags
+    LinkTrainCmdResults
+    LinkTrainCoeffs
+    LinkTrainEncoding
+    LinkTrainFrameLock
     LinkTrainingFailureType
     LinkTrainingInitCondition
     LinkTrainingMode
     LinkTrainingStatus
     LinkTrainingStatusMode
+    LinkTrainPresets
     LocalFaultStatus
     LoopbackMode
     LoopBandwidth

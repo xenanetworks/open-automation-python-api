@@ -26,7 +26,7 @@ class NoSuchModuleError(ConfigError):
 
 class NoSuchPortError(ConfigError):
     def __init__(self, port_id: int) -> None:
-        self.msg = f"No such module {port_id}!"
+        self.msg = f"No such port {port_id}!"
 
 
 class NotSupportPcsPmaError(ConfigError):

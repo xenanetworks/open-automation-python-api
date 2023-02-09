@@ -19,8 +19,9 @@
 
     .. autosummary::
     
-        ~LinkTrainingMode.AUTO
-        ~LinkTrainingMode.FORCE_ENABLE
-        ~LinkTrainingMode.FORCE_DISABLE
+        ~LinkTrainingMode.START_AFTER_AUTONEG
+        ~LinkTrainingMode.STANDALONE
+        ~LinkTrainingMode.DISABLED
+        ~LinkTrainingMode.INTERACTIVE
     
     

@@ -127,7 +127,7 @@ class PC_KEEP:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        type: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=PacketType)  # coded integer, which general kind of packets to keep
+        kind: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=PacketType)  # coded integer, which general kind of packets to keep
         index: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, test payload id or filter index for which packets to keep.
         byte_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, how many bytes to keep in the buffer for of each packet. The value -1 means no limit on packet size.
 
