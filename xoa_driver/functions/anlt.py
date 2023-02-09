@@ -312,7 +312,7 @@ async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
         ).get(),
     )
     total_bit_count = (info.prbs_total_bits_high << 32) + (
-        info.prbs_total_error_bits_low
+        info.prbs_total_bits_low
     )
     total_error_bit_count = (info.prbs_total_error_bits_high << 32) + (
         info.prbs_total_error_bits_low
@@ -329,8 +329,10 @@ async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
         if ltconf.nrz_preset == NRZPreset.NRZ_NO_PRESET
         else "existing tap value",
         "init_modulation": cfg.values[0],
-        "ber": str(prbs),
-        "duration": f"{info.duration_us} us",
+        "total_bits": total_bit_count,
+        "total_errored_bits": total_error_bit_count,
+        "ber": prbs,
+        "duration": info.duration_us,
         "lock_lost": info.lock_lost_count,
         "frame_lock": LinkTrainFrameLock(info.frame_lock).name.lower(),
         "remote_frame_lock": LinkTrainFrameLock(info.remote_frame_lock).name.lower(),
