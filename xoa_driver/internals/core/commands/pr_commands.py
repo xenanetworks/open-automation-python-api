@@ -284,11 +284,11 @@ class PR_TPLDERRORS:
     class GetDataAttr(ResponseBodyStruct):
         dummy: int = field(XmpLong())
         """long integer, not in use."""
-        non_inc_seq_event_count: int = field(XmpLong())
+        non_incre_seq_event_count: int = field(XmpLong())
         """long integer, number of non-incrementing-sequence-number events."""
         swapped_seq_misorder_event_count: int = field(XmpLong())
         """long integer, number of swapped-sequence-number misorder events."""
-        non_inc_payload_packet_count: int = field(XmpLong())
+        non_incre_payload_packet_count: int = field(XmpLong())
         """long integer, number of packets with non-incrementing payload content."""
 
     def get(self) -> Token[GetDataAttr]:
