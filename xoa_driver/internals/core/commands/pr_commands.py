@@ -251,9 +251,9 @@ class PR_TPLDERRORS:
     @dataclass(frozen=True)
     class GetDataAttr:
         dummy: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, not in use.
-        non_inc_seq_event_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of non-incrementing-sequence-number events.
+        non_incre_seq_event_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of non-incrementing-sequence-number events.
         swapped_seq_misorder_event_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of swapped-sequence-number misorder events.
-        non_inc_payload_packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets with non-incrementing payload content.
+        non_incre_payload_packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets with non-incrementing payload content.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning errors in the packets with a particular test payload id received on a port.
