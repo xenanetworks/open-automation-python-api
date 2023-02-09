@@ -43,6 +43,8 @@ class Stream(Generic[HeaderType]):
 
     def __pop(self) -> tuple[HeaderType, bytearray] | None:
         # need to manage of the data copying
+        if not self.__buffer:
+            return None
         buff = self.__buffer
         header_bytes = buff[self.__header_pos]
         if not _header_bytes_is_valid(header_bytes, self.__header_pos.stop, self.__magic_wrd):
@@ -69,6 +71,9 @@ class Stream(Generic[HeaderType]):
 
     async def read(self) -> AsyncGenerator[tuple[HeaderType, bytearray], None]:
         while True:
-            await self.__wait_data.wait()
             if resp := self.__pop():
                 yield resp
+            try:
+                await asyncio.wait_for(self.__wait_data.wait(), 1)
+            except asyncio.exceptions.TimeoutError:
+                pass

@@ -50,7 +50,13 @@ class PacketsProcessor:
             return None
         self.__evt_do_job.set()
         self.__consumer = asyncio.create_task(self.__consume())
-        # self.__consumer.add_done_callback(self.__handle_exceptions)
+        self.__consumer.add_done_callback(self.__handle_exceptions)
+
+    def __handle_exceptions(self, fut: asyncio.Future) -> None:
+        if fut.cancelled():
+            return None
+        if e := fut.exception():
+            raise e
 
     def stop(self) -> None:
         if not self.is_running:
