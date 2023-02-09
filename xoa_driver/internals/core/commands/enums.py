@@ -1288,12 +1288,12 @@ class TrafficEngine(IntEnum):
 class LinkTrainFrameLock(IntEnum):
     """L1 Link Training Frame Lock Status"""
 
-    UNKNOWN = 0
-
+    LOST = 0
+    """No Frame Lock detected"""
+    
     LOCKED = 1
     """Frame Lock detected"""
-    LOST = 2
-    """No Frame Lock detected"""
+    
 
 
 class PPMSweepMode(IntEnum):
