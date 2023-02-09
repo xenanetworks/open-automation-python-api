@@ -206,8 +206,7 @@ html_theme_options = {
     "home_page_in_toc": True,
     "show_toc_level": 2,
     "use_download_button": True,
-    "show_navbar_depth": 1,
-    "announcement": "This is the development version. Don't use it with the published package.",
+    "show_navbar_depth": 1
 }
 
 # If true, the index is generated twice: once as a single page with all the entries, 
