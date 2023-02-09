@@ -1288,6 +1288,8 @@ class TrafficEngine(IntEnum):
 class LinkTrainFrameLock(IntEnum):
     """L1 Link Training Frame Lock Status"""
 
+    UNKNOWN = 0
+
     LOCKED = 1
     """Frame Lock detected"""
     LOST = 2
@@ -2266,6 +2268,23 @@ class LinkTrainCmdFlags(IntEnum):
 
     OVERRUN = 32
     """Overrun detected"""
+
+
+class AnLtD(IntEnum):
+    PMD_CONFIG_REGISTER = 0x02
+    LT_TX_CONFIG_REGISTER = 0x20
+    LT_TX_FRAME_REGISTER = 0x24
+    LT_RX_STATUS_REGISTER = 0x29
+    LT_RX_CONFIG_REGISTER = 0x28
+    LT_RX_FRAME_REGISTER = 0x2C
+    LT_RX_ERROR_STAT_0 = 0x2A
+    LT_RX_ERROR_STAT_1 = 0x2B
+    LT_RX_ANALYZER_CONFIG = 0x38
+    LT_RX_ANALYZER_TRIG_MASK = 0x39
+    LT_RX_ANALYZER_STATUS = 0x3A
+    LT_RX_ANALYZER_RD_ADDR = 0x3B
+    LT_RX_ANALYZER_RD_PAGE = 0x3C
+    LT_RX_ANALYZER_RD_DATA = 0x3D
 
 
 # endregion

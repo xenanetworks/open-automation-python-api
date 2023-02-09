@@ -241,9 +241,9 @@ class PL1_LINKTRAININFO:
 
         prbs_total_error_bits_low: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # PRBS total error bits (least significant 32-bit).
 
-        frame_lock: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4, choices=LinkTrainFrameLock)  # frame lock status of the local end.
+        frame_lock: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt, choices=LinkTrainFrameLock)  # frame lock status of the local end.
 
-        remote_frame_lock: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4, choices=LinkTrainFrameLock)  # frame lock status of the remote end.
+        remote_frame_lock: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt, choices=LinkTrainFrameLock)  # frame lock status of the remote end.
 
         num_frame_errors:  XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # Number of frame errors received
 

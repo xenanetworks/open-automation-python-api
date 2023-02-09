@@ -82,7 +82,7 @@ async def do_anlt(
     should_do_lt: bool,
     an_allow_loopback: bool,
     lt_preset0_std: bool,
-    lt_initial_modulations: Dict[str, LinkTrainEncoding],
+    lt_initial_modulations: Dict[int, LinkTrainEncoding],
     should_lt_interactive: bool,
 ) -> None:
     """_summary_
@@ -394,11 +394,11 @@ async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
         },
         "c(-1)": {
             "current_level": info.pre1_current_level,
-            "+reg": {
+            "+req": {
                 "rx": info.pre1_rx_increment_req_count,
                 "tx": info.pre1_tx_increment_req_count,
             },
-            "-reg": {
+            "-req": {
                 "rx": info.pre1_rx_decrement_req_count,
                 "tx": info.pre1_tx_decrement_req_count,
             },
@@ -421,11 +421,11 @@ async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
         },
         "c(0)": {
             "current_level": info.main_current_level,
-            "+reg": {
+            "+req": {
                 "rx": info.main_rx_increment_req_count,
                 "tx": info.main_tx_increment_req_count,
             },
-            "-reg": {
+            "-req": {
                 "rx": info.main_rx_decrement_req_count,
                 "tx": info.main_tx_decrement_req_count,
             },
@@ -448,11 +448,11 @@ async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
         },
         "c(1)": {
             "current_level": info.post1_current_level,
-            "+reg": {
+            "+req": {
                 "rx": info.post1_rx_increment_req_count,
                 "tx": info.post1_tx_increment_req_count,
             },
-            "-reg": {
+            "-req": {
                 "rx": info.post1_rx_decrement_req_count,
                 "tx": info.post1_tx_decrement_req_count,
             },
