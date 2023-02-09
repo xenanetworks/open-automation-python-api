@@ -13,7 +13,7 @@ HL-FUNC provides high-level abstraction functions on top of the object-oriented 
     await mgmt.reserve_port(port, force=True)
 
     # Tells the remote link training partner to increase its emphasis register value by 1 bit.
-    await anlt.lt_coeff_inc(port=port, lane=0, emphasis=LinkTrainCoeffs.PRE1)
+    await anlt.lt_coeff_inc(port=port, lane=0, emphasis=LinkTrainCoeffs.PRE)
 
 The object-oriented APIs in HL-API and the command classes in LL-API are one-to-one mapped, and there is no abstraction provided by the HL-API. As a test specialist, your focus is on building test logics and sequences, not spending unnecessary time on "logistics", such as reserving ports, releasing your ports, deleting all streams on a port without resetting, etc.
 

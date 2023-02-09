@@ -19,7 +19,7 @@
 
     .. autosummary::
     
-        ~LinkTrainCoeffs.PRE1
+        ~LinkTrainCoeffs.PRE
         ~LinkTrainCoeffs.MAIN
         ~LinkTrainCoeffs.POST
         ~LinkTrainCoeffs.PRE2
