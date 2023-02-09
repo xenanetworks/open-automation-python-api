@@ -238,13 +238,13 @@ async def my_awesome_func() -> None:
 
         stream.packet.header.modifiers.configure(1)
         stream.packet.header.modifiers.clear()
-        modifier = stream.packet.header.modifiers.index(0)
+        modifier = stream.packet.header.modifiers.obtain(0)
         modifier.range
         modifier.specification
 
         stream.packet.header.modifiers_extended.configure(1)
         stream.packet.header.modifiers_extended.clear()
-        modifier_ex = stream.packet.header.modifiers_extended.index(0)
+        modifier_ex = stream.packet.header.modifiers_extended.obtain(0)
         modifier_ex.range
         modifier_ex.specification
 
@@ -850,13 +850,13 @@ async def my_awesome_func3() -> None:
 
         stream.packet.header.modifiers.configure(1)
         stream.packet.header.modifiers.clear()
-        modifier = stream.packet.header.modifiers.index(0)
+        modifier = stream.packet.header.modifiers.obtain(0)
         modifier.range
         modifier.specification
 
         stream.packet.header.modifiers_extended.configure(1)
         stream.packet.header.modifiers_extended.clear()
-        modifier_ex = stream.packet.header.modifiers_extended.index(0)
+        modifier_ex = stream.packet.header.modifiers_extended.obtain(0)
         modifier_ex.range
         modifier_ex.specification
 
