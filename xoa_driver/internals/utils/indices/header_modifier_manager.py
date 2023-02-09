@@ -52,6 +52,6 @@ class ModifiersManager(Generic[MT]):
     def __iter__(self):
         return iter(self.__items)
 
-    def index(self, idx: int) -> MT:
+    def obtain(self, idx: int) -> MT:
         """Access modifier of the index value"""
         return self.__items[idx]
