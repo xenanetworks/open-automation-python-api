@@ -41,9 +41,9 @@ class Request:
         return utils.format_repr(self)
 
     def __bytes__(self) -> bytes:
-        return b"".join(
+        return bytes().join(
             (
-                bytes(self.header),
+                self.header,
                 struct.pack(f"!{self.header.number_of_indices}I", *self.index_values),
                 self.values.to_bytes() if self.values else b""
             )

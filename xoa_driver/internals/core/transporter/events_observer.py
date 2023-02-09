@@ -17,15 +17,14 @@ CB = Callable[..., Coroutine[Any, None, None]]
 
 class EventsObserver:
 
-    __slots__ = ("__events", "__loop", )
+    __slots__ = ("__events", )
 
     def __init__(self) -> None:
         self.__events: dict[int, list[CB]] = defaultdict(list)
-        self.__loop = asyncio.get_event_loop()
 
     def dispatch(self, evt: int, *args, **kwargs) -> None:
         for evt_func in self.__events.get(evt, []):
-            self.__loop.create_task(
+            asyncio.create_task(
                 evt_func(*args, **kwargs)
             ).add_done_callback(self.__handle_exceptions)
 
@@ -35,3 +34,5 @@ class EventsObserver:
 
     def subscribe(self, evt: int, func: CB) -> None:
         self.__events[evt].append(func)
+
+

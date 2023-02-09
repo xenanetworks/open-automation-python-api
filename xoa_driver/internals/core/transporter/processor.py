@@ -1,20 +1,45 @@
 from __future__ import annotations
 import asyncio
-from typing import Generator, Protocol, Type
+from typing import Generator, Protocol
+from collections import UserDict
+
+from ..protocol.struct_response import Response
+from ..protocol.struct_header import ResponseHeader
 from ..protocol.command_builders import build_from_bytes
-from ..registry import get_command
+from .. import registry
+from .exceptions import RepeatedRequestID
+
 
 class Stream(Protocol):
     async def read(self) -> Generator[tuple, None, None]:
         ...
 
 
+class OnResponseCallback(Protocol):
+    def __call__(self, response: Response) -> None:
+        ...
+
+
+class CommandsCodeMapper(UserDict):
+    data: dict[int, int]
+
+    def add_code(self, req_id: int, cmd_code: int) -> None:
+        self.data[req_id] = cmd_code
+
+    def pop_code(self, req_id: int) -> int | None:
+        return self.data.pop(req_id, None)
+
+
 class PacketsProcessor:
+    """Process reading packets from he stream and create a response object for each packet"""
 
     def __init__(self, stream: Stream) -> None:
         self.__stream = stream
+        self.__cm_mapper = CommandsCodeMapper()
         self.__evt_do_job = asyncio.Event()
         self.__consumer: asyncio.Task | None = None
+        self.__handle_push_response = lambda r: None
+        self.__handle_param_response = lambda r: None
 
     @property
     def is_running(self) -> bool:
@@ -34,66 +59,29 @@ class PacketsProcessor:
         self.__consumer.cancel()  # type: ignore[ReportOptionalMemberAccess]
         self.__consumer = None
 
+    def register(self, req_id: int, cmd_code: int) -> None:
+        self.__cm_mapper.add_code(req_id=req_id, cmd_code=cmd_code)
+
+    def on_push_response(self, callback: OnResponseCallback) -> None:
+        self.__handle_push_response = callback
+
+    def on_param_response(self, callback: OnResponseCallback) -> None:
+        self.__handle_param_response = callback
+
     async def __consume(self) -> None:
         async for header, body_bytes in self.__stream.read():
-            print(header, body_bytes)
             response = self.__serialize_to_response(header, body_bytes)
-            if response.header.is_pushed:
+            if header.is_pushed:
                 self.__handle_push_response(response)
             else:
                 self.__handle_param_response(response)
             if not self.__evt_do_job.is_set():
                 return None
 
-
-    # def __handle_exceptions(self, fut: "asyncio.Future") -> None:
-    #     if e := fut.exception():
-    #         print(e)
-
-    # def __handle_push_response(self, response: Response) -> None:
-    #     # self.__log.push_obj(response)
-    #     self.events_observer.dispatch(
-    #         response.header.cmd_code,
-    #         response
-    #     )
-
-    # def __handle_param_response(self, response: Response) -> None:
-    #     # self.__log.response_obj(response)
-    #     future = self.cmd_mngr.get_result_future(response)
-    #     if not future:
-    #         raise t_ex.LostFuture(response)
-    #     if not response.is_ok:
-    #         future.set_exception(t_ex.BadStatus(response))
-    #     else:
-    #         future.set_result(response.values)
-
-    # async def process_data(self, header, data: memoryview) -> None:
-    #     try:
-    #         response = await self.__serialize_to_response(header, data)
-    #     except t_ex.RepeatedRequestID as e:
-    #         self.__log.error(f"{e} Original Data: {data}")
-    #     else:
-    #         if response.header.is_pushed:
-    #             self.__handle_push_response(response)
-    #         else:
-    #             self.__handle_param_response(response)
-
-    def __serialize_to_response(self, header, body_bytes: bytearray) -> Response:
+    def __serialize_to_response(self, header: ResponseHeader, body_bytes: bytearray) -> Response:
         """Applying received bytes to structured representation."""
-
-        command_idx: int | None = (
-            header.cmd_code
-            if header.is_pushed
-            else self.cmd_mngr.get_command_handler_id(
-                header.request_identifier
-            )
-        )
+        command_idx = header.cmd_code if header.is_pushed else self.__cm_mapper.pop_code(header.request_identifier)
         if not command_idx:
-            raise t_ex.RepeatedRequestID(header)
-        xmc_type = get_command(command_idx)
+            raise RepeatedRequestID(header)
+        xmc_type = registry.get_command(command_idx)
         return build_from_bytes(xmc_type, header, body_bytes)
-        # xmc_type: Type[x_types.CMD_TYPE] | None = self.commands_registry.get(command_idx, None)
-        # if not xmc_type:
-        #     raise t_ex.NotImplementedCommand(header)
-        
-        

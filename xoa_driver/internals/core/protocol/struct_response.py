@@ -1,8 +1,6 @@
 from __future__ import annotations
 import struct
-from typing import (
-    Any,
-)
+from typing import Any
 from . import constants as const
 from . import utils
 from .struct_header import ResponseHeader
@@ -26,20 +24,19 @@ class Response:
     __slots__ = (
         "class_name",
         "header",
-        "_buff",
-        "__cursor",
         "index_values",
         "values",
+        "__buffer",
     )
 
-    def __init__(self, header: ResponseHeader, class_name: str, buffer: memoryview, response_struct: type[ResponseBodyStruct] | None) -> None:
+    def __init__(self, class_name: str, header: ResponseHeader, buffer: bytearray, response_struct: type[ResponseBodyStruct] | None) -> None:
         self.class_name = class_name
         self.header = header
-        self._buff = buffer
-        self.index_values = self.__parse_indices()
-        self.values: Any = None
-        if self.header.cmd_type == const.CommandType.COMMAND_VALUE:
-            self.values = response_struct(self._buff) if response_struct else None
+        idces_fmt_ = f"!{header.number_of_indices}I"
+        idx_count_ = struct.calcsize(idces_fmt_)
+        self.__buffer = memoryview(buffer)
+        self.index_values = self.__parse_indices(idces_fmt_, self.__buffer[:idx_count_])
+        self.values: Any = self.__parse_values(self.__buffer[idx_count_:], response_struct)
 
     def __str__(self) -> str:
         return utils.format_str(self)
@@ -48,7 +45,7 @@ class Response:
         return utils.format_repr(self)
 
     def __bytes__(self) -> bytes:
-        return bytes(self.header) + self._buff.tobytes()
+        return bytes().join((self.header, self.__buffer))
 
     @property
     def command_status(self) -> const.CommandStatus | None:
@@ -56,20 +53,26 @@ class Response:
             return const.CommandStatus(self.header.cmd_code)
         return None
 
-    def __parse_indices(self) -> list[int]:
-        format = f"!{self.header.number_of_indices}I"
-        indices = struct.unpack_from(format, self._buff, 0)
+    def __parse_indices(self, fmt: str, buffer: memoryview) -> list[int]:
+        indices = struct.unpack_from(fmt, buffer, 0)
         return list(indices)
+
+    def __parse_values(self, buffer: memoryview, struct_type: type[ResponseBodyStruct] | None):
+        if self.header.cmd_type == const.CommandType.COMMAND_VALUE:
+            return struct_type(buffer) if struct_type else None
+        return None
 
     @property
     def is_ok(self) -> bool:
-        return self.get_return_ok() or self.set_return_ok()
+        return self.get_return_ok or self.set_return_ok
 
+    @property
     def set_return_ok(self) -> bool:
         is_status_resp = self.header.cmd_type == const.CommandType.COMMAND_STATUS
         is_succesful = self.header.cmd_code == const.CommandStatus.OK
         return is_status_resp and is_succesful
 
+    @property
     def get_return_ok(self) -> bool:
         is_payload_resp = self.header.cmd_type == const.CommandType.COMMAND_VALUE
         contain_values = self.values is not None

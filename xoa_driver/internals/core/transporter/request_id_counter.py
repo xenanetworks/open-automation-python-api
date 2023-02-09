@@ -19,7 +19,7 @@ class RequestIdCounter:
         self.__req_id = ReservedRequestID.started()
         self.__lock = asyncio.Lock()
 
-    async def get_avaliable(self) -> int:
+    async def get_number(self) -> int:
         async with self.__lock:
             if self.__req_id >= ReservedRequestID.REQUEST_ID_LIMIT:
                 self.__req_id = ReservedRequestID.started()

@@ -5,7 +5,7 @@ from typing import (
     Union,
     Type,
 )
-from loguru import logger
+# from loguru import logger
 from ..protocol.struct_response import Response
 from ..protocol.struct_request import Request
 
@@ -21,17 +21,17 @@ class TransportationLogger:
         self.debug = debug
         self.identity_name = f"bifrost-{uid}"
         self.__state: Union[Type[StateDebugOn], Type[StateDebugOff]] = StateDebugOff
-        self.__logger = logger.bind(logger_name=self.identity_name)
+        # self.__logger = logger.bind(logger_name=self.identity_name)
         if self.debug:
-            self.__logger.add(f"{self.identity_name}-info.log", rotation="100 MB", level="INFO")
-            self.__logger.add(f"{self.identity_name}-debug.log", rotation="100 MB", level="DEBUG")
-            self.__logger.add(f"{self.identity_name}-error.log", rotation="100 MB", level="ERROR")
-            self.__logger.add(f"{self.identity_name}-warning.log", rotation="100 MB", level="WARNING")
+            # self.__logger.add(f"{self.identity_name}-info.log", rotation="100 MB", level="INFO")
+            # self.__logger.add(f"{self.identity_name}-debug.log", rotation="100 MB", level="DEBUG")
+            # self.__logger.add(f"{self.identity_name}-error.log", rotation="100 MB", level="ERROR")
+            # self.__logger.add(f"{self.identity_name}-warning.log", rotation="100 MB", level="WARNING")
             self.__state = StateDebugOn
 
-    def _log(self, *args: Iterable[str], log_fn: Callable = logger.opt(colors=True).debug) -> None:
-        for v in args:
-            log_fn(v)
+    # def _log(self, *args: Iterable[str], log_fn: Callable = logger.opt(colors=True).debug) -> None:
+    #     for v in args:
+    #         log_fn(v)
 
     def info(self, *args) -> None:
         self.__state.info(self, *args)

@@ -17,8 +17,9 @@ def register_command(xmc_cls: Type[CMD_TYPE]) -> Type:
     return xmc_cls
 
 
-def get_command(command_idx: int):
+def get_command(command_idx: int) -> Type[CMD_TYPE]:
     global COMMANDS_REGISTRY
     xmc_type = COMMANDS_REGISTRY.get(command_idx, None)
     if not xmc_type:
         raise RuntimeError(f"Command with id: {command_idx} is not implemented")
+    return xmc_type
