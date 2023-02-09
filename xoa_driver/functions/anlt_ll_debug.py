@@ -157,26 +157,30 @@ async def lt_rx_analyzer_dump(
     port: GenericAnyPort, lane: int, inf: t.Optional[AnLtLowLevelInfo] = None
 ) -> str:
     """This will dump the 320bit words in the capture buffer"""
-    string = ""
+    if inf is None:
+        inf = await init(port, lane)
+    string = []
     trigger_pos, capture_done = await asyncio.gather(
         lt_rx_analyzer_config_get(port, lane, inf=inf),
         lt_rx_analyzer_status_get(port, lane, inf=inf),
     )
-    string += f"Trigger position: {trigger_pos}\n"
-    string += f"Analyzer status: : {capture_done}\n"
+    string.append(f"Trigger position: {trigger_pos}\n")
+    string.append(f"Analyzer status: : {capture_done}\n")
     if not capture_done:
-        string += "No capture\n"
-        return string
-    string += "Capture:"
+        string.append("No capture\n")
+        result = "".join(string)
+        return result
+    string.append("Capture:")
     for r in range(256):
         # Set the read address
         await lt_rx_analyzer_rd_addr_set(port, lane, inf=inf, value=r)
-        string += f"{r:02X}: "
+        string.append(f"{r:02X}: ")
         for p in range(10):
             # Read the data
             await lt_rx_analyzer_rd_page_set(port, lane, inf=inf, value=p)
             d = await lt_rx_analyzer_rd_data_get(port, lane, inf=inf)
-            string += f"{d:08X} "
-        string += "\n"
-    string += "Done\n"
-    return string
+            string.append(f"{d:08X} ")
+        string.append("\n")
+    string.append("Done\n")
+    result = "".join(string)
+    return result
