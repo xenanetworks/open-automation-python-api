@@ -4,17 +4,8 @@ import ctypes as c
 from typing import (
     AsyncGenerator,
     Generic,
-    # Protocol,
     TypeVar,
 )
-
-# StructType = TypeVar("StructType", bound="c.BigEndianStructure", covariant=True)
-
-
-# class PacketHeader(Protocol["c.BigEndianStructure"]):
-#     @property
-#     def body_size(self) -> int:
-#         ...
 
 
 HeaderType = TypeVar("HeaderType", bound="c.BigEndianStructure")
@@ -27,13 +18,15 @@ def _calc_body_position(header_pos: slice, body_size: int) -> slice:
     )
 
 
-def _header_bytes_is_valid(header_bytes: bytearray, expected_size: int, magic_wrd: bytes) -> bool:
+def _header_bytes_is_valid(header_bytes: memoryview, expected_size: int, magic_wrd: bytes) -> bool:
     is_correct_size = len(header_bytes) == expected_size
-    start_with_mw = header_bytes.startswith(magic_wrd)
+    start_with_mw = header_bytes[:len(magic_wrd)] == magic_wrd
     return is_correct_size and start_with_mw
 
 
 class Stream(Generic[HeaderType]):
+    __slots__ = ("__buffer", "__magic_wrd", "__header_struct", "__header_pos", "__wait_data")
+
     def __init__(self, header_struct: type[HeaderType], magic_wrd: bytes) -> None:
         self.__buffer = bytearray()
         self.__magic_wrd = magic_wrd
@@ -41,12 +34,12 @@ class Stream(Generic[HeaderType]):
         self.__header_pos = slice(c.sizeof(header_struct))
         self.__wait_data = asyncio.Event()
 
-    def __pop(self) -> tuple[HeaderType, bytearray] | None:
+    def __pop(self) -> tuple[HeaderType, memoryview] | None:
         # need to manage of the data copying
-        if not self.__buffer:
+        if self.empty():
             return None
         buff = self.__buffer
-        header_bytes = buff[self.__header_pos]
+        header_bytes = memoryview(buff[self.__header_pos])
         if not _header_bytes_is_valid(header_bytes, self.__header_pos.stop, self.__magic_wrd):
             return None
         header = self.__header_struct.from_buffer_copy(header_bytes)
@@ -54,22 +47,26 @@ class Stream(Generic[HeaderType]):
             self.__header_pos,
             header.body_size
         )
-        body_bytes = buff[BODY_POS]
+        body_bytes = memoryview(buff[BODY_POS])
         if len(body_bytes) < header.body_size:
             return None
         try:
             return (header, body_bytes)
         finally:
             del self.__buffer[slice(BODY_POS.stop)]
-            if len(self.__buffer) == 0:
+            if self.empty():
                 self.__wait_data.clear()
+
+    def empty(self) -> bool:
+        """Return True if the stream is empty, False otherwise."""
+        return not self.__buffer
 
     def write(self, data: bytes) -> None:
         self.__buffer.extend(data)
         if not self.__wait_data.is_set():
             self.__wait_data.set()
 
-    async def read(self) -> AsyncGenerator[tuple[HeaderType, bytearray], None]:
+    async def read(self) -> AsyncGenerator[tuple[HeaderType, memoryview], None]:
         while True:
             if resp := self.__pop():
                 yield resp

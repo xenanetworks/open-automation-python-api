@@ -1,7 +1,6 @@
 from __future__ import annotations
 import asyncio
-# from concurrent.futures import ThreadPoolExecutor
-from asyncio.futures import Future
+
 from typing import Callable
 
 
@@ -11,16 +10,14 @@ from uuid import uuid4
 from asyncio.transports import Transport
 
 from ..protocol import constants as const
-# from ..registry import COMMANDS_REGISTRY
 from .. import interfaces as x_types
 
-# from . import logging as log
+from .logging import TransportationLogger
 from .request_id_counter import RequestIdCounter
 from .stream import Stream
 from .processor import PacketsProcessor
 from .publisher import ResponsePublisher
 from ..protocol.struct_header import ResponseHeader
-# from ..protocol.struct_response import Response
 from ..protocol.struct_request import Request
 
 
@@ -29,18 +26,17 @@ class TransportationHandler(asyncio.Protocol):
 
     def __init__(self, logger: None = None) -> None:
         self.identity = uuid4().hex[:6]
+        self.__log = TransportationLogger(self.identity, False)
         self.__transport: Transport | None = None
         self.__id_counter = RequestIdCounter()
         self.__stream = Stream(
             header_struct=ResponseHeader,
             magic_wrd=const.MAGIC_WORD
         )
-        self.__resp_publisher = ResponsePublisher()
+        self.__resp_publisher = ResponsePublisher(logger=self.__log)
         self.__pkt_processor = PacketsProcessor(self.__stream)
         self.__pkt_processor.on_push_response(self.__resp_publisher.publish_push_response)
         self.__pkt_processor.on_param_response(self.__resp_publisher.publish_param_response)
-
-        # self.__log = log.TransportationLogger(self.identity)
 
     @property
     def is_connected(self) -> bool:
@@ -50,22 +46,20 @@ class TransportationHandler(asyncio.Protocol):
         self.__transport = transport
         peername = transport.get_extra_info("peername")
         self.__pkt_processor.start()
-        print(peername)
-        # self.__log.info(f"Connected to {peername}")
+        self.__log.info(f"Connected to {peername}")
 
     def data_received(self, data: bytes) -> None:
         """Process received data from xenaserver."""
         self.__stream.write(data)
 
     def eof_received(self) -> None:
-        # self.__log.info("EOF received")
-        ...
+        self.__log.info("EOF received")
 
     def connection_lost(self, exc) -> None:
         self.__resp_publisher.publish_connection_lost(self.__transport.get_extra_info("peername") if self.__transport else None)
         self.__transport = None
         self.__pkt_processor.stop()
-        # self.__log.info(f"The server closed the connection {exc}")
+        self.__log.info(f"The server closed the connection {exc}")
 
     def send(self, data: bytes | bytearray | memoryview) -> None:
         """
@@ -81,11 +75,10 @@ class TransportationHandler(asyncio.Protocol):
         if self.is_connected:
             self.__transport.close()  # type: ignore[reportOptionalMemberAccess]
 
-    async def prepare_data(self, request: Request) -> tuple[bytes, Future]:
+    async def prepare_data(self, request: Request) -> tuple[bytes, asyncio.Future]:
         assert self.is_connected, "Cannot add command because Socket is disconnected"
         request_id_ = await self.__id_counter.get_number()
         request.update_identifier(request_id_)
-        # self.__log.request_obj(request)
         self.__pkt_processor.register(
             req_id=request_id_,
             cmd_code=request.header.cmd_code
@@ -94,6 +87,7 @@ class TransportationHandler(asyncio.Protocol):
             req_id=request_id_,
             cmd_name=request.class_name
         )
+        self.__log.request_obj(request)
         return bytes(request), fut_
 
     def subscribe(self, xmc_cls: x_types.CMD_TYPE, callback: "Callable") -> None:

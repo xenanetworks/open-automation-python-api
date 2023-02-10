@@ -1,3 +1,4 @@
+from __future__ import annotations
 import asyncio
 from asyncio.events import AbstractEventLoop
 from collections import defaultdict
@@ -5,12 +6,11 @@ from typing import (
     TYPE_CHECKING,
     AsyncGenerator,
     Optional,
-    Any,
     Dict,
-    List,
+    TypeVar,
 )
 if TYPE_CHECKING:
-    from .transportation_handler import TransportationHandler
+    from .handler import TransportationHandler
     from .. import interfaces
 
 from .token import Token
@@ -30,11 +30,13 @@ async def establish_connection(transporter: "TransportationHandler", host: str, 
         raise exceptions.EstablishConnectionError(host, port) from None
 
 
-async def apply_iter(*cmd_tokens: "Token") -> AsyncGenerator[Any, None]:
+T = TypeVar("T")
+
+
+async def apply_iter(*cmd_tokens: Token[T]) -> AsyncGenerator[T, None]:
     """
     Main interface for chunking the commands which need to be send to one or multiple testers at the same time.
     """
-
     aggregator: Dict["interfaces.IConnection", bytearray] = defaultdict(bytearray)
     queue: asyncio.Queue[asyncio.Future] = asyncio.Queue()
     for t in cmd_tokens:
@@ -50,7 +52,7 @@ async def apply_iter(*cmd_tokens: "Token") -> AsyncGenerator[Any, None]:
     await queue.join()
 
 
-async def apply(*cmd_tokens: "Token") -> List[Any]:
+async def apply(*cmd_tokens: Token[T]) -> list[T]:
     """
     Main interface for chunking the commands which need to be send to one or multiple testers at the same time.
     """

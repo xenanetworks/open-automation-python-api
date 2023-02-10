@@ -33,6 +33,8 @@ class CommandsCodeMapper(UserDict):
 class PacketsProcessor:
     """Process reading packets from he stream and create a response object for each packet"""
 
+    __slots__ = ("__stream", "__cm_mapper", "__evt_do_job", "__consumer", "__handle_push_response", "__handle_param_response")
+
     def __init__(self, stream: Stream) -> None:
         self.__stream = stream
         self.__cm_mapper = CommandsCodeMapper()
@@ -75,6 +77,7 @@ class PacketsProcessor:
         self.__handle_param_response = callback
 
     async def __consume(self) -> None:
+        # TODO: Handle exceptions
         async for header, body_bytes in self.__stream.read():
             response = self.__serialize_to_response(header, body_bytes)
             if header.is_pushed:

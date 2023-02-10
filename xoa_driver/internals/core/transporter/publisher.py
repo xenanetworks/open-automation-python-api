@@ -54,7 +54,10 @@ class EventsObserver:
 
 
 class ResponsePublisher:
-    def __init__(self) -> None:
+    __slots__ = ("__futures_mapper", "__observer", "__logger")
+
+    def __init__(self, logger) -> None:
+        self.__logger = logger
         self.__futures_mapper = FuturesMapper()
         self.__observer = EventsObserver()
 
@@ -68,12 +71,14 @@ class ResponsePublisher:
 
     def publish_connection_lost(self, info) -> None:
         self.__observer.dispatch(ON_EVT_DISCONNECTED, info)
+        self.__logger.debug(info)
 
     def publish_push_response(self, response: Response) -> None:
         self.__observer.dispatch(
             response.header.cmd_code,
             response
         )
+        self.__logger.response_obj(response)
 
     def publish_param_response(self, response: Response) -> None:
         future = self.__futures_mapper.pop_future(
@@ -86,3 +91,4 @@ class ResponsePublisher:
             future.set_exception(BadStatus(response))
         else:
             future.set_result(response.values)
+        self.__logger.response_obj(response)

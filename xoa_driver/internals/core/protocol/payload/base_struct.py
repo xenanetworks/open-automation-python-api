@@ -103,7 +103,7 @@ class RequestBodyStruct(metaclass=OrderedMeta):
         nbytes = self.nbytes()
         padding = bytes(4 - (nbytes % 4) if nbytes % 4 else 0)
         self._buffer.write(padding)
-    
+
     def nbytes(self) -> int:
         return self._buffer.getbuffer().nbytes
 
@@ -123,6 +123,13 @@ class ResponseBodyStruct(metaclass=OrderedMeta):
         self._buffer = memoryview(packet_body).toreadonly()
         order = cast(Order, self._order)
         order.calc_dynamic_fields(self._buffer)
+
+    def __repr__(self) -> str:
+        vals = ", ".join(f"{n}={v}" for n, v in zip(self._order.field_names, self.to_tuple()))
+        return f"{self.__class__.__name__}({vals})"
+
+    def to_tuple(self) -> tuple:
+        return tuple(map(lambda fn: getattr(self, fn), self._order.field_names))
 
     def to_hex(self) -> str:
         return self._buffer.hex()

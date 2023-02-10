@@ -10,6 +10,13 @@ NOT_SET_IDENTIFIER = 0
 
 
 class Request:
+    __slots__ = (
+        "class_name",
+        "header",
+        "index_values",
+        "values"
+    )
+
     def __init__(
         self,
         class_name: str,

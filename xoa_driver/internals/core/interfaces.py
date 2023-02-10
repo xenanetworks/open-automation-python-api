@@ -1,4 +1,6 @@
+from __future__ import annotations
 import typing
+from .protocol.payload.base_struct import RequestBodyStruct, ResponseBodyStruct
 if typing.TYPE_CHECKING:
     from .protocol.struct_request import Request
     from asyncio import Future
@@ -9,9 +11,6 @@ class IsDataclass(typing.Protocol):
     def __init__(self, *args, **kwargs) -> None: ...  # noqa: E704
 
 
-DC = typing.TypeVar("DC", bound=IsDataclass)
-
-
 class ICommand(typing.Protocol):
     code: typing.ClassVar[int]
     pushed: typing.ClassVar[bool]
@@ -19,13 +18,17 @@ class ICommand(typing.Protocol):
 
 class ICmdOnlySet(ICommand, typing.Protocol):
     """A template class which provide only <cmd_set> method."""
-    SetDataAttr: typing.Type[DC]  # type: ignore
+    class SetDataAttr(RequestBodyStruct):
+        ...
+    # SetDataAttr: typing.Type["RequestBodyStruct"]
     set: typing.Callable
 
 
 class ICmdOnlyGet(ICommand, typing.Protocol):
     """A template class which provide only <cmd_get> method."""
-    GetDataAttr: typing.Type[DC]  # type: ignore
+    class GetDataAttr(ResponseBodyStruct):
+        ...
+    # GetDataAttr: typing.Type["ResponseBodyStruct"]
     get: typing.Callable
 
 

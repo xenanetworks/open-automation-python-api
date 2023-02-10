@@ -3,6 +3,16 @@ from ..protocol.struct_response import Response
 from ..protocol.struct_header import ResponseHeader
 
 
+class XoaException(Exception):
+    ...
+
+
+class TransporterException(XoaException):
+    ...
+
+
+
+
 class EstablishConnectionError(Exception):
     def __init__(self, host: str, port: int) -> None:
         self.host = host
@@ -25,7 +35,7 @@ class NotImplementedCommand(Exception):
         super().__init__(self.msg)
 
 
-class RepeatedRequestID(Exception):
+class RepeatedRequestID(TransporterException):
     def __init__(self, header: ResponseHeader) -> None:
         self.msg = f"""
         Got repeated request id {header.request_identifier}, {header}.
@@ -35,7 +45,7 @@ class RepeatedRequestID(Exception):
         super().__init__(self.msg)
 
 
-class LostFuture(Exception):
+class LostFuture(TransporterException):
     def __init__(self, response: Response) -> None:
         self.msg = f"Lost Future {response.header.request_identifier} {response.class_name}."
         self.response = response

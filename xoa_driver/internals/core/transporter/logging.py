@@ -29,9 +29,9 @@ class TransportationLogger:
             # self.__logger.add(f"{self.identity_name}-warning.log", rotation="100 MB", level="WARNING")
             self.__state = StateDebugOn
 
-    # def _log(self, *args: Iterable[str], log_fn: Callable = logger.opt(colors=True).debug) -> None:
-    #     for v in args:
-    #         log_fn(v)
+    def _log(self, *args: Iterable[str], log_fn: Callable = print) -> None:
+        for v in args:
+            log_fn(v)
 
     def info(self, *args) -> None:
         self.__state.info(self, *args)
@@ -55,11 +55,11 @@ class TransportationLogger:
 class StateDebugOn:
     @staticmethod
     def info(inst: "TransportationLogger", *args) -> None:
-        inst._log(*args, log_fn=logger.info)
+        inst._log(*args, log_fn=print)
 
     @staticmethod
     def error(inst: "TransportationLogger", *args) -> None:
-        inst._log(*args, log_fn=logger.error)
+        inst._log(*args, log_fn=print)
 
     @staticmethod
     def request_obj(inst: "TransportationLogger", request: Request) -> None:
@@ -75,7 +75,7 @@ class StateDebugOn:
 
     @staticmethod
     def draw_separator(inst: "TransportationLogger", symbol: str) -> None:
-        inst._log(symbol * 100, log_fn=logger.info)
+        inst._log(symbol * 100, log_fn=print)
 
 
 class StateDebugOff:
