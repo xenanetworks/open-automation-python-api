@@ -1,6 +1,8 @@
 from __future__ import annotations
+from dataclasses import dataclass, field
+from functools import partial
 
-from typing import Any, Dict
+from typing import Any, Dict, Generator
 from xoa_driver.enums import (
     AutoNegFECOption,
     AutoNegMode,
@@ -36,44 +38,94 @@ AutoNegSupported = (FamilyL, FamilyL1)
 LinkTrainingSupported = FamilyL
 
 
-def _pp_autoneg(group: tuple["itf.IConnection", int, int], on: bool) -> list[Token]:
-    conn, mid, pid = group
-    state = AutoNegMode.ANEG_ON if on else AutoNegMode.ANEG_OFF
-    return [
-        commands.PP_AUTONEG(conn, mid, pid).set(
+def __get_ctx(port: GenericAnyPort) -> tuple["itf.IConnection", int, int]:
+    return port._conn, port.kind.module_id, port.kind.port_id
+
+
+@dataclass
+class DoAnlt:
+    port: GenericAnyPort
+    """port to select"""
+    should_do_an: bool
+    """should the port do autoneg?"""
+    should_do_lt: bool
+    """should the port do link training?"""
+    an_allow_loopback: bool
+    """should the autoneg allow loopback?"""
+    lt_preset0_std: bool
+    """should lt preset0 uses the standard values or the existing tap values?"""
+    lt_initial_modulations: Dict[int, LinkTrainEncoding]
+    """the initial modulations of each lane (serdes)"""
+    should_lt_interactive: bool
+    """should perform link training manually?"""
+
+    _group: tuple["itf.IConnection", int, int] = field(init=False, repr=False)
+
+    def __post_init__(self) -> None:
+        self._group = __get_ctx(self.port)
+
+    def __pp_autoneg(self, on: bool) -> Token:
+        state = AutoNegMode.ANEG_ON if on else AutoNegMode.ANEG_OFF
+        return commands.PP_AUTONEG(*self._group).set(
             state,
             AutoNegTecAbility.DEFAULT_TECH_MODE,
             AutoNegFECOption.NO_FEC,
             AutoNegFECOption.NO_FEC,
             PauseMode.NO_PAUSE,
-        ),
-    ]
+        )
 
-
-def _pp_link_train(
-    group, mode: LinkTrainingMode, nrz_preset: NRZPreset, timeout_mode: TimeoutMode
-) -> list[Token]:
-    conn, mid, pid = group
-    return [
-        commands.PP_LINKTRAIN(conn, mid, pid).set(
+    def __pp_link_train(self, mode: LinkTrainingMode, nrz_preset: NRZPreset, timeout_mode: TimeoutMode) -> Token:
+        return commands.PP_LINKTRAIN(*self._group).set(
             mode=mode,
             pam4_frame_size=PAM4FrameSize.P16K_FRAME,
             nrz_pam4_init_cond=LinkTrainingInitCondition.NO_INIT,
             nrz_preset=nrz_preset,
             timeout_mode=timeout_mode,
         )
-    ]
 
+    def __pl1_cfg_tmp(self, lane: int, config_type: Layer1ConfigType, values: int) -> Token:
+        return commands.PL1_CFG_TMP(*self._group, lane, config_type).set(values=[int(values)])
 
-def _pl1_cfg_tmp(
-    group, lane: int, config_type: Layer1ConfigType, values: int
-) -> list[Token]:
-    conn, mid, pid = group
-    return [
-        commands.PL1_CFG_TMP(conn, mid, pid, lane, config_type).set(
-            values=[int(values)]
-        )
-    ]
+    def __select_modes(self) -> tuple[LinkTrainingMode, TimeoutMode]:
+        if self.should_do_an:
+            lt_mode = LinkTrainingMode.START_AFTER_AUTONEG
+            timeout_mode = TimeoutMode.DEFAULT
+        elif self.should_lt_interactive:
+            lt_mode = LinkTrainingMode.INTERACTIVE
+            timeout_mode = TimeoutMode.DISABLED
+        else:
+            lt_mode = LinkTrainingMode.STANDALONE
+            timeout_mode = TimeoutMode.DEFAULT
+        return lt_mode, timeout_mode
+
+    def __builder__(self) -> Generator[Token, None, None]:
+        """Defining commands sequence"""
+        nrz_preset = NRZPreset.NRZ_WITH_PRESET if self.lt_preset0_std else NRZPreset.NRZ_NO_PRESET
+        # # Set autoneg timeout
+        yield self.__pp_link_train(LinkTrainingMode.DISABLED, NRZPreset.NRZ_NO_PRESET, TimeoutMode.DEFAULT)
+
+        # # Set autoneg allow-loopback
+        yield self.__pl1_cfg_tmp(0, Layer1ConfigType.AN_LOOPBACK, int(self.an_allow_loopback))
+
+        # yield self.__pp_autoneg(self.should_do_an and not self.should_do_lt)
+        if (not self.should_do_an) or self.should_do_lt:
+            # Disable autoneg
+            yield self.__pp_autoneg(False)
+
+        if self.should_do_lt:
+            for lane_str, im in self.lt_initial_modulations.items():
+                yield self.__pl1_cfg_tmp(int(lane_str), Layer1ConfigType.LT_INITIAL_MODULATION, int(im))
+
+            lt_mode, timeout_mode = self.__select_modes()
+            yield self.__pp_link_train(LinkTrainingMode.DISABLED, nrz_preset, timeout_mode)
+            yield self.__pp_link_train(lt_mode, nrz_preset, timeout_mode)
+
+        if self.should_do_an:
+            yield self.__pp_autoneg(True)
+
+    async def run(self) -> None:
+        """Start anlt execution"""
+        await apply(*iter(self.__builder__()))
 
 
 async def do_anlt(
@@ -103,50 +155,16 @@ async def do_anlt(
     :type should_lt_interactive: bool
     """
 
-    group = port._conn, port.kind.module_id, port.kind.port_id
-    nrz_preset = (
-        NRZPreset.NRZ_WITH_PRESET if lt_preset0_std else NRZPreset.NRZ_NO_PRESET
+    anlt = DoAnlt(
+        port,
+        should_do_an,
+        should_do_lt,
+        an_allow_loopback,
+        lt_preset0_std,
+        lt_initial_modulations,
+        should_lt_interactive,
     )
-    # # Set autoneg timeout
-    tokens = _pp_link_train(
-        group, LinkTrainingMode.DISABLED, NRZPreset.NRZ_NO_PRESET, TimeoutMode.DEFAULT
-    )
-
-    # # Set autoneg allow-loopback
-    tokens += _pl1_cfg_tmp(
-        group, 0, Layer1ConfigType.AN_LOOPBACK, int(an_allow_loopback)
-    )
-
-    dis_an = (not should_do_an) or should_do_lt
-    if dis_an:
-        # Disable autoneg
-        tokens += _pp_autoneg(group, False)
-
-    if should_do_lt:
-        for lane_str, im in lt_initial_modulations.items():
-            tokens += _pl1_cfg_tmp(
-                group,
-                int(lane_str),
-                Layer1ConfigType.LT_INITIAL_MODULATION,
-                int(im),
-            )
-
-        if should_do_an:
-            timeout_mode = TimeoutMode.DEFAULT
-            lt_mode = LinkTrainingMode.START_AFTER_AUTONEG
-        elif should_lt_interactive:
-            lt_mode = LinkTrainingMode.INTERACTIVE
-            timeout_mode = TimeoutMode.DISABLED
-        else:
-            lt_mode = LinkTrainingMode.STANDALONE
-            timeout_mode = TimeoutMode.DEFAULT
-        tokens += _pp_link_train(group, LinkTrainingMode.DISABLED, nrz_preset, timeout_mode)
-        tokens += _pp_link_train(group, lt_mode, nrz_preset, timeout_mode)
-
-    if should_do_an:
-        tokens += _pp_autoneg(group, True)
-
-    await apply(*tokens)
+    await anlt.run()
 
 
 async def autoneg_status(port: GenericAnyPort) -> Dict[str, Any]:
@@ -157,8 +175,8 @@ async def autoneg_status(port: GenericAnyPort) -> Dict[str, Any]:
     :return:
     :rtype: typing.Dict[str, Any]
     """
-    conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
-    *_, loopback, auto_neg_info = await apply(
+    conn, mid, pid = __get_ctx(port)
+    loopback, auto_neg_info = await apply(
         commands.PL1_CFG_TMP(conn, mid, pid, 0, Layer1ConfigType.AN_LOOPBACK).get(),
         commands.PL1_AUTONEGINFO(conn, mid, pid, 0).get(),
     )
@@ -185,7 +203,7 @@ async def autoneg_status(port: GenericAnyPort) -> Dict[str, Any]:
     }
 
 
-async def lt_coeff_inc(port: GenericAnyPort, lane: int, emphasis: LinkTrainCoeffs) -> None:
+async def __lt_coeff(port: GenericAnyPort, lane: int, emphasis: LinkTrainCoeffs, *, cmd: LinkTrainCmd) -> None:
     """Ask the remote port to increase coeff of the specified lane.
 
     :param port: the port to configure
@@ -197,87 +215,20 @@ async def lt_coeff_inc(port: GenericAnyPort, lane: int, emphasis: LinkTrainCoeff
     :return:
     :rtype: None
     """
-    conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
-    await commands.PL1_LINKTRAIN_CMD(conn, mid, pid, lane).set(
-        cmd=LinkTrainCmd.CMD_INC, arg=emphasis.value
+    conn, mid, pid = __get_ctx(port)
+    cmd_ = commands.PL1_LINKTRAIN_CMD(conn, mid, pid, lane)
+    await cmd_.set(
+        cmd=cmd,
+        arg=emphasis.value
     )
     return None
 
 
-async def lt_coeff_dec(port: GenericAnyPort, lane: int, emphasis: LinkTrainCoeffs) -> None:
-    """Ask the remote port to decrease coeff of the specified lane.
-
-    :param port: the port to configure
-    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
-    :param lane: lane index, starting from 0
-    :type lane: int
-    :param emphasis: coefficient index (pre, pre2, pre3, main, post)
-    :type emphasis: str
-    :return:
-    :rtype: None
-    """
-    conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
-    await commands.PL1_LINKTRAIN_CMD(conn, mid, pid, lane).set(
-        cmd=LinkTrainCmd.CMD_INC, arg=emphasis.value
-    )
-    return None
-
-
-async def lt_preset(port: GenericAnyPort, lane: int, preset: LinkTrainPresets) -> None:
-    """Ask the remote port to use the preset of the specified lane.
-
-    :param port: port to configure
-    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
-    :param lane: lane index, starting from 0
-    :type lane: int
-    :param preset: preset index to select for the lane, 0,1,2,3,4,
-    :type preset: int
-    :return:
-    :rtype: None
-    """
-    conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
-    await commands.PL1_LINKTRAIN_CMD(conn, mid, pid, lane).set(
-        cmd=LinkTrainCmd.CMD_PRESET, arg=preset.value
-    )
-    return None
-
-
-async def lt_encoding(port: GenericAnyPort, lane: int, encoding: LinkTrainEncoding) -> None:
-    """Ask the remote port to use the encoding of the specified lane.
-
-    :param port: port to configure
-    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
-    :param lane: lane index, starting from 0
-    :type lane: int
-    :param encoding: link training encoding (nrz, pam4, pam4pre)
-    :type encoding: str
-    :return:
-    :rtype: None
-    """
-    conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
-    await commands.PL1_LINKTRAIN_CMD(conn, mid, pid, lane).set(
-        cmd=LinkTrainCmd.CMD_ENCODING, arg=encoding.value
-    )
-    return None
-
-
-async def lt_trained(port: GenericAnyPort, lane: int) -> None:
-    """Tell the remote port that the current lane is trained.
-
-    :param port: port to configure
-    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
-    :param lane: lane index, starting from 0
-    :type lane: int
-    :return:
-    :rtype: None
-    """
-    conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
-    await apply(
-        commands.PL1_LINKTRAIN_CMD(conn, mid, pid, lane).set(
-            cmd=LinkTrainCmd.CMD_LOCAL_TRAINED, arg=0
-        )
-    )
-    return None
+lt_coeff_inc = partial(__lt_coeff, cmd=LinkTrainCmd.CMD_INC)
+lt_coeff_dec = partial(__lt_coeff, cmd=LinkTrainCmd.CMD_DEC)
+lt_preset = partial(__lt_coeff, cmd=LinkTrainCmd.CMD_PRESET)
+lt_encoding = partial(__lt_coeff, cmd=LinkTrainCmd.CMD_ENCODING)
+lt_trained = partial(__lt_coeff, emphasis=LinkTrainCoeffs.PRE1, cmd=LinkTrainCmd.CMD_LOCAL_TRAINED)
 
 
 async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
@@ -290,7 +241,16 @@ async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
     :return:
     :rtype: str
     """
-    conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
+    conn, mid, pid = __get_ctx(port)
+    status, info, ltconf, cfg = await apply(
+        commands.PP_LINKTRAINSTATUS(conn, mid, pid, lane).get(),
+        commands.PL1_LINKTRAININFO(conn, mid, pid, lane, 0).get(),
+        commands.PP_LINKTRAIN(conn, mid, pid).get(),
+        commands.PL1_CFG_TMP(conn, mid, pid, lane, Layer1ConfigType.LT_INITIAL_MODULATION).get(),
+    )
+    total_bit_count = (info.prbs_total_bits_high << 32) + info.prbs_total_bits_low
+    total_error_bit_count = (info.prbs_total_error_bits_high << 32) + info.prbs_total_error_bits_low
+    prbs = total_error_bit_count / total_bit_count if total_bit_count > 0 else float("nan")
 
     def decode_ic(key: int) -> str:
         dic = {
@@ -303,31 +263,15 @@ async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
         }
         return dic.get(key, "Reserved")
 
-    *_, status, info, ltconf, cfg = await apply(
-        commands.PP_LINKTRAINSTATUS(conn, mid, pid, lane).get(),
-        commands.PL1_LINKTRAININFO(conn, mid, pid, lane, 0).get(),
-        commands.PP_LINKTRAIN(conn, mid, pid).get(),
-        commands.PL1_CFG_TMP(
-            conn, mid, pid, lane, Layer1ConfigType.LT_INITIAL_MODULATION
-        ).get(),
-    )
-    total_bit_count = (info.prbs_total_bits_high << 32) + (
-        info.prbs_total_bits_low
-    )
-    total_error_bit_count = (info.prbs_total_error_bits_high << 32) + (
-        info.prbs_total_error_bits_low
-    )
-    prbs = (
-        total_error_bit_count / total_bit_count if total_bit_count > 0 else float("nan")
-    )
-
     return {
         "is_enabled": True if status.mode == LinkTrainingStatusMode.ENABLED else False,
         "is_trained": True if status.status == LinkTrainingStatus.TRAINED else False,
         "failure": LinkTrainingFailureType(status.failure).name.lower(),
-        "preset0": "standard value"
-        if ltconf.nrz_preset == NRZPreset.NRZ_NO_PRESET
-        else "existing tap value",
+        "preset0": (
+            "standard value"
+            if ltconf.nrz_preset == NRZPreset.NRZ_NO_PRESET
+            else "existing tap value"
+        ),
         "init_modulation": cfg.values[0],
         "total_bits": total_bit_count,
         "total_errored_bits": total_error_bit_count,
@@ -478,7 +422,7 @@ async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
     }
 
 
-async def txtap_get(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
+async def txtap_get(port: GenericAnyPort, lane: int) -> Dict[str, int]:
     """Get the tap value of the local TX tap.
 
     :param port: port to configure
@@ -488,8 +432,8 @@ async def txtap_get(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
     :return:
     :rtype: typing.Dict[str, Any]
     """
-    conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
-    *_, r = await apply(commands.PP_PHYTXEQ(conn, mid, pid, lane).get())
+    conn, mid, pid = __get_ctx(port)
+    r = await commands.PP_PHYTXEQ(conn, mid, pid, lane).get()
     return {
         "c(-3)": r.post2,
         "c(-2)": r.pre2,
@@ -527,8 +471,9 @@ async def txtap_set(
     :return:
     :rtype: None
     """
-    conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
-    await commands.PP_PHYTXEQ(conn, mid, pid, lane).set(
+    conn, mid, pid = __get_ctx(port)
+    cmd_ = commands.PP_PHYTXEQ(conn, mid, pid, lane)
+    await cmd_.set(
         pre1=pre,
         main=main,
         post1=post1,
@@ -536,7 +481,6 @@ async def txtap_set(
         post2=pre3,
         post3=0,
     )
-    return None
 
 
 async def link_recovery(port: GenericAnyPort, enable: bool) -> None:
@@ -549,16 +493,12 @@ async def link_recovery(port: GenericAnyPort, enable: bool) -> None:
     :return:
     :rtype:  None
     """
-    conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
-    await commands.PL1_CFG_TMP(
-        conn, mid, pid, 0, Layer1ConfigType.ANLT_INTERACTIVE
-    ).set(values=[int(enable)])
-    return None
+    conn, mid, pid = __get_ctx(port)
+    cmd_ = commands.PL1_CFG_TMP(conn, mid, pid, 0, Layer1ConfigType.ANLT_INTERACTIVE)
+    await cmd_.set(values=[int(enable)])
 
 
-async def status(
-    port: GenericAnyPort,
-) -> Dict[str, Any]:
+async def status(port: GenericAnyPort) -> Dict[str, Any]:
     """Get the overview of ANLT status
 
     :param port: the port to get ANLT status from
@@ -569,16 +509,14 @@ async def status(
 
     # if not isinstance(port, LinkTrainingSupported):
     #     raise NotSupportLinkTrainError(port)
-    conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
-    tokens = [
-        commands.PL1_CFG_TMP(
-            conn, mid, pid, 0, Layer1ConfigType.ANLT_INTERACTIVE
-        ).get(),
+    conn, mid, pid = __get_ctx(port)
+    r = await apply(
+        commands.PL1_CFG_TMP(conn, mid, pid, 0, Layer1ConfigType.ANLT_INTERACTIVE).get(),
         commands.PP_AUTONEGSTATUS(conn, mid, pid).get(),
         commands.PP_LINKTRAIN(conn, mid, pid).get(),
         commands.P_CAPABILITIES(conn, mid, pid).get(),
-    ]
-    *_, link_recovery, autoneg, linktrain, capabilities = await apply(*tokens)
+    )
+    link_recovery, autoneg, linktrain, capabilities = r
     return {
         "autoneg_enabled": AutoNegMode(autoneg.mode).name.lower().lstrip("aneg_"),
         "link_training_mode": LinkTrainingMode(linktrain.mode).name.lower(),
@@ -597,6 +535,6 @@ async def anlt_log(port: GenericAnyPort) -> str:
     :return: anlt log
     :rtype: str
     """
-    conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
-    *_, log = await apply(commands.PL1_LOG(conn, mid, pid).get())
+    conn, mid, pid = __get_ctx(port)
+    log = await commands.PL1_LOG(conn, mid, pid).get()
     return log.log_string
