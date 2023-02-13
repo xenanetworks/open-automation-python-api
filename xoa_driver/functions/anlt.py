@@ -212,12 +212,29 @@ async def __lt_coeff(port: GenericAnyPort, lane: int, emphasis: LinkTrainCoeffs,
     )
     return None
 
+async def lt_coeff_inc(port: GenericAnyPort, lane: int, emphasis: LinkTrainCoeffs)  -> None:
+    return await __lt_coeff(port, lane, emphasis, cmd=LinkTrainCmd.CMD_INC)
 
-lt_coeff_inc = partial(__lt_coeff, cmd=LinkTrainCmd.CMD_INC)
-lt_coeff_dec = partial(__lt_coeff, cmd=LinkTrainCmd.CMD_DEC)
-lt_preset = partial(__lt_coeff, cmd=LinkTrainCmd.CMD_PRESET)
-lt_encoding = partial(__lt_coeff, cmd=LinkTrainCmd.CMD_ENCODING)
-lt_trained = partial(__lt_coeff, emphasis=LinkTrainCoeffs.PRE, cmd=LinkTrainCmd.CMD_LOCAL_TRAINED)
+
+async def lt_coeff_dec(port: GenericAnyPort, lane: int, emphasis: LinkTrainCoeffs)  -> None:
+    return await __lt_coeff(port, lane, emphasis, cmd=LinkTrainCmd.CMD_DEC)
+
+
+async def lt_preset(port: GenericAnyPort, lane: int, emphasis: LinkTrainCoeffs)  -> None:
+    return await __lt_coeff(port, lane, emphasis, cmd=LinkTrainCmd.CMD_PRESET)
+
+
+async def lt_encoding(port: GenericAnyPort, lane: int, emphasis: LinkTrainCoeffs)  -> None:
+    return await __lt_coeff(port, lane, emphasis, cmd=LinkTrainCmd.CMD_ENCODING)
+
+
+async def lt_trained(port: GenericAnyPort, lane: int)  -> None:
+    return await __lt_coeff(
+        port, 
+        lane, 
+        emphasis=LinkTrainCoeffs.PRE, 
+        cmd=LinkTrainCmd.CMD_LOCAL_TRAINED
+    )
 
 
 async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
