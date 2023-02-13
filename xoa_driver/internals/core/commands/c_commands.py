@@ -104,7 +104,7 @@ class C_OWNER:
         :rtype: C_OWNER.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
     def set(self, username: str) -> Token[None]:
         """Set the username of this chassis management session.
@@ -140,7 +140,7 @@ class C_KEEPALIVE:
         :rtype: C_KEEPALIVE.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
 
 @register_command
@@ -171,7 +171,7 @@ class C_TIMEOUT:
         :rtype: C_TIMEOUT.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
     def set(self, second_count: int) -> Token[None]:
         """Set the timeout value.
@@ -220,7 +220,7 @@ class C_RESERVATION:
         :rtype: C_RESERVATION.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
     def set(self, operation: ReservedAction) -> Token[None]:
         """Set the chassis reservation operation to be performed.
@@ -268,7 +268,7 @@ class C_RESERVEDBY:
         :rtype: C_RESERVEDBY.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
 
 @register_command
@@ -291,7 +291,7 @@ class C_LOGOFF:
         """Log off from the tester and close the management session.
         """
 
-        return Token(self._connection, build_set_request(self, ))
+        return Token(self._connection, build_set_request(self))
 
 
 @register_command
@@ -408,7 +408,7 @@ class C_CAPABILITIES:
         :rtype: C_CAPABILITIES.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
 
 @register_command
@@ -434,7 +434,7 @@ class C_MODEL:
         :rtype: C_MODEL.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
 
 @register_command
@@ -460,7 +460,7 @@ class C_SERIALNO:
         :rtype: C_SERIALNO.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
 
 @register_command
@@ -489,7 +489,7 @@ class C_VERSIONNO:
         :rtype: C_VERSIONNO.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
 
 @register_command
@@ -521,7 +521,7 @@ class C_PORTCOUNTS:
         :rtype: C_PORTCOUNTS.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
 
 @register_command
@@ -564,7 +564,7 @@ class C_PORTERRORS:
         :rtype: C_PORTERRORS.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
 
 @register_command
@@ -596,7 +596,7 @@ class C_REMOTEPORTCOUNTS:
         :rtype: C_REMOTEPORTCOUNTS.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
 
 @register_command
@@ -623,7 +623,7 @@ class C_BUILDSTRING:
         :rtype: C_BUILDSTRING.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
 
 @register_command
@@ -655,7 +655,7 @@ class C_NAME:
         :rtype: C_NAME.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
     def set(self, chassis_name: str) -> Token[None]:
         """Set the name of the tester
@@ -694,7 +694,7 @@ class C_COMMENT:
         :rtype: C_COMMENT.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
     def set(self, comment: str) -> Token[None]:
         """Set the description of the tester.
@@ -733,7 +733,7 @@ class C_PASSWORD:
         :rtype: C_PASSWORD.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
     def set(self, password: str) -> Token[None]:
         """Set the password of the tester.
@@ -783,7 +783,7 @@ class C_IPADDRESS:
         :rtype: C_IPADDRESS.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
     def set(self, ipv4_address: ipaddress.IPv4Address, subnet_mask: ipaddress.IPv4Address, gateway: ipaddress.IPv4Address) -> Token[None]:
         """the IP configuration information of the tester.
@@ -826,7 +826,7 @@ class C_DHCP:
         :rtype: C_DHCP.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
     def set(self, on_off: OnOff) -> Token[None]:
         """Set DHCP for getting management IP.
@@ -869,7 +869,7 @@ class C_MACADDRESS:
         :rtype: C_MACADDRESS.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
 
 @register_command
@@ -899,7 +899,7 @@ class C_HOSTNAME:
         :rtype: C_HOSTNAME.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
     def set(self, hostname: str) -> Token[None]:
         """Set the chassis hostname.
@@ -942,7 +942,7 @@ class C_FLASH:
         :rtype: C_FLASH.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
     def set(self, on_off: OnOff) -> Token[None]:
         """Set test ports LEDs blinking status.
@@ -987,7 +987,7 @@ class C_DEBUGLOGS:
         :rtype: C_DEBUGLOGS.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
 
 @register_command
@@ -1020,7 +1020,7 @@ class C_TEMPERATURE:
         :rtype: C_TEMPERATURE.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
 
 @register_command
@@ -1050,7 +1050,7 @@ class C_RESTPORT:
         :rtype: xt.XmpInt
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
     def set(self, tcp_port: int) -> Token[None]:
         """Set the TCP port number used by the REST API server.
@@ -1090,7 +1090,7 @@ class C_RESTENABLE:
         :rtype: xt.XmpByte
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
     def set(self, on_off: OnOff) -> Token[None]:
         """Set the On/Off status of the REST API server.
@@ -1162,7 +1162,7 @@ class C_RESTSTATUS:
         :rtype: C_RESTSTATUS.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
 
 @register_command
@@ -1193,7 +1193,7 @@ class C_WATCHDOG:
         :rtype: C_WATCHDOG.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
     def set(self, timer_value: int) -> Token[None]:
         """Set the time value that reboots the chassis if it stalls for a long time.
@@ -1228,7 +1228,7 @@ class C_INDICES:
         :rtype: C_INDICES.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
 
 @register_command
@@ -1299,7 +1299,7 @@ class C_TKLICFILE:
         :rtype: C_TKLICFILE.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
     def set(self, license_content: str) -> Token[None]:
         """Set Xena TimeKeeper license file content.
@@ -1341,7 +1341,7 @@ class C_TKLICSTATE:
         :rtype: C_TKLICSTATE.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
 
 @register_command
@@ -1443,7 +1443,7 @@ class C_FILEFINISH:
         """Completes upload of a file to the chassis. After validation it will replace any existing file with the same name.
         """
 
-        return Token(self._connection, build_set_request(self, ))
+        return Token(self._connection, build_set_request(self))
 
 
 @register_command
@@ -1517,7 +1517,7 @@ class C_VERSIONNO_MINOR:
         :rtype: C_VERSIONNO_MINOR.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
 
 @register_command
@@ -1601,7 +1601,7 @@ class C_MULTIUSER:
         :rtype: C_MULTIUSER.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
     def set(self, on_off: OnOff) -> Token[None]:
         """Enable or disable the ability to control one resource from several different TCP connections.
@@ -1681,7 +1681,7 @@ class C_TKSTATUS:
         :rtype: C_TKSTATUS.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
 
 @register_command
@@ -1711,7 +1711,7 @@ class C_TKSVCSTATE:
         :rtype: C_TKSVCSTATE.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
     def set(self, state: TimeKeeperServiceAction) -> Token[None]:
         """Control TimeKeeper service state
@@ -1762,7 +1762,7 @@ class C_TKCONFIG:
         :rtype: C_TKCONFIG.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
     def set(self, config_file: str) -> Token[None]:
         """Set TimeKeeper config file content.
@@ -1797,7 +1797,7 @@ class C_TKGPSSTATE:
         :rtype: C_TKGPSSTATE.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
 
 @register_command
@@ -1823,7 +1823,7 @@ class C_TIME:
         :rtype: C_TIME.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
 
 @register_command
@@ -1872,7 +1872,7 @@ class C_TRAFFICSYNC:
         :rtype: C_TRAFFICSYNC.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))
 
     def set(self, on_off: OnOff, timestamp: int, module_ports: typing.List[int]) -> Token[None]:
         """Set the status of traffic generation.
@@ -1953,4 +1953,4 @@ class C_TKSTATUSEXT:
         :rtype: C_TKSTATUSEXT.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, ))
+        return Token(self._connection, build_get_request(self))

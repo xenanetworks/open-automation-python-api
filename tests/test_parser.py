@@ -32,9 +32,9 @@ from xoa_driver.utils import apply, apply_iter  # noqa: E402
 
 async def main() -> None:
     # print("start")
-    ctx = TransportationHandler()
+    ctx = TransportationHandler(debug=True)
     # print("Create handler")
-    await establish_connection(ctx, "192.168.1.198")
+    await establish_connection(ctx, "192.168.1.197")
     # print("Is connected", ctx.is_connected)
     # with cProfile.Profile() as pr:
     await apply(

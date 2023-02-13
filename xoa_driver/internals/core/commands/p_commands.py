@@ -362,9 +362,9 @@ class P_CAPABILITIES:
         """integer, whether this port currently has a port-to-port loop partner"""
         p2p_loop_partner: int = field(XmpInt())
         """integer, The port-to-port loop partner for the port. N/A = -1."""
-        traffic_engine: TrafficEngine = field(XmpInt())
+        traffic_engine: TrafficEngine = field(XmpInt(), min_version=None)
         """integer, Enabled traffic engine on port. 0x01 = TGA, 0x02 = uTGA."""
-        reconc_sublayer: ReconciliationSublayerSupport = field(XmpInt())
+        reconc_sublayer: ReconciliationSublayerSupport = field(XmpInt(), min_version=None)
         """integer, Reconciliation Sublayer support, bitmask, 0 = fault signalling not support; 1 = fault signalling supported (XMP: P_FAULTSTATUS/P_FAULTSIGNALING)"""
 
     def get(self) -> Token[GetDataAttr]:

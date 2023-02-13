@@ -1,6 +1,7 @@
 
 from __future__ import annotations
 from io import BytesIO
+import struct
 
 from typing import (
     Any,
@@ -49,8 +50,12 @@ class ResponseFieldState:
     @staticmethod
     def getter(descr: FieldDescriptor, instance: GetInstance, cls) -> Any:
         """Unpack values from the buffer and converting to expected type if required"""
-        val_ = descr.specs.unpack(instance._buffer)
-        return descr.format_method(val_)
+        try:
+            val_ = descr.specs.unpack(instance._buffer)
+        except struct.error:
+            raise CommandVersionError
+        else:
+            return descr.format_method(val_)
 
 
 class FieldDescriptor(Generic[GenericType]):

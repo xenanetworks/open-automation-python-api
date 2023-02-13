@@ -2,12 +2,29 @@ from __future__ import annotations
 from typing import (
     Iterable,
     Callable,
+    Protocol,
     Union,
     Type,
 )
+# from logging import Logger
 # from loguru import logger
 from ..protocol.struct_response import Response
 from ..protocol.struct_request import Request
+
+
+class Logger(Protocol):
+    def debug(self, msg, *args, **kwargs) -> None:
+        ...
+
+    def info(self, msg, *args, **kwargs) -> None:
+        ...
+
+    def warning(self, msg, *args, **kwargs) -> None:
+        ...
+
+    def error(self, msg, *args, **kwargs) -> None:
+        ...
+
 
 SYMBOL_REQUEST = "<G><w> -> </w></G>"
 SYMBOL_PUSH = "<M><w> -P </w></M>"
@@ -17,11 +34,11 @@ SYMBOL_RESPONSE = "<Y><e> <- </e></Y>"
 class TransportationLogger:
     __slots__ = ("debug", "identity_name", "__logger", "__state")
 
-    def __init__(self, uid: str, debug: bool = False) -> None:
+    def __init__(self, cid: str, debug: bool = False, logger: Logger | None = None) -> None:
         self.debug = debug
-        self.identity_name = f"bifrost-{uid}"
+        self.identity_name = f"-{cid}"
         self.__state: Union[Type[StateDebugOn], Type[StateDebugOff]] = StateDebugOff
-        # self.__logger = logger.bind(logger_name=self.identity_name)
+        self.__logger = logger
         if self.debug:
             # self.__logger.add(f"{self.identity_name}-info.log", rotation="100 MB", level="INFO")
             # self.__logger.add(f"{self.identity_name}-debug.log", rotation="100 MB", level="DEBUG")
