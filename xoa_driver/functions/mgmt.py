@@ -17,8 +17,6 @@ AutoNegSupported = (FamilyL, FamilyL1)
 LinkTrainingSupported = FamilyL
 
 # region Testers
-
-
 async def reserve_tester(tester: GenericAnyTester, force: bool = True) -> None:
     """Reserve a tester regardless whether it is owned by others or not.
 
@@ -115,7 +113,7 @@ async def free_module(module: GenericAnyModule) -> None:
 
 
 def get_ports(tester: GenericAnyTester, module_id: int) -> tuple[GenericAnyPort]:
-    """Get all ports on a module
+    """Get all ports of the module
 
     :param tester: The tester object
     :type tester: :class:`~xoa_driver.testers.GenericAnyTester`
@@ -129,7 +127,7 @@ def get_ports(tester: GenericAnyTester, module_id: int) -> tuple[GenericAnyPort]
 
 
 def get_port(tester: GenericAnyTester, module_id: int, port_id: int) -> GenericAnyPort:
-    """_summary_
+    """Get a port of the module
 
     :param tester: The tester object
     :type tester: :class:`~xoa_driver.testers.GenericAnyTester`
