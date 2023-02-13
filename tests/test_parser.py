@@ -37,12 +37,20 @@ async def main() -> None:
     await establish_connection(ctx, "192.168.1.197")
     # print("Is connected", ctx.is_connected)
     # with cProfile.Profile() as pr:
-    await apply(
-        commands.C_LOGON(ctx).set("xena"),
-        commands.C_OWNER(ctx).set("xoa")
-    )
-    r = await commands.P_CAPABILITIES(ctx, 1, 1).get()
-    (r.tx_eq_tap_max_val)
+    try:
+        *_, m, p = await apply(
+            commands.C_LOGON(ctx).set("xena"),
+            commands.C_OWNER(ctx).set("xoa"),
+            commands.M_CAPABILITIES(ctx, 0).get(),
+            commands.P_CAPABILITIES(ctx, 0, 1).get(),
+        )
+    except Exception as e:
+        print("ERR:", e)
+    else:
+        print(m.can_ppm_sweep)
+        print(p.tx_eq_tap_max_val)
+    ccp = await commands.C_CAPABILITIES(ctx).get()
+    print(ccp.version)
     # req = apply_iter(*[commands.P_CAPABILITIES(ctx, 1, 1).get() for _ in range(1_000_000)])
     # async for resp in req:
     #     resp.tx_eq_tap_max_val

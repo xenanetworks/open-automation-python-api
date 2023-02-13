@@ -67,7 +67,7 @@ class AnLtLowLevelDebug:
         v = int((await r.get()).value, 16)
         # Set bit 2
         v |= 1 << 2
-        await r.set('0x{0:08X}'.format(v)) # in XOA-Driver V2 `0x` preffix will be drop from the hex strings
+        await r.set('0x{0:08X}'.format(v))  # in XOA-Driver V2 `0x` preffix will be drop from the hex strings
         # Clear bit 2
         v &= ~(1 << 2)
         await r.set('0x{0:08X}'.format(v))
@@ -117,7 +117,7 @@ class AnLtLowLevelDebug:
 
     lt_rx_analyzer_rd_data_get = partialmethod(__get, reg=LT_RX_ANALYZER_RD_DATA)
 
-    async def lt_prbs(self) -> Dict[str, int]:
+    async def lt_prbs(self) -> Dict[str, int | float]:
         cfg = await self.lt_rx_config_get()
         cfg &= ~(3 << 21)  # Clear bit 22-21
         cfg |= (1 << 20)  # Set bit 20
@@ -146,7 +146,7 @@ class AnLtLowLevelDebug:
         return {
             "total_bits": total_bits,
             "error_bits": error_bits,
-            "ber": error_bits / total_bits
+            "ber": float(error_bits / total_bits)
         }
 
     async def lt_rx_analyzer_dump(self) -> None:
