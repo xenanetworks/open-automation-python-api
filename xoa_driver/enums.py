@@ -60,6 +60,7 @@ __all__ = (  # noqa: F405
     "LicenseSpeed",
     "LifecycleMode",
     "LinkState",
+    "LinkTrainAnnounce",
     "LinkTrainCmd",
     "LinkTrainCmdFlags",
     "LinkTrainCmdResults",

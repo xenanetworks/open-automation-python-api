@@ -2269,5 +2269,17 @@ class LinkTrainCmdFlags(IntEnum):
     OVERRUN = 32
     """Overrun detected"""
 
+class LinkTrainAnnounce(IntEnum):
+    """
+    .. versionadded:: 1.1
+
+    Link Training Announce
+
+    """
+
+    TRAINED = 0
+    """The lane is trained"""
+
+
 
 # endregion

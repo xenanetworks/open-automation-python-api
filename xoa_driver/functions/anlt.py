@@ -2,7 +2,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from functools import partial
 
-from typing import Any, Dict, Generator
+from typing import Any, Dict, Generator, Union
 from xoa_driver.enums import (
     AutoNegFECOption,
     AutoNegMode,
@@ -24,6 +24,7 @@ from xoa_driver.enums import (
     AutoNegMode,
     LinkTrainingFailureType,
     LinkTrainFrameLock,
+    LinkTrainAnnounce,
 )
 from xoa_driver.utils import apply
 from xoa_driver.internals.hli_v1.ports.port_l23.family_l import FamilyL
@@ -203,36 +204,98 @@ async def autoneg_status(port: GenericAnyPort) -> Dict[str, Any]:
     }
 
 
-async def __lt_coeff(port: GenericAnyPort, lane: int, emphasis: LinkTrainCoeffs, *, cmd: LinkTrainCmd) -> None:
+async def __lt_coeff(port: GenericAnyPort, lane: int, arg: Union[LinkTrainCoeffs, LinkTrainPresets, LinkTrainEncoding, LinkTrainAnnounce], *, cmd: LinkTrainCmd) -> None:
     conn, mid, pid = __get_ctx(port)
     cmd_ = commands.PL1_LINKTRAIN_CMD(conn, mid, pid, lane)
     await cmd_.set(
         cmd=cmd,
-        arg=emphasis.value
+        arg=arg.value
     )
     return None
 
+
 async def lt_coeff_inc(port: GenericAnyPort, lane: int, emphasis: LinkTrainCoeffs)  -> None:
+    """Ask the remote port to increase coeff of the specified lane.
+
+    :param port: The port to configure
+    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :param lane: The lane index, starting from 0
+    :type lane: int
+    :param emphasis: The emphasis to increase
+    :type emphasis: LinkTrainCoeffs
+    :return: 
+    :rtype: None
+    """
     return await __lt_coeff(port, lane, emphasis, cmd=LinkTrainCmd.CMD_INC)
 
 
 async def lt_coeff_dec(port: GenericAnyPort, lane: int, emphasis: LinkTrainCoeffs)  -> None:
+    """Ask the remote port to decrease coeff of the specified lane.
+
+    :param port: The port to configure
+    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :param lane: The lane index, starting from 0
+    :type lane: int
+    :param emphasis: The emphasis to decrease
+    :type emphasis: LinkTrainCoeffs
+    :return: 
+    :rtype: None
+    """
     return await __lt_coeff(port, lane, emphasis, cmd=LinkTrainCmd.CMD_DEC)
 
 
-async def lt_preset(port: GenericAnyPort, lane: int, emphasis: LinkTrainCoeffs)  -> None:
-    return await __lt_coeff(port, lane, emphasis, cmd=LinkTrainCmd.CMD_PRESET)
+async def lt_preset(port: GenericAnyPort, lane: int, preset: LinkTrainPresets)  -> None:
+    """Ask the remote port to use the preset of the specified lane.
+
+    :param port: The port to configure
+    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :param lane: The lane index, starting from 0
+    :type lane: int
+    :param preset: preset index to select for the lane, 0,1,2,3,4,
+    :type preset: LinkTrainPresets
+    :return:
+    :rtype: None
+    """
+    return await __lt_coeff(port, lane, preset, cmd=LinkTrainCmd.CMD_PRESET)
 
 
-async def lt_encoding(port: GenericAnyPort, lane: int, emphasis: LinkTrainCoeffs)  -> None:
-    return await __lt_coeff(port, lane, emphasis, cmd=LinkTrainCmd.CMD_ENCODING)
+async def lt_encoding(port: GenericAnyPort, lane: int, encoding: LinkTrainEncoding)  -> None:
+    """Ask the remote port to use the encoding of the specified lane.
+
+    :param port: The port to configure
+    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :param lane: The lane index, starting from 0
+    :type lane: int
+    :param encoding: link training encoding
+    :type encoding: LinkTrainCoeffs
+    :return:
+    :rtype: None
+    """
+
+    """
+    :param port: port to configure
+    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :param lane: lane index, starting from 0
+    :type lane: int
+    
+    """
+    return await __lt_coeff(port, lane, encoding, cmd=LinkTrainCmd.CMD_ENCODING)
 
 
 async def lt_trained(port: GenericAnyPort, lane: int)  -> None:
+    """Tell the remote port that the current lane is trained.
+
+    :param port: The port to configure
+    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :param lane: The lane index, starting from 0
+    :type lane: int
+    :return: 
+    :rtype: None
+    """
     return await __lt_coeff(
         port, 
         lane, 
-        emphasis=LinkTrainCoeffs.PRE, 
+        arg=LinkTrainAnnounce.TRAINED, 
         cmd=LinkTrainCmd.CMD_LOCAL_TRAINED
     )
 
@@ -532,7 +595,6 @@ async def status(port: GenericAnyPort) -> Dict[str, Any]:
     }
 
 
-# WIP
 async def anlt_log(port: GenericAnyPort) -> str:
     """Get the anlt log messages
 
