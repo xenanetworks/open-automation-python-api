@@ -59,6 +59,16 @@ async def free_tester(tester: GenericAnyTester) -> None:
 # region Modules
 
 def get_module(tester: GenericAnyTester, module_id: int):
+    """Get a module object of the tester.
+
+    :param tester: The tester object
+    :type tester: :class:`~xoa_driver.testers.GenericAnyTester`
+    :param module_id: the index id of the module
+    :type module_id: int
+    :raises NoSuchModuleError: No such a module index on the tester
+    :return: module object
+    :rtype: :class:`~xoa_driver.modules.GenericAnyModule`
+    """
     try:
         return tester.modules.obtain(module_id)
     except KeyError:
@@ -105,25 +115,32 @@ async def free_module(module: GenericAnyModule) -> None:
 
 
 def get_ports(tester: GenericAnyTester, module_id: int) -> tuple[GenericAnyPort]:
-    """_summary_
+    """Get all ports on a module
 
-    :param tester: _description_
-    :type tester: GenericAnyTester
-    :param module_id: _description_
+    :param tester: The tester object
+    :type tester: :class:`~xoa_driver.testers.GenericAnyTester`
+    :param module_id: The module index
     :type module_id: int
-    :param port_id: _description_
-    :type port_id: int
-    :raises NotConnectedError: _description_
-    :raises NoSuchModuleError: _description_
-    :raises NoSuchModuleError: _description_
-    :return: _description_
-    :rtype: GenericAnyPort
+    :return: List of port objects
+    :rtype: tuple[GenericAnyPort]
     """
     module = get_module(tester, module_id)
     return tuple(module.ports)
 
 
 def get_port(tester: GenericAnyTester, module_id: int, port_id: int) -> GenericAnyPort:
+    """_summary_
+
+    :param tester: The tester object
+    :type tester: :class:`~xoa_driver.testers.GenericAnyTester`
+    :param module_id: The module index
+    :type module_id: int
+    :param port_id: The port index
+    :type port_id: int
+    :raises NoSuchPortError: No port found with the index
+    :return: The port object
+    :rtype: :class:`~xoa_driver.ports.GenericAnyPort`
+    """
     module = get_module(tester, module_id)
     try:
         return module.ports.obtain(port_id)
