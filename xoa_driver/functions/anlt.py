@@ -128,7 +128,7 @@ class DoAnlt:
         await apply(*iter(self.__builder__()))
 
 
-async def do_anlt(
+async def start_anlt(
     port: GenericAnyPort,
     should_do_an: bool,
     should_do_lt: bool,
@@ -137,10 +137,10 @@ async def do_anlt(
     lt_initial_modulations: Dict[int, LinkTrainEncoding],
     should_lt_interactive: bool,
 ) -> None:
-    """_summary_
+    """Start ANLT on a port
 
     :param port: port to select
-    :type port: GenericAnyPort
+    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
     :param should_do_an: should the port do autoneg?
     :type should_do_an: bool
     :param should_do_lt: should the port do link training?
@@ -204,17 +204,6 @@ async def autoneg_status(port: GenericAnyPort) -> Dict[str, Any]:
 
 
 async def __lt_coeff(port: GenericAnyPort, lane: int, emphasis: LinkTrainCoeffs, *, cmd: LinkTrainCmd) -> None:
-    """Ask the remote port to increase coeff of the specified lane.
-
-    :param port: the port to configure
-    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
-    :param lane: lane index, starting from 0
-    :type lane: int
-    :param emphasis: coefficient index (pre, pre2, pre3, main, post)
-    :type emphasis: str
-    :return:
-    :rtype: None
-    """
     conn, mid, pid = __get_ctx(port)
     cmd_ = commands.PL1_LINKTRAIN_CMD(conn, mid, pid, lane)
     await cmd_.set(
