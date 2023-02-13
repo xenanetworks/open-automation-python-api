@@ -1,7 +1,7 @@
 #: High-level functions
 from xoa_driver.functions.anlt import (
     anlt_log,
-    start_anlt,
+    anlt_start,
     lt_coeff_inc,
     lt_coeff_dec,
     lt_encoding,
@@ -9,8 +9,8 @@ from xoa_driver.functions.anlt import (
     lt_status,
     lt_trained,
     autoneg_status,
-    link_recovery,
-    status,
+    anlt_link_recovery,
+    anlt_status,
     txtap_get,
     txtap_set,
 )
@@ -70,7 +70,7 @@ from xoa_driver.functions.exceptions import(
 
 __all__ = (
     "anlt_log",
-    "start_anlt",
+    "anlt_start",
     "lt_coeff_inc",
     "lt_coeff_dec",
     "lt_encoding",
@@ -78,8 +78,8 @@ __all__ = (
     "lt_status",
     "lt_trained",
     "autoneg_status",
-    "link_recovery",
-    "status",
+    "anlt_link_recovery",
+    "anlt_status",
     "txtap_get",
     "txtap_set",
     "free_module",

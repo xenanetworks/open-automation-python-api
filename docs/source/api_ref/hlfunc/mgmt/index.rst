@@ -11,12 +11,10 @@ The following high-level functions handle test resource management, e.g. connect
 
 -------
 
-.. currentmodule:: xoa_driver.hlfuncs.mgmt
+.. currentmodule:: xoa_driver.hlfuncs
 
 HL Port Functions
 -------------------------
-
-.. autofunction:: get_ports
 
 .. autofunction:: reserve_port
 
@@ -24,15 +22,21 @@ HL Port Functions
 
 .. autofunction:: free_port
 
+.. autofunction:: get_port
+
+.. autofunction:: get_ports
+
 
 HL Module Functions
 ---------------------------
 
-.. autofunction:: free_ports
-
 .. autofunction:: reserve_module
 
 .. autofunction:: free_module
+
+.. autofunction:: get_module
+
+.. autofunction:: free_ports
 
 
 HL Tester Functions
