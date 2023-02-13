@@ -18,6 +18,7 @@ from typing_extensions import (
 )
 
 from .field import FieldSpecs
+from .exceptions import CommandVersionError
 
 GenericType = TypeVar("GenericType")
 
@@ -53,7 +54,7 @@ class ResponseFieldState:
         try:
             val_ = descr.specs.unpack(instance._buffer)
         except struct.error:
-            raise CommandVersionError
+            raise CommandVersionError()
         else:
             return descr.format_method(val_)
 

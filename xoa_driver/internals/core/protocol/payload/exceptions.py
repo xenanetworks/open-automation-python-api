@@ -1,3 +1,9 @@
+class XoaProtocolException(Exception):
+    ...
+
+
+class CommandVersionError(XoaProtocolException):
+    ...
 
 
 class FieldDeclarationError(TypeError):

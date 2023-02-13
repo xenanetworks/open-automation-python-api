@@ -29,35 +29,40 @@ from xoa_driver.utils import apply, apply_iter  # noqa: E402
 #         commands.C_OWNER(ctx).set("xoa")
 #     )
 
-
 async def main() -> None:
     # print("start")
-    ctx = TransportationHandler(debug=True)
+    ctx = TransportationHandler(debug=False)
     # print("Create handler")
-    await establish_connection(ctx, "192.168.1.197")
+    await establish_connection(ctx, "192.168.1.198")
     # print("Is connected", ctx.is_connected)
     # with cProfile.Profile() as pr:
-    try:
-        *_, m, p = await apply(
-            commands.C_LOGON(ctx).set("xena"),
-            commands.C_OWNER(ctx).set("xoa"),
-            commands.M_CAPABILITIES(ctx, 0).get(),
-            commands.P_CAPABILITIES(ctx, 0, 1).get(),
-        )
-    except Exception as e:
-        print("ERR:", e)
-    else:
-        print(m.can_ppm_sweep)
-        print(p.tx_eq_tap_max_val)
-    ccp = await commands.C_CAPABILITIES(ctx).get()
-    print(ccp.version)
-    # req = apply_iter(*[commands.P_CAPABILITIES(ctx, 1, 1).get() for _ in range(1_000_000)])
-    # async for resp in req:
-    #     resp.tx_eq_tap_max_val
+
+    await apply(
+        commands.C_LOGON(ctx).set("xena"),
+        commands.C_OWNER(ctx).set("xoa"),
+        commands.M_CAPABILITIES(ctx, 1).get(),
+        commands.P_CAPABILITIES(ctx, 0, 1).get(),
+    )
+        # print(resp)
+        # ccp = await commands.C_CAPABILITIES(ctx).get()
+        # print(ccp.version)
+        # req = apply_iter(*[commands.P_CAPABILITIES(ctx, 1, 1).get() for _ in range(100_000)])
+        # async for resp in req:
+        #     resp.tx_eq_tap_max_val
     # stats = pstats.Stats(pr)
     # stats.sort_stats(pstats.SortKey.TIME)
     # stats.print_stats(20)
 
+    # port = PortL23()
+    # if isinstance(port, PortL23) and port.is_capable_of(ANLT, PCS_PMA)
+
+
+    # Testsuite 2544:
+        # required_port_type: L23Port
+        # required_functionalities: 
+    # ANLT functionalities:
+        # required_port_type: L23Port,
+        # required_functionalities:  ANLT
 
 def run(method: Coroutine) -> None:
     import platform
@@ -69,8 +74,8 @@ def run(method: Coroutine) -> None:
 if __name__ == "__main__":
     run(main())
     # result = timeit.timeit(
-    #     "run()",
-    #     setup="from __main__ import run",
+    #     "run(main())",
+    #     setup="from __main__ import run, main",
     #     number=1
     # )
     # print(result)

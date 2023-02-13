@@ -11,8 +11,6 @@ class TransporterException(XoaException):
     ...
 
 
-
-
 class EstablishConnectionError(Exception):
     def __init__(self, host: str, port: int) -> None:
         self.host = host
@@ -46,9 +44,10 @@ class RepeatedRequestID(TransporterException):
 
 
 class LostFuture(TransporterException):
-    def __init__(self, response: Response) -> None:
-        self.msg = f"Lost Future {response.header.request_identifier} {response.class_name}."
-        self.response = response
+    def __init__(self, req_id: int, cls_name: str) -> None:
+        self.req_id = req_id
+        self.cls_name = cls_name
+        self.msg = f"Lost Future {req_id} {cls_name}."
         super().__init__(self.msg)
 
 

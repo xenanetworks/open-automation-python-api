@@ -39,6 +39,7 @@ class ChTXClock:
     """
     Advanced timing feature (Chimera).
     """
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.source = M_TXCLOCKSOURCE_NEW(conn, module_id)
         """
@@ -58,6 +59,7 @@ class ChCFP:
     """
     CFP test module (Chimera).
     """
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.type = M_CFPTYPE(conn, module_id)
         """
@@ -77,6 +79,7 @@ class ChUpgrade:
     """
     Upgrade test module (Chimera).
     """
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.start = M_UPGRADE(conn, module_id)
         """
@@ -90,6 +93,7 @@ class ChUpgrade:
         
         :type: M_UPGRADEPROGRESS
         """
+
 
 class ChTiming:
     """Test module timing and clock configuration"""
@@ -118,6 +122,7 @@ class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
     """
     This is a conceptual class of Chimera module.
     """
+
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
 
@@ -292,6 +297,7 @@ class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
 @revisions.register_chimera_module(rev="Chimera-100G-5S-2P")
 class MChi100G5S2P(ModuleChimera):
     """Chimera module Chi-100G-5S-2P"""
+
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
         self.ports: pm.PortsManager[ports.PChi100G5S2P] = pm.PortsManager(
@@ -310,6 +316,7 @@ class MChi100G5S2P(ModuleChimera):
 @revisions.register_chimera_module(rev="Chimera-100G-5S-2P[b]")
 class MChi100G5S2P_b(ModuleChimera):
     """Chimera module Chi-100G-5S-2P[b]"""
+
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
         self.ports: pm.PortsManager[ports.PChi100G5S2P_b] = pm.PortsManager(
@@ -328,6 +335,7 @@ class MChi100G5S2P_b(ModuleChimera):
 @revisions.register_chimera_module(rev="Chimera-40G-5S-2P")
 class MChi40G5S2P(ModuleChimera):
     """Chimera module Chi-40G-5S-2P"""
+
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
         self.ports: pm.PortsManager[ports.PChi40G5S2P] = pm.PortsManager(

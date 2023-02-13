@@ -9,10 +9,10 @@ from functools import partialmethod
 from typing import Any, Callable, Coroutine, Final
 from .exceptions import (
     LostFuture,
-    BadStatus
+    # BadStatus
 )
 from ..protocol.struct_response import Response
-
+from ..protocol.exceptions import get_status_error
 
 ON_EVT_DISCONNECTED: Final[int] = -1
 
@@ -23,11 +23,15 @@ class FuturesMapper(UserDict):
     data: dict[tuple[int, str], asyncio.Future]
 
     def make_future(self, req_id: int, cmd_name: str) -> asyncio.Future:
-        self.data[(req_id, cmd_name)] = fut = asyncio.Future()
+        fut = asyncio.Future()
+        self.data[(req_id, cmd_name)] = fut
         return fut
 
-    def pop_future(self, req_id: int, cmd_name: str) -> asyncio.Future | None:
-        return self.data.pop((req_id, cmd_name), None)
+    def pop_future(self, req_id: int, cmd_name: str) -> asyncio.Future:
+        fut = self.data.pop((req_id, cmd_name), None)
+        if not fut:
+            raise LostFuture(req_id, cmd_name)
+        return fut
 
 
 class EventsObserver:
@@ -71,7 +75,7 @@ class ResponsePublisher:
 
     def publish_connection_lost(self, info) -> None:
         self.__observer.dispatch(ON_EVT_DISCONNECTED, info)
-        self.__logger.debug(info)
+        # self.__logger.debug(info)
 
     def publish_push_response(self, response: Response) -> None:
         self.__observer.dispatch(
@@ -85,10 +89,9 @@ class ResponsePublisher:
             req_id=response.header.request_identifier,
             cmd_name=response.class_name
         )
-        if not future:
-            raise LostFuture(response)
         if not response.is_ok:
-            future.set_exception(BadStatus(response))
+            exception = get_status_error(response.command_status)  # type: ignore
+            future.set_exception(exception(response.class_name))
         else:
             future.set_result(response.values)
         self.__logger.response_obj(response)

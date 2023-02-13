@@ -107,6 +107,7 @@ class DoAnlt:
         # # Set autoneg allow-loopback
         yield self.__pl1_cfg_tmp(0, Layer1ConfigType.AN_LOOPBACK, int(self.an_allow_loopback))
 
+        # yield self.__pp_autoneg(self.should_do_an and not self.should_do_lt)
         if (not self.should_do_an) or self.should_do_lt:
             # Disable autoneg
             yield self.__pp_autoneg(False)
@@ -153,6 +154,7 @@ async def do_anlt(
     :param should_lt_interactive: should perform link training manually?
     :type should_lt_interactive: bool
     """
+
     anlt = DoAnlt(
         port,
         should_do_an,

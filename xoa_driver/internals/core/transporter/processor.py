@@ -1,6 +1,7 @@
 from __future__ import annotations
 import asyncio
-from typing import Generator, Protocol
+from dataclasses import dataclass
+from typing import Callable, Generator, Protocol
 from collections import UserDict
 
 from ..protocol.struct_response import Response
@@ -52,7 +53,7 @@ class PacketsProcessor:
             return None
         self.__evt_do_job.set()
         self.__consumer = asyncio.create_task(self.__consume())
-        self.__consumer.add_done_callback(self.__handle_exceptions)
+        # self.__consumer.add_done_callback(self.__handle_exceptions)
 
     def __handle_exceptions(self, fut: asyncio.Future) -> None:
         if fut.cancelled():
@@ -78,12 +79,9 @@ class PacketsProcessor:
 
     async def __consume(self) -> None:
         # TODO: Handle exceptions
+        cnsm_ = Consumer(self.__cm_mapper, self.__handle_push_response, self.__handle_param_response)
         async for header, body_bytes in self.__stream.read():
-            response = self.__serialize_to_response(header, body_bytes)
-            if header.is_pushed:
-                self.__handle_push_response(response)
-            else:
-                self.__handle_param_response(response)
+            cnsm_.run(header, body_bytes)
             if not self.__evt_do_job.is_set():
                 return None
 
@@ -94,3 +92,28 @@ class PacketsProcessor:
             raise RepeatedRequestID(header)
         xmc_type = registry.get_command(command_idx)
         return build_from_bytes(xmc_type, header, body_bytes)
+
+
+@dataclass
+class Consumer:
+    _cm_mapper: CommandsCodeMapper
+    _handle_push_response: Callable
+    _handle_param_response: Callable
+
+    def __serialize_to_response(self, header: ResponseHeader, body_bytes: bytearray) -> Response:
+        """Applying received bytes to structured representation."""
+        command_idx = header.cmd_code if header.is_pushed else self._cm_mapper.pop_code(header.request_identifier)
+        if not command_idx:
+            raise RepeatedRequestID(header)
+        xmc_type = registry.get_command(command_idx)
+        return build_from_bytes(xmc_type, header, body_bytes)
+
+    async def __consume(self, header, body_bytes) -> None:
+        response = self.__serialize_to_response(header, body_bytes)
+        if header.is_pushed:
+            self._handle_push_response(response)
+        else:
+            self._handle_param_response(response)
+
+    def run(self, header, body_bytes) -> None:
+        asyncio.create_task(self.__consume(header, body_bytes))

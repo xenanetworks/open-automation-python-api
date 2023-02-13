@@ -24,6 +24,8 @@ from ..protocol.struct_request import Request
 class TransportationHandler(asyncio.Protocol):
     """Handling sending and receiving of the XMP commands."""
 
+    __slots__ = ("identity", "__log", "__transport", "__id_counter", "__stream", "__resp_publisher", "__pkt_processor")
+
     def __init__(self, *, debug: bool = False, logger: None = None) -> None:
         self.identity = uuid4().hex[:6]
         self.__log = TransportationLogger(self.identity, debug, logger)

@@ -16,8 +16,95 @@ PcsPmaSupported = (FamilyL, FamilyL1)
 AutoNegSupported = (FamilyL, FamilyL1)
 LinkTrainingSupported = FamilyL
 
+# region Testers
 
-def get_ports(tester: GenericAnyTester, module_id: int | None = None, port_id: int | None = None) -> tuple[GenericAnyPort]:
+
+async def reserve_tester(tester: GenericAnyTester, force: bool = True) -> None:
+    """Reserve a tester regardless whether it is owned by others or not.
+
+    :param tester: The tester to reserve
+    :type tester: :class:`~xoa_driver.testers.GenericAnyTester`
+    :param force: Should force reserve the tester
+    :type force: boolean
+    :return:
+    :rtype: None
+    """
+    r = await tester.reservation.get()
+    if force and r.operation == ReservedStatus.RESERVED_BY_OTHER:
+        await asyncio.gather(*[free_module(m) for m in tester.modules])
+        await tester.reservation.set_reserve()
+    elif r.operation == ReservedStatus.RELEASED:
+        # can fail in condition if an module or port is reserved by someone else
+        await tester.reservation.set_reserve()
+
+
+async def free_tester(tester: GenericAnyTester) -> None:
+    """Free a tester. If the tester is reserved by you, release the tester. If the tester is reserved by others, relinquish the tester. The tester should have no owner afterwards.
+
+    :param tester: The tester to free
+    :type tester: :class:`~xoa_driver.testers.GenericAnyTester`
+    :return:
+    :rtype: None
+    """
+    r = await tester.reservation.get()
+    if r.operation == ReservedStatus.RESERVED_BY_OTHER:
+        await tester.reservation.set_relinquish()
+    elif r.operation == ReservedStatus.RESERVED_BY_YOU:
+        await tester.reservation.set_release()
+    await asyncio.gather(*[free_module(m) for m in tester.modules])
+
+# endregion
+
+
+# region Modules
+
+def get_module(tester: GenericAnyTester, module_id: int):
+    try:
+        return tester.modules.obtain(module_id)
+    except KeyError:
+        raise NoSuchModuleError(module_id)
+
+
+async def reserve_module(module: GenericAnyModule, force: bool = True) -> None:
+    """Reserve a module regardless whether it is owned by others or not.
+
+    :param module: The module to reserve
+    :type module: :class:`~xoa_driver.modules.GenericAnyModule`
+    :param force: Should force reserve the module
+    :type force: boolean
+    :return:
+    :rtype: None
+    """
+    r = await module.reservation.get()
+    if force and r.operation == ReservedStatus.RESERVED_BY_OTHER:
+        await free_module(module)
+        await module.reservation.set_reserve()
+    elif r.operation == ReservedStatus.RELEASED:
+        # will fail in condition coz module can be released but port can be occupied by some one else
+        await module.reservation.set_reserve()
+
+
+async def free_module(module: GenericAnyModule) -> None:
+    """Free a module. If the module is reserved by you, release the module. If the module is reserved by others, relinquish the module. The module should have no owner afterwards.
+
+    :param module: The module to free
+    :type module: :class:`~xoa_driver.modules.GenericAnyModule`
+    :return:
+    :rtype: None
+    """
+    r = await module.reservation.get()
+    if r.operation == ReservedStatus.RESERVED_BY_OTHER:
+        await module.reservation.set_relinquish()
+    elif r.operation == ReservedStatus.RESERVED_BY_YOU:
+        await module.reservation.set_release()
+    await free_ports(*module.ports)
+
+# endregion
+
+# region Ports
+
+
+def get_ports(tester: GenericAnyTester, module_id: int) -> tuple[GenericAnyPort]:
     """_summary_
 
     :param tester: _description_
@@ -32,26 +119,16 @@ def get_ports(tester: GenericAnyTester, module_id: int | None = None, port_id: i
     :return: _description_
     :rtype: GenericAnyPort
     """
-    if module_id is None:
-        modules = tester.modules
-    else:
-        try:
-            modules = tester.modules.obtain_multiple(module_id)
-        except KeyError:
-            raise NoSuchModuleError(module_id)
+    module = get_module(tester, module_id)
+    return tuple(module.ports)
 
-    ports = []
-    for module in modules:
-        if port_id is None:
-            ports.extend(module.ports)
-        else:
-            try:
-                port = module.ports.obtain(port_id)
-            except KeyError:
-                raise NoSuchPortError(port_id)
-            else:
-                ports.append(port)
-    return tuple(ports)
+
+def get_port(tester: GenericAnyTester, module_id: int, port_id: int) -> GenericAnyPort:
+    module = get_module(tester, module_id)
+    try:
+        return module.ports.obtain(port_id)
+    except KeyError:
+        raise NoSuchPortError(port_id)
 
 
 async def reserve_port(port: GenericAnyPort, force: bool = True) -> None:
@@ -108,73 +185,4 @@ async def free_ports(*ports: GenericAnyPort) -> None:
     :type module: GenericAnyModule
     """
     await asyncio.gather(*[free_port(port=p) for p in ports])
-
-
-async def reserve_module(module: GenericAnyModule, force: bool = True) -> None:
-    """Reserve a module regardless whether it is owned by others or not.
-
-    :param module: The module to reserve
-    :type module: :class:`~xoa_driver.modules.GenericAnyModule`
-    :param force: Should force reserve the module
-    :type force: boolean
-    :return:
-    :rtype: None
-    """
-    r = await module.reservation.get()
-    if force and r.operation == ReservedStatus.RESERVED_BY_OTHER:
-        await free_module(module)
-        await module.reservation.set_reserve()
-    elif r.operation == ReservedStatus.RELEASED:
-        # will fail in condition coz module can be released but port can be occupied by some one else
-        await module.reservation.set_reserve()
-
-
-async def free_module(module: GenericAnyModule) -> None:
-    """Free a module. If the module is reserved by you, release the module. If the module is reserved by others, relinquish the module. The module should have no owner afterwards.
-
-    :param module: The module to free
-    :type module: :class:`~xoa_driver.modules.GenericAnyModule`
-    :return:
-    :rtype: None
-    """
-    r = await module.reservation.get()
-    if r.operation == ReservedStatus.RESERVED_BY_OTHER:
-        await module.reservation.set_relinquish()
-    elif r.operation == ReservedStatus.RESERVED_BY_YOU:
-        await module.reservation.set_release()
-    await free_ports(*module.ports)
-
-
-async def reserve_tester(tester: GenericAnyTester, force: bool = True) -> None:
-    """Reserve a tester regardless whether it is owned by others or not.
-
-    :param tester: The tester to reserve
-    :type tester: :class:`~xoa_driver.testers.GenericAnyTester`
-    :param force: Should force reserve the tester
-    :type force: boolean
-    :return:
-    :rtype: None
-    """
-    r = await tester.reservation.get()
-    if force and r.operation == ReservedStatus.RESERVED_BY_OTHER:
-        await asyncio.gather(*[free_module(m) for m in tester.modules])
-        await tester.reservation.set_reserve()
-    elif r.operation == ReservedStatus.RELEASED:
-        # can fail in condition if an module or port is reserved by someone else
-        await tester.reservation.set_reserve()
-
-
-async def free_tester(tester: GenericAnyTester) -> None:
-    """Free a tester. If the tester is reserved by you, release the tester. If the tester is reserved by others, relinquish the tester. The tester should have no owner afterwards.
-
-    :param tester: The tester to free
-    :type tester: :class:`~xoa_driver.testers.GenericAnyTester`
-    :return:
-    :rtype: None
-    """
-    r = await tester.reservation.get()
-    if r.operation == ReservedStatus.RESERVED_BY_OTHER:
-        await tester.reservation.set_relinquish()
-    elif r.operation == ReservedStatus.RESERVED_BY_YOU:
-        await tester.reservation.set_release()
-    await asyncio.gather(*[free_module(m) for m in tester.modules])
+# endregion
