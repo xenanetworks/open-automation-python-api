@@ -1,5 +1,17 @@
-from typing import AsyncGenerator, Literal, TypeVar, overload
+from __future__ import annotations
+from asyncio.events import AbstractEventLoop
+from typing import (
+    AsyncGenerator,
+    Literal, 
+    TypeVar, 
+    overload
+)
 from .token import Token
+from .handler import TransportationHandler
+
+
+async def establish_connection(transporter: TransportationHandler, host: str, port: int = 22606, loop: "AbstractEventLoop" | None = None) -> None:
+    ...
 
 
 _T1 = TypeVar("_T1")
