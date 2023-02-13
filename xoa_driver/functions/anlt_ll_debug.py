@@ -200,3 +200,34 @@ async def lt_rx_analyzer_dump(
     string.append("Done\n")
     result = "".join(string)
     return result
+
+
+
+__all__ = (
+    "init",
+    "lane_reset",
+    "mode_get",
+    "mode_set",
+    "lt_prbs",
+    "lt_rx_analyzer_config_get",
+    "lt_rx_analyzer_config_set",
+    "lt_rx_analyzer_dump",
+    "lt_rx_analyzer_rd_addr_get",
+    "lt_rx_analyzer_rd_addr_set",
+    "lt_rx_analyzer_rd_data_get",
+    "lt_rx_analyzer_rd_page_get",
+    "lt_rx_analyzer_rd_page_set",
+    "lt_tx_config_get",
+    "lt_tx_config_set",
+    "lt_rx_analyzer_status_get",
+    "lt_rx_analyzer_trig_mask_get",
+    "lt_rx_analyzer_trig_mask_set",
+    "lt_rx_config_get",
+    "lt_rx_config_set",
+    "lt_rx_error_stat0_get",
+    "lt_tx_tf_get",
+    "lt_rx_error_stat1_get",
+    "lt_rx_tf_get",
+    "lt_status",
+    "lt_tx_tf_set",
+)

@@ -606,3 +606,21 @@ async def anlt_log(port: GenericAnyPort) -> str:
     conn, mid, pid = __get_ctx(port)
     log = await commands.PL1_LOG(conn, mid, pid).get()
     return log.log_string
+
+
+
+__all__ = (
+    "anlt_log",
+    "anlt_start",
+    "lt_coeff_inc",
+    "lt_coeff_dec",
+    "lt_encoding",
+    "lt_preset",
+    "lt_status",
+    "lt_trained",
+    "autoneg_status",
+    "anlt_link_recovery",
+    "anlt_status",
+    "txtap_get",
+    "txtap_set",
+)
