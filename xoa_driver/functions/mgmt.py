@@ -73,6 +73,17 @@ def get_module(tester: GenericAnyTester, module_id: int):
         raise NoSuchModuleError(module_id)
 
 
+def get_modules(tester: GenericAnyTester) -> tuple[GenericAnyModule]:
+    """Get all modules of the tester
+
+    :param tester: The tester object
+    :type tester: :class:`~xoa_driver.testers.GenericAnyTester`
+    :return: List of module objects
+    :rtype: tuple[GenericAnyModule]
+    """
+    return tuple(tester.modules)
+
+
 async def reserve_module(module: GenericAnyModule, force: bool = True) -> None:
     """Reserve a module regardless whether it is owned by others or not.
 
@@ -110,6 +121,21 @@ async def free_module(module: GenericAnyModule) -> None:
 # endregion
 
 # region Ports
+
+def get_all_ports(tester: GenericAnyTester) -> tuple[GenericAnyPort]:
+    """Get all ports of the tester
+
+    :param tester: The tester object
+    :type tester: :class:`~xoa_driver.testers.GenericAnyTester`
+    :return: List of port objects
+    :rtype: tuple[GenericAnyPort]
+    """
+    ports = []
+    modules = get_modules(tester)
+
+    for module in modules:
+        ports.append(get_ports(tester, module.module_id))
+    return tuple(ports)
 
 
 def get_ports(tester: GenericAnyTester, module_id: int) -> tuple[GenericAnyPort]:
@@ -201,3 +227,19 @@ async def free_ports(*ports: GenericAnyPort) -> None:
     """
     await asyncio.gather(*[free_port(port=p) for p in ports])
 # endregion
+
+
+
+__all__ = (
+    "free_module",
+    "free_port",
+    "free_ports",
+    "free_tester",
+    "get_module",
+    "get_port",
+    "get_ports",
+    "reset_port",
+    "reserve_module",
+    "reserve_port",
+    "reserve_tester",
+)

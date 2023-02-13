@@ -26,6 +26,8 @@ HL Port Functions
 
 .. autofunction:: get_ports
 
+.. autofunction:: get_all_ports
+
 
 HL Module Functions
 ---------------------------
@@ -35,6 +37,8 @@ HL Module Functions
 .. autofunction:: free_module
 
 .. autofunction:: get_module
+
+.. autofunction:: get_modules
 
 .. autofunction:: free_ports
 
