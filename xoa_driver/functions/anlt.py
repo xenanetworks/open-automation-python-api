@@ -228,7 +228,7 @@ lt_coeff_inc = partial(__lt_coeff, cmd=LinkTrainCmd.CMD_INC)
 lt_coeff_dec = partial(__lt_coeff, cmd=LinkTrainCmd.CMD_DEC)
 lt_preset = partial(__lt_coeff, cmd=LinkTrainCmd.CMD_PRESET)
 lt_encoding = partial(__lt_coeff, cmd=LinkTrainCmd.CMD_ENCODING)
-lt_trained = partial(__lt_coeff, emphasis=LinkTrainCoeffs.PRE1, cmd=LinkTrainCmd.CMD_LOCAL_TRAINED)
+lt_trained = partial(__lt_coeff, emphasis=LinkTrainCoeffs.PRE, cmd=LinkTrainCmd.CMD_LOCAL_TRAINED)
 
 
 async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
