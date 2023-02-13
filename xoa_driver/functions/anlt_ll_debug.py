@@ -2,11 +2,27 @@ from __future__ import annotations
 import asyncio
 import typing as t
 from functools import partial
-from xoa_driver.enums import Layer1ConfigType, AnLtD
+from xoa_driver.enums import Layer1ConfigType
 from xoa_driver.ports import GenericAnyPort
 from xoa_driver.lli import commands
 from dataclasses import dataclass
+from enum import IntEnum
 
+class AnLtD(IntEnum):
+    PMD_CONFIG_REGISTER = 0x02
+    LT_TX_CONFIG_REGISTER = 0x20
+    LT_TX_FRAME_REGISTER = 0x24
+    LT_RX_STATUS_REGISTER = 0x29
+    LT_RX_CONFIG_REGISTER = 0x28
+    LT_RX_FRAME_REGISTER = 0x2C
+    LT_RX_ERROR_STAT_0 = 0x2A
+    LT_RX_ERROR_STAT_1 = 0x2B
+    LT_RX_ANALYZER_CONFIG = 0x38
+    LT_RX_ANALYZER_TRIG_MASK = 0x39
+    LT_RX_ANALYZER_STATUS = 0x3A
+    LT_RX_ANALYZER_RD_ADDR = 0x3B
+    LT_RX_ANALYZER_RD_PAGE = 0x3C
+    LT_RX_ANALYZER_RD_DATA = 0x3D
 
 @dataclass
 class AnLtLowLevelInfo:
