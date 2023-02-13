@@ -130,11 +130,11 @@ def get_all_ports(tester: GenericAnyTester) -> tuple[GenericAnyPort]:
     :return: List of port objects
     :rtype: tuple[GenericAnyPort]
     """
-    ports = []
+    ports = ()
     modules = get_modules(tester)
 
     for module in modules:
-        ports.append(get_ports(tester, module.module_id))
+        ports = ports + get_ports(tester, module.module_id)
     return tuple(ports)
 
 
