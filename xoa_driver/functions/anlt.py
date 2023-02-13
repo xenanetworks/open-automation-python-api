@@ -129,7 +129,7 @@ class DoAnlt:
         await apply(*iter(self.__builder__()))
 
 
-async def start_anlt(
+async def anlt_start(
     port: GenericAnyPort,
     should_do_an: bool,
     should_do_lt: bool,
@@ -552,7 +552,7 @@ async def txtap_set(
     )
 
 
-async def link_recovery(port: GenericAnyPort, enable: bool) -> None:
+async def anlt_link_recovery(port: GenericAnyPort, enable: bool) -> None:
     """Should xenaserver automatically do link recovery when detecting down signal.
 
     :param port: port to configure
@@ -567,7 +567,7 @@ async def link_recovery(port: GenericAnyPort, enable: bool) -> None:
     await cmd_.set(values=[int(enable)])
 
 
-async def status(port: GenericAnyPort) -> Dict[str, Any]:
+async def anlt_status(port: GenericAnyPort) -> Dict[str, Any]:
     """Get the overview of ANLT status
 
     :param port: the port to get ANLT status from
