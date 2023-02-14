@@ -3,7 +3,7 @@
 
 from xoa_driver.internals.core import commands
 from xoa_driver.internals.core.registry import COMMANDS_REGISTRY
-from xoa_driver.internals.core.transporter import TransportationHandler
+from xoa_driver.internals.core.transporter.handler import TransportationHandler
 from xoa_driver.internals.core.transporter.funcs import establish_connection
 
 
