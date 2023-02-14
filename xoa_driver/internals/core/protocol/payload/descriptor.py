@@ -18,7 +18,7 @@ from typing_extensions import (
 )
 
 from .field import FieldSpecs
-from .exceptions import CommandVersionError
+from .exceptions import FirmwareVersionError
 
 GenericType = TypeVar("GenericType")
 
@@ -54,7 +54,11 @@ class ResponseFieldState:
         try:
             val_ = descr.specs.unpack(instance._buffer)
         except struct.error:
-            raise CommandVersionError()
+            raise FirmwareVersionError(
+                cmd_name=instance.__class__.__qualname__,
+                field_name=descr.public_name,
+                min_version=descr.specs.min_version,
+            ) from None
         else:
             return descr.format_method(val_)
 
@@ -63,13 +67,16 @@ class FieldDescriptor(Generic[GenericType]):
     '''
     Descriptor representing getter and setter of the field
     '''
-    __slots__ = ("specs", "format_method", "state",)
+    __slots__ = ("specs", "format_method", "state", "public_name")
 
     def __init__(self: Self, specs: FieldSpecs, user_type: Type[Any], is_response: bool) -> None:
         # Will be called from the Meta class
         self.specs = specs
         self.format_method: Callable[[Any], Any] = self.specs.get_format_method(user_type, is_response)
         self.state = RequestFieldState if not is_response else ResponseFieldState
+
+    def __set_name__(self, owner, name: str) -> None:
+        self.public_name = name
 
     def __set__(self: Self, instance, value: GenericType) -> None:
         # Executed at the runtimne

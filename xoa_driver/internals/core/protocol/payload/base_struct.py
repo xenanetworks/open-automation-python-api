@@ -17,7 +17,10 @@ from .field import (
     field,
 )
 from .descriptor import FieldDescriptor
-from .exceptions import FieldDeclarationError
+from .exceptions import (
+    FieldDeclarationError,
+    FirmwareVersionError,
+)
 
 
 RESPONSE_CLS_NAME = "ResponseBodyStruct"
@@ -87,7 +90,7 @@ class OrderedMeta(type):
         return dict()
 
 
-@dataclass_transform(kw_only_default=True, field_descriptors=(field, FieldSpecs,))
+@dataclass_transform(kw_only_default=True, field_descriptors=(field, FieldSpecs,))  # type: ignore[Pylance, folse positive]
 class RequestBodyStruct(metaclass=OrderedMeta):
     """Request Body class"""
 
@@ -129,7 +132,14 @@ class ResponseBodyStruct(metaclass=OrderedMeta):
         return f"{self.__class__.__name__}({vals})"
 
     def to_tuple(self) -> tuple:
-        return tuple(map(lambda fn: getattr(self, fn), self._order.field_names))
+        def get_val(fn: str) -> Any:
+            try:
+                val = getattr(self, fn)
+            except FirmwareVersionError:
+                return "NOT_SUPORTED_BY_FIRMWARE"
+            else:
+                return val
+        return tuple(map(get_val, self._order.field_names))
 
     def to_hex(self) -> str:
         return self._buffer.hex()

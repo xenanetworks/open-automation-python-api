@@ -1,14 +1,13 @@
 from __future__ import annotations
 import asyncio
+from itertools import chain
 from xoa_driver.enums import ReservedStatus
-from xoa_driver.misc import Token
 from xoa_driver.utils import apply
 from xoa_driver.internals.hli_v2.ports.port_l23.family_l import FamilyL
 from xoa_driver.internals.hli_v2.ports.port_l23.family_l1 import FamilyL1
 from xoa_driver.ports import GenericAnyPort
 from xoa_driver.modules import GenericAnyModule
 from xoa_driver.testers import GenericAnyTester
-from xoa_driver.lli import commands
 
 from .exceptions import NoSuchModuleError, NoSuchPortError
 
@@ -58,11 +57,32 @@ async def free_tester(tester: GenericAnyTester) -> None:
 
 # region Modules
 
-def get_module(tester: GenericAnyTester, module_id: int):
+def get_module(tester: GenericAnyTester, module_id: int) -> GenericAnyModule:
+    """Get a module object of the tester.
+
+    :param tester: The tester object
+    :type tester: :class:`~xoa_driver.testers.GenericAnyTester`
+    :param module_id: the index id of the module
+    :type module_id: int
+    :raises NoSuchModuleError: No such a module index on the tester
+    :return: module object
+    :rtype: :class:`~xoa_driver.modules.GenericAnyModule`
+    """
     try:
         return tester.modules.obtain(module_id)
     except KeyError:
         raise NoSuchModuleError(module_id)
+
+
+def get_modules(tester: GenericAnyTester) -> tuple[GenericAnyModule, ...]:
+    """Get all modules of the tester
+
+    :param tester: The tester object
+    :type tester: :class:`~xoa_driver.testers.GenericAnyTester`
+    :return: List of module objects
+    :rtype: tuple[GenericAnyModule]
+    """
+    return tuple(tester.modules)
 
 
 async def reserve_module(module: GenericAnyModule, force: bool = True) -> None:
@@ -104,26 +124,45 @@ async def free_module(module: GenericAnyModule) -> None:
 # region Ports
 
 
-def get_ports(tester: GenericAnyTester, module_id: int) -> tuple[GenericAnyPort]:
-    """_summary_
+def get_all_ports(tester: GenericAnyTester) -> tuple[GenericAnyPort, ...]:
+    """Get all ports of the tester
 
-    :param tester: _description_
-    :type tester: GenericAnyTester
-    :param module_id: _description_
+    :param tester: The tester object
+    :type tester: :class:`~xoa_driver.testers.GenericAnyTester`
+    :return: List of port objects
+    :rtype: tuple[GenericAnyPort]
+    """
+    all_ports_ = (m.ports for m in get_modules(tester))
+    return tuple(chain.from_iterable(all_ports_))
+
+
+def get_ports(tester: GenericAnyTester, module_id: int) -> tuple[GenericAnyPort, ...]:
+    """Get all ports of the module
+
+    :param tester: The tester object
+    :type tester: :class:`~xoa_driver.testers.GenericAnyTester`
+    :param module_id: The module index
     :type module_id: int
-    :param port_id: _description_
-    :type port_id: int
-    :raises NotConnectedError: _description_
-    :raises NoSuchModuleError: _description_
-    :raises NoSuchModuleError: _description_
-    :return: _description_
-    :rtype: GenericAnyPort
+    :return: List of port objects
+    :rtype: tuple[GenericAnyPort]
     """
     module = get_module(tester, module_id)
     return tuple(module.ports)
 
 
 def get_port(tester: GenericAnyTester, module_id: int, port_id: int) -> GenericAnyPort:
+    """Get a port of the module
+
+    :param tester: The tester object
+    :type tester: :class:`~xoa_driver.testers.GenericAnyTester`
+    :param module_id: The module index
+    :type module_id: int
+    :param port_id: The port index
+    :type port_id: int
+    :raises NoSuchPortError: No port found with the index
+    :return: The port object
+    :rtype: :class:`~xoa_driver.ports.GenericAnyPort`
+    """
     module = get_module(tester, module_id)
     try:
         return module.ports.obtain(port_id)
@@ -185,4 +224,20 @@ async def free_ports(*ports: GenericAnyPort) -> None:
     :type module: GenericAnyModule
     """
     await asyncio.gather(*[free_port(port=p) for p in ports])
+
 # endregion
+
+
+__all__ = (
+    "free_module",
+    "free_port",
+    "free_ports",
+    "free_tester",
+    "get_module",
+    "get_port",
+    "get_ports",
+    "reset_port",
+    "reserve_module",
+    "reserve_port",
+    "reserve_tester",
+)

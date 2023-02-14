@@ -29,26 +29,27 @@ from xoa_driver.utils import apply, apply_iter  # noqa: E402
 #         commands.C_OWNER(ctx).set("xoa")
 #     )
 
+
 async def main() -> None:
     # print("start")
     ctx = TransportationHandler(debug=False)
     # print("Create handler")
-    await establish_connection(ctx, "192.168.1.198")
+    await establish_connection(ctx, "192.168.1.197")
     # print("Is connected", ctx.is_connected)
     # with cProfile.Profile() as pr:
-
-    await apply(
+    *_, pc = await apply(
         commands.C_LOGON(ctx).set("xena"),
         commands.C_OWNER(ctx).set("xoa"),
         commands.M_CAPABILITIES(ctx, 1).get(),
-        commands.P_CAPABILITIES(ctx, 0, 1).get(),
+        commands.P_CAPABILITIES(ctx, 1, 1).get(),
     )
-        # print(resp)
-        # ccp = await commands.C_CAPABILITIES(ctx).get()
-        # print(ccp.version)
-        # req = apply_iter(*[commands.P_CAPABILITIES(ctx, 1, 1).get() for _ in range(100_000)])
-        # async for resp in req:
-        #     resp.tx_eq_tap_max_val
+    print(pc)
+    # print(resp)
+    # ccp = await commands.C_VERSIONNO(ctx).get()
+    # print(ccp)
+    # req = apply_iter(*[commands.P_CAPABILITIES(ctx, 1, 1).get() for _ in range(100_000)])
+    # async for resp in req:
+    #     resp.tx_eq_tap_max_val
     # stats = pstats.Stats(pr)
     # stats.sort_stats(pstats.SortKey.TIME)
     # stats.print_stats(20)
@@ -56,13 +57,13 @@ async def main() -> None:
     # port = PortL23()
     # if isinstance(port, PortL23) and port.is_capable_of(ANLT, PCS_PMA)
 
-
     # Testsuite 2544:
-        # required_port_type: L23Port
-        # required_functionalities: 
+    # required_port_type: L23Port
+    # required_functionalities:
     # ANLT functionalities:
-        # required_port_type: L23Port,
-        # required_functionalities:  ANLT
+    # required_port_type: L23Port,
+    # required_functionalities:  ANLT
+
 
 def run(method: Coroutine) -> None:
     import platform
