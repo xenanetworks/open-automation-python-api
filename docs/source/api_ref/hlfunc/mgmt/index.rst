@@ -11,7 +11,7 @@ The following high-level functions handle test resource management, e.g. connect
 
 -------
 
-.. currentmodule:: xoa_driver.hlfuncs
+.. currentmodule:: xoa_driver.hlfuncs.mgmt
 
 HL Port Functions
 -------------------------
