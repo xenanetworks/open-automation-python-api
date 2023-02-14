@@ -56,7 +56,7 @@ async def free_tester(tester: GenericAnyTester) -> None:
 # region Modules
 
 
-def get_module(tester: GenericAnyTester, module_id: int):
+def get_module(tester: GenericAnyTester, module_id: int) -> GenericAnyModule:
     """Get a module object of the tester.
 
     :param tester: The tester object
@@ -73,7 +73,7 @@ def get_module(tester: GenericAnyTester, module_id: int):
         raise NoSuchModuleError(module_id)
 
 
-def get_modules(tester: GenericAnyTester) -> tuple[GenericAnyModule]:
+def get_modules(tester: GenericAnyTester) -> tuple[GenericAnyModule, ...]:
     """Get all modules of the tester
 
     :param tester: The tester object
@@ -124,7 +124,7 @@ async def free_module(module: GenericAnyModule) -> None:
 # region Ports
 
 
-def get_all_ports(tester: GenericAnyTester) -> tuple[GenericAnyPort]:
+def get_all_ports(tester: GenericAnyTester) -> tuple[GenericAnyPort, ...]:
     """Get all ports of the tester
 
     :param tester: The tester object
@@ -132,15 +132,11 @@ def get_all_ports(tester: GenericAnyTester) -> tuple[GenericAnyPort]:
     :return: List of port objects
     :rtype: tuple[GenericAnyPort]
     """
-    ports = ()
-    modules = get_modules(tester)
-
-    for module in modules:
-        ports = ports + get_ports(tester, module.module_id)
-    return tuple(ports)
+    all_ports_ = (m.ports for m in get_modules(tester))
+    return tuple(chain.from_iterable(all_ports_))
 
 
-def get_ports(tester: GenericAnyTester, module_id: int) -> tuple[GenericAnyPort]:
+def get_ports(tester: GenericAnyTester, module_id: int) -> tuple[GenericAnyPort, ...]:
     """Get all ports of the module
 
     :param tester: The tester object
