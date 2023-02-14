@@ -10,10 +10,11 @@ from ..protocol.command_builders import (
 )
 from .. import interfaces
 from ..transporter.token import Token
-from ..protocol.fields.data_types import *
+from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *
+from .enums import *  # noqa: F403
+
 
 @register_command
 @dataclass
@@ -36,11 +37,11 @@ class PL_INDICES:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        length_term_xindices: XmpField[XmpIntList] = XmpField(XmpIntList)  # list of integers, the sub-index of a length term definition for the port.
+        length_term_xindices: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)  # list of integers, the sub-index of a length term definition for the port.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        length_term_xindices: XmpField[XmpIntList] = XmpField(XmpIntList)  # list of integers, the sub-index of a length term definition for the port.
+        length_term_xindices: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)  # list of integers, the sub-index of a length term definition for the port.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the full list of which length terms are defined for a port.
@@ -145,13 +146,13 @@ class PL_LENGTH:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        length_check_type: XmpField[XmpInt] = XmpField(XmpInt, choices=LengthCheckType)  # coded integer, whether to test for shorter-than or longer-than.
-        size: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the value to compare the packet length against.
+        length_check_type: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=LengthCheckType)  # coded integer, whether to test for shorter-than or longer-than.
+        size: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the value to compare the packet length against.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        length_check_type: XmpField[XmpInt] = XmpField(XmpInt, choices=LengthCheckType)  # coded integer, whether to test for shorter-than or longer-than.
-        size: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the value to compare the packet length against.
+        length_check_type: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=LengthCheckType)  # coded integer, whether to test for shorter-than or longer-than.
+        size: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the value to compare the packet length against.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the configuration of a length-based check that is applied on the packets received on a port.
@@ -162,7 +163,7 @@ class PL_LENGTH:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._length_term_xindex]))
 
     def set(self, length_check_type: LengthCheckType, size: int) -> "Token":
-        """Set the configuration of a length-based check that is applied on the packets received on a port. 
+        """Set the configuration of a length-based check that is applied on the packets received on a port.
 
         :param length_check_type: whether to test for shorter-than or longer-than
         :type length_check_type: LengthCheckType
@@ -180,5 +181,3 @@ class PL_LENGTH:
     set_at_least = functools.partialmethod(set, LengthCheckType.AT_LEAST)
     """Set the length check to be longer than or equal to the given length (at least).
     """
-
-

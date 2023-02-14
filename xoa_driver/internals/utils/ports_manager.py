@@ -1,9 +1,6 @@
 import asyncio
 from typing import (
-    Any,
-    Callable,
-    Coroutine,
-    Type, 
+    Type,
     TypeVar,
     Protocol,
     TYPE_CHECKING,
@@ -14,6 +11,7 @@ if TYPE_CHECKING:
 
 from ._base_manager import ResourcesBaseManager
 
+
 class IPort(Protocol):
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         ...
@@ -21,10 +19,11 @@ class IPort(Protocol):
 
 PT = TypeVar("PT", bound=IPort)
 
+
 class PortsManager(ResourcesBaseManager[PT]):
-    
+
     __slots__ = ("_conn", "_ports_type", "_ports_count", "_module_id", )
-    
+
     def __init__(self, conn: "itf.IConnection", module_id: int, ports_type: Type[PT], ports_count: int) -> None:
         super().__init__()
         self._conn = conn
@@ -45,20 +44,21 @@ class PortsManager(ResourcesBaseManager[PT]):
 
     async def fill(self) -> None:
         """Method for create and fill in."""
-        
+
         assert not self._lock, "Method <fill> can be called only once."
         coros = list(self._items.values())
-        await asyncio.gather(*coros) # type: ignore
+        await asyncio.gather(*coros)  # type: ignore
 
 
 class PortResolver(Protocol):
     async def __call__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> Type:
         ...
 
+
 class PortsCombiManager(ResourcesBaseManager[PT]):
-    
+
     __slots__ = ("_conn", "_resolver", "_ports_count", "_module_id", )
-    
+
     def __init__(self, conn: "itf.IConnection", module_id: int, resolver: PortResolver, ports_count: int) -> None:
         super().__init__()
         self._conn = conn

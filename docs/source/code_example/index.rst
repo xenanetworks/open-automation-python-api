@@ -3,6 +3,7 @@ Code Examples
 
 .. toctree::
 
-    hl_examples
-    ll_examples
-    hl_vs_cli_examples
+    hlapiv1_examples
+    hlapiv1_vs_xpc_examples
+    hlapiv1_vs_cli_examples
+    llapi_examples

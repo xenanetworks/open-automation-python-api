@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Optional,
     Tuple,
+    Type,
     Union,
 )
 
@@ -76,7 +77,8 @@ class TransportationHandler(asyncio.Protocol):
     def __handle_param_response(self, response: protocol.Response) -> None:
         self.__log.response_obj(response)
         future = self.cmd_mngr.get_result_future(response)
-        if not future: raise t_ex.LostFuture(response)
+        if not future:
+            raise t_ex.LostFuture(response)
         if not response.is_ok:
             future.set_exception(t_ex.BadStatus(response))
         else:
@@ -92,7 +94,6 @@ class TransportationHandler(asyncio.Protocol):
                 return None
             del self.aggregate[packet_position]
         # self.__log.draw_separator()
-
 
     def read_data_with_magic_word(self, extractor: bytearray) -> Optional[slice]:
         # read data which starts from magic word.
@@ -110,7 +111,6 @@ class TransportationHandler(asyncio.Protocol):
             self.process_data(header, body_bytes)
         )
         return slice(BODY_POS.stop)
-
 
     async def process_data(self, header, data: bytearray) -> None:
         try:
@@ -135,7 +135,7 @@ class TransportationHandler(asyncio.Protocol):
         )
         if not command_idx:
             raise t_ex.RepeatedRequestID(header)
-        xmc_type: Optional[x_types.CMD_TYPE] = self.commands_registry.get(command_idx, None)
+        xmc_type: Optional[Type[x_types.CMD_TYPE]] = self.commands_registry.get(command_idx, None)
         if not xmc_type:
             raise t_ex.NotImplementedCommand(header)
         r = self._worker.submit(
@@ -172,7 +172,6 @@ class TransportationHandler(asyncio.Protocol):
 
     def close(self) -> None:
         """Close connection with xenaserver."""
-        
         if self.__transport is not None and not self.__transport.is_closing():
             self.__transport.close()
 

@@ -5,36 +5,37 @@ if typing.TYPE_CHECKING:
 
 
 class IsDataclass(typing.Protocol):
-    __dataclass_fields__: typing.Dict
-    
+    __dataclass_fields__: typing.Dict[str, typing.Any]
+    def __init__(self, *args, **kwargs) -> None: ...  # noqa: E704
+
+
+DC = typing.TypeVar("DC", bound=IsDataclass)
+
 
 class ICommand(typing.Protocol):
     code: typing.ClassVar[int]
     pushed: typing.ClassVar[bool]
 
 
-
 class ICmdOnlySet(ICommand, typing.Protocol):
     """A template class which provide only <cmd_set> method."""
-    @property
-    def SetDataAttr(self) -> IsDataclass: ...
-
+    SetDataAttr: typing.Type[DC]  # type: ignore
     set: typing.Callable
 
 
 class ICmdOnlyGet(ICommand, typing.Protocol):
     """A template class which provide only <cmd_get> method."""
-    @property
-    def GetDataAttr(self) -> IsDataclass: ...
-
+    GetDataAttr: typing.Type[DC]  # type: ignore
     get: typing.Callable
 
 
-CMD_TYPE = typing.Union[typing.Type[ICmdOnlySet], typing.Type[ICmdOnlyGet]]
+CMD_TYPE = typing.Union[ICmdOnlySet, ICmdOnlyGet]
 
 
 Inst = typing.TypeVar('Inst')
 CallbackType = typing.Callable[[Inst, typing.Optional[IsDataclass]], typing.Awaitable[None]]
+
+
 class IConnection(typing.Protocol):
     """Representation of TransportationHandler"""
     is_connected: bool

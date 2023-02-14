@@ -1,9 +1,10 @@
-import ctypes as c
 import struct
 from typing import (
+    Any,
     List,
     Optional,
     get_args,  # py3.8 >
+    cast
 )
 from . import constants as const
 from . import utils
@@ -44,8 +45,8 @@ class Response:
         self.header = header
         self.raw_data = data
         self.__cursor = 0
-        self.index_values = self.__parse_indices()
-        self.values = None
+        self.index_values: List[int] = self.__parse_indices()
+        self.values: Any = None
         if self.header.cmd_type == const.CommandType.COMMAND_VALUE:
             self.values = self.__parse_values(back)
         # elif self.header.cmd_type == CommandType.COMMAND_STATUS:
@@ -58,7 +59,10 @@ class Response:
         )
 
     def __repr__(self) -> str:
-        return utils.format_repr(self)
+        return utils.format_repr(cast(utils.XmProtocol, self))
+
+    def __bytes__(self) -> bytes:
+        return bytes(self.header) + self.raw_data
 
     @property
     def command_status(self) -> Optional[const.CommandStatus]:
@@ -83,7 +87,7 @@ class Response:
                 dic[field_name] = self.__parse_xmp_str(self.__calc_str_len(back))
             else:
                 length = self.__calc_xmp_type_length(generic_type)
-                value_bytes = self.raw_data[self.__cursor : self.__cursor + length]
+                value_bytes = self.raw_data[self.__cursor:self.__cursor + length]
                 if (not issubclass(generic_type, XmpDefaultList)) and not value_bytes:
                     raise NotEnoughBytesLeft(self.class_name, back, field_name)
                 dic[field_name] = generic_type.from_bytes(value_bytes)
@@ -135,14 +139,16 @@ class Response:
 
     def set_return_ok(self) -> bool:
         return all(
-            {
+            (
                 self.header.cmd_type == const.CommandType.COMMAND_STATUS,
                 self.header.cmd_code == const.CommandStatus.OK,
-            }
+            )
         )
 
     def get_return_ok(self) -> bool:
-        return (
-            self.header.cmd_type == const.CommandType.COMMAND_VALUE
-            and self.values is not None
+        return all(
+            (
+                self.header.cmd_type == const.CommandType.COMMAND_VALUE,
+                self.values is not None
+            )
         )

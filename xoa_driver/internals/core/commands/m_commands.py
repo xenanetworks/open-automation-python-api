@@ -10,11 +10,11 @@ from ..protocol.command_builders import (
 )
 from .. import interfaces
 from ..transporter.token import Token
-from ..protocol.fields.data_types import *
+from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *
-from . import subtypes
+from .enums import *  # noqa: F403
+
 
 @register_command
 @dataclass
@@ -39,14 +39,14 @@ class M_RESERVATION:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        operation: XmpField[XmpByte] = XmpField(
-            XmpByte, choices=ReservedAction
+        operation: XmpField[xt.XmpByte] = XmpField(
+            xt.XmpByte, choices=ReservedAction
         )  # coded byte, containing the operation to perform. The reservation parameters are asymmetric with respect to set/get. When set, it contains the operation to perform. When get, it contains the status.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        operation: XmpField[XmpByte] = XmpField(
-            XmpByte, choices=ReservedStatus
+        operation: XmpField[xt.XmpByte] = XmpField(
+            xt.XmpByte, choices=ReservedStatus
         )  # coded byte, containing the operation to perform. The reservation parameters are asymmetric with respect to set/get. When set, it contains the operation to perform. When get, it contains the status.
 
     def get(self) -> "Token[GetDataAttr]":
@@ -92,7 +92,7 @@ class M_RESERVEDBY:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        username: XmpField[XmpStr] = XmpField(XmpStr)  # string, containing the name of the current owner of the module.
+        username: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, containing the name of the current owner of the module.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the username who has reserved the test module.
@@ -118,7 +118,7 @@ class M_MODEL:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        model: XmpField[XmpStr] = XmpField(XmpStr)  # string, the legacy model P/N name of a Xena test module.
+        model: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, the legacy model P/N name of a Xena test module.
 
     def get(self) -> "Token[GetDataAttr]":
         """Gets the legacy model P/N name of a Xena test module.
@@ -144,7 +144,7 @@ class M_SERIALNO:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        serial_number: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the serial number of this module.
+        serial_number: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the serial number of this module.
 
     def get(self) -> "Token[GetDataAttr]":
         """Gets the unique serial number of the test module.
@@ -169,7 +169,7 @@ class M_VERSIONNO:
     _module: int
     @dataclass(frozen=True)
     class GetDataAttr:
-        version: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the hardware image version number.
+        version: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the hardware image version number.
 
     def get(self) -> "Token[GetDataAttr]":
         """Gets the version number of the hardware image installed on the test module.
@@ -195,7 +195,7 @@ class M_STATUS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        temperature: XmpField[XmpInt] = XmpField(XmpInt)  # integer, temperature of the main hardware chip, in degrees Celsius.
+        temperature: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, temperature of the main hardware chip, in degrees Celsius.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the status readings of the test module
@@ -226,7 +226,7 @@ class M_PORTCOUNT:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        port_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the maximum number of ports.
+        port_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the maximum number of ports.
 
     def get(self) -> "Token[GetDataAttr]":
         """Gets the maximum number of ports on a module.
@@ -254,8 +254,8 @@ class M_UPGRADE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        magic: XmpField[XmpInt] = XmpField(XmpInt)  # integer, must be the special value -1480937026.
-        image_name: XmpField[XmpStr] = XmpField(XmpStr)  # string, the fully qualified name of a file previously uploaded to the chassis.
+        magic: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, must be the special value -1480937026.
+        image_name: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, the fully qualified name of a file previously uploaded to the chassis.
 
     def set(self, image_name: str) -> "Token":
         """Transfers a hardware image file from the chassis to a module. This image will
@@ -286,8 +286,8 @@ class M_UPGRADEPROGRESS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        progress: XmpField[XmpInt] = XmpField(
-            XmpInt
+        progress: XmpField[xt.XmpInt] = XmpField(
+            xt.XmpInt
         )  # integer, the current stage within the three phases. 0: Failure. 1-100: Erase completion percentage. 101-200: Write completion percentage. 201-300: Verify completion percentage.
 
     def get(self) -> "Token[GetDataAttr]":
@@ -322,11 +322,11 @@ class M_TIMESYNC:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=TimeSyncMode)  # coded byte, selecting the time sync mode.
+        source: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TimingSource)  # coded byte, selecting the time sync mode.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=TimeSyncMode)  # coded byte, selecting the time sync mode.
+        source: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TimingSource)  # coded byte, selecting the time sync mode.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the time sync mode of the test module timestamp clock.
@@ -336,21 +336,21 @@ class M_TIMESYNC:
         """
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, mode: TimeSyncMode) -> "Token":
+    def set(self, source: TimingSource) -> "Token":
         """Set the time sync mode of the test module timestamp clock.
 
         :param mode: the time sync mode of the test module timestamp clock
-        :type mode: TimeSyncMode
+        :type mode: TimingSource
         """
-        return Token(self._connection, build_set_request(self, module=self._module, mode=mode))
+        return Token(self._connection, build_set_request(self, module=self._module, source=source))
 
-    set_chassis = functools.partialmethod(set, TimeSyncMode.CHASSIS)
+    set_chassis = functools.partialmethod(set, TimingSource.CHASSIS)
     """Set the time sync mode of the test module to Chassis Mode.
     """
-    set_external = functools.partialmethod(set, TimeSyncMode.EXTERNAL)
+    set_external = functools.partialmethod(set, TimingSource.EXTERNAL)
     """Set the time sync mode of the test module to External Mode.
     """
-    set_module = functools.partialmethod(set, TimeSyncMode.MODULE)
+    set_module = functools.partialmethod(set, TimingSource.MODULE)
     """Set the time sync mode of the test module to Module Mode.
     """
 
@@ -370,8 +370,8 @@ class M_CFPTYPE:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        state: XmpField[XmpByte] = XmpField(XmpByte, choices=MediaCFPState)  # coded byte, specifying the CFP state.
-        type: XmpField[XmpByte] = XmpField(XmpByte, choices=MediaCFPType)  # coded byte, specifying the CFP type.
+        state: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=MediaCFPState)  # coded byte, specifying the CFP state.
+        type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=MediaCFPType)  # coded byte, specifying the CFP type.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get CFP type information about the transceiver currently inserted into the cage.
@@ -392,7 +392,7 @@ class M_CFPCONFIG:
     type is NOTFLEXIBLE then it reflects the transceiver currently in the CFP cage.
     If the CFP type is FLEXIBLE (or NOTPRESENT) then the configuration can be changed
     explicitly. The following combinations are possible: 4x10G, 8x10G, 1x40G, 2x40G,
-    and 1x100G. (replaced by ``M_CFPCONFIGEXT``)
+    and 1x100G. (replaced by :class:`M_CFPCONFIGEXT`)
     """
 
     code: typing.ClassVar[int] = 85
@@ -403,13 +403,13 @@ class M_CFPCONFIG:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        port_count: XmpField[XmpByte] = XmpField(XmpByte)  # byte, number of ports.
-        port_speed: XmpField[XmpByte] = XmpField(XmpByte)  # byte, port speed, in Gbps.
+        port_count: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, number of ports.
+        port_speed: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, port speed, in Gbps.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        port_count: XmpField[XmpByte] = XmpField(XmpByte)  # byte, number of ports.
-        port_speed: XmpField[XmpByte] = XmpField(XmpByte)  # byte, port speed, in Gbps.
+        port_count: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, number of ports.
+        port_speed: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, port speed, in Gbps.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the current number of ports and their speed of a CFP test module.
@@ -447,11 +447,11 @@ class M_COMMENT:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        comment: XmpField[XmpStr] = XmpField(XmpStr)  # string, the user-specified comment/description for the module.
+        comment: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, the user-specified comment/description for the module.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        comment: XmpField[XmpStr] = XmpField(XmpStr)  # string, the user-specified comment/description for the module.
+        comment: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, the user-specified comment/description for the module.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the user-defined description string of a module.
@@ -485,14 +485,14 @@ class M_TIMEADJUSTMENT:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        adjust: XmpField[XmpInt] = XmpField(
-            XmpInt
+        adjust: XmpField[xt.XmpInt] = XmpField(
+            xt.XmpInt
         )  # integer, adjustment in nanoseconds. This value should be a multiple of 8 as it will be converted to a number of 125 MHz clocks.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        adjust: XmpField[XmpInt] = XmpField(
-            XmpInt
+        adjust: XmpField[xt.XmpInt] = XmpField(
+            xt.XmpInt
         )  # integer, adjustment in nanoseconds. This value should be a multiple of 8 as it will be converted to a number of 125 MHz clocks.
 
     def get(self) -> "Token[GetDataAttr]":
@@ -527,14 +527,14 @@ class M_CAPABILITIES:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        can_advanced_timing: XmpField[XmpInt] = XmpField(XmpInt, choices=YesNo)  # coded integer, is advanced timing functions supported?
-        can_local_time_adjust: XmpField[XmpInt] = XmpField(XmpInt, choices=YesNo)  # coded integer, is local time adjustment supported?
-        can_media_config: XmpField[XmpInt] = XmpField(XmpInt, choices=YesNo)  # coded integer, is module media configuration supported?
-        require_multi_image: XmpField[XmpInt] = XmpField(XmpInt, choices=YesNo)  # coded integer, does this module switch images during runtime?
-        is_chimera: XmpField[XmpInt] = XmpField(XmpInt, choices=YesNo)  # coded integer, is this a Chimera module?
-        max_clock_ppm: XmpField[XmpInt] = XmpField(XmpInt)  # integer, maximum supported absolute +- clock ppm setting.
-        can_tsn: XmpField[XmpInt] = XmpField(XmpInt, choices=YesNo)  # coded integer, does this module support Time Sensitive Networking (TSN) ?
-        can_ppm_sweep: XmpField[XmpInt] = XmpField(XmpInt, choices=YesNo)  # coded integer, does this module support Local Clock Adjustment/Sweep (aka. PPM Sweep) ?
+        can_advanced_timing: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=YesNo)  # coded integer, is advanced timing functions supported?
+        can_local_time_adjust: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=YesNo)  # coded integer, is local time adjustment supported?
+        can_media_config: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=YesNo)  # coded integer, is module media configuration supported?
+        require_multi_image: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=YesNo)  # coded integer, does this module switch images during runtime?
+        is_chimera: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=YesNo)  # coded integer, is this a Chimera module?
+        max_clock_ppm: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, maximum supported absolute +- clock ppm setting.
+        can_tsn: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=YesNo)  # coded integer, does this module support Time Sensitive Networking (TSN) ?
+        can_ppm_sweep: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=YesNo)  # coded integer, does this module support Local Clock Adjustment/Sweep (aka. PPM Sweep) ?
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the test module capabilities.
@@ -548,7 +548,7 @@ class M_CAPABILITIES:
             - maximum supported absolute +- clock ppm setting.
             - does this module support Time Sensitive Networking (TSN) ?
             - does this module support Local Clock Adjustment/Sweep (aka. PPM Sweep) ?
-            
+
         :rtype: M_CAPABILITIES.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module))
@@ -559,10 +559,9 @@ class M_CAPABILITIES:
 class M_MEDIASUPPORT:
     """
     This command shows the available speeds on a module. The structure of the returned value is
-    [<cage_type> <available_speed_count> [<ports_per_speed> <speed>] ].
-    [<ports_per_speed> <speed>] are repeated until all speeds supported by the <cage_type> has been listed.
-    [<cage_type> <available_speed_count>] are repeated for all cage types on the module
-    including the related <ports_per_speed> <speed> information.
+    ``[ <cage_type> <available_speed_count> [<ports_per_speed> <speed>] ]``.
+    ``[<ports_per_speed> <speed>]`` is repeated until all speeds supported by the ``<cage_type>`` has been listed.
+    ``[<cage_type> <available_speed_count>]`` is repeated for all cage types on the module including the related ``<ports_per_speed> <speed>`` information.
     """
 
     code: typing.ClassVar[int] = 90
@@ -573,13 +572,15 @@ class M_MEDIASUPPORT:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        media_info_list: XmpField[XmpIntList] = XmpField(XmpIntList) # coded integer, media information
+        media_info_list: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)  # coded integer, media information
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the
+        """Get the media supports by the port, including cage type, available speed count, ports per speed, and the corresponding speed.
 
         :return:
-            a list of integers. The structure of the returned value is [<cage_type> <available_speed_count>[<ports_per_speed> <speed>] ]. [<ports_per_speed> <speed>] are repeated until all speeds supported by the <cage_type> has been listed. [<cage_type> <available_speed_count>] are repeated for all cage types on the module including the related <ports_per_speed> <speed> information.
+            a list of integers. The structure of the returned value is ``[ <cage_type> <available_speed_count>[<ports_per_speed> <speed>] ]``.
+            ``[<ports_per_speed> <speed>]`` is repeated until all speeds supported by the ``<cage_type>`` has been listed.
+            ``[<cage_type> <available_speed_count>]`` is repeated for all cage types on the module including the related ``<ports_per_speed> <speed>`` information.
 
         :rtype: M_MEDIASUPPORT.GetDataAttr
         """
@@ -601,7 +602,7 @@ class M_FPGAREIMAGE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        key_code: XmpField[XmpInt] = XmpField(XmpInt)  # integer, must be 42.
+        key_code: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, must be 42.
 
     def set(self) -> "Token":
         """Reload the FPGA image.
@@ -634,11 +635,11 @@ class M_MULTIUSER:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=OnOff)  # coded byte, enable or disable multiple sessions to control the same module.
+        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, enable or disable multiple sessions to control the same module.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=OnOff)  # coded byte, enable or disable multiple sessions to control the same module.
+        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, enable or disable multiple sessions to control the same module.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the status of multiple sessions controlling the same module.
@@ -669,12 +670,18 @@ class M_MULTIUSER:
 class M_CFPCONFIGEXT:
     """
     This property defines the current number of ports and the speed of each of them
-    on a CFP test module. If the CFP type is NOTFLEXIBLE then it reflects the
-    transceiver currently in the CFP cage. If the CFP type is FLEXIBLE(or
-    NOTPRESENT) then the configuration can be changed explicitly. The following
+    on a CFP test module. If the CFP type is ``NOTFLEXIBLE`` then it reflects the
+    transceiver currently in the CFP cage. If the CFP type is ``FLEXIBLE`` (or
+    ``NOTPRESENT``) then the configuration can be changed explicitly. The following
     combinations are possible: 2x10G, 4x10G, 8x10G, 2x25G, 4x25G, 8x25G, 1x40G,
     2x40G, 2x50G, 4x50G, 8x50G, 1x100G, 2x100G, 4x100G, 2x200G, and 1x400G.
-    (replaces M_CFPCONFIG)
+    (replaces :class:`M_CFPCONFIG`)
+
+    .. note::
+
+        ``<portspeed_list>`` is a list of integers, where the first element is the number of ports followed by a number of port speeds in Mbps.
+        The number of port speeds equals the value of the number of ports.
+        For example if the configuration is 4x25G, ``<portspeed_list>`` will be ``[4, 25000, 25000, 25000, 25000]``.
     """
 
     code: typing.ClassVar[int] = 93
@@ -685,14 +692,13 @@ class M_CFPCONFIGEXT:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        portspeed_list: XmpField[subtypes.PortSpeedChuckList] = XmpField(subtypes.PortSpeedChuckList)
+        portspeed_list: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        portspeed_list: XmpField[subtypes.PortSpeedChuckList] = XmpField(subtypes.PortSpeedChuckList)
+        portspeed_list: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)
 
-
-    def get(self) -> "Token[GetDataAttr]": #TODO
+    def get(self) -> "Token[GetDataAttr]":
         """Get a list of port count and corresponding speeds supported by the current module config.
 
         :return: a list of port count and corresponding speeds supported by the current module config
@@ -720,11 +726,11 @@ class M_CLOCKPPB:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        ppb: XmpField[XmpInt] = XmpField(XmpInt)  # integer, adjustment from nominal value, in parts-per-billion, positive or negative.
+        ppb: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, adjustment from nominal value, in parts-per-billion, positive or negative.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        ppb: XmpField[XmpInt] = XmpField(XmpInt)  # integer, adjustment from nominal value, in parts-per-billion, positive or negative.
+        ppb: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, adjustment from nominal value, in parts-per-billion, positive or negative.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the module clock adjustment in ppb.
@@ -758,11 +764,11 @@ class M_SMAINPUT:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        sma_in: XmpField[XmpByte] = XmpField(XmpByte, choices=SMAInputFunction)  # coded byte, specifying the function of the SMA input.
+        sma_in: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=SMAInputFunction)  # coded byte, specifying the function of the SMA input.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        sma_in: XmpField[XmpByte] = XmpField(XmpByte, choices=SMAInputFunction)  # coded byte, specifying the function of the SMA input.
+        sma_in: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=SMAInputFunction)  # coded byte, specifying the function of the SMA input.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the function of the SMA (SubMiniature version A) input of the module
@@ -780,7 +786,7 @@ class M_SMAINPUT:
         """
         return Token(self._connection, build_set_request(self, module=self._module, sma_in=sma_in))
 
-    set_notused = functools.partialmethod(set, SMAInputFunction.NOTUSED)
+    set_notused = functools.partialmethod(set, SMAInputFunction.NOT_USED)
     """Set SMA input to Not Used
     """
     set_tx2mhz = functools.partialmethod(set, SMAInputFunction.TX2MHZ)
@@ -806,11 +812,11 @@ class M_SMAOUTPUT:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        sma_out: XmpField[XmpByte] = XmpField(XmpByte, choices=SMAOutputFunction)  # coded byte, specifying the function of the SMA output.
+        sma_out: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=SMAOutputFunction)  # coded byte, specifying the function of the SMA output.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        sma_out: XmpField[XmpByte] = XmpField(XmpByte, choices=SMAOutputFunction)  # coded byte, specifying the function of the SMA output.
+        sma_out: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=SMAOutputFunction)  # coded byte, specifying the function of the SMA output.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the function of the SMA (SubMiniature version A) output of the module
@@ -884,7 +890,7 @@ class M_SMASTATUS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        status: XmpField[XmpByte] = XmpField(XmpByte, choices=SMAStatus)  # coded byte, specifying the status of the SMA input.
+        status: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=SMAStatus)  # coded byte, specifying the status of the SMA input.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the status of the SMA input
@@ -910,7 +916,7 @@ class M_NAME:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        name: XmpField[XmpStr] = XmpField(XmpStr)  # string, the name for the module.
+        name: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, the name for the module.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the name of the module.
@@ -936,7 +942,7 @@ class M_REVISION:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        revision: XmpField[XmpStr] = XmpField(XmpStr)  # string, the model P/N name of a Xena test module.
+        revision: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, the model P/N name of a Xena test module.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the model P/N name of a Xena test module.
@@ -963,11 +969,11 @@ class M_MEDIA:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        media_type: XmpField[XmpByte] = XmpField(XmpByte, choices=MediaConfigurationType)  # coded byte, specifying the active front port: CFP4, QSFP28, CXP, SFP28.
+        media_config: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=MediaConfigurationType)  # coded byte, specifying the active front port: CFP4, QSFP28, CXP, SFP28.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        media_type: XmpField[XmpByte] = XmpField(XmpByte, choices=MediaConfigurationType)  # coded byte, specifying the active front port: CFP4, QSFP28, CXP, SFP28.
+        media_config: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=MediaConfigurationType)  # coded byte, specifying the active front port: CFP4, QSFP28, CXP, SFP28.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the media type of the test module.
@@ -977,13 +983,13 @@ class M_MEDIA:
         """
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, media_type: MediaConfigurationType) -> "Token":
+    def set(self, media_config: MediaConfigurationType) -> "Token":
         """Set the media type of the test module.
 
-        :param media_type: the media type of the test module
-        :type media_type: MediaType
+        :param media_config: the media type of the test module
+        :type media_config: MediaType
         """
-        return Token(self._connection, build_set_request(self, module=self._module, media_type=media_type))
+        return Token(self._connection, build_set_request(self, module=self._module, media_config=media_config))
 
 
 @register_command
@@ -1001,11 +1007,11 @@ class M_CLOCKSYNCSTATUS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        m_clock_diff: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, module clock diff
-        m_correction: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, module correction
-        m_tune_is_increase: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, whether module tune is increased
-        m_tune_value: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, module tune value
-        m_is_steady_state: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, whether module is in steady state
+        m_clock_diff: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, module clock diff
+        m_correction: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, module correction
+        m_tune_is_increase: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, whether module tune is increased
+        m_tune_value: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, module tune value
+        m_is_steady_state: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, whether module is in steady state
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the test module's clock sync status.
@@ -1031,13 +1037,13 @@ class M_LICENSE_DEMO_INFO:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        demo: XmpField[XmpByte] = XmpField(XmpByte, choices=HasDemo)  # coded byte, specifies if this is a demo module or not.
-        valid: XmpField[XmpByte] = XmpField(XmpByte, choices=IsValid)  # coded byte, if this is a demo module, specifies if the demo license is valid.
-        permanent: XmpField[XmpByte] = XmpField(
-            XmpByte, choices=IsPermanent
+        demo: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=HasDemo)  # coded byte, specifies if this is a demo module or not.
+        valid: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=IsValid)  # coded byte, if this is a demo module, specifies if the demo license is valid.
+        permanent: XmpField[xt.XmpByte] = XmpField(
+            xt.XmpByte, choices=IsPermanent
         )  # coded byte, if this is a demo module and the demo license is valid, specifies if the demo license is permanent.
-        expiration: XmpField[XmpLong] = XmpField(
-            XmpLong
+        expiration: XmpField[xt.XmpLong] = XmpField(
+            xt.XmpLong
         )  # long integer, if this is a demo module and the demo license is valid and not permanent, specifies the expiration date of the demo license - in seconds since Jan 1, 1970.
 
     def get(self) -> "Token[GetDataAttr]":
@@ -1064,12 +1070,12 @@ class M_LICENSE_MAINTENANCE_INFO:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        valid: XmpField[XmpByte] = XmpField(XmpByte, choices=IsValid)  # coded byte, specifies if the maintenance license is valid.
-        permanent: XmpField[XmpByte] = XmpField(
-            XmpByte, choices=IsPermanent
+        valid: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=IsValid)  # coded byte, specifies if the maintenance license is valid.
+        permanent: XmpField[xt.XmpByte] = XmpField(
+            xt.XmpByte, choices=IsPermanent
         )  # coded byte, if the maintenance license is valid, specifies if the maintenance license is permanent.
-        expiration: XmpField[XmpLong] = XmpField(
-            XmpLong
+        expiration: XmpField[xt.XmpLong] = XmpField(
+            xt.XmpLong
         )  # long integer, if the maintenance license is valid and not permanent, specifies the expiration date of the maintenance license - in seconds since Jan 1, 1970.
 
     def get(self) -> "Token[GetDataAttr]":
@@ -1099,7 +1105,7 @@ class M_LICENSE_CWB_DETECTED:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        detected: XmpField[XmpByte] = XmpField(XmpByte, choices=YesNo)  # coded byte, specifies if clock-windback is detected.
+        detected: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)  # coded byte, specifies if clock-windback is detected.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether clock-windback is detected.
@@ -1114,12 +1120,10 @@ class M_LICENSE_CWB_DETECTED:
 @dataclass
 class M_LICENSE_UPDATE:
     """
-    This command instructs the chassis to update its local license information from
-    FlexNet Operations. The chassis can be configured in on-line and off-line mode
+    This command instructs the chassis to update its local license information. The chassis can be configured in on-line and off-line mode
     (by the M_LICENSE_ONLINE command). In on-line mode, the chassis sends a
-    capability request to FlexNet Operations and receives a capability response. In
-    offline mode a capability response (bin file) must be downloaded from FlexNet
-    Operations and uploaded to the chassis. The capability response (bin file) is
+    capability request and receives a capability response. In
+    offline mode a capability response (bin file) must be downloaded and uploaded to the chassis. The capability response (bin file) is
     parsed and the license info is stored locally in trusted storage. A capability
     response (bin file) has a lifetime of one day (24 hours). The result of the
     license update operation can be retrieved by M_LICENSE_UPDATE_STATUS.
@@ -1162,11 +1166,11 @@ class M_LICENSE_UPDATE_STATUS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        update_state: XmpField[XmpByte] = XmpField(XmpByte, choices=UpdateState)  # coded byte, specifies the state of the license update procedure
-        last_update: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, time for the last update request - in seconds since Jan 1, 1979
-        last_success: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, time for the last successful update - in seconds since Jan 1, 1979
-        last_fail: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, time for the last failed update - in seconds since Jan 1, 1979
-        Info: XmpField[XmpStr] = XmpField(XmpStr)  # string, info about the last license update operation - reason for failed update.
+        update_state: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=UpdateState)  # coded byte, specifies the state of the license update procedure
+        last_update: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, time for the last update request - in seconds since Jan 1, 1979
+        last_success: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, time for the last successful update - in seconds since Jan 1, 1979
+        last_fail: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, time for the last failed update - in seconds since Jan 1, 1979
+        Info: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, info about the last license update operation - reason for failed update.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the status of the latest license update operation.
@@ -1192,7 +1196,7 @@ class M_LICENSE_LIST_BSON:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        bson: XmpField[XmpHexList] = XmpField(XmpHexList)  # list of hex bytes, bson document containing the list of locally stored licenses
+        bson: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)  # list of hex bytes, bson document containing the list of locally stored licenses
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the a list of locally stored licenses - formatted as a BSON document.
@@ -1222,11 +1226,11 @@ class M_LICENSE_ONLINE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=IsOnline)  # coded byte, chassis online/offline mode.
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=IsOnline)  # coded byte, chassis online/offline mode.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=IsOnline)  # coded byte, chassis online/offline mode.
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=IsOnline)  # coded byte, chassis online/offline mode.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the current online/offline mode of the L47 tester.
@@ -1268,11 +1272,11 @@ class M_TXCLOCKSOURCE_NEW:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        tx_clock: XmpField[XmpByte] = XmpField(XmpByte, choices=TXClockSource)  # coded byte, specifying what drives the port TX rates.
+        tx_clock: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TXClockSource)  # coded byte, specifying what drives the port TX rates.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        tx_clock: XmpField[XmpByte] = XmpField(XmpByte, choices=TXClockSource)  # coded byte, specifying what drives the port TX rates.
+        tx_clock: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TXClockSource)  # coded byte, specifying what drives the port TX rates.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the test module's TX clock source settings.
@@ -1338,7 +1342,7 @@ class M_TXCLOCKSTATUS_NEW:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        status: XmpField[XmpByte] = XmpField(XmpByte, choices=TXClockStatus)  # coded byte, specifying the status of the TX clock.
+        status: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TXClockStatus)  # coded byte, specifying the status of the TX clock.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the status of whether a valid clock is present for the test module.
@@ -1365,11 +1369,11 @@ class M_TXCLOCKFILTER_NEW:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        filter_bandwidth: XmpField[XmpByte] = XmpField(XmpByte, choices=LoopBandwidth)  # coded byte, the loop bandwidth on the TX clock filter.
+        filter_bandwidth: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=LoopBandwidth)  # coded byte, the loop bandwidth on the TX clock filter.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        filter_bandwidth: XmpField[XmpByte] = XmpField(XmpByte, choices=LoopBandwidth)  # coded byte, the loop bandwidth on the TX clock filter.
+        filter_bandwidth: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=LoopBandwidth)  # coded byte, the loop bandwidth on the TX clock filter.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the setting of the loop bandwidth on the TX clock filter.
@@ -1408,9 +1412,11 @@ class M_TXCLOCKFILTER_NEW:
 @dataclass
 class M_CLOCKPPBSWEEP:
     """
+    .. versionadded:: 1.1
+
     Start and stop deviation sweep the local clock of the test module, which drives the TX rate of the test ports.
 
-    Note: The sweep is independent of the M_CLOCKPPB parameter, i.e. the sweep uses the deviation set by M_CLOCKPPB as its zero point.
+    Note: The sweep is independent of the :class:`M_CLOCKPPB` parameter, i.e. the sweep uses the deviation set by :class:`M_CLOCKPPB` as its zero point.
     """
 
     code: typing.ClassVar[int] = 413
@@ -1421,19 +1427,19 @@ class M_CLOCKPPBSWEEP:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        mode: XmpField[XmpInt] = XmpField(XmpInt, choices=PPMSweepMode)  # coded byte, specifying the sweeping function: OFF or TRIANGLE
-        ppb_step: XmpField[XmpInt] = XmpField(XmpInt)  # integer >=0, the numeric clock adjustment in ppb per step of the sweep. If set to 0, the sweep will use as small steps as possible, creating a "linear" sweep of the clock rate.
-        step_delay:  XmpField[XmpInt] = XmpField(XmpInt) #integer >0 the delay in µs between each step in the sweep. If ppb_step is 0: The total time in µs to sweep linearly from 0 to max_ppb.
-        max_ppb: XmpField[XmpInt] = XmpField(XmpInt) # integer != 0, the numeric maximum clock adjustment. The sign of max_ppb determines if the sweep will start with positive or negative offsets. When the next step would exceed the limit set by max_ppb, the sweep changes direction. I.e. the deviation will sweep from 0 to max_ppb, to (-max_ppb), and back to 0.
-        loops: XmpField[XmpInt] = XmpField(XmpInt) # integer >=0, the number of full sweeps performed. 0 means "indefinitely".
+        mode: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=PPMSweepMode)  # coded byte, specifying the sweeping function: OFF or TRIANGLE
+        ppb_step: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer >=0, the numeric clock adjustment in ppb per step of the sweep. If set to 0, the sweep will use as small steps as possible, creating a "linear" sweep of the clock rate.
+        step_delay: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer >0 the delay in µs between each step in the sweep. If ppb_step is 0: The total time in µs to sweep linearly from 0 to max_ppb.
+        max_ppb: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer != 0, the numeric maximum clock adjustment. The sign of max_ppb determines if the sweep will start with positive or negative offsets. When the next step would exceed the limit set by max_ppb, the sweep changes direction. I.e. the deviation will sweep from 0 to max_ppb, to (-max_ppb), and back to 0.
+        loops: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer >=0, the number of full sweeps performed. 0 means "indefinitely".
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mode: XmpField[XmpInt] = XmpField(XmpInt, choices=PPMSweepMode)  # coded byte, specifying the sweeping function.
-        ppb_step: XmpField[XmpInt] = XmpField(XmpInt)  # integer >=0, the numeric clock adjustment in ppb per step of the sweep. If set to 0, the sweep will use as small steps as possible, creating a "linear" sweep of the clock rate.
-        step_delay:  XmpField[XmpInt] = XmpField(XmpInt) #integer >0 the delay in µs between each step in the sweep. If ppb_step is 0: The total time in µs to sweep linearly from 0 to max_ppb.
-        max_ppb: XmpField[XmpInt] = XmpField(XmpInt) # integer != 0, the numeric maximum clock adjustment. The sign of max_ppb determines if the sweep will start with positive or negative offsets. When the next step would exceed the limit set by max_ppb, the sweep changes direction. I.e. the deviation will sweep from 0 to max_ppb, to (-max_ppb), and back to 0.
-        loops: XmpField[XmpInt] = XmpField(XmpInt) # integer >=0, the number of full sweeps performed. 0 means "indefinitely".
+        mode: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=PPMSweepMode)  # coded byte, specifying the sweeping function.
+        ppb_step: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer >=0, the numeric clock adjustment in ppb per step of the sweep. If set to 0, the sweep will use as small steps as possible, creating a "linear" sweep of the clock rate.
+        step_delay: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer >0 the delay in µs between each step in the sweep. If ppb_step is 0: The total time in µs to sweep linearly from 0 to max_ppb.
+        max_ppb: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer != 0, the numeric maximum clock adjustment. The sign of max_ppb determines if the sweep will start with positive or negative offsets. When the next step would exceed the limit set by max_ppb, the sweep changes direction. I.e. the deviation will sweep from 0 to max_ppb, to (-max_ppb), and back to 0.
+        loops: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer >=0, the number of full sweeps performed. 0 means "indefinitely".
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the PPM sweep parameters from the module.
@@ -1464,7 +1470,10 @@ class M_CLOCKPPBSWEEP:
 @dataclass
 class M_CLOCKSWEEPSTATUS:
     """
-    Return the current status of the M_CLOCKPPBSWEEP function.
+    .. versionadded:: 1.1
+
+    Return the current status of the :class:`M_CLOCKPPBSWEEP` function.
+
     """
 
     code: typing.ClassVar[int] = 414
@@ -1475,20 +1484,70 @@ class M_CLOCKSWEEPSTATUS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        state: XmpField[XmpByte] = XmpField(XmpByte, choices=PPMSweepStatus)  # coded byte, specifying if a sweep is active: OFF or SWEEPING
+        state: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PPMSweepStatus)  # coded byte, specifying if a sweep is active: OFF or SWEEPING
 
-        curr_sweep: XmpField[XmpInt] = XmpField(XmpInt)  #  integer >=0, the current full sweep number, counting from 0.
-        curr_step:  XmpField[XmpInt] = XmpField(XmpInt) # integer >=0 the current step number inside the sweep, counting from 0.
+        curr_sweep: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer >=0, the current full sweep number, counting from 0.
+        curr_step: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer >=0 the current step number inside the sweep, counting from 0.
 
-        max_steps: XmpField[XmpInt] = XmpField(XmpInt) # integer, >0, the total number of steps comprising a full sweep. For "linear" sweeps (ppb_step=0, see M_CLOCKPPBSWEEP) this number is determined by the chassis. In other cases, the number is implicitly given by the M_CLOCKPPBSWEEP parameters.
+        max_steps: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, >0, the total number of steps comprising a full sweep. For "linear" sweeps (ppb_step=0, see M_CLOCKPPBSWEEP) this number is determined by the chassis. In other cases, the number is implicitly given by the M_CLOCKPPBSWEEP parameters.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the current status of the M_CLOCKPPBSWEEP function.
+        """Get the current status of the :class:`M_CLOCKPPBSWEEP` function.
 
-        :return: the current status of the M_CLOCKPPBSWEEP function.
+        :return: the current status of the :class:`M_CLOCKPPBSWEEP` function.
         :rtype: M_CLOCKSWEEPSTATUS.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module))
+
+
+@register_command
+@dataclass
+class M_LATENCYMODE:
+    """
+    Configures the latency mode for Chimera module. In extended latency mode, the FPGA allows all latency parameters to be 10 times higher, at the cost of reduced latency precision.
+
+    .. note::
+
+        - When change the latency mode, all latency configurations are reset on all ports in chimera module.
+
+    """
+
+    code: typing.ClassVar[int] = 450
+    pushed: typing.ClassVar[bool] = True
+
+    _connection: "interfaces.IConnection"
+    _module: int
+
+    @dataclass(frozen=True)
+    class SetDataAttr:
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=ImpairmentLatencyMode)  # coded byte, specifying latency mode.
+
+    @dataclass(frozen=True)
+    class GetDataAttr:
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=ImpairmentLatencyMode)  # coded byte, specifying latency mode.
+
+    def get(self) -> "Token[GetDataAttr]":
+        """Get the latency mode of the Chimera module.
+
+        :return: the latency mode of the Chimera module.
+        :rtype: M_LATENCYMODE.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module))
+
+    def set(self, mode: ImpairmentLatencyMode) -> "Token":
+        """Set the latency mode of the Chimera module.
+
+        :param mode: the bypass mode of the impairment emulator.
+        :type mode: ImpairmentLatencyMode
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, mode=mode))
+
+    set_normal = functools.partialmethod(set, ImpairmentLatencyMode.NORMAL)
+    """Set the latency mode of the Chimera module to NORMAL
+    """
+    set_extended = functools.partialmethod(set, ImpairmentLatencyMode.EXTENDED)
+    """Set the latency mode of the Chimera module to EXTENDED
+    """
 
 
 @register_command
@@ -1507,11 +1566,11 @@ class M_EMULBYPASS:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=OnOff)  # coded byte, whether the emulator bypass is enabled.
+        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, whether the emulator bypass is enabled.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=OnOff)  # coded byte, whether the emulator bypass is enabled.
+        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, whether the emulator bypass is enabled.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the status of bypass mode of the impairment emulator.
@@ -1535,5 +1594,3 @@ class M_EMULBYPASS:
     set_on = functools.partialmethod(set, OnOff.ON)
     """Enable the bypass mode of the impairment emulator.
     """
-
-

@@ -11,10 +11,11 @@ from ..protocol.command_builders import (
 )
 from .. import interfaces
 from ..transporter.token import Token
-from ..protocol.fields.data_types import *
+from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *
+from .enums import *  # noqa: F403
+
 
 @register_command
 @dataclass
@@ -33,11 +34,11 @@ class P4G_INDICES:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        group_identifiers: XmpField[XmpIntList] = XmpField(XmpIntList)  # list of integers, list of indices identifying Connection Groups.
+        group_identifiers: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)  # list of integers, list of indices identifying Connection Groups.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        group_identifiers: XmpField[XmpIntList] = XmpField(XmpIntList)  # list of integers, list of indices identifying Connection Groups.
+        group_identifiers: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)  # list of integers, list of indices identifying Connection Groups.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get full list of Connection Groups on this port.
@@ -48,7 +49,7 @@ class P4G_INDICES:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
     def set(self, group_identifiers: typing.List[int]) -> "Token":
-        """Create Connection Groups with the indices on the port. 
+        """Create Connection Groups with the indices on the port.
 
         :param group_identifiers: list of indices identifying Connection Groups.
         :type group_identifiers: typing.List[int]
@@ -140,11 +141,11 @@ class P4G_ENABLE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        status: XmpField[XmpByte] = XmpField(XmpByte, choices=OnOffWithSuppress)  # coded byte, specifies the state of the Connection Group.
+        status: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOffWithSuppress)  # coded byte, specifies the state of the Connection Group.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        status: XmpField[XmpByte] = XmpField(XmpByte, choices=OnOffWithSuppress)  # coded byte, specifies the state of the Connection Group.
+        status: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOffWithSuppress)  # coded byte, specifies the state of the Connection Group.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the state of a Connection Group on a port.
@@ -187,11 +188,11 @@ class P4G_COMMENT:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        comment: XmpField[XmpStr] = XmpField(XmpStr)  # string, the description of the Connection Group.
+        comment: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, the description of the Connection Group.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        comment: XmpField[XmpStr] = XmpField(XmpStr)  # string, the description of the Connection Group.
+        comment: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, the description of the Connection Group.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the description of a Connection Group.
@@ -261,11 +262,11 @@ class P4G_ROLE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        role: XmpField[XmpByte] = XmpField(XmpByte, choices=Role)  # coded byte, specifies the role of the Connection Group.
+        role: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=Role)  # coded byte, specifies the role of the Connection Group.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        role: XmpField[XmpByte] = XmpField(XmpByte, choices=Role)  # coded byte, specifies the role of the Connection Group.
+        role: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=Role)  # coded byte, specifies the role of the Connection Group.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the role of the Connection Group.
@@ -306,22 +307,22 @@ class P4G_CLIENT_RANGE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        ipv4_address: XmpField[XmpIPV4Address] = XmpField(XmpIPV4Address)  # address, the start ip address of the address range
-        address_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the number of ip addresses
-        start_port: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the start port number, of the port range
-        port_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the number of ports
-        max_address_count: XmpField[XmpInt] = XmpField(
-            XmpInt
+        ipv4_address: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)  # address, the start ip address of the address range
+        address_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the number of ip addresses
+        start_port: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the start port number, of the port range
+        port_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the number of ports
+        max_address_count: XmpField[xt.XmpInt] = XmpField(
+            xt.XmpInt
         )  # integer, the maximum number of ip addresses that this Connection Group will use, when connection incarnation is set to REINCARNATE
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        ipv4_address: XmpField[XmpIPV4Address] = XmpField(XmpIPV4Address)  # address, the start ip address of the address range
-        address_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the number of ip addresses
-        start_port: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the start port number, of the port range
-        port_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the number of ports
-        max_address_count: XmpField[XmpInt] = XmpField(
-            XmpInt
+        ipv4_address: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)  # address, the start ip address of the address range
+        address_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the number of ip addresses
+        start_port: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the start port number, of the port range
+        port_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the number of ports
+        max_address_count: XmpField[xt.XmpInt] = XmpField(
+            xt.XmpInt
         )  # integer, the maximum number of ip addresses that this Connection Group will use, when connection incarnation is set to REINCARNATE
 
     def get(self) -> "Token[GetDataAttr]":
@@ -379,17 +380,17 @@ class P4G_SERVER_RANGE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        ipv4_address: XmpField[XmpIPV4Address] = XmpField(XmpIPV4Address)  # address, the start ip address of the address range
-        address_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the number of ip addresses
-        start_port: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the start port number, of the port range
-        port_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the number of ports
+        ipv4_address: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)  # address, the start ip address of the address range
+        address_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the number of ip addresses
+        start_port: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the start port number, of the port range
+        port_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the number of ports
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        ipv4_address: XmpField[XmpIPV4Address] = XmpField(XmpIPV4Address)  # address, the start ip address of the address range
-        address_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the number of ip addresses
-        start_port: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the start port number, of the port range
-        port_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the number of ports
+        ipv4_address: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)  # address, the start ip address of the address range
+        address_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the number of ip addresses
+        start_port: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the start port number, of the port range
+        port_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the number of ports
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the number of server sockets (ip address, port number)
@@ -443,11 +444,11 @@ class P4G_LP_TIME_SCALE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        timescale: XmpField[XmpByte] = XmpField(XmpByte, choices=Timescale)  # coded byte, specifying the time scale.
+        timescale: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=Timescale)  # coded byte, specifying the time scale.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        timescale: XmpField[XmpByte] = XmpField(XmpByte, choices=Timescale)  # coded byte, specifying the time scale.
+        timescale: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=Timescale)  # coded byte, specifying the time scale.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the time scale of the load profile.
@@ -493,17 +494,17 @@ class P4G_LP_SHAPE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        star_time: XmpField[XmpInt] = XmpField(XmpInt)  # integer, ramp-up start time.
-        rampup_duration: XmpField[XmpInt] = XmpField(XmpInt)  # integer, ramp-up phase duration.
-        steady_duration: XmpField[XmpInt] = XmpField(XmpInt)  # integer, steady phase duration.
-        rampdown_duration: XmpField[XmpInt] = XmpField(XmpInt)  # integer, ramp-down phase duration.
+        star_time: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, ramp-up start time.
+        rampup_duration: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, ramp-up phase duration.
+        steady_duration: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, steady phase duration.
+        rampdown_duration: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, ramp-down phase duration.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        star_time: XmpField[XmpInt] = XmpField(XmpInt)  # integer, ramp-up start time.
-        rampup_duration: XmpField[XmpInt] = XmpField(XmpInt)  # integer, ramp-up phase duration.
-        steady_duration: XmpField[XmpInt] = XmpField(XmpInt)  # integer, steady phase duration.
-        rampdown_duration: XmpField[XmpInt] = XmpField(XmpInt)  # integer, ramp-down phase duration.
+        star_time: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, ramp-up start time.
+        rampup_duration: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, ramp-up phase duration.
+        steady_duration: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, steady phase duration.
+        rampdown_duration: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, ramp-down phase duration.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the load profile time duration.
@@ -557,11 +558,11 @@ class P4G_NAT:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=OnOff)  # coded byte, specifying whether to enable NAT
+        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifying whether to enable NAT
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=OnOff)  # coded byte, specifying whether to enable NAT
+        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifying whether to enable NAT
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether to support DUT Source NAT functionality.
@@ -603,12 +604,12 @@ class P4G_TCP_RTT_VALUE:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        local_rtt_sum: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, accumulated RTT value (microsecond) in previous 200 milliseconds
-        local_rtt_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of RTT value accumulated in local_rtt_sum
-        global_rtt_sum: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, accumulated RTT value (microsecond) since start of test
-        global_rtt_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of RTT values accumulated in global_rtt_sum
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        local_rtt_sum: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, accumulated RTT value (microsecond) in previous 200 milliseconds
+        local_rtt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of RTT value accumulated in local_rtt_sum
+        global_rtt_sum: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, accumulated RTT value (microsecond) since start of test
+        global_rtt_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of RTT values accumulated in global_rtt_sum
 
     def get(self) -> "Token[GetDataAttr]":
         """Get values that can be used to calculate the RTT value of all connections in a Connection Group.
@@ -625,7 +626,7 @@ class P4G_TCP_STATE_CURRENT:
     """
     Returns a list of the current TCP state counters. The counters returned
     corresponds the the following TCP states:
-    
+
     * CLOSED
     * LISTEN
     * SYN_SENT
@@ -650,19 +651,19 @@ class P4G_TCP_STATE_CURRENT:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        closed: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections currently in this state
-        listen: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections currently in this state
-        syn_sent: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections currently in this state
-        syn_rcvd: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections currently in this state
-        established: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections currently in this state
-        fin_wait_1: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections currently in this state
-        fin_wait_2: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections currently in this state
-        close_wait: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections currently in this state
-        closing: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections currently in this state
-        last_ack: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections currently in this state
-        time_wait: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections currently in this state
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        closed: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections currently in this state
+        listen: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections currently in this state
+        syn_sent: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections currently in this state
+        syn_rcvd: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections currently in this state
+        established: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections currently in this state
+        fin_wait_1: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections currently in this state
+        fin_wait_2: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections currently in this state
+        close_wait: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections currently in this state
+        closing: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections currently in this state
+        last_ack: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections currently in this state
+        time_wait: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections currently in this state
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the current TCP state counters
@@ -704,19 +705,19 @@ class P4G_TCP_STATE_TOTAL:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        closed: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of connections that has entered this state
-        listen: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of connections that has entered this state
-        syn_sent: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of connections that has entered this state
-        syn_rcvd: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of connections that has entered this state
-        established: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of connections that has entered this state
-        fin_wait_1: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of connections that has entered this state
-        fin_wait_2: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of connections that has entered this state
-        close_wait: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of connections that has entered this state
-        closing: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of connections that has entered this state
-        last_ack: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of connections that has entered this state
-        time_wait: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of connections that has entered this state
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        closed: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of connections that has entered this state
+        listen: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of connections that has entered this state
+        syn_sent: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of connections that has entered this state
+        syn_rcvd: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of connections that has entered this state
+        established: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of connections that has entered this state
+        fin_wait_1: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of connections that has entered this state
+        fin_wait_2: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of connections that has entered this state
+        close_wait: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of connections that has entered this state
+        closing: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of connections that has entered this state
+        last_ack: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of connections that has entered this state
+        time_wait: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of connections that has entered this state
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the total TCP state counters.
@@ -758,19 +759,19 @@ class P4G_TCP_STATE_RATE:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        closed: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections/second entering this state
-        listen: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections/second entering this state
-        syn_sent: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections/second entering this state
-        syn_rcvd: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections/second entering this state
-        established: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections/second entering this state
-        fin_wait_1: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections/second entering this state
-        fin_wait_2: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections/second entering this state
-        close_wait: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections/second entering this state
-        closing: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections/second entering this state
-        last_ack: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections/second entering this state
-        time_wait: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections/second entering this state
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        closed: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections/second entering this state
+        listen: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections/second entering this state
+        syn_sent: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections/second entering this state
+        syn_rcvd: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections/second entering this state
+        established: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections/second entering this state
+        fin_wait_1: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections/second entering this state
+        fin_wait_2: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections/second entering this state
+        close_wait: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections/second entering this state
+        closing: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections/second entering this state
+        last_ack: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections/second entering this state
+        time_wait: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections/second entering this state
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the TCP state rates measured in connections/second.
@@ -798,12 +799,12 @@ class P4G_TCP_RX_PAYLOAD_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        total_byte_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of total TCP payload bytes received
-        total_byte_per_second: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of total TCP payload bytes/second received
-        good_byte_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of good TCP payload bytes received
-        good_byte_per_second: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of good TCP payload bytes/second received
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        total_byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of total TCP payload bytes received
+        total_byte_per_second: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of total TCP payload bytes/second received
+        good_byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of good TCP payload bytes received
+        good_byte_per_second: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of good TCP payload bytes/second received
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the TCP Rx payload counters.
@@ -831,12 +832,12 @@ class P4G_TCP_TX_PAYLOAD_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        total_byte_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of total TCP payload bytes transmitted
-        total_byte_per_second: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of total TCP payload bytes/second transmitted
-        good_byte_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of good TCP payload bytes transmitted
-        good_byte_per_second: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of good TCP payload bytes/second transmitted
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        total_byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of total TCP payload bytes transmitted
+        total_byte_per_second: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of total TCP payload bytes/second transmitted
+        good_byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of good TCP payload bytes transmitted
+        good_byte_per_second: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of good TCP payload bytes/second transmitted
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the TCP Tx payload counters.
@@ -864,15 +865,15 @@ class P4G_TCP_RETRANSMIT_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        rx_duplicate_ack_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of duplicate ACK received
-        rx_ooo_segment_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of out-of-order segments received
-        fast_retrans_event_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of fast-retransmit events occurred
-        fast_retrans_segment_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of segments retransmitted during fast-retransmit
-        rto_retrans_event_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of timer based retransmit events occurred
-        syn_retrans_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of SYN retransmitted
-        fin_retrans_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of FIN retransmitted
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        rx_duplicate_ack_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of duplicate ACK received
+        rx_ooo_segment_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of out-of-order segments received
+        fast_retrans_event_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of fast-retransmit events occurred
+        fast_retrans_segment_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of segments retransmitted during fast-retransmit
+        rto_retrans_event_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of timer based retransmit events occurred
+        syn_retrans_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of SYN retransmitted
+        fin_retrans_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of FIN retransmitted
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of TCP retransmission counters.
@@ -900,17 +901,17 @@ class P4G_TCP_ERROR_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        rx_reset_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of TCP RESET received
-        tx_reset_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of TCP RESET transmitted
-        window_full_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of TCP window full encountered
-        max_syn_retrans_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of connections reset due to maximum number of SYN retransmits
-        max_retrans_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of connections reset due to maximum number of RTO retransmits
-        local_reset_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of connections reset locally by transmitting a TCP RESET
-        peer_reset_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of connections reset by peer
-        seg_not_send_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of TCP segments not send due to exhausted Tx resources
-        rx_zero_window_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of Zero Window ACKs received from the peer
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        rx_reset_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of TCP RESET received
+        tx_reset_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of TCP RESET transmitted
+        window_full_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of TCP window full encountered
+        max_syn_retrans_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of connections reset due to maximum number of SYN retransmits
+        max_retrans_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of connections reset due to maximum number of RTO retransmits
+        local_reset_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of connections reset locally by transmitting a TCP RESET
+        peer_reset_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of connections reset by peer
+        seg_not_send_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of TCP segments not send due to exhausted Tx resources
+        rx_zero_window_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of Zero Window ACKs received from the peer
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of TCP error counters.
@@ -938,11 +939,11 @@ class P4G_IP_DS_TYPE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        ds_type: XmpField[XmpByte] = XmpField(XmpByte, choices=MSSType)  # coded byte, specifying how to fill out the DS field
+        ds_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=MSSType)  # coded byte, specifying how to fill out the DS field
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        ds_type: XmpField[XmpByte] = XmpField(XmpByte, choices=MSSType)  # coded byte, specifying how to fill out the DS field
+        ds_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=MSSType)  # coded byte, specifying how to fill out the DS field
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the value of the DS field of the IP header of this Connection Group.
@@ -985,11 +986,11 @@ class P4G_IP_DS_VALUE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        ds_value: XmpField[XmpHex1] = XmpField(XmpHex1)  # hex byte, the fixed DS value to be used
+        ds_value: XmpField[xt.XmpHex1] = XmpField(xt.XmpHex1)  # hex byte, the fixed DS value to be used
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        ds_value: XmpField[XmpHex1] = XmpField(XmpHex1)  # hex byte, the fixed DS value to be used
+        ds_value: XmpField[xt.XmpHex1] = XmpField(xt.XmpHex1)  # hex byte, the fixed DS value to be used
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the fixed DS value.
@@ -1028,11 +1029,11 @@ class P4G_IP_DS_MASK:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        ds_mask: XmpField[XmpHex1] = XmpField(XmpHex1)  # hex byte, the DS mask to be used.
+        ds_mask: XmpField[xt.XmpHex1] = XmpField(xt.XmpHex1)  # hex byte, the DS mask to be used.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        ds_mask: XmpField[XmpHex1] = XmpField(XmpHex1)  # hex byte, the DS mask to be used.
+        ds_mask: XmpField[xt.XmpHex1] = XmpField(xt.XmpHex1)  # hex byte, the DS mask to be used.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the bit mask to be applied to the DS field.
@@ -1069,13 +1070,13 @@ class P4G_IP_DS_MINMAX:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        ds_min: XmpField[XmpHex1] = XmpField(XmpHex1)  # hex byte, minimum value for the calculated part of DS
-        ds_max: XmpField[XmpHex1] = XmpField(XmpHex1)  # hex byte, maximum value for the calculated part of DS
+        ds_min: XmpField[xt.XmpHex1] = XmpField(xt.XmpHex1)  # hex byte, minimum value for the calculated part of DS
+        ds_max: XmpField[xt.XmpHex1] = XmpField(xt.XmpHex1)  # hex byte, maximum value for the calculated part of DS
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        ds_min: XmpField[XmpHex1] = XmpField(XmpHex1)  # hex byte, minimum value for the calculated part of DS
-        ds_max: XmpField[XmpHex1] = XmpField(XmpHex1)  # hex byte, maximum value for the calculated part of DS
+        ds_min: XmpField[xt.XmpHex1] = XmpField(xt.XmpHex1)  # hex byte, minimum value for the calculated part of DS
+        ds_max: XmpField[xt.XmpHex1] = XmpField(xt.XmpHex1)  # hex byte, maximum value for the calculated part of DS
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the min and max values of the range for the calculated part of the DS value.
@@ -1114,11 +1115,11 @@ class P4G_IP_DS_STEP:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        ds_step: XmpField[XmpHex1] = XmpField(XmpHex1)  # hex byte, the incrementing step size for DS.
+        ds_step: XmpField[xt.XmpHex1] = XmpField(xt.XmpHex1)  # hex byte, the incrementing step size for DS.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        ds_step: XmpField[XmpHex1] = XmpField(XmpHex1)  # hex byte, the incrementing step size for DS.
+        ds_step: XmpField[xt.XmpHex1] = XmpField(xt.XmpHex1)  # hex byte, the incrementing step size for DS.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the incrementing step size for the calculated part of the DS value.
@@ -1145,7 +1146,7 @@ class P4G_TCP_MSS_TYPE:
     either be fixed size identical for all connections in the Connection Group,
     incrementing or random. The individual MSS for a specific connection is always
     constant once the incrementing or random value has been created. Refer to
-    P4G_TCP_MSS_MINMAX` 
+    P4G_TCP_MSS_MINMAX`
     command for information on how to configure min and max values.
     """
 
@@ -1159,11 +1160,11 @@ class P4G_TCP_MSS_TYPE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        mss_type: XmpField[XmpByte] = XmpField(XmpByte, choices=MSSType)  # coded byte, specifying how MSS is set
+        mss_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=MSSType)  # coded byte, specifying how MSS is set
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mss_type: XmpField[XmpByte] = XmpField(XmpByte, choices=MSSType)  # coded byte, specifying how MSS is set
+        mss_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=MSSType)  # coded byte, specifying how MSS is set
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the Maximum Segment size (MSS) type for a Connection Group.
@@ -1208,13 +1209,13 @@ class P4G_TCP_MSS_MINMAX:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        mss_min: XmpField[XmpInt] = XmpField(XmpInt)  # integer, minimum value of MSS
-        mss_max: XmpField[XmpInt] = XmpField(XmpInt)  # integer, maximum value of MSS
+        mss_min: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, minimum value of MSS
+        mss_max: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, maximum value of MSS
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mss_min: XmpField[XmpInt] = XmpField(XmpInt)  # integer, minimum value of MSS
-        mss_max: XmpField[XmpInt] = XmpField(XmpInt)  # integer, maximum value of MSS
+        mss_min: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, minimum value of MSS
+        mss_max: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, maximum value of MSS
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the min and max values of the range for TCP MSS.
@@ -1252,11 +1253,11 @@ class P4G_TCP_MSS_VALUE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        mss: XmpField[XmpInt] = XmpField(XmpInt)  # integer, fixed value of MSS
+        mss: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, fixed value of MSS
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mss: XmpField[XmpInt] = XmpField(XmpInt)  # integer, fixed value of MSS
+        mss: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, fixed value of MSS
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the fixed MSS value of the Connection Group.
@@ -1292,11 +1293,11 @@ class P4G_TCP_WINDOW_SIZE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        window_size: XmpField[XmpInt] = XmpField(XmpInt)  # integer, window size in bytes
+        window_size: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, window size in bytes
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        window_size: XmpField[XmpInt] = XmpField(XmpInt)  # integer, window size in bytes
+        window_size: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, window size in bytes
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the value of the TCP RWND.
@@ -1332,11 +1333,11 @@ class P4G_TCP_DUP_THRES:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        threshold: XmpField[XmpByte] = XmpField(XmpByte)  # byte, duplicate ACK threshold - must be larger than 0
+        threshold: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, duplicate ACK threshold - must be larger than 0
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        threshold: XmpField[XmpByte] = XmpField(XmpByte)  # byte, duplicate ACK threshold - must be larger than 0
+        threshold: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, duplicate ACK threshold - must be larger than 0
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the value of the TCP duplicate ACK threshold.
@@ -1372,15 +1373,15 @@ class P4G_TCP_SYN_RTO:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        retrans_timeout: XmpField[XmpInt] = XmpField(XmpInt)  # integer, SYN retransmission timeout [milliseconds] - must be larger than 0
-        retry_count: XmpField[XmpByte] = XmpField(XmpByte)  # byte, maximum SYN retransmission retries - must be larger than 0
-        backoff: XmpField[XmpByte] = XmpField(XmpByte)  # byte, maximum SYN retransmission backoff
+        retrans_timeout: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, SYN retransmission timeout [milliseconds] - must be larger than 0
+        retry_count: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, maximum SYN retransmission retries - must be larger than 0
+        backoff: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, maximum SYN retransmission backoff
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        retrans_timeout: XmpField[XmpInt] = XmpField(XmpInt)  # integer, SYN retransmission timeout [milliseconds] - must be larger than 0
-        retry_count: XmpField[XmpByte] = XmpField(XmpByte)  # byte, maximum SYN retransmission retries - must be larger than 0
-        backoff: XmpField[XmpByte] = XmpField(XmpByte)  # byte, maximum SYN retransmission backoff
+        retrans_timeout: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, SYN retransmission timeout [milliseconds] - must be larger than 0
+        retry_count: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, maximum SYN retransmission retries - must be larger than 0
+        backoff: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, maximum SYN retransmission backoff
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the value of the TCP SYN retransmission timeout, max retries and max backoff.
@@ -1425,17 +1426,17 @@ class P4G_TCP_RTO:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        rto_type: XmpField[XmpByte] = XmpField(XmpByte, choices=RTOType)  # coded byte, specifying RTO type
-        retrans_timeout: XmpField[XmpInt] = XmpField(XmpInt)  # integer, retransmission timeout [milliseconds] - must be larger than 0
-        retry_count: XmpField[XmpByte] = XmpField(XmpByte)  # byte, maximum retransmission retries - must be larger than 0
-        backoff: XmpField[XmpByte] = XmpField(XmpByte)  # byte, maximum retransmission backoff
+        rto_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=RTOType)  # coded byte, specifying RTO type
+        retrans_timeout: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, retransmission timeout [milliseconds] - must be larger than 0
+        retry_count: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, maximum retransmission retries - must be larger than 0
+        backoff: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, maximum retransmission backoff
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        type: XmpField[XmpByte] = XmpField(XmpByte, choices=RTOType)  # coded byte, specifying RTO type
-        retrans_timeout: XmpField[XmpInt] = XmpField(XmpInt)  # integer, retransmission timeout [milliseconds] - must be larger than 0
-        retry_count: XmpField[XmpByte] = XmpField(XmpByte)  # byte, maximum retransmission retries - must be larger than 0
-        backoff: XmpField[XmpByte] = XmpField(XmpByte)  # byte, maximum retransmission backoff
+        type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=RTOType)  # coded byte, specifying RTO type
+        retrans_timeout: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, retransmission timeout [milliseconds] - must be larger than 0
+        retry_count: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, maximum retransmission retries - must be larger than 0
+        backoff: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, maximum retransmission backoff
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the value of the TCP retransmission timeout, max retries and max backoff.
@@ -1498,11 +1499,11 @@ class P4G_UDP_PACKET_SIZE_TYPE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        packet_size_type: XmpField[XmpByte] = XmpField(XmpByte, choices=MSSType)  # coded byte, specifying how UDP packet size is set
+        packet_size_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=MSSType)  # coded byte, specifying how UDP packet size is set
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        packet_size_type: XmpField[XmpByte] = XmpField(XmpByte, choices=MSSType)  # coded byte, specifying how UDP packet size is set
+        packet_size_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=MSSType)  # coded byte, specifying how UDP packet size is set
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the UDP packet size type for the Connection Group.
@@ -1547,13 +1548,13 @@ class P4G_UDP_PACKET_SIZE_MINMAX:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        size_min: XmpField[XmpInt] = XmpField(XmpInt)  # integer, minimum value of UDP packet size
-        size_max: XmpField[XmpInt] = XmpField(XmpInt)  # integer, maximum value of UDP packet size
+        size_min: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, minimum value of UDP packet size
+        size_max: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, maximum value of UDP packet size
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        size_min: XmpField[XmpInt] = XmpField(XmpInt)  # integer, minimum value of UDP packet size
-        size_max: XmpField[XmpInt] = XmpField(XmpInt)  # integer, maximum value of UDP packet size
+        size_min: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, minimum value of UDP packet size
+        size_max: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, maximum value of UDP packet size
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the minimum and maximum values of the range for UDP packet size.
@@ -1592,11 +1593,11 @@ class P4G_UDP_PACKET_SIZE_VALUE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        size: XmpField[XmpInt] = XmpField(XmpInt)  # integer, fixed value of UDP packet size
+        size: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, fixed value of UDP packet size
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        size: XmpField[XmpInt] = XmpField(XmpInt)  # integer, fixed value of UDP packet size
+        size: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, fixed value of UDP packet size
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the fixed UDP packet size value.
@@ -1632,11 +1633,11 @@ class P4G_TCP_CONGESTION_MODE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        congestion_type: XmpField[XmpByte] = XmpField(XmpByte, choices=CongestionType)  # coded byte, specifying congestion algorithm type
+        congestion_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=CongestionType)  # coded byte, specifying congestion algorithm type
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        congestion_type: XmpField[XmpByte] = XmpField(XmpByte, choices=CongestionType)  # coded byte, specifying congestion algorithm type
+        congestion_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=CongestionType)  # coded byte, specifying congestion algorithm type
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the TCP congestion control algorithm.
@@ -1680,13 +1681,13 @@ class P4G_TCP_WINDOW_SCALING:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=YesNo)  # code byte, specifying whether to enable window scaling or not
-        factor: XmpField[XmpByte] = XmpField(XmpByte)  # integer, default value is 0 and maximum value is 14 - ignored if window scaling is not enabled
+        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)  # code byte, specifying whether to enable window scaling or not
+        factor: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # integer, default value is 0 and maximum value is 14 - ignored if window scaling is not enabled
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=YesNo)  # code byte, specifying whether to enable window scaling or not
-        factor: XmpField[XmpByte] = XmpField(XmpByte)  # integer, default value is 0 and maximum value is 14 - ignored if window scaling is not enabled
+        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)  # code byte, specifying whether to enable window scaling or not
+        factor: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # integer, default value is 0 and maximum value is 14 - ignored if window scaling is not enabled
 
     def get(self) -> "Token[GetDataAttr]":
         """Get TCP window scaling settings for the Connection Group.
@@ -1731,13 +1732,13 @@ class P4G_TCP_RTO_MINMAX:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        rto_min: XmpField[XmpInt] = XmpField(XmpInt)  # integer, min retransmission timeout [us] - must be larger than 0 and less than max.
-        rto_max: XmpField[XmpInt] = XmpField(XmpInt)  # integer, max retransmission timeout [us] - must be larger than 0 and greater than min.
+        rto_min: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, min retransmission timeout [us] - must be larger than 0 and less than max.
+        rto_max: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, max retransmission timeout [us] - must be larger than 0 and greater than min.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        rto_min: XmpField[XmpInt] = XmpField(XmpInt)  # integer, min retransmission timeout [us] - must be larger than 0 and less than max.
-        rto_max: XmpField[XmpInt] = XmpField(XmpInt)  # integer, max retransmission timeout [us] - must be larger than 0 and greater than min.
+        rto_min: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, min retransmission timeout [us] - must be larger than 0 and less than max.
+        rto_max: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, max retransmission timeout [us] - must be larger than 0 and greater than min.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the min and max values of the TCP retransmission timeout.
@@ -1777,16 +1778,16 @@ class P4G_TCP_RTO_PROLONGED_MODE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=IsEnabled)  # byte, specifying whether to enable/disable prolonged retransmission mode
-        timeout: XmpField[XmpInt] = XmpField(
-            XmpInt
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=IsEnabled)  # byte, specifying whether to enable/disable prolonged retransmission mode
+        timeout: XmpField[xt.XmpInt] = XmpField(
+            xt.XmpInt
         )  # retransmission timeout in milliseconds, when prolonged mode is enabled. when mode is set to 0, the value of the timeout is ignored, when mode is set to 1, the value of the timeout may not be 0
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=IsEnabled)  # byte, specifying whether to enable/disable prolonged retransmission mode
-        timeout: XmpField[XmpInt] = XmpField(
-            XmpInt
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=IsEnabled)  # byte, specifying whether to enable/disable prolonged retransmission mode
+        timeout: XmpField[xt.XmpInt] = XmpField(
+            xt.XmpInt
         )  # retransmission timeout in milliseconds, when prolonged mode is enabled. when mode is set to 0, the value of the timeout is ignored, when mode is set to 1, the value of the timeout may not be 0
 
     def get(self) -> "Token[GetDataAttr]":
@@ -1830,16 +1831,16 @@ class P4G_TCP_ICWND_CALC_METHOD:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        method: XmpField[XmpByte] = XmpField(XmpByte, choices=AlgorithmMethod)  # coded byte, specifying the algorithm
-        factor: XmpField[XmpInt] = XmpField(
-            XmpInt
+        method: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=AlgorithmMethod)  # coded byte, specifying the algorithm
+        factor: XmpField[xt.XmpInt] = XmpField(
+            xt.XmpInt
         )  # integer, factor to multiply the senders MSS with, when method is set to 'FIXED_FACTOR'. Otherwise the value is ignored.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        method: XmpField[XmpByte] = XmpField(XmpByte, choices=AlgorithmMethod)  # coded byte, specifying the algorithm
-        factor: XmpField[XmpInt] = XmpField(
-            XmpInt
+        method: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=AlgorithmMethod)  # coded byte, specifying the algorithm
+        factor: XmpField[xt.XmpInt] = XmpField(
+            xt.XmpInt
         )  # integer, factor to multiply the senders MSS with, when method is set to 'FIXED_FACTOR'. Otherwise the value is ignored.
 
     def get(self) -> "Token[GetDataAttr]":
@@ -1885,13 +1886,13 @@ class P4G_TCP_ISSTHRESH:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=AutoOrManual)  # coded byte, specifying TCP initial slow start mode
-        threshold: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of bytes, value ignored when mode is set to MANUAL
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=AutoOrManual)  # coded byte, specifying TCP initial slow start mode
+        threshold: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of bytes, value ignored when mode is set to MANUAL
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=AutoOrManual)  # coded byte, specifying TCP initial slow start mode
-        threshold: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of bytes, value ignored when mode is set to MANUAL
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=AutoOrManual)  # coded byte, specifying TCP initial slow start mode
+        threshold: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of bytes, value ignored when mode is set to MANUAL
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the TCP initial slow start threshold (ISSTHRESH).
@@ -1934,14 +1935,14 @@ class P4G_TCP_ACK_FREQUENCY:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        packets_before_ack: XmpField[XmpInt] = XmpField(
-            XmpInt
+        packets_before_ack: XmpField[xt.XmpInt] = XmpField(
+            xt.XmpInt
         )  # integer, number of received packets before an ACK is sent, range between 1 and 255, default 1. When set to 1, every packet is ACKed
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        packets_before_ack: XmpField[XmpInt] = XmpField(
-            XmpInt
+        packets_before_ack: XmpField[xt.XmpInt] = XmpField(
+            xt.XmpInt
         )  # integer, number of received packets before an ACK is sent, range between 1 and 255, default 1. When set to 1, every packet is ACKed
 
     def get(self) -> "Token[GetDataAttr]":
@@ -1979,16 +1980,16 @@ class P4G_TCP_ACK_TIMEOUT:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        ack_timeout: XmpField[XmpInt] = XmpField(XmpInt)  # integer, timeout value in microseconds, default 200000.
+        ack_timeout: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, timeout value in microseconds, default 200000.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        ack_timeout: XmpField[XmpInt] = XmpField(XmpInt)  # integer, timeout value in microseconds, default 200000.
+        ack_timeout: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, timeout value in microseconds, default 200000.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the Delayed ACK timeout.
 
-        :return: the Delayed ACK timeout 
+        :return: the Delayed ACK timeout
         :rtype: P4G_TCP_ACK_TIMEOUT.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
@@ -2021,13 +2022,13 @@ class P4G_L2_CLIENT_MAC:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        mac_address: XmpField[XmpMacAddress] = XmpField(XmpMacAddress)  # six hex bytes, the MAC address specified as hexadecimal
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=EmbedIP)  # coded byte, whether to embed the IP address or not
+        mac_address: XmpField[xt.XmpMacAddress] = XmpField(xt.XmpMacAddress)  # six hex bytes, the MAC address specified as hexadecimal
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=EmbedIP)  # coded byte, whether to embed the IP address or not
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mac_address: XmpField[XmpMacAddress] = XmpField(XmpMacAddress)  # six hex bytes, the MAC address specified as hexadecimal
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=EmbedIP)  # coded byte, whether to embed the IP address or not
+        mac_address: XmpField[xt.XmpMacAddress] = XmpField(xt.XmpMacAddress)  # six hex bytes, the MAC address specified as hexadecimal
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=EmbedIP)  # coded byte, whether to embed the IP address or not
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the client MAC address.
@@ -2072,13 +2073,13 @@ class P4G_L2_SERVER_MAC:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        mac_address: XmpField[XmpMacAddress] = XmpField(XmpMacAddress)  # six hex bytes, the MAC address specified as hexadecimal
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=EmbedIP)  # coded byte, whether to embed the ip address or not
+        mac_address: XmpField[xt.XmpMacAddress] = XmpField(xt.XmpMacAddress)  # six hex bytes, the MAC address specified as hexadecimal
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=EmbedIP)  # coded byte, whether to embed the ip address or not
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mac_address: XmpField[XmpMacAddress] = XmpField(XmpMacAddress)  # six hex bytes, the MAC address specified as hexadecimal
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=EmbedIP)  # coded byte, whether to embed the ip address or not
+        mac_address: XmpField[xt.XmpMacAddress] = XmpField(xt.XmpMacAddress)  # six hex bytes, the MAC address specified as hexadecimal
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=EmbedIP)  # coded byte, whether to embed the ip address or not
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the server MAC address.
@@ -2122,11 +2123,11 @@ class P4G_L2_USE_ADDRESS_RES:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        is_enabled: XmpField[XmpByte] = XmpField(XmpByte, choices=YesNo)  # coded byte, specifying whether to use ARP and NDP or not
+        is_enabled: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)  # coded byte, specifying whether to use ARP and NDP or not
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        is_enabled: XmpField[XmpByte] = XmpField(XmpByte, choices=YesNo)  # coded byte, specifying whether to use ARP and NDP or not
+        is_enabled: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)  # coded byte, specifying whether to use ARP and NDP or not
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the status of using ARP and NDP to resolve hardware (MAC) addresses.
@@ -2167,11 +2168,11 @@ class P4G_L2_USE_GW:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        is_enabled: XmpField[XmpByte] = XmpField(XmpByte, choices=YesNo)  # coded byte, specifying whether to use gateway MAC or not
+        is_enabled: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)  # coded byte, specifying whether to use gateway MAC or not
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        is_enabled: XmpField[XmpByte] = XmpField(XmpByte, choices=YesNo)  # coded byte, specifying whether to use gateway MAC or not
+        is_enabled: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)  # coded byte, specifying whether to use gateway MAC or not
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the status of using the resolved default gateway's MAC address as the destination MAC address in the packets.
@@ -2212,13 +2213,13 @@ class P4G_L2_GW:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        ipv4_address: XmpField[XmpIPV4Address] = XmpField(XmpIPV4Address)  # address, ip address of gateway
-        mac_address: XmpField[XmpMacAddress] = XmpField(XmpMacAddress)  # six hex bytes, the MAC address of the gateway
+        ipv4_address: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)  # address, ip address of gateway
+        mac_address: XmpField[xt.XmpMacAddress] = XmpField(xt.XmpMacAddress)  # six hex bytes, the MAC address of the gateway
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        ipv4_address: XmpField[XmpIPV4Address] = XmpField(XmpIPV4Address)  # address, ip address of gateway
-        mac_address: XmpField[XmpMacAddress] = XmpField(XmpMacAddress)  # six hex bytes, the MAC address of the gateway
+        ipv4_address: XmpField[xt.XmpIPV4Address] = XmpField(xt.XmpIPV4Address)  # address, ip address of gateway
+        mac_address: XmpField[xt.XmpMacAddress] = XmpField(xt.XmpMacAddress)  # six hex bytes, the MAC address of the gateway
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the settings of the default gateway for IPv4.
@@ -2258,13 +2259,13 @@ class P4G_L2_IPV6_GW:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        ipv6_address: XmpField[XmpIPV6Address] = XmpField(XmpIPV6Address)  # 16 hex bytes, the 16 bytes of IPv6 address of gateway
-        mac_address: XmpField[XmpMacAddress] = XmpField(XmpMacAddress)  # six hex bytes, the MAC address of the gateway
+        ipv6_address: XmpField[xt.XmpIPV6Address] = XmpField(xt.XmpIPV6Address)  # 16 hex bytes, the 16 bytes of IPv6 address of gateway
+        mac_address: XmpField[xt.XmpMacAddress] = XmpField(xt.XmpMacAddress)  # six hex bytes, the MAC address of the gateway
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        ipv6_address: XmpField[XmpIPV6Address] = XmpField(XmpIPV6Address)  # 16 hex bytes, the 16 bytes of IPv6 address of gateway
-        mac_address: XmpField[XmpMacAddress] = XmpField(XmpMacAddress)  # six hex bytes, the MAC address of the gateway
+        ipv6_address: XmpField[xt.XmpIPV6Address] = XmpField(xt.XmpIPV6Address)  # 16 hex bytes, the 16 bytes of IPv6 address of gateway
+        mac_address: XmpField[xt.XmpMacAddress] = XmpField(xt.XmpMacAddress)  # six hex bytes, the MAC address of the gateway
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the settings of the default gateway for IPv6.
@@ -2292,9 +2293,9 @@ class P4G_L2_IPV6_GW:
 class P4G_TEST_APPLICATION:
     """
     Configure the application layer mode. This command affects whether TCP payload is generated.
-    
+
     * ``NONE`` means that TCP connections are created according to the client and server ranges, and ramped up/down as specified in the load profile. But no payload is transmitted.
-    
+
     * ``RAW`` differs from ``NONE`` in that it transmits payload when the TCP connection is established.
 
     * ``REPLAY`` refers to PCAP replay.
@@ -2311,11 +2312,11 @@ class P4G_TEST_APPLICATION:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        behavior: XmpField[XmpByte] = XmpField(XmpByte, choices=ApplicationLayerBehavior)  # coded byte, application behavior
+        behavior: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=ApplicationLayerBehavior)  # coded byte, application behavior
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        behavior: XmpField[XmpByte] = XmpField(XmpByte, choices=ApplicationLayerBehavior)  # coded byte, application behavior
+        behavior: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=ApplicationLayerBehavior)  # coded byte, application behavior
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the application layer mode.
@@ -2358,11 +2359,11 @@ class P4G_RAW_TEST_SCENARIO:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        scenario: XmpField[XmpByte] = XmpField(XmpByte, choices=TrafficScenario)  # coded byte, traffic scenario
+        scenario: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TrafficScenario)  # coded byte, traffic scenario
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        scenario: XmpField[XmpByte] = XmpField(XmpByte, choices=TrafficScenario)  # coded byte, traffic scenario
+        scenario: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TrafficScenario)  # coded byte, traffic scenario
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the traffic scenario for RAW mode.
@@ -2407,11 +2408,11 @@ class P4G_RAW_PAYLOAD_TYPE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        gen_method: XmpField[XmpByte] = XmpField(XmpByte, choices=PayloadGenerationMethod)  # coded byte, payload generation method
+        gen_method: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PayloadGenerationMethod)  # coded byte, payload generation method
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        gen_method: XmpField[XmpByte] = XmpField(XmpByte, choices=PayloadGenerationMethod)  # coded byte, payload generation method
+        gen_method: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=PayloadGenerationMethod)  # coded byte, payload generation method
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the payload generation method.
@@ -2456,13 +2457,13 @@ class P4G_RAW_PAYLOAD_TOTAL_LEN:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=InfiniteOrFinite)  # coded byte, generation mode.
-        length: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, size of the payload
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfiniteOrFinite)  # coded byte, generation mode.
+        length: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, size of the payload
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=InfiniteOrFinite)  # coded byte, generation mode.
-        length: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, size of the payload
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfiniteOrFinite)  # coded byte, generation mode.
+        length: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, size of the payload
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the total amount of payload to transmit on one connection.
@@ -2506,15 +2507,15 @@ class P4G_RAW_PAYLOAD:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        offset: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the offset in the payload buffer where data is to be written
-        length: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of bytes to write
-        content: XmpField[XmpHexList] = XmpField(XmpHexList)  # list of hex bytes, specifying the payload
+        offset: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the offset in the payload buffer where data is to be written
+        length: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of bytes to write
+        content: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)  # list of hex bytes, specifying the payload
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        offset: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the offset in the payload buffer where data is to be written
-        length: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of bytes to write
-        content: XmpField[XmpHexList] = XmpField(XmpHexList)  # list of hex bytes, specifying the payload
+        offset: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the offset in the payload buffer where data is to be written
+        length: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of bytes to write
+        content: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)  # list of hex bytes, specifying the payload
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the payload as hex bytes.
@@ -2544,7 +2545,7 @@ class P4G_RAW_PAYLOAD:
 class P4G_RAW_PAYLOAD_REPEAT_LEN:
     """
     Specify the length of the raw payload, which is defined by one or more P4G_RAW_PAYLOAD` commands, to repeat.
-    
+
     P4G_RAW_PAYLOAD_REPEAT_LEN` number of bytes will be repeated until P4G_RAW_PAYLOAD_TOTAL_LEN` bytes are transmitted on the connection.
     """
 
@@ -2558,11 +2559,11 @@ class P4G_RAW_PAYLOAD_REPEAT_LEN:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        length: XmpField[XmpInt] = XmpField(XmpInt)  # integer, specifying the repeat length of the custom payload
+        length: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifying the repeat length of the custom payload
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        length: XmpField[XmpInt] = XmpField(XmpInt)  # integer, specifying the length of the custom payload
+        length: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifying the length of the custom payload
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the length of the raw payload to repeat.
@@ -2586,9 +2587,9 @@ class P4G_RAW_PAYLOAD_REPEAT_LEN:
 class P4G_RAW_HAS_DOWNLOAD_REQ:
     """
     Specify whether the server waits for a request from the client before it starts transmitting.
-    
+
     .. note::
-    
+
         This parameter is N/A when P4G_L4_PROTOCOL` is configured as UDP.
 
     """
@@ -2603,11 +2604,11 @@ class P4G_RAW_HAS_DOWNLOAD_REQ:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=YesNo)  # coded byte, expect request before sending payload or not
+        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)  # coded byte, expect request before sending payload or not
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=YesNo)  # coded byte, expect request before sending payload or not
+        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)  # coded byte, expect request before sending payload or not
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether the server waits for a request from the client before it starts transmitting.
@@ -2636,19 +2637,19 @@ class P4G_RAW_HAS_DOWNLOAD_REQ:
 class P4G_RAW_CLOSE_CONN:
     """
     Specify how to close TCP connection when all payload has been transmitted.
-    
+
     In raw test scenario ``DOWNLOAD``, the server can close the connection, when all payload has been transmitted.
-    
+
     In raw test scenario ``UPLOAD``, the client can close the connection, when all payload has been transmitted. In any case, both server and client Connection Groups must be configured with the same value of this parameter.
-    
+
     In raw test scenario ``BOTH`` (bidirectional), this parameter is N/A and will be ignored.
-    
+
     In a transaction scenario, where P4G_RAW_HAS_DOWNLOAD_REQ` is set to ``YES``, both client and server can close the connection, when the last transaction has been completed.
-    
+
     When P4G_RAW_CONN_INCARNATION` is set to ``IMMORTAL`` or ``REINCARNATE``, and this command is set to ``NONE``, connections will be closed after 'connection lifetime', set by P4G_RAW_CONN_LIFETIME`.
-    
+
     .. note::
-    
+
         This parameter is N/A when P4G_L4_PROTOCOL` is configured as UDP.
 
     """
@@ -2663,11 +2664,11 @@ class P4G_RAW_CLOSE_CONN:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        who_close: XmpField[XmpByte] = XmpField(XmpByte, choices=WhoClose)  # coded byte, specifying who closes the connection
+        who_close: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=WhoClose)  # coded byte, specifying who closes the connection
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        who_close: XmpField[XmpByte] = XmpField(XmpByte, choices=WhoClose)  # coded byte, specifying who closes the connection
+        who_close: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=WhoClose)  # coded byte, specifying who closes the connection
 
     def get(self) -> "Token[GetDataAttr]":
         """Get how to close TCP connection when all payload has been transmitted.
@@ -2711,11 +2712,11 @@ class P4G_RAW_UTILIZATION:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        utilization: XmpField[XmpInt] = XmpField(XmpInt)  # integer, utilization specified in ppm.
+        utilization: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, utilization specified in ppm.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        utilization: XmpField[XmpInt] = XmpField(XmpInt)  # integer, utilization specified in ppm.
+        utilization: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, utilization specified in ppm.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the link layer bandwidth utilization for all the generated traffic from the specified Raw Connection Group.
@@ -2739,9 +2740,9 @@ class P4G_RAW_UTILIZATION:
 class P4G_RAW_DOWNLOAD_REQUEST:
     """
     Specify the content of the download request sent by the client and expected by the server as hex bytes.
-    
+
     .. note::
-    
+
         This parameter is N/A when P4G_L4_PROTOCOL is configured as UDP.
 
     """
@@ -2756,13 +2757,13 @@ class P4G_RAW_DOWNLOAD_REQUEST:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        length: XmpField[XmpInt] = XmpField(XmpInt)  # integer, specifying the number of bytes to write. Maximum request length is 1024 bytes.
-        content: XmpField[XmpHexList] = XmpField(XmpHexList)  # list of hex bytes, specifying the request content.
+        length: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifying the number of bytes to write. Maximum request length is 1024 bytes.
+        content: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)  # list of hex bytes, specifying the request content.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        length: XmpField[XmpInt] = XmpField(XmpInt)  # integer, specifying the number of bytes to write. Maximum request length is 1024 bytes.
-        content: XmpField[XmpHexList] = XmpField(XmpHexList)  # list of hex bytes, specifying the request content.
+        length: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifying the number of bytes to write. Maximum request length is 1024 bytes.
+        content: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)  # list of hex bytes, specifying the request content.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the content of the download request sent by the client and expected by the server as hex bytes.
@@ -2787,10 +2788,10 @@ class P4G_RAW_DOWNLOAD_REQUEST:
 @dataclass
 class P4G_RAW_TX_DURING_RAMP:
     """
-    Specify if TCP payload transmission should take place during ramp-up and ramp-down. 
-    
+    Specify if TCP payload transmission should take place during ramp-up and ramp-down.
+
     .. note::
-    
+
         For UDP connections payload transmission will always take place during ramp-up and ramp-down, and this parameter is therefore N/A.
 
     """
@@ -2805,24 +2806,24 @@ class P4G_RAW_TX_DURING_RAMP:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        should_close_conn_ramp_up: XmpField[XmpByte] = XmpField(XmpByte, choices=YesNo)  # coded byte, whether TCP payload transmission should take place during ramp up.
-        should_close_conn_ramp_down: XmpField[XmpByte] = XmpField(XmpByte, choices=YesNo)  # coded byte, whether TCP payload transmission should take place during ramp down.
+        should_close_conn_ramp_up: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)  # coded byte, whether TCP payload transmission should take place during ramp up.
+        should_close_conn_ramp_down: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)  # coded byte, whether TCP payload transmission should take place during ramp down.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        should_close_conn_ramp_up: XmpField[XmpByte] = XmpField(XmpByte, choices=YesNo)  # coded byte, whether TCP payload transmission should take place during ramp up.
-        should_close_conn_ramp_down: XmpField[XmpByte] = XmpField(XmpByte, choices=YesNo)  # coded byte, whether TCP payload transmission should take place during ramp down.
+        should_close_conn_ramp_up: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)  # coded byte, whether TCP payload transmission should take place during ramp up.
+        should_close_conn_ramp_down: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)  # coded byte, whether TCP payload transmission should take place during ramp down.
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get whether TCP payload transmission should take place during ramp-up and ramp-down. 
+        """Get whether TCP payload transmission should take place during ramp-up and ramp-down.
 
-        :return: whether TCP payload transmission should take place during ramp-up and ramp-down. 
+        :return: whether TCP payload transmission should take place during ramp-up and ramp-down.
         :rtype: P4G_RAW_TX_DURING_RAMP.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
 
     def set(self, should_close_conn_ramp_up: YesNo, should_close_conn_ramp_down: YesNo) -> "Token":
-        """Set whether TCP payload transmission should take place during ramp-up and ramp-down. 
+        """Set whether TCP payload transmission should take place during ramp-up and ramp-down.
 
         :param should_close_conn_ramp_up: whether TCP payload transmission should take place during ramp-up.
         :type should_close_conn_ramp_up: YesNo
@@ -2859,13 +2860,13 @@ class P4G_RAW_TX_TIME_OFFSET:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        start_offset: XmpField[XmpInt] = XmpField(XmpInt)  # integer, specify time in milliseconds from ramp-up has completed to start of payload transmit.
-        stop_offset: XmpField[XmpInt] = XmpField(XmpInt)  # integer, specify time in milliseconds from stop of payload transmit to start of ramp-down.
+        start_offset: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specify time in milliseconds from ramp-up has completed to start of payload transmit.
+        stop_offset: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specify time in milliseconds from stop of payload transmit to start of ramp-down.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        start_offset: XmpField[XmpInt] = XmpField(XmpInt)  # integer, specify time in milliseconds from ramp-up has completed to start of payload transmit.
-        stop_offset: XmpField[XmpInt] = XmpField(XmpInt)  # integer, specify time in milliseconds from stop of payload transmit to start of ramp-down.
+        start_offset: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specify time in milliseconds from ramp-up has completed to start of payload transmit.
+        stop_offset: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specify time in milliseconds from stop of payload transmit to start of ramp-down.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the time offset to the transmit start and stop time.
@@ -2905,11 +2906,11 @@ class P4G_RAW_BURSTY_TX:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        bursty: XmpField[XmpByte] = XmpField(XmpByte, choices=OnOff)  # coded byte, whether bursty transmission is on or off.
+        bursty: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, whether bursty transmission is on or off.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        bursty: XmpField[XmpByte] = XmpField(XmpByte, choices=OnOff)  # coded byte, whether bursty transmission is on or off.
+        bursty: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, whether bursty transmission is on or off.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether to use bursty transmission.
@@ -2950,13 +2951,13 @@ class P4G_RAW_BURSTY_CONF:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        active_duration: XmpField[XmpInt] = XmpField(XmpInt)  # integer, specifies the duration in milliseconds of the active part of the burst period.
-        inactive_duration: XmpField[XmpInt] = XmpField(XmpInt)  # integer, specifies the duration in milliseconds of the inactive part of the burst period.
+        active_duration: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifies the duration in milliseconds of the active part of the burst period.
+        inactive_duration: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifies the duration in milliseconds of the inactive part of the burst period.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        active_duration: XmpField[XmpInt] = XmpField(XmpInt)  # integer, specifies the duration in milliseconds of the active part of the burst period.
-        inactive_duration: XmpField[XmpInt] = XmpField(XmpInt)  # integer, specifies the duration in milliseconds of the inactive part of the burst period.
+        active_duration: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifies the duration in milliseconds of the active part of the burst period.
+        inactive_duration: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, specifies the duration in milliseconds of the inactive part of the burst period.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get active and inactive periods of bursty transmission in milliseconds.
@@ -2999,11 +3000,11 @@ class P4G_VLAN_ENABLE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=YesNo)  # coded byte, specifying whether to enable VLAN tag
+        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)  # coded byte, specifying whether to enable VLAN tag
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=YesNo)  # coded byte, specifying whether to enable VLAN tag
+        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)  # coded byte, specifying whether to enable VLAN tag
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether to insert a VLAN tag header upon transmit.
@@ -3044,11 +3045,11 @@ class P4G_VLAN_TCI:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        tci: XmpField[XmpHex2] = XmpField(XmpHex2)  # two hex bytes, specifying the 16 bit TCI
+        tci: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)  # two hex bytes, specifying the 16 bit TCI
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        tci: XmpField[XmpHex2] = XmpField(XmpHex2)  # two hex bytes, specifying the 16 bit TCI
+        tci: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)  # two hex bytes, specifying the 16 bit TCI
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the VLAN TCI value.
@@ -3084,13 +3085,13 @@ class P4G_TIME_HIST_CONF:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        start: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, start value of first histogram interval in us
-        interval: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, histogram interval size in us
+        start: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, start value of first histogram interval in us
+        interval: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, histogram interval size in us
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        start: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, start value of first histogram interval in us
-        interval: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, histogram interval size in us
+        start: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, start value of first histogram interval in us
+        interval: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, histogram interval size in us
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the start value and the interval size for the time histograms.
@@ -3128,13 +3129,13 @@ class P4G_PAYLOAD_HIST_CONF:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        start: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, start value of first histogram interval in bytes
-        interval: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, histogram interval size in bytes
+        start: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, start value of first histogram interval in bytes
+        interval: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, histogram interval size in bytes
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        start: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, start value of first histogram interval in bytes
-        interval: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, histogram interval size in bytes
+        start: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, start value of first histogram interval in bytes
+        interval: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, histogram interval size in bytes
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the start value and the interval size for the payload histograms.
@@ -3172,13 +3173,13 @@ class P4G_TRANSACTION_HIST_CONF:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        start: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, start value of first histogram interval
-        interval: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, histogram interval size
+        start: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, start value of first histogram interval
+        interval: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, histogram interval size
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        start: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, start value of first histogram interval
-        interval: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, histogram interval size
+        start: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, start value of first histogram interval
+        interval: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, histogram interval size
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the start value and the interval size for the transaction histogram.
@@ -3204,9 +3205,9 @@ class P4G_TRANSACTION_HIST_CONF:
 class P4G_RAW_RX_PAYLOAD_LEN:
     """
     Specify the length of the payload the Client should expect to receive before sending the next download request to the Server. Should be configured identical to the P4G_RAW_PAYLOAD_TOTAL_LEN` for the Server. If mode is set to INFINITE, effectively no request/response repetitions will be performed.
-    
+
     .. note::
-    
+
         This parameter is N/A when P4G_L4_PROTOCOL` is configured as UDP.
 
     """
@@ -3221,16 +3222,16 @@ class P4G_RAW_RX_PAYLOAD_LEN:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=InfiniteOrFinite)  # coded byte, specifying the payload length mode
-        length: XmpField[XmpLong] = XmpField(
-            XmpLong
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfiniteOrFinite)  # coded byte, specifying the payload length mode
+        length: XmpField[xt.XmpLong] = XmpField(
+            xt.XmpLong
         )  # long integer, number of payload bytes the client should receive before sending the next request, if mode is FINITE.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=InfiniteOrFinite)  # coded byte, specifying the payload length mode
-        length: XmpField[XmpLong] = XmpField(
-            XmpLong
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfiniteOrFinite)  # coded byte, specifying the payload length mode
+        length: XmpField[xt.XmpLong] = XmpField(
+            xt.XmpLong
         )  # long integer, number of payload bytes the client should receive before sending the next request, if mode is FINITE.
 
     def get(self) -> "Token[GetDataAttr]":
@@ -3262,9 +3263,9 @@ class P4G_RAW_RX_PAYLOAD_LEN:
 class P4G_RAW_REQUEST_REPEAT:
     """
     Specify the number of request/response transactions to perform - if P4G_RAW_HAS_DOWNLOAD_REQ` is set to ``YES``.
-    
+
     .. note::
-        
+
         This parameter is N/A when P4G_L4_PROTOCOL` is configured as UDP.
 
     """
@@ -3279,13 +3280,13 @@ class P4G_RAW_REQUEST_REPEAT:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=InfiniteOrFinite)  # coded byte, specifying the transaction mode.
-        repeat: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of request/response transactions to perform , if mode is FINITE.
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfiniteOrFinite)  # coded byte, specifying the transaction mode.
+        repeat: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of request/response transactions to perform , if mode is FINITE.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=InfiniteOrFinite)  # coded byte, specifying the transaction mode.
-        repeat: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of request/response transactions to perform , if mode is FINITE.
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfiniteOrFinite)  # coded byte, specifying the transaction mode.
+        repeat: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of request/response transactions to perform , if mode is FINITE.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the number of request/response transactions to perform.
@@ -3328,11 +3329,11 @@ class P4G_RAW_CONN_INCARNATION:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=LifecycleMode)  # coded byte, defines the lifecycle of connections
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=LifecycleMode)  # coded byte, defines the lifecycle of connections
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=LifecycleMode)  # coded byte, defines the lifecycle of connections
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=LifecycleMode)  # coded byte, defines the lifecycle of connections
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the lifecycle of a connection and how new connections should be established.
@@ -3377,13 +3378,13 @@ class P4G_RAW_CONN_REPETITIONS:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=InfiniteOrFinite)  # coded byte, repetition mode.
-        repetition_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of repetitions
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfiniteOrFinite)  # coded byte, repetition mode.
+        repetition_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of repetitions
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=InfiniteOrFinite)  # coded byte, repetition mode.
-        repetition_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of repetitions
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfiniteOrFinite)  # coded byte, repetition mode.
+        repetition_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of repetitions
 
     def get(self) -> "Token[GetDataAttr]":
         """Get how many times a new connection should be created after an old connection is closed.
@@ -3428,13 +3429,13 @@ class P4G_RAW_CONN_LIFETIME:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        timescale: XmpField[XmpByte] = XmpField(XmpByte, choices=Timescale)  # coded byte, specifying the time scale
-        lifetime: XmpField[XmpInt] = XmpField(XmpInt)  # integer, time from a connection is established until it will be closed.
+        timescale: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=Timescale)  # coded byte, specifying the time scale
+        lifetime: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, time from a connection is established until it will be closed.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        timescale: XmpField[XmpByte] = XmpField(XmpByte, choices=Timescale)  # coded byte, specifying the time scale
-        lifetime: XmpField[XmpInt] = XmpField(XmpInt)  # integer, time from a connection is established until it will be closed.
+        timescale: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=Timescale)  # coded byte, specifying the time scale
+        lifetime: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, time from a connection is established until it will be closed.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the lifetime of a connection.
@@ -3481,11 +3482,11 @@ class P4G_IP_VERSION:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        version_number: XmpField[XmpByte] = XmpField(XmpByte, choices=L47IPVersion)  # coded byte, IP version
+        version_number: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=L47IPVersion)  # coded byte, IP version
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        version_number: XmpField[XmpByte] = XmpField(XmpByte, choices=L47IPVersion)  # coded byte, IP version
+        version_number: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=L47IPVersion)  # coded byte, IP version
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the IP version of a Connection Group.
@@ -3526,22 +3527,22 @@ class P4G_IPV6_CLIENT_RANGE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        ipv6_address: XmpField[XmpIPV6Address] = XmpField(XmpIPV6Address)  # 16 hex bytes, the start ip address of the address range
-        address_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the number of ip addresses
-        start_port: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the start port number, of the port range
-        port_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the number of ports
-        max_address_count: XmpField[XmpLong] = XmpField(
-            XmpLong
+        ipv6_address: XmpField[xt.XmpIPV6Address] = XmpField(xt.XmpIPV6Address)  # 16 hex bytes, the start ip address of the address range
+        address_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the number of ip addresses
+        start_port: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the start port number, of the port range
+        port_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the number of ports
+        max_address_count: XmpField[xt.XmpLong] = XmpField(
+            xt.XmpLong
         )  # long integer, the maximum number of ip addresses that this Connection Group will use, when connection incarnation is set to REINCARNATE
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        ipv6_address: XmpField[XmpIPV6Address] = XmpField(XmpIPV6Address)  # 16 hex bytes, the start ip address of the address range
-        address_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the number of ip addresses
-        start_port: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the start port number, of the port range
-        port_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the number of ports
-        max_address_count: XmpField[XmpLong] = XmpField(
-            XmpLong
+        ipv6_address: XmpField[xt.XmpIPV6Address] = XmpField(xt.XmpIPV6Address)  # 16 hex bytes, the start ip address of the address range
+        address_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the number of ip addresses
+        start_port: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the start port number, of the port range
+        port_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the number of ports
+        max_address_count: XmpField[xt.XmpLong] = XmpField(
+            xt.XmpLong
         )  # long integer, the maximum number of ip addresses that this Connection Group will use, when connection incarnation is set to REINCARNATE
 
     def get(self) -> "Token[GetDataAttr]":
@@ -3599,17 +3600,17 @@ class P4G_IPV6_SERVER_RANGE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        ipv6_address: XmpField[XmpIPV6Address] = XmpField(XmpIPV6Address)  # hexbytes, the start ip address of the address range
-        address_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the number of ip addresses
-        start_port: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the start port number, of the port range
-        port_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the number of ports
+        ipv6_address: XmpField[xt.XmpIPV6Address] = XmpField(xt.XmpIPV6Address)  # hex bytes, the start ip address of the address range
+        address_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the number of ip addresses
+        start_port: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the start port number, of the port range
+        port_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the number of ports
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        ipv6_address: XmpField[XmpIPV6Address] = XmpField(XmpIPV6Address)  # hexbytes, the start ip address of the address range
-        address_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the number of ip addresses
-        start_port: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the start port number, of the port range
-        port_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer, the number of ports
+        ipv6_address: XmpField[xt.XmpIPV6Address] = XmpField(xt.XmpIPV6Address)  # hex bytes, the start ip address of the address range
+        address_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the number of ip addresses
+        start_port: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the start port number, of the port range
+        port_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the number of ports
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the number of server sockets (IPv6 address, port number).
@@ -3663,11 +3664,11 @@ class P4G_IPV6_TRAFFIC_CLASS:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        traffic_class: XmpField[XmpHex1] = XmpField(XmpHex1)  # hex byte, value of the traffic class field
+        traffic_class: XmpField[xt.XmpHex1] = XmpField(xt.XmpHex1)  # hex byte, value of the traffic class field
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        traffic_class: XmpField[XmpHex1] = XmpField(XmpHex1)  # hex byte, value of the traffic class field
+        traffic_class: XmpField[xt.XmpHex1] = XmpField(xt.XmpHex1)  # hex byte, value of the traffic class field
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the value of the traffic class field of the IPv6 header.
@@ -3703,11 +3704,11 @@ class P4G_IPV6_FLOW_LABEL:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        flow_label: XmpField[XmpHex4] = XmpField(XmpHex4)  # 4 hex bytes, value of the traffic class field (only lowest 20 bits are valid)
+        flow_label: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)  # 4 hex bytes, value of the traffic class field (only lowest 20 bits are valid)
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        flow_label: XmpField[XmpHex4] = XmpField(XmpHex4)  # 4 hex bytes, value of the traffic class field (only lowest 20 bits are valid)
+        flow_label: XmpField[xt.XmpHex4] = XmpField(xt.XmpHex4)  # 4 hex bytes, value of the traffic class field (only lowest 20 bits are valid)
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the value of the flow label field of the IPv6 header.
@@ -3743,11 +3744,11 @@ class P4G_L4_PROTOCOL:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        protocol_type: XmpField[XmpByte] = XmpField(XmpByte, choices=L47ProtocolType)  # coded byte, layer 4 protocol.
+        protocol_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=L47ProtocolType)  # coded byte, layer 4 protocol.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        protocol_type: XmpField[XmpByte] = XmpField(XmpByte, choices=L47ProtocolType)  # coded byte, layer 4 protocol.
+        protocol_type: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=L47ProtocolType)  # coded byte, layer 4 protocol.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the Layer 4 protocol used by the Connection Group.
@@ -3788,44 +3789,44 @@ class P4G_TCP_ESTABLISH_HIST:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        connection_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer,number of connections established.
-        min_connection_estab_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, minimum connection establish time in us.
-        max_connection_estab_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, maximum connection establish time in us.
-        avg_connection_estab_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, average connection establish time in us.
-        start: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, start value of first histogram interval in us
-        interval: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, histogram interval size in us
-        bin_00: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with establish time within the given interval.
-        bin_01: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with establish time within the given interval.
-        bin_02: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with establish time within the given interval.
-        bin_03: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with establish time within the given interval.
-        bin_04: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with establish time within the given interval.
-        bin_05: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with establish time within the given interval.
-        bin_06: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with establish time within the given interval.
-        bin_07: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with establish time within the given interval.
-        bin_08: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with establish time within the given interval.
-        bin_09: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with establish time within the given interval.
-        bin_10: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with establish time within the given interval.
-        bin_11: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with establish time within the given interval.
-        bin_12: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with establish time within the given interval.
-        bin_13: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with establish time within the given interval.
-        bin_14: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with establish time within the given interval.
-        bin_15: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with establish time within the given interval.
-        bin_16: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with establish time within the given interval.
-        bin_17: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with establish time within the given interval.
-        bin_18: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with establish time within the given interval.
-        bin_19: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with establish time within the given interval.
-        bin_20: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with establish time within the given interval.
-        bin_21: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with establish time within the given interval.
-        bin_22: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with establish time within the given interval.
-        bin_23: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with establish time within the given interval.
-        bin_24: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with establish time within the given interval.
-        bin_25: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with establish time within the given interval.
-        bin_26: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with establish time within the given interval.
-        bin_27: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with establish time within the given interval.
-        bin_28: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with establish time within the given interval.
-        bin_29: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with establish time within the given interval.
-        bin_30: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with establish time within the given interval.
-        bin_31: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with establish time within the given interval.
+        connection_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer,number of connections established.
+        min_connection_estab_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, minimum connection establish time in us.
+        max_connection_estab_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, maximum connection establish time in us.
+        avg_connection_estab_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, average connection establish time in us.
+        start: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, start value of first histogram interval in us
+        interval: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, histogram interval size in us
+        bin_00: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with establish time within the given interval.
+        bin_01: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with establish time within the given interval.
+        bin_02: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with establish time within the given interval.
+        bin_03: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with establish time within the given interval.
+        bin_04: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with establish time within the given interval.
+        bin_05: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with establish time within the given interval.
+        bin_06: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with establish time within the given interval.
+        bin_07: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with establish time within the given interval.
+        bin_08: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with establish time within the given interval.
+        bin_09: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with establish time within the given interval.
+        bin_10: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with establish time within the given interval.
+        bin_11: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with establish time within the given interval.
+        bin_12: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with establish time within the given interval.
+        bin_13: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with establish time within the given interval.
+        bin_14: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with establish time within the given interval.
+        bin_15: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with establish time within the given interval.
+        bin_16: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with establish time within the given interval.
+        bin_17: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with establish time within the given interval.
+        bin_18: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with establish time within the given interval.
+        bin_19: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with establish time within the given interval.
+        bin_20: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with establish time within the given interval.
+        bin_21: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with establish time within the given interval.
+        bin_22: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with establish time within the given interval.
+        bin_23: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with establish time within the given interval.
+        bin_24: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with establish time within the given interval.
+        bin_25: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with establish time within the given interval.
+        bin_26: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with establish time within the given interval.
+        bin_27: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with establish time within the given interval.
+        bin_28: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with establish time within the given interval.
+        bin_29: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with establish time within the given interval.
+        bin_30: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with establish time within the given interval.
+        bin_31: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with establish time within the given interval.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a histogram over TCP connection establish times.
@@ -3853,44 +3854,44 @@ class P4G_TCP_CLOSE_HIST:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        connection_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections closed.
-        min_connection_close_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, minimum connection close time in us.
-        max_connection_close_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, maximum connection close time in us.
-        avg_connection_close_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, average connection close time in us.
-        start: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, start value of first histogram interval in us
-        interval: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, histogram interval size in us
-        bin_00: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with close time within the given interval.
-        bin_01: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with close time within the given interval.
-        bin_02: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with close time within the given interval.
-        bin_03: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with close time within the given interval.
-        bin_04: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with close time within the given interval.
-        bin_05: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with close time within the given interval.
-        bin_06: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with close time within the given interval.
-        bin_07: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with close time within the given interval.
-        bin_08: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with close time within the given interval.
-        bin_09: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with close time within the given interval.
-        bin_10: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with close time within the given interval.
-        bin_11: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with close time within the given interval.
-        bin_12: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with close time within the given interval.
-        bin_13: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with close time within the given interval.
-        bin_14: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with close time within the given interval.
-        bin_15: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with close time within the given interval.
-        bin_16: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with close time within the given interval.
-        bin_17: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with close time within the given interval.
-        bin_18: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with close time within the given interval.
-        bin_19: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with close time within the given interval.
-        bin_20: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with close time within the given interval.
-        bin_21: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with close time within the given interval.
-        bin_22: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with close time within the given interval.
-        bin_23: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with close time within the given interval.
-        bin_24: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with close time within the given interval.
-        bin_25: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with close time within the given interval.
-        bin_26: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with close time within the given interval.
-        bin_27: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with close time within the given interval.
-        bin_28: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with close time within the given interval.
-        bin_29: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with close time within the given interval.
-        bin_30: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with close time within the given interval.
-        bin_31: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with close time within the given interval.
+        connection_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections closed.
+        min_connection_close_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, minimum connection close time in us.
+        max_connection_close_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, maximum connection close time in us.
+        avg_connection_close_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, average connection close time in us.
+        start: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, start value of first histogram interval in us
+        interval: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, histogram interval size in us
+        bin_00: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with close time within the given interval.
+        bin_01: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with close time within the given interval.
+        bin_02: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with close time within the given interval.
+        bin_03: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with close time within the given interval.
+        bin_04: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with close time within the given interval.
+        bin_05: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with close time within the given interval.
+        bin_06: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with close time within the given interval.
+        bin_07: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with close time within the given interval.
+        bin_08: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with close time within the given interval.
+        bin_09: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with close time within the given interval.
+        bin_10: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with close time within the given interval.
+        bin_11: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with close time within the given interval.
+        bin_12: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with close time within the given interval.
+        bin_13: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with close time within the given interval.
+        bin_14: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with close time within the given interval.
+        bin_15: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with close time within the given interval.
+        bin_16: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with close time within the given interval.
+        bin_17: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with close time within the given interval.
+        bin_18: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with close time within the given interval.
+        bin_19: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with close time within the given interval.
+        bin_20: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with close time within the given interval.
+        bin_21: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with close time within the given interval.
+        bin_22: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with close time within the given interval.
+        bin_23: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with close time within the given interval.
+        bin_24: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with close time within the given interval.
+        bin_25: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with close time within the given interval.
+        bin_26: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with close time within the given interval.
+        bin_27: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with close time within the given interval.
+        bin_28: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with close time within the given interval.
+        bin_29: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with close time within the given interval.
+        bin_30: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with close time within the given interval.
+        bin_31: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with close time within the given interval.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a histogram over TCP connection close times.
@@ -3918,44 +3919,44 @@ class P4G_TCP_RX_TOTAL_BYTES_HIST:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        connection_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer,number of connections.
-        min_byte_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, minimum total TCP bytes received on a connection.
-        max_byte_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, maximum total TCP bytes received on a connection.
-        avg_byte_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, average total TCP bytes received on a connection.
-        start: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, start value of first histogram interval in bytes
-        interval: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, histogram interval size in bytes
-        bin_00: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
-        bin_01: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
-        bin_02: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
-        bin_03: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
-        bin_04: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
-        bin_05: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
-        bin_06: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
-        bin_07: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
-        bin_08: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
-        bin_09: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
-        bin_10: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
-        bin_11: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
-        bin_12: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
-        bin_13: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
-        bin_14: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
-        bin_15: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
-        bin_16: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
-        bin_17: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
-        bin_18: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
-        bin_19: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
-        bin_20: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
-        bin_21: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
-        bin_22: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
-        bin_23: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
-        bin_24: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
-        bin_25: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
-        bin_26: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
-        bin_27: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
-        bin_28: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
-        bin_29: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
-        bin_30: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
-        bin_31: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
+        connection_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer,number of connections.
+        min_byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, minimum total TCP bytes received on a connection.
+        max_byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, maximum total TCP bytes received on a connection.
+        avg_byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, average total TCP bytes received on a connection.
+        start: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, start value of first histogram interval in bytes
+        interval: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, histogram interval size in bytes
+        bin_00: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
+        bin_01: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
+        bin_02: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
+        bin_03: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
+        bin_04: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
+        bin_05: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
+        bin_06: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
+        bin_07: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
+        bin_08: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
+        bin_09: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
+        bin_10: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
+        bin_11: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
+        bin_12: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
+        bin_13: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
+        bin_14: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
+        bin_15: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
+        bin_16: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
+        bin_17: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
+        bin_18: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
+        bin_19: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
+        bin_20: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
+        bin_21: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
+        bin_22: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
+        bin_23: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
+        bin_24: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
+        bin_25: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
+        bin_26: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
+        bin_27: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
+        bin_28: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
+        bin_29: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
+        bin_30: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
+        bin_31: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received total TCP bytes within the given interval.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a histogram over number of total TCP bytes received.
@@ -3983,44 +3984,44 @@ class P4G_TCP_RX_GOOD_BYTES_HIST:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        connection_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer,number of connections.
-        min_byte_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, minimum good TCP bytes received on a connection.
-        max_byte_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, maximum good TCP bytes received on a connection.
-        avg: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, average good TCP bytes received on a connection.
-        start: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, start value of first histogram interval in bytes
-        interval: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, histogram interval size in bytes
-        bin_00: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
-        bin_01: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
-        bin_02: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
-        bin_03: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
-        bin_04: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
-        bin_05: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
-        bin_06: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
-        bin_07: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
-        bin_08: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
-        bin_09: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
-        bin_10: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
-        bin_11: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
-        bin_12: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
-        bin_13: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
-        bin_14: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
-        bin_15: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
-        bin_16: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
-        bin_17: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
-        bin_18: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
-        bin_19: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
-        bin_20: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
-        bin_21: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
-        bin_22: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
-        bin_23: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
-        bin_24: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
-        bin_25: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
-        bin_26: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
-        bin_27: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
-        bin_28: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
-        bin_29: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
-        bin_30: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
-        bin_31: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
+        connection_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer,number of connections.
+        min_byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, minimum good TCP bytes received on a connection.
+        max_byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, maximum good TCP bytes received on a connection.
+        avg: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, average good TCP bytes received on a connection.
+        start: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, start value of first histogram interval in bytes
+        interval: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, histogram interval size in bytes
+        bin_00: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
+        bin_01: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
+        bin_02: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
+        bin_03: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
+        bin_04: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
+        bin_05: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
+        bin_06: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
+        bin_07: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
+        bin_08: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
+        bin_09: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
+        bin_10: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
+        bin_11: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
+        bin_12: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
+        bin_13: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
+        bin_14: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
+        bin_15: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
+        bin_16: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
+        bin_17: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
+        bin_18: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
+        bin_19: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
+        bin_20: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
+        bin_21: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
+        bin_22: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
+        bin_23: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
+        bin_24: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
+        bin_25: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
+        bin_26: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
+        bin_27: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
+        bin_28: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
+        bin_29: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
+        bin_30: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
+        bin_31: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received good TCP bytes within the given interval.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a histogram over number of good TCP bytes received.
@@ -4048,44 +4049,44 @@ class P4G_TCP_TX_TOTAL_BYTES_HIST:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        connection_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer,number of connections.
-        min_byte_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, minimum total TCP bytes transmitted on a connection.
-        max_byte_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, maximum total TCP bytes transmitted on a connection.
-        avg_byte_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, average total TCP bytes transmitted on a connection.
-        start: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, start value of first histogram interval in bytes
-        interval: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, histogram interval size in bytes
-        bin_00: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
-        bin_01: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
-        bin_02: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
-        bin_03: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
-        bin_04: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
-        bin_05: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
-        bin_06: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
-        bin_07: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
-        bin_08: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
-        bin_09: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
-        bin_10: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
-        bin_11: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
-        bin_12: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
-        bin_13: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
-        bin_14: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
-        bin_15: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
-        bin_16: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
-        bin_17: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
-        bin_18: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
-        bin_19: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
-        bin_20: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
-        bin_21: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
-        bin_22: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
-        bin_23: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
-        bin_24: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
-        bin_25: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
-        bin_26: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
-        bin_27: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
-        bin_28: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
-        bin_29: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
-        bin_30: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
-        bin_31: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
+        connection_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer,number of connections.
+        min_byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, minimum total TCP bytes transmitted on a connection.
+        max_byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, maximum total TCP bytes transmitted on a connection.
+        avg_byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, average total TCP bytes transmitted on a connection.
+        start: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, start value of first histogram interval in bytes
+        interval: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, histogram interval size in bytes
+        bin_00: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
+        bin_01: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
+        bin_02: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
+        bin_03: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
+        bin_04: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
+        bin_05: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
+        bin_06: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
+        bin_07: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
+        bin_08: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
+        bin_09: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
+        bin_10: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
+        bin_11: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
+        bin_12: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
+        bin_13: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
+        bin_14: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
+        bin_15: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
+        bin_16: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
+        bin_17: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
+        bin_18: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
+        bin_19: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
+        bin_20: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
+        bin_21: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
+        bin_22: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
+        bin_23: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
+        bin_24: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
+        bin_25: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
+        bin_26: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
+        bin_27: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
+        bin_28: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
+        bin_29: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
+        bin_30: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
+        bin_31: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted total TCP bytes within the given interval.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a histogram over number of total TCP bytes transmitted.
@@ -4113,44 +4114,44 @@ class P4G_TCP_TX_GOOD_BYTES_HIST:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        conn: XmpField[XmpInt] = XmpField(XmpInt)  # integer,number of connections.
-        min: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, minimum good TCP bytes transmitted on a connection.
-        max: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, maximum good TCP bytes transmitted on a connection.
-        average: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, average good TCP bytes transmitted on a connection.
-        start: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, start value of first histogram interval in bytes
-        interval: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, histogram interval size in bytes
-        bin_00: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
-        bin_01: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
-        bin_02: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
-        bin_03: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
-        bin_04: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
-        bin_05: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
-        bin_06: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
-        bin_07: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
-        bin_08: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
-        bin_09: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
-        bin_10: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
-        bin_11: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
-        bin_12: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
-        bin_13: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
-        bin_14: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
-        bin_15: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
-        bin_16: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
-        bin_17: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
-        bin_18: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
-        bin_19: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
-        bin_20: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
-        bin_21: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
-        bin_22: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
-        bin_23: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
-        bin_24: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
-        bin_25: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
-        bin_26: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
-        bin_27: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
-        bin_28: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
-        bin_29: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
-        bin_30: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
-        bin_31: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
+        conn: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer,number of connections.
+        min: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, minimum good TCP bytes transmitted on a connection.
+        max: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, maximum good TCP bytes transmitted on a connection.
+        average: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, average good TCP bytes transmitted on a connection.
+        start: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, start value of first histogram interval in bytes
+        interval: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, histogram interval size in bytes
+        bin_00: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
+        bin_01: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
+        bin_02: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
+        bin_03: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
+        bin_04: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
+        bin_05: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
+        bin_06: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
+        bin_07: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
+        bin_08: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
+        bin_09: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
+        bin_10: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
+        bin_11: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
+        bin_12: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
+        bin_13: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
+        bin_14: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
+        bin_15: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
+        bin_16: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
+        bin_17: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
+        bin_18: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
+        bin_19: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
+        bin_20: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
+        bin_21: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
+        bin_22: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
+        bin_23: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
+        bin_24: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
+        bin_25: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
+        bin_26: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
+        bin_27: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
+        bin_28: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
+        bin_29: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
+        bin_30: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
+        bin_31: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted good TCP bytes within the given interval.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a histogram over number of good TCP bytes transmitted.
@@ -4178,9 +4179,9 @@ class P4G_APP_REPLAY_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        nat_collision_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of NAT collisions
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        nat_collision_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of NAT collisions
 
     def get(self) -> "Token[GetDataAttr]":
         """Get NAT collisions of a replay application.
@@ -4208,10 +4209,10 @@ class P4G_APP_TRANSACTION_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        transaction_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of completed request/response transactions
-        transaction_per_second: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of completed transactions/second
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        transaction_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of completed request/response transactions
+        transaction_per_second: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of completed transactions/second
 
     def get(self) -> "Token[GetDataAttr]":
         """Get request/response transaction statistics.
@@ -4240,44 +4241,44 @@ class P4G_APP_TRANSACTION_HIST:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        connection_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections.
-        min_transaction_per_con: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, minimum number of transactions per connection.
-        max_transaction_per_con: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, maximum number of transactions per connection.
-        avg_transaction_per_con: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, average number of transactions per connection.
-        start: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, start value of first histogram interval
-        interval: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, histogram interval size
-        bin_00: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with number of transactions within the given interval.
-        bin_01: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with number of transactions within the given interval.
-        bin_02: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with number of transactions within the given interval.
-        bin_03: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with number of transactions within the given interval.
-        bin_04: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with number of transactions within the given interval.
-        bin_05: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with number of transactions within the given interval.
-        bin_06: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with number of transactions within the given interval.
-        bin_07: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with number of transactions within the given interval.
-        bin_08: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with number of transactions within the given interval.
-        bin_09: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with number of transactions within the given interval.
-        bin_10: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with number of transactions within the given interval.
-        bin_11: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with number of transactions within the given interval.
-        bin_12: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with number of transactions within the given interval.
-        bin_13: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with number of transactions within the given interval.
-        bin_14: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with number of transactions within the given interval.
-        bin_15: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with number of transactions within the given interval.
-        bin_16: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with number of transactions within the given interval.
-        bin_17: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with number of transactions within the given interval.
-        bin_18: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with number of transactions within the given interval.
-        bin_19: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with number of transactions within the given interval.
-        bin_20: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with number of transactions within the given interval.
-        bin_21: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with number of transactions within the given interval.
-        bin_22: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with number of transactions within the given interval.
-        bin_23: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with number of transactions within the given interval.
-        bin_24: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with number of transactions within the given interval.
-        bin_25: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with number of transactions within the given interval.
-        bin_26: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with number of transactions within the given interval.
-        bin_27: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with number of transactions within the given interval.
-        bin_28: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with number of transactions within the given interval.
-        bin_29: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with number of transactions within the given interval.
-        bin_30: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with number of transactions within the given interval.
-        bin_31: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with number of transactions within the given interval.
+        connection_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections.
+        min_transaction_per_con: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, minimum number of transactions per connection.
+        max_transaction_per_con: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, maximum number of transactions per connection.
+        avg_transaction_per_con: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, average number of transactions per connection.
+        start: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, start value of first histogram interval
+        interval: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, histogram interval size
+        bin_00: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with number of transactions within the given interval.
+        bin_01: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with number of transactions within the given interval.
+        bin_02: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with number of transactions within the given interval.
+        bin_03: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with number of transactions within the given interval.
+        bin_04: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with number of transactions within the given interval.
+        bin_05: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with number of transactions within the given interval.
+        bin_06: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with number of transactions within the given interval.
+        bin_07: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with number of transactions within the given interval.
+        bin_08: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with number of transactions within the given interval.
+        bin_09: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with number of transactions within the given interval.
+        bin_10: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with number of transactions within the given interval.
+        bin_11: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with number of transactions within the given interval.
+        bin_12: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with number of transactions within the given interval.
+        bin_13: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with number of transactions within the given interval.
+        bin_14: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with number of transactions within the given interval.
+        bin_15: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with number of transactions within the given interval.
+        bin_16: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with number of transactions within the given interval.
+        bin_17: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with number of transactions within the given interval.
+        bin_18: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with number of transactions within the given interval.
+        bin_19: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with number of transactions within the given interval.
+        bin_20: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with number of transactions within the given interval.
+        bin_21: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with number of transactions within the given interval.
+        bin_22: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with number of transactions within the given interval.
+        bin_23: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with number of transactions within the given interval.
+        bin_24: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with number of transactions within the given interval.
+        bin_25: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with number of transactions within the given interval.
+        bin_26: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with number of transactions within the given interval.
+        bin_27: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with number of transactions within the given interval.
+        bin_28: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with number of transactions within the given interval.
+        bin_29: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with number of transactions within the given interval.
+        bin_30: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with number of transactions within the given interval.
+        bin_31: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with number of transactions within the given interval.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a histogram over completed request/response transactions per connection.
@@ -4294,11 +4295,11 @@ class P4G_UDP_STATE_CURRENT:
     """
     Returns a list of the current UDP state counters. The counters returned
     corresponds the the following UDP states:
-    
+
     * ``CLOSED`` The connection structure has been created, but has not been 'ramped up' yet.
-    
+
     * ``OPEN`` The connection has been 'ramped up', and is ready to transmit or receive data.
-    
+
     * ``ACTIVE``. The connection is actively transmitting data.
 
     """
@@ -4313,11 +4314,11 @@ class P4G_UDP_STATE_CURRENT:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        closed: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections currently in this state
-        opened: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections currently in this state
-        active: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections currently in this state
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        closed: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections currently in this state
+        opened: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections currently in this state
+        active: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections currently in this state
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the current UDP state counters.
@@ -4334,11 +4335,11 @@ class P4G_UDP_STATE_TOTAL:
     """
     Returns a list of the total UDP state counters. The counters returned
     corresponds the the following UDP states:
-    
+
     * ``CLOSED`` The connection structure has been created, but has not been 'ramped up' yet.
-    
+
     * ``OPEN`` The connection has been 'ramped up', and is ready to transmit or receive data.
-    
+
     * ``ACTIVE`` The connection is actively transmitting data.
 
     """
@@ -4353,11 +4354,11 @@ class P4G_UDP_STATE_TOTAL:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        closed: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of connections that has entered this state
-        opened: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of connections that has entered this state
-        active: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of connections that has entered this state
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        closed: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of connections that has entered this state
+        opened: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of connections that has entered this state
+        active: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of connections that has entered this state
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the total UDP state counters.
@@ -4374,11 +4375,11 @@ class P4G_UDP_STATE_RATE:
     """
     Returns a list of the UDP state rates measured in connections/second. The
     counters returned corresponds the the following UDP state rates:
-    
+
     * ``CLOSED`` The connection structure has been created, but has not been 'ramped up' yet.
-    
+
     * ``OPEN`` The connection has been 'ramped up', and is ready to transmit or receive data
-    
+
     * ``ACTIVE`` The connection is actively transmitting data.
 
     """
@@ -4393,11 +4394,11 @@ class P4G_UDP_STATE_RATE:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        closed: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections/second entering this state
-        open: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections/second entering this state
-        active: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections/second entering this state
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        closed: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections/second entering this state
+        open: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections/second entering this state
+        active: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections/second entering this state
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the UDP state rates measured in connections/second.
@@ -4425,10 +4426,10 @@ class P4G_UDP_RX_PAYLOAD_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        byte_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of UDP payload bytes received
-        byte_per_second: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of UDP payload bytes/second received
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of UDP payload bytes received
+        byte_per_second: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of UDP payload bytes/second received
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the UDP RX payload counters.
@@ -4456,10 +4457,10 @@ class P4G_UDP_TX_PAYLOAD_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        byte_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of UDP payload bytes transmitted
-        byte_per_second: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of UDP payload bytes/second transmitted
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of UDP payload bytes transmitted
+        byte_per_second: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of UDP payload bytes/second transmitted
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the UDP TX payload counters.
@@ -4487,44 +4488,44 @@ class P4G_UDP_RX_BYTES_HIST:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        connection_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer,number of connections.
-        min_byte_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, minimum UDP bytes received on a connection.
-        max_byte_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, maximum UDP bytes received on a connection.
-        avg_byte_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, average UDP bytes received on a connection.
-        start: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, start value of first histogram interval in bytes
-        interval: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, histogram interval size in bytes
-        bin_00: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
-        bin_01: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
-        bin_02: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
-        bin_03: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
-        bin_04: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
-        bin_05: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
-        bin_06: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
-        bin_07: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
-        bin_08: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
-        bin_09: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
-        bin_10: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
-        bin_11: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
-        bin_12: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
-        bin_13: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
-        bin_14: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
-        bin_15: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
-        bin_16: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
-        bin_17: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
-        bin_18: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
-        bin_19: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
-        bin_20: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
-        bin_21: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
-        bin_22: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
-        bin_23: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
-        bin_24: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
-        bin_25: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
-        bin_26: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
-        bin_27: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
-        bin_28: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
-        bin_29: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
-        bin_30: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
-        bin_31: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
+        connection_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer,number of connections.
+        min_byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, minimum UDP bytes received on a connection.
+        max_byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, maximum UDP bytes received on a connection.
+        avg_byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, average UDP bytes received on a connection.
+        start: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, start value of first histogram interval in bytes
+        interval: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, histogram interval size in bytes
+        bin_00: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
+        bin_01: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
+        bin_02: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
+        bin_03: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
+        bin_04: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
+        bin_05: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
+        bin_06: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
+        bin_07: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
+        bin_08: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
+        bin_09: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
+        bin_10: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
+        bin_11: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
+        bin_12: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
+        bin_13: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
+        bin_14: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
+        bin_15: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
+        bin_16: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
+        bin_17: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
+        bin_18: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
+        bin_19: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
+        bin_20: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
+        bin_21: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
+        bin_22: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
+        bin_23: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
+        bin_24: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
+        bin_25: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
+        bin_26: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
+        bin_27: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
+        bin_28: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
+        bin_29: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
+        bin_30: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
+        bin_31: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received UDP bytes within the given interval.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a histogram over number of UDP bytes received.
@@ -4552,44 +4553,44 @@ class P4G_UDP_TX_BYTES_HIST:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        connection_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer,number of connections.
-        min_byte_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, minimum UDP bytes transmitted on a connection.
-        max_byte_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, maximum UDP bytes transmitted on a connection.
-        avg_byte_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, average UDP bytes transmitted on a connection.
-        start: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, start value of first histogram interval in bytes
-        interval: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, histogram interval size in bytes
-        bin_00: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
-        bin_01: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
-        bin_02: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
-        bin_03: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
-        bin_04: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
-        bin_05: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
-        bin_06: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
-        bin_07: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
-        bin_08: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
-        bin_09: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
-        bin_10: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
-        bin_11: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
-        bin_12: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
-        bin_13: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
-        bin_14: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
-        bin_15: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
-        bin_16: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
-        bin_17: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
-        bin_18: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
-        bin_19: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
-        bin_20: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
-        bin_21: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
-        bin_22: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
-        bin_23: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
-        bin_24: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
-        bin_25: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
-        bin_26: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
-        bin_27: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
-        bin_28: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
-        bin_29: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
-        bin_30: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
-        bin_31: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
+        connection_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer,number of connections.
+        min_byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, minimum UDP bytes transmitted on a connection.
+        max_byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, maximum UDP bytes transmitted on a connection.
+        avg_byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, average UDP bytes transmitted on a connection.
+        start: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, start value of first histogram interval in bytes
+        interval: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, histogram interval size in bytes
+        bin_00: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
+        bin_01: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
+        bin_02: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
+        bin_03: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
+        bin_04: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
+        bin_05: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
+        bin_06: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
+        bin_07: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
+        bin_08: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
+        bin_09: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
+        bin_10: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
+        bin_11: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
+        bin_12: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
+        bin_13: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
+        bin_14: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
+        bin_15: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
+        bin_16: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
+        bin_17: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
+        bin_18: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
+        bin_19: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
+        bin_20: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
+        bin_21: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
+        bin_22: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
+        bin_23: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
+        bin_24: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
+        bin_25: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
+        bin_26: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
+        bin_27: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
+        bin_28: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
+        bin_29: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
+        bin_30: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
+        bin_31: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted UDP bytes within the given interval.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a histogram over number of UDP bytes transmitted.
@@ -4617,10 +4618,10 @@ class P4G_TCP_RX_PACKET_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        packet_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of TCP packets received
-        packet_per_second: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of TCP packets/second received
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of TCP packets received
+        packet_per_second: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of TCP packets/second received
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the TCP RX packet counters.
@@ -4648,10 +4649,10 @@ class P4G_TCP_TX_PACKET_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        packet_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of TCP packets transmitted
-        packet_per_second: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of TCP packets/second transmitted
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of TCP packets transmitted
+        packet_per_second: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of TCP packets/second transmitted
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the TCP TX packet counters.
@@ -4679,10 +4680,10 @@ class P4G_UDP_RX_PACKET_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        packet_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of UDP packets received
-        packet_per_second: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of UDP packets/second received
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of UDP packets received
+        packet_per_second: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of UDP packets/second received
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the UDP RX packet counters.
@@ -4710,10 +4711,10 @@ class P4G_UDP_TX_PACKET_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        packet_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of UDP packets transmitted
-        packet_per_second: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of UDP packets/second transmitted
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of UDP packets transmitted
+        packet_per_second: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of UDP packets/second transmitted
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the UDP TX packet counters.
@@ -4876,7 +4877,7 @@ class P4G_REPLAY_FILE_INDICES:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        replay_file_indices: XmpField[XmpIntList] = XmpField(XmpIntList)  # list of integers, indices of configured replay files
+        replay_file_indices: XmpField[xt.XmpIntList] = XmpField(xt.XmpIntList)  # list of integers, indices of configured replay files
 
     def get(self) -> "Token[GetDataAttr]":
         """Get an index list of configured Replay Files for this Connection Group.
@@ -4907,11 +4908,11 @@ class P4G_REPLAY_FILE_NAME:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        file_name: XmpField[XmpStr] = XmpField(XmpStr)  # string, file name (including relative path and excluding the '.bson' extension).
+        file_name: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, file name (including relative path and excluding the '.bson' extension).
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        file_name: XmpField[XmpStr] = XmpField(XmpStr)  # string, file name (including relative path and excluding the '.bson' extension).
+        file_name: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, file name (including relative path and excluding the '.bson' extension).
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the name of a replay file configured for the Connection Group.
@@ -4983,11 +4984,11 @@ class P4G_REPLAY_UTILIZATION:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        utilization: XmpField[XmpInt] = XmpField(XmpInt)  # integer, utilization specified in ppm.
+        utilization: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, utilization specified in ppm.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        utilization: XmpField[XmpInt] = XmpField(XmpInt)  # integer, utilization specified in ppm.
+        utilization: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, utilization specified in ppm.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the link layer bandwidth utilization for all the generated traffic from the specified Replay Connection Group.
@@ -5024,11 +5025,11 @@ class P4G_REPLAY_USER_INCARNATION:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=LifecycleMode)  # coded byte, defines the lifecycle mode of connections.
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=LifecycleMode)  # coded byte, defines the lifecycle mode of connections.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=LifecycleMode)  # coded byte, defines the lifecycle mode of connections.
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=LifecycleMode)  # coded byte, defines the lifecycle mode of connections.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the lifecycle mode of a user and its connections.
@@ -5071,13 +5072,13 @@ class P4G_REPLAY_USER_REPETITIONS:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=InfiniteOrFinite)  # coded byte, repetition mode.
-        repetition_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of repetitions
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfiniteOrFinite)  # coded byte, repetition mode.
+        repetition_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of repetitions
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        mode: XmpField[XmpByte] = XmpField(XmpByte, choices=InfiniteOrFinite)  # coded byte, repetition mode.
-        repetition_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of repetitions
+        mode: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfiniteOrFinite)  # coded byte, repetition mode.
+        repetition_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of repetitions
 
     def get(self) -> "Token[GetDataAttr]":
         """Get how many times a new user should be created, after an old user has been destroyed.
@@ -5112,15 +5113,15 @@ class P4G_USER_STATE_CURRENT:
     Returns a list of the current user state counters. A user is identified by a
     Client IP address. The counters returned corresponds the the following user
     states:
-    
+
     * ``INIT`` The user has been created,  but has no open connections yet.
-    
+
     * ``ACTIVE``  The user has at least one open connection.
-    
+
     * ``SUCCESS`` The user has successfully transmitted and received all payload.
-    
+
     * ``FAILED`` The user has failed in transmitting or receiving all payload.  STOPPED The user has been stopped due to ramp-down.
-    
+
     * ``INACTIVE`` All the users connection is closed, but the user has not been destroyed yet.
     """
 
@@ -5134,14 +5135,14 @@ class P4G_USER_STATE_CURRENT:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        init: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of users currently in this state
-        active: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of users currently in this state
-        success: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of users currently in this state
-        failed: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of users currently in this state
-        stopped: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of users currently in this state
-        inactive: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of users currently in this state
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        init: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of users currently in this state
+        active: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of users currently in this state
+        success: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of users currently in this state
+        failed: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of users currently in this state
+        stopped: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of users currently in this state
+        inactive: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of users currently in this state
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the current user state counters.
@@ -5159,17 +5160,17 @@ class P4G_USER_STATE_TOTAL:
     Returns a list of the total user state counters. A user is identified by a
     Client IP address. The counters returned corresponds the the following user
     states:
-    
+
     * ``INIT`` The user has been created, but has no open connections yet.
-    
+
     * ``ACTIVE`` The user has at least one open connection.
-    
+
     * ``SUCCESS`` The user has successfully transmitted and received all payload.
-    
+
     * ``FAILED`` The user has failed in transmitting or receiving all payload.
-    
+
     * ``STOPPED`` The user has been stopped due to ramp-down.
-    
+
     * ``INACTIVE`` All the users connection is closed, but the user has not been destroyed yet.
     """
 
@@ -5183,14 +5184,14 @@ class P4G_USER_STATE_TOTAL:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        init: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of users that has entered this state
-        active: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of users that has entered this state
-        success: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of users that has entered this state
-        failed: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of users that has entered this state
-        stopped: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of users that has entered this state
-        inactive: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of users that has entered this state
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        init: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of users that has entered this state
+        active: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of users that has entered this state
+        success: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of users that has entered this state
+        failed: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of users that has entered this state
+        stopped: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of users that has entered this state
+        inactive: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of users that has entered this state
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the total user state counters.
@@ -5208,17 +5209,17 @@ class P4G_USER_STATE_RATE:
     Returns a list of the user state rates measured in users/second. A user is
     identified by a Client IP address. The counters returned  corresponds the the
     following user states:
-    
+
     * ``INIT`` The user has been created, but has no open connections yet.
-    
+
     * ``ACTIVE`` The user has at least one open connection.
-    
+
     * ``SUCCESS`` The user has successfully transmitted and received all payload.
-    
+
     * ``FAILED`` The user has failed in transmitting or receiving all payload.
-    
+
     * ``STOPPED`` The user has been stopped due to ramp-down.
-    
+
     * ``INACTIVE`` All the users connection is closed, but the user has not been destroyed yet.
 
     """
@@ -5233,14 +5234,14 @@ class P4G_USER_STATE_RATE:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        stats: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of users/second entering this state
-        init: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of users/second entering this state
-        active: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of users/second entering this state
-        success: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of users/second entering this state
-        failed: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of users/second entering this state
-        stopped: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of users/second entering this state
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        stats: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of users/second entering this state
+        init: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of users/second entering this state
+        active: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of users/second entering this state
+        success: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of users/second entering this state
+        failed: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of users/second entering this state
+        stopped: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of users/second entering this state
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the user state rates measured in users/second.
@@ -5268,11 +5269,11 @@ class P4G_TLS_ENABLE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=YesNo)  # code byte, specifying whether to enable TLS
+        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)  # code byte, specifying whether to enable TLS
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=YesNo)  # code byte, specifying whether to enable TLS
+        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)  # code byte, specifying whether to enable TLS
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether TLS is enabled.
@@ -5313,11 +5314,11 @@ class P4G_TLS_CIPHER_SUITES:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        ciphers: XmpField[XmpHexList] = XmpField(XmpHexList)  # list of hex bytes, sequence of ciphers identified by theirs IANA number in order of priority.
+        ciphers: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)  # list of hex bytes, sequence of ciphers identified by theirs IANA number in order of priority.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        ciphers: XmpField[XmpHexList] = XmpField(XmpHexList)  # list of hex bytes, sequence of ciphers identified by theirs IANA number in order of priority.
+        ciphers: XmpField[xt.XmpHexList] = XmpField(xt.XmpHexList)  # list of hex bytes, sequence of ciphers identified by theirs IANA number in order of priority.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the list of ciphers to announce in order of priorities.
@@ -5353,11 +5354,11 @@ class P4G_TLS_MAX_RECORD_SIZE:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        size: XmpField[XmpInt] = XmpField(XmpInt)  # integer, maximum outgoing record size in the interval ]0;16384], default value 8087.
+        size: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, maximum outgoing record size in the interval ]0;16384], default value 8087.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        size: XmpField[XmpInt] = XmpField(XmpInt)  # integer, maximum outgoing record size in the interval ]0;16384], default value 8087.
+        size: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, maximum outgoing record size in the interval ]0;16384], default value 8087.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the maximum outgoing TLS record size.
@@ -5393,7 +5394,7 @@ class P4G_TLS_CERTIFICATE_FILENAME:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        filename: XmpField[XmpStr] = XmpField(XmpStr)  # string, the filename of the certificate relative to the ftp tls folder
+        filename: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, the filename of the certificate relative to the ftp tls folder
 
     def set(self, filename: str) -> "Token":
         """Set the TLS certificate.
@@ -5421,7 +5422,7 @@ class P4G_TLS_PRIVATE_KEY_FILENAME:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        filename: XmpField[XmpStr] = XmpField(XmpStr)  # string, the filename of the private key relative to the ftp tls folder
+        filename: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, the filename of the private key relative to the ftp tls folder
 
     def set(self, filename: str) -> "Token":
         """Set the private key matching the TLS certificate.
@@ -5449,7 +5450,7 @@ class P4G_TLS_DHPARAMS_FILENAME:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        filename: XmpField[XmpStr] = XmpField(XmpStr)  # string, the filename of the dhparams relative to the ftp tls folder
+        filename: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, the filename of the dhparams relative to the ftp tls folder
 
     def set(self, filename: str) -> "Token":
         """Set TLS DH parameters.
@@ -5477,11 +5478,11 @@ class P4G_TLS_CLOSE_NOTIFY:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=YesNo)  # code byte, specifying whether to send close notify on connection tear down
+        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)  # code byte, specifying whether to send close notify on connection tear down
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        on_off: XmpField[XmpByte] = XmpField(XmpByte, choices=YesNo)  # code byte, specifying whether to send close notify on connection tear down
+        on_off: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=YesNo)  # code byte, specifying whether to send close notify on connection tear down
 
     def get(self) -> "Token[GetDataAttr]":
         """Get whether TLS sends close notify alert on connection tear-down.
@@ -5547,31 +5548,31 @@ class P4G_TLS_ALERT_WARNING_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        close_notify: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this warning received
-        unexpected_message: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this warning received
-        bad_record_mac: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this warning received
-        record_overflow: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this warning received
-        decompression_failure: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this warning received
-        handshake_failure: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this warning received
-        bad_certificate: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this warning received
-        unsupported_certificate: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this warning received
-        certificate_revoked: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this warning received
-        certificate_expired: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this warning received
-        certificate_unknown: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this warning received
-        illegal_parameter: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this warning received
-        unknown_ca: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this warning received
-        access_denied: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this warning received
-        decode_error: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this warning received
-        decrypt_error: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this warning received
-        protocol_version: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this warning received
-        insufficient_security: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this warning received
-        internal_error: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this warning received
-        user_canceled: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this warning received
-        no_renegotiation: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this warning received
-        unsupported_extension: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this warning received
-        unknown: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this warning received
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        close_notify: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this warning received
+        unexpected_message: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this warning received
+        bad_record_mac: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this warning received
+        record_overflow: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this warning received
+        decompression_failure: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this warning received
+        handshake_failure: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this warning received
+        bad_certificate: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this warning received
+        unsupported_certificate: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this warning received
+        certificate_revoked: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this warning received
+        certificate_expired: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this warning received
+        certificate_unknown: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this warning received
+        illegal_parameter: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this warning received
+        unknown_ca: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this warning received
+        access_denied: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this warning received
+        decode_error: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this warning received
+        decrypt_error: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this warning received
+        protocol_version: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this warning received
+        insufficient_security: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this warning received
+        internal_error: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this warning received
+        user_canceled: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this warning received
+        no_renegotiation: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this warning received
+        unsupported_extension: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this warning received
+        unknown: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this warning received
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of TLS warning counters.
@@ -5624,31 +5625,31 @@ class P4G_TLS_ALERT_FATAL_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        stats: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this error received
-        unexpected_message: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this error received
-        bad_record_mac: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this error received
-        record_overflow: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this error received
-        decompression_failure: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this error received
-        handshake_failure: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this error received
-        bad_certificate: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this error received
-        unsupported_certificate: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this error received
-        certificate_revoked: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this error received
-        certificate_expired: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this error received
-        certificate_unknown: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this error received
-        illegal_parameter: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this error received
-        unknown_ca: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this error received
-        access_denied: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this error received
-        decode_error: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this error received
-        decrypt_error: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this error received
-        protocol_version: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this error received
-        insufficient_security: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this error received
-        internal_error: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this error received
-        user_canceled: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this error received
-        no_renegotiation: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this error received
-        unsupported_extension: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this error received
-        unknown: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of this error received
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        stats: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this error received
+        unexpected_message: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this error received
+        bad_record_mac: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this error received
+        record_overflow: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this error received
+        decompression_failure: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this error received
+        handshake_failure: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this error received
+        bad_certificate: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this error received
+        unsupported_certificate: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this error received
+        certificate_revoked: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this error received
+        certificate_expired: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this error received
+        certificate_unknown: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this error received
+        illegal_parameter: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this error received
+        unknown_ca: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this error received
+        access_denied: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this error received
+        decode_error: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this error received
+        decrypt_error: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this error received
+        protocol_version: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this error received
+        insufficient_security: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this error received
+        internal_error: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this error received
+        user_canceled: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this error received
+        no_renegotiation: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this error received
+        unsupported_extension: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this error received
+        unknown: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of this error received
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of TLS error counters.
@@ -5665,7 +5666,7 @@ class P4G_TLS_STATE_CURRENT:
     """
     Returns a list of the current TLS state counters. The counters returned
     corresponds the the following TLS states:
-    
+
     * TLS_INACTIVE
     * TLS_HANDSHAKING
     * TLS_HANDSHAKE_DONE
@@ -5686,16 +5687,16 @@ class P4G_TLS_STATE_CURRENT:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        tls_inactive: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections currently in this state
-        tls_handshaking: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections currently in this state
-        tls_handshake_done: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections currently in this state
-        tls_handshake_failed: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections currently in this state
-        tls_failed: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections currently in this state
-        tls_internal_failed: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections currently in this state
-        tls_close_notify: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections currently in this state
-        tls_done: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections currently in this state
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        tls_inactive: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections currently in this state
+        tls_handshaking: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections currently in this state
+        tls_handshake_done: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections currently in this state
+        tls_handshake_failed: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections currently in this state
+        tls_failed: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections currently in this state
+        tls_internal_failed: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections currently in this state
+        tls_close_notify: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections currently in this state
+        tls_done: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections currently in this state
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the current TLS state counters.
@@ -5733,16 +5734,16 @@ class P4G_TLS_STATE_TOTAL:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        tls_inactive: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of connections that has entered this state
-        tls_handshaking: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of connections that has entered this state
-        tls_handshake_done: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of connections that has entered this state
-        tls_handshake_failed: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of connections that has entered this state
-        tls_failed: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of connections that has entered this state
-        tls_internal_failed: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of connections that has entered this state
-        tls_close_notify: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of connections that has entered this state
-        tls_done: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the total number of connections that has entered this state
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        tls_inactive: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of connections that has entered this state
+        tls_handshaking: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of connections that has entered this state
+        tls_handshake_done: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of connections that has entered this state
+        tls_handshake_failed: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of connections that has entered this state
+        tls_failed: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of connections that has entered this state
+        tls_internal_failed: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of connections that has entered this state
+        tls_close_notify: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of connections that has entered this state
+        tls_done: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the total number of connections that has entered this state
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the total TLS state counters.
@@ -5780,16 +5781,16 @@ class P4G_TLS_STATE_RATE:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        tls_inactive: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections/second entering this state
-        tls_handshaking: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections/second entering this state
-        tls_handshake_done: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections/second entering this state
-        tls_handshake_failed: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections/second entering this state
-        tls_failed: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections/second entering this state
-        tls_internal_failed: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections/second entering this state
-        tls_close_notify: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections/second entering this state
-        tls_done: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the number of connections/second entering this state
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        tls_inactive: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections/second entering this state
+        tls_handshaking: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections/second entering this state
+        tls_handshake_done: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections/second entering this state
+        tls_handshake_failed: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections/second entering this state
+        tls_failed: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections/second entering this state
+        tls_internal_failed: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections/second entering this state
+        tls_close_notify: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections/second entering this state
+        tls_done: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the number of connections/second entering this state
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the TLS state rates measured in per second.
@@ -5817,10 +5818,10 @@ class P4G_TLS_RX_PAYLOAD_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        byte_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of TLS payload bytes received
-        byte_per_second: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of TLS payload bytes/second received
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of TLS payload bytes received
+        byte_per_second: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of TLS payload bytes/second received
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the TLS Rx payload counters.
@@ -5848,10 +5849,10 @@ class P4G_TLS_TX_PAYLOAD_COUNTERS:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        current_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, the current time (mSec since module restart)
-        ref_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
-        byte_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of TLS payload bytes transmitted
-        byte_per_second: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of TLS payload bytes/second transmitted
+        current_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, the current time (mSec since module restart)
+        ref_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, reference time (mSec for P4_TRAFFIC on)
+        byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of TLS payload bytes transmitted
+        byte_per_second: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of TLS payload bytes/second transmitted
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a list of the TLS Tx payload counters.
@@ -5880,44 +5881,44 @@ class P4G_TLS_RX_PAYLOAD_BYTES_HIST:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        connection_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer,number of connections.
-        min_byte_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, minimum TLS Payload bytes received on a connection.
-        max_byte_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, maximum TLS Payload bytes received on a connection.
-        avg_byte_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, average TLS Payload bytes received on a connection.
-        start: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, start value of first histogram interval in bytes
-        interval: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, histogram interval size in bytes
-        bin_00: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
-        bin_01: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
-        bin_02: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
-        bin_03: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
-        bin_04: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
-        bin_05: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
-        bin_06: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
-        bin_07: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
-        bin_08: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
-        bin_09: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
-        bin_10: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
-        bin_11: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
-        bin_12: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
-        bin_13: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
-        bin_14: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
-        bin_15: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
-        bin_16: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
-        bin_17: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
-        bin_18: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
-        bin_19: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
-        bin_20: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
-        bin_21: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
-        bin_22: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
-        bin_23: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
-        bin_24: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
-        bin_25: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
-        bin_26: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
-        bin_27: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
-        bin_28: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
-        bin_29: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
-        bin_30: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
-        bin_31: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
+        connection_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer,number of connections.
+        min_byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, minimum TLS Payload bytes received on a connection.
+        max_byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, maximum TLS Payload bytes received on a connection.
+        avg_byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, average TLS Payload bytes received on a connection.
+        start: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, start value of first histogram interval in bytes
+        interval: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, histogram interval size in bytes
+        bin_00: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
+        bin_01: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
+        bin_02: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
+        bin_03: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
+        bin_04: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
+        bin_05: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
+        bin_06: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
+        bin_07: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
+        bin_08: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
+        bin_09: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
+        bin_10: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
+        bin_11: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
+        bin_12: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
+        bin_13: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
+        bin_14: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
+        bin_15: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
+        bin_16: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
+        bin_17: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
+        bin_18: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
+        bin_19: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
+        bin_20: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
+        bin_21: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
+        bin_22: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
+        bin_23: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
+        bin_24: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
+        bin_25: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
+        bin_26: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
+        bin_27: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
+        bin_28: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
+        bin_29: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
+        bin_30: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
+        bin_31: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has received TLS Payload bytes within the given interval.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a histogram over number of TLS Payload bytes received.
@@ -5946,44 +5947,44 @@ class P4G_TLS_TX_PAYLOAD_BYTES_HIST:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        connection_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer,number of connections.
-        min_byte_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, minimum TLS Payload bytes transmitted on a connection.
-        max_byte_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, maximum TLS Payload bytes transmitted on a connection.
-        avg_byte_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, average TLS Payload bytes transmitted on a connection.
-        start: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, start value of first histogram interval in bytes
-        interval: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, histogram interval size in bytes
-        bin_00: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
-        bin_01: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
-        bin_02: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
-        bin_03: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
-        bin_04: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
-        bin_05: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
-        bin_06: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
-        bin_07: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
-        bin_08: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
-        bin_09: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
-        bin_10: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
-        bin_11: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
-        bin_12: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
-        bin_13: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
-        bin_14: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
-        bin_15: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
-        bin_16: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
-        bin_17: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
-        bin_18: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
-        bin_19: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
-        bin_20: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
-        bin_21: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
-        bin_22: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
-        bin_23: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
-        bin_24: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
-        bin_25: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
-        bin_26: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
-        bin_27: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
-        bin_28: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
-        bin_29: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
-        bin_30: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
-        bin_31: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
+        connection_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer,number of connections.
+        min_byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, minimum TLS Payload bytes transmitted on a connection.
+        max_byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, maximum TLS Payload bytes transmitted on a connection.
+        avg_byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, average TLS Payload bytes transmitted on a connection.
+        start: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, start value of first histogram interval in bytes
+        interval: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, histogram interval size in bytes
+        bin_00: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
+        bin_01: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
+        bin_02: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
+        bin_03: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
+        bin_04: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
+        bin_05: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
+        bin_06: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
+        bin_07: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
+        bin_08: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
+        bin_09: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
+        bin_10: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
+        bin_11: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
+        bin_12: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
+        bin_13: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
+        bin_14: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
+        bin_15: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
+        bin_16: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
+        bin_17: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
+        bin_18: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
+        bin_19: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
+        bin_20: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
+        bin_21: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
+        bin_22: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
+        bin_23: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
+        bin_24: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
+        bin_25: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
+        bin_26: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
+        bin_27: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
+        bin_28: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
+        bin_29: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
+        bin_30: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
+        bin_31: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections that has transmitted TLS Payload bytes within the given interval.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a histogram over number of TLS Payload bytes transmitted.
@@ -6012,44 +6013,44 @@ class P4G_TLS_HANDSHAKE_HIST:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        connection_count: XmpField[XmpInt] = XmpField(XmpInt)  # integer,number of connections established.
-        min_connection_handshake_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, minimum connection handshake time in us.
-        max_connection_handshake_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, maximum connection handshake time in us.
-        avg_connection_handshake_time: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, average connection handshake time in us.
-        start: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, start value of first histogram interval in us
-        interval: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, histogram interval size in us
-        bin_00: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with handshake time within the given interval.
-        bin_01: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with handshake time within the given interval.
-        bin_02: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with handshake time within the given interval.
-        bin_03: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with handshake time within the given interval.
-        bin_04: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with handshake time within the given interval.
-        bin_05: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with handshake time within the given interval.
-        bin_06: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with handshake time within the given interval.
-        bin_07: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with handshake time within the given interval.
-        bin_08: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with handshake time within the given interval.
-        bin_09: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with handshake time within the given interval.
-        bin_10: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with handshake time within the given interval.
-        bin_11: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with handshake time within the given interval.
-        bin_12: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with handshake time within the given interval.
-        bin_13: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with handshake time within the given interval.
-        bin_14: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with handshake time within the given interval.
-        bin_15: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with handshake time within the given interval.
-        bin_16: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with handshake time within the given interval.
-        bin_17: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with handshake time within the given interval.
-        bin_18: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with handshake time within the given interval.
-        bin_19: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with handshake time within the given interval.
-        bin_20: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with handshake time within the given interval.
-        bin_21: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with handshake time within the given interval.
-        bin_22: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with handshake time within the given interval.
-        bin_23: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with handshake time within the given interval.
-        bin_24: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with handshake time within the given interval.
-        bin_25: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with handshake time within the given interval.
-        bin_26: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with handshake time within the given interval.
-        bin_27: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with handshake time within the given interval.
-        bin_28: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with handshake time within the given interval.
-        bin_29: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with handshake time within the given interval.
-        bin_30: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with handshake time within the given interval.
-        bin_31: XmpField[XmpInt] = XmpField(XmpInt)  # integer, number of connections with handshake time within the given interval.
+        connection_count: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer,number of connections established.
+        min_connection_handshake_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, minimum connection handshake time in us.
+        max_connection_handshake_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, maximum connection handshake time in us.
+        avg_connection_handshake_time: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, average connection handshake time in us.
+        start: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, start value of first histogram interval in us
+        interval: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, histogram interval size in us
+        bin_00: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with handshake time within the given interval.
+        bin_01: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with handshake time within the given interval.
+        bin_02: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with handshake time within the given interval.
+        bin_03: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with handshake time within the given interval.
+        bin_04: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with handshake time within the given interval.
+        bin_05: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with handshake time within the given interval.
+        bin_06: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with handshake time within the given interval.
+        bin_07: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with handshake time within the given interval.
+        bin_08: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with handshake time within the given interval.
+        bin_09: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with handshake time within the given interval.
+        bin_10: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with handshake time within the given interval.
+        bin_11: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with handshake time within the given interval.
+        bin_12: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with handshake time within the given interval.
+        bin_13: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with handshake time within the given interval.
+        bin_14: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with handshake time within the given interval.
+        bin_15: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with handshake time within the given interval.
+        bin_16: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with handshake time within the given interval.
+        bin_17: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with handshake time within the given interval.
+        bin_18: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with handshake time within the given interval.
+        bin_19: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with handshake time within the given interval.
+        bin_20: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with handshake time within the given interval.
+        bin_21: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with handshake time within the given interval.
+        bin_22: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with handshake time within the given interval.
+        bin_23: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with handshake time within the given interval.
+        bin_24: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with handshake time within the given interval.
+        bin_25: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with handshake time within the given interval.
+        bin_26: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with handshake time within the given interval.
+        bin_27: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with handshake time within the given interval.
+        bin_28: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with handshake time within the given interval.
+        bin_29: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with handshake time within the given interval.
+        bin_30: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with handshake time within the given interval.
+        bin_31: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, number of connections with handshake time within the given interval.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get a histogram over TLS connection handshake times.
@@ -6081,11 +6082,11 @@ class P4G_TLS_SERVER_NAME:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        server_name: XmpField[XmpStr] = XmpField(XmpStr)  # string, server name inserted in the SNI TLS extension
+        server_name: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, server name inserted in the SNI TLS extension
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        server_name: XmpField[XmpStr] = XmpField(XmpStr)  # string, server name inserted in the SNI TLS extension
+        server_name: XmpField[xt.XmpStr] = XmpField(xt.XmpStr)  # string, server name inserted in the SNI TLS extension
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the server name advertised by the client in the TLS SNI.
@@ -6125,11 +6126,11 @@ class P4G_TLS_PROTOCOL_VER:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        tls_version: XmpField[XmpByte] = XmpField(XmpByte, choices=TLSVersion)  # coded byte, maximum supported TLS protocol version
+        tls_version: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TLSVersion)  # coded byte, maximum supported TLS protocol version
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        tls_version: XmpField[XmpByte] = XmpField(XmpByte, choices=TLSVersion)  # coded byte, maximum supported TLS protocol version
+        tls_version: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TLSVersion)  # coded byte, maximum supported TLS protocol version
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the highest supported TLS protocol version.
@@ -6178,14 +6179,12 @@ class P4G_TLS_MIN_REQ_PROTOCOL_VER:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        tls_version: XmpField[XmpByte] = XmpField(XmpByte, choices=TLSVersion)  # coded byte, minimum required TLS protocol version
+        tls_version: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=TLSVersion)  # coded byte, minimum required TLS protocol version
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the minimum TLS protocol version required by the configured list of cipher suites. 
+        """Get the minimum TLS protocol version required by the configured list of cipher suites.
 
-        :return: the minimum TLS protocol version required by the configured list of cipher suites. 
+        :return: the minimum TLS protocol version required by the configured list of cipher suites.
         :rtype: P4G_TLS_MIN_REQ_PROTOCOL_VER.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
-
-

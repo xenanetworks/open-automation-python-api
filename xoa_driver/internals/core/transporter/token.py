@@ -9,15 +9,18 @@ if TYPE_CHECKING:
     from .. import protocol
 
 
-AwaitableDataType = TypeVar("AwaitableDataType") 
+AwaitableDataType = TypeVar("AwaitableDataType")
+
+
 @dataclass(frozen=True)
 class Token(Generic[AwaitableDataType]):
     """
-    A wrapper of connection and request. 
-    Which can be used for await an single command or organized in to the ordered 
+    A wrapper of connection and request.
+    Which can be used for await an single command or organized in to the ordered
     sequence of the commands which will be send to the server in single request.
     """
-    __slots__ = ('connection', 'request')
+    __slots__ = ('connection', 'request',)
+
     connection: "interfaces.IConnection"
     request: "protocol.Request"
 
@@ -26,7 +29,7 @@ class Token(Generic[AwaitableDataType]):
 
     async def __ask(self) -> AwaitableDataType:
         (
-            data, 
+            data,
             fut
         ) = await self.connection.prepare_data(self.request)
         self.connection.send(data)

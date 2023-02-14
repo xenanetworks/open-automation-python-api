@@ -3,5 +3,5 @@ Getting Started
 
 .. toctree::
 
-    installing_xoa_python
-    example
+    installation
+    quick_start

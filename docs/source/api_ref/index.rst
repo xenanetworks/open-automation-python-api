@@ -3,5 +3,6 @@ API Reference
 
 .. toctree::
 
-    hl_api_ref/index
-    ll_api_ref/index
+    hlfunc/index
+    hlapiv1/index
+    llapi/index

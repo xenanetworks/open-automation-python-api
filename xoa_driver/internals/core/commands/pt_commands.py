@@ -9,10 +9,11 @@ from ..protocol.command_builders import (
 )
 from .. import interfaces
 from ..transporter.token import Token
-from ..protocol.fields.data_types import *
+from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
-from .enums import *
+# from .enums import *  # noqa: F403
+
 
 @register_command
 @dataclass
@@ -30,10 +31,10 @@ class PT_TOTAL:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        bit_count_last_sec: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of bits transmitted in the last second.
-        packet_count_last_sec: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets transmitted in the last second.
-        byte_count_since_cleared: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of bytes transmitted since statistics were cleared.
-        packet_count_since_cleared: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets transmitted since statistics were cleared.
+        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bits transmitted in the last second.
+        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets transmitted in the last second.
+        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bytes transmitted since statistics were cleared.
+        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets transmitted since statistics were cleared.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning all the packets transmitted on a port.
@@ -61,10 +62,10 @@ class PT_NOTPLD:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        bit_count_last_sec: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of bits transmitted in the last second.
-        packet_count_last_sec: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets transmitted in the last second.
-        byte_count_since_cleared: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of bytes transmitted since statistics were cleared.
-        packet_count_since_cleared: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets transmitted since statistics were cleared.
+        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bits transmitted in the last second.
+        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets transmitted in the last second.
+        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bytes transmitted since statistics were cleared.
+        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets transmitted since statistics were cleared.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning the packets without a test payload transmitted on a port.
@@ -93,10 +94,10 @@ class PT_STREAM:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        bit_count_last_sec: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of bits transmitted in the last second.
-        packet_count_last_sec: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets transmitted in the last second.
-        byte_count_since_cleared: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of bytes transmitted since statistics were cleared.
-        packet_count_since_cleared: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets transmitted since statistics were cleared.
+        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bits transmitted in the last second.
+        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets transmitted in the last second.
+        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bytes transmitted since statistics were cleared.
+        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets transmitted since statistics were cleared.
 
     def get(self) -> "Token[GetDataAttr]":
         """Get statistics concerning the packets of a specific stream transmitted on a port.
@@ -155,7 +156,7 @@ class PT_EXTRA:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        tx_arp_req_count: XmpField[XmpLongList] = XmpField(XmpLongList)  # long integer, number of ARP requests transmitted
+        tx_arp_req_count: XmpField[xt.XmpLongList] = XmpField(xt.XmpLongList)  # long integer, number of ARP requests transmitted
 
     def get(self) -> "Token[GetDataAttr]":
         """Get additional statistics for packets transmitted on a port.
@@ -164,6 +165,106 @@ class PT_EXTRA:
         :rtype: PT_EXTRA.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+
+
+@register_command
+@dataclass
+class PT_TOTALEXT:
+    """
+    .. versionadded: v1.1
+
+    An extension to :class:`PT_TOTAL` that also includes a calculation of bytes transmitted in the last second. It returns list of long integers; this list may be expanded in future software releases.
+    """
+
+    code: typing.ClassVar[int] = 236
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: "interfaces.IConnection"
+    _module: int
+    _port: int
+
+    @dataclass(frozen=True)
+    class GetDataAttr:
+        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bits transmitted in the last second.
+        byte_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bytes transmitted in the last second.
+        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets transmitted in the last second.
+        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bytes transmitted since statistics were cleared.
+        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets transmitted since statistics were cleared.
+
+    def get(self) -> "Token[GetDataAttr]":
+        """Get statistics concerning all the packets transmitted on a port.
+
+        :return: number of bits transmitted in the last second, number of bytes transmitted in the last second, number of packets transmitted in the last second, number of bytes transmitted since statistics were cleared, and number of packets transmitted since statistics were cleared.
+        :rtype: PT_TOTALEXT.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+
+
+@register_command
+@dataclass
+class PT_NOTPLDEXT:
+    """
+    .. versionadded: v1.1
+
+    An extension to :class:`PT_NOTPLD` that also includes a calculation of bytes transmitted in the last second. It returns list of long integers; this list may be expanded in future software releases.
+    """
+
+    code: typing.ClassVar[int] = 237
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: "interfaces.IConnection"
+    _module: int
+    _port: int
+
+    @dataclass(frozen=True)
+    class GetDataAttr:
+        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bits transmitted in the last second.
+        byte_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bytes transmitted in the last second.
+        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets transmitted in the last second.
+        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bytes transmitted since statistics were cleared.
+        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets transmitted since statistics were cleared.
+
+    def get(self) -> "Token[GetDataAttr]":
+        """Get statistics concerning the packets without a test payload transmitted on a port.
+
+        :return: number of bits transmitted in the last second, number of bytes transmitted in the last second, number of packets transmitted in the last second, number of bytes transmitted since statistics were cleared, and number of packets transmitted since statistics were cleared
+        :rtype: PT_NOTPLDEXT.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+
+
+@register_command
+@dataclass
+class PT_STREAMEXT:
+    """
+    .. versionadded: v1.1
+
+    An extension to :class:`PT_STREAM` that also includes a calculation of bytes transmitted in the last second. It returns list of long integers; this list may be expanded in future software releases.
+    """
+
+    code: typing.ClassVar[int] = 238
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: "interfaces.IConnection"
+    _module: int
+    _port: int
+    _stream_xindex: int
+
+    @dataclass(frozen=True)
+    class GetDataAttr:
+        bit_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bits transmitted in the last second.
+        byte_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bytes transmitted in the last second.
+        packet_count_last_sec: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets transmitted in the last second.
+        byte_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bytes transmitted since statistics were cleared.
+        packet_count_since_cleared: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets transmitted since statistics were cleared.
+
+    def get(self) -> "Token[GetDataAttr]":
+        """Get statistics concerning the packets of a specific stream transmitted on a port.
+
+        :return: number of bits transmitted in the last second, number of bytes transmitted in the last second, number of packets transmitted in the last second, number of bytes transmitted since statistics were cleared, and number of packets transmitted since statistics were cleared.
+        :rtype: PT_STREAMEXT.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._stream_xindex]))
 
 
 @register_command
@@ -184,20 +285,20 @@ class PT_FLOWTOTAL:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        l2_bps: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of bits transmitted at layer 2 in the last second for the flow.
-        pps: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets transmitted in the last second for the flow.
-        byte_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of bytes transmitted since statistics were cleared for the flow.
-        packet_count: XmpField[XmpLong] = XmpField(XmpLong)  # long integer, number of packets transmitted since statistics were cleared for the flow.
+        l2_bps: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bits transmitted at layer 2 in the last second for the flow.
+        pps: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets transmitted in the last second for the flow.
+        byte_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of bytes transmitted since statistics were cleared for the flow.
+        packet_count: XmpField[xt.XmpLong] = XmpField(xt.XmpLong)  # long integer, number of packets transmitted since statistics were cleared for the flow.
 
     def get(self) -> "Token[GetDataAttr]":
         """(Chimera only) Get statistics concerning all the packets transmitted from a between this receive port and its partner TX port.
 
         :return:
-            number of bits transmitted at layer 2 in the last second for the flow, 
+            number of bits transmitted at layer 2 in the last second for the flow,
             number of packets transmitted in the last second for the flow,
             number of bytes transmitted since statistics were cleared for the flow,
             number of packets transmitted since statistics were cleared for the flow
-            
+
         :rtype: PT_FLOWTOTAL.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
@@ -235,5 +336,3 @@ class PT_FLOWCLEAR:
                 indices=[self._flow_xindex],
             ),
         )
-
-

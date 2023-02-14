@@ -14,9 +14,11 @@ ON_EVT_DISCONNECTED: Final[int] = -1
 CB = Callable[..., Coroutine[Any, None, None]]
 
 #TODO: add type annotation for callback function
+
+
 class EventsObserver:
 
-    __slots__ = ( "__events", "__loop" )
+    __slots__ = ("__events", "__loop", )
 
     def __init__(self) -> None:
         self.__events: Dict[int, List[CB]] = defaultdict(list)

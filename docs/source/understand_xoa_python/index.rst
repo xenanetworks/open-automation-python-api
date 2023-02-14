@@ -4,5 +4,6 @@ Understanding XOA Python API
 .. toctree::
 
     api_structure
-    hl_api_guide
-    ll_api_guide
+    hlfunc_guide
+    hlapi_guide
+    llapi_guide    
