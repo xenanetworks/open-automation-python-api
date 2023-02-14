@@ -3,10 +3,12 @@ import asyncio
 import typing as t
 from functools import partial
 from xoa_driver.enums import Layer1ConfigType
-from xoa_driver.ports import GenericAnyPort
+from xoa_driver.ports import GenericL23Port
 from xoa_driver.lli import commands
 from dataclasses import dataclass
 from enum import IntEnum
+from .tools import _get_ctx
+
 
 class AnLtD(IntEnum):
     PMD_CONFIG_REGISTER = 0x02
@@ -24,6 +26,7 @@ class AnLtD(IntEnum):
     LT_RX_ANALYZER_RD_PAGE = 0x3C
     LT_RX_ANALYZER_RD_DATA = 0x3D
 
+
 @dataclass
 class AnLtLowLevelInfo:
     base: int
@@ -33,8 +36,8 @@ class AnLtLowLevelInfo:
     tx_serdes: int
 
 
-async def init(port: GenericAnyPort, lane: int) -> AnLtLowLevelInfo:
-    conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
+async def init(port: GenericL23Port, lane: int) -> AnLtLowLevelInfo:
+    conn, mid, pid = _get_ctx(port)
     inf = await commands.PL1_CFG_TMP(
         conn, mid, pid, lane, Layer1ConfigType.LL_DEBUG_INFO
     ).get()
@@ -44,13 +47,13 @@ async def init(port: GenericAnyPort, lane: int) -> AnLtLowLevelInfo:
 
 
 async def lane_reset(
-    port: GenericAnyPort, lane: int, inf: t.Optional[AnLtLowLevelInfo] = None
+    port: GenericL23Port, lane: int, inf: t.Optional[AnLtLowLevelInfo] = None
 ) -> None:
     """Reset the lane (serdes)"""
     GTM_QUAD_GT_CONFIG = 0x102
     if inf is None:
         inf = await init(port, lane)
-    conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
+    conn, mid, pid = _get_ctx(port)
     addr = inf.rx_gtm_base + GTM_QUAD_GT_CONFIG + (inf.rx_serdes * 0x40)
     r = commands.PX_RW(conn, mid, pid, 2000, addr)
     v = int((await r.get()).value, 16)
@@ -65,22 +68,21 @@ async def lane_reset(
 
 
 async def __get(
-    port: GenericAnyPort,
+    port: GenericL23Port,
     lane: int,
     reg: AnLtD,
     inf: t.Optional[AnLtLowLevelInfo] = None,
 ) -> int:
     if inf is None:
         inf = await init(port, lane)
-    conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
-
+    conn, mid, pid = _get_ctx(port)
     addr = inf.base + reg.value + (lane * 0x40)
     r = commands.PX_RW(conn, mid, pid, 2000, addr)
     return int((await r.get()).value, 16)
 
 
 async def __set(
-    port: GenericAnyPort,
+    port: GenericL23Port,
     lane: int,
     reg: AnLtD,
     value: int,
@@ -88,8 +90,7 @@ async def __set(
 ) -> None:
     if inf is None:
         inf = await init(port, lane)
-    conn, mid, pid = port._conn, port.kind.module_id, port.kind.port_id
-
+    conn, mid, pid = _get_ctx(port)
     addr = inf.base + reg.value + (lane * 0x40)
     r = commands.PX_RW(conn, mid, pid, 2000, addr)
     await r.set(f"0x{value:08X}")
@@ -133,7 +134,7 @@ lt_rx_analyzer_rd_data_get = partial(__get, reg=AnLtD.LT_RX_ANALYZER_RD_DATA)
 
 
 async def lt_prbs(
-    port: GenericAnyPort,
+    port: GenericL23Port,
     lane: int,
     inf: t.Optional[AnLtLowLevelInfo] = None,
 ) -> dict[str, float]:
@@ -170,7 +171,7 @@ async def lt_prbs(
 
 
 async def lt_rx_analyzer_dump(
-    port: GenericAnyPort, lane: int, inf: t.Optional[AnLtLowLevelInfo] = None
+    port: GenericL23Port, lane: int, inf: t.Optional[AnLtLowLevelInfo] = None
 ) -> str:
     """This will dump the 320bit words in the capture buffer"""
     if inf is None:
@@ -200,7 +201,6 @@ async def lt_rx_analyzer_dump(
     string.append("Done\n")
     result = "".join(string)
     return result
-
 
 
 __all__ = (
