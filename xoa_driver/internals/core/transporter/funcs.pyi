@@ -2,8 +2,8 @@ from __future__ import annotations
 from asyncio.events import AbstractEventLoop
 from typing import (
     AsyncGenerator,
-    Literal, 
-    TypeVar, 
+    Literal,
+    TypeVar,
     overload
 )
 from .token import Token
