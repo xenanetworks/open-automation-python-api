@@ -1,27 +1,7 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
-from typing import Any, Dict, Generator, Union
-from xoa_driver.enums import (
-    AutoNegFECOption,
-    AutoNegTecAbility,
-    PauseMode,
-    NRZPreset,
-    PAM4FrameSize,
-    TimeoutMode,
-    LinkTrainingInitCondition,
-    LinkTrainingMode,
-    LinkTrainCmd,
-    LinkTrainEncoding,
-    LinkTrainCoeffs,
-    LinkTrainPresets,
-    Layer1ConfigType,
-    LinkTrainingStatusMode,
-    LinkTrainingStatus,
-    AutoNegMode,
-    LinkTrainingFailureType,
-    LinkTrainFrameLock,
-    LinkTrainAnnounce,
-)
+import typing as t
+from xoa_driver import enums
 from xoa_driver.utils import apply
 from xoa_driver.internals.hli_v1.ports.port_l23.family_l import FamilyL
 from xoa_driver.internals.hli_v1.ports.port_l23.family_l1 import FamilyL1
@@ -29,7 +9,13 @@ from xoa_driver.ports import GenericL23Port
 from xoa_driver.lli import commands
 from xoa_driver.internals.core import interfaces as itf
 from xoa_driver.misc import Token
-from .tools import _get_ctx
+from .tools import (
+    get_ctx,
+    dictionize_autoneg_status,
+    dictionize_lt_status,
+    dictionize_txtap_get,
+    dictionize_anlt_status,
+)
 
 PcsPmaSupported = (FamilyL, FamilyL1)
 AutoNegSupported = (FamilyL, FamilyL1)
@@ -48,7 +34,7 @@ class DoAnlt:
     """should the autoneg allow loopback?"""
     lt_preset0_std: bool
     """should lt preset0 uses the standard values or the existing tap values?"""
-    lt_initial_modulations: Dict[int, LinkTrainEncoding]
+    lt_initial_modulations: dict[int, enums.LinkTrainEncoding]
     """the initial modulations of each lane (serdes)"""
     should_lt_interactive: bool
     """should perform link training manually?"""
@@ -56,63 +42,68 @@ class DoAnlt:
     _group: tuple["itf.IConnection", int, int] = field(init=False, repr=False)
 
     def __post_init__(self) -> None:
-        self._group = _get_ctx(self.port)
+        self._group = get_ctx(self.port)
 
     def __pp_autoneg(self, on: bool) -> Token:
-        state = AutoNegMode.ANEG_ON if on else AutoNegMode.ANEG_OFF
+        state = enums.AutoNegMode.ANEG_ON if on else enums.AutoNegMode.ANEG_OFF
         return commands.PP_AUTONEG(*self._group).set(
             state,
-            AutoNegTecAbility.DEFAULT_TECH_MODE,
-            AutoNegFECOption.NO_FEC,
-            AutoNegFECOption.NO_FEC,
-            PauseMode.NO_PAUSE,
+            enums.AutoNegTecAbility.DEFAULT_TECH_MODE,
+            enums.AutoNegFECOption.NO_FEC,
+            enums.AutoNegFECOption.NO_FEC,
+            enums.PauseMode.NO_PAUSE,
         )
 
     def __pp_link_train(
-        self, mode: LinkTrainingMode, nrz_preset: NRZPreset, timeout_mode: TimeoutMode
+        self,
+        mode: enums.LinkTrainingMode,
+        nrz_preset: enums.NRZPreset,
+        timeout_mode: enums.TimeoutMode,
     ) -> Token:
         return commands.PP_LINKTRAIN(*self._group).set(
             mode=mode,
-            pam4_frame_size=PAM4FrameSize.P16K_FRAME,
-            nrz_pam4_init_cond=LinkTrainingInitCondition.NO_INIT,
+            pam4_frame_size=enums.PAM4FrameSize.P16K_FRAME,
+            nrz_pam4_init_cond=enums.LinkTrainingInitCondition.NO_INIT,
             nrz_preset=nrz_preset,
             timeout_mode=timeout_mode,
         )
 
     def __pl1_cfg_tmp(
-        self, lane: int, config_type: Layer1ConfigType, values: int
+        self, lane: int, config_type: enums.Layer1ConfigType, values: int
     ) -> Token:
         return commands.PL1_CFG_TMP(*self._group, lane, config_type).set(
             values=[int(values)]
         )
 
-    def __select_modes(self) -> tuple[LinkTrainingMode, TimeoutMode]:
+    def __select_modes(self) -> tuple[enums.LinkTrainingMode, enums.TimeoutMode]:
         if self.should_do_an:
-            lt_mode = LinkTrainingMode.START_AFTER_AUTONEG
-            timeout_mode = TimeoutMode.DEFAULT
+            lt_mode = enums.LinkTrainingMode.START_AFTER_AUTONEG
+            timeout_mode = enums.TimeoutMode.DEFAULT
         elif self.should_lt_interactive:
-            lt_mode = LinkTrainingMode.INTERACTIVE
-            timeout_mode = TimeoutMode.DISABLED
+            lt_mode = enums.LinkTrainingMode.INTERACTIVE
+            timeout_mode = enums.TimeoutMode.DISABLED
         else:
-            lt_mode = LinkTrainingMode.STANDALONE
-            timeout_mode = TimeoutMode.DEFAULT
+            lt_mode = enums.LinkTrainingMode.STANDALONE
+            timeout_mode = enums.TimeoutMode.DEFAULT
         return lt_mode, timeout_mode
 
-    def __builder__(self) -> Generator[Token, None, None]:
+    def __builder__(self) -> t.Generator[Token, None, None]:
         """Defining commands sequence"""
         nrz_preset = (
-            NRZPreset.NRZ_WITH_PRESET
+            enums.NRZPreset.NRZ_WITH_PRESET
             if self.lt_preset0_std
-            else NRZPreset.NRZ_NO_PRESET
+            else enums.NRZPreset.NRZ_NO_PRESET
         )
         # # Set autoneg timeout
         yield self.__pp_link_train(
-            LinkTrainingMode.DISABLED, NRZPreset.NRZ_NO_PRESET, TimeoutMode.DEFAULT
+            enums.LinkTrainingMode.DISABLED,
+            enums.NRZPreset.NRZ_NO_PRESET,
+            enums.TimeoutMode.DEFAULT,
         )
 
         # # Set autoneg allow-loopback
         yield self.__pl1_cfg_tmp(
-            0, Layer1ConfigType.AN_LOOPBACK, int(self.an_allow_loopback)
+            0, enums.Layer1ConfigType.AN_LOOPBACK, int(self.an_allow_loopback)
         )
 
         # yield self.__pp_autoneg(self.should_do_an and not self.should_do_lt)
@@ -123,12 +114,12 @@ class DoAnlt:
         if self.should_do_lt:
             for lane_str, im in self.lt_initial_modulations.items():
                 yield self.__pl1_cfg_tmp(
-                    int(lane_str), Layer1ConfigType.LT_INITIAL_MODULATION, int(im)
+                    int(lane_str), enums.Layer1ConfigType.LT_INITIAL_MODULATION, int(im)
                 )
 
             lt_mode, timeout_mode = self.__select_modes()
             yield self.__pp_link_train(
-                LinkTrainingMode.DISABLED, nrz_preset, timeout_mode
+                enums.LinkTrainingMode.DISABLED, nrz_preset, timeout_mode
             )
             yield self.__pp_link_train(lt_mode, nrz_preset, timeout_mode)
 
@@ -146,7 +137,7 @@ async def anlt_start(
     should_do_lt: bool,
     an_allow_loopback: bool,
     lt_preset0_std: bool,
-    lt_initial_modulations: Dict[int, LinkTrainEncoding],
+    lt_initial_modulations: dict[int, enums.LinkTrainEncoding],
     should_lt_interactive: bool,
 ) -> None:
     """Start ANLT on a port
@@ -162,7 +153,7 @@ async def anlt_start(
     :param lt_preset0_std: should lt preset0 uses the standard values or the existing tap values?
     :type lt_preset0_std: bool
     :param lt_initial_modulations: the initial modulations of each lane (serdes)
-    :type lt_initial_modulations: Dict[str, LinkTrainEncoding]
+    :type lt_initial_modulations: Dict[str, enums.LinkTrainEncoding]
     :param should_lt_interactive: should perform link training manually?
     :type should_lt_interactive: bool
     """
@@ -179,7 +170,7 @@ async def anlt_start(
     await anlt.run()
 
 
-async def autoneg_status(port: GenericL23Port) -> Dict[str, Any]:
+async def autoneg_status(port: GenericL23Port) -> dict[str, t.Any]:
     """Get the auto-negotiation status
 
     :param port: the port to get auto-negotiation status
@@ -187,49 +178,39 @@ async def autoneg_status(port: GenericL23Port) -> Dict[str, Any]:
     :return:
     :rtype: typing.Dict[str, Any]
     """
-    conn, mid, pid = _get_ctx(port)
+    conn, mid, pid = get_ctx(port)
     loopback, auto_neg_info = await apply(
-        commands.PL1_CFG_TMP(conn, mid, pid, 0, Layer1ConfigType.AN_LOOPBACK).get(),
+        commands.PL1_CFG_TMP(
+            conn, mid, pid, 0, enums.Layer1ConfigType.AN_LOOPBACK
+        ).get(),
         commands.PL1_AUTONEGINFO(conn, mid, pid, 0).get(),
     )
-    return {
-        "loopback": "allowed" if loopback.values[0] else "not allowed",
-        "duration": auto_neg_info.duration_us,
-        "successes": auto_neg_info.negotiation_success_count,
-        "timeouts": auto_neg_info.negotiation_timeout_count,
-        "loss_of_sync": auto_neg_info.negotiation_loss_of_sync_count,
-        "fec_negotiation_fails": auto_neg_info.negotiation_fec_fail_count,
-        "hcd_negotiation_fails": auto_neg_info.negotiation_hcd_fail_count,
-        "link_codewords": {
-            "tx": auto_neg_info.tx_link_codeword_count,
-            "rx": auto_neg_info.rx_link_codeword_count,
-        },
-        "next_page_messages": {
-            "tx": auto_neg_info.tx_next_page_message_count,
-            "rx": auto_neg_info.rx_next_page_message_count,
-        },
-        "unformatted_pages": {
-            "tx": auto_neg_info.tx_next_page_unformatted_count,
-            "rx": auto_neg_info.rx_next_page_unformatted_count,
-        },
-    }
+    return dictionize_autoneg_status(loopback, auto_neg_info)
+
+
+LinkTrainType = t.Union[
+    enums.LinkTrainCoeffs,
+    enums.LinkTrainPresets,
+    enums.LinkTrainEncoding,
+    enums.LinkTrainAnnounce,
+]
 
 
 async def __lt_coeff(
     port: GenericL23Port,
     lane: int,
-    arg: Union[LinkTrainCoeffs, LinkTrainPresets, LinkTrainEncoding, LinkTrainAnnounce],
+    arg: LinkTrainType,
     *,
-    cmd: LinkTrainCmd,
+    cmd: enums.LinkTrainCmd,
 ) -> None:
-    conn, mid, pid = _get_ctx(port)
+    conn, mid, pid = get_ctx(port)
     cmd_ = commands.PL1_LINKTRAIN_CMD(conn, mid, pid, lane)
     await cmd_.set(cmd=cmd, arg=arg.value)
     return None
 
 
 async def lt_coeff_inc(
-    port: GenericL23Port, lane: int, emphasis: LinkTrainCoeffs
+    port: GenericL23Port, lane: int, emphasis: enums.LinkTrainCoeffs
 ) -> None:
     """Ask the remote port to increase coeff of the specified lane.
 
@@ -238,15 +219,15 @@ async def lt_coeff_inc(
     :param lane: The lane index, starting from 0
     :type lane: int
     :param emphasis: The emphasis to increase
-    :type emphasis: LinkTrainCoeffs
+    :type emphasis: enums.LinkTrainCoeffs
     :return:
     :rtype: None
     """
-    return await __lt_coeff(port, lane, emphasis, cmd=LinkTrainCmd.CMD_INC)
+    return await __lt_coeff(port, lane, emphasis, cmd=enums.LinkTrainCmd.CMD_INC)
 
 
 async def lt_coeff_dec(
-    port: GenericL23Port, lane: int, emphasis: LinkTrainCoeffs
+    port: GenericL23Port, lane: int, emphasis: enums.LinkTrainCoeffs
 ) -> None:
     """Ask the remote port to decrease coeff of the specified lane.
 
@@ -255,14 +236,16 @@ async def lt_coeff_dec(
     :param lane: The lane index, starting from 0
     :type lane: int
     :param emphasis: The emphasis to decrease
-    :type emphasis: LinkTrainCoeffs
+    :type emphasis: enums.LinkTrainCoeffs
     :return:
     :rtype: None
     """
-    return await __lt_coeff(port, lane, emphasis, cmd=LinkTrainCmd.CMD_DEC)
+    return await __lt_coeff(port, lane, emphasis, cmd=enums.LinkTrainCmd.CMD_DEC)
 
 
-async def lt_preset(port: GenericL23Port, lane: int, preset: LinkTrainPresets) -> None:
+async def lt_preset(
+    port: GenericL23Port, lane: int, preset: enums.LinkTrainPresets
+) -> None:
     """Ask the remote port to use the preset of the specified lane.
 
     :param port: The port to configure
@@ -270,15 +253,15 @@ async def lt_preset(port: GenericL23Port, lane: int, preset: LinkTrainPresets) -
     :param lane: The lane index, starting from 0
     :type lane: int
     :param preset: preset index to select for the lane, 0,1,2,3,4,
-    :type preset: LinkTrainPresets
+    :type preset: enums.LinkTrainPresets
     :return:
     :rtype: None
     """
-    return await __lt_coeff(port, lane, preset, cmd=LinkTrainCmd.CMD_PRESET)
+    return await __lt_coeff(port, lane, preset, cmd=enums.LinkTrainCmd.CMD_PRESET)
 
 
 async def lt_encoding(
-    port: GenericL23Port, lane: int, encoding: LinkTrainEncoding
+    port: GenericL23Port, lane: int, encoding: enums.LinkTrainEncoding
 ) -> None:
     """Ask the remote port to use the encoding of the specified lane.
 
@@ -287,7 +270,7 @@ async def lt_encoding(
     :param lane: The lane index, starting from 0
     :type lane: int
     :param encoding: link training encoding
-    :type encoding: LinkTrainCoeffs
+    :type encoding: enums.LinkTrainCoeffs
     :return:
     :rtype: None
     """
@@ -299,7 +282,7 @@ async def lt_encoding(
     :type lane: int
     
     """
-    return await __lt_coeff(port, lane, encoding, cmd=LinkTrainCmd.CMD_ENCODING)
+    return await __lt_coeff(port, lane, encoding, cmd=enums.LinkTrainCmd.CMD_ENCODING)
 
 
 async def lt_trained(port: GenericL23Port, lane: int) -> None:
@@ -313,11 +296,14 @@ async def lt_trained(port: GenericL23Port, lane: int) -> None:
     :rtype: None
     """
     return await __lt_coeff(
-        port, lane, arg=LinkTrainAnnounce.TRAINED, cmd=LinkTrainCmd.CMD_LOCAL_TRAINED
+        port,
+        lane,
+        arg=enums.LinkTrainAnnounce.TRAINED,
+        cmd=enums.LinkTrainCmd.CMD_LOCAL_TRAINED,
     )
 
 
-async def lt_status(port: GenericL23Port, lane: int) -> Dict[str, Any]:
+async def lt_status(port: GenericL23Port, lane: int) -> dict[str, t.Any]:
     """Show the link training status.
 
     :param port: port to configure
@@ -327,13 +313,13 @@ async def lt_status(port: GenericL23Port, lane: int) -> Dict[str, Any]:
     :return:
     :rtype: str
     """
-    conn, mid, pid = _get_ctx(port)
+    conn, mid, pid = get_ctx(port)
     status, info, ltconf, cfg = await apply(
         commands.PP_LINKTRAINSTATUS(conn, mid, pid, lane).get(),
         commands.PL1_LINKTRAININFO(conn, mid, pid, lane, 0).get(),
         commands.PP_LINKTRAIN(conn, mid, pid).get(),
         commands.PL1_CFG_TMP(
-            conn, mid, pid, lane, Layer1ConfigType.LT_INITIAL_MODULATION
+            conn, mid, pid, lane, enums.Layer1ConfigType.LT_INITIAL_MODULATION
         ).get(),
     )
     total_bit_count = (info.prbs_total_bits_high << 32) + info.prbs_total_bits_low
@@ -343,178 +329,12 @@ async def lt_status(port: GenericL23Port, lane: int) -> Dict[str, Any]:
     prbs = (
         total_error_bit_count / total_bit_count if total_bit_count > 0 else float("nan")
     )
-
-    def decode_ic(key: int) -> str:
-        dic = {
-            0: "INDV",
-            1: "Preset 4",
-            2: "Preset 1",
-            3: "Preset 5",
-            4: "Preset 2",
-            6: "Preset 3",
-        }
-        return dic.get(key, "Reserved")
-
-    return {
-        "is_enabled": True if status.mode == LinkTrainingStatusMode.ENABLED else False,
-        "is_trained": True if status.status == LinkTrainingStatus.TRAINED else False,
-        "failure": LinkTrainingFailureType(status.failure).name.lower(),
-        "preset0": (
-            "standard value"
-            if ltconf.nrz_preset == NRZPreset.NRZ_NO_PRESET
-            else "existing tap value"
-        ),
-        "init_modulation": cfg.values[0],
-        "total_bits": total_bit_count,
-        "total_errored_bits": total_error_bit_count,
-        "ber": prbs,
-        "duration": info.duration_us,
-        "lock_lost": info.lock_lost_count,
-        "frame_lock": LinkTrainFrameLock(info.frame_lock).name.lower(),
-        "remote_frame_lock": LinkTrainFrameLock(info.remote_frame_lock).name.lower(),
-        "frame_errors": info.num_frame_errors,
-        "overrun_errors": info.num_overruns,
-        "last_ic_received": decode_ic(info.last_ic_received),
-        "last_ic_sent": decode_ic(info.last_ic_sent),
-        "c(-3)": {
-            "current_level": info.pre3_current_level,
-            "+req": {
-                "rx": info.pre3_rx_increment_req_count,
-                "tx": info.pre3_tx_increment_req_count,
-            },
-            "-req": {
-                "rx": info.pre3_rx_decrement_req_count,
-                "tx": info.pre3_tx_decrement_req_count,
-            },
-            "coeff_and_eq_limit_reached": {
-                "rx": info.pre3_rx_coeff_eq_limit_reached_count,
-                "tx": info.pre3_tx_coeff_eq_limit_reached_count,
-            },
-            "eq_limit_reached": {
-                "rx": info.pre3_rx_eq_limit_reached_count,
-                "tx": info.pre3_tx_eq_limit_reached_count,
-            },
-            "coeff_not_supported": {
-                "rx": info.pre3_rx_coeff_not_supported_count,
-                "tx": info.pre3_tx_coeff_not_supported_count,
-            },
-            "coeff_at_limit": {
-                "rx": info.pre3_rx_coeff_at_limit_count,
-                "tx": info.pre3_tx_coeff_at_limit_count,
-            },
-        },
-        "c(-2)": {
-            "current_level": info.pre2_current_level,
-            "+req": {
-                "rx": info.pre2_rx_increment_req_count,
-                "tx": info.pre2_tx_increment_req_count,
-            },
-            "-req": {
-                "rx": info.pre2_rx_decrement_req_count,
-                "tx": info.pre2_tx_decrement_req_count,
-            },
-            "coeff_and_eq_limit_reached": {
-                "rx": info.pre2_rx_coeff_eq_limit_reached_count,
-                "tx": info.pre2_tx_coeff_eq_limit_reached_count,
-            },
-            "eq_limit_reached": {
-                "rx": info.pre2_rx_eq_limit_reached_count,
-                "tx": info.pre2_tx_eq_limit_reached_count,
-            },
-            "coeff_not_supported": {
-                "rx": info.pre2_rx_coeff_not_supported_count,
-                "tx": info.pre2_tx_coeff_not_supported_count,
-            },
-            "coeff_at_limit": {
-                "rx": info.pre2_rx_coeff_at_limit_count,
-                "tx": info.pre2_tx_coeff_at_limit_count,
-            },
-        },
-        "c(-1)": {
-            "current_level": info.pre1_current_level,
-            "+req": {
-                "rx": info.pre1_rx_increment_req_count,
-                "tx": info.pre1_tx_increment_req_count,
-            },
-            "-req": {
-                "rx": info.pre1_rx_decrement_req_count,
-                "tx": info.pre1_tx_decrement_req_count,
-            },
-            "coeff_and_eq_limit_reached": {
-                "rx": info.pre1_rx_coeff_eq_limit_reached_count,
-                "tx": info.pre1_tx_coeff_eq_limit_reached_count,
-            },
-            "eq_limit_reached": {
-                "rx": info.pre1_rx_eq_limit_reached_count,
-                "tx": info.pre1_tx_eq_limit_reached_count,
-            },
-            "coeff_not_supported": {
-                "rx": info.pre1_rx_coeff_not_supported_count,
-                "tx": info.pre1_tx_coeff_not_supported_count,
-            },
-            "coeff_at_limit": {
-                "rx": info.pre1_rx_coeff_at_limit_count,
-                "tx": info.pre1_tx_coeff_at_limit_count,
-            },
-        },
-        "c(0)": {
-            "current_level": info.main_current_level,
-            "+req": {
-                "rx": info.main_rx_increment_req_count,
-                "tx": info.main_tx_increment_req_count,
-            },
-            "-req": {
-                "rx": info.main_rx_decrement_req_count,
-                "tx": info.main_tx_decrement_req_count,
-            },
-            "coeff_and_eq_limit_reached": {
-                "rx": info.main_rx_coeff_eq_limit_reached_count,
-                "tx": info.main_tx_coeff_eq_limit_reached_count,
-            },
-            "eq_limit_reached": {
-                "rx": info.main_rx_eq_limit_reached_count,
-                "tx": info.main_tx_eq_limit_reached_count,
-            },
-            "coeff_not_supported": {
-                "rx": info.main_rx_coeff_not_supported_count,
-                "tx": info.main_tx_coeff_not_supported_count,
-            },
-            "coeff_at_limit": {
-                "rx": info.main_rx_coeff_at_limit_count,
-                "tx": info.main_tx_coeff_at_limit_count,
-            },
-        },
-        "c(1)": {
-            "current_level": info.post1_current_level,
-            "+req": {
-                "rx": info.post1_rx_increment_req_count,
-                "tx": info.post1_tx_increment_req_count,
-            },
-            "-req": {
-                "rx": info.post1_rx_decrement_req_count,
-                "tx": info.post1_tx_decrement_req_count,
-            },
-            "coeff_and_eq_limit_reached": {
-                "rx": info.post1_rx_coeff_eq_limit_reached_count,
-                "tx": info.post1_tx_coeff_eq_limit_reached_count,
-            },
-            "eq_limit_reached": {
-                "rx": info.post1_rx_eq_limit_reached_count,
-                "tx": info.post1_tx_eq_limit_reached_count,
-            },
-            "coeff_not_supported": {
-                "rx": info.post1_rx_coeff_not_supported_count,
-                "tx": info.post1_tx_coeff_not_supported_count,
-            },
-            "coeff_at_limit": {
-                "rx": info.post1_rx_coeff_at_limit_count,
-                "tx": info.post1_tx_coeff_at_limit_count,
-            },
-        },
-    }
+    return dictionize_lt_status(
+        status, info, ltconf, cfg, prbs, total_bit_count, total_error_bit_count
+    )
 
 
-async def txtap_get(port: GenericL23Port, lane: int) -> Dict[str, int]:
+async def txtap_get(port: GenericL23Port, lane: int) -> dict[str, int]:
     """Get the tap value of the local TX tap.
 
     :param port: port to configure
@@ -524,15 +344,9 @@ async def txtap_get(port: GenericL23Port, lane: int) -> Dict[str, int]:
     :return:
     :rtype: typing.Dict[str, Any]
     """
-    conn, mid, pid = _get_ctx(port)
+    conn, mid, pid = get_ctx(port)
     r = await commands.PP_PHYTXEQ(conn, mid, pid, lane).get()
-    return {
-        "c(-3)": r.post2,
-        "c(-2)": r.pre2,
-        "c(-1)": r.pre1,
-        "c(0)": r.main,
-        "c(1)": r.post1,
-    }
+    return dictionize_txtap_get(r)
 
 
 async def txtap_set(
@@ -563,7 +377,7 @@ async def txtap_set(
     :return:
     :rtype: None
     """
-    conn, mid, pid = _get_ctx(port)
+    conn, mid, pid = get_ctx(port)
     cmd_ = commands.PP_PHYTXEQ(conn, mid, pid, lane)
     await cmd_.set(
         pre1=pre,
@@ -585,12 +399,14 @@ async def anlt_link_recovery(port: GenericL23Port, enable: bool) -> None:
     :return:
     :rtype:  None
     """
-    conn, mid, pid = _get_ctx(port)
-    cmd_ = commands.PL1_CFG_TMP(conn, mid, pid, 0, Layer1ConfigType.ANLT_INTERACTIVE)
+    conn, mid, pid = get_ctx(port)
+    cmd_ = commands.PL1_CFG_TMP(
+        conn, mid, pid, 0, enums.Layer1ConfigType.ANLT_INTERACTIVE
+    )
     await cmd_.set(values=[int(enable)])
 
 
-async def anlt_status(port: GenericL23Port) -> Dict[str, Any]:
+async def anlt_status(port: GenericL23Port) -> dict[str, t.Any]:
     """Get the overview of ANLT status
 
     :param port: the port to get ANLT status from
@@ -601,23 +417,17 @@ async def anlt_status(port: GenericL23Port) -> Dict[str, Any]:
 
     # if not isinstance(port, LinkTrainingSupported):
     #     raise NotSupportLinkTrainError(port)
-    conn, mid, pid = _get_ctx(port)
+    conn, mid, pid = get_ctx(port)
     r = await apply(
         commands.PL1_CFG_TMP(
-            conn, mid, pid, 0, Layer1ConfigType.ANLT_INTERACTIVE
+            conn, mid, pid, 0, enums.Layer1ConfigType.ANLT_INTERACTIVE
         ).get(),
         commands.PP_AUTONEGSTATUS(conn, mid, pid).get(),
         commands.PP_LINKTRAIN(conn, mid, pid).get(),
         commands.P_CAPABILITIES(conn, mid, pid).get(),
     )
     link_recovery, autoneg, linktrain, capabilities = r
-    return {
-        "autoneg_enabled": AutoNegMode(autoneg.mode).name.lower().lstrip("aneg_"),
-        "link_training_mode": LinkTrainingMode(linktrain.mode).name.lower(),
-        "link_training_timeout": TimeoutMode(linktrain.timeout_mode).name.lower(),
-        "link_recovery": "on" if link_recovery.values[0] == 1 else "off",
-        "serdes_count": capabilities.serdes_count,
-    }
+    return dictionize_anlt_status(link_recovery, autoneg, linktrain, capabilities)
 
 
 async def anlt_log(port: GenericL23Port) -> str:
@@ -628,7 +438,7 @@ async def anlt_log(port: GenericL23Port) -> str:
     :return: anlt log
     :rtype: str
     """
-    conn, mid, pid = _get_ctx(port)
+    conn, mid, pid = get_ctx(port)
     log = await commands.PL1_LOG(conn, mid, pid).get()
     return log.log_string
 

@@ -1,6 +1,6 @@
 from __future__ import annotations
 import asyncio
-from xoa_driver.enums import ReservedStatus
+from xoa_driver import enums
 from xoa_driver.utils import apply
 from xoa_driver.internals.hli_v2.ports.port_l23.family_l import FamilyL
 from xoa_driver.internals.hli_v2.ports.port_l23.family_l1 import FamilyL1
@@ -8,6 +8,7 @@ from xoa_driver.ports import GenericAnyPort
 from xoa_driver.modules import GenericAnyModule
 from xoa_driver.testers import GenericAnyTester
 from .exceptions import NoSuchModuleError, NoSuchPortError
+from itertools import chain
 
 PcsPmaSupported = (FamilyL, FamilyL1)
 AutoNegSupported = (FamilyL, FamilyL1)
@@ -26,10 +27,10 @@ async def reserve_tester(tester: GenericAnyTester, force: bool = True) -> None:
     :rtype: None
     """
     r = await tester.reservation.get()
-    if force and r.operation == ReservedStatus.RESERVED_BY_OTHER:
+    if force and r.operation == enums.ReservedStatus.RESERVED_BY_OTHER:
         await asyncio.gather(*[free_module(m) for m in tester.modules])
         await tester.reservation.set_reserve()
-    elif r.operation == ReservedStatus.RELEASED:
+    elif r.operation == enums.ReservedStatus.RELEASED:
         # can fail in condition if an module or port is reserved by someone else
         await tester.reservation.set_reserve()
 
@@ -43,9 +44,9 @@ async def free_tester(tester: GenericAnyTester) -> None:
     :rtype: None
     """
     r = await tester.reservation.get()
-    if r.operation == ReservedStatus.RESERVED_BY_OTHER:
+    if r.operation == enums.ReservedStatus.RESERVED_BY_OTHER:
         await tester.reservation.set_relinquish()
-    elif r.operation == ReservedStatus.RESERVED_BY_YOU:
+    elif r.operation == enums.ReservedStatus.RESERVED_BY_YOU:
         await tester.reservation.set_release()
     await asyncio.gather(*[free_module(m) for m in tester.modules])
 
@@ -95,10 +96,10 @@ async def reserve_module(module: GenericAnyModule, force: bool = True) -> None:
     :rtype: None
     """
     r = await module.reservation.get()
-    if force and r.operation == ReservedStatus.RESERVED_BY_OTHER:
+    if force and r.operation == enums.ReservedStatus.RESERVED_BY_OTHER:
         await free_module(module)
         await module.reservation.set_reserve()
-    elif r.operation == ReservedStatus.RELEASED:
+    elif r.operation == enums.ReservedStatus.RELEASED:
         # will fail in condition coz module can be released but port can be occupied by some one else
         await module.reservation.set_reserve()
 
@@ -112,9 +113,9 @@ async def free_module(module: GenericAnyModule) -> None:
     :rtype: None
     """
     r = await module.reservation.get()
-    if r.operation == ReservedStatus.RESERVED_BY_OTHER:
+    if r.operation == enums.ReservedStatus.RESERVED_BY_OTHER:
         await module.reservation.set_relinquish()
-    elif r.operation == ReservedStatus.RESERVED_BY_YOU:
+    elif r.operation == enums.ReservedStatus.RESERVED_BY_YOU:
         await module.reservation.set_release()
     await free_ports(*module.ports)
 
@@ -181,12 +182,12 @@ async def reserve_port(port: GenericAnyPort, force: bool = True) -> None:
     :rtype: None
     """
     r = await port.reservation.get()
-    if force and r.status == ReservedStatus.RESERVED_BY_OTHER:
+    if force and r.status == enums.ReservedStatus.RESERVED_BY_OTHER:
         await apply(
             port.reservation.set_relinquish(),
             port.reservation.set_reserve(),
         )
-    elif r.status == ReservedStatus.RELEASED:
+    elif r.status == enums.ReservedStatus.RELEASED:
         await port.reservation.set_reserve()
 
 
@@ -211,9 +212,9 @@ async def free_port(port: GenericAnyPort) -> None:
     :rtype: None
     """
     r = await port.reservation.get()
-    if r.status == ReservedStatus.RESERVED_BY_OTHER:
+    if r.status == enums.ReservedStatus.RESERVED_BY_OTHER:
         await port.reservation.set_relinquish()
-    elif r.status == ReservedStatus.RESERVED_BY_YOU:
+    elif r.status == enums.ReservedStatus.RESERVED_BY_YOU:
         await port.reservation.set_release()
 
 

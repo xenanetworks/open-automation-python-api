@@ -2,12 +2,12 @@ from __future__ import annotations
 import asyncio
 import typing as t
 from functools import partial
-from xoa_driver.enums import Layer1ConfigType
+from xoa_driver import enums
 from xoa_driver.ports import GenericL23Port
 from xoa_driver.lli import commands
 from dataclasses import dataclass
 from enum import IntEnum
-from .tools import _get_ctx
+from .tools import get_ctx
 
 
 class AnLtD(IntEnum):
@@ -37,9 +37,9 @@ class AnLtLowLevelInfo:
 
 
 async def init(port: GenericL23Port, lane: int) -> AnLtLowLevelInfo:
-    conn, mid, pid = _get_ctx(port)
+    conn, mid, pid = get_ctx(port)
     inf = await commands.PL1_CFG_TMP(
-        conn, mid, pid, lane, Layer1ConfigType.LL_DEBUG_INFO
+        conn, mid, pid, lane, enums.Layer1ConfigType.LL_DEBUG_INFO
     ).get()
     values = inf.values[:5]
     inf = AnLtLowLevelInfo(*values)
@@ -53,7 +53,7 @@ async def lane_reset(
     GTM_QUAD_GT_CONFIG = 0x102
     if inf is None:
         inf = await init(port, lane)
-    conn, mid, pid = _get_ctx(port)
+    conn, mid, pid = get_ctx(port)
     addr = inf.rx_gtm_base + GTM_QUAD_GT_CONFIG + (inf.rx_serdes * 0x40)
     r = commands.PX_RW(conn, mid, pid, 2000, addr)
     v = int((await r.get()).value, 16)
@@ -75,7 +75,7 @@ async def __get(
 ) -> int:
     if inf is None:
         inf = await init(port, lane)
-    conn, mid, pid = _get_ctx(port)
+    conn, mid, pid = get_ctx(port)
     addr = inf.base + reg.value + (lane * 0x40)
     r = commands.PX_RW(conn, mid, pid, 2000, addr)
     return int((await r.get()).value, 16)
@@ -90,7 +90,7 @@ async def __set(
 ) -> None:
     if inf is None:
         inf = await init(port, lane)
-    conn, mid, pid = _get_ctx(port)
+    conn, mid, pid = get_ctx(port)
     addr = inf.base + reg.value + (lane * 0x40)
     r = commands.PX_RW(conn, mid, pid, 2000, addr)
     await r.set(f"0x{value:08X}")
