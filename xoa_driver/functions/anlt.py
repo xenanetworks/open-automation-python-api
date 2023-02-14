@@ -39,7 +39,7 @@ AutoNegSupported = (FamilyL, FamilyL1)
 LinkTrainingSupported = FamilyL
 
 
-def __get_ctx(port: GenericAnyPort) -> tuple["itf.IConnection", int, int]:
+def _get_ctx(port: GenericAnyPort) -> tuple["itf.IConnection", int, int]:
     return port._conn, port.kind.module_id, port.kind.port_id
 
 
@@ -63,7 +63,7 @@ class DoAnlt:
     _group: tuple["itf.IConnection", int, int] = field(init=False, repr=False)
 
     def __post_init__(self) -> None:
-        self._group = __get_ctx(self.port)
+        self._group = _get_ctx(self.port)
 
     def __pp_autoneg(self, on: bool) -> Token:
         state = AutoNegMode.ANEG_ON if on else AutoNegMode.ANEG_OFF
@@ -176,7 +176,7 @@ async def autoneg_status(port: GenericAnyPort) -> Dict[str, Any]:
     :return:
     :rtype: typing.Dict[str, Any]
     """
-    conn, mid, pid = __get_ctx(port)
+    conn, mid, pid = _get_ctx(port)
     loopback, auto_neg_info = await apply(
         commands.PL1_CFG_TMP(conn, mid, pid, 0, Layer1ConfigType.AN_LOOPBACK).get(),
         commands.PL1_AUTONEGINFO(conn, mid, pid, 0).get(),
@@ -205,7 +205,7 @@ async def autoneg_status(port: GenericAnyPort) -> Dict[str, Any]:
 
 
 async def __lt_coeff(port: GenericAnyPort, lane: int, arg: Union[LinkTrainCoeffs, LinkTrainPresets, LinkTrainEncoding, LinkTrainAnnounce], *, cmd: LinkTrainCmd) -> None:
-    conn, mid, pid = __get_ctx(port)
+    conn, mid, pid = _get_ctx(port)
     cmd_ = commands.PL1_LINKTRAIN_CMD(conn, mid, pid, lane)
     await cmd_.set(
         cmd=cmd,
@@ -310,7 +310,7 @@ async def lt_status(port: GenericAnyPort, lane: int) -> Dict[str, Any]:
     :return:
     :rtype: str
     """
-    conn, mid, pid = __get_ctx(port)
+    conn, mid, pid = _get_ctx(port)
     status, info, ltconf, cfg = await apply(
         commands.PP_LINKTRAINSTATUS(conn, mid, pid, lane).get(),
         commands.PL1_LINKTRAININFO(conn, mid, pid, lane, 0).get(),
@@ -501,7 +501,7 @@ async def txtap_get(port: GenericAnyPort, lane: int) -> Dict[str, int]:
     :return:
     :rtype: typing.Dict[str, Any]
     """
-    conn, mid, pid = __get_ctx(port)
+    conn, mid, pid = _get_ctx(port)
     r = await commands.PP_PHYTXEQ(conn, mid, pid, lane).get()
     return {
         "c(-3)": r.post2,
@@ -540,7 +540,7 @@ async def txtap_set(
     :return:
     :rtype: None
     """
-    conn, mid, pid = __get_ctx(port)
+    conn, mid, pid = _get_ctx(port)
     cmd_ = commands.PP_PHYTXEQ(conn, mid, pid, lane)
     await cmd_.set(
         pre1=pre,
@@ -562,7 +562,7 @@ async def anlt_link_recovery(port: GenericAnyPort, enable: bool) -> None:
     :return:
     :rtype:  None
     """
-    conn, mid, pid = __get_ctx(port)
+    conn, mid, pid = _get_ctx(port)
     cmd_ = commands.PL1_CFG_TMP(conn, mid, pid, 0, Layer1ConfigType.ANLT_INTERACTIVE)
     await cmd_.set(values=[int(enable)])
 
@@ -578,7 +578,7 @@ async def anlt_status(port: GenericAnyPort) -> Dict[str, Any]:
 
     # if not isinstance(port, LinkTrainingSupported):
     #     raise NotSupportLinkTrainError(port)
-    conn, mid, pid = __get_ctx(port)
+    conn, mid, pid = _get_ctx(port)
     r = await apply(
         commands.PL1_CFG_TMP(conn, mid, pid, 0, Layer1ConfigType.ANLT_INTERACTIVE).get(),
         commands.PP_AUTONEGSTATUS(conn, mid, pid).get(),
@@ -603,7 +603,7 @@ async def anlt_log(port: GenericAnyPort) -> str:
     :return: anlt log
     :rtype: str
     """
-    conn, mid, pid = __get_ctx(port)
+    conn, mid, pid = _get_ctx(port)
     log = await commands.PL1_LOG(conn, mid, pid).get()
     return log.log_string
 
