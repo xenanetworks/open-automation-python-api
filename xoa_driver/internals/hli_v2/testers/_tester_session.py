@@ -6,9 +6,8 @@ from typing import (
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
 from xoa_driver.internals.core.transporter import funcs
-from xoa_driver.internals.core.transporter.exceptions import BadStatus
+from xoa_driver.internals.core.protocol.exceptions import XmpBadValueError
 from xoa_driver.internals import exceptions
-from xoa_driver import enums
 from xoa_driver.internals.core.commands import (
     C_LOGON,
     C_LOGOFF,
@@ -44,8 +43,8 @@ class TesterSession:
                 C_OWNER(self._conn).set(self.owner_name),
                 C_TIMEOUT(self._conn).set(self.timeout),
             )
-        except BadStatus as e:
-            if e.response.class_name == "C_LOGON" and e.response.command_status == enums.CommandStatus.BADVALUE:
+        except XmpBadValueError as e:
+            if e.cmd == "C_LOGON":
                 raise exceptions.WrongTesterPasswordError(self.pwd) from None
             raise e
         if self.keepalive:
@@ -80,8 +79,8 @@ class TesterSession:
 
         sessions = await C_INDICES(self._conn).get()
         session_ids = sessions.session_ids
-        query_sessions = [
-            C_STATSESSION(self._conn, session_xindex=sid).get()
+        query_sessions = (
+            C_STATSESSION(self._conn, _session_xindex=sid).get()
             for sid in session_ids
-        ]
+        )
         return tuple(await funcs.apply(*query_sessions))

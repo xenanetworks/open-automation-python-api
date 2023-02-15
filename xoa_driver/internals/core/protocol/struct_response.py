@@ -2,18 +2,9 @@ from __future__ import annotations
 import struct
 from typing import Any
 from . import constants as const
-from . import utils
+from . import _utils
 from .struct_header import ResponseHeader
 from .payload import ResponseBodyStruct
-
-
-class NotEnoughBytesLeft(RuntimeError):
-    def __init__(self, cmd_name: str, back, curent_field_name: str) -> None:
-        self.cmd_name = cmd_name
-        all_fields = list(back.__annotations__.keys())
-        self.fields = all_fields[all_fields.index(curent_field_name):]
-        self.msg = f"When parsing {self.cmd_name}, there are still fields {self.fields} to be parsed while there is no more bytes!"
-        super().__init__(self.msg)
 
 
 class Response:
@@ -39,10 +30,10 @@ class Response:
         self.values: Any = self.__parse_values(self.__buffer[idx_count_:], response_struct)
 
     def __str__(self) -> str:
-        return utils.format_str(self)
+        return _utils.format_str(self)
 
     def __repr__(self) -> str:
-        return utils.format_repr(self)
+        return _utils.format_repr(self)
 
     def __bytes__(self) -> bytes:
         return bytes().join((self.header, self.__buffer))

@@ -20,7 +20,6 @@ from dataclasses import (
 from itertools import islice
 
 from .utils import flatten
-from .exceptions import UnknownXmpTypeError
 from .types import (
     XmpType,
     FMT_ORDER_NETWORK,
@@ -217,4 +216,4 @@ def field(
             deprecated=deprecated,
             deprecation_reason=deprecation_reason,
         )
-    raise UnknownXmpTypeError(xmp_type)
+    return None

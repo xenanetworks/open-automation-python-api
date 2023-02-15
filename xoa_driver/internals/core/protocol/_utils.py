@@ -1,39 +1,6 @@
 from __future__ import annotations
-from typing import (
-    NamedTuple,
-    Protocol,
-    Any,
-)
-import ctypes as c
+from typing import NamedTuple
 from . import constants as const
-
-
-class XmpHeader(Protocol):
-    magic_word: c.c_char_p
-    number_of_indices: c.c_ushort
-    number_of_value_bytes: c.c_ushort
-    command_parameter: c.c_ushort
-    module_index: c.c_ubyte
-    port_index: c.c_ubyte
-    request_identifier: c.c_uint32
-
-    @property
-    def cmd_type(self) -> int: ...  # noqa: E704
-
-    @property
-    def cmd_code(self) -> int: ...   # noqa: E704
-
-    @property
-    def body_size(self) -> int: ...   # noqa: E704
-
-
-class XmProtocol(Protocol):
-    header: XmpHeader
-    class_name: str
-    index_values: list[int]
-    values: Any
-
-    def __bytes__(self) -> bytes: ...  # noqa: E704
 
 
 class CodeTypeStr(NamedTuple):
@@ -45,7 +12,7 @@ def repr_bytes(data: bytes) -> list[str]:
     return data.hex(",").split(",")
 
 
-def get_code_str(x: XmProtocol) -> CodeTypeStr:
+def get_code_str(x) -> CodeTypeStr:
     code, ty = (
         x.header.cmd_code,
         x.header.cmd_type,
@@ -58,7 +25,7 @@ def get_code_str(x: XmProtocol) -> CodeTypeStr:
     return CodeTypeStr(ty_str, code_str)
 
 
-def format_repr(obj: XmProtocol) -> str:
+def format_repr(obj) -> str:
     ty_str, code_str = get_code_str(obj)
     return (
         f"{str(obj.header.module_index):3s} "
@@ -72,10 +39,8 @@ def format_repr(obj: XmProtocol) -> str:
     )
 
 
-def format_str(obj: XmProtocol, *args: str, b_str: bytes | None = None) -> str:
+def format_str(obj, *args: str, b_str: bytes | None = None) -> str:
     bin_str = repr_bytes(bytes(obj) if not b_str else b_str)
-    # The Response object are not having __bytes__ method,
-    # but this function explicitly use <b_str> for <Response> and no other use cases forthis util so it's dosent mater
     (ty_str, code_str) = get_code_str(obj)
     obj_name = type(obj).__name__
     if obj_name == 'Response':

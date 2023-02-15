@@ -2,7 +2,7 @@ from __future__ import annotations
 import struct
 
 from . import constants as const
-from . import utils
+from . import _utils
 from .struct_header import ProtocolHeader
 from .payload import RequestBodyStruct
 
@@ -42,10 +42,10 @@ class Request:
         self.values = values
 
     def __str__(self) -> str:
-        return utils.format_str(self)
+        return _utils.format_str(self)
 
     def __repr__(self) -> str:
-        return utils.format_repr(self)
+        return _utils.format_repr(self)
 
     def __bytes__(self) -> bytes:
         return bytes().join(

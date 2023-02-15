@@ -12,7 +12,10 @@ from asyncio.transports import Transport
 from ..protocol import constants as const
 from .. import interfaces as x_types
 
-from .logging import TransportationLogger
+from .logger import (
+    TransportationLogger,
+    CustomLogger,
+)
 from .request_id_counter import RequestIdCounter
 from .stream import Stream
 from .processor import PacketsProcessor
@@ -26,9 +29,13 @@ class TransportationHandler(asyncio.Protocol):
 
     __slots__ = ("identity", "__log", "__transport", "__id_counter", "__stream", "__resp_publisher", "__pkt_processor")
 
-    def __init__(self, *, debug: bool = False, logger: None = None) -> None:
+    def __init__(self, *, enable_logging: bool = False, custom_logger: CustomLogger | None = None) -> None:
         self.identity = uuid4().hex[:6]
-        self.__log = TransportationLogger(self.identity, debug, logger)
+        self.__log = TransportationLogger(
+            cid=self.identity,
+            enabled=enable_logging,
+            logger=custom_logger
+        )
         self.__transport: Transport | None = None
         self.__id_counter = RequestIdCounter()
         self.__stream = Stream(
@@ -89,7 +96,7 @@ class TransportationHandler(asyncio.Protocol):
             req_id=request_id_,
             cmd_name=request.class_name
         )
-        self.__log.request_obj(request)
+        self.__log.debug_request(request)
         return bytes(request), fut_
 
     def subscribe(self, xmc_cls: x_types.CMD_TYPE, callback: "Callable") -> None:

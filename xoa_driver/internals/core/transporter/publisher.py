@@ -75,14 +75,14 @@ class ResponsePublisher:
 
     def publish_connection_lost(self, info) -> None:
         self.__observer.dispatch(ON_EVT_DISCONNECTED, info)
-        # self.__logger.debug(info)
+        self.__logger.debug(info)
 
     def publish_push_response(self, response: Response) -> None:
         self.__observer.dispatch(
             response.header.cmd_code,
             response
         )
-        self.__logger.response_obj(response)
+        self.__logger.debug_push(response)
 
     def publish_param_response(self, response: Response) -> None:
         future = self.__futures_mapper.pop_future(
@@ -94,4 +94,4 @@ class ResponsePublisher:
             future.set_exception(exception(response.class_name))
         else:
             future.set_result(response.values)
-        self.__logger.response_obj(response)
+        self.__logger.debug_response(response)

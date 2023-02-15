@@ -3,13 +3,15 @@ from typing import Type
 from .constants import CommandStatus
 
 
-class XoaStatusException(Exception):
+class XmpStatusException(Exception):
+    __slots__ = ("err_code", "msg", "cmd",)
+
     err_code: CommandStatus | None
     msg: str
     cmd: str
 
 
-class XoaNoConnectionError(XoaStatusException):
+class XmpNoConnectionError(XmpStatusException):
     def __init__(self, cmd) -> None:
         self.err_code = CommandStatus.NOCONNECTIONS
         self.msg = "Chassis has no available connection slots"
@@ -17,7 +19,7 @@ class XoaNoConnectionError(XoaStatusException):
         super().__init__(f"{self.cmd}: {self.msg}")
 
 
-class XoaNoLoggedOnError(XoaStatusException):
+class XmpNoLoggedOnError(XmpStatusException):
     def __init__(self, cmd) -> None:
         self.err_code = CommandStatus.NOTLOGGEDON
         self.msg = "No command can be submitted before logon"
@@ -25,7 +27,7 @@ class XoaNoLoggedOnError(XoaStatusException):
         super().__init__(f"{self.cmd}: {self.msg}")
 
 
-class XoaNotReservedError(XoaStatusException):
+class XmpNotReservedError(XmpStatusException):
     def __init__(self, cmd) -> None:
         self.err_code = CommandStatus.NOTRESERVED
         self.msg = "Parameter cannot be set because containing resource not reserved"
@@ -33,7 +35,7 @@ class XoaNotReservedError(XoaStatusException):
         super().__init__(f"{self.cmd}: {self.msg}")
 
 
-class XoaNotWritableError(XoaStatusException):
+class XmpNotWritableError(XmpStatusException):
     def __init__(self, cmd) -> None:
         self.err_code = CommandStatus.NOTWRITABLE
         self.msg = "Parameter cannot be set because it is not in a writable state"
@@ -41,7 +43,7 @@ class XoaNotWritableError(XoaStatusException):
         super().__init__(f"{self.cmd}: {self.msg}")
 
 
-class XoaNotReadableError(XoaStatusException):
+class XmpNotReadableError(XmpStatusException):
     def __init__(self, cmd) -> None:
         self.err_code = CommandStatus.NOTREADABLE
         self.msg = "Parameter is write-only"
@@ -49,7 +51,7 @@ class XoaNotReadableError(XoaStatusException):
         super().__init__(f"{self.cmd}: {self.msg}")
 
 
-class XoaNotValidError(XoaStatusException):
+class XmpNotValidError(XmpStatusException):
     def __init__(self, cmd) -> None:
         self.err_code = CommandStatus.NOTVALID
         self.msg = "Operation not valid in current state"
@@ -57,7 +59,7 @@ class XoaNotValidError(XoaStatusException):
         super().__init__(f"{self.cmd}: {self.msg}")
 
 
-class XoaBadHeaderError(XoaStatusException):
+class XmpBadHeaderError(XmpStatusException):
     def __init__(self, cmd) -> None:
         self.err_code = CommandStatus.BADHEADER
         self.msg = "Invalid magic word"
@@ -65,7 +67,7 @@ class XoaBadHeaderError(XoaStatusException):
         super().__init__(f"{self.cmd}: {self.msg}")
 
 
-class XoaBadCommandError(XoaStatusException):
+class XmpBadCommandError(XmpStatusException):
     def __init__(self, cmd) -> None:
         self.err_code = CommandStatus.BADCOMMAND
         self.msg = "Invalid command"
@@ -73,7 +75,7 @@ class XoaBadCommandError(XoaStatusException):
         super().__init__(f"{self.cmd}: {self.msg}")
 
 
-class XoaBadParameterError(XoaStatusException):
+class XmpBadParameterError(XmpStatusException):
     def __init__(self, cmd) -> None:
         self.err_code = CommandStatus.BADPARAMETER
         self.msg = "Invalid parameter code"
@@ -81,7 +83,7 @@ class XoaBadParameterError(XoaStatusException):
         super().__init__(f"{self.cmd}: {self.msg}")
 
 
-class XoaBadModuleError(XoaStatusException):
+class XmpBadModuleError(XmpStatusException):
     def __init__(self, cmd) -> None:
         self.err_code = CommandStatus.BADMODULE
         self.msg = "Invalid module index"
@@ -89,7 +91,7 @@ class XoaBadModuleError(XoaStatusException):
         super().__init__(f"{self.cmd}: {self.msg}")
 
 
-class XoaBadPortError(XoaStatusException):
+class XmpBadPortError(XmpStatusException):
     def __init__(self, cmd) -> None:
         self.err_code = CommandStatus.BADPORT
         self.msg = "Invalid port index"
@@ -97,7 +99,7 @@ class XoaBadPortError(XoaStatusException):
         super().__init__(f"{self.cmd}: {self.msg}")
 
 
-class XoaBadIndexError(XoaStatusException):
+class XmpBadIndexError(XmpStatusException):
     def __init__(self, cmd) -> None:
         self.err_code = CommandStatus.BADINDEX
         self.msg = "Invalid parameter index"
@@ -105,7 +107,7 @@ class XoaBadIndexError(XoaStatusException):
         super().__init__(f"{self.cmd}: {self.msg}")
 
 
-class XoaBadSizeError(XoaStatusException):
+class XmpBadSizeError(XmpStatusException):
     def __init__(self, cmd) -> None:
         self.err_code = CommandStatus.BADSIZE
         self.msg = "Invalid size of data"
@@ -113,7 +115,7 @@ class XoaBadSizeError(XoaStatusException):
         super().__init__(f"{self.cmd}: {self.msg}")
 
 
-class XoaBadValueError(XoaStatusException):
+class XmpBadValueError(XmpStatusException):
     def __init__(self, cmd) -> None:
         self.err_code = CommandStatus.BADVALUE
         self.msg = "Invalid value of data"
@@ -121,7 +123,7 @@ class XoaBadValueError(XoaStatusException):
         super().__init__(f"{self.cmd}: {self.msg}")
 
 
-class XoaFailedError(XoaStatusException):
+class XmpFailedError(XmpStatusException):
     def __init__(self, cmd) -> None:
         self.err_code = CommandStatus.FAILED
         self.msg = "Failed to perform operation"
@@ -129,7 +131,7 @@ class XoaFailedError(XoaStatusException):
         super().__init__(f"{self.cmd}: {self.msg}")
 
 
-class XoaMemoryFailureError(XoaStatusException):
+class XmpMemoryFailureError(XmpStatusException):
     def __init__(self, cmd) -> None:
         self.err_code = CommandStatus.MEMORYFAILURE
         self.msg = "Failed to allocate memory"
@@ -137,7 +139,7 @@ class XoaMemoryFailureError(XoaStatusException):
         super().__init__(f"{self.cmd}: {self.msg}")
 
 
-class XoaNoPeLicenseError(XoaStatusException):
+class XmpNoPeLicenseError(XmpStatusException):
     def __init__(self, cmd) -> None:
         self.err_code = CommandStatus.NOLICPE
         self.msg = "No free PE license"
@@ -145,7 +147,7 @@ class XoaNoPeLicenseError(XoaStatusException):
         super().__init__(f"{self.cmd}: {self.msg}")
 
 
-class XoaNoFreePortLicenseError(XoaStatusException):
+class XmpNoFreePortLicenseError(XmpStatusException):
     def __init__(self, cmd) -> None:
         self.err_code = CommandStatus.NOLICPORT
         self.msg = "No free Port license"
@@ -153,7 +155,7 @@ class XoaNoFreePortLicenseError(XoaStatusException):
         super().__init__(f"{self.cmd}: {self.msg}")
 
 
-class XoaNotSupportedError(XoaStatusException):
+class XmpNotSupportedError(XmpStatusException):
     def __init__(self, cmd) -> None:
         self.err_code = CommandStatus.NOTSUPPORTED
         self.msg = "Feature not supported"
@@ -161,7 +163,7 @@ class XoaNotSupportedError(XoaStatusException):
         super().__init__(f"{self.cmd}: {self.msg}")
 
 
-class XoaPendingError(XoaStatusException):
+class XmpPendingError(XmpStatusException):
     def __init__(self, cmd) -> None:
         self.err_code = CommandStatus.PENDING
         self.msg = "Status return will wait until command has been executed"
@@ -169,7 +171,7 @@ class XoaPendingError(XoaStatusException):
         super().__init__(f"{self.cmd}: {self.msg}")
 
 
-class XoaModuleOperationNotSupportedByChassisError(XoaStatusException):
+class XmpModuleOperationNotSupportedByChassisError(XmpStatusException):
     def __init__(self, cmd) -> None:
         self.err_code = CommandStatus.MODULE_OPERATION_NOT_SUPPORTED_BY_CHASSIS
         self.msg = "module is not supported by chassis - e.g. because multi-image requires x64 OS."
@@ -177,7 +179,7 @@ class XoaModuleOperationNotSupportedByChassisError(XoaStatusException):
         super().__init__(f"{self.cmd}: {self.msg}")
 
 
-class XoaXlsFailedError(XoaStatusException):
+class XmpXlsFailedError(XmpStatusException):
     def __init__(self, cmd) -> None:
         self.err_code = CommandStatus.XLSFAILED
         self.msg = "Could not establish connection to Xena License Server"
@@ -185,7 +187,7 @@ class XoaXlsFailedError(XoaStatusException):
         super().__init__(f"{self.cmd}: {self.msg}")
 
 
-class XoaXlsDeniedError(XoaStatusException):
+class XmpXlsDeniedError(XmpStatusException):
     def __init__(self, cmd) -> None:
         self.err_code = CommandStatus.XLSDENIED
         self.msg = "Request for resource rejected by Xena License Server"
@@ -193,7 +195,7 @@ class XoaXlsDeniedError(XoaStatusException):
         super().__init__(f"{self.cmd}: {self.msg}")
 
 
-class XoaXlsInvalidError(XoaStatusException):
+class XmpXlsInvalidError(XmpStatusException):
     def __init__(self, cmd) -> None:
         self.err_code = CommandStatus.XLSINVALID
         self.msg = "Trying to run Valkyrie VE with VulcanVE-300 resource"
@@ -201,7 +203,7 @@ class XoaXlsInvalidError(XoaStatusException):
         super().__init__(f"{self.cmd}: {self.msg}")
 
 
-class XoaUnknownError(XoaStatusException):
+class XmpUnknownError(XmpStatusException):
     def __init__(self, cmd) -> None:
         self.err_code = None
         self.msg = "Unknown XOA status"
@@ -210,33 +212,33 @@ class XoaUnknownError(XoaStatusException):
 
 
 __EXCEPTIONS_MAP = {
-    CommandStatus.NOCONNECTIONS: XoaNoConnectionError,
-    CommandStatus.NOTLOGGEDON: XoaNoLoggedOnError,
-    CommandStatus.NOTRESERVED: XoaNotReservedError,
-    CommandStatus.NOTWRITABLE: XoaNotWritableError,
-    CommandStatus.NOTREADABLE: XoaNotReadableError,
-    CommandStatus.NOTVALID: XoaNotValidError,
-    CommandStatus.BADHEADER: XoaBadHeaderError,
-    CommandStatus.BADCOMMAND: XoaBadCommandError,
-    CommandStatus.BADPARAMETER: XoaBadParameterError,
-    CommandStatus.BADMODULE: XoaBadModuleError,
-    CommandStatus.BADPORT: XoaBadPortError,
-    CommandStatus.BADINDEX: XoaBadIndexError,
-    CommandStatus.BADSIZE: XoaBadSizeError,
-    CommandStatus.BADVALUE: XoaBadValueError,
-    CommandStatus.FAILED: XoaFailedError,
-    CommandStatus.MEMORYFAILURE: XoaMemoryFailureError,
-    CommandStatus.NOLICPE: XoaNoPeLicenseError,
-    CommandStatus.NOLICPORT: XoaNoFreePortLicenseError,
-    CommandStatus.NOTSUPPORTED: XoaNotSupportedError,
-    CommandStatus.PENDING: XoaPendingError,
-    CommandStatus.MODULE_OPERATION_NOT_SUPPORTED_BY_CHASSIS: XoaModuleOperationNotSupportedByChassisError,
-    CommandStatus.XLSFAILED: XoaXlsFailedError,
-    CommandStatus.XLSDENIED: XoaXlsDeniedError,
-    CommandStatus.XLSINVALID: XoaXlsInvalidError
+    CommandStatus.NOCONNECTIONS: XmpNoConnectionError,
+    CommandStatus.NOTLOGGEDON: XmpNoLoggedOnError,
+    CommandStatus.NOTRESERVED: XmpNotReservedError,
+    CommandStatus.NOTWRITABLE: XmpNotWritableError,
+    CommandStatus.NOTREADABLE: XmpNotReadableError,
+    CommandStatus.NOTVALID: XmpNotValidError,
+    CommandStatus.BADHEADER: XmpBadHeaderError,
+    CommandStatus.BADCOMMAND: XmpBadCommandError,
+    CommandStatus.BADPARAMETER: XmpBadParameterError,
+    CommandStatus.BADMODULE: XmpBadModuleError,
+    CommandStatus.BADPORT: XmpBadPortError,
+    CommandStatus.BADINDEX: XmpBadIndexError,
+    CommandStatus.BADSIZE: XmpBadSizeError,
+    CommandStatus.BADVALUE: XmpBadValueError,
+    CommandStatus.FAILED: XmpFailedError,
+    CommandStatus.MEMORYFAILURE: XmpMemoryFailureError,
+    CommandStatus.NOLICPE: XmpNoPeLicenseError,
+    CommandStatus.NOLICPORT: XmpNoFreePortLicenseError,
+    CommandStatus.NOTSUPPORTED: XmpNotSupportedError,
+    CommandStatus.PENDING: XmpPendingError,
+    CommandStatus.MODULE_OPERATION_NOT_SUPPORTED_BY_CHASSIS: XmpModuleOperationNotSupportedByChassisError,
+    CommandStatus.XLSFAILED: XmpXlsFailedError,
+    CommandStatus.XLSDENIED: XmpXlsDeniedError,
+    CommandStatus.XLSINVALID: XmpXlsInvalidError
 }
 
 
-def get_status_error(cmd_status: CommandStatus) -> Type[XoaStatusException]:
+def get_status_error(cmd_status: CommandStatus) -> Type[XmpStatusException]:
     global __EXCEPTIONS_MAP
-    return __EXCEPTIONS_MAP.get(cmd_status, XoaUnknownError)
+    return __EXCEPTIONS_MAP.get(cmd_status, XmpUnknownError)

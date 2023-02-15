@@ -94,7 +94,7 @@ class OrderedMeta(type):
 class RequestBodyStruct(metaclass=OrderedMeta):
     """Request Body class"""
 
-    __slots__ = ("_buffer", "_order")
+    __slots__ = ("_buffer", "_order", "__stored")
 
     def __init__(self, **kwargs) -> None:
         self._buffer = BytesIO()
@@ -103,9 +103,15 @@ class RequestBodyStruct(metaclass=OrderedMeta):
             if name not in kwargs:
                 raise AttributeError(f"[{name}] is required!")
             setattr(self, name, kwargs[name])
+        self.__stored = kwargs
         nbytes = self.nbytes()
         padding = bytes(4 - (nbytes % 4) if nbytes % 4 else 0)
         self._buffer.write(padding)
+
+    def __repr__(self) -> str:
+        cls_name = f"{self.__class__.__qualname__}"
+        vals = ", ".join(f"{n}={v!r}" for n, v in self.__stored.items())
+        return f"{cls_name}({vals})"
 
     def nbytes(self) -> int:
         return self._buffer.getbuffer().nbytes
@@ -128,8 +134,9 @@ class ResponseBodyStruct(metaclass=OrderedMeta):
         order.calc_dynamic_fields(self._buffer)
 
     def __repr__(self) -> str:
-        vals = ", ".join(f"{n}={v}" for n, v in zip(self._order.field_names, self.to_tuple()))
-        return f"{self.__class__.__name__}({vals})"
+        cls_name = f"{self.__class__.__qualname__}"
+        vals = ", ".join(f"{n}={v!r}" for n, v in zip(self._order.field_names, self.to_tuple()))
+        return f"{cls_name}({vals})"
 
     def to_tuple(self) -> tuple:
         def get_val(fn: str) -> Any:
