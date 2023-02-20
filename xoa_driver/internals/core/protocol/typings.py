@@ -1,10 +1,17 @@
+# The defenition of generic Types
 from __future__ import annotations
 import typing as t
-from .token import Token
-from .protocol.payload.base_struct import RequestBodyStruct, ResponseBodyStruct
-if t.TYPE_CHECKING:
-    from .protocol.struct_request import Request
-    from asyncio import Future
+from .payload.base_struct import (
+    RequestBodyStruct,
+    ResponseBodyStruct
+)
+
+T_ = t.TypeVar("T_", covariant=True)
+
+
+class Token(t.Protocol[T_]):
+    def __await__(self) -> t.Generator[t.Any, None, T_]:
+        ...
 
 
 class IsDataclass(t.Protocol):
@@ -35,30 +42,3 @@ class ICmdOnlyGet(ICommand, t.Protocol):
 
 
 CMD_TYPE = t.Union[ICmdOnlySet, ICmdOnlyGet]
-
-
-Inst = t.TypeVar('Inst')
-CallbackType = t.Callable[[Inst, t.Optional[IsDataclass]], t.Awaitable[None]]
-
-
-class IConnection(t.Protocol):
-    """Representation of TransportationHandler"""
-
-    @property
-    def is_connected(self) -> bool:
-        ...
-
-    def send(self, data: bytes | bytearray | memoryview) -> None:
-        ...
-
-    def close(self) -> None:
-        ...
-
-    async def prepare_data(self, request: "Request") -> t.Tuple[bytes, "Future"]:
-        ...
-
-    def subscribe(self, xmc_cls: "CMD_TYPE", callback: "t.Callable") -> None:
-        ...
-
-    def on_disconnected(self, callback: "t.Callable") -> None:
-        ...

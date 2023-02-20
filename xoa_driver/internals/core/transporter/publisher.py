@@ -7,10 +7,7 @@ from collections import (
 )
 from functools import partialmethod
 from typing import Any, Callable, Coroutine, Final
-from .exceptions import (
-    LostFuture,
-    # BadStatus
-)
+from .exceptions import XoaLostFuture
 from ..protocol.struct_response import Response
 from ..protocol.exceptions import get_status_error
 
@@ -30,12 +27,11 @@ class FuturesMapper(UserDict):
     def pop_future(self, req_id: int, cmd_name: str) -> asyncio.Future:
         fut = self.data.pop((req_id, cmd_name), None)
         if not fut:
-            raise LostFuture(req_id, cmd_name)
+            raise XoaLostFuture(req_id, cmd_name)
         return fut
 
 
 class EventsObserver:
-
     __slots__ = ("__events",)
 
     def __init__(self) -> None:
@@ -75,7 +71,6 @@ class ResponsePublisher:
 
     def publish_connection_lost(self, info) -> None:
         self.__observer.dispatch(ON_EVT_DISCONNECTED, info)
-        self.__logger.debug(info)
 
     def publish_push_response(self, response: Response) -> None:
         self.__observer.dispatch(

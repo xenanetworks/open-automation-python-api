@@ -15,6 +15,8 @@ from xoa_driver.lli import establish_connection  # noqa: E402
 from xoa_driver.lli import commands  # noqa: E402
 from xoa_driver.lli import TransportationHandler  # noqa: E402
 from xoa_driver.utils import apply, apply_iter  # noqa: E402
+from xoa_driver.internals.core.protocol.struct_response import Response
+from xoa_driver.internals.core.protocol.struct_header import ResponseHeader
 # TODO: <GET> response contain more fields then driver can parse
 # TODO: <GET> response contains less fields then driver can parse
 # TODO: <SET> request require more fields then server expecting
@@ -33,6 +35,11 @@ from xoa_driver.utils import apply, apply_iter  # noqa: E402
 
 
 async def main() -> None:
+    # incoming = b'XENA\x00\x02\x00\x01c\xc2\x02\x00\x00\x00\x00\x96\x00\x00\x00\x01\x00\x00\x00\x00\x01\xfc\x97q'
+    # header = ResponseHeader.from_bytes(incoming[:ResponseHeader.size])
+    # print(incoming[ResponseHeader.size:])
+    # response = Response.from_bytes(commands.PEF_TPLDSETTINGS, header, incoming[ResponseHeader.size:])
+    # print(response)
     # logging.basicConfig(
     #     format='%(relativeCreated)5d %(name)-15s %(levelname)-8s %(message)s',
     #     level=logging.DEBUG
@@ -40,7 +47,7 @@ async def main() -> None:
     # logger_ = logging.getLogger(__file__)
     ctx = TransportationHandler(enable_logging=True, custom_logger=logger)
     await establish_connection(ctx, "192.168.1.198")
-    # print("Is connected", ctx.is_connected)
+    # # print("Is connected", ctx.is_connected)
     with cProfile.Profile() as pr:
         *_, pc = await apply(
             commands.C_LOGON(ctx).set("xena"),
@@ -53,12 +60,14 @@ async def main() -> None:
     # print(resp)
     # ccp = await commands.C_VERSIONNO(ctx).get()
     # print(ccp)
-        req = apply_iter(*[commands.P_CAPABILITIES(ctx, 1, 1).get() for _ in range(100_000)])
-        async for resp in req:
-            resp.tx_eq_tap_max_val
+        # req = apply_iter(*[commands.P_CAPABILITIES(ctx, 1, 1).get() for _ in range(100_000)])
+        # async for resp in req:
+        #     resp.tx_eq_tap_max_val
     stats = pstats.Stats(pr)
     stats.sort_stats(pstats.SortKey.TIME)
     stats.print_stats(20)
+    ctx.close()
+    await asyncio.sleep(1)
 
     # port = PortL23()
     # if isinstance(port, PortL23) and port.is_capable_of(ANLT, PCS_PMA)

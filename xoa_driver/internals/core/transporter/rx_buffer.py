@@ -30,7 +30,8 @@ class ResponseHeader(Protocol):
         ...
 
 
-class Stream(Generic[HeaderType]):
+class RxBuffer(Generic[HeaderType]):
+    """Rx Buffer"""
     __slots__ = ("__queue", "__header_struct", "__wait_data")
 
     def __init__(self, header_struct: type[HeaderType]) -> None:

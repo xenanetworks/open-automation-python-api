@@ -6,7 +6,7 @@ from . import _constants as const
 from . import _utils
 from .struct_header import ResponseHeader
 from .payload import ResponseBodyStruct
-from xoa_driver.internals.core.interfaces import CMD_TYPE
+from .typings import CMD_TYPE
 
 
 class Response:
@@ -22,7 +22,7 @@ class Response:
         "__buffer",
     )
 
-    def __init__(self, class_name: str, header: ResponseHeader, buffer: bytearray, response_struct: type[ResponseBodyStruct] | None) -> None:
+    def __init__(self, class_name: str, header: ResponseHeader, buffer: bytes, response_struct: type[ResponseBodyStruct] | None) -> None:
         self.class_name = class_name
         self.header = header
         idces_fmt_ = f"!{header.number_of_indices}I"
@@ -71,7 +71,7 @@ class Response:
         return is_payload_resp and contain_values
 
     @classmethod
-    def from_bytes(cls: Type[Self], cmd: Type[CMD_TYPE], header: ResponseHeader, data: bytearray) -> Self:
+    def from_bytes(cls: Type[Self], cmd: Type[CMD_TYPE], header: ResponseHeader, data: bytes) -> Self:
         """Parse bytes retrieved from server to Response structure."""
         return cls(
             class_name=cmd.__name__,

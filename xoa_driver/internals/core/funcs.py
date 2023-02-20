@@ -6,28 +6,31 @@ from typing import (
     TYPE_CHECKING,
     Any,
     AsyncGenerator,
-    Optional,
     Dict,
 )
 if TYPE_CHECKING:
-    from .handler import TransportationHandler
-    from .. import interfaces
+    from .transporter.handler import TransportationHandler
+    from . import interfaces
 
 from .token import Token
-from . import exceptions
+from .transporter import exceptions
 
 
-async def establish_connection(transporter: "TransportationHandler", host: str, port: int = 22606, loop: Optional["AbstractEventLoop"] = None) -> None:
+async def establish_connection(transporter: "TransportationHandler", host: str, port: int = 22606, *, seconds_timeout: int = 5, loop: AbstractEventLoop | None = None) -> None:
     """
     Establish connection to provided host and port and assign ``<TransportationHandler>`` to it.
     """
-
     assert isinstance(loop, AbstractEventLoop) or loop is None, "<loop> must be an instance of AbstractEventLoop or None"
     __loop = loop if loop else asyncio.get_event_loop()
     try:
-        await __loop.create_connection(lambda: transporter, host=host, port=port)
+        await asyncio.wait_for(
+            __loop.create_connection(lambda: transporter, host=host, port=port),
+            seconds_timeout
+        )
     except OSError:
-        raise exceptions.EstablishConnectionError(host, port) from None
+        raise exceptions.XoaConnectionError(host, port) from None
+    except asyncio.exceptions.TimeoutError:
+        raise exceptions.XoaConnectionTimeoutError(host, port, seconds_timeout) from None
 
 
 async def apply_iter(*cmd_tokens: Token[Any], return_exceptions: bool = False) -> AsyncGenerator[Any, None]:

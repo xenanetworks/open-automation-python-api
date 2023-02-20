@@ -8,7 +8,7 @@ from ..protocol.command_builders import (
     build_set_request
 )
 from .. import interfaces
-from ..transporter.token import Token
+from ..token import Token
 from ..registry import register_command
 from ..protocol.payload import (
     field,

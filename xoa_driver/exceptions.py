@@ -5,7 +5,7 @@ from .internals.exceptions import (
     WrongTesterError,
     WrongTesterPasswordError,
 )
-from .internals.core.transporter.exceptions import EstablishConnectionError
+from .internals.core.transporter.exceptions import XoaConnectionError
 from .internals.core.protocol.exceptions import (
     XmpStatusException,
     XmpNoConnectionError,
@@ -37,7 +37,7 @@ __all__ = (
     "WrongModuleError",
     "WrongTesterError",
     "WrongTesterPasswordError",
-    "EstablishConnectionError",
+    "XoaConnectionError",
     "XmpStatusException",
     "XmpNoConnectionError",
     "XmpNoLoggedOnError",

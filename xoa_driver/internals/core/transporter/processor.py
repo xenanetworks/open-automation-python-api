@@ -1,7 +1,11 @@
 from __future__ import annotations
 import asyncio
 from dataclasses import dataclass
-from typing import Callable, Generator, Protocol
+from typing import (
+    Callable,
+    Generator,
+    Protocol
+)
 from collections import UserDict
 
 from ..protocol.struct_response import Response
@@ -11,7 +15,7 @@ from .exceptions import RepeatedRequestID
 
 
 class Stream(Protocol):
-    async def read(self) -> Generator[tuple, None, None]:
+    async def read(self) -> Generator[tuple[ResponseHeader, bytes], None, None]:
         ...
 
 
@@ -54,11 +58,11 @@ class PacketsProcessor:
         self.__consumer = asyncio.create_task(self.__consume())
         # self.__consumer.add_done_callback(self.__handle_exceptions)
 
-    def __handle_exceptions(self, fut: asyncio.Future) -> None:
-        if fut.cancelled():
-            return None
-        if e := fut.exception():
-            raise e
+    # def __handle_exceptions(self, fut: asyncio.Future) -> None:
+    #     if fut.cancelled():
+    #         return None
+    #     if e := fut.exception():
+    #         raise e
 
     def stop(self) -> None:
         if not self.is_running:
@@ -77,7 +81,11 @@ class PacketsProcessor:
         self.__handle_param_response = callback
 
     async def __consume(self) -> None:
-        cnsm_ = Consumer(self.__cm_mapper, self.__handle_push_response, self.__handle_param_response)
+        cnsm_ = Consumer(
+            self.__cm_mapper,
+            self.__handle_push_response,
+            self.__handle_param_response
+        )
         async for header, body_bytes in self.__stream.read():
             cnsm_.run(header, body_bytes)
             if not self.__evt_do_job.is_set():
@@ -90,15 +98,15 @@ class Consumer:
     _handle_push_response: Callable
     _handle_param_response: Callable
 
-    def __serialize_to_response(self, header: ResponseHeader, body_bytes: bytearray) -> Response:
+    def __serialize_to_response(self, header: ResponseHeader, body_bytes: bytes) -> Response:
         """Applying received bytes to structured representation."""
         command_idx = header.cmd_code if header.is_pushed else self._cm_mapper.pop_code(header.request_identifier)
         if not command_idx:
-            raise RepeatedRequestID(header)
+            raise RepeatedRequestID(header.request_identifier, str(header))
         xmc_type = registry.get_command(command_idx)
         return Response.from_bytes(xmc_type, header, body_bytes)
 
-    async def __task(self, header, body_bytes) -> None:
+    async def __task(self, header: ResponseHeader, body_bytes: bytes) -> None:
         response = self.__serialize_to_response(header, body_bytes)
         if header.is_pushed:
             self._handle_push_response(response)

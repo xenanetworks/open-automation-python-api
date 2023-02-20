@@ -11,7 +11,7 @@ from xoa_driver.internals.core.commands import (
     P_TRAFFIC,
     P4_STATE,
 )
-from xoa_driver.internals.core.transporter import funcs
+from xoa_driver.internals.core import funcs
 from xoa_driver.internals.core.commands import enums
 
 from xoa_driver.internals.utils import attributes as utils

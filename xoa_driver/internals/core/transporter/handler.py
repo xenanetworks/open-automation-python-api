@@ -1,20 +1,16 @@
 from __future__ import annotations
 import asyncio
 
-from typing import Callable
-
-
-from uuid import uuid4
-
-
 from asyncio.transports import Transport
+from typing import Callable
+from uuid import uuid4
 
 from .logger import (
     TransportationLogger,
     CustomLogger,
 )
 from .request_id_counter import RequestIdCounter
-from .stream import Stream
+from .rx_buffer import RxBuffer
 from .processor import PacketsProcessor
 from .publisher import ResponsePublisher
 from ..protocol.struct_header import ResponseHeader
@@ -25,10 +21,11 @@ from ..interfaces import CMD_TYPE
 class TransportationHandler(asyncio.Protocol):
     """Handling sending and receiving of the XMP commands."""
 
-    __slots__ = ("identity", "__log", "__transport", "__id_counter", "__stream", "__resp_publisher", "__pkt_processor")
+    __slots__ = ("identity", "peername", "__log", "__transport", "__id_counter", "__rx_buff", "__resp_publisher", "__pkt_processor")
 
     def __init__(self, *, enable_logging: bool = False, custom_logger: CustomLogger | None = None) -> None:
         self.identity = uuid4().hex[:6]
+        self.peername: tuple[str, int] | None = None
         self.__log = TransportationLogger(
             cid=self.identity,
             enabled=enable_logging,
@@ -36,9 +33,9 @@ class TransportationHandler(asyncio.Protocol):
         )
         self.__transport: Transport | None = None
         self.__id_counter = RequestIdCounter()
-        self.__stream = Stream(header_struct=ResponseHeader)
+        self.__rx_buff = RxBuffer(header_struct=ResponseHeader)
         self.__resp_publisher = ResponsePublisher(logger=self.__log)
-        self.__pkt_processor = PacketsProcessor(self.__stream)
+        self.__pkt_processor = PacketsProcessor(self.__rx_buff)
         self.__pkt_processor.on_push_response(self.__resp_publisher.publish_push_response)
         self.__pkt_processor.on_param_response(self.__resp_publisher.publish_param_response)
 
@@ -48,22 +45,25 @@ class TransportationHandler(asyncio.Protocol):
 
     def connection_made(self, transport: "Transport") -> None:
         self.__transport = transport
-        peername = transport.get_extra_info("peername")
+        self.peername = transport.get_extra_info("peername")
         self.__pkt_processor.start()
-        self.__log.info(f"Connected to {peername}")
+        self.__log.info(f"Connected to {self.peername}")
 
     def data_received(self, data: bytes) -> None:
         """Process received data from xenaserver."""
-        self.__stream.write(data)
+        self.__rx_buff.write(data)
 
     def eof_received(self) -> None:
         self.__log.info("EOF received")
 
-    def connection_lost(self, exc) -> None:
-        self.__resp_publisher.publish_connection_lost(self.__transport.get_extra_info("peername") if self.__transport else None)
+    def connection_lost(self, exc: Exception | None) -> None:
+        self.__resp_publisher.publish_connection_lost(self.peername)
         self.__transport = None
         self.__pkt_processor.stop()
-        self.__log.info(f"The server closed the connection {exc}")
+        if exc:
+            self.__log.error(exc)
+        else:
+            self.__log.info(f"The server {self.peername} closed the connection")
 
     def send(self, data: bytes | bytearray | memoryview) -> None:
         """
@@ -72,7 +72,7 @@ class TransportationHandler(asyncio.Protocol):
         """
         if not self.is_connected:
             raise BrokenPipeError("No socket!")
-        self.__transport.write(data)  # type: ignore[reportOption alMemberAccess]
+        self.__transport.write(data)  # type: ignore[reportOptionalMemberAccess]
 
     def close(self) -> None:
         """Close connection with xenaserver."""
@@ -95,6 +95,7 @@ class TransportationHandler(asyncio.Protocol):
         return bytes(request), fut_
 
     def subscribe(self, xmc_cls: CMD_TYPE, callback: "Callable") -> None:
+        """Register the callback on the command which supports Server PUSH notification."""
         assert xmc_cls.pushed, "Command is not subscribable."
         assert callback, "Callback function is required."
         self.__resp_publisher.subscribe(
@@ -103,4 +104,5 @@ class TransportationHandler(asyncio.Protocol):
         )
 
     def on_disconnected(self, callback: "Callable") -> None:
+        """Regiser users callback which will be called after connection was terminated."""
         self.__resp_publisher.subscribe_connection_lost(callback)

@@ -4,7 +4,7 @@ from dataclasses import (
     dataclass,
     field,
 )
-from xoa_driver.internals.core.transporter import funcs
+from xoa_driver.internals.core import funcs
 from xoa_driver.internals.core.commands import enums
 from xoa_driver.internals.core.commands import (
     M_MODEL,

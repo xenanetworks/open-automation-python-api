@@ -5,7 +5,7 @@ from typing import (
 )
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
-from xoa_driver.internals.core.transporter import funcs
+from xoa_driver.internals.core import funcs
 from xoa_driver.internals.core.protocol.exceptions import XmpBadValueError
 from xoa_driver.internals import exceptions
 from xoa_driver.internals.core.commands import (

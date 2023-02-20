@@ -9,7 +9,7 @@ from ..protocol.command_builders import (
     build_set_request
 )
 from .. import interfaces
-from ..transporter.token import Token
+from ..token import Token
 from ..registry import register_command
 from ..protocol.payload import (
     field,
@@ -1850,14 +1850,14 @@ class PEF_TPLDSETTINGS:
     _filter_type: FilterType
 
     class GetDataAttr(ResponseBodyStruct):
-        use: FilterUse = field(XmpByte())
-        """coded byte, specifies the use of TPLD information.information."""
+        # use: FilterUse = field(XmpByte())
+        # """coded byte, specifies the use of TPLD information.information."""
         action: InfoAction = field(XmpByte())
         """coded byte, specifies the action of TPLD information."""
 
     class SetDataAttr(RequestBodyStruct):
-        use: FilterUse = field(XmpByte())
-        """coded byte, specifies the use of TPLD information."""
+        # use: FilterUse = field(XmpByte())
+        # """coded byte, specifies the use of TPLD information."""
         action: InfoAction = field(XmpByte())
         """coded byte, specifies the action of TPLD information."""
 

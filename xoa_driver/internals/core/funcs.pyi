@@ -7,7 +7,7 @@ from typing import (
     overload
 )
 from .token import Token
-from .handler import TransportationHandler
+from .transporter.handler import TransportationHandler
 
 
 async def establish_connection(transporter: TransportationHandler, host: str, port: int = 22606, loop: "AbstractEventLoop" | None = None) -> None:
