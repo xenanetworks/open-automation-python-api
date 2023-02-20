@@ -6,7 +6,6 @@ from collections import UserDict
 
 from ..protocol.struct_response import Response
 from ..protocol.struct_header import ResponseHeader
-from ..protocol.command_builders import build_from_bytes
 from .. import registry
 from .exceptions import RepeatedRequestID
 
@@ -78,20 +77,11 @@ class PacketsProcessor:
         self.__handle_param_response = callback
 
     async def __consume(self) -> None:
-        # TODO: Handle exceptions
         cnsm_ = Consumer(self.__cm_mapper, self.__handle_push_response, self.__handle_param_response)
         async for header, body_bytes in self.__stream.read():
             cnsm_.run(header, body_bytes)
             if not self.__evt_do_job.is_set():
                 return None
-
-    def __serialize_to_response(self, header: ResponseHeader, body_bytes: bytearray) -> Response:
-        """Applying received bytes to structured representation."""
-        command_idx = header.cmd_code if header.is_pushed else self.__cm_mapper.pop_code(header.request_identifier)
-        if not command_idx:
-            raise RepeatedRequestID(header)
-        xmc_type = registry.get_command(command_idx)
-        return build_from_bytes(xmc_type, header, body_bytes)
 
 
 @dataclass
@@ -106,9 +96,9 @@ class Consumer:
         if not command_idx:
             raise RepeatedRequestID(header)
         xmc_type = registry.get_command(command_idx)
-        return build_from_bytes(xmc_type, header, body_bytes)
+        return Response.from_bytes(xmc_type, header, body_bytes)
 
-    async def __consume(self, header, body_bytes) -> None:
+    async def __task(self, header, body_bytes) -> None:
         response = self.__serialize_to_response(header, body_bytes)
         if header.is_pushed:
             self._handle_push_response(response)
@@ -116,4 +106,4 @@ class Consumer:
             self._handle_param_response(response)
 
     def run(self, header, body_bytes) -> None:
-        asyncio.create_task(self.__consume(header, body_bytes))
+        asyncio.create_task(self.__task(header, body_bytes))

@@ -1,47 +1,41 @@
 from __future__ import annotations
-from typing import NamedTuple
-from . import constants as const
-
-
-class CodeTypeStr(NamedTuple):
-    type: str  # name of command type
-    code: str  # name of command status code, or command name
+from typing import Generator
+from . import _constants as const
 
 
 def repr_bytes(data: bytes) -> list[str]:
     return data.hex(",").split(",")
 
 
-def get_code_str(x) -> CodeTypeStr:
+def get_code_str(x) -> Generator[int | str, None, None]:
     code, ty = (
         x.header.cmd_code,
         x.header.cmd_type,
     )
-    ty_str = const.CommandType(ty).name
+    yield const.CommandType(ty).name
     if ty == const.CommandType.COMMAND_STATUS:
-        code_str = const.CommandStatus(code).name
+        yield const.CommandStatus(code).name
     else:
-        code_str = x.class_name
-    return CodeTypeStr(ty_str, code_str)
+        yield code
 
 
 def format_repr(obj) -> str:
     ty_str, code_str = get_code_str(obj)
     return (
+        f"{str(obj.header.request_identifier):5s} "
         f"{str(obj.header.module_index):3s} "
         f"{str(obj.header.port_index):3s} "
         f"{str(obj.index_values):10s} "
-        f"{str(obj.header.request_identifier):5s} "
         f"{str(obj.class_name):25s} "
-        f"{str(code_str):25s} "
-        f"{str(ty_str):10s} "
+        f"{str(code_str):6s} "
+        f"{str(ty_str):15s} "
         f"{obj.values}"
     )
 
 
-def format_str(obj, *args: str, b_str: bytes | None = None) -> str:
-    bin_str = repr_bytes(bytes(obj) if not b_str else b_str)
-    (ty_str, code_str) = get_code_str(obj)
+def format_str(obj) -> str:
+    bin_str = repr_bytes(bytes(obj))
+    ty_str, code_str = get_code_str(obj)
     obj_name = type(obj).__name__
     if obj_name == 'Response':
         cmd_p = 'Replied' if obj.header.request_identifier != 0 else 'Pushed'
@@ -61,5 +55,5 @@ def format_str(obj, *args: str, b_str: bytes | None = None) -> str:
             f"request_identifier   : {obj.header.request_identifier}",
             f"index_values         : {obj.index_values}",
             f"values               : {obj.values}",
-        ) + args
+        )
     )

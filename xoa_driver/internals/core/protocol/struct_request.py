@@ -1,7 +1,7 @@
 from __future__ import annotations
 import struct
 
-from . import constants as const
+from . import _constants as const
 from . import _utils
 from .struct_header import ProtocolHeader
 from .payload import RequestBodyStruct

@@ -1,17 +1,16 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Type
+# from typing import TYPE_CHECKING, Type
 
-if TYPE_CHECKING:
-    from . import struct_header
-from . import struct_response
+# if TYPE_CHECKING:
+#     from . import struct_header
+# from . import struct_response
 from . import struct_request
-from .constants import CommandType
+from ._constants import CommandType
 
-from .payload import ResponseBodyStruct
+# from .payload import ResponseBodyStruct
 from xoa_driver.internals.core.interfaces import (
     ICmdOnlySet,
     ICmdOnlyGet,
-    CMD_TYPE,
 )
 
 
@@ -47,12 +46,12 @@ def build_get_request(cls: ICmdOnlyGet, **kwargs) -> "struct_request.Request":
     )
 
 
-def build_from_bytes(cls: Type[CMD_TYPE], header: "struct_header.ResponseHeader", data: bytearray) -> "struct_response.Response":
-    """Parse bytes retrieved from server to Response structure."""
-    properties_structure: Type[ResponseBodyStruct] | None = getattr(cls, "GetDataAttr", None)
-    return struct_response.Response(
-        class_name=cls.__name__,
-        header=header,
-        buffer=data,
-        response_struct=properties_structure
-    )
+# def build_from_bytes(cls: Type[CMD_TYPE], header: "struct_header.ResponseHeader", data: bytearray) -> "struct_response.Response":
+#     """Parse bytes retrieved from server to Response structure."""
+#     properties_structure: Type[ResponseBodyStruct] | None = getattr(cls, "GetDataAttr", None)
+#     return struct_response.Response(
+#         class_name=cls.__name__,
+#         header=header,
+#         buffer=data,
+#         response_struct=properties_structure
+#     )

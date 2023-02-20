@@ -1,7 +1,9 @@
-
+from __future__ import annotations
 
 import ctypes as c
-from . import constants as const
+from typing import Type, ClassVar
+from typing_extensions import Self
+from . import _constants as const
 
 
 class ProtocolHeader(c.BigEndianStructure):
@@ -60,9 +62,23 @@ class ProtocolHeader(c.BigEndianStructure):
         return body_size
 
 
+def _header_bytes_is_valid(header_bytes: memoryview, expected_size: int, magic_wrd: bytes) -> bool:
+    is_correct_size = len(header_bytes) == expected_size
+    start_with_mw = header_bytes[:len(magic_wrd)] == magic_wrd
+    return is_correct_size and start_with_mw
+
+
 class ResponseHeader(ProtocolHeader):
+    size: ClassVar[int] = c.sizeof(ProtocolHeader)
 
     @property
     def is_pushed(self) -> bool:
         """Check if response is pushed."""
         return self.request_identifier == 0
+
+    @classmethod
+    def from_bytes(cls: Type[Self], buff: bytes) -> Self | None:
+        header_bytes = memoryview(buff)
+        if not _header_bytes_is_valid(header_bytes, cls.size, const.MAGIC_WORD):
+            return None
+        return cls.from_buffer_copy(header_bytes)

@@ -20,8 +20,10 @@ SYMBOL_RESPONSE = f"{YELLOW} <- {RESET}"
 
 
 class XoaLoggerAdapter(logging.LoggerAdapter):
-    def process(self, msg, kwargs):
-        return '[%s] %s' % (self.extra['connid'], msg), kwargs
+    def process(self, msg: t.Any, kwargs: t.MutableMapping[str, t.Any]):
+        if not self.extra:
+            return f"{msg}", kwargs
+        return f"[{self.extra['connid']}] {msg}", kwargs
 
 
 class StateOnDefault:

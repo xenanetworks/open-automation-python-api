@@ -1,6 +1,6 @@
 from __future__ import annotations
 from typing import Type
-from .constants import CommandStatus
+from ._constants import CommandStatus
 
 
 class XmpStatusException(Exception):

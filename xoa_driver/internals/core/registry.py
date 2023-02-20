@@ -35,6 +35,7 @@ def register_command(xmc_cls: Type[CMD_TYPE]) -> Type:
 
 
 def get_command(command_idx: int) -> Type[CMD_TYPE]:
+    """Method allows to get a command class by the command code"""
     global COMMANDS_REGISTRY
     xmc_type = COMMANDS_REGISTRY.get(command_idx, None)
     if not xmc_type:

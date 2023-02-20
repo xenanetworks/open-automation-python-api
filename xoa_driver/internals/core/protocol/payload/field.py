@@ -172,7 +172,6 @@ class SequenceSpec(FieldSpecs):
         try:
             client_type = get_args(client_type)[0]
         except IndexError as e:
-            print(client_type)
             raise e
         if is_response:
             return _prepare_client_chunks(

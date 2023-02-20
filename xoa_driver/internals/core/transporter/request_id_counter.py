@@ -3,7 +3,7 @@ import asyncio
 
 
 class ReservedRequestID(IntEnum):
-    PUSH_REQUEST = 0
+    PUSH_REQUEST = 0x0
     REQUEST_ID_LIMIT = 0xFFFFFFFF
 
     @classmethod

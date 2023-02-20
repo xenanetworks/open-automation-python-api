@@ -1,5 +1,5 @@
 from __future__ import annotations
-from ..protocol.struct_response import Response
+# from ..protocol.struct_response import Response
 from ..protocol.struct_header import ResponseHeader
 
 
@@ -19,11 +19,11 @@ class EstablishConnectionError(Exception):
         super().__init__(self.msg)
 
 
-class BadStatus(Exception):
-    def __init__(self, response: Response) -> None:
-        self.msg = f"Bad status {response.command_status!r} of {response.class_name}!\n{response}"
-        self.response = response
-        super().__init__(self.msg)
+# class BadStatus(Exception):
+#     def __init__(self, response: Response) -> None:
+#         self.msg = f"Bad status {response.command_status!r} of {response.class_name}!\n{response}"
+#         self.response = response
+#         super().__init__(self.msg)
 
 
 class NotImplementedCommand(Exception):
@@ -49,10 +49,3 @@ class LostFuture(TransporterException):
         self.cls_name = cls_name
         self.msg = f"Lost Future {req_id} {cls_name}."
         super().__init__(self.msg)
-
-
-# class TooShortData(Exception):
-#     def __init__(self, data: bytes) -> None:
-#         self.data = data
-#         self.msg = f"{data} is too short."
-#         super().__init__(self.msg)

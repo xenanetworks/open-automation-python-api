@@ -1,76 +1,78 @@
 from __future__ import annotations
 import asyncio
-import ctypes as c
+from collections import deque
+from itertools import islice
 from typing import (
     AsyncGenerator,
+    ClassVar,
     Generic,
+    Protocol,
+    Type,
     TypeVar,
 )
 
-
-HeaderType = TypeVar("HeaderType", bound="c.BigEndianStructure")
-
-
-def _calc_body_position(header_pos: slice, body_size: int) -> slice:
-    return slice(
-        header_pos.stop,
-        header_pos.stop + body_size
-    )
+HeaderType = TypeVar("HeaderType", bound="ResponseHeader")
 
 
-def _header_bytes_is_valid(header_bytes: memoryview, expected_size: int, magic_wrd: bytes) -> bool:
-    is_correct_size = len(header_bytes) == expected_size
-    start_with_mw = header_bytes[:len(magic_wrd)] == magic_wrd
-    return is_correct_size and start_with_mw
+class ResponseHeader(Protocol):
+    size: ClassVar[int]
+
+    @property
+    def body_size(self) -> int:
+        ...
+
+    @property
+    def is_pushed(self) -> bool:
+        ...
+
+    @classmethod
+    def from_bytes(cls: Type["HeaderType"], buff: bytes) -> "HeaderType" | None:
+        ...
 
 
 class Stream(Generic[HeaderType]):
-    __slots__ = ("__buffer", "__magic_wrd", "__header_struct", "__header_pos", "__wait_data")
+    __slots__ = ("__queue", "__header_struct", "__wait_data")
 
-    def __init__(self, header_struct: type[HeaderType], magic_wrd: bytes) -> None:
-        self.__buffer = bytearray()
-        self.__magic_wrd = magic_wrd
+    def __init__(self, header_struct: type[HeaderType]) -> None:
+        self.__queue: deque[int] = deque(b"")
         self.__header_struct = header_struct
-        self.__header_pos = slice(c.sizeof(header_struct))
-        self.__wait_data = asyncio.Event()
 
-    def __pop(self) -> tuple[HeaderType, memoryview] | None:
-        # need to manage of the data copying
-        if self.empty():
+    def __pop_n_bytes(self, n_bytes: int) -> bytes:
+        def safe_pop() -> int | None:
+            try:
+                return self.__queue.popleft()
+            except IndexError:
+                return None
+        return bytes(islice(iter(safe_pop, None), n_bytes))
+
+    def __pop_packet(self) -> tuple[HeaderType, bytes] | None:
+        h_buff = self.__pop_n_bytes(self.__header_struct.size)
+        if not h_buff:
             return None
-        buff = self.__buffer
-        header_bytes = memoryview(buff[self.__header_pos])
-        if not _header_bytes_is_valid(header_bytes, self.__header_pos.stop, self.__magic_wrd):
+        header = self.__header_struct.from_bytes(h_buff)
+        if header is None:
+            self.__queue.extendleft(h_buff)
             return None
-        header = self.__header_struct.from_buffer_copy(header_bytes)
-        BODY_POS = _calc_body_position(
-            self.__header_pos,
-            header.body_size
-        )
-        body_bytes = memoryview(buff[BODY_POS])
+        body_bytes = self.__pop_n_bytes(header.body_size)
         if len(body_bytes) < header.body_size:
+            self.__queue.extendleft(body_bytes)
+            self.__queue.extendleft(h_buff)
             return None
-        try:
-            return (header, body_bytes)
-        finally:
-            del self.__buffer[slice(BODY_POS.stop)]
-            if self.empty():
-                self.__wait_data.clear()
+        return (header, body_bytes)
 
     def empty(self) -> bool:
         """Return True if the stream is empty, False otherwise."""
-        return not self.__buffer
+        return not self.__queue
 
     def write(self, data: bytes) -> None:
-        self.__buffer.extend(data)
-        if not self.__wait_data.is_set():
-            self.__wait_data.set()
+        self.__queue.extend(data)
 
-    async def read(self) -> AsyncGenerator[tuple[HeaderType, memoryview], None]:
+    async def read(self) -> AsyncGenerator[tuple[HeaderType, bytes], None]:
         while True:
-            if resp := self.__pop():
-                yield resp
-            try:
-                await asyncio.wait_for(self.__wait_data.wait(), 1)
-            except asyncio.exceptions.TimeoutError:
-                pass
+            await asyncio.sleep(0)
+            parsed = self.__pop_packet()
+            if not parsed:
+                await asyncio.sleep(0)
+                continue
+            header, body_bytes = parsed
+            yield header, body_bytes

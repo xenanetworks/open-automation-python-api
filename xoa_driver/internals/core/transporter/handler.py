@@ -9,9 +9,6 @@ from uuid import uuid4
 
 from asyncio.transports import Transport
 
-from ..protocol import constants as const
-from .. import interfaces as x_types
-
 from .logger import (
     TransportationLogger,
     CustomLogger,
@@ -22,6 +19,7 @@ from .processor import PacketsProcessor
 from .publisher import ResponsePublisher
 from ..protocol.struct_header import ResponseHeader
 from ..protocol.struct_request import Request
+from ..interfaces import CMD_TYPE
 
 
 class TransportationHandler(asyncio.Protocol):
@@ -38,10 +36,7 @@ class TransportationHandler(asyncio.Protocol):
         )
         self.__transport: Transport | None = None
         self.__id_counter = RequestIdCounter()
-        self.__stream = Stream(
-            header_struct=ResponseHeader,
-            magic_wrd=const.MAGIC_WORD
-        )
+        self.__stream = Stream(header_struct=ResponseHeader)
         self.__resp_publisher = ResponsePublisher(logger=self.__log)
         self.__pkt_processor = PacketsProcessor(self.__stream)
         self.__pkt_processor.on_push_response(self.__resp_publisher.publish_push_response)
@@ -99,7 +94,7 @@ class TransportationHandler(asyncio.Protocol):
         self.__log.debug_request(request)
         return bytes(request), fut_
 
-    def subscribe(self, xmc_cls: x_types.CMD_TYPE, callback: "Callable") -> None:
+    def subscribe(self, xmc_cls: CMD_TYPE, callback: "Callable") -> None:
         assert xmc_cls.pushed, "Command is not subscribable."
         assert callback, "Callback function is required."
         self.__resp_publisher.subscribe(
