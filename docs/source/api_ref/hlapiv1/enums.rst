@@ -65,6 +65,7 @@ Enum Classes
     LicenseSpeed
     LifecycleMode
     LinkState
+    LinkTrainAlgorithm
     LinkTrainCmd
     LinkTrainCmdFlags
     LinkTrainCmdResults
