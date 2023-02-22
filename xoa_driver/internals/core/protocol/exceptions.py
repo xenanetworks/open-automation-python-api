@@ -239,6 +239,8 @@ __EXCEPTIONS_MAP = {
 }
 
 
-def get_status_error(cmd_status: CommandStatus) -> Type[XmpStatusException]:
+def get_status_error(cmd_status: CommandStatus | None) -> Type[XmpStatusException]:
     global __EXCEPTIONS_MAP
+    if cmd_status is None:
+        return XmpUnknownError
     return __EXCEPTIONS_MAP.get(cmd_status, XmpUnknownError)

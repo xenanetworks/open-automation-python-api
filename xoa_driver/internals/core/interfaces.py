@@ -1,10 +1,19 @@
 from __future__ import annotations
 import typing as t
+from .protocol.payload.base_struct import (
+    RequestBodyStruct,
+    ResponseBodyStruct
+)
 from .token import Token
-from .protocol.payload.base_struct import RequestBodyStruct, ResponseBodyStruct
 if t.TYPE_CHECKING:
     from .protocol.struct_request import Request
     from asyncio import Future
+
+
+# The defenition of generic Types
+
+
+T_ = t.TypeVar("T_", covariant=True)
 
 
 class IsDataclass(t.Protocol):

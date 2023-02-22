@@ -1,7 +1,10 @@
 from __future__ import annotations
 
 import ctypes as c
-from typing import Type, ClassVar
+from typing import (
+    Type,
+    ClassVar
+)
 from typing_extensions import Self
 from . import _constants as const
 

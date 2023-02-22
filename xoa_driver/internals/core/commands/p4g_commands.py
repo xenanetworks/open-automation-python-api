@@ -4,7 +4,7 @@ import ipaddress
 import typing
 import functools
 
-from ..protocol.command_builders import (
+from ..command_builders import (
     build_get_request,
     build_set_request
 )

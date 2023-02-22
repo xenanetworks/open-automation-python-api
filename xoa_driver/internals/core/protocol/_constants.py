@@ -9,6 +9,10 @@ MAGIC_WORD: Final = b"XENA"
 # MAGIC_WORD = 0x58454E41
 
 
+def indices_format(number: int) -> str:
+    return f"!{number}I"
+
+
 class CommandType(IntEnum):
     """BXMP request type"""
 

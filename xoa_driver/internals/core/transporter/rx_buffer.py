@@ -35,7 +35,7 @@ class RxBuffer(Generic[HeaderType]):
     __slots__ = ("__queue", "__header_struct", "__wait_data")
 
     def __init__(self, header_struct: type[HeaderType]) -> None:
-        self.__queue: deque[int] = deque(b"")
+        self.__queue: deque[int] = deque()
         self.__header_struct = header_struct
 
     def __pop_n_bytes(self, n_bytes: int) -> bytes:
@@ -52,12 +52,12 @@ class RxBuffer(Generic[HeaderType]):
             return None
         header = self.__header_struct.from_bytes(h_buff)
         if header is None:
-            self.__queue.extendleft(h_buff)
+            self.__queue.extendleft(reversed(memoryview(h_buff)))
             return None
         body_bytes = self.__pop_n_bytes(header.body_size)
         if len(body_bytes) < header.body_size:
-            self.__queue.extendleft(body_bytes)
-            self.__queue.extendleft(h_buff)
+            self.__queue.extendleft(reversed(memoryview(body_bytes)))
+            self.__queue.extendleft(reversed(memoryview(h_buff)))
             return None
         return (header, body_bytes)
 
@@ -70,10 +70,14 @@ class RxBuffer(Generic[HeaderType]):
 
     async def read(self) -> AsyncGenerator[tuple[HeaderType, bytes], None]:
         while True:
-            await asyncio.sleep(0)
+            if self.empty():
+                await asyncio.sleep(0.001)
+                continue
+            else:
+                await asyncio.sleep(0)
             parsed = self.__pop_packet()
             if not parsed:
-                await asyncio.sleep(0)
                 continue
-            header, body_bytes = parsed
-            yield header, body_bytes
+            yield parsed
+
+

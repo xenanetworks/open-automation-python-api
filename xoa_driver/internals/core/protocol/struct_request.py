@@ -48,10 +48,11 @@ class Request:
         return _utils.format_repr(self)
 
     def __bytes__(self) -> bytes:
+        idx_format = const.indices_format(self.header.number_of_indices)
         return bytes().join(
             (
                 self.header,
-                struct.pack(f"!{self.header.number_of_indices}I", *self.index_values),
+                struct.pack(idx_format, *self.index_values),
                 self.values.to_bytes() if self.values else b""
             )
         )

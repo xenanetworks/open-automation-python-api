@@ -1,10 +1,13 @@
 from __future__ import annotations
-from .struct_request import Request
-from ._constants import CommandType
-
-from xoa_driver.internals.core.interfaces import (
+from typing import Type
+from .protocol.struct_header import ResponseHeader
+from .protocol.struct_request import Request
+from .protocol.struct_response import Response
+from .protocol._constants import CommandType
+from .interfaces import (
     ICmdOnlySet,
     ICmdOnlyGet,
+    CMD_TYPE
 )
 
 
@@ -37,4 +40,14 @@ def build_get_request(cls: ICmdOnlyGet, **kwargs) -> Request:
         port_index=port,
         indices=indices,
         values=req_values
+    )
+
+
+def create_response_obj(cmd: Type[CMD_TYPE], header: ResponseHeader, data: bytes) -> Response:
+    """Parse bytes retrieved from server to Response structure."""
+    return Response(
+        class_name=cmd.__name__,
+        header=header,
+        buffer=data,
+        response_struct=getattr(cmd, "GetDataAttr", None)
     )

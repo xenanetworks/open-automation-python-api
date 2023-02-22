@@ -1,12 +1,10 @@
 from __future__ import annotations
 import asyncio
 from asyncio.events import AbstractEventLoop
-from collections import defaultdict
 from typing import (
     TYPE_CHECKING,
     Any,
     AsyncGenerator,
-    Dict,
 )
 if TYPE_CHECKING:
     from .transporter.handler import TransportationHandler
@@ -35,16 +33,17 @@ async def establish_connection(transporter: "TransportationHandler", host: str, 
 
 async def apply_iter(*cmd_tokens: Token[Any], return_exceptions: bool = False) -> AsyncGenerator[Any, None]:
     """
-    Main interface for chunking the commands which need to be send to one or multiple testers at the same time.
+    Main interface for chunking the commands which need to be send to the single tester at the same time.
     """
-    aggregator: Dict["interfaces.IConnection", bytearray] = defaultdict(bytearray)
+    conn: "interfaces.IConnection" = cmd_tokens[0].connection
+    buffer_bytes = bytearray()
     queue: asyncio.Queue[asyncio.Future] = asyncio.Queue()
     for t in cmd_tokens:
         (data, fut) = await t.connection.prepare_data(t.request)
-        aggregator[t.connection].extend(data)
+        buffer_bytes.extend(data)
         queue.put_nowait(fut)
-    [c.send(r) for c, r in aggregator.items()]
-    aggregator.clear()
+    conn.send(buffer_bytes)
+    buffer_bytes.clear()
     __excp_to_raise = None
     while not queue.empty():
         future = await queue.get()

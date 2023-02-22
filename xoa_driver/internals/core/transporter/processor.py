@@ -8,6 +8,7 @@ from typing import (
 )
 from collections import UserDict
 
+from ..command_builders import create_response_obj
 from ..protocol.struct_response import Response
 from ..protocol.struct_header import ResponseHeader
 from .. import registry
@@ -56,13 +57,6 @@ class PacketsProcessor:
             return None
         self.__evt_do_job.set()
         self.__consumer = asyncio.create_task(self.__consume())
-        # self.__consumer.add_done_callback(self.__handle_exceptions)
-
-    # def __handle_exceptions(self, fut: asyncio.Future) -> None:
-    #     if fut.cancelled():
-    #         return None
-    #     if e := fut.exception():
-    #         raise e
 
     def stop(self) -> None:
         if not self.is_running:
@@ -86,7 +80,7 @@ class PacketsProcessor:
             self.__handle_push_response,
             self.__handle_param_response
         )
-        async for header, body_bytes in self.__stream.read():
+        async for header, body_bytes in self.__stream:
             cnsm_.run(header, body_bytes)
             if not self.__evt_do_job.is_set():
                 return None
@@ -104,7 +98,7 @@ class Consumer:
         if not command_idx:
             raise RepeatedRequestID(header.request_identifier, str(header))
         xmc_type = registry.get_command(command_idx)
-        return Response.from_bytes(xmc_type, header, body_bytes)
+        return create_response_obj(xmc_type, header, body_bytes)
 
     async def __task(self, header: ResponseHeader, body_bytes: bytes) -> None:
         response = self.__serialize_to_response(header, body_bytes)

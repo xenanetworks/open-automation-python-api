@@ -6,7 +6,12 @@ from collections import (
     defaultdict,
 )
 from functools import partialmethod
-from typing import Any, Callable, Coroutine, Final
+from typing import (
+    Any,
+    Callable,
+    Coroutine,
+    Final
+)
 from .exceptions import XoaLostFuture
 from ..protocol.struct_response import Response
 from ..protocol.exceptions import get_status_error
@@ -85,7 +90,7 @@ class ResponsePublisher:
             cmd_name=response.class_name
         )
         if not response.is_ok:
-            exception = get_status_error(response.command_status)  # type: ignore
+            exception = get_status_error(response.command_status)
             future.set_exception(exception(response.class_name))
         else:
             future.set_result(response.values)

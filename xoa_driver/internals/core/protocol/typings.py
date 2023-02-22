@@ -1,5 +1,6 @@
 # The defenition of generic Types
 from __future__ import annotations
+from dataclasses import dataclass
 import typing as t
 from .payload.base_struct import (
     RequestBodyStruct,
@@ -9,6 +10,7 @@ from .payload.base_struct import (
 T_ = t.TypeVar("T_", covariant=True)
 
 
+@dataclass(frozen=True)
 class Token(t.Protocol[T_]):
     def __await__(self) -> t.Generator[t.Any, None, T_]:
         ...

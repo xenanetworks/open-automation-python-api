@@ -2,7 +2,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 import typing
 
-from ..protocol.command_builders import (
+from ..command_builders import (
     build_get_request,
     build_set_request
 )

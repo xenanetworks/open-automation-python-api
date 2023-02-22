@@ -45,8 +45,8 @@ async def main() -> None:
     #     level=logging.DEBUG
     # )
     # logger_ = logging.getLogger(__file__)
-    ctx = TransportationHandler(enable_logging=True, custom_logger=logger)
-    await establish_connection(ctx, "192.168.1.198")
+    ctx = TransportationHandler(enable_logging=False, custom_logger=logger)
+    await establish_connection(ctx, "demo.xenanetworks.com")
     # # print("Is connected", ctx.is_connected)
     with cProfile.Profile() as pr:
         *_, pc = await apply(
@@ -56,18 +56,14 @@ async def main() -> None:
             commands.M_CAPABILITIES(ctx, 1).get(),
             commands.P_CAPABILITIES(ctx, 1, 1).get(),
         )
-        print(pc)
-    # print(resp)
-    # ccp = await commands.C_VERSIONNO(ctx).get()
-    # print(ccp)
-        # req = apply_iter(*[commands.P_CAPABILITIES(ctx, 1, 1).get() for _ in range(100_000)])
-        # async for resp in req:
-        #     resp.tx_eq_tap_max_val
+        str(pc)
+        req = apply_iter(*[commands.P_CAPABILITIES(ctx, 1, 1).get() for _ in range(10_000)])
+        async for resp in req:
+            resp.tx_eq_tap_max_val
     stats = pstats.Stats(pr)
     stats.sort_stats(pstats.SortKey.TIME)
     stats.print_stats(20)
     ctx.close()
-    await asyncio.sleep(1)
 
     # port = PortL23()
     # if isinstance(port, PortL23) and port.is_capable_of(ANLT, PCS_PMA)
@@ -92,6 +88,6 @@ if __name__ == "__main__":
     # result = timeit.timeit(
     #     "run(main())",
     #     setup="from __main__ import run, main",
-    #     number=1
+    #     number=10
     # )
     # print(result)

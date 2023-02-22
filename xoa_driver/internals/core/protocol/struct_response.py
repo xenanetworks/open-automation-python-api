@@ -1,12 +1,10 @@
 from __future__ import annotations
 import struct
-from typing import Any, Type
-from typing_extensions import Self
+from typing import Any
 from . import _constants as const
 from . import _utils
 from .struct_header import ResponseHeader
 from .payload import ResponseBodyStruct
-from .typings import CMD_TYPE
 
 
 class Response:
@@ -25,7 +23,7 @@ class Response:
     def __init__(self, class_name: str, header: ResponseHeader, buffer: bytes, response_struct: type[ResponseBodyStruct] | None) -> None:
         self.class_name = class_name
         self.header = header
-        idces_fmt_ = f"!{header.number_of_indices}I"
+        idces_fmt_ = const.indices_format(header.number_of_indices)
         idx_count_ = struct.calcsize(idces_fmt_)
         self.__buffer = memoryview(buffer)
         self.index_values = self.__parse_indices(idces_fmt_, self.__buffer[:idx_count_])
@@ -69,13 +67,3 @@ class Response:
         is_payload_resp = self.header.cmd_type == const.CommandType.COMMAND_VALUE
         contain_values = self.values is not None
         return is_payload_resp and contain_values
-
-    @classmethod
-    def from_bytes(cls: Type[Self], cmd: Type[CMD_TYPE], header: ResponseHeader, data: bytes) -> Self:
-        """Parse bytes retrieved from server to Response structure."""
-        return cls(
-            class_name=cmd.__name__,
-            header=header,
-            buffer=data,
-            response_struct=getattr(cmd, "GetDataAttr", None)
-        )
