@@ -38,6 +38,8 @@ class DoAnlt:
     """the initial modulations of each lane (serdes)"""
     should_lt_interactive: bool
     """should perform link training manually?"""
+    lt_algorithm: dict[int, enums.LinkTrainAlgorithm]
+    """link training algorithm should be used?"""
 
     _group: tuple["itf.IConnection", int, int] = field(init=False, repr=False)
 
@@ -112,6 +114,12 @@ class DoAnlt:
             yield self.__pp_autoneg(False)
 
         if self.should_do_lt:
+            for lane_str, algorithm in self.lt_algorithm.items():
+                # # Set the link train algorithm
+                yield self.__pl1_cfg_tmp(
+                    int(lane_str), enums.Layer1ConfigType.LT_TRAINING_ALGORITHM, int(algorithm)
+                )
+
             for lane_str, im in self.lt_initial_modulations.items():
                 yield self.__pl1_cfg_tmp(
                     int(lane_str), enums.Layer1ConfigType.LT_INITIAL_MODULATION, int(im)
@@ -139,6 +147,7 @@ async def anlt_start(
     lt_preset0_std: bool,
     lt_initial_modulations: dict[int, enums.LinkTrainEncoding],
     should_lt_interactive: bool,
+    lt_algorithm: dict[int, enums.LinkTrainAlgorithm],
 ) -> None:
     """Start ANLT on a port
 
@@ -156,6 +165,8 @@ async def anlt_start(
     :type lt_initial_modulations: Dict[str, enums.LinkTrainEncoding]
     :param should_lt_interactive: should perform link training manually?
     :type should_lt_interactive: bool
+    :param lt_algorithm: Link training algorithm to use
+    :type lt_algorithm: Dict[str, enums.LinkTrainAlgorithm]
     """
 
     anlt = DoAnlt(
@@ -166,6 +177,7 @@ async def anlt_start(
         lt_preset0_std,
         lt_initial_modulations,
         should_lt_interactive,
+        lt_algorithm,
     )
     await anlt.run()
 
@@ -280,7 +292,7 @@ async def lt_encoding(
     :type port: :class:`~xoa_driver.ports.GenericL23Port`
     :param lane: lane index, starting from 0
     :type lane: int
-    
+
     """
     return await __lt_coeff(port, lane, encoding, cmd=enums.LinkTrainCmd.CMD_ENCODING)
 
