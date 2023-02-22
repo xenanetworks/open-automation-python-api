@@ -330,11 +330,11 @@ async def lt_status(port: GenericL23Port, lane: int) -> dict[str, t.Any]:
     total_error_bit_count = (
         info.prbs_total_error_bits_high << 32
     ) + info.prbs_total_error_bits_low
-    prbs = (
+    ber = (
         total_error_bit_count / total_bit_count if total_bit_count > 0 else float("nan")
     )
     return dictionize_lt_status(
-        status, info, ltconf, cfg, prbs, total_bit_count, total_error_bit_count
+        status, info, ltconf, cfg, ber, total_bit_count, total_error_bit_count
     )
 
 
