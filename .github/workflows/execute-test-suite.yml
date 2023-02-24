@@ -1,15 +1,19 @@
-name: Check if test suite workable
+name: Testing
 
 on:
   push:
     branches:
-     - "**"
-  pull_request:
-    branches:
-     - "**"
+      - "**"
+    paths-ignore:
+      - 'docs/**'
+      - README.md
+      - .gitignore
+      - .github/**
+  workflow_dispatch:
 
 jobs:
   call-regression-test:
+    name: "Regression test"
     uses: xenanetworks/xoa-regression-tests/.github/workflows/execute-test-suite-denmark-tester.yml@main
     secrets: inherit
 
