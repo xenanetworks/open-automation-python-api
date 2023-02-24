@@ -20,6 +20,6 @@
     .. autosummary::
 
         ~LinkTrainAlgorithm.INTERACTIVE
-        ~LinkTrainAlgorithm.ALG_0
-        ~LinkTrainAlgorithm.ALG_N1
+        ~LinkTrainAlgorithm.ALG0
+        ~LinkTrainAlgorithm.ALGN1
 
