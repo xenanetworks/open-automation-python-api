@@ -4,6 +4,7 @@ from xoa_driver.ports import GenericAnyPort
 from xoa_driver.internals.core import interfaces as itf
 from xoa_driver.lli import commands
 from xoa_driver import enums
+from decimal import Decimal
 
 
 def get_ctx(port: GenericAnyPort) -> tuple["itf.IConnection", int, int]:
@@ -81,22 +82,23 @@ def dictionize_lt_status(
     info: commands.PL1_LINKTRAININFO.GetDataAttr,
     ltconf: commands.PP_LINKTRAIN.GetDataAttr,
     cfg: commands.PL1_CFG_TMP.GetDataAttr,
-    prbs: float,
+    ber: float,
     total_bit_count: float,
     total_error_bit_count: float,
 ) -> dict:
     is_enabled = True if status.mode == enums.LinkTrainingStatusMode.ENABLED else False
     is_traind = True if status.status == enums.LinkTrainingStatus.TRAINED else False
     preset0 = True if ltconf.nrz_preset == enums.NRZPreset.NRZ_WITH_PRESET else False
+    ber_str = '{:.2e}'.format(ber)
     return {
         "is_enabled": is_enabled,
         "is_trained": is_traind,
         "failure": enums.LinkTrainingFailureType(status.failure).name.lower(),
         "preset0": preset0,
-        "init_modulation": cfg.values[0],
+        "init_modulation": enums.LinkTrainEncoding(cfg.values[0]).name.lower(),
         "total_bits": total_bit_count,
         "total_errored_bits": total_error_bit_count,
-        "ber": prbs,
+        "ber": ber_str,
         "duration": info.duration_us,
         "lock_lost": info.lock_lost_count,
         "frame_lock": enums.LinkTrainFrameLock(info.frame_lock).name.lower(),

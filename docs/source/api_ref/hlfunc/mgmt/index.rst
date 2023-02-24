@@ -1,12 +1,6 @@
 Resource Management
 ===================
 
-.. versionadded:: 1.1
-    
-.. warning:: 
-
-    The high-level functions are still in beta mode. Functions are subject to changes in terms of naming and parameters.
-
 The following high-level functions handle test resource management, e.g. connection, port reservation, and port reset.
 
 -------

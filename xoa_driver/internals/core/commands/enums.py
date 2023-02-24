@@ -2106,7 +2106,7 @@ class Layer1LogType(IntEnum):
 
 class LinkTrainAlgorithm(IntEnum):
     """
-    .. versionadded:: 2.0
+    .. versionadded:: 1.2
 
     Link Training Algorithm
 
@@ -2115,10 +2115,10 @@ class LinkTrainAlgorithm(IntEnum):
     INTERACTIVE = 0
     """INTERACTIVE"""
 
-    ALG_0 = 1
+    ALG0 = 1
     """ALGORITHM 0"""
 
-    ALG_N1 = 2
+    ALGN1 = 2
     """ALGORITHM -1"""
 
 
