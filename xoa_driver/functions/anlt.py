@@ -32,8 +32,8 @@ class DoAnlt:
     """should the port do link training?"""
     an_allow_loopback: bool
     """should the autoneg allow loopback?"""
-    lt_preset0_std: bool
-    """should lt preset0 uses the standard values or the existing tap values?"""
+    lt_preset0: enums.NRZPreset
+    """out-of-sync tap values (preset 0): existing or standard"""
     lt_initial_modulations: dict[int, enums.LinkTrainEncoding]
     """the initial modulations of each lane (serdes)"""
     should_lt_interactive: bool
@@ -91,11 +91,7 @@ class DoAnlt:
 
     def __builder__(self) -> t.Generator[Token, None, None]:
         """Defining commands sequence"""
-        nrz_preset = (
-            enums.NRZPreset.NRZ_WITH_PRESET
-            if self.lt_preset0_std
-            else enums.NRZPreset.NRZ_NO_PRESET
-        )
+        nrz_preset = self.lt_preset0
         # # Set autoneg timeout
         yield self.__pp_link_train(
             enums.LinkTrainingMode.DISABLED,
@@ -144,7 +140,7 @@ async def anlt_start(
     should_do_an: bool,
     should_do_lt: bool,
     an_allow_loopback: bool,
-    lt_preset0_std: bool,
+    lt_preset0: enums.NRZPreset,
     lt_initial_modulations: dict[int, enums.LinkTrainEncoding],
     should_lt_interactive: bool,
     lt_algorithm: dict[int, enums.LinkTrainAlgorithm],
@@ -159,8 +155,8 @@ async def anlt_start(
     :type should_do_lt: bool
     :param an_allow_loopback: should the autoneg allow loopback?
     :type an_allow_loopback: bool
-    :param lt_preset0_std: should lt preset0 uses the standard values or the existing tap values?
-    :type lt_preset0_std: bool
+    :param lt_preset0: out-of-sync tap values (preset 0): existing or standard
+    :type lt_preset0: enums.NRZPreset
     :param lt_initial_modulations: the initial modulations of each lane (serdes)
     :type lt_initial_modulations: typing.Dict[str, enums.LinkTrainEncoding]
     :param should_lt_interactive: should perform link training manually?
@@ -174,7 +170,7 @@ async def anlt_start(
         should_do_an,
         should_do_lt,
         an_allow_loopback,
-        lt_preset0_std,
+        lt_preset0,
         lt_initial_modulations,
         should_lt_interactive,
         lt_algorithm,
@@ -429,9 +425,10 @@ async def anlt_status(port: GenericL23Port) -> dict[str, t.Any]:
         commands.PP_AUTONEGSTATUS(conn, mid, pid).get(),
         commands.PP_LINKTRAIN(conn, mid, pid).get(),
         commands.P_CAPABILITIES(conn, mid, pid).get(),
+        commands.PL1_CFG_TMP(conn, mid, pid, 0, enums.Layer1ConfigType.AN_LOOPBACK).get(),
     )
-    link_recovery, autoneg, linktrain, capabilities = r
-    return dictionize_anlt_status(link_recovery, autoneg, linktrain, capabilities)
+    link_recovery, autoneg, linktrain, capabilities, allow_loopback= r
+    return dictionize_anlt_status(link_recovery, autoneg, linktrain, capabilities, allow_loopback)
 
 
 async def anlt_log(port: GenericL23Port) -> str:

@@ -88,7 +88,7 @@ def dictionize_lt_status(
 ) -> dict:
     is_enabled = True if status.mode == enums.LinkTrainingStatusMode.ENABLED else False
     is_traind = True if status.status == enums.LinkTrainingStatus.TRAINED else False
-    preset0 = True if ltconf.nrz_preset == enums.NRZPreset.NRZ_WITH_PRESET else False
+    preset0 = "Existing tap values" if ltconf.nrz_preset == enums.NRZPreset.NRZ_WITH_PRESET else "Standard tap values"
     ber_str = '{:.2e}'.format(ber)
     return {
         "is_enabled": is_enabled,
@@ -132,6 +132,7 @@ def dictionize_anlt_status(
     autoneg: commands.PP_AUTONEGSTATUS.GetDataAttr,
     linktrain: commands.PP_LINKTRAIN.GetDataAttr,
     capabilities: commands.P_CAPABILITIES.GetDataAttr,
+    allow_loopback: commands.PL1_CFG_TMP.GetDataAttr,
 ) -> dict:
     return {
         "autoneg_enabled": enums.AutoNegMode(autoneg.mode).name.lower().lstrip("aneg_"),
@@ -139,4 +140,6 @@ def dictionize_anlt_status(
         "link_training_timeout": enums.TimeoutMode(linktrain.timeout_mode).name.lower(),
         "link_recovery": "on" if link_recovery.values[0] == 1 else "off",
         "serdes_count": capabilities.serdes_count,
+        "autoneg_allow_loopback": allow_loopback.values,
+        "link_training_preset0": enums.NRZPreset(linktrain.nrz_preset).name.lower(),
     }
