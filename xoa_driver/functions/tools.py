@@ -88,7 +88,7 @@ def dictionize_lt_status(
 ) -> dict:
     is_enabled = True if status.mode == enums.LinkTrainingStatusMode.ENABLED else False
     is_traind = True if status.status == enums.LinkTrainingStatus.TRAINED else False
-    preset0 = True if ltconf.nrz_preset == enums.NRZPreset.NRZ_WITH_PRESET else False
+    preset0 = "Existing tap values" if ltconf.nrz_preset == enums.NRZPreset.NRZ_WITH_PRESET else "Standard tap values"
     ber_str = '{:.2e}'.format(ber)
     return {
         "is_enabled": is_enabled,
