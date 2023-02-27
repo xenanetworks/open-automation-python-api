@@ -5,7 +5,7 @@ from typing import (
     Optional,
 )
 from typing_extensions import Self
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     M_STATUS,
     M_UPGRADE,
     M_UPGRADEPROGRESS,

@@ -5,7 +5,7 @@ from .internals.exceptions import (
     WrongTesterError,
     WrongTesterPasswordError,
 )
-from .internals.core.transporter.exceptions import XoaConnectionError
+from .internals.core.exceptions import *
 from .internals.core.protocol.exceptions import (
     XmpStatusException,
     XmpNoConnectionError,

@@ -1,22 +1,18 @@
 from __future__ import annotations
 import asyncio
-
-from asyncio.transports import Transport
 from typing import Callable
 from uuid import uuid4
-
 from .logger import (
     TransportationLogger,
-    CustomLogger,
+    CustomLogger
 )
-from .request_id_counter import RequestIdCounter
-from .rx_buffer import RxBuffer
-from .stream_reader import StreamReader
-from .processor import PacketsProcessor
-from .publisher import ResponsePublisher
-from ..protocol.struct_header import ResponseHeader
-from ..protocol.struct_request import Request
-from ..interfaces import CMD_TYPE
+from .protocol.struct_request import Request
+from .protocol.struct_header import ResponseHeader
+from ._request_id_counter import RequestIdCounter
+from ._stream import StreamReader
+from ._processor import PacketsProcessor
+from ._publisher import ResponsePublisher
+from ._typings import ICommand
 
 
 class TransportationHandler(asyncio.Protocol):
@@ -27,25 +23,25 @@ class TransportationHandler(asyncio.Protocol):
     def __init__(self, *, enable_logging: bool = False, custom_logger: CustomLogger | None = None) -> None:
         self.identity = uuid4().hex[:6]
         self.peername: tuple[str, int] | None = None
+        self.__transport: asyncio.Transport | None = None
+        self.__id_counter = RequestIdCounter()
         self.__log = TransportationLogger(
             cid=self.identity,
             enabled=enable_logging,
             logger=custom_logger
         )
-        self.__transport: Transport | None = None
-        self.__id_counter = RequestIdCounter()
-        # self.__rx_buff = RxBuffer(header_struct=ResponseHeader)
         self.__stream = StreamReader(header_struct=ResponseHeader)
         self.__resp_publisher = ResponsePublisher(logger=self.__log)
-        self.__pkt_processor = PacketsProcessor(self.__stream)
-        self.__pkt_processor.on_push_response(self.__resp_publisher.publish_push_response)
-        self.__pkt_processor.on_param_response(self.__resp_publisher.publish_param_response)
+        self.__pkt_processor = PacketsProcessor(
+            stream=self.__stream,
+            publish_func=self.__resp_publisher.publish
+        )
 
     @property
     def is_connected(self) -> bool:
         return not (self.__transport is None or self.__transport.is_closing())
 
-    def connection_made(self, transport: "Transport") -> None:
+    def connection_made(self, transport: asyncio.Transport) -> None:
         self.__transport = transport
         self.peername = transport.get_extra_info("peername")
         self.__pkt_processor.start()
@@ -53,7 +49,6 @@ class TransportationHandler(asyncio.Protocol):
 
     def data_received(self, data: bytes) -> None:
         """Process received data from xenaserver."""
-        # self.__rx_buff.write(data)
         self.__stream.feed_data(data)
 
     def eof_received(self) -> None:
@@ -89,7 +84,7 @@ class TransportationHandler(asyncio.Protocol):
         request.update_identifier(request_id_)
         self.__pkt_processor.register(
             req_id=request_id_,
-            cmd_code=request.header.cmd_code
+            cmd_code=request.cmd_code
         )
         fut_ = self.__resp_publisher.register_request(
             req_id=request_id_,
@@ -98,7 +93,7 @@ class TransportationHandler(asyncio.Protocol):
         self.__log.debug_request(request)
         return bytes(request), fut_
 
-    def subscribe(self, xmc_cls: CMD_TYPE, callback: "Callable") -> None:
+    def subscribe(self, xmc_cls: ICommand, callback: Callable) -> None:
         """Register the callback on the command which supports Server PUSH notification."""
         assert xmc_cls.pushed, "Command is not subscribable."
         assert callback, "Callback function is required."
@@ -107,6 +102,6 @@ class TransportationHandler(asyncio.Protocol):
             func=callback
         )
 
-    def on_disconnected(self, callback: "Callable") -> None:
+    def on_disconnected(self, callback: Callable) -> None:
         """Regiser users callback which will be called after connection was terminated."""
         self.__resp_publisher.subscribe_connection_lost(callback)

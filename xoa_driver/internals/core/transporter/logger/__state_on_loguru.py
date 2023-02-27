@@ -7,8 +7,6 @@ if t.TYPE_CHECKING:
         from loguru import Logger
     except ImportError:
         pass
-    from ...protocol.struct_response import Response
-    from ...protocol.struct_request import Request
     from .__logger import TransportationLogger
 
 
@@ -40,16 +38,16 @@ class StateOnLoguru:
         _loger.opt(lazy=True, colors=True).error(msg)
 
     @staticmethod
-    def debug_request(inst: "TransportationLogger", request: "Request") -> None:
+    def debug_request(inst: "TransportationLogger", request: object) -> None:
         _loger = t.cast("Logger", inst._logger)
         _loger.opt(lazy=True, colors=True).debug(f"{SYMBOL_REQUEST} {request!r}")
 
     @staticmethod
-    def debug_response(inst: "TransportationLogger", response: "Response") -> None:
+    def debug_response(inst: "TransportationLogger", response: object) -> None:
         _loger = t.cast("Logger", inst._logger)
         _loger.opt(lazy=True, colors=True).debug(f"{SYMBOL_RESPONSE} {response!r}")
 
     @staticmethod
-    def debug_push(inst: "TransportationLogger", response: "Response") -> None:
+    def debug_push(inst: "TransportationLogger", response: object) -> None:
         _loger = t.cast("Logger", inst._logger)
         _loger.opt(lazy=True, colors=True).debug(f"{SYMBOL_PUSH} {response!r}")

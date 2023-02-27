@@ -3,14 +3,14 @@ from typing import (
     Tuple,
 )
 from dataclasses import astuple
-from xoa_driver.internals.core.commands.enums import ImpairmentTypeIndex
-from xoa_driver.internals.core.commands.ped_commands import PED_ENABLE, PED_ONESHOTSTATUS, PED_SCHEDULE
+from xoa_driver.internals.commands.enums import ImpairmentTypeIndex
+from xoa_driver.internals.commands.ped_commands import PED_ENABLE, PED_ONESHOTSTATUS, PED_SCHEDULE
 
 from xoa_driver.internals.hli_v2.ports.port_l23.chimera.pe_distribution import ImpairmentDistributionConfig
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
 
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     PE_FCSDROP,
     PE_TPLDMODE,
     PE_COMMENT,

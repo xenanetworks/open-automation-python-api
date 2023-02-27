@@ -1,8 +1,8 @@
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
-from xoa_driver.internals.core.commands.enums import ImpairmentTypeIndex
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands.enums import ImpairmentTypeIndex
+from xoa_driver.internals.commands import (
     PED_SCHEDULE,
     PED_ONESHOTSTATUS,
     PED_OFF,

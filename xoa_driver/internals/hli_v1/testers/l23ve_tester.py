@@ -1,5 +1,5 @@
 from typing import Type
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     C_PORTCOUNTS,
     C_MULTIUSER,
     C_TRAFFIC,

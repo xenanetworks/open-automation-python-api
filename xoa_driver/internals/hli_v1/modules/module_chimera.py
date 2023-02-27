@@ -3,7 +3,7 @@ import asyncio
 import functools
 from typing import TYPE_CHECKING
 from typing_extensions import Self
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     M_STATUS,
     M_UPGRADE,
     M_UPGRADEPROGRESS,

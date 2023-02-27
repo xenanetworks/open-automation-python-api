@@ -11,8 +11,8 @@ from abc import (
     abstractmethod,
 )
 import functools
-from xoa_driver.internals.core.commands import enums
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import enums
+from xoa_driver.internals.commands import (
     C_RESERVATION,
     C_DOWN,
     C_PASSWORD,
@@ -27,12 +27,9 @@ from xoa_driver.internals.core.commands import (
     C_RESERVEDBY,
     C_FLASH,
 )
-from xoa_driver.internals.core.transporter import (
-    establish_connection,
-    TransportationHandler,
-)
-
-import xoa_driver.internals.hli_v1.testers._tester_session as session
+from xoa_driver.internals.core.funcs import establish_connection
+from xoa_driver.internals.core.transporter.handler import TransportationHandler
+from xoa_driver.internals.utils import session
 from xoa_driver.internals.state_storage import testers_state
 
 
@@ -57,11 +54,14 @@ class BaseTester(ABC, Generic[TesterStateStorage]):
     :param debug: `True` if debug log output from the tester is needed, and `False` otherwise
     :type debug: int, optional
     """
-    
-    def __init__(self, host: str, username: str, password: str = "xena", port: int = 22606, *, debug: bool = False) -> None:
+
+    def __init__(self, host: str, username: str, password: str = "xena", port: int = 22606, *, enable_logging: bool = False, custom_logger: CustomLogger | None = None) -> None:
         self.__host = host
         self.__port = port
-        self._conn = TransportationHandler(debug=debug)
+        self._conn = TransportationHandler(
+            enable_logging=enable_logging,
+            custom_logger=custom_logger
+        )
         self.session = session.TesterSession(
             self._conn,
             username,
@@ -168,7 +168,7 @@ class BaseTester(ABC, Generic[TesterStateStorage]):
 
     async def _setup(self: T) -> T:
         await establish_connection(self._conn, self.__host, self.__port)
-        await self.session
+        await self.session.logon()
         return self
 
     def __is_reservation(self, reserved_status: enums.ReservedStatus) -> bool:
@@ -196,9 +196,8 @@ class BaseTester(ABC, Generic[TesterStateStorage]):
 
         :type: TesterStateStorage
         """
-        
-        raise NotImplementedError()
 
+        raise NotImplementedError()
 
     # region Events
 

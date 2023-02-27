@@ -2,7 +2,7 @@
 
 
 from xoa_driver.internals.core.token import Token
-from xoa_driver.internals.core.commands.subtypes import (
+from xoa_driver.internals.commands.subtypes import (
     ArpChunk,
     NdpChunk,
 )

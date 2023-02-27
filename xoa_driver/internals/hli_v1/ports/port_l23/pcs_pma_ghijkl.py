@@ -5,7 +5,7 @@ from typing import (
 from typing_extensions import Self
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     PP_ALARMS_ERRORS,
     PP_TXLANECONFIG,
     PP_TXLANEINJECT,

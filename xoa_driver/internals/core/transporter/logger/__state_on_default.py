@@ -4,8 +4,6 @@ import typing as t
 import logging
 
 if t.TYPE_CHECKING:
-    from ...protocol.struct_response import Response
-    from ...protocol.struct_request import Request
     from .__logger import TransportationLogger
 
 
@@ -54,19 +52,19 @@ class StateOnDefault:
             _logger.error(msg)
 
     @staticmethod
-    def debug_request(inst: "TransportationLogger", request: "Request") -> None:
+    def debug_request(inst: "TransportationLogger", request: object) -> None:
         _logger = t.cast(logging.Logger, inst._logger)
         if _logger.isEnabledFor(logging.DEBUG):
             _logger.debug(f"{SYMBOL_REQUEST} {request!r}")
 
     @staticmethod
-    def debug_response(inst: "TransportationLogger", response: "Response") -> None:
+    def debug_response(inst: "TransportationLogger", response: object) -> None:
         _logger = t.cast(logging.Logger, inst._logger)
         if _logger.isEnabledFor(logging.DEBUG):
             _logger.debug(f"{SYMBOL_RESPONSE} {response!r}")
 
     @staticmethod
-    def debug_push(inst: "TransportationLogger", response: "Response") -> None:
+    def debug_push(inst: "TransportationLogger", response: object) -> None:
         _logger = t.cast(logging.Logger, inst._logger)
         if _logger.isEnabledFor(logging.DEBUG):
             _logger.debug(f"{SYMBOL_PUSH} {response!r}")

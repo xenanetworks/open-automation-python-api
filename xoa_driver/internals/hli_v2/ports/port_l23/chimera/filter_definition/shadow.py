@@ -6,12 +6,12 @@ from typing import (
 )
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
-from xoa_driver.internals.core.commands.enums import (
+from xoa_driver.internals.commands.enums import (
     FilterType,
     ProtocolOption,
     FilterMode,
 )
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     PEF_INIT,
     PEF_APPLY,
     PEF_ENABLE,

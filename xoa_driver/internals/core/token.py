@@ -8,7 +8,7 @@ from typing import (
 from dataclasses import dataclass
 
 from . import interfaces
-from .protocol.struct_request import Request
+from .transporter.protocol.struct_request import Request
 
 
 AwaitableDataType = TypeVar("AwaitableDataType")

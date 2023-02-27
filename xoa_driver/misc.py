@@ -2,7 +2,7 @@
 
 
 from .internals.core.token import Token
-from .internals.core.commands.subtypes import (
+from .internals.commands.subtypes import (
     ArpChunk,
     NdpChunk,
 )

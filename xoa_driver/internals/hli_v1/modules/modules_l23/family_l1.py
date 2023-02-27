@@ -8,7 +8,7 @@ if typing.TYPE_CHECKING:
     from .. import __interfaces as m_itf
 
 from .module_l23_base import ModuleL23
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     M_CLOCKPPBSWEEP,
     M_CLOCKSWEEPSTATUS,
 )

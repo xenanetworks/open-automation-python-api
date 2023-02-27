@@ -6,9 +6,9 @@ from enum import (
     Enum,
     auto
 )
-from xoa_driver.internals.core.commands import enums
+from xoa_driver.internals.commands import enums
 if TYPE_CHECKING:
-    from xoa_driver.internals.core.commands import P_CAPABILITIES
+    from xoa_driver.internals.commands import P_CAPABILITIES
 
 
 class EPortInterfaceSubtype(Enum):

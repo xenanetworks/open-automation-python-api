@@ -1,4 +1,4 @@
-from .protocol.exceptions import (
+from .transporter.protocol.exceptions import (
     XmpStatusException,
     XmpNoConnectionError,
     XmpNoLoggedOnError,

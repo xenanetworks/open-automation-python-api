@@ -5,8 +5,8 @@ from typing import (
 )
 
 from xoa_driver.internals.core import funcs
-from xoa_driver.internals.core.commands import enums
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import enums
+from xoa_driver.internals.commands import (
     C_RESERVATION,
     C_CAPABILITIES,
     C_RESERVEDBY,
@@ -71,7 +71,7 @@ class TesterLocalState:
 
     def register_subscriptions(self, tester) -> None:
         tester._conn.subscribe(C_RESERVEDBY, utils.Update(self, "reserved_by", "username"))
-        tester._conn.subscribe(C_RESERVATION, utils.Update(self, "reservation", "operation", format=lambda a: enums.ReservedStatus(a)))
+        tester._conn.subscribe(C_RESERVATION, utils.Update(self, "reservation", "operation"))
 
 
 class GenuineTesterLocalState(TesterLocalState):

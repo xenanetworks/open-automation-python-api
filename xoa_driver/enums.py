@@ -1,6 +1,6 @@
 #: Available enums used by commands and server response status.
 
-from .internals.core.commands.enums import (
+from .internals.commands.enums import (
     AlgorithmMethod,
     AlignLockStatus,
     ApplicationLayerBehavior,

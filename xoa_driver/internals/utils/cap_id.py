@@ -3,7 +3,7 @@ from typing import (
     Type,
     TypeVar,
 )
-from xoa_driver.internals.core.commands import P_CAPABILITIES
+from xoa_driver.internals.commands import P_CAPABILITIES
 
 T = TypeVar("T", bound="CapID")
 

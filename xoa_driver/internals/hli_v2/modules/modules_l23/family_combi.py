@@ -2,7 +2,7 @@ import typing
 import functools
 from xoa_driver.v2 import ports
 from xoa_driver.internals.hli_v2 import revisions
-from xoa_driver.internals.core.commands import P_CAPABILITIES
+from xoa_driver.internals.commands import P_CAPABILITIES
 from xoa_driver.internals.utils import ports_manager as pm
 from xoa_driver.internals.utils.cap_id import CapID
 

@@ -2,10 +2,6 @@ from __future__ import annotations
 import typing as t
 import logging
 
-if t.TYPE_CHECKING:
-    from ...protocol.struct_response import Response
-    from ...protocol.struct_request import Request
-
 from .__state_off import StateOff
 from .__state_on_default import StateOnDefault
 from .__state_on_loguru import StateOnLoguru
@@ -35,13 +31,13 @@ class TransportationLogger:
     def error(self, msg: t.Any) -> None:
         self.__state.error(self, msg)
 
-    def debug_request(self, request: Request) -> None:
+    def debug_request(self, request: object) -> None:
         self.__state.debug_request(self, request)
 
-    def debug_response(self, response: Response) -> None:
+    def debug_response(self, response: object) -> None:
         self.__state.debug_response(self, response)
 
-    def debug_push(self, response: Response) -> None:
+    def debug_push(self, response: object) -> None:
         self.__state.debug_push(self, response)
 
 
@@ -73,13 +69,13 @@ class LoggerState(t.Protocol):
         ...
 
     @staticmethod
-    def debug_request(inst: "TransportationLogger", request: Request) -> None:
+    def debug_request(inst: "TransportationLogger", request: object) -> None:
         ...
 
     @staticmethod
-    def debug_response(inst: "TransportationLogger", response: Response) -> None:
+    def debug_response(inst: "TransportationLogger", response: object) -> None:
         ...
 
     @staticmethod
-    def debug_push(inst: "TransportationLogger", response: Response) -> None:
+    def debug_push(inst: "TransportationLogger", response: object) -> None:
         ...

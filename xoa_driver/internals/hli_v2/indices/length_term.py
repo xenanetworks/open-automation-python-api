@@ -4,7 +4,7 @@ from typing import (
     TypeVar,
     Type,
 )
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     PL_INDICES,
     PL_CREATE,
     PL_DELETE,

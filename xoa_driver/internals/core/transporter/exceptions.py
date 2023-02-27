@@ -27,13 +27,12 @@ class XoaConnectionError(XoaException):
 
 
 class RepeatedRequestID(TransporterException):
-    def __init__(self, request_identifier: int, header_str: str) -> None:
+    def __init__(self, request_identifier: int,) -> None:
         self.msg = f"""
-        Got repeated request id {request_identifier}, {header_str}.
+        Got repeated request id {request_identifier}.
         This is a bug of xenaserver returning the same request identifier twice.
         """
         self.request_identifier = request_identifier
-        self.header_str = header_str
         super().__init__(self.msg)
 
 

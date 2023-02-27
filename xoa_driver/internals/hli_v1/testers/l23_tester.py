@@ -3,7 +3,7 @@ from typing import (
     TYPE_CHECKING,
     Type,
 )
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     C_PORTCOUNTS,
     C_MULTIUSER,
     C_TRAFFIC,
@@ -68,12 +68,12 @@ class L23Tester(BaseTester["testers_state.GenuineTesterLocalState"]):
     :param debug: `True` if debug log output from the tester is needed, and `False` otherwise
     :type debug: int, optional
     """
-    
+
     def __init__(self, host: str, username: str, password: str = "xena", port: int = 22606, *, debug: bool = False) -> None:
         super().__init__(host=host, username=username, password=password, port=port, debug=debug)
-        
+
         self._local_states = testers_state.GenuineTesterLocalState(host, port)
-        
+
         self.management_interface = mi.ManagementInterface(self._conn)
         """
         The management interface address configuration includes IP address, DHCP settings, MAC address and hostname.
@@ -124,7 +124,7 @@ class L23Tester(BaseTester["testers_state.GenuineTesterLocalState"]):
 
         :type: C_TRAFFICSYNC
         """
-        
+
         self.version_no_minor = C_VERSIONNO_MINOR(self._conn)
         """
         Get the minor version number of the tester firmware.
@@ -145,7 +145,7 @@ class L23Tester(BaseTester["testers_state.GenuineTesterLocalState"]):
 
         :type: ModulesManager
         """
-    
+
     @property
     def info(self) -> testers_state.GenuineTesterLocalState:
         """Return tester's local state
@@ -154,14 +154,13 @@ class L23Tester(BaseTester["testers_state.GenuineTesterLocalState"]):
         :rtype: GenuineTesterLocalState
         """
         return self._local_states
-    
+
     async def _setup(self):
         await super()._setup()
         await self._local_states.initiate(self)
         self._local_states.register_subscriptions(self)
-        
+
         ft_pc = await C_PORTCOUNTS(self._conn).get()
         port_counts = ft_pc.port_counts
         await self.modules.fill_l23(port_counts)
         return self
-

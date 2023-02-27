@@ -1,5 +1,5 @@
 
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     C_BUILDSTRING,
     C_VERSIONNO_MINOR
 )

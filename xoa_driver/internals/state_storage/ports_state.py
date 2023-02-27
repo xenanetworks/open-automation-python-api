@@ -1,7 +1,7 @@
 import asyncio
 from typing import List
 
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     P_CAPABILITIES,
     P4_CAPABILITIES,
     P_RECEIVESYNC,
@@ -12,7 +12,7 @@ from xoa_driver.internals.core.commands import (
     P4_STATE,
 )
 from xoa_driver.internals.core import funcs
-from xoa_driver.internals.core.commands import enums
+from xoa_driver.internals.commands import enums
 
 from xoa_driver.internals.utils import attributes as utils
 from ._speed_detector import SpeedDetector
@@ -56,9 +56,9 @@ class PortLocalState:
         self.reserved_by = reserved_by_r.username
 
     def register_subscriptions(self, port) -> None:
-        port._conn.subscribe(P_RECEIVESYNC, utils.Update(self, "sync_status", "sync_status", port._check_identity, format=lambda a: enums.SyncStatus(a)))
+        port._conn.subscribe(P_RECEIVESYNC, utils.Update(self, "sync_status", "sync_status", port._check_identity))
         port._conn.subscribe(P_RESERVEDBY, utils.Update(self, "reserved_by", "username", port._check_identity))
-        port._conn.subscribe(P_RESERVATION, utils.Update(self, "reservation", "status", port._check_identity, format=lambda a: enums.ReservedStatus(a)))
+        port._conn.subscribe(P_RESERVATION, utils.Update(self, "reservation", "status", port._check_identity))
         port._conn.subscribe(P_INTERFACE, utils.Update(self, "interface", "interface", port._check_identity))
 
 
@@ -151,4 +151,4 @@ class PortL47LocalState(PortLocalState):
 
     def register_subscriptions(self, port) -> None:
         super().register_subscriptions(port)
-        port._conn.subscribe(P4_STATE, utils.Update(self, "traffic_state", "state", port._check_identity, format=lambda a: enums.L47PortState(a)))
+        port._conn.subscribe(P4_STATE, utils.Update(self, "traffic_state", "state", port._check_identity))

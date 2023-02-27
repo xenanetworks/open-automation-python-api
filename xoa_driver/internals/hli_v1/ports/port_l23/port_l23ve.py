@@ -3,7 +3,7 @@ from .bases.port_l23 import BasePortL23
 from .bases.port_reception_statistics import PortReceptionStatistics
 from .bases.port_transmission_statistics import PortTransmissionStatistics
 
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     P_MDIXMODE,
     # P_ENGINENAMES, # TODO: need to implement
     # P_ENGINELOAD, # TODO: need to implement

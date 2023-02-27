@@ -2,7 +2,7 @@ import asyncio
 import functools
 from typing import TYPE_CHECKING
 
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     P_CAPABILITIES,
     P_INTERFACE,
     P_STATUS,

@@ -10,8 +10,8 @@ from abc import (
     abstractmethod,
 )
 from typing_extensions import Self
-from xoa_driver.internals.core.commands import enums
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import enums
+from xoa_driver.internals.commands import (
     M_MODEL,
     M_PORTCOUNT,
     M_RESERVATION,

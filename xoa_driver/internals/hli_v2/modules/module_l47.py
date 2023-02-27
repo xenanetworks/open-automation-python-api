@@ -2,7 +2,7 @@ import asyncio
 import functools
 import typing
 from typing_extensions import Self
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     M_LICENSE_DEMO_INFO,
     M_LICENSE_MAINTENANCE_INFO,
     M_LICENSE_CWB_DETECTED,

@@ -1,5 +1,5 @@
 from typing import TYPE_CHECKING
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     PS_INSERTFCS,
     PS_INJECTFCSERR,
 )
