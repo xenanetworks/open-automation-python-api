@@ -16,6 +16,7 @@ from .tools import (
     dictionize_txtap_get,
     dictionize_anlt_status,
 )
+import asyncio
 
 PcsPmaSupported = (FamilyL, FamilyL1)
 AutoNegSupported = (FamilyL, FamilyL1)
@@ -210,16 +211,22 @@ async def __lt_coeff(
     arg: LinkTrainType,
     *,
     cmd: enums.LinkTrainCmd,
-) -> None:
+) -> enums.LinkTrainCmdResults:
     conn, mid, pid = get_ctx(port)
     cmd_ = commands.PL1_LINKTRAIN_CMD(conn, mid, pid, lane)
     await cmd_.set(cmd=cmd, arg=arg.value)
-    return None
+    for _ in range(1000):
+        resp = await cmd_.get()
+        status = resp.result
+        if (resp.flags & enums.LinkTrainCmdFlags.DONE.value):
+            return enums.LinkTrainCmdResults(status)
+        await asyncio.sleep(0.01)
+    return enums.LinkTrainCmdResults.UNKNOWN
 
 
 async def lt_coeff_inc(
     port: GenericL23Port, lane: int, emphasis: enums.LinkTrainCoeffs
-) -> None:
+) -> enums.LinkTrainCmdResults:
     """Ask the remote port to increase coeff of the specified lane.
 
     :param port: the port object
@@ -236,7 +243,7 @@ async def lt_coeff_inc(
 
 async def lt_coeff_dec(
     port: GenericL23Port, lane: int, emphasis: enums.LinkTrainCoeffs
-) -> None:
+) -> enums.LinkTrainCmdResults:
     """Ask the remote port to decrease coeff of the specified lane.
 
     :param port: the port object
@@ -253,7 +260,7 @@ async def lt_coeff_dec(
 
 async def lt_preset(
     port: GenericL23Port, lane: int, preset: enums.LinkTrainPresets
-) -> None:
+) -> enums.LinkTrainCmdResults:
     """Ask the remote port to use the preset of the specified lane.
 
     :param port: the port object
@@ -270,7 +277,7 @@ async def lt_preset(
 
 async def lt_encoding(
     port: GenericL23Port, lane: int, encoding: enums.LinkTrainEncoding
-) -> None:
+) -> enums.LinkTrainCmdResults:
     """Ask the remote port to use the encoding of the specified lane.
 
     :param port: the port object
@@ -285,7 +292,7 @@ async def lt_encoding(
     return await __lt_coeff(port, lane, encoding, cmd=enums.LinkTrainCmd.CMD_ENCODING)
 
 
-async def lt_trained(port: GenericL23Port, lane: int) -> None:
+async def lt_trained(port: GenericL23Port, lane: int) -> enums.LinkTrainCmdResults:
     """Tell the remote port that the current lane is trained.
 
     :param port: the port object
