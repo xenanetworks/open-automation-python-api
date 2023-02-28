@@ -182,23 +182,21 @@ async def lt_rx_analyzer_dump(
         lt_rx_analyzer_status_get(port, lane, inf=inf),
     )
     string.append(f"Trigger position: {trigger_pos}\n")
-    string.append(f"Analyzer status: : {capture_done}\n")
+    string.append(f"Analyzer status : {capture_done}\n")
     if not capture_done:
         string.append("No capture\n")
         result = "".join(string)
         return result
-    string.append("Capture:")
+    string.append("Capture\n")
     for r in range(256):
         # Set the read address
         await lt_rx_analyzer_rd_addr_set(port, lane, inf=inf, value=r)
-        string.append(f"{r:02X}: ")
         for p in range(10):
             # Read the data
             await lt_rx_analyzer_rd_page_set(port, lane, inf=inf, value=p)
             d = await lt_rx_analyzer_rd_data_get(port, lane, inf=inf)
-            string.append(f"{d:08X} ")
+            string.append(f"{d:08X}")
         string.append("\n")
-    string.append("Done\n")
     result = "".join(string)
     return result
 
