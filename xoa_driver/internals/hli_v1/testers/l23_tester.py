@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import (
     Union,
     TYPE_CHECKING,
@@ -22,6 +23,7 @@ from .genuine.l_23 import (
 if TYPE_CHECKING:
     from xoa_driver import modules
 
+from xoa_driver.internals.core.transporter.logger import CustomLogger
 from xoa_driver.internals.state_storage import testers_state
 from xoa_driver.internals.hli_v1 import revisions
 from xoa_driver.internals import exceptions
@@ -69,15 +71,22 @@ class L23Tester(BaseTester["testers_state.GenuineTesterLocalState"]):
     :type debug: int, optional
     """
 
-    def __init__(self, host: str, username: str, password: str = "xena", port: int = 22606, *, debug: bool = False) -> None:
-        super().__init__(host=host, username=username, password=password, port=port, debug=debug)
+    def __init__(self, host: str, username: str, password: str = "xena", port: int = 22606, *, enable_logging: bool = False, custom_logger: CustomLogger | None = None) -> None:
+        super().__init__(
+            host=host,
+            username=username,
+            password=password,
+            port=port,
+            enable_logging=enable_logging,
+            custom_logger=custom_logger
+        )
 
         self._local_states = testers_state.GenuineTesterLocalState(host, port)
 
         self.management_interface = mi.ManagementInterface(self._conn)
         """
         The management interface address configuration includes IP address, DHCP settings, MAC address and hostname.
-        
+
         :type: ManagementInterface
         """
 

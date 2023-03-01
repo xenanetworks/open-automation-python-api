@@ -1,8 +1,9 @@
 from __future__ import annotations
 from typing import (
     Any,
+    Awaitable,
     TypeVar,
-    Generic,
+    # Generic,
     Generator
 )
 from dataclasses import dataclass
@@ -11,11 +12,11 @@ from . import interfaces
 from .transporter.protocol.struct_request import Request
 
 
-AwaitableDataType = TypeVar("AwaitableDataType")
+AwaitableDataType = TypeVar("AwaitableDataType", covariant=True)
 
 
 @dataclass(frozen=True)
-class Token(Generic[AwaitableDataType]):
+class Token(Awaitable[AwaitableDataType]):
     """
     A wrapper of connection and request.
     Which can be used for await an single command or organized in to the ordered

@@ -99,7 +99,7 @@ class PortL23LocalState(PortLocalState):
 
     def register_subscriptions(self, port) -> None:
         super().register_subscriptions(port)
-        port._conn.subscribe(P_TRAFFIC, utils.Update(self, "traffic_state", "on_off", port._check_identity, format=lambda a: enums.TrafficOnOff(a)))
+        port._conn.subscribe(P_TRAFFIC, utils.Update(self, "traffic_state", "on_off", port._check_identity))
 
 
 class PortL23GenuineLocalState(PortL23LocalState):

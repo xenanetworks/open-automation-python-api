@@ -3,7 +3,6 @@ from typing import (
     Optional,
     Final,
 )
-
 from xoa_driver.internals.core import funcs
 from xoa_driver.internals.commands import enums
 from xoa_driver.internals.commands import (
@@ -66,7 +65,7 @@ class TesterLocalState:
         self.driver_version = v_major_res.pci_driver_version
         self.version_major = v_major_res.chassis_major_version
         self.serial_number = serial_res.serial_number
-        self.reservation = enums.ReservedStatus(reservation_resp.operation)
+        self.reservation = reservation_resp.operation
         self.capabilities = capabilities_resp
 
     def register_subscriptions(self, tester) -> None:

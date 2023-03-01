@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Type
 from xoa_driver.internals.commands import (
     C_PORTCOUNTS,
@@ -6,6 +7,7 @@ from xoa_driver.internals.commands import (
     C_TRAFFICSYNC,
     C_VERSIONNO_MINOR,
 )
+from xoa_driver.internals.core.transporter.logger import CustomLogger
 from xoa_driver.internals.utils.modules_manager import ModulesManager
 from ._base_tester import BaseTester
 
@@ -17,7 +19,7 @@ from xoa_driver.internals.state_storage import testers_state
 TypeL23Manager = ModulesManager["modules.ModuleL23VE"]
 
 
-def get_module_type(revision: str) -> Type:
+def get_module_type(_: str) -> Type:
     return modules.ModuleL23VE
 
 
@@ -39,15 +41,22 @@ class L23VeTester(BaseTester["testers_state.TesterLocalState"]):
     :type debug: int, optional
     """
 
-    def __init__(self, host: str, username: str, password: str = "xena", port: int = 22606, *, debug: bool = False) -> None:
-        super().__init__(host=host, username=username, password=password, port=port, debug=debug)
+    def __init__(self, host: str, username: str, password: str = "xena", port: int = 22606, *, enable_logging: bool = False, custom_logger: CustomLogger | None = None) -> None:
+        super().__init__(
+            host=host,
+            username=username,
+            password=password,
+            port=port,
+            enable_logging=enable_logging,
+            custom_logger=custom_logger
+        )
 
         self._local_states = testers_state.TesterLocalState(host, port)
 
         self.multiuser = C_MULTIUSER(self._conn)
         """
         Enable or disable the ability to control one resource from several different TCP connections.
-        
+
         :type:  C_MULTIUSER
         """
 

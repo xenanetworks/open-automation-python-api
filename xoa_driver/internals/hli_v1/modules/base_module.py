@@ -40,37 +40,37 @@ class BaseModule(ABC, Generic[T]):
         self.ports_count = init_data.ports_count
         self.reservation = M_RESERVATION(self._conn, self.module_id)
         """Test module's reservation action.
-                
+
         :type: M_RESERVATION
         """
 
         self.reserved_by = M_RESERVEDBY(self._conn, self.module_id)
         """Test module's reservation status.
-                
+
         :type: M_RESERVEDBY
         """
 
         self.model = M_MODEL(self._conn, self.module_id)
         """Test module's model.
-                
+
         :type: M_MODEL
         """
 
         self.serial_number = M_SERIALNO(self._conn, self.module_id)
         """Test module's serial number.
-                
+
         :type: M_SERIALNO
         """
 
         self.version_number = M_VERSIONNO(self._conn, self.module_id)
         """Test module's version number.
-                
+
         :type: M_VERSIONNO
         """
 
         self.port_count = M_PORTCOUNT(self._conn, self.module_id)
         """Max port count of the test module.
-                
+
         :type: M_PORTCOUNT
         """
 

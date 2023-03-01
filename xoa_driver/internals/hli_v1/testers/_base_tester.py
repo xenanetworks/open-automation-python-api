@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import (
     TypeVar,
     Awaitable,
@@ -29,6 +30,7 @@ from xoa_driver.internals.commands import (
 )
 from xoa_driver.internals.core.funcs import establish_connection
 from xoa_driver.internals.core.transporter.handler import TransportationHandler
+from xoa_driver.internals.core.transporter.logger import CustomLogger
 from xoa_driver.internals.utils import session
 from xoa_driver.internals.state_storage import testers_state
 
@@ -37,7 +39,6 @@ T = TypeVar('T', bound="BaseTester")
 TesterStateStorage = TypeVar('TesterStateStorage', bound="testers_state.TesterLocalState")
 
 
-# TODO: lately update imports to correct style
 # min version = 83.2
 class BaseTester(ABC, Generic[TesterStateStorage]):
     """

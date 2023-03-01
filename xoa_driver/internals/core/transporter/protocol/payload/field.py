@@ -167,6 +167,10 @@ class SequenceSpec(FieldSpecs):
 
     def calc_bsize(self, buff: memoryview) -> None:
         return None
+        # if not self.is_dynamic:
+        #     return None
+        # buff_ = buff[self.offset:]
+        # print(buff_.nbytes, self.bsize)
 
     def get_format_method(self, client_type: Type[Any], is_response: bool) -> Callable[[Any], List[Tuple[Any, ...]]]:
         try:
@@ -190,7 +194,8 @@ class SequenceSpec(FieldSpecs):
 
     def unpack(self, buffer: memoryview) -> list[Any]:
         buff_ = buffer[self.offset:]
-        buff_ = buff_[:-(len(buff_) % self.bsize)]
+        limit = len(buff_) % self.bsize
+        buff_ = buff_[:-limit] if limit else buff_
         raw_sequence = islice(struct.iter_unpack(self.format, buff_), self.xmp_type.length)
         return list(raw_sequence)
 

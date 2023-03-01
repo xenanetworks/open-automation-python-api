@@ -1,94 +1,179 @@
 from __future__ import annotations
-
-import timeit
-import pstats
-import cProfile
-
-import asyncio
 import os
 import sys
-import logging
-from typing import Coroutine
+from typing import List
+from ipaddress import (
+    IPv4Address,
+    IPv6Address,
+)
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from loguru import logger  # noqa: E402
-from xoa_driver.testers import L23Tester  # noqa: E402
-from xoa_driver.lli import establish_connection  # noqa: E402
-from xoa_driver.lli import commands  # noqa: E402
-from xoa_driver.lli import TransportationHandler  # noqa: E402
-from xoa_driver.utils import apply, apply_iter  # noqa: E402
-# TODO: <GET> response contain more fields then driver can parse
-# TODO: <GET> response contains less fields then driver can parse
-# TODO: <SET> request require more fields then server expecting
-# TODO: <SET> request require less fields then server expects
-
-# async def connect() -> TransportationHandler:
-#     ctx = TransportationHandler()
-#     # print("Create handler")
-#     await establish_connection(ctx, "192.168.1.198")
-#     # print("Is connected", ctx.is_connected)
-#     # with cProfile.Profile() as pr:
-#     await apply(
-#         commands.C_LOGON(ctx).set("xena"),
-#         commands.C_OWNER(ctx).set("xoa")
-#     )
+from xoa_driver.internals.core.transporter.protocol.payload.exceptions import FirmwareVersionError
+from xoa_driver.internals.core.transporter.protocol.payload import (
+    ResponseBodyStruct,
+    field,
+    XmpByte,
+    XmpHex,
+    XmpInt,
+    XmpIPv4Address,
+    XmpIPv6Address,
+    XmpLong,
+    XmpMacAddress,
+    XmpSequence,
+    XmpShort,
+    XmpStr,
+    Hex
+)
 
 
-async def test_lli() -> None:
-    # logging.basicConfig(
-    #     format='%(relativeCreated)5d %(name)-15s %(levelname)-8s %(message)s',
-    #     level=logging.DEBUG
-    # )
-    # logger_ = logging.getLogger(__file__)
-    ctx = TransportationHandler(enable_logging=False, custom_logger=logger)
-    await establish_connection(ctx, "192.168.1.197")
-    # # print("Is connected", ctx.is_connected)
-    with cProfile.Profile() as pr:
-        *_, pc = await apply(
-            commands.C_LOGON(ctx).set("xena"),
-            commands.C_OWNER(ctx).set("xoa"),
-            commands.C_OWNER(ctx).get(),
-            commands.M_CAPABILITIES(ctx, 1).get(),
-            commands.P_CAPABILITIES(ctx, 1, 1).get(),
-        )
-        str(pc)
-        req = apply_iter(*[commands.P_CAPABILITIES(ctx, 1, 1).get() for _ in range(1_000)])
-        async for resp in req:
-            resp.tx_eq_tap_max_val
-    stats = pstats.Stats(pr)
-    stats.sort_stats(pstats.SortKey.TIME)
-    stats.print_stats(20)
-    ctx.close()
+# region TypeTesting
 
-    # port = PortL23()
-    # if isinstance(port, PortL23) and port.is_capable_of(ANLT, PCS_PMA)
+def test_byte() -> None:
+    data = b"\xff\xff"
+    assert len(data) == 2, "for current test case the data must be of 2 bytes long"
 
-    # Testsuite 2544:
-    # required_port_type: L23Port
-    # required_functionalities:
-    # ANLT functionalities:
-    # required_port_type: L23Port,
-    # required_functionalities:  ANLT
+    class GetDataAttr(ResponseBodyStruct):
+        custom_field: int = field(XmpByte())
+        custom_field2: int = field(XmpByte(signed=True))
+        custom_field3: int = field(XmpByte())
+
+    obj = GetDataAttr(data)
+    assert isinstance(obj.custom_field, int)
+    assert obj.custom_field == 255
+    assert obj.custom_field != 65535
+    assert obj.custom_field2 == -1
+    try:
+        obj.custom_field3
+    except FirmwareVersionError:
+        pass
+    else:
+        assert False, "Suppose to break on not suficient amount of bytes"
 
 
-async def test_hli() -> None:
-    async with L23Tester("192.168.1.197", "ACO") as tester:
-        t_cap = await tester.capabilities.get()
-        print(t_cap.can_sync_traffic_start)
+def test_short() -> None:
+    data = b"\x02\x05"
+
+    class GetDataAttr(ResponseBodyStruct):
+        custom_field: int = field(XmpShort())
+        custom_field2: int = field(XmpByte(signed=False))
+
+    obj = GetDataAttr(data)
+    assert isinstance(obj.custom_field, int)
+    assert obj.custom_field != 2
+    assert obj.custom_field != 255
+    assert obj.custom_field == 517
 
 
-def run(method: Coroutine) -> None:
-    import platform
-    if platform.system() == 'Windows':
-        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-    asyncio.run(method)
+def test_int() -> None:
+    data = b"\x00\x00\x00\xff"
+
+    class GetDataAttr(ResponseBodyStruct):
+        custom_field: int = field(XmpInt())
+
+    obj = GetDataAttr(data)
+    assert isinstance(obj.custom_field, int)
+    assert obj.custom_field != 0
+    assert obj.custom_field == 255
 
 
-if __name__ == "__main__":
-    run(test_hli())
-    # result = timeit.timeit(
-    #     "run(main())",
-    #     setup="from __main__ import run, main",
-    #     number=10
-    # )
-    # print(result)
+def test_long() -> None:
+    data = b"\x00\x00\x00\xff\x00\x00\x00\xff"
+
+    class GetDataAttr(ResponseBodyStruct):
+        custom_field: int = field(XmpLong())
+
+    obj = GetDataAttr(data)
+    assert isinstance(obj.custom_field, int)
+    assert obj.custom_field == 1095216660735
+
+
+def test_hex() -> None:
+    data = b"\x00\x00\x00\xff\x00\x00\x00\xff"
+
+    class GetDataAttr(ResponseBodyStruct):
+        custom_field: Hex = field(XmpHex())
+        custom_field2: Hex = field(XmpHex(size=3))
+
+    obj = GetDataAttr(data)
+    assert isinstance(obj.custom_field, str)
+    assert obj.custom_field == "00"
+    assert obj.custom_field == Hex("00")
+    assert obj.custom_field2 == "0000ff"
+    assert obj.custom_field2 == Hex("0000ff")
+
+
+def test_ip_v4() -> None:
+    data = b'\x7f\x00\x00\x01'
+
+    class GetDataAttr(ResponseBodyStruct):
+        custom_field: IPv4Address = field(XmpIPv4Address())
+
+    obj = GetDataAttr(data)
+    assert isinstance(obj.custom_field, IPv4Address)
+    assert obj.custom_field == IPv4Address("127.0.0.1")
+    assert obj.custom_field != "127.0.0.1"
+
+
+def test_ip_v6() -> None:
+    data = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xab'
+
+    class GetDataAttr(ResponseBodyStruct):
+        custom_field: IPv6Address = field(XmpIPv6Address())
+
+    obj = GetDataAttr(data)
+    assert isinstance(obj.custom_field, IPv6Address)
+    assert obj.custom_field == IPv6Address("::ab")
+    assert obj.custom_field != "::ab"
+
+
+def test_mac() -> None:
+    data = b'\xf4\xd4\x88\x67\xc5\xda'
+
+    class GetDataAttr(ResponseBodyStruct):
+        custom_field: Hex = field(XmpMacAddress())
+
+    obj = GetDataAttr(data)
+    assert isinstance(obj.custom_field, str)
+    assert obj.custom_field == "f4d48867c5da"
+    assert obj.custom_field != "f4:d4:88:67:c5:da"
+
+
+def test_string() -> None:
+    data = b'Xena Networks\x00\x00\x07\xe7'
+
+    class GetDataAttr(ResponseBodyStruct):
+        custom_field: str = field(XmpStr())
+
+    obj = GetDataAttr(data)
+    assert isinstance(obj.custom_field, str)
+    assert obj.custom_field == "Xena Networks"
+
+
+def test_unlimited_list() -> None:
+    data = b'\x00\x02\x00\x06\x00\x06\x00\x06'
+
+    class GetDataAttr(ResponseBodyStruct):
+        port_counts: List[int] = field(XmpSequence(types_chunk=[XmpByte()]))
+
+    obj = GetDataAttr(data)
+    assert hasattr(obj, "port_counts")
+    assert obj.port_counts == [0, 2, 0, 6, 0, 6, 0, 6]
+
+
+def test_limited_list() -> None:
+    data = b'\x00\x02\x00\x06\x00\x06\x00\x06'
+    MAX_LEN = 2
+
+    class GetDataAttr(ResponseBodyStruct):
+        custom_field: List[int] = field(XmpSequence(types_chunk=[XmpByte()], length=MAX_LEN))
+
+    obj = GetDataAttr(data)
+    assert isinstance(obj.custom_field, list)
+    assert len(obj.custom_field) == MAX_LEN
+    assert obj.custom_field == [0, 2]
+
+# endregion
+
+# region TypeCombinations
+
+# endregion

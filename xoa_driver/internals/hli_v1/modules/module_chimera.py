@@ -44,13 +44,13 @@ class ChTXClock:
         self.source = M_TXCLOCKSOURCE_NEW(conn, module_id)
         """
         The source that drives the TX clock rate of the ports on the test module.
-        
+
         :type: M_TXCLOCKSOURCE_NEW
         """
         self.status = M_TXCLOCKSTATUS_NEW(conn, module_id)
         """
         TX clock status of the test module.
-        
+
         :type: M_TXCLOCKSTATUS_NEW
         """
 
@@ -64,13 +64,13 @@ class ChCFP:
         self.type = M_CFPTYPE(conn, module_id)
         """
         The transceiver's CFP type currently inserted.
-        
+
         :type: M_CFPTYPE
         """
         self.config = M_CFPCONFIG(conn, module_id)
         """
         The CFP configuration of the test module.
-        
+
         :type: M_CFPCONFIG
         """
 
@@ -84,13 +84,13 @@ class ChUpgrade:
         self.start = M_UPGRADE(conn, module_id)
         """
         Start the upgrade progress of the test module.
-        
+
         :type: M_UPGRADE
         """
         self.progress = M_UPGRADEPROGRESS(conn, module_id)
         """
         Upgrade progress status of the test module.
-        
+
         :type: M_UPGRADEPROGRESS
         """
 
@@ -107,7 +107,7 @@ class ChTiming:
 
         self.clock_local_adjust = M_CLOCKPPB(conn, module_id)
         """Time adjustment controlling of the local clock of the test module, which drives the TX rate of the test ports.
-        
+
         :type: M_CLOCKPPB
         """
 
@@ -159,42 +159,42 @@ class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
         self.capabilities = M_CAPABILITIES(conn, self.module_id)
         """
         Test module's capabilities.
-        
+
         :type: M_CAPABILITIES
         """
 
         self.comment = M_COMMENT(conn, self.module_id)
         """
         Test module's description.
-        
+
         :type: M_COMMENT
         """
 
         self.status = M_STATUS(conn, self.module_id)
         """
         Test module's status.
-        
+
         :type: M_STATUS
         """
 
         self.clock_ppb = M_CLOCKPPB(conn, self.module_id)
         """
         Test module's local clock adjustment.
-        
+
         :type: M_CLOCKPPB
         """
 
         self.emulator_bypass_mode = M_EMULBYPASS(conn, self.module_id)
         """
         Bypass mode of the Chimera module.
-        
+
         :type: M_EMULBYPASS
         """
 
         self.latency_mode = M_LATENCYMODE(conn, self.module_id)
         """
         Latency mode of the Chimera module.
-        
+
         :type: M_LATENCYMODE
         """
 
@@ -307,7 +307,7 @@ class MChi100G5S2P(ModuleChimera):
             ports_count=self.ports_count
         )
         """Port index manager of Chi-100G-5S-2P
-        
+
         :type: PortsManager
         """
 
@@ -326,7 +326,7 @@ class MChi100G5S2P_b(ModuleChimera):
             ports_count=self.ports_count
         )
         """Port index manager of Chi-100G-5S-2P[b]
-        
+
         :type: PortsManager
         """
 

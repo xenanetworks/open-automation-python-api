@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import (
     Union,
     TYPE_CHECKING,
@@ -11,6 +12,7 @@ from xoa_driver.internals.commands import (
     C_VERSIONNO_MINOR,
     C_BUILDSTRING,
 )
+from xoa_driver.internals.core.transporter.logger import CustomLogger
 from xoa_driver.internals.utils.modules_manager import ModulesManager
 from ._base_tester import BaseTester
 from .genuine import management_interface as mi
@@ -56,8 +58,15 @@ class L23Tester(BaseTester["testers_state.GenuineTesterLocalState"]):
     Representation of a physical Xena Valkyrie Tester.
     """
 
-    def __init__(self, host: str, username: str, password: str = "xena", port: int = 22606, *, debug: bool = False) -> None:
-        super().__init__(host=host, username=username, password=password, port=port, debug=debug)
+    def __init__(self, host: str, username: str, password: str = "xena", port: int = 22606, *, enable_logging: bool = False, custom_logger: CustomLogger | None = None) -> None:
+        super().__init__(
+            host=host,
+            username=username,
+            password=password,
+            port=port,
+            enable_logging=enable_logging,
+            custom_logger=custom_logger
+        )
 
         self._local_states = testers_state.GenuineTesterLocalState(host, port)
 

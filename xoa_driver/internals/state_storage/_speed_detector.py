@@ -52,13 +52,13 @@ class SpeedDetector:
         }
 
     def __define_single(self) -> List[enums.PortSpeedMode]:
-        if "T1S" in self.interface:
-            return [
-                enums.PortSpeedMode.AUTO,
-                enums.PortSpeedMode.F100M,
-                enums.PortSpeedMode.F1G,
-            ]
-        return []
+        if "T1S" not in self.interface:
+            return []
+        return [
+            enums.PortSpeedMode.AUTO,
+            enums.PortSpeedMode.F100M,
+            enums.PortSpeedMode.F1G,
+        ]
 
     def __define_dual(self) -> List[enums.PortSpeedMode]:
         if "T1" in self.interface:

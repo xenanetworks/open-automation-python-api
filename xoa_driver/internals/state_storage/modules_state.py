@@ -121,7 +121,7 @@ class ModuleL23LocalState(ModuleLocalState):
             M_MEDIASUPPORT(module._conn, module.module_id).get(),
             super().initiate(module)
         )
-        self.media_info_list = m_support_resp.media_info_list  # type: ignore
+        self.media_info_list = m_support_resp.media_info_list
 
     def register_subscriptions(self, module) -> None:
         super().register_subscriptions(module)

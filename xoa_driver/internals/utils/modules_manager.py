@@ -2,11 +2,13 @@ import asyncio
 import functools
 from typing import (
     TYPE_CHECKING,
+    Awaitable,
     Type,
     TypeVar,
     List,
     Callable,
     Union,
+    cast,
 
 )
 from collections import OrderedDict
@@ -78,6 +80,7 @@ class ModulesManager(ResourcesBaseManager[MT]):
             for slot_id, p_count in enumerate(ports_count)
             if p_count > 0
         ]
+        print(identities)
         await asyncio.gather(*[mi.get_revision(self._conn) for mi in identities])
         self._items = OrderedDict(
             (
@@ -88,8 +91,8 @@ class ModulesManager(ResourcesBaseManager[MT]):
         )
         if len(self) == 0:
             raise exceptions.WrongTesterError()
-        coros = list(self._items.values())
-        await asyncio.gather(*coros)  # type: ignore
+        coros = cast(List[Awaitable], list(self._items.values()))
+        await asyncio.gather(*coros)
 
     fill_l23 = functools.partialmethod(fill, module_type=L23ModuleData)
     fill_l47 = functools.partialmethod(fill, module_type=L47ModuleData)
