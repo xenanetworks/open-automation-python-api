@@ -133,6 +133,8 @@ def dictionize_anlt_status(
     linktrain: commands.PP_LINKTRAIN.GetDataAttr,
     capabilities: commands.P_CAPABILITIES.GetDataAttr,
     allow_loopback: commands.PL1_CFG_TMP.GetDataAttr,
+    initial_mods: dict[str, str],
+    algorithms: dict[str, str]
 ) -> dict:
     return {
         "autoneg_enabled": enums.AutoNegMode(autoneg.mode).name.lower().lstrip("aneg_"),
@@ -142,4 +144,6 @@ def dictionize_anlt_status(
         "serdes_count": capabilities.serdes_count,
         "autoneg_allow_loopback": allow_loopback.values,
         "link_training_preset0": enums.NRZPreset(linktrain.nrz_preset).name.lower(),
+        "initial_mods": initial_mods,
+        "algorithms": algorithms
     }
