@@ -36,10 +36,10 @@ class AnLtLowLevelInfo:
     tx_serdes: int
 
 
-async def init(port: GenericL23Port, lane: int) -> AnLtLowLevelInfo:
+async def init(port: GenericL23Port, serdes: int) -> AnLtLowLevelInfo:
     conn, mid, pid = get_ctx(port)
     inf = await commands.PL1_CFG_TMP(
-        conn, mid, pid, lane, enums.Layer1ConfigType.LL_DEBUG_INFO
+        conn, mid, pid, serdes, enums.Layer1ConfigType.LL_DEBUG_INFO
     ).get()
     values = inf.values[:5]
     inf = AnLtLowLevelInfo(*values)
@@ -47,12 +47,11 @@ async def init(port: GenericL23Port, lane: int) -> AnLtLowLevelInfo:
 
 
 async def lane_reset(
-    port: GenericL23Port, lane: int, inf: t.Optional[AnLtLowLevelInfo] = None
+    port: GenericL23Port, serdes: int, inf: t.Optional[AnLtLowLevelInfo] = None
 ) -> None:
-    """Reset the lane (serdes)"""
     GTM_QUAD_GT_CONFIG = 0x102
     if inf is None:
-        inf = await init(port, lane)
+        inf = await init(port, serdes)
     conn, mid, pid = get_ctx(port)
     addr = inf.rx_gtm_base + GTM_QUAD_GT_CONFIG + (inf.rx_serdes * 0x40)
     r = commands.PX_RW(conn, mid, pid, 2000, addr)
@@ -69,29 +68,29 @@ async def lane_reset(
 
 async def __get(
     port: GenericL23Port,
-    lane: int,
+    serdes: int,
     reg: AnLtD,
     inf: t.Optional[AnLtLowLevelInfo] = None,
 ) -> int:
     if inf is None:
-        inf = await init(port, lane)
+        inf = await init(port, serdes)
     conn, mid, pid = get_ctx(port)
-    addr = inf.base + reg.value + (lane * 0x40)
+    addr = inf.base + reg.value + (serdes * 0x40)
     r = commands.PX_RW(conn, mid, pid, 2000, addr)
     return int((await r.get()).value, 16)
 
 
 async def __set(
     port: GenericL23Port,
-    lane: int,
+    serdes: int,
     reg: AnLtD,
     value: int,
     inf: t.Optional[AnLtLowLevelInfo] = None,
 ) -> None:
     if inf is None:
-        inf = await init(port, lane)
+        inf = await init(port, serdes)
     conn, mid, pid = get_ctx(port)
-    addr = inf.base + reg.value + (lane * 0x40)
+    addr = inf.base + reg.value + (serdes * 0x40)
     r = commands.PX_RW(conn, mid, pid, 2000, addr)
     await r.set(f"0x{value:08X}")
     return None
@@ -135,35 +134,35 @@ lt_rx_analyzer_rd_data_get = partial(__get, reg=AnLtD.LT_RX_ANALYZER_RD_DATA)
 
 async def lt_prbs(
     port: GenericL23Port,
-    lane: int,
+    serdes: int,
     inf: t.Optional[AnLtLowLevelInfo] = None,
 ) -> dict[str, float]:
     if inf is None:
-        inf = await init(port, lane)
+        inf = await init(port, serdes)
 
-    cfg = await lt_rx_config_get(port, lane, inf=inf)
+    cfg = await lt_rx_config_get(port, serdes, inf=inf)
     cfg &= ~(3 << 21)  # Clear bit 22-21
     cfg |= 1 << 20  # Set bit 20
-    await lt_rx_config_set(port, lane, inf=inf, value=cfg)  # Trigger PRBS read
+    await lt_rx_config_set(port, serdes, inf=inf, value=cfg)  # Trigger PRBS read
     cfg &= ~(1 << 20)  # Clear bit 20
-    await lt_rx_config_set(port, lane, inf=inf, value=cfg)
+    await lt_rx_config_set(port, serdes, inf=inf, value=cfg)
 
     # Read the total # bits
     cfg &= ~(3 << 21)  # Clear bit 22-21
     cfg |= 1 << 21
-    await lt_rx_config_set(port, lane, inf=inf, value=cfg)
-    v = await lt_rx_error_stat0_get(port, lane, inf=inf)
+    await lt_rx_config_set(port, serdes, inf=inf, value=cfg)
+    v = await lt_rx_error_stat0_get(port, serdes, inf=inf)
     total_bits = v
-    v = await lt_rx_error_stat1_get(port, lane, inf=inf)
+    v = await lt_rx_error_stat1_get(port, serdes, inf=inf)
     total_bits |= v << 32
 
     # Read the total # error bits
     cfg &= ~(3 << 21)  # Clear bit 22-21
     cfg |= 2 << 21
-    await lt_rx_config_set(port, lane, inf=inf, value=cfg)
-    v = await lt_rx_error_stat0_get(port, lane, inf=inf)
+    await lt_rx_config_set(port, serdes, inf=inf, value=cfg)
+    v = await lt_rx_error_stat0_get(port, serdes, inf=inf)
     error_bits = v
-    v = await lt_rx_error_stat1_get(port, lane, inf=inf)
+    v = await lt_rx_error_stat1_get(port, serdes, inf=inf)
     error_bits |= v << 32
     error_bits &= 0x0000FFFFFFFFFFFF
     ber = (error_bits) / (total_bits) if total_bits > 0 else float("nan")
@@ -171,15 +170,17 @@ async def lt_prbs(
 
 
 async def lt_rx_analyzer_dump(
-    port: GenericL23Port, lane: int, inf: t.Optional[AnLtLowLevelInfo] = None
+    port: GenericL23Port,
+    serdes: int,
+    inf: t.Optional[AnLtLowLevelInfo] = None
 ) -> str:
     """This will dump the 320bit words in the capture buffer"""
     if inf is None:
-        inf = await init(port, lane)
+        inf = await init(port, serdes)
     string = []
     trigger_pos, capture_done = await asyncio.gather(
-        lt_rx_analyzer_config_get(port, lane, inf=inf),
-        lt_rx_analyzer_status_get(port, lane, inf=inf),
+        lt_rx_analyzer_config_get(port, serdes, inf=inf),
+        lt_rx_analyzer_status_get(port, serdes, inf=inf),
     )
     string.append(f"Trigger position: {trigger_pos}\n")
     string.append(f"Analyzer status : {capture_done}\n")
@@ -190,11 +191,11 @@ async def lt_rx_analyzer_dump(
     string.append("Capture\n")
     for r in range(256):
         # Set the read address
-        await lt_rx_analyzer_rd_addr_set(port, lane, inf=inf, value=r)
+        await lt_rx_analyzer_rd_addr_set(port, serdes, inf=inf, value=r)
         for p in range(10):
             # Read the data
-            await lt_rx_analyzer_rd_page_set(port, lane, inf=inf, value=p)
-            d = await lt_rx_analyzer_rd_data_get(port, lane, inf=inf)
+            await lt_rx_analyzer_rd_page_set(port, serdes, inf=inf, value=p)
+            d = await lt_rx_analyzer_rd_data_get(port, serdes, inf=inf)
             string.append(f"{d:08X}")
         string.append("\n")
     result = "".join(string)
