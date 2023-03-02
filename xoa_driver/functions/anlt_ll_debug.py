@@ -46,7 +46,7 @@ async def init(port: GenericL23Port, serdes: int) -> AnLtLowLevelInfo:
     return inf
 
 
-async def lane_reset(
+async def serdes_reset(
     port: GenericL23Port, serdes: int, inf: t.Optional[AnLtLowLevelInfo] = None
 ) -> None:
     GTM_QUAD_GT_CONFIG = 0x102
@@ -204,7 +204,7 @@ async def lt_rx_analyzer_dump(
 
 __all__ = (
     "init",
-    "lane_reset",
+    "serdes_reset",
     "mode_get",
     "mode_set",
     "lt_prbs",
