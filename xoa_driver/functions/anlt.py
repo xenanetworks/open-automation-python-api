@@ -438,11 +438,13 @@ async def anlt_status(port: GenericL23Port) -> dict[str, t.Any]:
     initial_mods = {}
     algorithms={}
     for i in range(0, capabilities.serdes_count):
-        resp = await apply(
-            commands.PL1_CFG_TMP(conn, mid, pid, i, enums.Layer1ConfigType.LT_INITIAL_MODULATION).get(),
-            # commands.PL1_CFG_TMP(conn, mid, pid, i, enums.Layer1ConfigType.LT_TRAINING_ALGORITHM).get()
-        )
-        im, alg = resp
+        # resp = await apply(
+        #     commands.PL1_CFG_TMP(conn, mid, pid, i, enums.Layer1ConfigType.LT_INITIAL_MODULATION).get(),
+        #     commands.PL1_CFG_TMP(conn, mid, pid, i, enums.Layer1ConfigType.LT_TRAINING_ALGORITHM).get()
+        # )
+        # im, alg = resp
+        # im = resp
+        im = await commands.PL1_CFG_TMP(conn, mid, pid, i, enums.Layer1ConfigType.LT_INITIAL_MODULATION).get()
         initial_mods[str(i)] = enums.LinkTrainEncoding(im.values[0]).name
         # algorithms[str(i)] = enums.LinkTrainAlgorithm(alg.values[0]).name
 
