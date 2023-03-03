@@ -1290,10 +1290,10 @@ class LinkTrainFrameLock(IntEnum):
 
     LOST = 0
     """No Frame Lock detected"""
-    
+
     LOCKED = 1
     """Frame Lock detected"""
-    
+
 
 
 class PPMSweepMode(IntEnum):
@@ -2081,6 +2081,9 @@ class Layer1ConfigType(IntEnum):
     LL_DEBUG_INFO = 3
     """Return the an/lt module base and RX and TX (serdes index, base address)"""
 
+    LT_TRAINING_ALGORITHM = 4
+    """The link training algorithm to use"""
+
 
 class Layer1LogType(IntEnum):
     """
@@ -2099,6 +2102,24 @@ class Layer1LogType(IntEnum):
 
     LT = 1
     """Log for link training"""
+
+
+class LinkTrainAlgorithm(IntEnum):
+    """
+    .. versionadded:: 1.2
+
+    Link Training Algorithm
+
+    """
+
+    INTERACTIVE = 0
+    """INTERACTIVE"""
+
+    ALG0 = 1
+    """ALGORITHM 0"""
+
+    ALGN1 = 2
+    """ALGORITHM -1"""
 
 
 class LinkTrainCmd(IntEnum):

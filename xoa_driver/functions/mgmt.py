@@ -104,11 +104,13 @@ async def reserve_module(module: GenericAnyModule, force: bool = True) -> None:
         await module.reservation.set_reserve()
 
 
-async def free_module(module: GenericAnyModule) -> None:
+async def free_module(module: GenericAnyModule, should_free_ports: bool = False) -> None:
     """Free a module. If the module is reserved by you, release the module. If the module is reserved by others, relinquish the module. The module should have no owner afterwards.
 
     :param module: The module to free
     :type module: :class:`~xoa_driver.modules.GenericAnyModule`
+    :param should_free_ports: _description_, defaults to False
+    :type should_free_ports: bool, optional
     :return:
     :rtype: None
     """
@@ -117,7 +119,8 @@ async def free_module(module: GenericAnyModule) -> None:
         await module.reservation.set_relinquish()
     elif r.operation == enums.ReservedStatus.RESERVED_BY_YOU:
         await module.reservation.set_release()
-    await free_ports(*module.ports)
+    if should_free_ports:
+        await free_ports(*module.ports)
 
 
 # endregion

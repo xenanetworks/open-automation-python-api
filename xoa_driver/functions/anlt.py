@@ -16,6 +16,7 @@ from .tools import (
     dictionize_txtap_get,
     dictionize_anlt_status,
 )
+import asyncio
 
 PcsPmaSupported = (FamilyL, FamilyL1)
 AutoNegSupported = (FamilyL, FamilyL1)
@@ -25,19 +26,21 @@ LinkTrainingSupported = FamilyL
 @dataclass
 class DoAnlt:
     port: GenericL23Port
-    """port to select"""
+    """port object"""
     should_do_an: bool
     """should the port do autoneg?"""
     should_do_lt: bool
     """should the port do link training?"""
     an_allow_loopback: bool
     """should the autoneg allow loopback?"""
-    lt_preset0_std: bool
-    """should lt preset0 uses the standard values or the existing tap values?"""
-    lt_initial_modulations: dict[int, enums.LinkTrainEncoding]
-    """the initial modulations of each lane (serdes)"""
+    lt_preset0: enums.NRZPreset
+    """out-of-sync tap values (preset 0): existing or standard"""
+    lt_initial_modulations: dict[str, enums.LinkTrainEncoding]
+    """the initial modulations of each serdes"""
     should_lt_interactive: bool
     """should perform link training manually?"""
+    lt_algorithm: dict[str, enums.LinkTrainAlgorithm]
+    """link training algorithm should be used?"""
 
     _group: tuple["itf.IConnection", int, int] = field(init=False, repr=False)
 
@@ -69,10 +72,10 @@ class DoAnlt:
         )
 
     def __pl1_cfg_tmp(
-        self, lane: int, config_type: enums.Layer1ConfigType, values: int
+        self, serdes: int, config_type: int, values: list[int]
     ) -> Token:
-        return commands.PL1_CFG_TMP(*self._group, lane, config_type).set(
-            values=[int(values)]
+        return commands.PL1_CFG_TMP(*self._group, serdes, config_type).set(
+            values=values
         )
 
     def __select_modes(self) -> tuple[enums.LinkTrainingMode, enums.TimeoutMode]:
@@ -89,11 +92,7 @@ class DoAnlt:
 
     def __builder__(self) -> t.Generator[Token, None, None]:
         """Defining commands sequence"""
-        nrz_preset = (
-            enums.NRZPreset.NRZ_WITH_PRESET
-            if self.lt_preset0_std
-            else enums.NRZPreset.NRZ_NO_PRESET
-        )
+        nrz_preset = self.lt_preset0
         # # Set autoneg timeout
         yield self.__pp_link_train(
             enums.LinkTrainingMode.DISABLED,
@@ -103,7 +102,7 @@ class DoAnlt:
 
         # # Set autoneg allow-loopback
         yield self.__pl1_cfg_tmp(
-            0, enums.Layer1ConfigType.AN_LOOPBACK, int(self.an_allow_loopback)
+            0, enums.Layer1ConfigType.AN_LOOPBACK, [int(self.an_allow_loopback)]
         )
 
         # yield self.__pp_autoneg(self.should_do_an and not self.should_do_lt)
@@ -112,9 +111,15 @@ class DoAnlt:
             yield self.__pp_autoneg(False)
 
         if self.should_do_lt:
-            for lane_str, im in self.lt_initial_modulations.items():
+            for serdes_str, algorithm in self.lt_algorithm.items():
+                # # Set the link train algorithm
                 yield self.__pl1_cfg_tmp(
-                    int(lane_str), enums.Layer1ConfigType.LT_INITIAL_MODULATION, int(im)
+                    int(serdes_str), enums.Layer1ConfigType.LT_TRAINING_ALGORITHM, [algorithm.value]
+                )
+
+            for serdes_str, im in self.lt_initial_modulations.items():
+                yield self.__pl1_cfg_tmp(
+                    int(serdes_str), enums.Layer1ConfigType.LT_INITIAL_MODULATION, [im.value]
                 )
 
             lt_mode, timeout_mode = self.__select_modes()
@@ -136,13 +141,14 @@ async def anlt_start(
     should_do_an: bool,
     should_do_lt: bool,
     an_allow_loopback: bool,
-    lt_preset0_std: bool,
-    lt_initial_modulations: dict[int, enums.LinkTrainEncoding],
+    lt_preset0: enums.NRZPreset,
+    lt_initial_modulations: dict[str, enums.LinkTrainEncoding],
     should_lt_interactive: bool,
+    lt_algorithm: dict[str, enums.LinkTrainAlgorithm],
 ) -> None:
     """Start ANLT on a port
 
-    :param port: port to select
+    :param port: the port object
     :type port: :class:`~xoa_driver.ports.GenericL23Port`
     :param should_do_an: should the port do autoneg?
     :type should_do_an: bool
@@ -150,12 +156,14 @@ async def anlt_start(
     :type should_do_lt: bool
     :param an_allow_loopback: should the autoneg allow loopback?
     :type an_allow_loopback: bool
-    :param lt_preset0_std: should lt preset0 uses the standard values or the existing tap values?
-    :type lt_preset0_std: bool
-    :param lt_initial_modulations: the initial modulations of each lane (serdes)
-    :type lt_initial_modulations: Dict[str, enums.LinkTrainEncoding]
+    :param lt_preset0: out-of-sync tap values (preset 0): existing or standard
+    :type lt_preset0: enums.NRZPreset
+    :param lt_initial_modulations: the initial modulations of each serdes
+    :type lt_initial_modulations: typing.Dict[str, enums.LinkTrainEncoding]
     :param should_lt_interactive: should perform link training manually?
     :type should_lt_interactive: bool
+    :param lt_algorithm: Link training algorithm to use
+    :type lt_algorithm: Dict[str, enums.LinkTrainAlgorithm]
     """
 
     anlt = DoAnlt(
@@ -163,9 +171,10 @@ async def anlt_start(
         should_do_an,
         should_do_lt,
         an_allow_loopback,
-        lt_preset0_std,
+        lt_preset0,
         lt_initial_modulations,
         should_lt_interactive,
+        lt_algorithm,
     )
     await anlt.run()
 
@@ -173,10 +182,10 @@ async def anlt_start(
 async def autoneg_status(port: GenericL23Port) -> dict[str, t.Any]:
     """Get the auto-negotiation status
 
-    :param port: the port to get auto-negotiation status
+    :param port: the port object
     :type port: :class:`~xoa_driver.ports.GenericL23Port`
     :return:
-    :rtype: typing.Dict[str, Any]
+    :rtype: typing.Dict[str, typing.Any]
     """
     conn, mid, pid = get_ctx(port)
     loopback, auto_neg_info = await apply(
@@ -198,160 +207,158 @@ LinkTrainType = t.Union[
 
 async def __lt_coeff(
     port: GenericL23Port,
-    lane: int,
+    serdes: int,
     arg: LinkTrainType,
     *,
     cmd: enums.LinkTrainCmd,
-) -> None:
+) -> enums.LinkTrainCmdResults:
     conn, mid, pid = get_ctx(port)
-    cmd_ = commands.PL1_LINKTRAIN_CMD(conn, mid, pid, lane)
+    cmd_ = commands.PL1_LINKTRAIN_CMD(conn, mid, pid, serdes)
     await cmd_.set(cmd=cmd, arg=arg.value)
-    return None
+    for _ in range(1000):
+        resp = await cmd_.get()
+        status = resp.result
+        if (resp.flags & enums.LinkTrainCmdFlags.DONE.value):
+            return enums.LinkTrainCmdResults(status)
+        await asyncio.sleep(0.01)
+    return enums.LinkTrainCmdResults.UNKNOWN
 
 
 async def lt_coeff_inc(
-    port: GenericL23Port, lane: int, emphasis: enums.LinkTrainCoeffs
-) -> None:
-    """Ask the remote port to increase coeff of the specified lane.
+    port: GenericL23Port, serdes: int, emphasis: enums.LinkTrainCoeffs
+) -> enums.LinkTrainCmdResults:
+    """Ask the remote port to increase coeff of the specified serdes.
 
-    :param port: The port to configure
+    :param port: the port object
     :type port: :class:`~xoa_driver.ports.GenericL23Port`
-    :param lane: The lane index, starting from 0
-    :type lane: int
-    :param emphasis: The emphasis to increase
+    :param serdes: the serdes index, starting from 0
+    :type serdes: int
+    :param emphasis: the emphasis to increase
     :type emphasis: enums.LinkTrainCoeffs
     :return:
     :rtype: None
     """
-    return await __lt_coeff(port, lane, emphasis, cmd=enums.LinkTrainCmd.CMD_INC)
+    return await __lt_coeff(port, serdes, emphasis, cmd=enums.LinkTrainCmd.CMD_INC)
 
 
 async def lt_coeff_dec(
-    port: GenericL23Port, lane: int, emphasis: enums.LinkTrainCoeffs
-) -> None:
-    """Ask the remote port to decrease coeff of the specified lane.
+    port: GenericL23Port, serdes: int, emphasis: enums.LinkTrainCoeffs
+) -> enums.LinkTrainCmdResults:
+    """Ask the remote port to decrease coeff of the specified serdes.
 
-    :param port: The port to configure
+    :param port: the port object
     :type port: :class:`~xoa_driver.ports.GenericL23Port`
-    :param lane: The lane index, starting from 0
-    :type lane: int
-    :param emphasis: The emphasis to decrease
+    :param serdes: the serdes index, starting from 0
+    :type serdes: int
+    :param emphasis: the emphasis to decrease
     :type emphasis: enums.LinkTrainCoeffs
     :return:
     :rtype: None
     """
-    return await __lt_coeff(port, lane, emphasis, cmd=enums.LinkTrainCmd.CMD_DEC)
+    return await __lt_coeff(port, serdes, emphasis, cmd=enums.LinkTrainCmd.CMD_DEC)
 
 
 async def lt_preset(
-    port: GenericL23Port, lane: int, preset: enums.LinkTrainPresets
-) -> None:
-    """Ask the remote port to use the preset of the specified lane.
+    port: GenericL23Port, serdes: int, preset: enums.LinkTrainPresets
+) -> enums.LinkTrainCmdResults:
+    """Ask the remote port to use the preset of the specified serdes.
 
-    :param port: The port to configure
+    :param port: the port object
     :type port: :class:`~xoa_driver.ports.GenericL23Port`
-    :param lane: The lane index, starting from 0
-    :type lane: int
-    :param preset: preset index to select for the lane, 0,1,2,3,4,
+    :param serdes: the serdes index, starting from 0
+    :type serdes: int
+    :param preset: preset index to select for the serdes, 0,1,2,3,4,
     :type preset: enums.LinkTrainPresets
     :return:
     :rtype: None
     """
-    return await __lt_coeff(port, lane, preset, cmd=enums.LinkTrainCmd.CMD_PRESET)
+    return await __lt_coeff(port, serdes, preset, cmd=enums.LinkTrainCmd.CMD_PRESET)
 
 
 async def lt_encoding(
-    port: GenericL23Port, lane: int, encoding: enums.LinkTrainEncoding
-) -> None:
-    """Ask the remote port to use the encoding of the specified lane.
+    port: GenericL23Port, serdes: int, encoding: enums.LinkTrainEncoding
+) -> enums.LinkTrainCmdResults:
+    """Ask the remote port to use the encoding of the specified serdes.
 
-    :param port: The port to configure
+    :param port: the port object
     :type port: :class:`~xoa_driver.ports.GenericL23Port`
-    :param lane: The lane index, starting from 0
-    :type lane: int
+    :param serdes: the serdes index, starting from 0
+    :type serdes: int
     :param encoding: link training encoding
     :type encoding: enums.LinkTrainCoeffs
     :return:
     :rtype: None
     """
+    return await __lt_coeff(port, serdes, encoding, cmd=enums.LinkTrainCmd.CMD_ENCODING)
 
-    """
-    :param port: port to configure
+
+async def lt_trained(port: GenericL23Port, serdes: int) -> enums.LinkTrainCmdResults:
+    """Tell the remote port that the current serdes is trained.
+
+    :param port: the port object
     :type port: :class:`~xoa_driver.ports.GenericL23Port`
-    :param lane: lane index, starting from 0
-    :type lane: int
-    
-    """
-    return await __lt_coeff(port, lane, encoding, cmd=enums.LinkTrainCmd.CMD_ENCODING)
-
-
-async def lt_trained(port: GenericL23Port, lane: int) -> None:
-    """Tell the remote port that the current lane is trained.
-
-    :param port: The port to configure
-    :type port: :class:`~xoa_driver.ports.GenericL23Port`
-    :param lane: The lane index, starting from 0
-    :type lane: int
+    :param serdes: the serdes index, starting from 0
+    :type serdes: int
     :return:
     :rtype: None
     """
     return await __lt_coeff(
         port,
-        lane,
+        serdes,
         arg=enums.LinkTrainAnnounce.TRAINED,
         cmd=enums.LinkTrainCmd.CMD_LOCAL_TRAINED,
     )
 
 
-async def lt_status(port: GenericL23Port, lane: int) -> dict[str, t.Any]:
+async def lt_status(port: GenericL23Port, serdes: int) -> dict[str, t.Any]:
     """Show the link training status.
 
-    :param port: port to configure
+    :param port: the port object
     :type port: :class:`~xoa_driver.ports.GenericL23Port`
-    :param lane: lane index, starting from 0
-    :type lane: int
-    :return:
-    :rtype: str
+    :param serdes: the serdes index, starting from 0
+    :type serdes: int
+    :return: LT status of the serdes
+    :rtype: typing.Dict[str, typing.Any]
     """
     conn, mid, pid = get_ctx(port)
     status, info, ltconf, cfg = await apply(
-        commands.PP_LINKTRAINSTATUS(conn, mid, pid, lane).get(),
-        commands.PL1_LINKTRAININFO(conn, mid, pid, lane, 0).get(),
+        commands.PP_LINKTRAINSTATUS(conn, mid, pid, serdes).get(),
+        commands.PL1_LINKTRAININFO(conn, mid, pid, serdes, 0).get(),
         commands.PP_LINKTRAIN(conn, mid, pid).get(),
         commands.PL1_CFG_TMP(
-            conn, mid, pid, lane, enums.Layer1ConfigType.LT_INITIAL_MODULATION
+            conn, mid, pid, serdes, enums.Layer1ConfigType.LT_INITIAL_MODULATION
         ).get(),
     )
     total_bit_count = (info.prbs_total_bits_high << 32) + info.prbs_total_bits_low
     total_error_bit_count = (
         info.prbs_total_error_bits_high << 32
     ) + info.prbs_total_error_bits_low
-    prbs = (
+    ber = (
         total_error_bit_count / total_bit_count if total_bit_count > 0 else float("nan")
     )
     return dictionize_lt_status(
-        status, info, ltconf, cfg, prbs, total_bit_count, total_error_bit_count
+        status, info, ltconf, cfg, ber, total_bit_count, total_error_bit_count
     )
 
 
-async def txtap_get(port: GenericL23Port, lane: int) -> dict[str, int]:
+async def txtap_get(port: GenericL23Port, serdes: int) -> dict[str, int]:
     """Get the tap value of the local TX tap.
 
-    :param port: port to configure
+    :param port: the port object
     :type port: :class:`~xoa_driver.ports.GenericL23Port`
-    :param lane: lane index, starting from 0
-    :type lane: int
-    :return:
-    :rtype: typing.Dict[str, Any]
+    :param serdes: the serdes index, starting from 0
+    :type serdes: int
+    :return: tap values of the serdes
+    :rtype: typing.Dict[str, int]
     """
     conn, mid, pid = get_ctx(port)
-    r = await commands.PP_PHYTXEQ(conn, mid, pid, lane).get()
+    r = await commands.PP_PHYTXEQ(conn, mid, pid, serdes).get()
     return dictionize_txtap_get(r)
 
 
 async def txtap_set(
     port: GenericL23Port,
-    lane: int,
+    serdes: int,
     pre3: int,
     pre2: int,
     pre: int,
@@ -360,10 +367,10 @@ async def txtap_set(
 ) -> None:
     """Set the tap value of the local TX tap.
 
-    :param port: port to configure
+    :param port: the port object
     :type port: :class:`~xoa_driver.ports.GenericL23Port`
-    :param lane: lane index, starting from 0
-    :type lane: int
+    :param serdes: the serdes index, starting from 0
+    :type serdes: int
     :param pre3: pre3 value
     :type pre3: int
     :param pre2: pre2 value
@@ -378,7 +385,7 @@ async def txtap_set(
     :rtype: None
     """
     conn, mid, pid = get_ctx(port)
-    cmd_ = commands.PP_PHYTXEQ(conn, mid, pid, lane)
+    cmd_ = commands.PP_PHYTXEQ(conn, mid, pid, serdes)
     await cmd_.set(
         pre1=pre,
         main=main,
@@ -392,9 +399,9 @@ async def txtap_set(
 async def anlt_link_recovery(port: GenericL23Port, enable: bool) -> None:
     """Should xenaserver automatically do link recovery when detecting down signal.
 
-    :param port: port to configure
+    :param port: the port object
     :type port: :class:`~xoa_driver.ports.GenericL23Port`
-    :param enable: Should xenaserver automatically do link recovery when detecting down signal.
+    :param enable: should the port automatically do link recovery when link is down.
     :type enable: bool
     :return:
     :rtype:  None
@@ -409,10 +416,10 @@ async def anlt_link_recovery(port: GenericL23Port, enable: bool) -> None:
 async def anlt_status(port: GenericL23Port) -> dict[str, t.Any]:
     """Get the overview of ANLT status
 
-    :param port: the port to get ANLT status from
+    :param port: the port object
     :type port: :class:`~xoa_driver.ports.GenericL23Port`
-    :return: ANLT overview status
-    :rtype: typing.Dict[str, Any]
+    :return: AN/LT status of the port
+    :rtype: typing.Dict[str, typing.Any]
     """
 
     # if not isinstance(port, LinkTrainingSupported):
@@ -425,9 +432,23 @@ async def anlt_status(port: GenericL23Port) -> dict[str, t.Any]:
         commands.PP_AUTONEGSTATUS(conn, mid, pid).get(),
         commands.PP_LINKTRAIN(conn, mid, pid).get(),
         commands.P_CAPABILITIES(conn, mid, pid).get(),
+        commands.PL1_CFG_TMP(conn, mid, pid, 0, enums.Layer1ConfigType.AN_LOOPBACK).get(),
     )
-    link_recovery, autoneg, linktrain, capabilities = r
-    return dictionize_anlt_status(link_recovery, autoneg, linktrain, capabilities)
+    link_recovery, autoneg, linktrain, capabilities, allow_loopback= r
+    initial_mods = {}
+    algorithms = {}
+    for i in range(0, capabilities.serdes_count):
+        # resp = await apply(
+        #     commands.PL1_CFG_TMP(conn, mid, pid, i, enums.Layer1ConfigType.LT_INITIAL_MODULATION).get(),
+        #     commands.PL1_CFG_TMP(conn, mid, pid, i, enums.Layer1ConfigType.LT_TRAINING_ALGORITHM).get()
+        # )
+        # im, alg = resp
+        # im = resp
+        im = await commands.PL1_CFG_TMP(conn, mid, pid, i, enums.Layer1ConfigType.LT_INITIAL_MODULATION).get()
+        initial_mods[str(i)] = enums.LinkTrainEncoding(im.values[0]).name
+        # algorithms[str(i)] = enums.LinkTrainAlgorithm(alg.values[0]).name
+
+    return dictionize_anlt_status(link_recovery, autoneg, linktrain, capabilities, allow_loopback, initial_mods)
 
 
 async def anlt_log(port: GenericL23Port) -> str:
@@ -435,7 +456,7 @@ async def anlt_log(port: GenericL23Port) -> str:
 
     :param port: the port object
     :type port: :class:`~xoa_driver.ports.GenericL23Port`
-    :return: anlt log
+    :return: AN/LT protocol log traces of the port
     :rtype: str
     """
     conn, mid, pid = get_ctx(port)
