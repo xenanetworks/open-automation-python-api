@@ -436,7 +436,7 @@ async def anlt_status(port: GenericL23Port) -> dict[str, t.Any]:
     )
     link_recovery, autoneg, linktrain, capabilities, allow_loopback= r
     initial_mods = {}
-    algorithms={}
+    algorithms = {}
     for i in range(0, capabilities.serdes_count):
         # resp = await apply(
         #     commands.PL1_CFG_TMP(conn, mid, pid, i, enums.Layer1ConfigType.LT_INITIAL_MODULATION).get(),

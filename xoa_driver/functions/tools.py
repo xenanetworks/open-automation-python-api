@@ -4,7 +4,6 @@ from xoa_driver.ports import GenericAnyPort
 from xoa_driver.internals.core import interfaces as itf
 from xoa_driver.lli import commands
 from xoa_driver import enums
-from decimal import Decimal
 
 
 def get_ctx(port: GenericAnyPort) -> tuple["itf.IConnection", int, int]:
