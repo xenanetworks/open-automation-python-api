@@ -179,6 +179,26 @@ async def anlt_start(
     await anlt.run()
 
 
+async def anlt_stop(port: GenericL23Port) -> None:
+    """Stop AN & LT
+
+    :param port: the port object
+    :type port: :class:`~xoa_driver.ports.GenericL23Port`
+    """
+    
+    anlt = DoAnlt(
+        port=port,
+        should_do_an=False,
+        should_do_lt=False,
+        an_allow_loopback=False,
+        lt_preset0=enums.NRZPreset.NRZ_NO_PRESET,
+        lt_initial_modulations={},
+        should_lt_interactive=False,
+        lt_algorithm={}
+    )
+    await anlt.run()
+
+
 async def autoneg_status(port: GenericL23Port) -> dict[str, t.Any]:
     """Get the auto-negotiation status
 
