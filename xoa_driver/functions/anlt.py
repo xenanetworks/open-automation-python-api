@@ -446,7 +446,7 @@ async def anlt_status(port: GenericL23Port) -> dict[str, t.Any]:
         initial_mods[str(i)] = enums.LinkTrainEncoding(im.values[0]).name
         algorithms[str(i)] = enums.LinkTrainAlgorithm(alg.values[0]).name
 
-    return dictionize_anlt_status(link_recovery, autoneg, linktrain, capabilities, allow_loopback, initial_mods)
+    return dictionize_anlt_status(link_recovery, autoneg, linktrain, capabilities, allow_loopback, initial_mods, algorithms)
 
 
 async def anlt_log(port: GenericL23Port) -> str:
