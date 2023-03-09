@@ -17,7 +17,10 @@ LinkTrainingSupported = FamilyL
 
 # region Testers
 async def reserve_tester(tester: GenericAnyTester, force: bool = True) -> None:
-    """Reserve a tester regardless whether it is owned by others or not.
+    """
+    .. versionadded:: 1.1
+    
+    Reserve a tester regardless whether it is owned by others or not.
 
     :param tester: The tester to reserve
     :type tester: :class:`~xoa_driver.testers.GenericAnyTester`
@@ -36,7 +39,10 @@ async def reserve_tester(tester: GenericAnyTester, force: bool = True) -> None:
 
 
 async def free_tester(tester: GenericAnyTester) -> None:
-    """Free a tester. If the tester is reserved by you, release the tester. If the tester is reserved by others, relinquish the tester. The tester should have no owner afterwards.
+    """
+    .. versionadded:: 1.1
+    
+    Free a tester. If the tester is reserved by you, release the tester. If the tester is reserved by others, relinquish the tester. The tester should have no owner afterwards.
 
     :param tester: The tester to free
     :type tester: :class:`~xoa_driver.testers.GenericAnyTester`
@@ -58,7 +64,10 @@ async def free_tester(tester: GenericAnyTester) -> None:
 
 
 def get_module(tester: GenericAnyTester, module_id: int) -> GenericAnyModule:
-    """Get a module object of the tester.
+    """
+    .. versionadded:: 1.1
+    
+    Get a module object of the tester.
 
     :param tester: The tester object
     :type tester: :class:`~xoa_driver.testers.GenericAnyTester`
@@ -75,7 +84,10 @@ def get_module(tester: GenericAnyTester, module_id: int) -> GenericAnyModule:
 
 
 def get_modules(tester: GenericAnyTester) -> tuple[GenericAnyModule, ...]:
-    """Get all modules of the tester
+    """
+    .. versionadded:: 1.1
+    
+    Get all modules of the tester
 
     :param tester: The tester object
     :type tester: :class:`~xoa_driver.testers.GenericAnyTester`
@@ -86,7 +98,10 @@ def get_modules(tester: GenericAnyTester) -> tuple[GenericAnyModule, ...]:
 
 
 async def reserve_module(module: GenericAnyModule, force: bool = True) -> None:
-    """Reserve a module regardless whether it is owned by others or not.
+    """
+    .. versionadded:: 1.1
+    
+    Reserve a module regardless whether it is owned by others or not.
 
     :param module: The module to reserve
     :type module: :class:`~xoa_driver.modules.GenericAnyModule`
@@ -105,7 +120,10 @@ async def reserve_module(module: GenericAnyModule, force: bool = True) -> None:
 
 
 async def free_module(module: GenericAnyModule, should_free_ports: bool = False) -> None:
-    """Free a module. If the module is reserved by you, release the module. If the module is reserved by others, relinquish the module. The module should have no owner afterwards.
+    """
+    .. versionadded:: 1.2
+    
+    Free a module. If the module is reserved by you, release the module. If the module is reserved by others, relinquish the module. The module should have no owner afterwards.
 
     :param module: The module to free
     :type module: :class:`~xoa_driver.modules.GenericAnyModule`
@@ -129,7 +147,10 @@ async def free_module(module: GenericAnyModule, should_free_ports: bool = False)
 
 
 def get_all_ports(tester: GenericAnyTester) -> tuple[GenericAnyPort, ...]:
-    """Get all ports of the tester
+    """
+    .. versionadded:: 1.1
+    
+    Get all ports of the tester
 
     :param tester: The tester object
     :type tester: :class:`~xoa_driver.testers.GenericAnyTester`
@@ -141,7 +162,10 @@ def get_all_ports(tester: GenericAnyTester) -> tuple[GenericAnyPort, ...]:
 
 
 def get_ports(tester: GenericAnyTester, module_id: int) -> tuple[GenericAnyPort, ...]:
-    """Get all ports of the module
+    """
+    .. versionadded:: 1.1
+    
+    Get all ports of the module
 
     :param tester: The tester object
     :type tester: :class:`~xoa_driver.testers.GenericAnyTester`
@@ -155,7 +179,10 @@ def get_ports(tester: GenericAnyTester, module_id: int) -> tuple[GenericAnyPort,
 
 
 def get_port(tester: GenericAnyTester, module_id: int, port_id: int) -> GenericAnyPort:
-    """Get a port of the module
+    """
+    .. versionadded:: 1.1
+    
+    Get a port of the module
 
     :param tester: The tester object
     :type tester: :class:`~xoa_driver.testers.GenericAnyTester`
@@ -175,7 +202,10 @@ def get_port(tester: GenericAnyTester, module_id: int, port_id: int) -> GenericA
 
 
 async def reserve_port(port: GenericAnyPort, force: bool = True) -> None:
-    """Reserve a port regardless whether it is owned by others or not.
+    """
+    .. versionadded:: 1.1
+    
+    Reserve a port regardless whether it is owned by others or not.
 
     :param port: The port to reserve
     :type port: :class:`~xoa_driver.ports.GenericAnyPort`
@@ -195,7 +225,10 @@ async def reserve_port(port: GenericAnyPort, force: bool = True) -> None:
 
 
 async def reset_port(port: GenericAnyPort) -> None:
-    """Reserve and reset a port
+    """
+    .. versionadded:: 1.1
+    
+    Reserve and reset a port
 
     :param port: The port to reset
     :type port: :class:`~xoa_driver.ports.GenericAnyPort`
@@ -207,7 +240,10 @@ async def reset_port(port: GenericAnyPort) -> None:
 
 
 async def free_port(port: GenericAnyPort) -> None:
-    """Free a port. If the port is reserved by you, release the port. If the port is reserved by others, relinquish the port. The port should have no owner afterwards.
+    """
+    .. versionadded:: 1.1
+    
+    Free a port. If the port is reserved by you, release the port. If the port is reserved by others, relinquish the port. The port should have no owner afterwards.
 
     :param port: The port to free
     :type port: :class:`~xoa_driver.ports.GenericAnyPort`
@@ -222,7 +258,10 @@ async def free_port(port: GenericAnyPort) -> None:
 
 
 async def free_ports(*ports: GenericAnyPort) -> None:
-    """Free all ports on a module.
+    """
+    .. versionadded:: 1.1
+    
+    Free all ports on a module.
 
     :param module: The module object
     :type module: GenericAnyModule
