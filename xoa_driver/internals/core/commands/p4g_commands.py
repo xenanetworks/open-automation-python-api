@@ -3045,27 +3045,27 @@ class P4G_VLAN_TCI:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        tci: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)  # two hex bytes, specifying the 16 bit TCI
+        tcis:  XmpField[subtypes.VlanTags] = XmpField(subtypes.VlanTags) # A list of vlan tci. up to 6 TCIs can be define
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        tci: XmpField[xt.XmpHex2] = XmpField(xt.XmpHex2)  # two hex bytes, specifying the 16 bit TCI
+        tcis:  XmpField[subtypes.VlanTags] = XmpField(subtypes.VlanTags) # A list of vlan tci. up to 6 TCIs can be define
 
     def get(self) -> "Token[GetDataAttr]":
-        """Get the VLAN TCI value.
+        """Get the list of VLAN TCI value.
 
-        :return: the VLAN TCI value.
+        :return: the list of VLAN TCI value.
         :rtype: P4G_VLAN_TCI.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
 
-    def set(self, tci: str) -> "Token":
-        """Set the VLAN TCI value.
+    def set(self, tcis: typing.List[str]) -> "Token":
+        """Set a list of VLAN TCI value.
 
-        :param tci: specifying the 16 bit TCI
-        :type tci: str
+        :param tcis: specifying the list of 16 bit TCIs
+        :type tcis: List[str]
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], tci=tci))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], tcis=tcis))
 
 
 @register_command
