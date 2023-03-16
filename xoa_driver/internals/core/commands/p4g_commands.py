@@ -3032,7 +3032,7 @@ class P4G_VLAN_ENABLE:
 @dataclass
 class P4G_VLAN_TCI:
     """
-    Specify the VLAN TCI.
+    Specify the List of VLAN TCIs.
     """
 
     code: typing.ClassVar[int] = 665
@@ -3061,6 +3061,8 @@ class P4G_VLAN_TCI:
 
     def set(self, tcis: typing.List[str]) -> "Token":
         """Set a list of VLAN TCI value.
+            Up to 6 TCIs can be defined.
+            The order of the VLANs is like the following: ethernet/vlan0/vlan1/../vlanN/uppler_layer(like IPv4)
 
         :param tcis: specifying the list of 16 bit TCIs
         :type tcis: List[str]
