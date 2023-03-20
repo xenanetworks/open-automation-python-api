@@ -14,7 +14,9 @@ from .exceptions import (
     NotSupportMedia,
     NotSupportPortSpeed,
 )
+from .tools import module_eol_info
 from itertools import chain
+from datetime import datetime
 
 PcsPmaSupported = (FamilyL, FamilyL1)
 AutoNegSupported = (FamilyL, FamilyL1)
@@ -267,7 +269,45 @@ async def set_module_port_config(
     raise NotSupportPortSpeed(module)
 
 
+async def get_module_eol_date(module: GenericAnyModule) -> str:
+    """Get module's End-of-Life date
+
+    :param module: The module object
+    :type module: GenericAnyModule
+    :return: Module's EOL date
+    :rtype: str
+    """
+    m_eol = module_eol_info()
+    resp = await module.serial_number.get()
+    for key, value in m_eol.items():
+        if str(resp.serial_number)[-2:] == key:
+            return value
+    return "2999-01-01"
+
+
+async def get_module_eol_days(module: GenericAnyModule) -> int:
+    """Get days until module's End-of-Life date
+
+    :param module: The module object
+    :type module: GenericAnyModule
+    :return: days until module's End-of-Life date
+    :rtype: int
+    """
+    date1 = datetime.now()
+    date2 = datetime.strptime("2999-01-01", '%Y-%M-%d')
+    timedelta = date2 - date1
+    m_eol = module_eol_info()
+    resp = await module.serial_number.get()
+    for key, value in m_eol.items():
+        if str(resp.serial_number)[-2:] == key:
+            date1 = datetime.now()
+            date2 = datetime.strptime(value, '%Y-%M-%d')
+            timedelta = date2 - date1
+            break
+    return timedelta.days
+
 # endregion
+
 
 # region Ports
 
@@ -403,11 +443,18 @@ __all__ = (
     "free_port",
     "free_ports",
     "free_tester",
+    "get_all_ports",
     "get_module",
+    "get_module_eol_date",
+    "get_module_eol_days",
+    "get_module_supported_media",
+    "get_modules",
     "get_port",
     "get_ports",
-    "reset_port",
     "reserve_module",
     "reserve_port",
     "reserve_tester",
+    "reset_port",
+    "set_module_media_config",
+    "set_module_port_config"
 )

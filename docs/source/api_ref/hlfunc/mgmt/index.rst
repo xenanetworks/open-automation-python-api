@@ -18,9 +18,7 @@ HL Port Functions
 
 .. autofunction:: get_port
 
-.. autofunction:: get_ports
-
-.. autofunction:: get_all_ports
+.. autofunction:: free_ports
 
 
 HL Module Functions
@@ -32,9 +30,17 @@ HL Module Functions
 
 .. autofunction:: get_module
 
-.. autofunction:: get_modules
+.. autofunction:: get_module_supported_media
 
-.. autofunction:: free_ports
+.. autofunction:: set_module_media_config
+
+.. autofunction:: set_module_port_config
+
+.. autofunction:: get_module_eol_date
+
+.. autofunction:: get_module_eol_days
+
+.. autofunction:: get_ports
 
 
 HL Tester Functions
@@ -43,3 +49,7 @@ HL Tester Functions
 .. autofunction:: reserve_tester
 
 .. autofunction:: free_tester
+
+.. autofunction:: get_all_ports
+
+.. autofunction:: get_modules
