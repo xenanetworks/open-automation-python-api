@@ -29,7 +29,6 @@
         ~ModuleL23.on_adv_timing_sma_output_change
         ~ModuleL23.on_adv_timing_sma_status_change
         ~ModuleL23.on_cfp_config_change
-        ~ModuleL23.on_cfp_config_extended_change
         ~ModuleL23.on_cfp_type_change
         ~ModuleL23.on_comment_change
         ~ModuleL23.on_media_change

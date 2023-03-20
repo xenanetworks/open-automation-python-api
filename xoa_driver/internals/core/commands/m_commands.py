@@ -388,6 +388,8 @@ class M_CFPTYPE:
 @dataclass
 class M_CFPCONFIG:
     """
+    .. deprecated:: 1.3
+
     The current number of ports and their speed of a CFP test module. If the CFP
     type is NOTFLEXIBLE then it reflects the transceiver currently in the CFP cage.
     If the CFP type is FLEXIBLE (or NOTPRESENT) then the configuration can be changed
