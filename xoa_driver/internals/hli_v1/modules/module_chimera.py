@@ -8,7 +8,6 @@ from xoa_driver.internals.core.commands import (
     M_UPGRADE,
     M_UPGRADEPROGRESS,
     M_CFPTYPE,
-    M_CFPCONFIG,
     M_COMMENT,
     M_CAPABILITIES,
     M_CLOCKPPB,

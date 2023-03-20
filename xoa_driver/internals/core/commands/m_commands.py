@@ -214,7 +214,7 @@ class M_PORTCOUNT:
 
     .. note::
 
-        For a CFP-type module this number refers to the maximum number of ports possible on the module regardless of the media configuration. So if a CFP-type module can be set in for instance either 1x100G mode or 8x10G mode then this command will always return 8. If you want the current number of ports for a CFP-type module you need to read the M_CFPCONFIG` command which returns the number of current ports.
+        For a CFP-type module this number refers to the maximum number of ports possible on the module regardless of the media configuration. So if a CFP-type module can be set in for instance either 1x100G mode or 8x10G mode then this command will always return 8. If you want the current number of ports for a CFP-type module you need to read the M_CFPCONFIGEXT` command which returns the number of current ports.
 
     """
 
