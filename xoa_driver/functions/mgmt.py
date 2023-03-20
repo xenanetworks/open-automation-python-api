@@ -152,7 +152,10 @@ async def free_module(module: GenericAnyModule, should_free_ports: bool = False)
 async def get_module_supported_media(
     module: GenericL23Module | ModuleChimera,
 ) -> list[dict[str, t.Any]]:
-    """Get a list of supported media, port speed and count of the module.
+    """    
+    .. versionadded:: 1.3
+
+    Get a list of supported media, port speed and count of the module.
 
     :param module: The module object
     :type module: GenericAnyModule
@@ -195,7 +198,10 @@ async def set_module_media_config(
     media: enums.MediaConfigurationType,
     force: bool = True,
 ) -> None:
-    """Set module's media configuration.
+    """
+    .. versionadded:: 1.3
+
+    Set module's media configuration.
 
     :param module: The module object
     :type module: GenericAnyModule
@@ -230,7 +236,10 @@ async def set_module_port_config(
     port_speed: int,
     force: bool = True,
 ) -> None:
-    """Set module's port-speed configuration
+    """
+    .. versionadded:: 1.3
+
+    Set module's port-speed configuration
 
     :param module: The module object
     :type module: t.Union[GenericL23Module, ModuleChimera]
@@ -270,7 +279,10 @@ async def set_module_port_config(
 
 
 async def get_module_eol_date(module: GenericAnyModule) -> str:
-    """Get module's End-of-Life date
+    """
+    .. versionadded:: 1.3
+
+    Get module's End-of-Life date
 
     :param module: The module object
     :type module: GenericAnyModule
@@ -286,7 +298,10 @@ async def get_module_eol_date(module: GenericAnyModule) -> str:
 
 
 async def get_module_eol_days(module: GenericAnyModule) -> int:
-    """Get days until module's End-of-Life date
+    """
+    .. versionadded:: 1.3
+
+    Get days until module's End-of-Life date
 
     :param module: The module object
     :type module: GenericAnyModule
