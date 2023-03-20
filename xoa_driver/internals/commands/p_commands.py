@@ -413,7 +413,7 @@ class P_SPEEDSELECTION:
 
     .. note::
 
-        This is only a settable command when speed is selected at the port level. Use the M_CFPCONFIG` command when speed is selected at the module level.
+        This is only a settable command when speed is selected at the port level. Use the M_CFPCONFIGEXT` command when speed is selected at the module level.
 
     """
 

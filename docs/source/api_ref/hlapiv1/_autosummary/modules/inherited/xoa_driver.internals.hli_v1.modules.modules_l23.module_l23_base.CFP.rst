@@ -26,6 +26,5 @@
     
         ~CFP.type
         ~CFP.config
-        ~CFP.config_extended
     
     

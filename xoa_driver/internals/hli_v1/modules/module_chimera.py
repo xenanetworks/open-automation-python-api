@@ -8,7 +8,6 @@ from xoa_driver.internals.commands import (
     M_UPGRADE,
     M_UPGRADEPROGRESS,
     M_CFPTYPE,
-    M_CFPCONFIG,
     M_COMMENT,
     M_CAPABILITIES,
     M_CLOCKPPB,
@@ -22,6 +21,7 @@ from xoa_driver.internals.commands import (
     M_TIMESYNC,
     M_CLOCKSYNCSTATUS,
     M_NAME,
+    M_CFPCONFIGEXT,
 )
 
 from xoa_driver.internals.hli_v1 import revisions
@@ -67,11 +67,11 @@ class ChCFP:
 
         :type: M_CFPTYPE
         """
-        self.config = M_CFPCONFIG(conn, module_id)
+        self.config = M_CFPCONFIGEXT(conn, module_id)
         """
         The CFP configuration of the test module.
 
-        :type: M_CFPCONFIG
+        :type: M_CFPCONFIGEXT
         """
 
 
@@ -251,7 +251,7 @@ class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
     Register a callback function to the event that the module's CFP type changes.
     """
 
-    on_cfp_config_change = functools.partialmethod(utils.on_event, M_CFPCONFIG)
+    on_cfp_config_change = functools.partialmethod(utils.on_event, M_CFPCONFIGEXT)
     """
     Register a callback function to the event that the module's CFP configuration changes.
     """

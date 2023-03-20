@@ -258,7 +258,7 @@ class M_PORTCOUNT:
 
         For a CFP-type module this number refers to the maximum number of ports possible on the module regardless of the media configuration.
         So if a CFP-type module can be set in for instance either 1x100G mode or 8x10G mode then this command will always return 8.
-        If you want the current number of ports for a CFP-type module you need to read the M_CFPCONFIG` command which returns the number of current ports.
+        If you want the current number of ports for a CFP-type module you need to read the M_CFPCONFIGEXT` command which returns the number of current ports.
 
     """
 
@@ -449,6 +449,8 @@ class M_CFPTYPE:
 @dataclass
 class M_CFPCONFIG:
     """
+    .. deprecated:: 1.3
+
     The current number of ports and their speed of a CFP test module. If the CFP
     type is NOTFLEXIBLE then it reflects the transceiver currently in the CFP cage.
     If the CFP type is FLEXIBLE (or NOTPRESENT) then the configuration can be changed
@@ -746,7 +748,7 @@ class M_CFPCONFIGEXT:
     ``NOTPRESENT``) then the configuration can be changed explicitly. The following
     combinations are possible: 2x10G, 4x10G, 8x10G, 2x25G, 4x25G, 8x25G, 1x40G,
     2x40G, 2x50G, 4x50G, 8x50G, 1x100G, 2x100G, 4x100G, 2x200G, and 1x400G.
-    (replaces :class:`M_CFPCONFIG`)
+    (replaces :class:`M_CFPCONFIGEXT`)
 
     .. note::
 
