@@ -444,11 +444,12 @@ async def anlt_status(port: GenericL23Port) -> dict[str, t.Any]:
         # )
         # im, alg = resp
         # im = resp
+        #algorithms[str(i)] = enums.LinkTrainAlgorithm(alg.values[0]).name
+        algorithms[str(i)] = enums.LinkTrainAlgorithm(1).name   # Hardcoded for now replace with the above when ready!
         im = await commands.PL1_CFG_TMP(conn, mid, pid, i, enums.Layer1ConfigType.LT_INITIAL_MODULATION).get()
         initial_mods[str(i)] = enums.LinkTrainEncoding(im.values[0]).name
-        # algorithms[str(i)] = enums.LinkTrainAlgorithm(alg.values[0]).name
 
-    return dictionize_anlt_status(link_recovery, autoneg, linktrain, capabilities, allow_loopback, initial_mods)
+    return dictionize_anlt_status(link_recovery, autoneg, linktrain, capabilities, allow_loopback, initial_mods, algorithms)
 
 
 async def anlt_log(port: GenericL23Port) -> str:
