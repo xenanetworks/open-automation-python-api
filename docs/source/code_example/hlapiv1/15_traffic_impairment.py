@@ -8,6 +8,7 @@ from xoa_driver import ports
 from xoa_driver import utils
 from xoa_driver import misc
 from xoa_driver.enums import *
+from xoa_driver.hlfuncs import mgmt
 
 # region high-level functions
 
