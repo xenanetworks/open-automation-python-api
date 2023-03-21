@@ -1,7 +1,7 @@
 from __future__ import annotations
 import asyncio
 import typing as t
-from xoa_driver import enums
+from xoa_driver import enums, testers
 from xoa_driver.utils import apply
 from xoa_driver.internals.hli_v2.ports.port_l23.family_l import FamilyL
 from xoa_driver.internals.hli_v2.ports.port_l23.family_l1 import FamilyL1
@@ -64,6 +64,17 @@ async def free_tester(tester: GenericAnyTester) -> None:
         await tester.reservation.set_release()
     await asyncio.gather(*[free_module(m) for m in tester.modules])
 
+
+def get_testers(hosts: t.List[str], username: str) -> t.List["testers.GenericAnyTester"]:
+    """
+    .. versionadded:: 1.3
+
+    Get tester objects from their host addresses
+
+    :return: List of tester objects
+    :rtype: List["testers.GenericAnyTester"]
+    """
+    return [ testers.L23Tester(host, username) for host in hosts ]
 
 # endregion
 
@@ -471,5 +482,6 @@ __all__ = (
     "reserve_tester",
     "reset_port",
     "set_module_media_config",
-    "set_module_port_config"
+    "set_module_port_config",
+    "get_testers"
 )
