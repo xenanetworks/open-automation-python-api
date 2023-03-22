@@ -65,17 +65,6 @@ async def free_tester(tester: GenericAnyTester) -> None:
     await asyncio.gather(*[free_module(m) for m in tester.modules])
 
 
-def get_testers(hosts: t.List[str], username: str) -> t.List["testers.GenericAnyTester"]:
-    """
-    .. versionadded:: 1.3
-
-    Get tester objects from their host addresses
-
-    :return: List of tester objects
-    :rtype: List["testers.GenericAnyTester"]
-    """
-    return [ testers.L23Tester(host, username) for host in hosts ]
-
 # endregion
 
 
@@ -182,6 +171,8 @@ async def get_module_supported_media(
     left = True
     speed = tuple()
     item = {}
+
+    module.info.media_info_list
 
     for num in info_list:
         if media_type:

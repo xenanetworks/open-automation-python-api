@@ -53,5 +53,3 @@ HL Tester Functions
 .. autofunction:: get_all_ports
 
 .. autofunction:: get_modules
-
-.. autofunction:: get_testers

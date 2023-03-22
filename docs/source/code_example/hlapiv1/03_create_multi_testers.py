@@ -1,5 +1,9 @@
 import asyncio
-from xoa_driver.hlfuncs import mgmt
+import typing
+from xoa_driver import testers
+
+def create_testers(hosts: typing.List[str], username: str) -> typing.List["testers.GenericAnyTester"]:
+    return [ testers.L23Tester(host, username) for host in hosts ]
 
 async def main():
     known_hosts = [
@@ -7,7 +11,7 @@ async def main():
         "192.168.1.201"
         ]
         
-    my_tester_pool = mgmt.get_testers( known_hosts, "xoa")
+    my_tester_pool = create_testers( known_hosts, "xoa")
     # now we can do ``await testers_pool[0]`` which establishes the connection
 
     # we also can use asyncio.gather for await all testers at once in concurrent mode
