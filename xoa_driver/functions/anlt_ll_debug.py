@@ -15,6 +15,11 @@ class AnLtD(IntEnum):
     AN_TX_CONFIG_REGISTER = 0x10
     AN_RX_CONFIG_REGISTER = 0x18
     AN_RX_STATUS_REGISTER = 0x19
+    AN_TX_PAGE_0_REGISTER = 0x14
+    AN_TX_PAGE_1_REGISTER = 0x15
+    AN_RX_PAGE_0_REGISTER = 0x1C
+    AN_RX_PAGE_1_REGISTER = 0x1D
+
     LT_TX_CONFIG_REGISTER = 0x20
     LT_TX_FRAME_REGISTER = 0x24
     LT_RX_STATUS_REGISTER = 0x29
@@ -109,6 +114,14 @@ an_tx_config_set = partial(__set, reg=AnLtD.AN_TX_CONFIG_REGISTER)
 
 an_rx_config_get = partial(__get, reg=AnLtD.AN_RX_CONFIG_REGISTER)
 an_rx_config_set = partial(__set, reg=AnLtD.AN_RX_CONFIG_REGISTER)
+
+an_rx_page0_get = partial(__get, reg=AnLtD.AN_RX_PAGE_0_REGISTER)
+an_rx_page1_get = partial(__get, reg=AnLtD.AN_RX_PAGE_1_REGISTER)
+
+an_tx_page0_get = partial(__get, reg=AnLtD.AN_TX_PAGE_0_REGISTER)
+an_tx_page0_set = partial(__set, reg=AnLtD.AN_TX_PAGE_0_REGISTER)
+an_tx_page1_get = partial(__get, reg=AnLtD.AN_TX_PAGE_1_REGISTER)
+an_tx_page1_set = partial(__set, reg=AnLtD.AN_TX_PAGE_1_REGISTER)
 
 lt_tx_config_get = partial(__get, reg=AnLtD.LT_TX_CONFIG_REGISTER)
 lt_tx_config_set = partial(__set, reg=AnLtD.LT_TX_CONFIG_REGISTER)
