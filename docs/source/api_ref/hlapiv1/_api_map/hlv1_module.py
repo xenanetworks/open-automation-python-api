@@ -50,7 +50,7 @@ async def my_awesome_func() -> None:
         module.advanced_timing.sma.input
         module.advanced_timing.sma.output
         
-        module.cfp.config
+        module.cfp.config_extended
         module.cfp.type
 
         module.clock_sweep.config

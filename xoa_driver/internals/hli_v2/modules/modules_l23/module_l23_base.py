@@ -18,6 +18,7 @@ from xoa_driver.internals.core.commands import (
     M_FPGAREIMAGE,
     M_MULTIUSER,
     M_CFPCONFIGEXT,
+    M_CFPCONFIG,
     M_CLOCKPPB,
     M_SMAINPUT,
     M_SMAOUTPUT,
@@ -99,7 +100,12 @@ class CFP:
         Representation of M_CFPTYPE
         """
 
-        self.config = M_CFPCONFIGEXT(conn, module_id)
+        self.config = M_CFPCONFIG(conn, module_id)
+        """The CFP configuration of the test module.
+        Representation of M_CFPCONFIG
+        """
+
+        self.config_extended = M_CFPCONFIGEXT(conn, module_id)
         """The CFP configuration of the test module.
         Representation of M_CFPCONFIGEXT
         """
@@ -227,7 +233,10 @@ class ModuleL23(bm.BaseModule["modules_state.ModuleL23LocalState"]):
     on_cfp_type_change = functools.partialmethod(utils.on_event, M_CFPTYPE)
     """Register a callback to the event that the module's CFP type changes."""
 
-    on_cfp_config_change = functools.partialmethod(utils.on_event, M_CFPCONFIGEXT)
+    on_cfp_config_change = functools.partialmethod(utils.on_event, M_CFPCONFIG)
+    """Register a callback to the event that the module's CFP configuration changes."""
+
+    on_cfp_config_extended_change = functools.partialmethod(utils.on_event, M_CFPCONFIGEXT)
     """Register a callback to the event that the module's CFP configuration changes."""
 
     on_status_change = functools.partialmethod(utils.on_event, M_STATUS)
