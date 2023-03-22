@@ -18,6 +18,7 @@ The XOA Python API and `XOA CLI <https://docs.xenanetworks.com/projects/xoa-cli>
 * Functionality: While both tools can be used to create and execute test scenarios, generate and analyze traffic, and perform detailed analysis of network performance and behavior, the XOA Python API provides a more comprehensive and flexible set of functions for interacting with Xena test equipment. The XOA CLI provides a subset of the functionality available through the XOA Python API.
 
 * Ease of use: The XOA Python API provides a more user-friendly and intuitive interface for interacting with Xena test equipment, while the XOA CLI can be more complex and requires knowledge of the command line interface.
+
 In summary, the XOA Python API is a library for programming with Xena test equipment, providing a comprehensive and user-friendly interface to interact with the equipment, while the XOA CLI provides a simpler command-line interface to interact with Xena test equipment, without the need for programming.
 
 
