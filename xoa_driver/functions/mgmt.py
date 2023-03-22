@@ -149,7 +149,7 @@ async def free_module(module: GenericAnyModule, should_free_ports: bool = False)
         await free_ports(*module.ports)
 
 
-async def get_module_supported_media(
+def get_module_supported_media(
     module: GenericL23Module | ModuleChimera,
 ) -> list[dict[str, t.Any]]:
     """    
@@ -163,34 +163,14 @@ async def get_module_supported_media(
     :rtype: list[dict[str, t.Any]]
     """
     supported_media_list = []
-    reply = await module.available_speeds.get()
-    info_list = reply.media_info_list
-
-    media_type = True
-    len_speed = 0
-    left = True
-    speed = tuple()
     item = {}
 
-    module.info.media_info_list
-
-    for num in info_list:
-        if media_type:
-            item = {"media": enums.MediaConfigurationType(num), "speeds": []}
-            media_type = False
-        elif not len_speed:
-            len_speed = num
-        elif len_speed and left:
-            speed = (num,)
-            left = False
-        elif len_speed and (not left):
-            speed += (num,)
-            item["speeds"].append(speed)
-            len_speed -= 1
-            left = True
-            if not len_speed:
-                supported_media_list.append(item)
-                media_type = True
+    for media_item in my_module.info.media_info_list: # type: ignore
+        item["media"] = media_item.cage_type
+        for sub_item in media_item.avaliable_speeds:
+            item["port_count"] = sub_item.port_count
+            item["port_speed"] = sub_item.port_speed
+        supported_media_list.append(item)
 
     return supported_media_list
 
@@ -220,7 +200,7 @@ async def set_module_media_config(
     await reserve_module(module, force)
 
     # get the supported media
-    supported_media_list = await get_module_supported_media(module)
+    supported_media_list = get_module_supported_media(module)
 
     # set the module media if the target media is found in supported media
     for item in supported_media_list:
@@ -260,7 +240,7 @@ async def set_module_port_config(
     await reserve_module(module, force)
 
     # get the supported media by the module
-    supported_media_list = await get_module_supported_media(module)
+    supported_media_list = get_module_supported_media(module)
 
     # get the current media of the module
     reply = await module.media.get()
@@ -271,11 +251,12 @@ async def set_module_port_config(
         if all(
             (
                 item["media"] == enums.MediaConfigurationType(current_media),
-                (port_count, port_speed) in item["speeds"],
+                item["port_count"] == port_count,
+                item["port_speed"] == port_speed,
             )
         ):
             portspeed_list = [port_count] + port_count * [port_speed]
-            await module.cfp.config.set(portspeed_list=portspeed_list)
+            await module.cfp.config_extended.set(portspeed_list=portspeed_list)
             return None
     raise NotSupportPortSpeed(module)
 
@@ -474,5 +455,4 @@ __all__ = (
     "reset_port",
     "set_module_media_config",
     "set_module_port_config",
-    "get_testers"
 )
