@@ -15,6 +15,7 @@ from ..protocol.fields.field import XmpField
 from ..registry import register_command
 from .enums import *  # noqa: F403
 
+import warnings
 
 @register_command
 @dataclass
@@ -421,6 +422,10 @@ class M_CFPCONFIG:
             - port speed, in Gbps
         :rtype: M_CFPCONFIG.GetDataAttr
         """
+        
+        warnings.formatwarning = lambda message, category, filename, lineno, *_: f"\n\33[33m{category.__name__}\33[0m: {message}\n\n"
+        warnings.warn("M_CFPCONFIG is deprecated. Please use M_CFPCONFIGEXT", ResourceWarning)
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
     def set(self, port_count: int, port_speed: int) -> "Token":
@@ -431,6 +436,9 @@ class M_CFPCONFIG:
         :param port_speed: port speed, in Gbps
         :type port_speed: int
         """
+        warnings.formatwarning = lambda message, category, filename, lineno, *_: f"\n\33[33m{category.__name__}\33[0m: {message}\n\n"
+        warnings.warn("M_CFPCONFIG is deprecated. Please use M_CFPCONFIGEXT", ResourceWarning)
+        
         return Token(self._connection, build_set_request(self, module=self._module, port_count=port_count, port_speed=port_speed))
 
 
