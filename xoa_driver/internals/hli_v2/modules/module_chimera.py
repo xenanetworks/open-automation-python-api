@@ -8,6 +8,7 @@ from xoa_driver.internals.core.commands import (
     M_UPGRADE,
     M_UPGRADEPROGRESS,
     M_CFPTYPE,
+    M_CFPCONFIGEXT,
     M_CFPCONFIG,
     M_COMMENT,
     M_CAPABILITIES,
@@ -60,6 +61,11 @@ class ChCFP:
         """
         The CFP configuration of the test module.
         Representation of M_CFPCONFIG
+        """
+        self.config_extended = M_CFPCONFIGEXT(conn, module_id)
+        """
+        The CFP configuration of the test module.
+        Representation of M_CFPCONFIGEXT
         """
 
 
@@ -197,6 +203,11 @@ class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
     """
 
     on_cfp_config_change = functools.partialmethod(utils.on_event, M_CFPCONFIG)
+    """
+    Register a callback to the event that the module's CFP configuration changes.
+    """
+
+    on_cfp_config_extended_change = functools.partialmethod(utils.on_event, M_CFPCONFIGEXT)
     """
     Register a callback to the event that the module's CFP configuration changes.
     """

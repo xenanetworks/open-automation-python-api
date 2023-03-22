@@ -17,6 +17,8 @@ HL ANLT Functions
 
 .. autofunction:: anlt_status
 
+.. autofunction:: anlt_stop
+
 .. autofunction:: anlt_log
 
 

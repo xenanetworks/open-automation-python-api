@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from xoa_driver.ports import GenericAnyPort
-
+from xoa_driver.modules import GenericAnyModule
 
 class ConfigError(Exception):
     msg: str
@@ -58,6 +58,17 @@ class NotRightLaneValueError(ConfigError):
         super().__init__(self.msg)
 
 
+class NotSupportMedia(ConfigError):
+    def __init__(self, module: GenericAnyModule) -> None:
+        module_id = module.module_id
+        self.msg = f"This module {module_id} does not support the media configuration!"
+
+    
+class NotSupportPortSpeed(ConfigError):
+    def __init__(self, module: GenericAnyModule) -> None:
+        module_id = module.module_id
+        self.msg = f"This module {module_id} does not support the port-speed configuration under its current media configuration!"
+
 
 __all__ = (
     "ConfigError",
@@ -69,4 +80,6 @@ __all__ = (
     "NotSupportAutoNegError",
     "NotSupportLinkTrainError",
     "NotSupportPcsPmaError",
+    "NotSupportMedia",
+    "NotSupportPortSpeed",
 )

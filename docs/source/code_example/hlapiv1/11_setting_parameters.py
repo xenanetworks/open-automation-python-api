@@ -4,10 +4,10 @@ from xoa_driver import testers
 from xoa_driver import modules
 from xoa_driver import utils, enums
 
-async def my_awesome_func():
+async def main():
     # create tester instance and establish connection
-    tester = await testers.L23Tester("192.168.1.200", "xoa") 
-    my_module = tester.modules.obtain(0)
+    my_tester = await testers.L23Tester("192.168.1.200", "xoa") 
+    my_module = my_tester.modules.obtain(0)
 
     # commands which used in this example are not supported by Chimera Module
     if isinstance(my_module, modules.ModuleChimera):
@@ -23,7 +23,7 @@ async def my_awesome_func():
         await my_module.reservation.set_reserve() 
 
     # set module config
-    my_module.media.set(media_type=enums.MediaConfigurationType.QSFP56_PAM4)
+    await my_module.media.set(media_config=enums.MediaConfigurationType.QSFP56_PAM4)
 
     ( tx_port, rx_port ) = resources = my_module.ports.obtain_multiple(0, 1)
 
@@ -51,13 +51,5 @@ async def my_awesome_func():
         rx_port.comment.set("My Rx port") 
     )
 
-def main():
-    try:
-        loop = asyncio.get_event_loop()
-        loop.create_task(my_awesome_func())
-        loop.run_forever()
-    except KeyboardInterrupt:
-        pass
-
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())

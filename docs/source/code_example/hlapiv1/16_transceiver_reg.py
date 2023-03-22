@@ -7,10 +7,10 @@ from xoa_driver import enums
 from xoa_driver import utils
 import time
 
-async def my_awesome_script():
+async def main():
     # Establish connection to a Valkyrie tester
-    async with testers.L23Tester("192.168.1.200", "xoa") as tester:
-        my_module = tester.modules.obtain(2)
+    async with testers.L23Tester("192.168.1.200", "xoa") as my_tester:
+        my_module = my_tester.modules.obtain(2)
 
         # commands which used in this example are not supported by Chimera Module
         if isinstance(my_module, modules.ModuleChimera):
@@ -60,13 +60,5 @@ async def my_awesome_script():
         # Release the port
         await port.reservation.set_release()
 
-def main():
-    try:
-        loop = asyncio.get_event_loop()
-        loop.create_task(my_awesome_script())
-        loop.run_forever()
-    except KeyboardInterrupt:
-        pass
-
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
