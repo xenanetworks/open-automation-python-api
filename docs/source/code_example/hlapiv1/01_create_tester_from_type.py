@@ -1,9 +1,12 @@
 import asyncio
 from xoa_driver import testers
 
+CHASSIS_IP = "demo.xenanetworks.com"
+USERNAME = "xoa"
+
 async def main():
     # create tester instance and establish connection using username "xoa".
-    my_tester = await testers.L23Tester("192.168.1.200", "xoa") 
+    my_tester = await testers.L23Tester(CHASSIS_IP, USERNAME)
 
     # gracefully close connection
     await my_tester.session.logoff() 
