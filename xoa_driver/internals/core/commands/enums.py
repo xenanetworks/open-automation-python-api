@@ -2312,5 +2312,51 @@ class LinkTrainAnnounce(IntEnum):
     """The lane is trained"""
 
 
+class AnLtLogControl(IntEnum):
+    """
+    .. versionadded:: 1.3
+
+    Anlt logcontrol bits
+
+    """
+    # 1st nibble
+    LOG_TYPE_DEBUG = 0x2
+    """debug log output"""
+
+    LOG_TYPE_AN_TRACE = 0x4
+    """autonegotiation trace output"""
+
+    LOG_TYPE_LT_TRACE = 0x8
+    """link training trace output"""
+
+    # 2nd nibble
+    LOG_TYPE_ALG_TRACE = 0x10
+    """link training algorithm trace"""
+
+    # 5th nibble
+    LOG_TYPE_FSM_PORT = 0x10000
+    """port state machine transitions"""
+
+    LOG_TYPE_FSM_ANEG = 0x20000
+    """autonegotiation state machine transitions. What we act on"""
+
+    LOG_TYPE_FSM_ANEG_STIMULI = 0x40000
+    """autonegotiation stimuli state machine transitions. What we ask"""
+
+    LOG_TYPE_FSM_LT = 0x80000
+    """link training state machine transitions"""
+
+    # 6th nibble
+    LOG_TYPE_FSM_LT_COEFF = 0x100000
+    """link training coefficient state machine transitions. What we act on"""
+
+    LOG_TYPE_FSM_LT_STIMULI = 0x200000
+    """link training stimuli state machine transitions. What we ask"""
+
+    LOG_TYPE_FSM_LT_ALG0 = 0x400000
+    """link training algorithm 0 state machine transitions"""
+
+    LOG_TYPE_FSM_LT_ALG1 = 0x800000
+    """link training algorithm -1 state machine transitions"""
 
 # endregion
