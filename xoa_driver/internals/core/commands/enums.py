@@ -2084,6 +2084,16 @@ class Layer1ConfigType(IntEnum):
     LT_TRAINING_ALGORITHM = 4
     """The link training algorithm to use"""
 
+    ANLT_LOG_CONTROL = 5
+    """Control what should be logged by anlt"""
+
+    ANLT_STRICT_MODE = 6
+    """Set AN/LT strict mode. In strict mode errored framed will be ignored"""
+
+    AN_LT_XLA_MODE = 7
+    """Set XLA mode. If enabled XLA dumps will, if triggered, be logged automatically"""
+
+
 
 class Layer1LogType(IntEnum):
     """
