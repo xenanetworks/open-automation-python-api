@@ -1,35 +1,34 @@
 import asyncio
 
-import socket
-from binascii import hexlify
-
 from xoa_driver import testers
 from xoa_driver import modules
 from xoa_driver import utils, enums
+from xoa_driver.hlfuncs import mgmt
 
+CHASSIS_IP = "demo.xenanetworks.com"
+USERNAME = "xoa"
+MODULE_ID = 0
+PORT_ID = 0
+
+SMAC = '000000000001'
+DMAC = '000000000002'
+ETHERTYPE = '0800'
 
 async def main():
     # create tester instance and establish connection
-    my_tester = await testers.L23Tester("192.168.1.200", "xoa") 
+    my_tester = await testers.L23Tester(CHASSIS_IP, USERNAME) 
 
     # access module 0 on the tester
-    my_module = my_tester.modules.obtain(0)
+    my_module = my_tester.modules.obtain(MODULE_ID)
 
     if isinstance(my_module, modules.ModuleChimera):
         return None # commands which used in this example are not supported by Chimera Module
 
     # access port 0 on the module as the TX port
-    tx_port = my_module.ports.obtain(0)
+    tx_port = my_module.ports.obtain(PORT_ID)
 
-    # check TX port's reservation's status, and reserve it
-    if tx_port.is_released():
-        # set reservation , means port will be controlled by our session
-        await tx_port.reservation.set_reserve() 
-    elif not tx_port.is_reserved_by_me():
-        # send relinquish the port
-        await tx_port.reservation.set_relinquish()
-        # set reservation , means port will be controlled by our session
-        await tx_port.reservation.set_reserve() 
+    # use high-level func to reserve the port
+    await mgmt.reserve_port(tx_port)
     
     # reset the port
     await tx_port.reset.set()
@@ -37,9 +36,6 @@ async def main():
     # create one stream on the port
     my_stream = await tx_port.streams.create() 
 
-    SMAC = '000000000001'
-    DMAC = '000000000002'
-    ETHERTYPE = '0800'
     header_data = f'0x{DMAC}{SMAC}{ETHERTYPE}'
 
     await utils.apply(

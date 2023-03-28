@@ -3,10 +3,14 @@ import asyncio
 from xoa_driver import testers
 from xoa_driver import modules, enums
 
+CHASSIS_IP = "demo.xenanetworks.com"
+USERNAME = "xoa"
+MODULE_ID = 0
+
 async def main():
     # create tester instance and establish connection
-    my_tester = await testers.L23Tester("192.168.1.200", "xoa") 
-    my_module = my_tester.modules.obtain(0)
+    my_tester = await testers.L23Tester(CHASSIS_IP, USERNAME) 
+    my_module = my_tester.modules.obtain(MODULE_ID)
     
     for port in my_module.ports:
         # check if module is of types which we are suspecting

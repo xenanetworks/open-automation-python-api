@@ -3,39 +3,34 @@ import asyncio
 from xoa_driver import testers
 from xoa_driver import modules
 from xoa_driver import utils, enums
+from xoa_driver.hlfuncs import mgmt
+
+CHASSIS_IP = "demo.xenanetworks.com"
+USERNAME = "xoa"
+MODULE_ID = 0
+PORT_IDS = [0,1]
 
 async def main():
     # create tester instance and establish connection
-    my_tester = await testers.L23Tester("192.168.1.200", "xoa") 
-    my_module = my_tester.modules.obtain(0)
+    my_tester = await testers.L23Tester(CHASSIS_IP, USERNAME)
+
+    # access module 0 on the tester
+    my_module = my_tester.modules.obtain(MODULE_ID)
 
     # commands which used in this example are not supported by Chimera Module
     if isinstance(my_module, modules.ModuleChimera):
         return None 
 
-    if my_module.is_released():
-        # set reservation , means port will be controlled by our session
-        await my_module.reservation.set_reserve() 
-    elif not my_module.is_reserved_by_me():
-        # send relinquish the module
-        await my_module.reservation.set_relinquish()
-        # set reservation , means module will be controlled by our session
-        await my_module.reservation.set_reserve() 
+    await mgmt.reserve_module(my_module)
 
     # set module config
     await my_module.media.set(media_config=enums.MediaConfigurationType.QSFP56_PAM4)
 
-    ( tx_port, rx_port ) = resources = my_module.ports.obtain_multiple(0, 1)
+    ( tx_port, rx_port ) = resources = my_module.ports.obtain_multiple(*PORT_IDS)
 
+    # use high-level func to reserve the port
     for port in resources:
-        # check if we can set parameters to selected port
-        if port.is_reserved_by_me(): 
-            continue
-        if not port.is_released():
-            # send relinquish the port
-            await port.reservation.set_relinquish() 
-        # set reservation , means port will be controlled by our session
-        await port.reservation.set_reserve() 
+        await mgmt.reserve_port(port)
     
     await utils.apply(
         # set latency mode of the Tx port
