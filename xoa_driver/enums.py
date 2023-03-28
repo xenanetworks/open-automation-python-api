@@ -6,6 +6,7 @@ from .internals.core.protocol.constants import CommandStatus
 __all__ = (  # noqa: F405
     "AlgorithmMethod",
     "AlignLockStatus",
+    "AnLtLogControl",
     "ApplicationLayerBehavior",
     "AutoNegFECOption",
     "AutoNegFECStatus",
