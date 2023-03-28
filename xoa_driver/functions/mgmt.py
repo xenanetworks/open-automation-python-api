@@ -165,12 +165,13 @@ def get_module_supported_media(
     supported_media_list = []
     item = {}
 
-    for media_item in my_module.info.media_info_list: # type: ignore
-        item["media"] = media_item.cage_type
+    for media_item in module.info.media_info_list: # type: ignore
         for sub_item in media_item.avaliable_speeds:
+            item = dict()
+            item["media"] = media_item.cage_type
             item["port_count"] = sub_item.port_count
             item["port_speed"] = sub_item.port_speed
-        supported_media_list.append(item)
+            supported_media_list.append(item)
 
     return supported_media_list
 
