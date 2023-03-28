@@ -67,7 +67,7 @@ class FieldDescriptor(Generic[GenericType]):
     '''
     Descriptor representing getter and setter of the field
     '''
-    __slots__ = ("specs", "format_method", "state", "public_name")
+    __slots__ = ("specs", "format_method", "state", "public_name", "value_cache")
 
     def __init__(self: Self, specs: FieldSpecs, user_type: Type[Any], is_response: bool) -> None:
         # Will be called from the Meta class

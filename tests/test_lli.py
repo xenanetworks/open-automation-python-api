@@ -44,15 +44,29 @@ async def test_lli() -> None:
     await establish_connection(ctx, "192.168.1.197")
     # # print("Is connected", ctx.is_connected)
     # with cProfile.Profile() as pr:
-    *_, pc = await apply(
+    *_, cc, mc, pc = await apply(
         commands.C_LOGON(ctx).set("xena"),
-        commands.C_OWNER(ctx).set("xoa"),
+        commands.C_OWNER(ctx).set("xoa" * 10),
         commands.C_OWNER(ctx).get(),
-        # commands.M_CAPABILITIES(ctx, 1).get(),
-        # commands.P_CAPABILITIES(ctx, 1, 1).get(),
-        commands.C_PORTCOUNTS(ctx).get()
+        commands.C_CAPABILITIES(ctx).get(),
+        commands.M_CAPABILITIES(ctx, 1).get(),
+        commands.P_CAPABILITIES(ctx, 1, 1).get(),
+        # commands.P_ARPRXTABLE(ctx, 3, 1).get()
     )
-    print(pc._order.field_names, pc.to_bytes())
+
+    a = await commands.C_INDICES(ctx).get()
+    print((await commands.C_STATSESSION(ctx, a.session_ids[-1]).get()).to_bytes())
+    port_counts = (await commands.C_PORTCOUNTS(ctx).get()).port_counts
+    
+    indices = (
+        slot_id
+        for slot_id, p_count in enumerate(port_counts)
+        if p_count > 0
+    )
+    for mid in indices:
+        r = await commands.M_REVISION(ctx, mid).get()
+        print(r.revision, r.to_bytes())
+
         # req = apply_iter(*[commands.P_CAPABILITIES(ctx, 1, 1).get() for _ in range(1_000)])
         # async for resp in req:
         #     resp.tx_eq_tap_max_val
@@ -72,11 +86,6 @@ async def test_lli() -> None:
     # required_functionalities:  ANLT
 
 
-async def test_hli() -> None:
-    async with L23Tester("demo.xenanetworks.com", "ACO") as tester:
-        t_cap = await tester.capabilities.get()
-        print(t_cap.can_sync_traffic_start)
-
 
 def run(method: Coroutine) -> None:
     import platform
@@ -86,7 +95,7 @@ def run(method: Coroutine) -> None:
 
 
 if __name__ == "__main__":
-    run(test_hli())
+    run(test_lli())
     # result = timeit.timeit(
     #     "run(main())",
     #     setup="from __main__ import run, main",

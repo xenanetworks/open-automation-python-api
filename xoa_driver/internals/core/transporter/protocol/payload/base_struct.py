@@ -1,4 +1,5 @@
 from __future__ import annotations
+from dataclasses import dataclass
 
 from io import BytesIO
 from typing import (
@@ -28,6 +29,14 @@ SKIP_CLASSES = (
     "RequestBodyStruct",
     RESPONSE_CLS_NAME,
 )
+
+
+@dataclass
+class Cell:
+    offset: int
+    size: int
+    _prev: Cell | None
+    _next: Cell | None
 
 
 class Order:
@@ -82,7 +91,6 @@ class OrderedMeta(type):
                 clsdict[field_name] = FieldDescriptor(field_specs, client_type, is_response)
                 order.add(field_specs, field_name)
             order.update_offsets()
-            clsdict['_order'] = order
         return super().__new__(cls, clsname, bases, {**clsdict})
 
     @classmethod
