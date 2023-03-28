@@ -2316,7 +2316,7 @@ class AnLtLogControl(IntEnum):
     """
     .. versionadded:: 1.3
 
-    Anlt logcontrol bits
+    ANLT log control bits
 
     """
     # 1st nibble
