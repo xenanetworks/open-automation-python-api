@@ -170,7 +170,7 @@ def get_module_supported_media(
         for sub_item in media_item.avaliable_speeds:
             item["port_count"] = sub_item.port_count
             item["port_speed"] = sub_item.port_speed
-        supported_media_list.append(item)
+            supported_media_list.append(item)
 
     return supported_media_list
 
