@@ -46,12 +46,12 @@ class ImpairmentDistributionConfig:
         Representation of PED_OFF
         """
 
-        self.fixed = PED_FIXED(conn, module_id, port_id, flow_index, impairment_type_index)
+        self.fixed_rate = PED_FIXED(conn, module_id, port_id, flow_index, impairment_type_index)
         """Fixed Rate distribution configuration.
         Representation of PED_FIXED
         """
 
-        self.random = PED_RANDOM(conn, module_id, port_id, flow_index, impairment_type_index)
+        self.random_rate = PED_RANDOM(conn, module_id, port_id, flow_index, impairment_type_index)
         """Random Rate distribution configuration.
         Representation of PED_RANDOM
         """
@@ -61,7 +61,7 @@ class ImpairmentDistributionConfig:
         Representation of PED_BER
         """
 
-        self.random = PED_RANDOMBURST(conn, module_id, port_id, flow_index, impairment_type_index)
+        self.random_burst = PED_RANDOMBURST(conn, module_id, port_id, flow_index, impairment_type_index)
         """Random Burst configuration.
         Representation of PED_RANDOMBURST
         """
@@ -81,7 +81,7 @@ class ImpairmentDistributionConfig:
         Representation of PED_GAUSS
         """
 
-        self.poison = PED_POISSON(conn, module_id, port_id, flow_index, impairment_type_index)
+        self.poisson = PED_POISSON(conn, module_id, port_id, flow_index, impairment_type_index)
         """Poisson distribution configuration.
         Representation of PED_POISSON
         """
@@ -159,7 +159,7 @@ class ImpairmentDistribution:
         Representation of PED_GAUSS
         """
 
-        self.poison = PED_POISSON(conn, module_id, port_id, flow_index, impairment_type_index)
+        self.poisson = PED_POISSON(conn, module_id, port_id, flow_index, impairment_type_index)
         """Poisson distribution configuration.
         Representation of PED_POISSON
         """
