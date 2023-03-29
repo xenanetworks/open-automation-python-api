@@ -53,6 +53,7 @@ from xoa_driver.internals.hli_v2.ports.port_l23.family_g import (
     PLoki100G3S1P,
     PLoki100G3S1P_b,
     PLoki100G3S1PSE,
+    PLoki100G3S1PB,
 )
 
 from xoa_driver.internals.hli_v2.ports.port_l23.family_h import (
@@ -104,6 +105,7 @@ GenericL23Port = typing.Union[
     "PLoki100G3S1P",
     "PLoki100G3S1P_b",
     "PLoki100G3S1PSE",
+    "PLoki100G3S1PB",
     "PLoki100G5S1P",
     "PLoki100G5S2P",
     "PThor100G5S4P",
@@ -159,6 +161,7 @@ __all__ = (
     "PLoki100G3S1P",
     "PLoki100G3S1P_b",
     "PLoki100G3S1PSE",
+    "PLoki100G3S1PB",
     "PLoki100G5S1P",
     "PLoki100G5S2P",
     "PThor100G5S4P",

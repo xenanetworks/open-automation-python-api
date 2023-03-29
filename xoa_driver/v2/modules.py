@@ -28,6 +28,7 @@ from xoa_driver.internals.hli_v2.modules.modules_l23.family_g import (
     MLoki100G3S1P,
     MLoki100G3S1P_b,
     MLoki100G3S1PSE,
+    MLoki100G3S1PB,
 )
 from xoa_driver.internals.hli_v2.modules.modules_l23.family_h import (
     MLoki100G5S1P,
@@ -95,6 +96,7 @@ GenericL23Module = typing.Union[
     "MLoki100G3S1P",
     "MLoki100G3S1P_b",
     "MLoki100G3S1PSE",
+    "MLoki100G3S1PB",
     "MLoki100G5S1P",
     "MLoki100G5S2P",
     "MThor100G5S4P",
@@ -150,6 +152,7 @@ __all__ = (
     "MLoki100G3S1P",
     "MLoki100G3S1P_b",
     "MLoki100G3S1PSE",
+    "MLoki100G3S1PB",
     "MLoki100G5S1P",
     "MLoki100G5S2P",
     "MThor100G5S4P",

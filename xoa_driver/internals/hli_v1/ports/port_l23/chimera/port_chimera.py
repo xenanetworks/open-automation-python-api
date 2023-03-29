@@ -106,6 +106,6 @@ class PChi100G5S2P_b(PortChimera):
 
 
 class PChi40G2S2P(PortChimera):
-    """Impairment port on Chi-40G-5S-2P module.
+    """Impairment port on Chi-40G-2S-2P module.
     """
     ...

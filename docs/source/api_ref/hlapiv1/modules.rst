@@ -42,6 +42,7 @@ Module Classes
     ~xoa_driver.internals.hli_v1.modules.modules_l23.family_g.MLoki100G3S1P
     ~xoa_driver.internals.hli_v1.modules.modules_l23.family_g.MLoki100G3S1P_b
     ~xoa_driver.internals.hli_v1.modules.modules_l23.family_g.MLoki100G3S1PSE
+    ~xoa_driver.internals.hli_v1.modules.modules_l23.family_g.MLoki100G3S1PB
     ~xoa_driver.internals.hli_v1.modules.modules_l23.family_h.MLoki100G5S1P
     ~xoa_driver.internals.hli_v1.modules.modules_l23.family_i.MLoki100G5S2P
 

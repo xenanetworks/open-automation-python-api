@@ -42,6 +42,7 @@ Package ``xoa_driver.ports`` includes port classes for Valkyrie, Vulcan, Chimera
     ~xoa_driver.internals.hli_v1.ports.port_l23.family_g.PLoki100G3S1P
     ~xoa_driver.internals.hli_v1.ports.port_l23.family_g.PLoki100G3S1P_b
     ~xoa_driver.internals.hli_v1.ports.port_l23.family_g.PLoki100G3S1PSE
+    ~xoa_driver.internals.hli_v1.ports.port_l23.family_g.PLoki100G3S1PB
     ~xoa_driver.internals.hli_v1.ports.port_l23.family_h.PLoki100G5S1P
     ~xoa_driver.internals.hli_v1.ports.port_l23.family_i.PLoki100G5S2P
 

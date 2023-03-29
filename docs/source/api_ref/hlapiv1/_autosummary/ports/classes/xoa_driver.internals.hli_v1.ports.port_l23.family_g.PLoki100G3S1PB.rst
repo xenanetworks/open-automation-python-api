@@ -1,9 +1,9 @@
-﻿PLoki100G3S1PB
+﻿PLoki100G3S1P\_b
 ================
 
 
 
-.. autoclass:: xoa_driver.internals.hli_v1.ports.port_l23.family_g.PLoki100G3S1PB
+.. autoclass:: xoa_driver.internals.hli_v1.ports.port_l23.family_g.PLoki100G3S1P_b
     :members:
     :show-inheritance:
     :inherited-members:
