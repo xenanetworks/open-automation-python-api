@@ -67,7 +67,7 @@ from .internals.hli_v1.modules.module_chimera import (
     ModuleChimera,
     MChi100G5S2P,
     MChi100G5S2P_b,
-    MChi40G5S2P,
+    MChi40G2S2P,
 )
 from .internals.hli_v1.modules.module_l47 import ModuleL47
 from .internals.hli_v1.modules.module_l47ve import ModuleL47VE
@@ -123,7 +123,7 @@ GenericAnyModule = typing.Union[
     "ModuleChimera",
     "MChi100G5S2P",
     "MChi100G5S2P_b",
-    "MChi40G5S2P",
+    "MChi40G2S2P",
     "ModuleL47",
     "ModuleL47VE",
 ]
@@ -174,7 +174,7 @@ __all__ = (
     "ModuleChimera",
     "MChi100G5S2P",
     "MChi100G5S2P_b",
-    "MChi40G5S2P",
+    "MChi40G2S2P",
     "ModuleL47",
     "ModuleL47VE",
     "GenericL23Module",

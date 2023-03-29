@@ -101,7 +101,7 @@ class RegisterModule:
 # CHIMERA_MODULES = {
 #     "Chimera-100G-5S-2P": modules.MChi100G5S2P,
 #     "Chimera-100G-5S-2P[b]": modules.MChi100G5S2P_b,
-#     "Chimera-40G-5S-2P": modules.MChi40G5S2P,
+#     "Chimera-40G-5S-2P": modules.MChi40G2S2P,
 # }
 
 # # endregion

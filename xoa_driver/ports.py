@@ -13,7 +13,7 @@ from .internals.hli_v1.ports.port_l23.chimera.port_chimera import (
     PortChimera,
     PChi100G5S2P,
     PChi100G5S2P_b,
-    PChi40G5S2P,
+    PChi40G2S2P,
 )
 
 from .internals.hli_v1.ports.port_l23.bases.port_l23 import BasePortL23
@@ -134,7 +134,7 @@ GenericAnyPort = typing.Union[
     "PortChimera",
     "PChi100G5S2P",
     "PChi100G5S2P_b",
-    "PChi40G5S2P",
+    "PChi40G2S2P",
 ]
 
 __all__ = (
@@ -185,7 +185,7 @@ __all__ = (
     "PortChimera",
     "PChi100G5S2P",
     "PChi100G5S2P_b",
-    "PChi40G5S2P",
+    "PChi40G2S2P",
     "GenericL23Port",
     "GenericAnyPort",
 )

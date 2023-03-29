@@ -59,7 +59,7 @@ Module Classes
     ~xoa_driver.internals.hli_v1.modules.modules_l23.family_l1.MFreya800G4S1POSFP_a
     ~xoa_driver.internals.hli_v1.modules.modules_l23.family_l1.MFreya800G4S1P_b
 
-    ~xoa_driver.internals.hli_v1.modules.module_chimera.MChi40G5S2P
+    ~xoa_driver.internals.hli_v1.modules.module_chimera.MChi40G2S2P
     ~xoa_driver.internals.hli_v1.modules.module_chimera.MChi100G5S2P
     ~xoa_driver.internals.hli_v1.modules.module_chimera.MChi100G5S2P_b
     
