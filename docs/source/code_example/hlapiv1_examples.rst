@@ -136,7 +136,6 @@ To generate L23 stateless traffic, stream configuration is necessary. The exampl
 .. literalinclude:: hlapiv1/12_streams.py
     :caption: Configure streams on a port
     :language: python
-    :emphasize-lines: 34-61
 
 
 Modifiers
@@ -160,7 +159,6 @@ To simulate traffic from many address, or when you want certain fields of a pack
 .. literalinclude:: hlapiv1/13_modifiers.py
     :caption: Create and delete modifiers on a stream
     :language: python
-    :emphasize-lines: 61-92
 
 
 Traffic & Statistics
