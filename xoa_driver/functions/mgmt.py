@@ -166,7 +166,7 @@ def get_module_supported_media(
     item = {}
 
     for media_item in module.info.media_info_list: # type: ignore
-        for sub_item in media_item.avaliable_speeds:
+        for sub_item in media_item.available_speeds:
             item = dict()
             item["media"] = media_item.cage_type
             item["port_count"] = sub_item.port_count
