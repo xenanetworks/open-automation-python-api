@@ -67,6 +67,7 @@ class RegisterModule:
 #     "Loki-100G-3S-1P": modules.MLoki100G3S1P,
 #     "Loki-100G-3S-1P[b]": modules.MLoki100G3S1P_b,
 #     "Loki-100G-3S-1P-SE": modules.MLoki100G3S1PSE,
+#     "Loki-100G-3S-1P-B": modules.MLoki100G3S1PB,
 
 #     # family_h
 #     "Loki-100G-5S-1P": modules.MLoki100G5S1P,
@@ -101,7 +102,7 @@ class RegisterModule:
 # CHIMERA_MODULES = {
 #     "Chimera-100G-5S-2P": modules.MChi100G5S2P,
 #     "Chimera-100G-5S-2P[b]": modules.MChi100G5S2P_b,
-#     "Chimera-40G-5S-2P": modules.MChi40G5S2P,
+#     "Chimera-40G-2S-2P": modules.MChi40G2S2P,
 # }
 
 # # endregion
