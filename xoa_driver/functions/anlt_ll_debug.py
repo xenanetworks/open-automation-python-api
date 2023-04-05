@@ -54,7 +54,7 @@ async def init(port: GenericL23Port, serdes: int) -> AnLtLowLevelInfo:
     return inf
 
 
-async def lane_reset(
+async def serdes_reset(
     port: GenericL23Port, serdes: int, inf: t.Optional[AnLtLowLevelInfo] = None
 ) -> None:
     GTM_QUAD_GT_CONFIG = 0x102
@@ -156,6 +156,7 @@ xla_rd_page_set = partial(__set, reg=AnLtD.XLA_RD_PAGE)
 xla_rd_data_get = partial(__get, reg=AnLtD.XLA_RD_DATA)
 
 
+
 async def lt_prbs(
     port: GenericL23Port,
     serdes: int,
@@ -197,38 +198,37 @@ async def xla_dump(
     port: GenericL23Port,
     serdes: int,
     inf: t.Optional[AnLtLowLevelInfo] = None
-) -> str:
+) -> t.Dict[str, str]:
     """This will dump the 320bit words in the capture buffer"""
     if inf is None:
         inf = await init(port, serdes)
-    string = []
+    result = {}
     trigger_pos, capture_done = await asyncio.gather(
         xla_config_get(port, serdes, inf=inf),
         xla_status_get(port, serdes, inf=inf),
     )
-    string.append(f"Trigger position: {trigger_pos}\n")
-    string.append(f"Analyzer status : {capture_done}\n")
+    result["Trigger Position"] = str(trigger_pos)
+    result["Analyzer Status"] = str(capture_done)
     if not capture_done:
-        string.append("No capture\n")
-        result = "".join(string)
+        result["Data"] = ""
         return result
-    string.append("Capture\n")
+    data_list = []
     for r in range(256):
         # Set the read address
         await xla_rd_addr_set(port, serdes, inf=inf, value=r)
         for p in range(10):
             # Read the data
-            await xla_rd_page_set(port, serdes, inf=inf, value=p)
+            await xla_rd_page_set(port, serdes, inf=inf, value=9-p)
             d = await xla_rd_data_get(port, serdes, inf=inf)
-            string.append(f"{d:08X}")
-        string.append("\n")
-    result = "".join(string)
+            data_list.append(f"{d:08X}")
+        data_list.append("\n")
+    result["Data"] = "".join(data_list)
     return result
 
 
 __all__ = (
     "init",
-    "lane_reset",
+    "serdes_reset",
     "mode_get",
     "mode_set",
     "lt_prbs",
