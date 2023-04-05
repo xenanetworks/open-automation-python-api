@@ -198,22 +198,21 @@ async def xla_dump(
     port: GenericL23Port,
     serdes: int,
     inf: t.Optional[AnLtLowLevelInfo] = None
-) -> str:
+) -> t.Dict[str, str]:
     """This will dump the 320bit words in the capture buffer"""
     if inf is None:
         inf = await init(port, serdes)
-    string = []
+    result = {}
     trigger_pos, capture_done = await asyncio.gather(
         xla_config_get(port, serdes, inf=inf),
         xla_status_get(port, serdes, inf=inf),
     )
-    string.append(f"Trigger position: {trigger_pos}\n")
-    string.append(f"Analyzer status : {capture_done}\n")
+    result["Trigger position"] = str(trigger_pos)
+    result["Analyzer status"] = str(capture_done)
     if not capture_done:
-        string.append("No capture\n")
-        result = "".join(string)
+        result["Data"] = ""
         return result
-    string.append("Capture\n")
+    data_string = ""
     for r in range(256):
         # Set the read address
         await xla_rd_addr_set(port, serdes, inf=inf, value=r)
@@ -221,9 +220,9 @@ async def xla_dump(
             # Read the data
             await xla_rd_page_set(port, serdes, inf=inf, value=p)
             d = await xla_rd_data_get(port, serdes, inf=inf)
-            string.append(f"{d:08X}")
-        string.append("\n")
-    result = "".join(string)
+            # data_string += f"{d:08X}" # This sequence alignment results in [D0][D1][D2]...[D10], which is is wrong.
+            data_string = f"{d:08X}" + data_string # This sequence alignment results in [D10]...[D2][D1][D0]. This is correct.
+    result["Data"] = data_string
     return result
 
 
