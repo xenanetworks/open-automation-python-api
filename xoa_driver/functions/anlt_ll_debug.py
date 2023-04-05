@@ -207,22 +207,22 @@ async def xla_dump(
         xla_config_get(port, serdes, inf=inf),
         xla_status_get(port, serdes, inf=inf),
     )
-    result["Trigger position"] = str(trigger_pos)
-    result["Analyzer status"] = str(capture_done)
+    result["Trigger Position"] = str(trigger_pos)
+    result["Analyzer Status"] = str(capture_done)
     if not capture_done:
         result["Data"] = ""
         return result
-    data_string = ""
+    data_list = []
     for r in range(256):
         # Set the read address
         await xla_rd_addr_set(port, serdes, inf=inf, value=r)
         for p in range(10):
             # Read the data
-            await xla_rd_page_set(port, serdes, inf=inf, value=p)
+            await xla_rd_page_set(port, serdes, inf=inf, value=9-p)
             d = await xla_rd_data_get(port, serdes, inf=inf)
-            # data_string += f"{d:08X}" # This sequence alignment results in [D0][D1][D2]...[D10], which is is wrong.
-            data_string = f"{d:08X}" + data_string # This sequence alignment results in [D10]...[D2][D1][D0]. This is correct.
-    result["Data"] = data_string
+            data_list.append(f"{d:08X}")
+        data_list.append("\n")
+    result["Data"] = "".join(data_list)
     return result
 
 
