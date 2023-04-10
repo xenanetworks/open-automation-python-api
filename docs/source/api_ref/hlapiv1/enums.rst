@@ -11,6 +11,7 @@ Enum Classes
 
     AlgorithmMethod
     AlignLockStatus
+    AnLtLogControl
     ApplicationLayerBehavior
     AutoNegFECOption
     AutoNegFECStatus
@@ -65,6 +66,7 @@ Enum Classes
     LicenseSpeed
     LifecycleMode
     LinkState
+    LinkTrainAlgorithm
     LinkTrainCmd
     LinkTrainCmdFlags
     LinkTrainCmdResults

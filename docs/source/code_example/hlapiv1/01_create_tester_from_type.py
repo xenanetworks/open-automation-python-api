@@ -1,21 +1,15 @@
 import asyncio
-
 from xoa_driver import testers
 
-async def my_awesome_func():
+CHASSIS_IP = "demo.xenanetworks.com"
+USERNAME = "xoa"
+
+async def main():
     # create tester instance and establish connection using username "xoa".
-    tester = await testers.L23Tester("192.168.1.200", "xoa") 
+    my_tester = await testers.L23Tester(CHASSIS_IP, USERNAME)
 
     # gracefully close connection
-    await tester.session.logoff() 
-
-def main():
-    try:
-        loop = asyncio.get_event_loop()
-        loop.create_task(my_awesome_func())
-        loop.run_forever()
-    except KeyboardInterrupt:
-        pass
+    await my_tester.session.logoff() 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())

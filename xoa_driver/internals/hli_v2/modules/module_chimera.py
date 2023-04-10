@@ -8,6 +8,7 @@ from xoa_driver.internals.core.commands import (
     M_UPGRADE,
     M_UPGRADEPROGRESS,
     M_CFPTYPE,
+    M_CFPCONFIGEXT,
     M_CFPCONFIG,
     M_COMMENT,
     M_CAPABILITIES,
@@ -60,6 +61,11 @@ class ChCFP:
         """
         The CFP configuration of the test module.
         Representation of M_CFPCONFIG
+        """
+        self.config_extended = M_CFPCONFIGEXT(conn, module_id)
+        """
+        The CFP configuration of the test module.
+        Representation of M_CFPCONFIGEXT
         """
 
 
@@ -201,6 +207,11 @@ class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
     Register a callback to the event that the module's CFP configuration changes.
     """
 
+    on_cfp_config_extended_change = functools.partialmethod(utils.on_event, M_CFPCONFIGEXT)
+    """
+    Register a callback to the event that the module's CFP configuration changes.
+    """
+
     on_status_change = functools.partialmethod(utils.on_event, M_STATUS)
     """
     Register a callback to the event that the module's model changes.
@@ -243,15 +254,15 @@ class MChi100G5S2P_b(ModuleChimera):
 
 
 @typing.final
-@revisions.register_chimera_module(rev="Chimera-40G-5S-2P")
-class MChi40G5S2P(ModuleChimera):
-    """Chimera module Chi-40G-5S-2P"""
+@revisions.register_chimera_module(rev="Chimera-40G-2S-2P")
+class MChi40G2S2P(ModuleChimera):
+    """Chimera module Chi-40G-2S-2P"""
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
-        self.ports: pm.PortsManager[ports.PChi40G5S2P] = pm.PortsManager(
+        self.ports: pm.PortsManager[ports.PChi40G2S2P] = pm.PortsManager(
             conn=conn,
-            ports_type=ports.PChi40G5S2P,
+            ports_type=ports.PChi40G2S2P,
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Chi-40G-5S-2P"""
+        """Port index manager of Chi-40G-2S-2P"""

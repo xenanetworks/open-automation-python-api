@@ -25,6 +25,6 @@
     .. autosummary::
     
         ~MediaInfo.cage_type
-        ~MediaInfo.avaliable_speeds
+        ~MediaInfo.available_speeds
     
     

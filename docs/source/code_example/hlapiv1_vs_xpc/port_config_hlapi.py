@@ -8,31 +8,31 @@ from xoa_driver import ports
 from xoa_driver import enums
 from xoa_driver import utils
 from xoa_driver import exceptions
+from xoa_driver.hlfuncs import mgmt
 
+CHASSIS_IP = "demo.xenanetworks.com"
+USERNAME = "xoa"
+MODULE_ID = 0
+PORT_ID = 0
 
-async def my_awesome_func(stop_event: asyncio.Event):
+async def main():
     # create tester instance and establish connection
-    tester = await testers.L23Tester("10.10.10.10", "xoa")
+    tester = await testers.L23Tester(CHASSIS_IP, USERNAME)
 
     # access module 0 on the tester
-    my_module = tester.modules.obtain(0)
+    my_module = tester.modules.obtain(MODULE_ID)
 
     if isinstance(my_module, modules.ModuleChimera):
         return None # commands which used in this example are not supported by Chimera Module
 
     # access port 0 on the module as the TX port
-    my_port = my_module.ports.obtain(0)
+    my_port = my_module.ports.obtain(PORT_ID)
 
     #---------------------------
     # Port reservation
     #---------------------------
-    if my_port.is_released():
-        print(f"The port is released (not owned by anyone). Will reserve the port to continue port configuration.")
-        await my_port.reservation.set_reserve() # set reservation , means port will be controlled by our session
-    elif not my_port.is_reserved_by_me():
-        print(f"The port is reserved by others. Will relinquish and reserve the port to continue port configuration.")
-        await my_port.reservation.set_relinquish() # send relinquish the port
-        await my_port.reservation.set_reserve() # set reservation , means port will be controlled by our session
+    # use high-level func to reserve the port
+    await mgmt.reserve_port(my_port)
 
     #---------------------------
     # Start conversion
@@ -119,15 +119,6 @@ async def my_awesome_func(stop_event: asyncio.Event):
         # modifier = stream.packet.header.modifiers.obtain(0)
         # await modifier.specification.set(position=0, mask="0xFFFF", action=enums.ModifierAction.INC, repetition=1)
         # await modifier.range.set(min_val=0, step=1, max_val=65535)
-
-
-async def main():
-    stop_event = asyncio.Event()
-    try:
-        await my_awesome_func(stop_event)
-    except KeyboardInterrupt:
-        stop_event.set()
-
 
 if __name__ == "__main__":
     asyncio.run(main())

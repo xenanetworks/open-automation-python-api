@@ -1,15 +1,13 @@
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/xoa-driver) [![PyPI](https://img.shields.io/pypi/v/xoa-driver)](https://pypi.python.org/pypi/xoa-driver) ![GitHub](https://img.shields.io/github/license/xenanetworks/open-automation-python-api) [![Documentation Status](https://readthedocs.org/projects/xena-openautomation-python-api/badge/?version=stable)](https://xena-openautomation-python-api.readthedocs.io/en/stable/?badge=stable)
 # Xena OpenAutomation Python API
-Xena OpenAutomation (XOA) Python API is a driver providing user-friendly communication interfaces to Xena's physical and virtual Traffic Generation and Analysis (TGA) testers. It provides a rich collection of programming interfaces that can be used to either write test scripts or develop applications.
+Xena OpenAutomation Python API is a standalone Python library that provides a user-friendly and powerful interface for automating network testing tasks using Xena Networks test equipment. Xena test equipment is a high-performance network test device designed for testing and measuring the performance of network equipment and applications.
 
 ## Introduction
-Many of our customers choose to develop their own test scripts, where they automate performance verification, regression test, development verification, and so on.
+The XOA Python API is designed to be easy to use and integrate with other automation tools and frameworks. It provides a comprehensive set of methods and classes for interacting with Xena test equipment, including the ability to create and run complex test scenarios, generate and analyze traffic at line rate, and perform detailed analysis of network performance and behavior.
 
-At Xena Networks, we have always been providing customers with the best tool for test automation. To help our customers achieve a more efficient quality control and continuous development verification, we have developed a new platform Xena OpenAutomation, overlaying various Xena hardware and virtual testers, to offer not only automated test suites but also the power to build programs from simple scripts to advanced applications with endless possibilities.
+The XOA Python API simplifies the process of automating network testing tasks using Xena test equipment. It provides a simple, yet powerful, interface for interacting with Xena test equipment using the Python programming language. With the XOA Python API, network engineers and testing professionals can easily create and execute test scenarios, generate and analyze traffic, and perform detailed analysis of network performance and behavior, all while leveraging the power and flexibility of the Python programming language.
 
-The cornerstone component of Xena OpenAutomation is its Python API, which contains more than 600 commands, from basic streams creation to advance eye diagrams measurement. With this rich collection of programming interfaces, we empower our customers to either write test scripts or develop applications with almost limitless possibilities.
-
-Moving forward, all Xena’s automated test suites will be based on Xena OpenAutomation.
+Overall, the XOA Python API is a valuable tool for anyone looking to automate their network testing tasks using Xena test equipment. With its simple, yet powerful, interface and support for the Python programming language, the XOA Python API provides a flexible and extensible framework for automating network testing tasks and improving the quality of network infrastructure.
 
 ## Documentation
 The user documentation is hosted:

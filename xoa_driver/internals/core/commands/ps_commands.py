@@ -1264,7 +1264,7 @@ class PS_PAYLOAD:
     set_pattern = functools.partialmethod(set, PayloadType.PATTERN)
     """Set payload type to the custom pattern.
     """
-    set_inc_byte = functools.partialmethod(set, PayloadType.INC8)
+    set_incrementing = set_inc_byte = functools.partialmethod(set, PayloadType.INC8)
     """Set payload type to Incrementing 0xFF (8-bit mode).
     """
     set_prbs = functools.partialmethod(set, PayloadType.PRBS)
@@ -1273,7 +1273,7 @@ class PS_PAYLOAD:
     set_random = functools.partialmethod(set, PayloadType.RANDOM)
     """Set payload type to Random.
     """
-    set_dec_byte = functools.partialmethod(set, PayloadType.DEC8)
+    set_decrementing = set_dec_byte = functools.partialmethod(set, PayloadType.DEC8)
     """Set payload type to Decrementing 0xFF (8-bit mode).
     """
     set_inc_word = functools.partialmethod(set, PayloadType.INC16)

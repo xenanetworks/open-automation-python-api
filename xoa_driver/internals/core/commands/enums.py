@@ -1290,10 +1290,10 @@ class LinkTrainFrameLock(IntEnum):
 
     LOST = 0
     """No Frame Lock detected"""
-    
+
     LOCKED = 1
     """Frame Lock detected"""
-    
+
 
 
 class PPMSweepMode(IntEnum):
@@ -2081,6 +2081,19 @@ class Layer1ConfigType(IntEnum):
     LL_DEBUG_INFO = 3
     """Return the an/lt module base and RX and TX (serdes index, base address)"""
 
+    LT_TRAINING_ALGORITHM = 4
+    """The link training algorithm to use"""
+
+    ANLT_LOG_CONTROL = 5
+    """Control what should be logged by anlt"""
+
+    ANLT_STRICT_MODE = 6
+    """Set AN/LT strict mode. In strict mode errored framed will be ignored"""
+
+    AN_LT_XLA_MODE = 7
+    """Set XLA mode. If enabled XLA dumps will, if triggered, be logged automatically"""
+
+
 
 class Layer1LogType(IntEnum):
     """
@@ -2099,6 +2112,24 @@ class Layer1LogType(IntEnum):
 
     LT = 1
     """Log for link training"""
+
+
+class LinkTrainAlgorithm(IntEnum):
+    """
+    .. versionadded:: 1.2
+
+    Link Training Algorithm
+
+    """
+
+    INTERACTIVE = 0
+    """INTERACTIVE"""
+
+    ALG0 = 1
+    """ALGORITHM 0"""
+
+    ALGN1 = 2
+    """ALGORITHM -1"""
 
 
 class LinkTrainCmd(IntEnum):
@@ -2281,5 +2312,51 @@ class LinkTrainAnnounce(IntEnum):
     """The lane is trained"""
 
 
+class AnLtLogControl(IntEnum):
+    """
+    .. versionadded:: 1.3
+
+    ANLT log control bits
+
+    """
+    # 1st nibble
+    LOG_TYPE_DEBUG = 0x2
+    """debug log output"""
+
+    LOG_TYPE_AN_TRACE = 0x4
+    """autonegotiation trace output"""
+
+    LOG_TYPE_LT_TRACE = 0x8
+    """link training trace output"""
+
+    # 2nd nibble
+    LOG_TYPE_ALG_TRACE = 0x10
+    """link training algorithm trace"""
+
+    # 5th nibble
+    LOG_TYPE_FSM_PORT = 0x10000
+    """port state machine transitions"""
+
+    LOG_TYPE_FSM_ANEG = 0x20000
+    """autonegotiation state machine transitions. What we act on"""
+
+    LOG_TYPE_FSM_ANEG_STIMULI = 0x40000
+    """autonegotiation stimuli state machine transitions. What we ask"""
+
+    LOG_TYPE_FSM_LT = 0x80000
+    """link training state machine transitions"""
+
+    # 6th nibble
+    LOG_TYPE_FSM_LT_COEFF = 0x100000
+    """link training coefficient state machine transitions. What we act on"""
+
+    LOG_TYPE_FSM_LT_STIMULI = 0x200000
+    """link training stimuli state machine transitions. What we ask"""
+
+    LOG_TYPE_FSM_LT_ALG0 = 0x400000
+    """link training algorithm 0 state machine transitions"""
+
+    LOG_TYPE_FSM_LT_ALG1 = 0x800000
+    """link training algorithm -1 state machine transitions"""
 
 # endregion

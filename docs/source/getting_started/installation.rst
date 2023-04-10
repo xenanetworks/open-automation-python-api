@@ -3,6 +3,10 @@ Installing XOA Python API
 
 XOA Python API is available to install and upgrade via the `Python Package Index <https://pypi.org/>`_. Alternatively, you can also install and upgrade from the source file.
 
+.. note::
+	
+		The minimum Valkyrie release supported by XOA Python API is **83.2**. 
+
 Prerequisites
 -------------
 

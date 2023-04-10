@@ -1,9 +1,9 @@
-﻿PChi40G5S2P
+﻿PChi40G2S2P
 ===========
 
 
 
-.. autoclass:: xoa_driver.internals.hli_v1.ports.port_l23.chimera.port_chimera.PChi40G5S2P
+.. autoclass:: xoa_driver.internals.hli_v1.ports.port_l23.chimera.port_chimera.PChi40G2S2P
     :members:
     :show-inheritance:
     :inherited-members:

@@ -24,6 +24,7 @@
         ~xoa_driver.internals.hli_v1.modules.base_module.BaseModule.on_serial_number_change
         ~xoa_driver.internals.hli_v1.modules.base_module.BaseModule.on_version_number_change
         ~ModuleChimera.on_cfp_config_change
+        ~ModuleChimera.on_cfp_config_extended_change
         ~ModuleChimera.on_cfp_type_change
         ~ModuleChimera.on_latency_mode_change
         ~ModuleChimera.on_status_change
