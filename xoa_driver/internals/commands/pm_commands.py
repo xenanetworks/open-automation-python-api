@@ -244,13 +244,13 @@ class PM_MATCH:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._match_term_xindex]))
 
-    def set(self, mask: str, value: str) -> Token[None]:
+    def set(self, mask: Hex, value: Hex) -> Token[None]:
         """Set the value that must be found at the match term position for packets received on the port.
 
         :param mask: which bits are significant in the match operation
-        :type mask: str
+        :type mask: Hex
         :param value: the value that must be found for the match term to be true
-        :type value: str
+        :type value: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._match_term_xindex], mask=mask, value=value))

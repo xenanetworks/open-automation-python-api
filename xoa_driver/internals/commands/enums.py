@@ -168,7 +168,7 @@ class MediaCFPType(IntEnum):
 
 class SMAInputFunction(IntEnum):
     """SMA input function"""
-    NOT_USED = 0
+    NOTUSED = 0
     """SMA input not used"""
     TX2MHZ = 1
     """TX Clock Ref. 2.048 MHz"""

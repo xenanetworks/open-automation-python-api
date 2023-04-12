@@ -11,11 +11,7 @@ from xoa_driver.internals.core.transporter.protocol.payload import Hex
 from xoa_driver.internals.core.builders import build_get_request, build_set_request
 from xoa_driver.internals.core.transporter.protocol.struct_request import Request
 from xoa_driver.internals.core.transporter.protocol._constants import CommandType
-from xoa_driver.internals.core.transporter._typings import (
-    ICmdOnlyGet,
-    ICmdOnlySet,
-    XoaCommandType,
-)
+from xoa_driver.internals.core.transporter._typings import XoaCommandType
 import re
 import humre as hm
 
@@ -46,12 +42,21 @@ params_group = hm.named_group("params", hm.zero_or_more(hm.ANYCHAR))
 command_pattern = hm.compile(
     module_port_group + command_name_group + indices_group + params_group
 )
+print(params_group)
+
+
+class Unpassed:
+    """
+    None has special meaning, so this empty type is needed for parameters which are not passed.
+    """
+
+    pass
 
 
 @dataclass
 class Body:
     command_name: str = ""
-    cmd_class: XoaCommandType = XoaCommandType
+    cmd_class: XoaCommandType = XoaCommandType  # type: ignore
     type: CommandType = CommandType.COMMAND_STATUS
     module: t.Optional[int] = None
     port: t.Optional[int] = None
@@ -60,22 +65,24 @@ class Body:
 
     def as_request(
         self,
-        module_num: int | None = None,
-        port_num: int | None = None,
-        indices_num: list[int] | None = None,
+        module_num: int | None | Unpassed = Unpassed(),
+        port_num: int | None | Unpassed = Unpassed(),
+        indices_num: list[int] | Unpassed = Unpassed(),
     ) -> Request:
-        if indices_num is None:
-            indices_num = []
-        self.module = module_num
-        self.port = port_num
-        self.indices = indices_num
+        if not isinstance(indices_num, Unpassed):
+            self.indices = indices_num
+        if not isinstance(module_num, Unpassed):
+            self.module = module_num
+        if not isinstance(port_num, Unpassed):
+            self.port = port_num
+
         dic = dict(
             indices=self.indices, module=self.module, port=self.port, **self.values
         )
         return (
-            build_get_request(self.cmd_class, **dic) # type: ignore
+            build_get_request(self.cmd_class, **dic)  # type: ignore
             if self.type == CommandType.COMMAND_QUERY
-            else build_set_request(self.cmd_class, **dic) # type: ignore
+            else build_set_request(self.cmd_class, **dic)  # type: ignore
         )
 
 
@@ -94,13 +101,34 @@ class CLIConverter:
         return result
 
     @classmethod
-    def _read_response_values(cls, params: list[str], cmd_class: t.Type) -> dict:
+    def _special_read(cls, class_name: str, or_params: list[str]) -> list[str]:
+        params = or_params
+        if class_name == "C_DOWN" and params.index("-1480937026") == 0:
+            params.pop(0)
+        elif class_name == "P_ARPRXTABLE":
+            orr_params = or_params[0].replace("0x", "").replace("0X", "")
+            params = [orr_params[i : i + 26] for i in range(0, len(orr_params), 26)]
+        elif class_name == "P_NDPRXTABLE":
+            orr_params = or_params[0].replace("0x", "").replace("0X", "")
+            params = [orr_params[i : i + 50] for i in range(0, len(orr_params), 50)]
+
+        return params
+
+    @classmethod
+    def _special_add(cls, class_name: str, dic: dict) -> dict:
+        if class_name == "C_DOWN":
+            dic["magic"] = -1480937026
+        return dic
+
+    @classmethod
+    def _read_response_values(cls, or_params: list[str], cmd_class: t.Type) -> dict:
         dic = {}
         attr_set = getattr(cmd_class, "set")
+        class_name = cmd_class.__name__
         values = list(inspect.signature(attr_set).parameters.values())
+        params = cls._special_read(class_name, or_params)
         func_sigs: list[inspect.Parameter] = []
         list_index = -1
-        class_name = cmd_class.__name__
         for i, v in enumerate(values):
             if v.name == "self":
                 continue
@@ -126,6 +154,7 @@ class CLIConverter:
             dic = cls._bind_has_list(
                 class_name, params, func_sigs, list_index, element_sig
             )
+        dic = cls._special_add(class_name, dic)
         return dic
 
     @classmethod
@@ -145,30 +174,14 @@ class CLIConverter:
         back_sigs = func_sigs[list_index + 1 :]
         back_params = params[-len(back_sigs) :]
 
-        if len(func_sigs) and len(params) == 1:  # only one param and is list
-            chunks = {"ArpChunk": ArpChunk, "NdpChunk": NdpChunk}
-            if element_sig in chunks:
-                result = []
-                tye = chunks[element_sig]
-                sig_types = [f.type.__name__ for f in fields(tye)]
-
-                for i in range(0, len(params), 4):
-                    args = [
-                        cls._bind_one_param(class_name, p, f)
-                        for p, f in zip(params[i : i + 4], sig_types)
+        if len(func_sigs) == 1:  # only one param and is list
+            dic.update(
+                {
+                    name: [
+                        cls._bind_one_param(class_name, p, element_sig) for p in params
                     ]
-                    result.append(tye(*args))
-
-                dic[name] = result
-            else:
-                dic.update(
-                    {
-                        name: [
-                            cls._bind_one_param(class_name, p, element_sig)
-                            for p in params
-                        ]
-                    }
-                )
+                }
+            )
         elif len(fore_params) == len(fore_sigs) != 0:  # others followed by a list
             list_params = params[list_index:]
             dic.update(
@@ -206,6 +219,10 @@ class CLIConverter:
         basic_type = basics.get(type_name, None)
         if basic_type is not None:
             try:
+                if basic_type is str:
+                    return str(string_param).strip('"').strip("'")
+                elif basic_type is Hex:
+                    return Hex(string_param).replace("0x", "").replace("0X", "")
                 return basic_type(string_param)
             except ValueError:
                 return None
@@ -264,6 +281,24 @@ class CLIConverter:
                 return enum_cast[string_param.upper().replace("DEI_", "")]
         elif class_name == "P_CHECKSUM":
             return {"ON": 14, "OFF": 0}.get(string_param, None)
+        elif class_name == "P_ARPRXTABLE":
+            ipv4_address = ipaddress.IPv4Address(bytes.fromhex(string_param[0:8]))
+            prefix = int.from_bytes(bytes.fromhex(string_param[8:12]), "big")
+            patched_mac = enums.OnOff(
+                int.from_bytes(bytes.fromhex(string_param[12:14]), "big")
+            )
+            mac_address = Hex(string_param[14:])
+            chunk = ArpChunk(ipv4_address, prefix, patched_mac, mac_address)
+            return chunk
+        elif class_name == "P_NDPRXTABLE":
+            ipv6_address = ipaddress.IPv6Address(bytes.fromhex(string_param[0:32]))
+            prefix = int.from_bytes(bytes.fromhex(string_param[32:36]), "big")
+            patched_mac = enums.OnOff(
+                int.from_bytes(bytes.fromhex(string_param[36:38]), "big")
+            )
+            mac_address = Hex(string_param[38:])
+            chunk = NdpChunk(ipv6_address, prefix, patched_mac, mac_address)
+            return chunk
 
     @classmethod
     def _bind_one_param(
@@ -291,7 +326,34 @@ class CLIConverter:
     def _read_params(
         cls, param_string: str, cmd_class: t.Type
     ) -> tuple[CommandType, dict]:
-        params = [p.strip() for p in param_string.split()]
+        quote = ""
+        start = 0
+        params = []
+        for i, c in enumerate(param_string):
+            previous_isnt_slash = (
+                i - 1 >= 0 and param_string[i - 1] != "\\"
+            ) or i - 1 < 0
+            if c == '"' and previous_isnt_slash:
+                if not quote:
+                    start = i
+                    quote = '"'
+                elif quote == '"':
+                    params.append(param_string[start : i + 1])
+            elif c == "'" and previous_isnt_slash:
+                if not quote:
+                    start = i
+                    quote = "'"
+                elif quote == "'":
+                    params.append(param_string[start:i])
+            elif re.match(r"\s", c):
+                if not quote:
+                    params.append(param_string[start:i])
+                    start = i + 1
+            elif i == len(param_string) - 1:
+                params.append(param_string[start : i + 1])
+        print()
+        print(params)
+
         if params == ["?"]:
             return CommandType.COMMAND_QUERY, {}
         return CommandType.COMMAND_VALUE, cls._read_response_values(params, cmd_class)
@@ -349,9 +411,9 @@ class CLIConverter:
                     yield r
 
 
-if __name__ == "__main__":
-    for i in CLIConverter.read_commands_from_file("198-5.xmc"):
-        print(i.as_request(3))
+# example:
+# for i in CLIConverter.read_commands_from_file("198-5.xmc"):
+#     print(i.as_request(3))
 
-    for i in CLIConverter.read_commands_from_file("198-5.xpc"):
-        print(i.as_request(3, 1))
+# for i in CLIConverter.read_commands_from_file("198-5.xpc"):
+#     print(i.as_request(3, 1))

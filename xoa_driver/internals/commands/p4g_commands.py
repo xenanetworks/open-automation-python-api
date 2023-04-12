@@ -2460,13 +2460,13 @@ class P4G_L2_GW:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
 
-    def set(self, ipv4_address: ipaddress.IPv4Address, mac_address: str) -> Token[None]:
+    def set(self, ipv4_address: ipaddress.IPv4Address, mac_address: Hex) -> Token[None]:
         """Set a default gateway for IPv4.
 
         :param ipv4_address: IPv5 address of the gateway
         :type ipv4_address: ipaddress.IPv4Address
         :param mac_address: the MAC address of the gateway
-        :type mac_address: str
+        :type mac_address: Hex
         """
 
         return Token(
@@ -2511,13 +2511,13 @@ class P4G_L2_IPV6_GW:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
 
-    def set(self, ipv6_address: ipaddress.IPv6Address, mac_address: str) -> Token[None]:
+    def set(self, ipv6_address: ipaddress.IPv6Address, mac_address: Hex) -> Token[None]:
         """Set the default gateway for IPv6.
 
         :param ipv6_address: the 16 bytes of IPv6 address of gateway
         :type ipv6_address: ipaddress.IPv6Address
         :param mac_address: the MAC address of the gateway
-        :type mac_address: str
+        :type mac_address: Hex
         """
 
         return Token(
@@ -2787,7 +2787,7 @@ class P4G_RAW_PAYLOAD:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
 
-    def set(self, offset: int, length: int, content: str) -> Token[None]:
+    def set(self, offset: int, length: int, content: Hex) -> Token[None]:
         """Set the payload as hex bytes.
 
         :param offset: the offset in the payload buffer where data is to be written
@@ -2795,7 +2795,7 @@ class P4G_RAW_PAYLOAD:
         :param length: number of bytes to write
         :type length: int
         :param content: specifying the payload
-        :type content: str
+        :type content: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], offset=offset, length=length, content=content))
@@ -3050,13 +3050,13 @@ class P4G_RAW_DOWNLOAD_REQUEST:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
 
-    def set(self, length: int, content: str) -> Token[None]:
+    def set(self, length: int, content: Hex) -> Token[None]:
         """Set the content of the download request sent by the client and expected by the server as hex bytes.
 
         :param length: specifying the number of bytes to write. Maximum request length is 1024 bytes.
         :type length: int
         :param content: specifying the request content.
-        :type content: str
+        :type content: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], length=length, content=content))
@@ -3355,11 +3355,11 @@ class P4G_VLAN_TCI:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
 
-    def set(self, tci: str) -> Token[None]:
+    def set(self, tci: Hex) -> Token[None]:
         """Set the VLAN TCI value.
 
         :param tci: specifying the 16 bit TCI
-        :type tci: str
+        :type tci: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], tci=tci))
@@ -4034,11 +4034,11 @@ class P4G_IPV6_TRAFFIC_CLASS:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
 
-    def set(self, traffic_class: str) -> Token[None]:
+    def set(self, traffic_class: Hex) -> Token[None]:
         """Set the value of the traffic class field of the IPv6 header.
 
         :param traffic_class: value of the traffic class field
-        :type traffic_class: str
+        :type traffic_class: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], traffic_class=traffic_class))
@@ -4076,11 +4076,11 @@ class P4G_IPV6_FLOW_LABEL:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
 
-    def set(self, flow_label: str) -> Token[None]:
+    def set(self, flow_label: Hex) -> Token[None]:
         """Set the value of the flow label field of the IPv6 header.
 
         :param flow_label: value of the traffic class field (only lowest 20 bits are valid)
-        :type flow_label: str
+        :type flow_label: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], flow_label=flow_label))
@@ -6091,11 +6091,11 @@ class P4G_TLS_CIPHER_SUITES:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
 
-    def set(self, ciphers: str) -> Token[None]:
+    def set(self, ciphers: Hex) -> Token[None]:
         """Set the list of ciphers to announce in order of priorities.
 
         :param ciphers: sequence of ciphers identified by theirs IANA number in order of priority.
-        :type ciphers: str
+        :type ciphers: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], ciphers=ciphers))
