@@ -41,6 +41,7 @@ class L23ModuleData(ModuleData):
         """
         r = await M_REVISION(conn, self.module_id).get()
         self.revision = r.revision
+        print(self.revision, r.to_bytes())
 
 
 class L47ModuleData(ModuleData):
@@ -80,7 +81,6 @@ class ModulesManager(ResourcesBaseManager[MT]):
             for slot_id, p_count in enumerate(ports_count)
             if p_count > 0
         ]
-        print(identities)
         await asyncio.gather(*[mi.get_revision(self._conn) for mi in identities])
         self._items = OrderedDict(
             (

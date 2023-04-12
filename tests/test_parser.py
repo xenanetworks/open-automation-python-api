@@ -1,4 +1,6 @@
 from __future__ import annotations
+from dataclasses import dataclass
+from enum import Enum, IntEnum
 import os
 import sys
 from typing import List
@@ -8,8 +10,8 @@ from ipaddress import (
 )
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from xoa_driver.internals.core.transporter.protocol.payload.exceptions import FirmwareVersionError
-from xoa_driver.internals.core.transporter.protocol.payload import (
+from xoa_driver.internals.core.transporter.protocol.payload.exceptions import FirmwareVersionError  # noqa: E402
+from xoa_driver.internals.core.transporter.protocol.payload import (  # noqa: E402
     ResponseBodyStruct,
     field,
     XmpByte,
@@ -55,7 +57,6 @@ def test_short() -> None:
 
     class GetDataAttr(ResponseBodyStruct):
         custom_field: int = field(XmpShort())
-        custom_field2: int = field(XmpByte(signed=False))
 
     obj = GetDataAttr(data)
     assert isinstance(obj.custom_field, int)
@@ -139,14 +140,19 @@ def test_mac() -> None:
 
 
 def test_string() -> None:
-    data = b'Xena Networks\x00\x00\x07\xe7'
+    data_1 = b'Odin-10G-1S-6P[b]\x00\x00\n'
+    data_2 = b'Odin-10G-1S-6P[b]\x00\x00\x0c'
 
     class GetDataAttr(ResponseBodyStruct):
         custom_field: str = field(XmpStr())
 
-    obj = GetDataAttr(data)
-    assert isinstance(obj.custom_field, str)
-    assert obj.custom_field == "Xena Networks"
+    obj1 = GetDataAttr(data_1)
+    obj2 = GetDataAttr(data_2)
+
+    assert isinstance(obj1.custom_field, str)
+    assert isinstance(obj2.custom_field, str)
+    assert obj1.custom_field == "Odin-10G-1S-6P[b]"
+    assert obj2.custom_field == "Odin-10G-1S-6P[b]"
 
 
 def test_unlimited_list() -> None:
@@ -173,6 +179,100 @@ def test_limited_list() -> None:
     assert obj.custom_field == [0, 2]
 
 # endregion
+
+
+# region TypeConversion
+
+class UsersEnum(Enum):
+    OPTION_1 = 1
+    OPTION_2 = 2
+    OPTION_3 = 3
+    OPTION_4 = 5
+
+
+def test_enum_global_def() -> None:
+    data = b"\x02\x05"
+
+    class GetDataAttr(ResponseBodyStruct):
+        custom_field: UsersEnum = field(XmpByte())
+        custom_field2: UsersEnum = field(XmpByte())
+
+    obj = GetDataAttr(data)
+    assert isinstance(obj.custom_field, UsersEnum)
+    assert isinstance(obj.custom_field2, UsersEnum)
+    assert obj.custom_field == UsersEnum.OPTION_2
+    assert obj.custom_field2 == UsersEnum.OPTION_4
+
+
+def test_enum_local_def() -> None:
+    """
+    At the Moment the defenition of the enum under the local namespace will faile
+    """
+    data = b"\x02\x05"
+
+    class UsersLocalEnum(Enum):
+        OPTION_1 = 1
+        OPTION_2 = 2
+        OPTION_3 = 3
+        OPTION_4 = 5
+
+    class GetDataAttr(ResponseBodyStruct):
+        custom_field: UsersLocalEnum = field(XmpByte())
+        custom_field2: UsersLocalEnum = field(XmpByte())
+
+    obj = GetDataAttr(data)
+    try:
+        assert isinstance(obj.custom_field, UsersLocalEnum)
+        assert isinstance(obj.custom_field2, UsersLocalEnum)
+        assert obj.custom_field == UsersLocalEnum.OPTION_2
+        assert obj.custom_field2 == UsersLocalEnum.OPTION_4
+    except TypeError as e:
+        assert str(e) == "'ForwardRef' object is not callable"
+    else:
+        assert False, "Magicly it start to works"
+
+
+def test_bool() -> None:
+    data = b"\x01\x00"
+
+    class GetDataAttr(ResponseBodyStruct):
+        custom_field: bool = field(XmpByte())
+        custom_field2: bool = field(XmpByte())
+
+    obj = GetDataAttr(data)
+    assert isinstance(obj.custom_field, bool)
+    assert isinstance(obj.custom_field2, bool)
+    assert obj.custom_field is True
+    assert obj.custom_field2 is False
+
+
+class OnOff(IntEnum):
+    OFF = 0
+    ON = 1
+
+
+@dataclass
+class ArpChunk:
+    ipv4_address: IPv4Address
+    prefix: int
+    patched_mac: OnOff
+    mac_address: Hex
+
+
+def test_chunk_type() -> None:
+    data = b'\x7f\x00\x00\x01\x02\x05\x01\xf4\xd4\x88\x67\xc5\xda\x7f\x00\x00\x03\x02\x05\x00\xf4\xd4\x88\x55\xc5\xda'
+
+    class GetDataAttr(ResponseBodyStruct):
+        custom_field: List[ArpChunk] = field(XmpSequence(types_chunk=[XmpIPv4Address(), XmpShort(), XmpByte(), XmpMacAddress()]))
+    obj = GetDataAttr(data)
+    assert len(obj.custom_field) == 2
+    assert obj.custom_field[0].ipv4_address == IPv4Address("127.0.0.1")
+    assert obj.custom_field[0].prefix == 517
+    assert obj.custom_field[0].patched_mac == OnOff.ON
+    assert obj.custom_field[0].mac_address == "f4d48867c5da"
+
+# endregion
+
 
 # region TypeCombinations
 

@@ -50,7 +50,7 @@ class P4E_ASSIGN:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, mask: str) -> Token[None]:
+    def set(self, mask: Hex) -> Token[None]:
         """Assign the previously reserved PEs to the port.
 
         :param mask: a bitmask specifying which PEs should be assigned to this port

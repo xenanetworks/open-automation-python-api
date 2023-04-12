@@ -1133,11 +1133,11 @@ class P4G_IP_DS_VALUE:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
 
-    def set(self, ds_value: str) -> Token[None]:
+    def set(self, ds_value: Hex) -> Token[None]:
         """Set the fixed DS value.
 
         :param ds_value: the fixed DS value to be used
-        :type ds_value: str
+        :type ds_value: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], ds_value=ds_value))
@@ -1178,11 +1178,11 @@ class P4G_IP_DS_MASK:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
 
-    def set(self, ds_mask: str) -> Token[None]:
+    def set(self, ds_mask: Hex) -> Token[None]:
         """Set the bit mask to be applied to the DS field.
 
         :param ds_mask: the DS mask to be used.
-        :type ds_mask: str
+        :type ds_mask: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], ds_mask=ds_mask))
@@ -1225,13 +1225,13 @@ class P4G_IP_DS_MINMAX:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
 
-    def set(self, ds_min: str, ds_max: str) -> Token[None]:
+    def set(self, ds_min: Hex, ds_max: Hex) -> Token[None]:
         """Set the min and max values of the range for the calculated part of the DS value.
 
         :param ds_min: minimum value for the calculated part of DS
-        :type ds_min: str
+        :type ds_min: Hex
         :param ds_max: maximum value for the calculated part of DS
-        :type ds_max: str
+        :type ds_max: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], ds_min=ds_min, ds_max=ds_max))
@@ -1270,11 +1270,11 @@ class P4G_IP_DS_STEP:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
 
-    def set(self, ds_step: str) -> Token[None]:
+    def set(self, ds_step: Hex) -> Token[None]:
         """Set the incrementing step size for the calculated part of the DS value.
 
         :param ds_step: the incrementing step size for DS.
-        :type ds_step: str
+        :type ds_step: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], ds_step=ds_step))
@@ -2253,11 +2253,11 @@ class P4G_L2_CLIENT_MAC:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
 
-    def set(self, mac_address: str, mode: EmbedIP) -> Token[None]:
+    def set(self, mac_address: Hex, mode: EmbedIP) -> Token[None]:
         """Set the client MAC address.
 
         :param mac_address: the MAC address specified as hexadecimal
-        :type mac_address: str
+        :type mac_address: Hex
         :param mode: whether to embed the IP address in MAC
         :type mode: EmbedIP
         """
@@ -2309,11 +2309,11 @@ class P4G_L2_SERVER_MAC:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
 
-    def set(self, mac_address: str, mode: EmbedIP) -> Token[None]:
+    def set(self, mac_address: Hex, mode: EmbedIP) -> Token[None]:
         """Set the server MAC address.
 
         :param mac_address: the MAC address specified as hexadecimal
-        :type mac_address: str
+        :type mac_address: Hex
         :param mode: whether to embed the IP address in MAC
         :type mode: EmbedIP
         """

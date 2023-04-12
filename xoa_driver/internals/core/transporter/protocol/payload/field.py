@@ -48,7 +48,7 @@ class FieldSpecs:
     """Executed at initialization time"""
     __slots__ = ("xmp_type", "format", "min_version", "max_version", "deprecated", "deprecation_reason", "bsize", "offset")
 
-    bsize: int
+    # bsize: int
     """bytes size"""
 
     def __init__(
@@ -114,6 +114,7 @@ class StrSpec(FieldSpecs):
         )
         self.bsize = max(self.xmp_type.min_len or 0, current_size)
         self.format = f"{self.bsize}{self.xmp_type.data_format}"
+        print("=" * 50, in_memory_slice.tobytes(), self.bsize, self.format)
 
     @property
     def is_dynamic(self) -> bool:
@@ -123,6 +124,10 @@ class StrSpec(FieldSpecs):
         if is_response:
             return self.xmp_type.client_format
         return self.xmp_type.server_format
+
+    def unpack(self, buffer: memoryview) -> Any:
+        # print(self.format)
+        return next(iter(struct.unpack_from(self.format, buffer, self.offset)), b"")
 
     def pack(self, val: bytes) -> bytes:
         return val

@@ -732,11 +732,11 @@ class P_MACADDRESS:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, mac_address: str) -> Token[None]:
+    def set(self, mac_address: Hex) -> Token[None]:
         """Set the MAC address of the port.
 
         :param mac_address: the MAC address of the port
-        :type mac_address: str
+        :type mac_address: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, mac_address=mac_address))
@@ -1261,7 +1261,7 @@ class P_XMITONE:
         hex_data: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
         """list of hex bytes, the data content of the packet to be transmitted."""
 
-    def set(self, hex_data: str) -> Token[None]:
+    def set(self, hex_data: Hex) -> Token[None]:
         """Transmits a single packet from a port, independent of the stream definitions, and independent of whether traffic is on.
         A valid Frame Check Sum is written into the final four bytes.
 

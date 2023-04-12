@@ -320,7 +320,7 @@ class C_DOWN:
         :type operation: ChassisShutdownAction
         """
 
-        return Token(self._connection, build_set_request(self, operation=operation))
+        return Token(self._connection, build_set_request(self, magic=-1480937026, operation=operation))
 
     set_restart = functools.partialmethod(set, ChassisShutdownAction.RESTART)
     """Shuts down the tester and then restarts it.
@@ -1372,7 +1372,7 @@ class C_FILESTART:
         name: str = field(XmpStr())
         """string, the name and location of the file, as a full path."""
 
-    def set(self, file_type: str, size: str, time: str, mode: str, checksum: str, name: str) -> Token[None]:
+    def set(self, file_type: Hex, size: Hex, time: Hex, mode: Hex, checksum: Hex, name: str) -> Token[None]:
         """Initiates upload of a file to the chassis.
 
         :param file_type: the file type, should be 1
@@ -1410,7 +1410,7 @@ class C_FILEDATA:
         data_bytes: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
         """list of hex bytes, the data content of a section of the file."""
 
-    def set(self, offset: int, data_bytes: str) -> Token[None]:
+    def set(self, offset: int, data_bytes: Hex) -> Token[None]:
         """Uploads a fragment of a file to the chassis.
 
         :param offset: the position within the file
