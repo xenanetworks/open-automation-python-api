@@ -8,7 +8,7 @@ from xoa_driver.internals.commands import (
     M_UPGRADE,
     M_UPGRADEPROGRESS,
     M_CFPTYPE,
-    M_CFPCONFIG,
+    M_CFPCONFIGEXT,
     M_COMMENT,
     M_CAPABILITIES,
     M_CLOCKPPB,
@@ -56,10 +56,10 @@ class ChCFP:
         The transceiver's CFP type currently inserted.
         Representation of M_CFPTYPE
         """
-        self.config = M_CFPCONFIG(conn, module_id)
+        self.config = M_CFPCONFIGEXT(conn, module_id)
         """
         The CFP configuration of the test module.
-        Representation of M_CFPCONFIG
+        Representation of M_CFPCONFIGEXT
         """
 
 
@@ -196,7 +196,7 @@ class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
     Register a callback to the event that the module's CFP type changes.
     """
 
-    on_cfp_config_change = functools.partialmethod(utils.on_event, M_CFPCONFIG)
+    on_cfp_config_change = functools.partialmethod(utils.on_event, M_CFPCONFIGEXT)
     """
     Register a callback to the event that the module's CFP configuration changes.
     """

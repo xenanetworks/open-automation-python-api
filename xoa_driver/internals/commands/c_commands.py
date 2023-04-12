@@ -501,7 +501,7 @@ class C_PORTCOUNTS:
 
     .. note::
 
-        CFP modules return the number 8 which is the maximum number of 10G ports, but the actual number of ports can be configured dynamically using the M_CFPCONFIG` command.
+        CFP modules return the number 8 which is the maximum number of 10G ports, but the actual number of ports can be configured dynamically using the M_CFPCONFIGEXT` command.
 
     """
 
