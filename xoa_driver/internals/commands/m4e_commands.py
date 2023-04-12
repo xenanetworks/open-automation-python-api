@@ -97,7 +97,7 @@ class M4E_RESERVE:
 
         return Token(self._connection, build_get_request(self, module=self._module))
 
-    def set(self, mask: str) -> Token[None]:
+    def set(self, mask: Hex) -> Token[None]:
         """Set PEs reserved.
 
         :param mask: bitmask of PEs to reserve
