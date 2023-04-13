@@ -89,7 +89,7 @@ async def test_hli() -> None:
 
 def test_config_cli() -> None:
     for c in CLIConverter.read_commands_from_file(
-        "C:/Users/Administrator/Desktop/p_command_example.txt"
+        "C:/Users/Administrator/Desktop/m_command_example.txt"
     ):
         print(c)
         # print(c.as_request())

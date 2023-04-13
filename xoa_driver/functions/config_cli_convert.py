@@ -323,37 +323,65 @@ class CLIConverter:
         raise ValueError(f"Cannot bind param '{string_param}' to type '{type_name}'!")
 
     @classmethod
+    def _parse_param_string(cls, param_string: str) -> list[str]:
+        """Handle extreme cases where \',\",\\\',\\\" or string inside param_string."""
+        (
+            OUTSIDE,
+            INSIDE_DOUBLE_QUOTE,
+            INSIDE_SINGLE_QUOTE,
+            ESCAPED_DOUBLE_QUOTE,
+            ESCAPED_SINGLE_QUOTE,
+        ) = range(5)
+        state = OUTSIDE
+        string_list = []
+        buf = []
+        for c in param_string:
+            if state == OUTSIDE:
+                if c in (" ", "\t", "\r", "\n", "\f") and buf:
+                    string_list.append("".join(buf))
+                    buf = []
+                elif c == '"':
+                    state = INSIDE_DOUBLE_QUOTE
+                elif c == "'":
+                    state = INSIDE_SINGLE_QUOTE
+                else:
+                    buf.append(c)
+            elif state == INSIDE_DOUBLE_QUOTE:
+                if c == "\\":
+                    state = ESCAPED_DOUBLE_QUOTE
+                elif c == '"':
+                    string_list.append('"%s"' % "".join(buf))
+                    buf = []
+                    state = OUTSIDE
+                else:
+                    buf.append(c)
+            elif state == INSIDE_SINGLE_QUOTE:
+                if c == "\\":
+                    state = ESCAPED_SINGLE_QUOTE
+                elif c == "'":
+                    string_list.append("'{%s}'" % "".join(buf))
+                    buf = []
+                    state = OUTSIDE
+                else:
+                    buf.append(c)
+            elif state == ESCAPED_DOUBLE_QUOTE:
+                buf.append(c)
+                state = INSIDE_DOUBLE_QUOTE
+            elif state == ESCAPED_SINGLE_QUOTE:
+                buf.append(c)
+                state = INSIDE_SINGLE_QUOTE
+        if state != OUTSIDE:
+            s = '"' if state == INSIDE_DOUBLE_QUOTE else "'"
+            raise ValueError(f"String not complete: ({s}{''.join(buf)}).")
+        if buf:
+            string_list.append("".join(buf))
+        return string_list
+
+    @classmethod
     def _read_params(
         cls, param_string: str, cmd_class: t.Type
     ) -> tuple[CommandType, dict]:
-        quote = ""
-        start = 0
-        params = []
-        for i, c in enumerate(param_string):
-            previous_isnt_slash = (
-                i - 1 >= 0 and param_string[i - 1] != "\\"
-            ) or i - 1 < 0
-            if c == '"' and previous_isnt_slash:
-                if not quote:
-                    start = i
-                    quote = '"'
-                elif quote == '"':
-                    params.append(param_string[start : i + 1])
-            elif c == "'" and previous_isnt_slash:
-                if not quote:
-                    start = i
-                    quote = "'"
-                elif quote == "'":
-                    params.append(param_string[start:i])
-            elif re.match(r"\s", c):
-                if not quote:
-                    params.append(param_string[start:i])
-                    start = i + 1
-            elif i == len(param_string) - 1:
-                params.append(param_string[start : i + 1])
-        print()
-        print(params)
-
+        params = cls._parse_param_string(param_string)
         if params == ["?"]:
             return CommandType.COMMAND_QUERY, {}
         return CommandType.COMMAND_VALUE, cls._read_response_values(params, cmd_class)
