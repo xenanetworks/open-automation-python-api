@@ -47,4 +47,6 @@ HL Link Training Functions
 
 .. autofunction:: txtap_set
 
+.. autofunction:: txtap_autotune
+
 

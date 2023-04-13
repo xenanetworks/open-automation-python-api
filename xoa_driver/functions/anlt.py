@@ -182,29 +182,6 @@ async def anlt_start(
     await anlt.run()
 
 
-async def anlt_stop(port: GenericL23Port) -> None:
-    """
-    .. versionadded:: 1.3
-
-    Stop AN & LT
-
-    :param port: the port object
-    :type port: :class:`~xoa_driver.ports.GenericL23Port`
-    """
-    
-    anlt = DoAnlt(
-        port=port,
-        should_do_an=False,
-        should_do_lt=False,
-        an_allow_loopback=False,
-        lt_preset0=enums.NRZPreset.NRZ_NO_PRESET,
-        lt_initial_modulations={},
-        should_lt_interactive=False,
-        lt_algorithm={}
-    )
-    await anlt.run()
-
-
 async def autoneg_status(port: GenericL23Port) -> dict[str, t.Any]:
     """
     .. versionadded:: 1.1
@@ -524,18 +501,64 @@ async def anlt_log(port: GenericL23Port) -> str:
     return log.log_string
 
 
+async def anlt_stop(port: GenericL23Port) -> None:
+    """
+    .. versionadded:: 1.3
+
+    Stop AN & LT
+
+    :param port: the port object
+    :type port: :class:`~xoa_driver.ports.GenericL23Port`
+    """
+    
+    anlt = DoAnlt(
+        port=port,
+        should_do_an=False,
+        should_do_lt=False,
+        an_allow_loopback=False,
+        lt_preset0=enums.NRZPreset.NRZ_NO_PRESET,
+        lt_initial_modulations={},
+        should_lt_interactive=False,
+        lt_algorithm={}
+    )
+    await anlt.run()
+
+
+async def txtap_autotune(
+    port: GenericL23Port,
+    serdes: int,
+) -> None:
+    """
+    .. versionadded:: 1.3
+    
+    Auto tune the tap value of the local TX tap.
+
+    :param port: the port object
+    :type port: :class:`~xoa_driver.ports.GenericL23Port`
+    :param serdes: the serdes index, starting from 0
+    :type serdes: int
+    :return:
+    :rtype: None
+    """
+    conn, mid, pid = get_ctx(port)
+    await commands.PP_PHYAUTOTUNE(conn, mid, pid, serdes).set(on_off=enums.OnOff.OFF)
+    await commands.PP_PHYAUTOTUNE(conn, mid, pid, serdes).set(on_off=enums.OnOff.ON)
+
+
 __all__ = (
+    "anlt_link_recovery",
     "anlt_log",
     "anlt_start",
+    "anlt_status",
+    "anlt_stop",
+    "autoneg_status",
     "lt_coeff_inc",
     "lt_coeff_dec",
     "lt_encoding",
     "lt_preset",
     "lt_status",
     "lt_trained",
-    "autoneg_status",
-    "anlt_link_recovery",
-    "anlt_status",
     "txtap_get",
     "txtap_set",
+    "txtap_autotune",
 )
