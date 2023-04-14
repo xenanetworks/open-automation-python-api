@@ -541,8 +541,9 @@ async def txtap_autotune(
     :rtype: None
     """
     conn, mid, pid = get_ctx(port)
-    await commands.PP_PHYAUTOTUNE(conn, mid, pid, serdes).set(on_off=enums.OnOff.OFF)
-    await commands.PP_PHYAUTOTUNE(conn, mid, pid, serdes).set(on_off=enums.OnOff.ON)
+    phy_autotune = commands.PP_PHYAUTOTUNE(conn, mid, pid, serdes)
+    await phy_autotune.set(on_off=enums.OnOff.OFF)
+    await phy_autotune.set(on_off=enums.OnOff.ON)
 
 
 __all__ = (
