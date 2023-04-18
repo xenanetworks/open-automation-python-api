@@ -1,4 +1,4 @@
-__version__ = "1.3.0b3"
+__version__ = "1.3.0b4"
 __short_version__ = "1.3"
 
 import warnings

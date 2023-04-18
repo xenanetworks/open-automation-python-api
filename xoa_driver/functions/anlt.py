@@ -15,6 +15,8 @@ from .tools import (
     dictionize_lt_status,
     dictionize_txtap_get,
     dictionize_anlt_status,
+    dictionize_lt_im_status,
+    dictionize_lt_algorithm_status
 )
 import asyncio
 
@@ -471,18 +473,8 @@ async def anlt_status(port: GenericL23Port) -> dict[str, t.Any]:
         commands.PL1_CFG_TMP(conn, mid, pid, 0, enums.Layer1ConfigType.AN_LOOPBACK).get(),
     )
     link_recovery, autoneg, linktrain, capabilities, allow_loopback= r
-    initial_mods = {}
-    algorithms = {}
-    for i in range(0, capabilities.serdes_count):
-        resp = await apply(
-            commands.PL1_CFG_TMP(conn, mid, pid, i, enums.Layer1ConfigType.LT_INITIAL_MODULATION).get(),
-            commands.PL1_CFG_TMP(conn, mid, pid, i, enums.Layer1ConfigType.LT_TRAINING_ALGORITHM).get()
-        )
-        im, alg = resp
-        initial_mods[str(i)] = enums.LinkTrainEncoding(im.values[0]).name
-        algorithms[str(i)] = enums.LinkTrainAlgorithm(alg.values[0]).name
 
-    return dictionize_anlt_status(link_recovery, autoneg, linktrain, capabilities, allow_loopback, initial_mods, algorithms)
+    return dictionize_anlt_status(link_recovery, autoneg, linktrain, capabilities, allow_loopback)
 
 
 async def anlt_log(port: GenericL23Port) -> str:
@@ -546,6 +538,55 @@ async def txtap_autotune(
     await phy_autotune.set(on_off=enums.OnOff.ON)
 
 
+async def lt_im_status(port: GenericL23Port) -> dict[str, t.Any]:
+    """
+    .. versionadded:: 1.3
+    
+    Get LT initial modulation config
+
+    :param port: the port object
+    :type port: :class:`~xoa_driver.ports.GenericL23Port`
+    :return: LT initial modulation configuration of the port
+    :rtype: typing.Dict[str, typing.Any]
+    """
+
+    # if not isinstance(port, LinkTrainingSupported):
+    #     raise NotSupportLinkTrainError(port)
+    conn, mid, pid = get_ctx(port)
+    capabilities = await commands.P_CAPABILITIES(conn, mid, pid).get()
+    initial_mods = {}
+    for i in range(0, capabilities.serdes_count):
+        im = await commands.PL1_CFG_TMP(conn, mid, pid, i, enums.Layer1ConfigType.LT_INITIAL_MODULATION).get()
+        initial_mods[str(i)] = enums.LinkTrainEncoding(im.values[0]).name
+
+    return dictionize_lt_im_status(capabilities, initial_mods)
+
+
+async def lt_algorithm_status(port: GenericL23Port) -> dict[str, t.Any]:
+    """
+    .. versionadded:: 1.3
+    
+    Get LT initial modulation config
+
+    :param port: the port object
+    :type port: :class:`~xoa_driver.ports.GenericL23Port`
+    :return: LT initial modulation configuration of the port
+    :rtype: typing.Dict[str, typing.Any]
+    """
+
+    # if not isinstance(port, LinkTrainingSupported):
+    #     raise NotSupportLinkTrainError(port)
+    conn, mid, pid = get_ctx(port)
+    capabilities = await commands.P_CAPABILITIES(conn, mid, pid).get()
+    initial_mods = {}
+    algorithms = {}
+    for i in range(0, capabilities.serdes_count):
+        alg = await commands.PL1_CFG_TMP(conn, mid, pid, i, enums.Layer1ConfigType.LT_TRAINING_ALGORITHM).get()
+        algorithms[str(i)] = enums.LinkTrainAlgorithm(alg.values[0]).name
+
+    return dictionize_lt_algorithm_status(capabilities, algorithms)
+
+
 __all__ = (
     "anlt_link_recovery",
     "anlt_log",
@@ -562,4 +603,6 @@ __all__ = (
     "txtap_get",
     "txtap_set",
     "txtap_autotune",
+    "lt_im_status",
+    "lt_algorithm_status",
 )
