@@ -226,6 +226,28 @@ async def xla_dump(
     return result
 
 
+async def px_get(
+    port: GenericL23Port,
+    page_address: int,
+    register_address: int
+) -> t.Tuple[bool, str]:
+    resp = await port.transceiver.access_rw(page_address, register_address).get()
+
+    if resp.value.lower().find("dead") != -1:
+        return (True, resp.value)
+    else:
+        return (False, resp.value)
+    
+async def px_set(
+    port: GenericL23Port,
+    page_address: int,
+    register_address: int,
+    value: int
+) -> None:
+    value_hexstr = hex(value)
+    await port.transceiver.access_rw(page_address, register_address).set(value_hexstr)
+
+
 __all__ = (
     "init",
     "serdes_reset",
@@ -253,4 +275,6 @@ __all__ = (
     "lt_rx_tf_get",
     "lt_status",
     "lt_tx_tf_set",
+    "px_get",
+    "px_set",
 )
