@@ -26,6 +26,7 @@ FMT_U_SHORT = "H"
 GenericType = TypeVar("GenericType", covariant=True)
 
 Hex = NewType('Hex', str)
+"""Type aliace of string for indicate as string suppose to contain only valid HEX symbols"""
 
 
 class XmpType(Protocol[GenericType]):
