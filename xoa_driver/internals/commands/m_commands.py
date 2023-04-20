@@ -444,59 +444,59 @@ class M_CFPTYPE:
 
         return Token(self._connection, build_get_request(self, module=self._module))
 
+# WAS DEPRICATED IN V1 - Suppose to be removed in V2
+# @register_command
+# @dataclass
+# class M_CFPCONFIG:
+#     """
+#     .. deprecated:: 1.3
 
-@register_command
-@dataclass
-class M_CFPCONFIG:
-    """
-    .. deprecated:: 1.3
+#     The current number of ports and their speed of a CFP test module. If the CFP
+#     type is NOTFLEXIBLE then it reflects the transceiver currently in the CFP cage.
+#     If the CFP type is FLEXIBLE (or NOTPRESENT) then the configuration can be changed
+#     explicitly. The following combinations are possible: 4x10G, 8x10G, 1x40G, 2x40G,
+#     and 1x100G. (replaced by :class:`M_CFPCONFIGEXT`)
+#     """
 
-    The current number of ports and their speed of a CFP test module. If the CFP
-    type is NOTFLEXIBLE then it reflects the transceiver currently in the CFP cage.
-    If the CFP type is FLEXIBLE (or NOTPRESENT) then the configuration can be changed
-    explicitly. The following combinations are possible: 4x10G, 8x10G, 1x40G, 2x40G,
-    and 1x100G. (replaced by :class:`M_CFPCONFIGEXT`)
-    """
+#     code: typing.ClassVar[int] = 85
+#     pushed: typing.ClassVar[bool] = True
 
-    code: typing.ClassVar[int] = 85
-    pushed: typing.ClassVar[bool] = True
+#     _connection: 'interfaces.IConnection'
+#     _module: int
 
-    _connection: 'interfaces.IConnection'
-    _module: int
+#     class GetDataAttr(ResponseBodyStruct):
+#         port_count: int = field(XmpByte())
+#         """byte, number of ports."""
+#         port_speed: int = field(XmpByte())
+#         """byte, port speed, in Gbps."""
 
-    class GetDataAttr(ResponseBodyStruct):
-        port_count: int = field(XmpByte())
-        """byte, number of ports."""
-        port_speed: int = field(XmpByte())
-        """byte, port speed, in Gbps."""
+#     class SetDataAttr(RequestBodyStruct):
+#         port_count: int = field(XmpByte())
+#         """byte, number of ports."""
+#         port_speed: int = field(XmpByte())
+#         """byte, port speed, in Gbps."""
 
-    class SetDataAttr(RequestBodyStruct):
-        port_count: int = field(XmpByte())
-        """byte, number of ports."""
-        port_speed: int = field(XmpByte())
-        """byte, port speed, in Gbps."""
+#     def get(self) -> Token[GetDataAttr]:
+#         """Get the current number of ports and their speed of a CFP test module.
 
-    def get(self) -> Token[GetDataAttr]:
-        """Get the current number of ports and their speed of a CFP test module.
+#         :return:
+#             - number of ports
+#             - port speed, in Gbps
+#         :rtype: M_CFPCONFIG.GetDataAttr
+#         """
 
-        :return:
-            - number of ports
-            - port speed, in Gbps
-        :rtype: M_CFPCONFIG.GetDataAttr
-        """
+#         return Token(self._connection, build_get_request(self, module=self._module))
 
-        return Token(self._connection, build_get_request(self, module=self._module))
+#     def set(self, port_count: int, port_speed: int) -> Token[None]:
+#         """Set the current number of ports and their speed of a CFP test module.
 
-    def set(self, port_count: int, port_speed: int) -> Token[None]:
-        """Set the current number of ports and their speed of a CFP test module.
+#         :param port_count: number of ports
+#         :type port_count: int
+#         :param port_speed: port speed, in Gbps
+#         :type port_speed: int
+#         """
 
-        :param port_count: number of ports
-        :type port_count: int
-        :param port_speed: port speed, in Gbps
-        :type port_speed: int
-        """
-
-        return Token(self._connection, build_set_request(self, module=self._module, port_count=port_count, port_speed=port_speed))
+#         return Token(self._connection, build_set_request(self, module=self._module, port_count=port_count, port_speed=port_speed))
 
 
 @register_command
