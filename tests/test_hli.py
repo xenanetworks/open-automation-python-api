@@ -21,10 +21,10 @@ from xoa_driver.internals.core.transporter.protocol.payload import ResponseBodyS
 
 
 async def test_hli() -> None:
-    # async with L23Tester("demo.xenanetworks.com", "ACO") as tester:
-    #     t_cap = await tester.capabilities.get()
-    #     print(t_cap.can_sync_traffic_start)
-    ...
+    async with L23Tester("192.168.1.197", "ACO") as tester:
+        # t_cap = await tester.capabilities.get()
+        # print(t_cap.can_sync_traffic_start)
+        print(await tester.model.get())
 
 
 def run(method: Coroutine) -> None:

@@ -28,7 +28,7 @@ class Response:
         idx_count_ = struct.calcsize(idces_fmt_)
         self.__buffer = memoryview(buffer)
         self.index_values = self.__parse_indices(idces_fmt_, self.__buffer[:idx_count_])
-        self.values: Any = self.__parse_values(self.__buffer[idx_count_:], response_struct)
+        self.values: Any = self.__parse_values(self.__buffer[idx_count_:header.number_of_value_bytes], response_struct)
 
     def __str__(self) -> str:
         return _utils.format_str(self)

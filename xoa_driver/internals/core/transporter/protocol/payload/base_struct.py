@@ -1,9 +1,11 @@
 from __future__ import annotations
+from functools import cached_property, lru_cache
 
 from io import BytesIO
 from typing import (
     Any,
     ClassVar,
+    Generator,
     Iterator,
     NamedTuple,
     Type,
@@ -38,8 +40,12 @@ SKIP_CLASSES = (
 
 class FieldData(NamedTuple):
     nbyte: int
-    offset: int
     format: str
+
+
+@lru_cache
+def calc_offsets(items: tuple[tuple[str, int], ...]) -> int:
+    return sum(i[1] for i in items)
 
 
 class Cell:
@@ -48,36 +54,30 @@ class Cell:
     def __init__(self, name: str, spec: FieldSpecs) -> None:
         self.name = name
         self.spec = spec
+        # self.bsize = spec.calc_bsize()
+
         self._prev: Cell | None = None
         self._next: Cell | None = None
-    
-    def get_info(self) -> FieldData:
-        return FieldData(
-            nbyte=self.spec.bsize,
-            offset=
-        )
+
+    def info(self, buff: memoryview | None = None, offset: int = 0) -> tuple[str, int, int | None]:
+        bsize = self.spec.calc_bsize(buff, offset)
+        fmt = self.spec.format(bsize)
+        return (fmt, offset, bsize)
 
     @property
-    def l_offset(self) -> int | None:
-        v = 0
-        n = self._prev
-        while n is not None:
-            if not n.spec.bsize:
-                return None
-            v += n.spec.bsize
-            n = n._prev
-        return v
+    def is_dynamic(self) -> bool:
+        return self.spec.is_dynamic
 
-    @property
-    def r_offset(self) -> int | None:
-        v = 0
-        n = self._next
-        while n is not None:
-            if not n.spec.bsize:
-                return None
-            v += n.spec.bsize
-            n = n._next
-        return v
+    # @property
+    # def l_offset(self) -> int | None:
+    #     v = 0
+    #     n = self._prev
+    #     while n is not None:
+    #         if not n.bsize:
+    #             return None
+    #         v += n.bsize
+    #         n = n._prev
+    #     return v
 
 
 class Order:
@@ -85,14 +85,15 @@ class Order:
         "__start",
         "__head",
         "__head_idx",
-        "__offsets"
+        "__stencil",
+        "__dict__",
     )
 
     def __init__(self) -> None:
         self.__start: Cell | None = None
         self.__head: Cell | None = None
         self.__head_idx: int = -1
-        self.__offsets: tuple[tuple[str, int], ...] = ()
+        self.__stencil: tuple[tuple[str, int], ...] = ()
 
     def __iter__(self):
         temp = self.__start
@@ -106,9 +107,9 @@ class Order:
             yield temp
             temp = temp._prev
 
-    @property
+    @cached_property
     def is_dynamic(self) -> bool:
-        return any(c.spec.is_dynamic for c in self)
+        return any(c.is_dynamic for c in self)
 
     @property
     def field_names(self) -> Iterator[str]:
@@ -130,15 +131,23 @@ class Order:
         """Bake tuple of the offsets for static length structures, at the defenition time."""
         if self.is_dynamic:
             return None
-        self.__offsets = tuple(
-            cast(int, itm.l_offset) for itm in self
-        )
+        self.__stencil = tuple(self.construct_stencil(None))  # tuple(itm.info(offset=cast(int, itm.l_offset)) for itm in self)
 
     def get_stencil(self, buffer: memoryview) -> tuple[tuple[str, int], ...]:
         """Get offsets for the instance. If struct is static get baked offsets, otherwise compute them for the individual instance"""
         if self.is_dynamic:
-            return tuple(itm.spec.calc_bsize(buffer) for itm in self)
-        return self.__offsets
+            return tuple(self.construct_stencil(buffer))
+        return self.__stencil
+
+    def construct_stencil(self, buffer: memoryview | None) -> Generator[tuple[str, int], None, None]:
+        current_node = self.__start
+        cumulative_sum = 0
+
+        while current_node is not None:
+            info_tuple = current_node.info(buffer, cumulative_sum)
+            yield (info_tuple[0], cumulative_sum)
+            cumulative_sum += info_tuple[2] or 0
+            current_node = current_node._next
 
 
 class OrderedMeta(type):
@@ -226,7 +235,7 @@ class ResponseBodyStruct(metaclass=OrderedMeta):
     def __repr__(self) -> str:
         cls_name = self.__class__.__qualname__
         vals = ", ".join(
-            f"{n}={v!r}" 
+            f"{n}={v!r}"
             for n, v in zip(self._order.field_names, self.to_tuple())
         )
         return f"{cls_name}({vals})"
