@@ -6,7 +6,6 @@ from dataclasses import astuple
 from xoa_driver.internals.core.commands.enums import ImpairmentTypeIndex
 from xoa_driver.internals.core.commands.ped_commands import PED_ENABLE, PED_ONESHOTSTATUS, PED_SCHEDULE
 
-from xoa_driver.internals.hli_v2.ports.port_l23.chimera.pe_distribution import ImpairmentDistributionConfig
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
 
@@ -279,7 +278,7 @@ class CCorruptionImpairment:
         Representation of PE_BANDPOLICER
         """
 
-        self.distribution = ImpairmentDistributionConfig(conn, module_id, port_id, flow_index, ImpairmentTypeIndex.CORRUPTION)
+        self.distribution = ImpairmentDistribution(conn, module_id, port_id, flow_index, ImpairmentTypeIndex.CORRUPTION)
 
         self.schedule = PED_SCHEDULE(conn, module_id, port_id, flow_index, ImpairmentTypeIndex.CORRUPTION)
         """Impairment scheduling configuration.
@@ -378,11 +377,6 @@ class CShaperImpairment:
         Representation of PE_BANDSHAPER
         """
 
-        self.enable = PED_ENABLE(conn, module_id, port_id, flow_index, ImpairmentTypeIndex.DROP)
-        """Impairment distribution control.
-        Representation of PED_ENABLE
-        """
-
 
 class CPolicerImpairment:
     """Bandwidth policer impairment configuration."""
@@ -391,11 +385,6 @@ class CPolicerImpairment:
         self.config = PE_BANDPOLICER(conn, module_id, port_id, flow_index)
         """Bandwidth policer configuration.
         Representation of PE_BANDPOLICER
-        """
-
-        self.enable = PED_ENABLE(conn, module_id, port_id, flow_index, ImpairmentTypeIndex.DROP)
-        """Impairment distribution control.
-        Representation of PED_ENABLE
         """
 
 
