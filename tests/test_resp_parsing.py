@@ -69,7 +69,7 @@ def test_int() -> None:
     data = b"\x00\x00\x00\xff"
 
     class GetDataAttr(ResponseBodyStruct):
-        custom_field: int = field(XmpInt())
+        custom_field: int = field(XmpInt(climb=(10, 20)))
 
     obj = GetDataAttr(data)
     assert isinstance(obj.custom_field, int)
