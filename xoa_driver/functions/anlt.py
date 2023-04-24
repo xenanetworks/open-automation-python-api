@@ -578,13 +578,53 @@ async def lt_algorithm_status(port: GenericL23Port) -> dict[str, t.Any]:
     #     raise NotSupportLinkTrainError(port)
     conn, mid, pid = get_ctx(port)
     capabilities = await commands.P_CAPABILITIES(conn, mid, pid).get()
-    initial_mods = {}
     algorithms = {}
     for i in range(0, capabilities.serdes_count):
         alg = await commands.PL1_CFG_TMP(conn, mid, pid, i, enums.Layer1ConfigType.LT_TRAINING_ALGORITHM).get()
         algorithms[str(i)] = enums.LinkTrainAlgorithm(alg.values[0]).name
 
     return dictionize_lt_algorithm_status(capabilities, algorithms)
+
+
+async def anlt_strict(port: GenericL23Port, enable: bool) -> None:
+    """
+    .. versionadded:: 1.3
+    
+    Should ANLT strict mode be enabled
+
+    :param port: the port object
+    :type port: :class:`~xoa_driver.ports.GenericL23Port`
+    :param enable: should ANLT strict mode be enabled
+    :type enable: bool
+    :return:
+    :rtype:  None
+    """
+    conn, mid, pid = get_ctx(port)
+    capabilities = await commands.P_CAPABILITIES(conn, mid, pid).get()
+    for i in range(0, capabilities.serdes_count):
+        await commands.PL1_CFG_TMP(conn, mid, pid, i, enums.Layer1ConfigType.ANLT_STRICT_MODE).set(values=[int(enable)])
+
+
+async def anlt_log_control(port: GenericL23Port, types: t.List[enums.AnLtLogControl]) -> None:
+    """
+    .. versionadded:: 1.3
+    
+    Control what should be logged for ANLT by xenaserver
+
+    :param port: the port object
+    :type port: :class:`~xoa_driver.ports.GenericL23Port`
+    :param types: control what should be logged for ANLT by xenaserver
+    :type types: t.List[enums.AnLtLogControl]
+    :return:
+    :rtype:  None
+    """
+    conn, mid, pid = get_ctx(port)
+    capabilities = await commands.P_CAPABILITIES(conn, mid, pid).get()
+    type = 0
+    for _type in types:
+        type |= _type.value
+    for i in range(0, capabilities.serdes_count):
+        await commands.PL1_CFG_TMP(conn, mid, pid, i, enums.Layer1ConfigType.ANLT_LOG_CONTROL).set(values=[int(type)])
 
 
 __all__ = (
@@ -605,4 +645,6 @@ __all__ = (
     "txtap_autotune",
     "lt_im_status",
     "lt_algorithm_status",
+    "anlt_strict",
+    "anlt_log_control",
 )
