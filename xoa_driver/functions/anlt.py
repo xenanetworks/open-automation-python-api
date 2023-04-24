@@ -81,10 +81,13 @@ class DoAnlt:
         )
 
     def __select_modes(self) -> tuple[enums.LinkTrainingMode, enums.TimeoutMode]:
-        if self.should_do_an:
+        if self.should_do_an == True and self.should_lt_interactive == False:
             lt_mode = enums.LinkTrainingMode.START_AFTER_AUTONEG
             timeout_mode = enums.TimeoutMode.DEFAULT
-        elif self.should_lt_interactive:
+        elif self.should_do_an == True and self.should_lt_interactive == True:
+            lt_mode = enums.LinkTrainingMode.INTERACTIVE
+            timeout_mode = enums.TimeoutMode.DISABLED
+        elif self.should_do_an == False and self.should_lt_interactive == True:
             lt_mode = enums.LinkTrainingMode.INTERACTIVE
             timeout_mode = enums.TimeoutMode.DISABLED
         else:
