@@ -310,7 +310,7 @@ class ModeExtended:
                 self._port_id,
                 self._flow_index,
                 self._filter_type,
-                idx+1,  # TODO: need to discuss with Leo
+                idx + 1,  # TODO: need to discuss with Leo
                 ProtocolOption(segment_type)
             )
             for idx, segment_type in enumerate(segments_raw)
