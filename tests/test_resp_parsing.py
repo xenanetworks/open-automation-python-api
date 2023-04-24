@@ -92,7 +92,7 @@ def test_hex() -> None:
     data = b"\x00\x00\x00\xff\x00\x00\x00\xff"
 
     class GetDataAttr(ResponseBodyStruct):
-        custom_field: Hex = field(XmpHex())
+        custom_field: Hex = field(XmpHex(size=1))
         custom_field2: Hex = field(XmpHex(size=3))
 
     obj = GetDataAttr(data)
@@ -101,6 +101,16 @@ def test_hex() -> None:
     assert obj.custom_field == Hex("00")
     assert obj.custom_field2 == "0000ff"
     assert obj.custom_field2 == Hex("0000ff")
+
+
+def test_hex_string() -> None:
+    data = b'\x04\xf4\xbc\x9cs\xd1\x04\xf4\xbc\x9cs\xd0\xff\xff\x00\x00'
+
+    class SetDataAttr(ResponseBodyStruct):
+        hex_data: Hex = field(XmpHex())
+
+    obj = SetDataAttr(data)
+    assert obj.hex_data[:-4] == Hex("04F4BC9C73D104F4BC9C73D0FFFF").lower()
 
 
 def test_ip_v4() -> None:

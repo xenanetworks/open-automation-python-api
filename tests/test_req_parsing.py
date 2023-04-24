@@ -78,7 +78,7 @@ def test_hex() -> None:
     data = b"\x00\x00\x00\xff"
 
     class SetDataAttr(RequestBodyStruct):
-        custom_field: Hex = field(XmpHex())
+        custom_field: Hex = field(XmpHex(size=1))
         custom_field2: Hex = field(XmpHex(size=3))
 
     obj = SetDataAttr(
@@ -86,6 +86,16 @@ def test_hex() -> None:
         custom_field2=Hex("0000ff")
     )
     assert obj.to_bytes() == data
+
+
+def test_hex_string() -> None:
+    data = b'\x04\xf4\xbc\x9cs\xd1\x04\xf4\xbc\x9cs\xd0\xff\xff\x00\x00'
+
+    class SetDataAttr(RequestBodyStruct):
+        hex_data: Hex = field(XmpHex())
+
+    obj = SetDataAttr(hex_data=Hex("04F4BC9C73D104F4BC9C73D0FFFF"))
+    assert data == obj.to_bytes()
 
 
 def test_ip_v4() -> None:
