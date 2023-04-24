@@ -3,4 +3,3 @@ loguru
 pdoc
 pytest
 pytest-asyncio
-humre

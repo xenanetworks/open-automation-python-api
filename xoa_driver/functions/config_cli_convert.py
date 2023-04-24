@@ -1,5 +1,5 @@
 from __future__ import annotations
-from dataclasses import dataclass, field, fields
+from dataclasses import dataclass, field
 import typing as t
 import inspect
 import ipaddress
@@ -13,36 +13,37 @@ from xoa_driver.internals.core.transporter.protocol.struct_request import Reques
 from xoa_driver.internals.core.transporter.protocol._constants import CommandType
 from xoa_driver.internals.core.transporter._typings import XoaCommandType
 import re
-import humre as hm
 
-module = port = index = hm.one_or_more(hm.DIGIT)
-zero_or_more_space = hm.zero_or_more(hm.WHITESPACE)
-module_port_group = hm.optional_group(
-    hm.named_group("module", module)
-    + hm.optional_group("/" + hm.named_group("port", port))
-    + zero_or_more_space
-)
-command_name_group = hm.named_group(
-    "command_name",
-    hm.one_or_more(hm.chars("A-Z", "_", "a-z", "0-9")) + zero_or_more_space,
-)
-indices_group = hm.named_group(
-    "indices",
-    hm.optional_group(
-        "\["
-        + hm.one_or_more(hm.DIGIT)
-        + hm.optional_group(hm.optional(",") + zero_or_more_space + index)
-        + hm.optional_group(hm.optional(",") + zero_or_more_space + index)
-        + "\]"
-        + zero_or_more_space
-    ),
-)
-params_group = hm.named_group("params", hm.zero_or_more(hm.ANYCHAR))
-
-command_pattern = hm.compile(
+module = port = index = r"\d+"  # hm.one_or_more(hm.DIGIT)
+zero_or_more_space = r"\s*"  # hm.zero_or_more(hm.WHITESPACE)
+module_port_group = r"((?P<module>\d+)(/(?P<port>\d+))?\s*)?"
+# hm.optional_group(
+#     hm.named_group("module", module)
+#     + hm.optional_group("/" + hm.named_group("port", port))
+#     + zero_or_more_space
+# )
+command_name_group = r"(?P<command_name>[A-Z_a-z0-9]+\s*)"
+# hm.named_group(
+#     "command_name",
+#     hm.one_or_more(hm.chars("A-Z", "_", "a-z", "0-9")) + zero_or_more_space,
+# )
+indices_group = r"(?P<indices>(\[\d+(,?\s*\d+)?(,?\s*\d+)?\]\s*)?)"
+# hm.named_group(
+#     "indices",
+#     hm.optional_group(
+#         "\["
+#         + hm.one_or_more(hm.DIGIT)
+#         + hm.optional_group(hm.optional(",") + zero_or_more_space + index)
+#         + hm.optional_group(hm.optional(",") + zero_or_more_space + index)
+#         + "\]"
+#         + zero_or_more_space
+#     ),
+# )
+params_group = r"(?P<params>.*)"
+# hm.named_group("params", hm.zero_or_more(hm.ANYCHAR))
+command_pattern = re.compile(
     module_port_group + command_name_group + indices_group + params_group
 )
-print(params_group)
 
 
 class Unpassed:
