@@ -1258,7 +1258,7 @@ class P_XMITONE:
     _port: int
 
     class SetDataAttr(RequestBodyStruct):
-        hex_data: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        hex_data: Hex = field(XmpHex())
         """list of hex bytes, the data content of the packet to be transmitted."""
 
     def set(self, hex_data: Hex) -> Token[None]:

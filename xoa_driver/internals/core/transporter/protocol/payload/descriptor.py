@@ -1,5 +1,9 @@
 
 from __future__ import annotations
+from abc import (
+    abstractmethod,
+    ABC
+)
 from io import BytesIO
 import struct
 
@@ -20,6 +24,8 @@ from typing_extensions import (
 from .field import FieldSpecs
 from .exceptions import FirmwareVersionError
 
+# region Types
+
 GenericType = TypeVar("GenericType")
 
 
@@ -29,61 +35,85 @@ class SetInstance(Protocol):
 
 class GetInstance(Protocol):
     _buffer: memoryview
+    _stencil: tuple[tuple[str, int], ...]
+
+# endregion
 
 
-class RequestFieldState:
-    @staticmethod
-    def setter(descr: FieldDescriptor, instance: SetInstance, value: Any) -> None:
-        """Transform values from Python to Bxmp and store them in to the buffer"""
-        val_ = descr.format_method(value)
-        instance._buffer.write(descr.specs.pack(val=val_))
-
-    @staticmethod
-    def getter(descr: FieldDescriptor, instance: SetInstance, cls) -> NoReturn:
-        raise AttributeError from None
-
-
-class ResponseFieldState:
-    @staticmethod
-    def setter(descr: FieldDescriptor, instance: GetInstance, value: Any) -> NoReturn:
-        raise AttributeError from None
-
-    @staticmethod
-    def getter(descr: FieldDescriptor, instance: GetInstance, cls) -> Any:
-        """Unpack values from the buffer and converting to expected type if required"""
-        try:
-            val_ = descr.specs.unpack(instance._buffer)
-        except struct.error:
-            raise FirmwareVersionError(
-                cmd_name=instance.__class__.__qualname__,
-                field_name=descr.public_name,
-                min_version=descr.specs.min_version,
-            ) from None
-        else:
-            return descr.format_method(val_)
-
-
-class FieldDescriptor(Generic[GenericType]):
+class FieldDescriptor(ABC, Generic[GenericType]):
     '''
     Descriptor representing getter and setter of the field
     '''
-    __slots__ = ("specs", "format_method", "state", "public_name", "value_cache")
+    __slots__ = ("idx", "specs", "public_name",)
 
-    def __init__(self: Self, specs: FieldSpecs, user_type: Type[Any], is_response: bool) -> None:
+    def __init__(self: Self, idx: int, specs: FieldSpecs) -> None:
         # Will be called from the Meta class
+        self.idx = idx
         self.specs = specs
-        self.format_method: Callable[[Any], Any] = self.specs.get_format_method(user_type, is_response)
-        self.state = RequestFieldState if not is_response else ResponseFieldState
 
     def __set_name__(self, owner, name: str) -> None:
         self.public_name = name
 
+    @abstractmethod
     def __set__(self: Self, instance, value: GenericType) -> None:
         # Executed at the runtimne
-        self.state.setter(self, instance, value)
+        raise NotImplementedError()
 
+    @abstractmethod
     def __get__(self: Self, instance, cls) -> GenericType | Self:
+        # Executed at the runtimne
+        raise NotImplementedError()
+
+
+class RequestFieldDescr(FieldDescriptor[GenericType]):
+    __slots__ = ("to_xmp_context", "fmt")
+
+    def __init__(self: Self, idx: int, specs: FieldSpecs, user_type: Type[Any]) -> None:
+        super().__init__(idx, specs)
+        self.fmt = self.specs.format()
+        self.to_xmp_context: Callable[[Any], Any] = self.specs.get_context_formatter(user_type, False)
+
+    def __set__(self: Self, instance: SetInstance, value: GenericType) -> None:
+        """Transform values from Python to Bxmp and store them in to the buffer"""
+        # Executed at the runtimne
+        val_ = self.to_xmp_context(value)
+        instance._buffer.write(self.specs.pack(self.fmt, val=val_))
+
+    def __get__(self: Self, instance: SetInstance, cls) -> NoReturn | Self:
         # Executed at the runtimne
         if instance is None:
             return self
-        return self.state.getter(self, instance, cls)
+        raise RuntimeError from None
+
+
+class ResponseFieldDescr(FieldDescriptor[GenericType]):
+    __slots__ = ("to_py_context",)
+
+    def __init__(self: Self, idx: int, specs: FieldSpecs, user_type: Type[Any]) -> None:
+        super().__init__(idx, specs)
+        self.to_py_context: Callable[[Any], Any] = self.specs.get_context_formatter(user_type, True)
+
+    def __set__(self: Self, instance: GetInstance, value: GenericType) -> NoReturn:
+        # Executed at the runtimne
+        raise RuntimeError from None
+
+    def __get__(self: Self, instance: GetInstance, cls) -> GenericType | Self:
+        """Unpack values from the buffer and converting to expected type if required"""
+        # Executed at the runtimne
+        if instance is None:
+            return self
+        format_, offset_ = instance._stencil[self.idx]
+        try:
+            val_ = self.specs.unpack(
+                format=format_,
+                buffer=instance._buffer,
+                offset=offset_,
+            )
+        except struct.error:
+            raise FirmwareVersionError(
+                cmd_name=instance.__class__.__qualname__,
+                field_name=self.public_name,
+                min_version=self.specs.min_version,
+            ) from None
+        else:
+            return self.to_py_context(val_)

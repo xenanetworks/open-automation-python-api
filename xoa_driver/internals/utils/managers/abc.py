@@ -1,3 +1,7 @@
+from abc import (
+    ABC,
+    abstractmethod
+)
 from typing import (
     Generic,
     TypeVar,
@@ -9,7 +13,7 @@ from collections import OrderedDict
 T = TypeVar("T")
 
 
-class ResourcesBaseManager(Generic[T]):
+class AbcResourcesManager(ABC, Generic[T]):
     """Resource Base Manager
     """
     __slots__ = ("_items", "_lock", )
@@ -33,3 +37,8 @@ class ResourcesBaseManager(Generic[T]):
         """Obtain multiple resources as a tuple of resources.
         """
         return tuple(self._items[k] for k in keys)
+
+    @abstractmethod
+    async def fill(self, *args, **kwargs) -> None:
+        """Method for create and fill in."""
+        raise NotImplementedError()

@@ -932,11 +932,11 @@ class PS_PACKETHEADER:
     _stream_xindex: int
 
     class GetDataAttr(ResponseBodyStruct):
-        hex_data: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        hex_data: Hex = field(XmpHex())
         """list of hex bytes, the raw bytes comprising the packet header."""
 
     class SetDataAttr(RequestBodyStruct):
-        hex_data: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        hex_data: Hex = field(XmpHex())
         """list of hex bytes, the raw bytes comprising the packet header."""
 
     def get(self) -> Token[GetDataAttr]:
@@ -1304,13 +1304,13 @@ class PS_PAYLOAD:
     class GetDataAttr(ResponseBodyStruct):
         payload_type: PayloadType = field(XmpByte())
         """coded byte, the kind of payload content."""
-        hex_data: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        hex_data: Hex = field(XmpHex())
         """list of hex bytes, a pattern of bytes to be repeated. The maximum length of the pattern is 18 bytes. Only used if the type is set to PATTERN."""
 
     class SetDataAttr(RequestBodyStruct):
         payload_type: PayloadType = field(XmpByte())
         """coded byte, the kind of payload content."""
-        hex_data: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        hex_data: Hex = field(XmpHex())
         """list of hex bytes, a pattern of bytes to be repeated. The maximum length of the pattern is 18 bytes. Only used if the type is set to PATTERN."""
 
     def get(self) -> Token[GetDataAttr]:
@@ -1978,11 +1978,11 @@ class PS_CDFDATA:
     _custom_data_field_xindex: int
 
     class GetDataAttr(ResponseBodyStruct):
-        hex_data: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        hex_data: Hex = field(XmpHex())
         """list of hex bytes, the actual field data for a single field."""
 
     class SetDataAttr(RequestBodyStruct):
-        hex_data: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        hex_data: Hex = field(XmpHex())
         """list of hex bytes, a pattern of bytes to be used."""
 
     def get(self) -> Token[GetDataAttr]:
@@ -2045,11 +2045,11 @@ class PS_EXTPAYLOAD:
     _stream_xindex: int
 
     class GetDataAttr(ResponseBodyStruct):
-        hex_data: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        hex_data: Hex = field(XmpHex())
         """list of hex bytes, a pattern of bytes to be repeated."""
 
     class SetDataAttr(RequestBodyStruct):
-        hex_data: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        hex_data: Hex = field(XmpHex())
         """list of hex bytes, a pattern of bytes to be repeated."""
 
     def get(self) -> Token[GetDataAttr]:

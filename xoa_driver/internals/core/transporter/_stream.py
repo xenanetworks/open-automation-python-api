@@ -18,10 +18,12 @@ class StreamReader(Generic[HeaderType]):
         return self
 
     async def __anext__(self) -> tuple[HeaderType, bytes]:
-        val = await self.read_pkt()
-        if val == b'':
+        try:
+            val = await self.read_pkt()
+        except EOFError:
             raise StopAsyncIteration
-        return val
+        else:
+            return val
 
     def _wakeup_waiter(self) -> None:
         waiter = self._waiter
@@ -76,7 +78,7 @@ class StreamReader(Generic[HeaderType]):
             if self._eof:
                 incomplete = bytes(self._buffer)
                 self._buffer.clear()
-                raise Exception(incomplete, n)
+                raise EOFError(incomplete, n)
 
             await self._wait_for_data('readexactly')
 
@@ -92,6 +94,6 @@ class StreamReader(Generic[HeaderType]):
         h_buff = await self.readexactly(self.__header_struct.size)
         header = self.__header_struct.from_bytes(h_buff)
         if not header:
-            raise Exception("Invalid Header")
+            raise ValueError("Invalid Header")
         body_bytes = await self.readexactly(header.body_size)
         return (header, body_bytes)

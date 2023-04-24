@@ -43,4 +43,3 @@ class ICmdOnlyGet(ICommand, t.Protocol):
 
 
 XoaCommandType = t.Union[ICmdOnlySet, ICmdOnlyGet]
-

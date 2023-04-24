@@ -687,7 +687,7 @@ class M4_TLS_CIPHER_SUITES:
     _module: int
 
     class GetDataAttr(ResponseBodyStruct):
-        cipher_suites: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        cipher_suites: Hex = field(XmpHex())
         """list of hex bytes, list of IANA values of supported cipher suites"""
 
     def get(self) -> Token[GetDataAttr]:

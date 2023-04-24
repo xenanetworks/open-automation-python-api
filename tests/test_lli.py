@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+
 import timeit
 import pstats
 import cProfile
@@ -40,38 +41,44 @@ async def test_lli() -> None:
     #     level=logging.DEBUG
     # )
     # logger_ = logging.getLogger(__file__)
-    ctx = TransportationHandler(enable_logging=True, custom_logger=logger)
-    await establish_connection(ctx, "192.168.1.197")
+    ctx = TransportationHandler(enable_logging=True,)
+    await establish_connection(ctx, "192.168.1.198")
+    MULTIPLIER = 1_000_000
     # # print("Is connected", ctx.is_connected)
     # with cProfile.Profile() as pr:
     *_, cc, mc, pc = await apply(
         commands.C_LOGON(ctx).set("xena"),
         commands.C_OWNER(ctx).set("xoa" * 10),
         commands.C_OWNER(ctx).get(),
-        commands.C_CAPABILITIES(ctx).get(),
-        commands.M_CAPABILITIES(ctx, 1).get(),
-        commands.P_CAPABILITIES(ctx, 1, 1).get(),
+        # commands.C_MODEL(ctx).get()
+        # commands.C_CAPABILITIES(ctx).get(),
+        # commands.M_CAPABILITIES(ctx, 1).get(),
+        # commands.P_CAPABILITIES(ctx, 1, 1).get(),
         # commands.P_ARPRXTABLE(ctx, 3, 1).get()
     )
+        # print(repr(pc))
+        # a = await commands.C_INDICES(ctx).get()
+        # print((await commands.C_STATSESSION(ctx, a.session_ids[-1]).get()).to_bytes())
+        # port_counts = (await commands.C_PORTCOUNTS(ctx).get()).port_counts
 
-    a = await commands.C_INDICES(ctx).get()
-    print((await commands.C_STATSESSION(ctx, a.session_ids[-1]).get()).to_bytes())
-    port_counts = (await commands.C_PORTCOUNTS(ctx).get()).port_counts
-    
-    indices = (
-        slot_id
-        for slot_id, p_count in enumerate(port_counts)
-        if p_count > 0
-    )
-    for mid in indices:
-        r = await commands.M_REVISION(ctx, mid).get()
-        print(r.revision, r.to_bytes())
-
-        # req = apply_iter(*[commands.P_CAPABILITIES(ctx, 1, 1).get() for _ in range(1_000)])
-        # async for resp in req:
-        #     resp.tx_eq_tap_max_val
+        # indices = (
+        #     slot_id
+        #     for slot_id, p_count in enumerate(port_counts)
+        #     if p_count > 0
+        # )
+        # for mid in indices:
+        #     r = await commands.M_REVISION(ctx, mid).get()
+        #     print(
+        #         r.revision, 
+        #         r.to_bytes(), 
+        #         r.nbytes(),
+        #     )
+    tasks = (commands.P_CAPABILITIES(ctx, 1, 1).get() for _ in range(MULTIPLIER))
+    async for resp in apply_iter(*tasks):
+        resp.tx_eq_tap_max_val
     # stats = pstats.Stats(pr)
     # stats.sort_stats(pstats.SortKey.TIME)
+    # print(MULTIPLIER)
     # stats.print_stats(20)
     ctx.close()
 
@@ -86,7 +93,6 @@ async def test_lli() -> None:
     # required_functionalities:  ANLT
 
 
-
 def run(method: Coroutine) -> None:
     import platform
     if platform.system() == 'Windows':
@@ -97,8 +103,8 @@ def run(method: Coroutine) -> None:
 if __name__ == "__main__":
     run(test_lli())
     # result = timeit.timeit(
-    #     "run(main())",
-    #     setup="from __main__ import run, main",
-    #     number=10
+    #     "run(test_lli())",
+    #     setup="from __main__ import run, test_lli",
+    #     number=1
     # )
     # print(result)

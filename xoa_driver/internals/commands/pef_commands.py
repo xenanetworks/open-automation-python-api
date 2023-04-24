@@ -553,7 +553,7 @@ class PEF_VLANPCP:
         """coded byte, specifies the use of VLAN information."""
         value: int = field(XmpByte())
         """byte, specifying the value of the PCP. Default value: 0 (Range: 0 to 7)"""
-        mask: Hex = field(XmpHex())
+        mask: Hex = field(XmpHex(size=1))
         """hex byte, specifying the 8 bit value mask. Default value: 0x07"""
 
     class SetDataAttr(RequestBodyStruct):
@@ -561,7 +561,7 @@ class PEF_VLANPCP:
         """coded byte, specifies the use of VLAN information."""
         value: int = field(XmpByte())
         """byte, specifying the value of the PCP. Default value: 0 (Range: 0 to 7)"""
-        mask: Hex = field(XmpHex())
+        mask: Hex = field(XmpHex(size=1))
         """hex byte, specifying the 8 bit value mask. Default value: 0x07"""
 
     def get(self) -> Token[GetDataAttr]:
@@ -734,7 +734,7 @@ class PEF_MPLSTOC:
         """coded byte, specifies the use of MPLS TOC information."""
         value: int = field(XmpByte())
         """byte, specifying the value of the MPLS TOC. Default value: 0 (Range: 0 to 7)."""
-        mask: Hex = field(XmpHex())
+        mask: Hex = field(XmpHex(size=1))
         """hex byte, specifying the filter mask for the value of the MPLS TOC. Default value: 0x07"""
 
     class SetDataAttr(RequestBodyStruct):
@@ -742,7 +742,7 @@ class PEF_MPLSTOC:
         """coded byte, specifies the use of MPLS TOC information."""
         value: int = field(XmpByte())
         """byte, specifying the value of the MPLS TOC. Default value: 0 (Range: 0 to 7)."""
-        mask: Hex = field(XmpHex())
+        mask: Hex = field(XmpHex(size=1))
         """hex byte, specifying the filter mask for the value of the MPLS TOC. Default value: 0x07"""
 
     def get(self) -> Token[GetDataAttr]:
@@ -1044,7 +1044,7 @@ class PEF_IPV4DSCP:
         """coded byte, specifies the use of IPv4 information."""
         value: int = field(XmpByte())
         """byte, specifying the value of the IPv4 DSCP/TOS in the upper 6 bits. value[7:2] = DSCP/TOS, value[1:0] = reserved (must be zero). Default value: 0"""
-        mask: Hex = field(XmpHex())
+        mask: Hex = field(XmpHex(size=1))
         """hex byte, specifying the filter mask of the value in the upper 6 bits. mask[7:2] = DSCP/TOS mask, mask[1:0] = reserved (must be zero). Default value: 0xFC"""
 
     class SetDataAttr(RequestBodyStruct):
@@ -1052,7 +1052,7 @@ class PEF_IPV4DSCP:
         """coded byte, specifies the use of IPv4 information."""
         value: int = field(XmpByte())
         """byte, specifying the value of the IPv4 DSCP/TOS in the upper 6 bits. value[7:2] = DSCP/TOS, value[1:0] = reserved (must be zero). Default value: 0"""
-        mask: Hex = field(XmpHex())
+        mask: Hex = field(XmpHex(size=1))
         """hex byte, specifying the filter mask of the value in the upper 6 bits. mask[7:2] = DSCP/TOS mask, mask[1:0] = reserved (must be zero). Default value: 0xFC"""
 
     def get(self) -> Token[GetDataAttr]:
@@ -1296,7 +1296,7 @@ class PEF_IPV6TC:
         """coded byte, specifies the use of IPv6 information."""
         value: ipaddress.IPv6Address = field(XmpIPv6Address())
         """byte, specifying the value of the IPv6 Traffic Class in the upper 6 bits. value[7:2] = IPv6 Traffic Class. value[1:0] = reserved (must be zero). Default value: 0"""
-        mask: Hex = field(XmpHex())
+        mask: Hex = field(XmpHex(size=1))
         """hex byte, specifying the filter mask for the value in the upper 6 bits. mask[7:2] = IPv6 Traffic Class mask. mask[1:0] = reserved (must be zero). Default value: 0xFC"""
 
     class SetDataAttr(RequestBodyStruct):
@@ -1304,7 +1304,7 @@ class PEF_IPV6TC:
         """coded byte, specifies the use of IPv6 information."""
         value: ipaddress.IPv6Address = field(XmpIPv6Address())
         """byte, specifying the value of the IPv6 Traffic Class in the upper 6 bits. value[7:2] = IPv6 Traffic Class. value[1:0] = reserved (must be zero). Default value: 0"""
-        mask: Hex = field(XmpHex())
+        mask: Hex = field(XmpHex(size=1))
         """hex byte, specifying the filter mask for the value in the upper 6 bits. mask[7:2] = IPv6 Traffic Class mask. mask[1:0] = reserved (must be zero). Default value: 0xFC"""
 
     def get(self) -> Token[GetDataAttr]:
@@ -2031,11 +2031,11 @@ class PEF_VALUE:
     _protocol_segment_index: int
 
     class GetDataAttr(ResponseBodyStruct):
-        value: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        value: Hex = field(XmpHex())
         """list of hex bytes, the raw bytes comprising the packet header."""
 
     class SetDataAttr(RequestBodyStruct):
-        value: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        value: Hex = field(XmpHex())
         """list of hex bytes, the raw bytes comprising the packet header."""
 
     def get(self) -> Token[GetDataAttr]:
@@ -2094,10 +2094,10 @@ class PEF_MASK:
     _protocol_segment_index: int
 
     class GetDataAttr(ResponseBodyStruct):
-        masks: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        masks: Hex = field(XmpHex())
 
     class SetDataAttr(RequestBodyStruct):
-        masks: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        masks: Hex = field(XmpHex())
 
     def get(self) -> Token[GetDataAttr]:
         """Get the mask byte values that select the values specified by PEF_VALUE.

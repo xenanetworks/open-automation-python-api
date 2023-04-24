@@ -9,7 +9,7 @@ from xoa_driver.internals.commands import (
     C_BUILDSTRING,
 )
 from xoa_driver.internals.core.transporter.logger import CustomLogger
-from xoa_driver.internals.utils.modules_manager import ModulesManager
+from xoa_driver.internals.utils.managers import modules_manager as mm
 from xoa_driver.internals.hli_v1 import revisions
 from xoa_driver.internals import exceptions
 if TYPE_CHECKING:
@@ -74,7 +74,7 @@ class L47Tester(BaseTester["testers_state.GenuineTesterLocalState"]):
         :type: ManagementInterface
         """
 
-        self.modules: ModulesManager["ml47.ModuleL47"] = ModulesManager(self._conn, get_module_type)
+        self.modules: mm.ModulesManager["ml47.ModuleL47"] = mm.ModulesManager(self._conn, get_module_type)
         """
         Module Index Manager of the tester.
 

@@ -11,6 +11,9 @@ from xoa_driver.internals.commands import (
     C_RESERVEDBY,
 )
 from xoa_driver.internals.utils import attributes as utils
+from xoa_driver.internals.exceptions.testers import UnsuportedFirmwareError
+
+MIN_SUPPORTED_VERSION = 446.5
 
 
 class TesterLocalState:
@@ -81,15 +84,21 @@ class GenuineTesterLocalState(TesterLocalState):
     :param port: the port number for connection establishment
     :type port: int
     """
-    __slots__ = ("build_string",)
+    __slots__ = ("build_string", "version_minor")
 
     def __init__(self, host: str, port: int) -> None:
         super().__init__(host, port)
         self.build_string: str = ""
+        self.version_minor: int = 0
 
     async def initiate(self, tester) -> None:
-        bs, _ = await asyncio.gather(
+        bs, v_minor, _ = await asyncio.gather(
             tester.build_string.get(),
+            tester.version_no_minor.get(),
             super().initiate(tester)
         )
         self.build_string = bs.build_string
+        self.version_minor = v_minor.chassis_minor_version
+        current_version = float(f"{self.version_major}.{self.version_minor}")
+        if current_version < MIN_SUPPORTED_VERSION:
+            raise UnsuportedFirmwareError(current_version)

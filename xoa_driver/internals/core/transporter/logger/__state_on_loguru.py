@@ -19,8 +19,6 @@ class StateOnLoguru:
 
     @staticmethod
     def setup(connid: str, logger: "Logger") -> "Logger":
-        # a = list(logger._core.handlers.values())
-        # print(a[0]._sink)
         logger.remove()  # All configured handlers are removed
         fmt = "<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | <level>{level: <8}</level> | <level>{message}</level>"
         logger.add(sys.stdout, format=fmt)

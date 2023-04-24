@@ -1411,7 +1411,7 @@ class TrafficEngine(IntEnum):
     """Micro TGA"""
 
 
-class L1LinkTrainFrameLock(IntEnum):
+class LinkTrainFrameLock(IntEnum):
     """L1 Link Training Frame Lock Status"""
     LOCKED = 1
     """Frame Lock detected"""

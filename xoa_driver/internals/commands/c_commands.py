@@ -977,7 +977,7 @@ class C_DEBUGLOGS:
     class GetDataAttr(ResponseBodyStruct):
         message_length: int = field(XmpInt())
         """integer, length of the message."""
-        data: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        data: Hex = field(XmpHex())
         """list of hex bytes, all the logs of a chassis"""
 
     def get(self) -> Token[GetDataAttr]:
@@ -1407,7 +1407,7 @@ class C_FILEDATA:
     class SetDataAttr(RequestBodyStruct):
         offset: int = field(XmpInt())
         """integer, the position within the file."""
-        data_bytes: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        data_bytes: Hex = field(XmpHex())
         """list of hex bytes, the data content of a section of the file."""
 
     def set(self, offset: int, data_bytes: Hex) -> Token[None]:

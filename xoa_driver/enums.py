@@ -40,7 +40,7 @@ from .internals.commands.enums import (
     IsPermanent,
     IsPresent,
     IsValid,
-    L1LinkTrainFrameLock,
+    LinkTrainFrameLock,
     L2PlusPresent,
     L3PlusPresent,
     L47IPVersion,
@@ -152,7 +152,7 @@ from .internals.commands.enums import (
     YesNo,
 )
 
-__all__ = (  # noqa: F405
+__all__ = (
     "AlgorithmMethod",
     "AlignLockStatus",
     "ApplicationLayerBehavior",
@@ -192,7 +192,7 @@ __all__ = (  # noqa: F405
     "IsPermanent",
     "IsPresent",
     "IsValid",
-    "L1LinkTrainFrameLock",
+    "LinkTrainFrameLock",
     "L2PlusPresent",
     "L3PlusPresent",
     "L47IPVersion",

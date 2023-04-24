@@ -1117,11 +1117,11 @@ class P4G_IP_DS_VALUE:
     _group_xindex: int
 
     class GetDataAttr(ResponseBodyStruct):
-        ds_value: Hex = field(XmpHex())
+        ds_value: Hex = field(XmpHex(size=1))
         """hex byte, the fixed DS value to be used"""
 
     class SetDataAttr(RequestBodyStruct):
-        ds_value: Hex = field(XmpHex())
+        ds_value: Hex = field(XmpHex(size=1))
         """hex byte, the fixed DS value to be used"""
 
     def get(self) -> Token[GetDataAttr]:
@@ -1162,11 +1162,11 @@ class P4G_IP_DS_MASK:
     _group_xindex: int
 
     class GetDataAttr(ResponseBodyStruct):
-        ds_mask: Hex = field(XmpHex())
+        ds_mask: Hex = field(XmpHex(size=1))
         """hex byte, the DS mask to be used."""
 
     class SetDataAttr(RequestBodyStruct):
-        ds_mask: Hex = field(XmpHex())
+        ds_mask: Hex = field(XmpHex(size=1))
         """hex byte, the DS mask to be used."""
 
     def get(self) -> Token[GetDataAttr]:
@@ -1205,15 +1205,15 @@ class P4G_IP_DS_MINMAX:
     _group_xindex: int
 
     class GetDataAttr(ResponseBodyStruct):
-        ds_min: Hex = field(XmpHex())
+        ds_min: Hex = field(XmpHex(size=1))
         """hex byte, minimum value for the calculated part of DS"""
-        ds_max: Hex = field(XmpHex())
+        ds_max: Hex = field(XmpHex(size=1))
         """hex byte, maximum value for the calculated part of DS"""
 
     class SetDataAttr(RequestBodyStruct):
-        ds_min: Hex = field(XmpHex())
+        ds_min: Hex = field(XmpHex(size=1))
         """hex byte, minimum value for the calculated part of DS"""
-        ds_max: Hex = field(XmpHex())
+        ds_max: Hex = field(XmpHex(size=1))
         """hex byte, maximum value for the calculated part of DS"""
 
     def get(self) -> Token[GetDataAttr]:
@@ -1254,11 +1254,11 @@ class P4G_IP_DS_STEP:
     _group_xindex: int
 
     class GetDataAttr(ResponseBodyStruct):
-        ds_step: Hex = field(XmpHex())
+        ds_step: Hex = field(XmpHex(size=1))
         """hex byte, the incrementing step size for DS."""
 
     class SetDataAttr(RequestBodyStruct):
-        ds_step: Hex = field(XmpHex())
+        ds_step: Hex = field(XmpHex(size=1))
         """hex byte, the incrementing step size for DS."""
 
     def get(self) -> Token[GetDataAttr]:
@@ -2767,7 +2767,7 @@ class P4G_RAW_PAYLOAD:
         """integer, the offset in the payload buffer where data is to be written"""
         length: int = field(XmpInt())
         """integer, number of bytes to write"""
-        content: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        content: Hex = field(XmpHex())
         """list of hex bytes, specifying the payload"""
 
     class SetDataAttr(RequestBodyStruct):
@@ -2775,7 +2775,7 @@ class P4G_RAW_PAYLOAD:
         """integer, the offset in the payload buffer where data is to be written"""
         length: int = field(XmpInt())
         """integer, number of bytes to write"""
-        content: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        content: Hex = field(XmpHex())
         """list of hex bytes, specifying the payload"""
 
     def get(self) -> Token[GetDataAttr]:
@@ -3032,13 +3032,13 @@ class P4G_RAW_DOWNLOAD_REQUEST:
     class GetDataAttr(ResponseBodyStruct):
         length: int = field(XmpInt())
         """integer, specifying the number of bytes to write. Maximum request length is 1024 bytes."""
-        content: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        content: Hex = field(XmpHex())
         """list of hex bytes, specifying the request content."""
 
     class SetDataAttr(RequestBodyStruct):
         length: int = field(XmpInt())
         """integer, specifying the number of bytes to write. Maximum request length is 1024 bytes."""
-        content: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        content: Hex = field(XmpHex())
         """list of hex bytes, specifying the request content."""
 
     def get(self) -> Token[GetDataAttr]:
@@ -4018,11 +4018,11 @@ class P4G_IPV6_TRAFFIC_CLASS:
     _group_xindex: int
 
     class GetDataAttr(ResponseBodyStruct):
-        traffic_class: Hex = field(XmpHex())
+        traffic_class: Hex = field(XmpHex(size=1))
         """hex byte, value of the traffic class field"""
 
     class SetDataAttr(RequestBodyStruct):
-        traffic_class: Hex = field(XmpHex())
+        traffic_class: Hex = field(XmpHex(size=1))
         """hex byte, value of the traffic class field"""
 
     def get(self) -> Token[GetDataAttr]:
@@ -6075,11 +6075,11 @@ class P4G_TLS_CIPHER_SUITES:
     _group_xindex: int
 
     class GetDataAttr(ResponseBodyStruct):
-        ciphers: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        ciphers: Hex = field(XmpHex())
         """list of hex bytes, sequence of ciphers identified by theirs IANA number in order of priority."""
 
     class SetDataAttr(RequestBodyStruct):
-        ciphers: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        ciphers: Hex = field(XmpHex())
         """list of hex bytes, sequence of ciphers identified by theirs IANA number in order of priority."""
 
     def get(self) -> Token[GetDataAttr]:

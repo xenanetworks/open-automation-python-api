@@ -8,7 +8,7 @@ from xoa_driver.internals.commands import (
     C_VERSIONNO_MINOR,
 )
 from xoa_driver.internals.core.transporter.logger import CustomLogger
-from xoa_driver.internals.utils.modules_manager import ModulesManager
+from xoa_driver.internals.utils.managers import modules_manager as mm
 from ._base_tester import BaseTester
 
 
@@ -16,7 +16,7 @@ from xoa_driver import modules
 from xoa_driver.internals.state_storage import testers_state
 
 
-TypeL23Manager = ModulesManager["modules.ModuleL23VE"]
+TypeL23Manager = mm.ModulesManager["modules.ModuleL23VE"]
 
 
 def get_module_type(_: str) -> Type:
@@ -82,7 +82,7 @@ class L23VeTester(BaseTester["testers_state.TesterLocalState"]):
         :type: C_VERSIONNO_MINOR
         """
 
-        self.modules: TypeL23Manager = ModulesManager(self._conn, get_module_type)
+        self.modules: TypeL23Manager = mm.ModulesManager(self._conn, get_module_type)
         """
         Module Index Manager of the L23 VE tester.
 

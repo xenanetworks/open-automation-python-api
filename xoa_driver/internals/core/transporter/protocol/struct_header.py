@@ -3,13 +3,14 @@ from __future__ import annotations
 import ctypes as c
 from typing import (
     Type,
-    ClassVar
+    ClassVar,
+    TypeVar
 )
-from typing_extensions import Self
 from . import _constants as const
 
 
 class ProtocolHeader(c.BigEndianStructure):
+    """The structure for the header data of a packet in the protocol."""
     __slots__ = (
         "magic_word",
         "number_of_indices",
@@ -32,21 +33,41 @@ class ProtocolHeader(c.BigEndianStructure):
 
     @property
     def cmd_type(self) -> int:
+        """Get command type.
+
+        Returns:
+            int: Command type
+        """
         return (self.command_parameter & 0x0F00) >> 8
 
     @cmd_type.setter
     def cmd_type(self, val: int) -> None:
+        """Set command type.
+
+        Args:
+            val (int): Command type
+        """
         assert 0 <= val < 4
         self.command_parameter |= val << 8
 
     @property
     def cmd_code(self) -> int:
+        """Get command code.
+
+        Returns:
+            int: Command code
+        """
         last = (self.command_parameter & 0xF000) >> 4
         first = self.command_parameter & 0x00FF
         return first | last
 
     @cmd_code.setter
     def cmd_code(self, val: int) -> None:
+        """Set command code.
+
+        Args:
+            val (int): Command code
+        """
         first = (val & 0x0F00) << 4
         last = val & 0x00FF
         self.command_parameter |= first | last
@@ -65,13 +86,11 @@ class ProtocolHeader(c.BigEndianStructure):
         return body_size
 
 
-def _header_bytes_is_valid(header_bytes: memoryview, expected_size: int, magic_wrd: bytes) -> bool:
-    is_correct_size = len(header_bytes) == expected_size
-    start_with_mw = header_bytes[:len(magic_wrd)] == magic_wrd
-    return is_correct_size and start_with_mw
+Self = TypeVar("Self", bound="ResponseHeader")
 
 
 class ResponseHeader(ProtocolHeader):
+    """The structure for the response header data of a packet in the protocol."""
     size: ClassVar[int] = c.sizeof(ProtocolHeader)
 
     @property
@@ -81,7 +100,24 @@ class ResponseHeader(ProtocolHeader):
 
     @classmethod
     def from_bytes(cls: Type[Self], buff: bytes) -> Self | None:
+        """Create ResponseHeader object from bytes."""
         header_bytes = memoryview(buff)
-        if not _header_bytes_is_valid(header_bytes, cls.size, const.MAGIC_WORD):
+        if not cls._header_bytes_is_valid(header_bytes, cls.size, const.MAGIC_WORD):
             return None
         return cls.from_buffer_copy(header_bytes)
+
+    @staticmethod
+    def _header_bytes_is_valid(header_bytes: memoryview, expected_size: int, magic_wrd: bytes) -> bool:
+        """Check whether the header bytes are valid.
+
+        Args:
+            header_bytes (memoryview): Header bytes
+            expected_size (int): Expected header size
+            magic_wrd (bytes): Magic word bytes
+
+        Returns:
+            bool: True if the header bytes are valid, False otherwise
+        """
+        is_correct_size = len(header_bytes) == expected_size
+        start_with_mw = header_bytes[:len(magic_wrd)] == magic_wrd
+        return is_correct_size and start_with_mw
