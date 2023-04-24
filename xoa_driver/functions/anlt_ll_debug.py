@@ -156,7 +156,6 @@ xla_rd_page_set = partial(__set, reg=AnLtD.XLA_RD_PAGE)
 xla_rd_data_get = partial(__get, reg=AnLtD.XLA_RD_DATA)
 
 
-
 async def lt_prbs(
     port: GenericL23Port,
     serdes: int,
@@ -218,7 +217,7 @@ async def xla_dump(
         await xla_rd_addr_set(port, serdes, inf=inf, value=r)
         for p in range(10):
             # Read the data
-            await xla_rd_page_set(port, serdes, inf=inf, value=9-p)
+            await xla_rd_page_set(port, serdes, inf=inf, value=9 - p)
             d = await xla_rd_data_get(port, serdes, inf=inf)
             data_list.append(f"{d:08X}")
         data_list.append("\n")
@@ -237,7 +236,8 @@ async def px_get(
         return (True, resp.value)
     else:
         return (False, resp.value)
-    
+
+
 async def px_set(
     port: GenericL23Port,
     page_address: int,

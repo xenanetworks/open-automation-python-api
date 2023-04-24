@@ -7,7 +7,7 @@ from xoa_driver import enums
 
 
 def get_ctx(port: GenericAnyPort) -> tuple["itf.IConnection", int, int]:
-    return port._conn, port.kind.module_id, port.kind.port_id
+    return (port._conn, *port.kind)
 
 
 def dictionize_autoneg_status(
@@ -143,6 +143,7 @@ def dictionize_anlt_status(
         "link_training_preset0": enums.NRZPreset(linktrain.nrz_preset).name.lower(),
     }
 
+
 def dictionize_lt_im_status(
     capabilities: commands.P_CAPABILITIES.GetDataAttr,
     initial_mods: dict[str, str]
@@ -151,6 +152,7 @@ def dictionize_lt_im_status(
         "serdes_count": capabilities.serdes_count,
         "initial_mods": initial_mods,
     }
+
 
 def dictionize_lt_algorithm_status(
     capabilities: commands.P_CAPABILITIES.GetDataAttr,
@@ -161,35 +163,34 @@ def dictionize_lt_algorithm_status(
         "algorithms": algorithms
     }
 
-def module_eol_info() -> dict[str, str]:
-    m_eol = {
-        "01": "2014-04-01",
-        "02": "2024-09-01",
-        "03": "2016-03-01",
-        "09": "2022-01-01",
-        "17": "2023-01-01",
-        "18": "2023-01-01",
-        "20": "2024-11-01",
-        "22": "2018-11-01",
-        "24": "2024-11-01",
-        "26": "2023-06-01",
-        "27": "2025-10-01",
-        "30": "2024-01-01",
-        "31": "2021-09-01",
-        "32": "2024-04-01",
-        "34": "2024-08-01",
-        "36": "2024-04-01",
-        "40": "2023-03-01",
-        "50": "2022-02-01",
-        "51": "2023-08-01",
-        "54": "2023-01-01",
-        "55": "2024-01-01",
-        "60": "2025-10-01",
-        "66": "2025-01-31",
-        "90": "2025-10-01",
-        "91": "2025-10-01",
-        "93": "2025-10-01",
-        "94": "2025-10-01",
-        "97": "2025-10-01",
-        }
-    return m_eol
+
+MODULE_EOL_INFO = {
+    "01": "2014-04-01",
+    "02": "2024-09-01",
+    "03": "2016-03-01",
+    "09": "2022-01-01",
+    "17": "2023-01-01",
+    "18": "2023-01-01",
+    "20": "2024-11-01",
+    "22": "2018-11-01",
+    "24": "2024-11-01",
+    "26": "2023-06-01",
+    "27": "2025-10-01",
+    "30": "2024-01-01",
+    "31": "2021-09-01",
+    "32": "2024-04-01",
+    "34": "2024-08-01",
+    "36": "2024-04-01",
+    "40": "2023-03-01",
+    "50": "2022-02-01",
+    "51": "2023-08-01",
+    "54": "2023-01-01",
+    "55": "2024-01-01",
+    "60": "2025-10-01",
+    "66": "2025-01-31",
+    "90": "2025-10-01",
+    "91": "2025-10-01",
+    "93": "2025-10-01",
+    "94": "2025-10-01",
+    "97": "2025-10-01",
+}

@@ -1,5 +1,8 @@
 from __future__ import annotations
-from functools import cached_property, lru_cache
+from functools import (
+    cached_property,
+    partial,
+)
 
 from io import BytesIO
 from typing import (
@@ -38,46 +41,35 @@ SKIP_CLASSES = (
 )
 
 
-class FieldData(NamedTuple):
-    nbyte: int
-    format: str
-
-
-@lru_cache
-def calc_offsets(items: tuple[tuple[str, int], ...]) -> int:
-    return sum(i[1] for i in items)
+class CellInfo(NamedTuple):
+    fmt: str
+    offset: int
+    bsize: int | None
 
 
 class Cell:
-    __slots__ = ("name", "spec", "_prev", "_next")
+    __slots__ = (
+        "name",
+        "spec",
+        "_prev",
+        "_next"
+    )
 
     def __init__(self, name: str, spec: FieldSpecs) -> None:
         self.name = name
         self.spec = spec
-        # self.bsize = spec.calc_bsize()
 
         self._prev: Cell | None = None
         self._next: Cell | None = None
 
-    def info(self, buff: memoryview | None = None, offset: int = 0) -> tuple[str, int, int | None]:
+    def info(self, buff: memoryview | None = None, offset: int = 0) -> CellInfo:
         bsize = self.spec.calc_bsize(buff, offset)
         fmt = self.spec.format(bsize)
-        return (fmt, offset, bsize)
+        return CellInfo(fmt, offset, bsize)
 
     @property
     def is_dynamic(self) -> bool:
         return self.spec.is_dynamic
-
-    # @property
-    # def l_offset(self) -> int | None:
-    #     v = 0
-    #     n = self._prev
-    #     while n is not None:
-    #         if not n.bsize:
-    #             return None
-    #         v += n.bsize
-    #         n = n._prev
-    #     return v
 
 
 class Order:
@@ -109,10 +101,12 @@ class Order:
 
     @cached_property
     def is_dynamic(self) -> bool:
+        """Computed only once, Determinate if structure is contain types with dynamic lenght or not"""
         return any(c.is_dynamic for c in self)
 
     @property
     def field_names(self) -> Iterator[str]:
+        """Get iterator of ordered fields names"""
         return iter(itm.name for itm in self)
 
     def append(self, name: str, data: FieldSpecs) -> int:
@@ -131,22 +125,23 @@ class Order:
         """Bake tuple of the offsets for static length structures, at the defenition time."""
         if self.is_dynamic:
             return None
-        self.__stencil = tuple(self.construct_stencil(None))  # tuple(itm.info(offset=cast(int, itm.l_offset)) for itm in self)
+        self.__stencil = tuple(self.__construct_stencil(None))
 
     def get_stencil(self, buffer: memoryview) -> tuple[tuple[str, int], ...]:
         """Get offsets for the instance. If struct is static get baked offsets, otherwise compute them for the individual instance"""
         if self.is_dynamic:
-            return tuple(self.construct_stencil(buffer))
+            return tuple(self.__construct_stencil(buffer))
         return self.__stencil
 
-    def construct_stencil(self, buffer: memoryview | None) -> Generator[tuple[str, int], None, None]:
+    def __construct_stencil(self, buffer: memoryview | None) -> Generator[tuple[str, int], None, None]:
+        """An private method for construct stencils items."""
         current_node = self.__start
         cumulative_sum = 0
 
         while current_node is not None:
             info_tuple = current_node.info(buffer, cumulative_sum)
-            yield (info_tuple[0], cumulative_sum)
-            cumulative_sum += info_tuple[2] or 0
+            yield (info_tuple.fmt, cumulative_sum)
+            cumulative_sum += info_tuple.bsize or 0
             current_node = current_node._next
 
 
@@ -191,7 +186,7 @@ class OrderedMeta(type):
 class RequestBodyStruct(metaclass=OrderedMeta):
     """Request Body class"""
 
-    __slots__ = ("_buffer", "_order", "__stored")
+    __slots__ = ("_buffer", "_order", "__stored", "__nbytes")
 
     def __init__(self, **kwargs) -> None:
         self._buffer = BytesIO()
@@ -200,18 +195,27 @@ class RequestBodyStruct(metaclass=OrderedMeta):
                 raise AttributeError(f"[{name}] is required!")
             setattr(self, name, kwargs[name])
         self.__stored = kwargs
-        nbytes = self.nbytes()
-        padding = bytes(4 - (nbytes % 4) if nbytes % 4 else 0)
+        self.__nbytes = self._buffer.getbuffer().nbytes
+        padding = bytes(4 - (self.__nbytes % 4) if self.__nbytes % 4 else 0)
         self._buffer.write(padding)
 
     def __repr__(self) -> str:
         cls_name = f"{self.__class__.__qualname__}"
-        vals = ", ".join(f"{n}={v!r}" for n, v in self.__stored.items())
+        vals = ", ".join(
+            f"{n}={v!r}" for n, v in self.__stored.items()
+        )
         return f"{cls_name}({vals})"
 
     def nbytes(self) -> int:
         """Return number of byffer bytes"""
+        return self.__nbytes
+
+    def nbytes_with_padding(self) -> int:
         return self._buffer.getbuffer().nbytes
+
+    def to_dict(self) -> dict[str, Any]:
+        """Get Dict representation of the object"""
+        return self.__stored
 
     def to_hex(self) -> str:
         """Get buffer as hex string"""
@@ -220,6 +224,21 @@ class RequestBodyStruct(metaclass=OrderedMeta):
     def to_bytes(self) -> bytes:
         """Get buffer as bytes"""
         return self._buffer.getvalue()
+
+
+def get_val(inst: object, fn: str) -> Any:
+    """
+    An helper method for get a value fro mobject and in case if FirmwareVersionError swap the value as not supported.
+
+    IMPORTANT: only used in conversion to tuple, dict
+    """
+    # TODO: Allow to skip not supported values for tuple and dict
+    try:
+        val = getattr(inst, fn)
+    except FirmwareVersionError:
+        return "NOT_SUPORTED_BY_FIRMWARE"
+    else:
+        return val
 
 
 class ResponseBodyStruct(metaclass=OrderedMeta):
@@ -235,8 +254,7 @@ class ResponseBodyStruct(metaclass=OrderedMeta):
     def __repr__(self) -> str:
         cls_name = self.__class__.__qualname__
         vals = ", ".join(
-            f"{n}={v!r}"
-            for n, v in zip(self._order.field_names, self.to_tuple())
+            f"{n}={v!r}" for n, v in self.to_dict().items()
         )
         return f"{cls_name}({vals})"
 
@@ -246,14 +264,15 @@ class ResponseBodyStruct(metaclass=OrderedMeta):
 
     def to_tuple(self) -> tuple:
         """Get py values as tuple"""
-        def get_val(fn: str) -> Any:
-            try:
-                val = getattr(self, fn)
-            except FirmwareVersionError:
-                return "NOT_SUPORTED_BY_FIRMWARE"
-            else:
-                return val
-        return tuple(map(get_val, self._order.field_names))
+        get_val_ = partial(get_val, self)
+        return tuple(map(get_val_, self._order.field_names))
+
+    def to_dict(self) -> dict[str, Any]:
+        """Get Dict representation of the object"""
+        return {
+            name: get_val(self, name)
+            for name in self._order.field_names
+        }
 
     def to_hex(self) -> str:
         """Get buffer as hex string"""

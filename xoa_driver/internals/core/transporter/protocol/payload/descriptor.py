@@ -1,6 +1,9 @@
 
 from __future__ import annotations
-from abc import abstractmethod, ABC
+from abc import (
+    abstractmethod,
+    ABC
+)
 from io import BytesIO
 import struct
 
@@ -72,6 +75,7 @@ class RequestFieldDescr(FieldDescriptor[GenericType]):
 
     def __set__(self: Self, instance: SetInstance, value: GenericType) -> None:
         """Transform values from Python to Bxmp and store them in to the buffer"""
+        # Executed at the runtimne
         val_ = self.to_xmp_context(value)
         instance._buffer.write(self.specs.pack(self.fmt, val=val_))
 
@@ -90,6 +94,7 @@ class ResponseFieldDescr(FieldDescriptor[GenericType]):
         self.to_py_context: Callable[[Any], Any] = self.specs.get_context_formatter(user_type, True)
 
     def __set__(self: Self, instance: GetInstance, value: GenericType) -> NoReturn:
+        # Executed at the runtimne
         raise RuntimeError from None
 
     def __get__(self: Self, instance: GetInstance, cls) -> GenericType | Self:

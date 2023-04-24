@@ -89,11 +89,11 @@ class PX_RW_SEQ:
     _byte_xcount: int
 
     class GetDataAttr(ResponseBodyStruct):
-        value: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        value: Hex = field(XmpHex())
         """the bytes to be read or written in one I2C transaction. The number of bytes in the ``<value>`` equals ``<byte_count>``."""
 
     class SetDataAttr(RequestBodyStruct):
-        value: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        value: Hex = field(XmpHex())
         """the bytes to be read or written in one I2C transaction. The number of bytes in the ``<value>`` equals ``<byte_count>``."""
 
     def get(self) -> Token[GetDataAttr]:

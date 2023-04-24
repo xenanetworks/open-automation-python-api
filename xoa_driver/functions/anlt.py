@@ -237,7 +237,7 @@ async def lt_coeff_inc(
 ) -> enums.LinkTrainCmdResults:
     """
     .. versionadded:: 1.1
-    
+
     Ask the remote port to increase coeff of the specified serdes.
 
     :param port: the port object
@@ -257,7 +257,7 @@ async def lt_coeff_dec(
 ) -> enums.LinkTrainCmdResults:
     """
     .. versionadded:: 1.1
-    
+
     Ask the remote port to decrease coeff of the specified serdes.
 
     :param port: the port object
@@ -277,7 +277,7 @@ async def lt_preset(
 ) -> enums.LinkTrainCmdResults:
     """
     .. versionadded:: 1.1
-    
+
     Ask the remote port to use the preset of the specified serdes.
 
     :param port: the port object
@@ -297,7 +297,7 @@ async def lt_encoding(
 ) -> enums.LinkTrainCmdResults:
     """
     .. versionadded:: 1.1
-    
+
     Ask the remote port to use the encoding of the specified serdes.
 
     :param port: the port object
@@ -315,7 +315,7 @@ async def lt_encoding(
 async def lt_trained(port: GenericL23Port, serdes: int) -> enums.LinkTrainCmdResults:
     """
     .. versionadded:: 1.1
-    
+
     Tell the remote port that the current serdes is trained.
 
     :param port: the port object
@@ -336,7 +336,7 @@ async def lt_trained(port: GenericL23Port, serdes: int) -> enums.LinkTrainCmdRes
 async def lt_status(port: GenericL23Port, serdes: int) -> dict[str, t.Any]:
     """
     .. versionadded:: 1.1
-    
+
     Show the link training status.
 
     :param port: the port object
@@ -370,7 +370,7 @@ async def lt_status(port: GenericL23Port, serdes: int) -> dict[str, t.Any]:
 async def txtap_get(port: GenericL23Port, serdes: int) -> dict[str, int]:
     """
     .. versionadded:: 1.1
-    
+
     Get the tap value of the local TX tap.
 
     :param port: the port object
@@ -396,7 +396,7 @@ async def txtap_set(
 ) -> None:
     """
     .. versionadded:: 1.1
-    
+
     Set the tap value of the local TX tap.
 
     :param port: the port object
@@ -431,7 +431,7 @@ async def txtap_set(
 async def anlt_link_recovery(port: GenericL23Port, enable: bool) -> None:
     """
     .. versionadded:: 1.1
-    
+
     Should xenaserver automatically do link recovery when detecting down signal.
 
     :param port: the port object
@@ -451,7 +451,7 @@ async def anlt_link_recovery(port: GenericL23Port, enable: bool) -> None:
 async def anlt_status(port: GenericL23Port) -> dict[str, t.Any]:
     """
     .. versionadded:: 1.1
-    
+
     Get the overview of ANLT status
 
     :param port: the port object
@@ -472,7 +472,7 @@ async def anlt_status(port: GenericL23Port) -> dict[str, t.Any]:
         commands.P_CAPABILITIES(conn, mid, pid).get(),
         commands.PL1_CFG_TMP(conn, mid, pid, 0, enums.Layer1ConfigType.AN_LOOPBACK).get(),
     )
-    link_recovery, autoneg, linktrain, capabilities, allow_loopback= r
+    link_recovery, autoneg, linktrain, capabilities, allow_loopback = r
 
     return dictionize_anlt_status(link_recovery, autoneg, linktrain, capabilities, allow_loopback)
 
@@ -480,7 +480,7 @@ async def anlt_status(port: GenericL23Port) -> dict[str, t.Any]:
 async def anlt_log(port: GenericL23Port) -> str:
     """
     .. versionadded:: 1.1
-    
+
     Get the anlt log messages
 
     :param port: the port object
@@ -502,7 +502,7 @@ async def anlt_stop(port: GenericL23Port) -> None:
     :param port: the port object
     :type port: :class:`~xoa_driver.ports.GenericL23Port`
     """
-    
+
     anlt = DoAnlt(
         port=port,
         should_do_an=False,
@@ -522,7 +522,7 @@ async def txtap_autotune(
 ) -> None:
     """
     .. versionadded:: 1.3
-    
+
     Auto tune the tap value of the local TX tap.
 
     :param port: the port object
@@ -541,7 +541,7 @@ async def txtap_autotune(
 async def lt_im_status(port: GenericL23Port) -> dict[str, t.Any]:
     """
     .. versionadded:: 1.3
-    
+
     Get LT initial modulation config
 
     :param port: the port object
@@ -565,7 +565,7 @@ async def lt_im_status(port: GenericL23Port) -> dict[str, t.Any]:
 async def lt_algorithm_status(port: GenericL23Port) -> dict[str, t.Any]:
     """
     .. versionadded:: 1.3
-    
+
     Get LT initial modulation config
 
     :param port: the port object

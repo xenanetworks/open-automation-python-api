@@ -1300,7 +1300,7 @@ class M_LICENSE_LIST_BSON:
     _module: int
 
     class GetDataAttr(ResponseBodyStruct):
-        bson: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        bson: Hex = field(XmpHex())
         """list of hex bytes, bson document containing the list of locally stored licenses"""
 
     def get(self) -> Token[GetDataAttr]:

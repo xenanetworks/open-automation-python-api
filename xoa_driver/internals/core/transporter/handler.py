@@ -18,7 +18,16 @@ from ._typings import ICommand
 class TransportationHandler(asyncio.Protocol):
     """Handling sending and receiving of the XMP commands."""
 
-    __slots__ = ("identity", "peername", "__log", "__transport", "__id_counter", "__stream", "__rx_buff", "__resp_publisher", "__pkt_processor")
+    __slots__ = (
+        "identity",
+        "peername",
+        "__log",
+        "__transport",
+        "__id_counter",
+        "__stream",
+        "__resp_publisher",
+        "__pkt_processor"
+    )
 
     def __init__(self, *, enable_logging: bool = False, custom_logger: CustomLogger | None = None) -> None:
         self.identity = uuid4().hex[:6]

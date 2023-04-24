@@ -3,7 +3,7 @@ import functools
 from xoa_driver import ports
 from xoa_driver.internals.hli_v1 import revisions
 from xoa_driver.internals.commands import P_CAPABILITIES
-from xoa_driver.internals.utils import ports_manager as pm
+from xoa_driver.internals.utils.managers import ports_manager as pm
 from xoa_driver.internals.utils.cap_id import CapID
 
 if typing.TYPE_CHECKING:
@@ -78,6 +78,6 @@ class MOdin10G4S2PCombi_b(ModuleL23):
             ports_count=self.ports_count
         )
         """Port Index Manager of Odin-10G-4S-2P-Combi[b]
-        
+
         :type: PortsCombiManager
         """

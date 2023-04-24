@@ -411,7 +411,7 @@ class P4_CAPTURE_GET_FIRST:
         """integer, length of captured portion of the frame"""
         frame_length: int = field(XmpInt())
         """integer, length of the frame"""
-        frame: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        frame: Hex = field(XmpHex())
         """list of hex bytes, the captured frame (capture_len bytes)"""
 
     def get(self) -> Token[GetDataAttr]:
@@ -450,7 +450,7 @@ class P4_CAPTURE_GET_NEXT:
         """integer, length of captured portion of the frame"""
         frame_length: int = field(XmpInt())
         """integer, length of the frame"""
-        frame: typing.List[Hex] = field(XmpSequence(types_chunk=[XmpHex()]))
+        frame: Hex = field(XmpHex())
         """hex data, the captured frame (capture_len bytes)"""
 
     def get(self) -> Token[GetDataAttr]:

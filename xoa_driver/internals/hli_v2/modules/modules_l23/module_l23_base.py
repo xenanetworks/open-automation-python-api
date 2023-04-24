@@ -18,7 +18,6 @@ from xoa_driver.internals.commands import (
     M_MEDIASUPPORT,
     M_FPGAREIMAGE,
     M_MULTIUSER,
-    M_CFPCONFIGEXT,
     M_CLOCKPPB,
     M_SMAINPUT,
     M_SMAOUTPUT,
@@ -35,7 +34,7 @@ if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
 
 from xoa_driver.internals.utils import attributes as utils
-from xoa_driver.internals.utils import ports_manager as pm
+from xoa_driver.internals.utils.managers import ports_manager as pm
 from xoa_driver.internals.state_storage import modules_state
 
 from .. import base_module as bm

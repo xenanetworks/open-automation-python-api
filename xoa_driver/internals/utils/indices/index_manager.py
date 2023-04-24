@@ -56,10 +56,10 @@ class IndexManager(Generic[IT]):
     def __iter__(self):
         return iter(self._indices)
 
-    def index(self, key: int):
+    def obtain(self, key: int):
         return self._indices[key]
 
-    def indices(self, *keys: int):
+    def obtain_multiple(self, *keys: int):
         """Obtain multiple resources as a tuple of indices"""
         return tuple(self._indices[k] for k in keys)
 

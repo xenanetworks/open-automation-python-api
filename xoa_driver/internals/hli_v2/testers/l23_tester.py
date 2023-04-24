@@ -13,7 +13,7 @@ from xoa_driver.internals.commands import (
     C_BUILDSTRING,
 )
 from xoa_driver.internals.core.transporter.logger import CustomLogger
-from xoa_driver.internals.utils.modules_manager import ModulesManager
+from xoa_driver.internals.utils.managers.modules_manager import ModulesManager
 from ._base_tester import BaseTester
 from .genuine import management_interface as mi
 from .genuine.l_23 import (

@@ -39,7 +39,7 @@ T = TypeVar('T', bound="BaseTester")
 TesterStateStorage = TypeVar('TesterStateStorage', bound="testers_state.TesterLocalState")
 
 
-# min version = 83.2
+# min version = rel v83.2 eq fw v446.5
 class BaseTester(ABC, Generic[TesterStateStorage]):
     def __init__(self, host: str, username: str, password: str = "xena", port: int = 22606, *, enable_logging: bool = False, custom_logger: CustomLogger | None = None) -> None:
         self.__host = host

@@ -6,7 +6,7 @@ from typing import (
 )
 if TYPE_CHECKING:
     from xoa_driver.internals.core.transporter.protocol.struct_response import Response
-    from xoa_driver.internals.core.transporter._typings import XoaCommandPushable
+    from xoa_driver.internals.core.transporter._typings import XoaCommandType
     from xoa_driver.internals.core import interfaces as itf
 
 
@@ -25,7 +25,7 @@ class Update:
         setattr(self.inst, self.property_name, v)
 
 
-def on_event(self, evt: "XoaCommandPushable", callback: "itf.CallbackType") -> None:
+def on_event(self, evt: "XoaCommandType", callback: "itf.CallbackType") -> None:
     async def _f(response: "Response", *args, **kwargs) -> None:
         if not self._check_identity(response):
             return None

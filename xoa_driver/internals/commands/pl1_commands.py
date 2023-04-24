@@ -14,11 +14,14 @@ from xoa_driver.internals.core.transporter.protocol.payload import (
     RequestBodyStruct,
     ResponseBodyStruct,
     XmpByte,
-    XmpHex,
     XmpInt,
     XmpSequence,
     XmpStr,
-    Hex,
+)
+from .enums import (
+    LinkTrainFrameLock,
+    LinkTrainCmdResults,
+    LinkTrainCmd
 )
 
 
@@ -245,17 +248,17 @@ class PL1_LINKTRAININFO:
         """PRBS total error bits (most significant 32-bit, only bit 15-0 should be used)."""
         prbs_total_error_bits_low: int = field(XmpInt(signed=False))
         """PRBS total error bits (least significant 32-bit)."""
-        frame_lock: Hex = field(XmpHex(size=4))
+        frame_lock: LinkTrainFrameLock = field(XmpInt(signed=False))
         """frame lock status of the local end."""
-        remote_frame_lock: Hex = field(XmpHex(size=4))
+        remote_frame_lock: LinkTrainFrameLock = field(XmpInt(signed=False))
         """frame lock status of the remote end."""
         num_frame_errors: int = field(XmpInt(signed=False))
 
         num_overruns: int = field(XmpInt(signed=False))
 
-        num_last_ic_received: int = field(XmpInt(signed=False))
+        last_ic_received: int = field(XmpInt(signed=False))
 
-        num_last_ic_sent: int = field(XmpInt(signed=False))
+        last_ic_sent: int = field(XmpInt(signed=False))
 
     def get(self) -> Token[GetDataAttr]:
         """Get L1 link training information. Information is per Serdes and split into a number of pages.
@@ -286,8 +289,6 @@ class PL1_LOG:
     _connection: 'interfaces.IConnection'
     _module: int
     _port: int
-    _serdes_xindex: int
-    _type: int
 
     class GetDataAttr(ResponseBodyStruct):
         log_string: str = field(XmpStr())
@@ -299,7 +300,7 @@ class PL1_LOG:
         :rtype: PL1_LOG.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
 @register_command
@@ -325,10 +326,10 @@ class PL1_CFG_TMP:
     _type: int
 
     class GetDataAttr(ResponseBodyStruct):
-        value: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        values: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
 
     class SetDataAttr(RequestBodyStruct):
-        value: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        values: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
 
     def get(self) -> Token[GetDataAttr]:
         """Get various L1 parameters
@@ -337,16 +338,16 @@ class PL1_CFG_TMP:
         :rtype: PL1_CFG_TMP.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._type]))
 
-    def set(self, value: int) -> Token[None]:
+    def set(self, values: typing.List[int]) -> Token[None]:
         """Get various L1 parameters
 
         :param value: whether it is on or off
         :type value: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], value=value))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._type], values=values))
 
 
 @register_command
@@ -375,12 +376,12 @@ class PL1_LINKTRAIN_CMD:
 
         arg: int = field(XmpByte())
 
-        result: int = field(XmpByte())
+        result: LinkTrainCmdResults = field(XmpByte())
 
         flags: int = field(XmpByte())
 
     class SetDataAttr(RequestBodyStruct):
-        cmd: int = field(XmpByte())
+        cmd: LinkTrainCmd = field(XmpByte())
 
         arg: int = field(XmpByte())
 
@@ -393,7 +394,7 @@ class PL1_LINKTRAIN_CMD:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex]))
 
-    def set(self, cmd, arg) -> Token[None]:
+    def set(self, cmd: LinkTrainCmd, arg: int) -> Token[None]:
         """Issue a link train command (cmd, arg)
 
         """

@@ -12,7 +12,7 @@ from xoa_driver.internals.commands import (
     C_VERSIONNO_MINOR,
     C_BUILDSTRING,
 )
-from xoa_driver.internals.utils.modules_manager import ModulesManager
+from xoa_driver.internals.utils.managers import modules_manager as mm
 from ._base_tester import BaseTester
 from .genuine import management_interface as mi
 from .genuine.l_23 import (
@@ -29,7 +29,7 @@ from xoa_driver.internals.hli_v1 import revisions
 from xoa_driver.internals import exceptions
 
 
-TypeL23Manager = ModulesManager[
+TypeL23Manager = mm.ModulesManager[
     Union[
         "modules.GenericL23Module",
         "modules.ModuleChimera",
@@ -148,7 +148,7 @@ class L23Tester(BaseTester["testers_state.GenuineTesterLocalState"]):
         :type: C_BUILDSTRING
         """
 
-        self.modules: TypeL23Manager = ModulesManager(self._conn, get_module_type)
+        self.modules: TypeL23Manager = mm.ModulesManager(self._conn, get_module_type)
         """
         Module Index Manager of the L23 tester.
 

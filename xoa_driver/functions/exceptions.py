@@ -3,6 +3,7 @@ from __future__ import annotations
 from xoa_driver.ports import GenericAnyPort
 from xoa_driver.modules import GenericAnyModule
 
+
 class ConfigError(Exception):
     msg: str
 
@@ -10,18 +11,6 @@ class ConfigError(Exception):
 class NotConnectedError(ConfigError):
     def __init__(self) -> None:
         self.msg = "No tester is connected!"
-        super().__init__(self.msg)
-
-
-class NoSuchModuleError(ConfigError):
-    def __init__(self, module_id: int) -> None:
-        self.msg = f"No such module {module_id}!"
-        super().__init__(self.msg)
-
-
-class NoSuchPortError(ConfigError):
-    def __init__(self, port_id: int) -> None:
-        self.msg = f"No such port {port_id}!"
         super().__init__(self.msg)
 
 
@@ -63,7 +52,7 @@ class NotSupportMedia(ConfigError):
         module_id = module.module_id
         self.msg = f"This module {module_id} does not support the media configuration!"
 
-    
+
 class NotSupportPortSpeed(ConfigError):
     def __init__(self, module: GenericAnyModule) -> None:
         module_id = module.module_id

@@ -46,11 +46,11 @@ TYPES_FIXED = (
     XmpLong,
     XmpByte,
     XmpShort,
-    XmpHex,
     XmpIPv4Address,
     XmpIPv6Address,
     XmpMacAddress,
 )
+TYPES_COMBI = (XmpHex,)
 TYPES_DYNAMIC = (XmpStr,)
 TYPES_COMPOSED = (XmpSequence,)
 
@@ -138,7 +138,7 @@ class StrSpec(FieldSpecs):
         return _build_format(self.xmp_type.data_format, bsize)
 
     def calc_bsize(self, buff: memoryview | None = None, left_offset: int = 0) -> int | None:
-        if buff is None or left_offset is None:
+        if buff is None:
             return None
         in_memory_slice = buff[left_offset:]
         current_size = next(
@@ -159,8 +159,40 @@ class StrSpec(FieldSpecs):
     def pack(self, format: str, val: bytes) -> bytes:
         return val
 
-    # def unpack(self, format: str, buffer: memoryview, offset: int) -> bytes:
-    #     return next(iter(struct.unpack_from(format, buffer, offset)), b"")
+
+class HexSpec(FieldSpecs):
+    xmp_type: XmpHex
+
+    def __init__(
+        self,
+        xmp_type: XmpHex,
+        min_version: int | None = None,
+        max_version: int | None = None,
+        deprecated: bool = False,
+        deprecation_reason: str | None = None,
+    ) -> None:
+        super().__init__(xmp_type, min_version, max_version, deprecated, deprecation_reason)
+
+    @property
+    def is_dynamic(self) -> bool:
+        return self.xmp_type.repetitions is None
+
+    def format(self, bsize: int | None = None) -> str:
+        return _build_format(self.xmp_type.data_format, bsize)
+
+    def calc_bsize(self, buff: memoryview | None = None, left_offset: int = 0) -> int | None:
+        if self.is_dynamic:
+            if buff is None:
+                return None
+            return len(buff[left_offset:])
+        return self.xmp_type.repetitions
+
+    def pack(self, format: str, val: Any) -> bytes:
+        return val
+
+    def unpack(self, format: str, buffer: memoryview, offset: int) -> Any:
+        print(self.is_dynamic, format, buffer.tobytes(), offset, self.xmp_type.repetitions, self.calc_bsize())
+        return next(iter(struct.unpack_from(format, buffer, offset)), b"")
 
 
 def _prepare_client_chunks(client_type: Type[Any], xmp_types_chunks: tuple) -> Callable[[Any], List[Tuple[Any, ...]]]:
@@ -198,8 +230,6 @@ class SequenceSpec(FieldSpecs):
         deprecation_reason: str | None = None,
     ) -> None:
         super().__init__(xmp_type, min_version, max_version, deprecated, deprecation_reason)
-        # self.format = f"{FMT_ORDER_NETWORK}{xmp_type.data_format}"
-        # self.bsize = struct.calcsize(self.format) * (xmp_type.length or 1)
 
     @property
     def is_dynamic(self) -> bool:
@@ -246,16 +276,22 @@ def field(
     deprecation_reason: str | None = None
 ) -> Any:
     """Method used for describe field parameters of an XMP packet structure"""
+
     if isinstance(xmp_type, TYPES_COMPOSED):
-        return SequenceSpec(xmp_type=xmp_type,)
+        specs_type = SequenceSpec
     elif isinstance(xmp_type, TYPES_DYNAMIC):
-        return StrSpec(xmp_type=xmp_type,)
+        specs_type = StrSpec
     elif isinstance(xmp_type, TYPES_FIXED):
-        return FieldSpecs(
-            xmp_type=xmp_type,
-            min_version=min_version,
-            max_version=max_version,
-            deprecated=deprecated,
-            deprecation_reason=deprecation_reason,
-        )
-    return None
+        specs_type = FieldSpecs
+    elif isinstance(xmp_type, TYPES_COMBI):
+        specs_type = HexSpec
+    else:
+        return None
+
+    return specs_type(
+        xmp_type=xmp_type,  # type: ignore[The type of xmp_type is already validated]
+        min_version=min_version,
+        max_version=max_version,
+        deprecated=deprecated,
+        deprecation_reason=deprecation_reason,
+    )

@@ -18,7 +18,6 @@ from xoa_driver.internals.commands import (
     M_MEDIASUPPORT,
     M_FPGAREIMAGE,
     M_MULTIUSER,
-    M_CFPCONFIGEXT,
     M_CLOCKPPB,
     M_SMAINPUT,
     M_SMAOUTPUT,
@@ -35,7 +34,7 @@ if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
 
 from xoa_driver.internals.utils import attributes as utils
-from xoa_driver.internals.utils import ports_manager as pm
+from xoa_driver.internals.utils.managers import ports_manager as pm
 from xoa_driver.internals.state_storage import modules_state
 
 from .. import base_module as bm
@@ -44,6 +43,7 @@ from .. import __interfaces as m_itf
 
 class TXClock:
     """Advanced timing clock"""
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.source = M_TXCLOCKSOURCE_NEW(conn, module_id)
         """The source that drives the TX clock rate of the ports on the test module.
@@ -66,6 +66,7 @@ class TXClock:
 
 class SMA:
     """SMA connector"""
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.input = M_SMAINPUT(conn, module_id)
         """SMA input of the test module.
@@ -88,6 +89,7 @@ class SMA:
 
 class AdvancedTiming:
     """Advanced Timing config and control"""
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.clock_tx = TXClock(conn, module_id)
         """Advanced timing clock config and status
@@ -104,6 +106,7 @@ class AdvancedTiming:
 
 class CFP:
     """Test module CFP"""
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.type = M_CFPTYPE(conn, module_id)
         """The transceiver's CFP type currently inserted.
@@ -143,6 +146,7 @@ class MTiming:
 
 class MUpgrade:
     """Test module upgrade"""
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.start = M_UPGRADE(conn, module_id)
         """Start the upgrade progress of the test module.
@@ -168,6 +172,7 @@ class ModuleL23(bm.BaseModule["modules_state.ModuleL23LocalState"]):
     This is a conceptual class of L23 test module on a Valkyrie tester.
 
     """
+
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
 

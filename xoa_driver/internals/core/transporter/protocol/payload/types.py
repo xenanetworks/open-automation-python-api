@@ -83,7 +83,11 @@ class XmpLong(XmpType[int]):
 class XmpHex(XmpType[Hex]):
     """Description class of XMP Hex type representation"""
 
-    def __init__(self, *, size: int = 1) -> None:
+    def __init__(self, *, size: int | None = None) -> None:
+        """
+        if size is None means Hex string are not having a limit
+        otherwise will use fixed size
+        """
         self.data_format = FMT_BYTES_STRING
         self.repetitions = size
 
