@@ -58,17 +58,17 @@ class FEthernet:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int, filter_type: FilterType) -> None:
         self.settings = prevent_set(PEF_ETHSETTINGS(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """Filter action on Ethernet field.
-        
+
         :type: PEF_ETHSETTINGS
         """
         self.src_address = prevent_set(PEF_ETHSRCADDR(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """Ethernet source address settings for the filter.
-        
+
         :type: PEF_ETHSRCADDR
         """
         self.dest_address = prevent_set(PEF_ETHDESTADDR(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """Ethernet destination address settings for the filter.
-        
+
         :type: PEF_ETHDESTADDR
         """
 
@@ -78,12 +78,12 @@ class FPerVlanType:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int, filter_type: FilterType, vlan_type: FilterVlanType) -> None:
         self.tag = prevent_set(PEF_VLANTAG(conn, module_id, port_id, flow_index, filter_type, vlan_type), filter_type)
         """VLAN tag setting for the filter.
-        
+
         :type: PEF_VLANTAG
         """
         self.pcp = prevent_set(PEF_VLANPCP(conn, module_id, port_id, flow_index, filter_type, vlan_type), filter_type)
         """VLAN PCP setting for the filter.
-        
+
         :type: PEF_VLANPCP
         """
 
@@ -93,7 +93,7 @@ class FVlan:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int, filter_type: FilterType) -> None:
         self.settings = prevent_set(PEF_VLANSETTINGS(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """Filter action on VLAN field.
-        
+
         :type: PEF_VLANSETTINGS
         """
 
@@ -109,17 +109,17 @@ class FUdp:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int, filter_type: FilterType) -> None:
         self.settings = prevent_set(PEF_UDPSETTINGS(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """Filter action on UDP field.
-        
+
         :type: PEF_UDPSETTINGS
         """
         self.src_port = prevent_set(PEF_UDPSRCPORT(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """UDP source port settings for the filter.
-        
+
         :type: PEF_UDPSRCPORT
         """
         self.dest_port = prevent_set(PEF_UDPDESTPORT(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """UDP destination port settings for the filter.
-        
+
         :type: PEF_UDPDESTPORT
         """
 
@@ -129,17 +129,17 @@ class FTcp:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int, filter_type: FilterType) -> None:
         self.settings = prevent_set(PEF_TCPSETTINGS(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """Filter action on TCP field.
-        
+
         :type: PEF_TCPSETTINGS
         """
         self.src_port = prevent_set(PEF_TCPSRCPORT(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """TCP source port settings for the filter.
-        
+
         :type: PEF_TCPSRCPORT
         """
         self.dest_port = prevent_set(PEF_TCPDESTPORT(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """TCP destination port settings for the filter.
-        
+
         :type: PEF_TCPDESTPORT
         """
 
@@ -149,22 +149,22 @@ class FIPv4:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int, filter_type: FilterType) -> None:
         self.settings = prevent_set(PEF_IPV4SETTINGS(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """Filter action on IPv4 field.
-        
+
         :type: PEF_IPV4SETTINGS
         """
         self.src_address = prevent_set(PEF_IPV4SRCADDR(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """IPv4 source address settings for the filter.
-        
+
         :type: PEF_IPV4SRCADDR
         """
         self.dest_address = prevent_set(PEF_IPV4DESTADDR(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """IPv4 destination address settings for the filter.
-        
+
         :type: PEF_IPV4DESTADDR
         """
         self.dscp = prevent_set(PEF_IPV4DSCP(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """IPv4 DSCP/TOS settings for the filter.
-        
+
         :type: PEF_IPV4DSCP
         """
 
@@ -174,22 +174,22 @@ class FIPv6:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int, filter_type: FilterType) -> None:
         self.settings = prevent_set(PEF_IPV6SETTINGS(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """Filter action on IPv6 field.
-        
+
         :type: PEF_IPV6SETTINGS
         """
         self.src_address = prevent_set(PEF_IPV6SRCADDR(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """IPv6 source address settings for the filter.
-        
+
         :type: PEF_IPV6SRCADDR
         """
         self.dest_address = prevent_set(PEF_IPV6DESTADDR(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """IPv6 destination address settings for the filter.
-        
+
         :type: PEF_IPV6DESTADDR
         """
         self.traffic_class = prevent_set(PEF_IPV6TC(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """IPv6 traffic class settings for the filter.
-        
+
         :type: PEF_IPV6TC
         """
 
@@ -209,17 +209,17 @@ class FMpls:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int, filter_type: FilterType) -> None:
         self.settings = prevent_set(PEF_MPLSSETTINGS(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """Filter action on MPLS field.
-        
+
         :type: PEF_MPLSSETTINGS
         """
         self.label = prevent_set(PEF_MPLSLABEL(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """MPLS label settings for the filter.
-        
+
         :type: PEF_MPLSLABEL
         """
         self.toc = prevent_set(PEF_MPLSTOC(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """"MPLS TOC settings for the filter.
-        
+
         :type: PEF_MPLSTOC
         """
 
@@ -229,7 +229,7 @@ class FTpld:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int, filter_type: FilterType) -> None:
         self.settings = prevent_set(PEF_TPLDSETTINGS(conn, module_id, port_id, flow_index, filter_type))
         """Filter action on Xena TPLD field.
-        
+
         :type: PEF_TPLDSETTINGS
         """
 
@@ -238,7 +238,7 @@ class FTpld:
             for test_payload_filter_index in range(16)  # range need to put to the constants place
         )
         """TPLD filter configurations.
-        
+
         :type: PEF_TPLDCONFIG
         """
 
@@ -248,12 +248,12 @@ class FAny:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int, filter_type: FilterType) -> None:
         self.settings = prevent_set(PEF_ANYSETTINGS(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """Filter action on any field.
-        
+
         :type: PEF_ANYSETTINGS
         """
         self.config = prevent_set(PEF_ANYCONFIG(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """Any field's filter configurations.
-        
+
         :type: PEF_ANYCONFIG
         """
 
@@ -262,59 +262,59 @@ class ModeBasic:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int, filter_type: FilterType) -> None:
         self.l2plus_use = prevent_set(PEF_L2PUSE(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """L2 protocol to use.
-        
+
         :type: PEF_L2PUSE
         """
         self.l3_use = prevent_set(PEF_L3USE(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """L3 protocol to use.
-        
+
         :type: PEF_L3USE
         """
         self.any = FAny(conn, module_id, port_id, flow_index, filter_type)
         """Filter for any field.
-        
+
         :type: FAny
         """
 
         self.tpld = FTpld(conn, module_id, port_id, flow_index, filter_type)
         """Filter for Xena TPLD field.
-        
+
         :type: FTpld
         """
 
         self.mpls = FMpls(conn, module_id, port_id, flow_index, filter_type)
         """Filter for MPLS field.
-        
+
         :type: FMpls
         """
 
         self.ip = FIp(conn, module_id, port_id, flow_index, filter_type)
         """Filter for IP field.
-        
+
         :type: FIp
         """
 
         self.tcp = FTcp(conn, module_id, port_id, flow_index, filter_type)
         """Filter for TCP field.
-        
+
         :type: FTcp
         """
 
         self.udp = FUdp(conn, module_id, port_id, flow_index, filter_type)
         """Filter for UDP field.
-        
+
         :type: FUdp
         """
 
         self.vlan = FVlan(conn, module_id, port_id, flow_index, filter_type)
         """Filter for VLAN field.
-        
+
         :type: FVlan
         """
 
         self.ethernet = FEthernet(conn, module_id, port_id, flow_index, filter_type)
         """Filter for Ethernet field.
-        
+
         :type: FEthernet
         """
 
@@ -325,12 +325,12 @@ class ProtocolSegment:
 
         self.value = prevent_set(PEF_VALUE(conn, module_id, port_id, flow_index, filter_type, protocol_segment_index), filter_type)
         """Value bytes match for the filter.
-        
+
         :type: PEF_VALUE
         """
         self.mask = prevent_set(PEF_MASK(conn, module_id, port_id, flow_index, filter_type, protocol_segment_index), filter_type)
         """Mask byte value.
-        
+
         :type: PEF_MASK
         """
 
@@ -345,7 +345,7 @@ class ModeExtended:
 
         # self.protocol = prevent_set(PEF_PROTOCOL(conn, module_id, port_id, flow_index, filter_type))
         # """Protocol segments match for the filter.
-        # 
+        #
         # :type: PEF_PROTOCOL
         # """
 
@@ -366,7 +366,7 @@ class ModeExtended:
                 self._port_id,
                 self._flow_index,
                 self._filter_type,
-                idx,  # TODO: need to discuss with Leo
+                idx + 1,  # TODO: need to discuss with Leo
                 ProtocolOption(segment_type)
             )
             for idx, segment_type in enumerate(segments_raw)
