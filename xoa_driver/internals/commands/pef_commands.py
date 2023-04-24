@@ -139,7 +139,7 @@ class PEF_ENABLE:
         :rtype: PEF_ENABLE.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, state: OnOff) -> Token[None]:
         """Set the filter state.
@@ -148,7 +148,7 @@ class PEF_ENABLE:
         :type state: OnOff
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], state=state))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], state=state))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """Set the filter state to OFF.
@@ -199,7 +199,7 @@ class PEF_ETHSETTINGS:
         :rtype: PEF_ETHSETTINGS.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: FilterUse, action: InfoAction) -> Token[None]:
         """Set the filter action settings on Ethernet header.
@@ -210,7 +210,7 @@ class PEF_ETHSETTINGS:
         :type action: InfoAction
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], use=use, action=action))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, action=action))
 
 
 @register_command
@@ -257,7 +257,7 @@ class PEF_ETHSRCADDR:
         :rtype: PEF_ETHSRCADDR.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: OnOff, value: str, mask: str) -> Token[None]:
         """Set the Ethernet Source Address settings for the Ethernet filter.
@@ -270,7 +270,7 @@ class PEF_ETHSRCADDR:
         :type mask: str
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], use=use, value=value, mask=mask))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """Ethernet Source Address is not used for the filter."""
@@ -323,7 +323,7 @@ class PEF_ETHDESTADDR:
         :rtype: PEF_ETHDESTADDR.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: OnOff, value: str, mask: str) -> Token[None]:
         """Set the Ethernet Destination Address settings for the Ethernet filter.
@@ -336,7 +336,7 @@ class PEF_ETHDESTADDR:
         :type mask: str
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], use=use, value=value, mask=mask))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """Ethernet Destination Address is not used for the filter."""
@@ -381,7 +381,7 @@ class PEF_L2PUSE:
         :rtype: PEF_L2PUSE.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: L2PlusPresent) -> Token[None]:
         """Set the Layer 2+ protocols settings for the filter.
@@ -390,7 +390,7 @@ class PEF_L2PUSE:
         :type use: L2PlusPresent
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], use=use))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use))
 
     set_na = functools.partialmethod(set, L2PlusPresent.NA)
     """Set the presence of Layer 2+ protocols to NA."""
@@ -445,7 +445,7 @@ class PEF_VLANSETTINGS:
         :rtype: PEF_VLANSETTINGS.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: FilterUse, action: InfoAction) -> Token[None]:
         """Set filter action settings on VLAN header.
@@ -456,7 +456,7 @@ class PEF_VLANSETTINGS:
         :type action: InfoAction
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], use=use, action=action))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, action=action))
 
 
 @register_command
@@ -504,7 +504,7 @@ class PEF_VLANTAG:
         :rtype: PEF_VLANTAG.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: OnOff, value: int, mask: str) -> Token[None]:
         """Set the VLAN TAG settings for the VLAN filter.
@@ -517,7 +517,7 @@ class PEF_VLANTAG:
         :type mask: str
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], use=use, value=value, mask=mask))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """VLAN TAG is not used for the filter."""
@@ -571,7 +571,7 @@ class PEF_VLANPCP:
         :rtype: PEF_VLANPCP.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: OnOff, value: int, mask: str) -> Token[None]:
         """Set the VLAN PCP settings for the VLAN filter.
@@ -584,7 +584,7 @@ class PEF_VLANPCP:
         :type mask: str
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], use=use, value=value, mask=mask))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """VLAN PCP is not used for the filter."""
@@ -628,7 +628,7 @@ class PEF_MPLSSETTINGS:
         :rtype: PEF_MPLSSETTINGS.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: FilterUse, action: InfoAction) -> Token[None]:
         """Set the filter action settings on the MPLS header.
@@ -639,7 +639,7 @@ class PEF_MPLSSETTINGS:
         :type action: InfoAction
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], use=use, action=action))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, action=action))
 
 
 @register_command
@@ -686,7 +686,7 @@ class PEF_MPLSLABEL:
         :rtype: PEF_MPLSLABEL.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: OnOff, value: int, mask: str) -> Token[None]:
         """Set the MPLS label settings for the filter.
@@ -699,7 +699,7 @@ class PEF_MPLSLABEL:
         :type mask: str
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], use=use, value=value, mask=mask))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """The MPLS label is not used by the filter"""
@@ -752,7 +752,7 @@ class PEF_MPLSTOC:
         :rtype: PEF_MPLSTOC.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: OnOff, value: int, mask: str) -> Token[None]:
         """Set the MPLS TOC settings for the filter.
@@ -765,7 +765,7 @@ class PEF_MPLSTOC:
         :type mask: str
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], use=use, value=value, mask=mask))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """The MPLS TOC is not used by the filter."""
@@ -811,7 +811,7 @@ class PEF_L3USE:
         :rtype: PEF_L3USE.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: L3PlusPresent) -> Token[None]:
         """Set Layer 3 protocols settings for the filter.
@@ -820,7 +820,7 @@ class PEF_L3USE:
         :type use: L3PlusPresent
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], use=use))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use))
 
     set_na = functools.partialmethod(set, L3PlusPresent.NA)
     """Set Layer 3 protocol presence to NA."""
@@ -872,7 +872,7 @@ class PEF_IPV4SETTINGS:
         :rtype: PEF_IPV4SETTINGS.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: FilterUse, action: InfoAction) -> Token[None]:
         """Set the filter action settings on IPv4 header.
@@ -883,7 +883,7 @@ class PEF_IPV4SETTINGS:
         :type action: InfoAction
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], use=use, action=action))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, action=action))
 
 
 @register_command
@@ -930,7 +930,7 @@ class PEF_IPV4SRCADDR:
         :rtype: PEF_IPV4SRCADDR.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: OnOff, value: ipaddress.IPv4Address, mask: str) -> Token[None]:
         """Set the IPv4 Source Address settings for the IPv4 filter.
@@ -943,7 +943,7 @@ class PEF_IPV4SRCADDR:
         :type mask: str
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], use=use, value=value, mask=mask))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """IPv4 Source Address is not used by the filter."""
@@ -996,7 +996,7 @@ class PEF_IPV4DESTADDR:
         :rtype: PEF_IPV4DESTADDR.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: OnOff, value: ipaddress.IPv4Address, mask: str) -> Token[None]:
         """Set the IPv4 Destination Address settings for the IPv4 filter.
@@ -1009,7 +1009,7 @@ class PEF_IPV4DESTADDR:
         :type mask: str
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], use=use, value=value, mask=mask))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """IPv4 Destination Address is not used by the filter."""
@@ -1062,7 +1062,7 @@ class PEF_IPV4DSCP:
         :rtype: PEF_IPV4DSCP.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: OnOff, value: int, mask: str) -> Token[None]:
         """Set IPv4 DSCP/TOS settings for the filter.
@@ -1075,7 +1075,7 @@ class PEF_IPV4DSCP:
         :type mask: str
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], use=use, value=value, mask=mask))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """IPv4 DSCP/TOS is not used in the filter."""
@@ -1124,7 +1124,7 @@ class PEF_IPV6SETTINGS:
         :rtype: PEF_IPV6SETTINGS.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: FilterUse, action: InfoAction) -> Token[None]:
         """Set filter action settings on the IPv6 header.
@@ -1135,7 +1135,7 @@ class PEF_IPV6SETTINGS:
         :type action: InfoAction
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], use=use, action=action))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, action=action))
 
 
 @register_command
@@ -1182,7 +1182,7 @@ class PEF_IPV6SRCADDR:
         :rtype: PEF_IPV6SRCADDR.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: OnOff, value: str, mask: str) -> Token[None]:
         """Set the IPv6 Source Address settings for the IPv6 filter.
@@ -1195,7 +1195,7 @@ class PEF_IPV6SRCADDR:
         :type mask: str
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], use=use, value=value, mask=mask))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """IPv6 Source Address is not used in the filter."""
@@ -1248,7 +1248,7 @@ class PEF_IPV6DESTADDR:
         :rtype: PEF_IPV6DESTADDR.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: OnOff, value: str, mask: str) -> Token[None]:
         """Set the IPv6 Destination Address settings for the IPv6 filter.
@@ -1261,7 +1261,7 @@ class PEF_IPV6DESTADDR:
         :type mask: str
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], use=use, value=value, mask=mask))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """IPv6 Destination Address is not used in the filter."""
@@ -1314,7 +1314,7 @@ class PEF_IPV6TC:
         :rtype: PEF_IPV6TC.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: OnOff, value: int, mask: str) -> Token[None]:
         """Set IPv6 Traffic Class settings used for the filter.
@@ -1327,7 +1327,7 @@ class PEF_IPV6TC:
         :type mask: str
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], use=use, value=value, mask=mask))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """IPv6 Traffic Class is not used in the filter."""
@@ -1376,7 +1376,7 @@ class PEF_UDPSETTINGS:
         :rtype: PEF_UDPSETTINGS.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: FilterUse, action: InfoAction) -> Token[None]:
         """Set filter settings on the UDP header.
@@ -1387,7 +1387,7 @@ class PEF_UDPSETTINGS:
         :type action: InfoAction
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], use=use, action=action))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, action=action))
 
 
 @register_command
@@ -1434,7 +1434,7 @@ class PEF_UDPSRCPORT:
         :rtype: PEF_UDPSRCPORT.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: OnOff, value: int, mask: str) -> Token[None]:
         """Set UDP Source Port settings used for the filter.
@@ -1447,7 +1447,7 @@ class PEF_UDPSRCPORT:
         :type mask: str
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], use=use, value=value, mask=mask))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """UDP Source Port is not used in the filter."""
@@ -1499,7 +1499,7 @@ class PEF_UDPDESTPORT:
         :rtype: PEF_UDPDESTPORT.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: OnOff, value: int, mask: str) -> Token[None]:
         """Set UDP Destination Port settings used for the filter.
@@ -1512,7 +1512,7 @@ class PEF_UDPDESTPORT:
         :type mask: str
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], use=use, value=value, mask=mask))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """UDP Destination Port is not used in the filter."""
@@ -1562,7 +1562,7 @@ class PEF_TCPSETTINGS:
         :rtype: PEF_TCPSETTINGS.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: FilterUse, action: InfoAction) -> Token[None]:
         """Set filter action settings on the TCP header.
@@ -1573,7 +1573,7 @@ class PEF_TCPSETTINGS:
         :type action: InfoAction
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], use=use, action=action))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, action=action))
 
 
 @register_command
@@ -1620,7 +1620,7 @@ class PEF_TCPSRCPORT:
         :rtype: PEF_TCPSRCPORT.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: OnOff, value: int, mask: str) -> Token[None]:
         """Set TCP Source Port settings used for the filter.
@@ -1633,7 +1633,7 @@ class PEF_TCPSRCPORT:
         :type mask: str
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], use=use, value=value, mask=mask))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """TCP Source Port is not used in the filter."""
@@ -1686,7 +1686,7 @@ class PEF_TCPDESTPORT:
         :rtype: PEF_TCPDESTPORT.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: OnOff, value: int, mask: str) -> Token[None]:
         """Set TCP Destination Port settings used for the filter.
@@ -1699,7 +1699,7 @@ class PEF_TCPDESTPORT:
         :type mask: str
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], use=use, value=value, mask=mask))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """TCP Destination Port is not used in the filter."""
@@ -1748,7 +1748,7 @@ class PEF_ANYSETTINGS:
         :rtype: PEF_ANYSETTINGS.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, use: FilterUse, action: InfoAction) -> Token[None]:
         """Set the settings of filtering state on ANY field in a packet.
@@ -1759,7 +1759,7 @@ class PEF_ANYSETTINGS:
         :type action: InfoAction
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], use=use, action=action))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, action=action))
 
 
 @register_command
@@ -1791,7 +1791,7 @@ class PEF_ANYCONFIG:
         """byte, specifies the start position of the ANY field. Default value: 0, Range:0-127"""
         value: Hex = field(XmpHex(size=6))
         """6 hex bytes, specifying the six bytes of the field. Default value: 0x000000000000"""
-        mask: Hex = field(XmpHex(size=8))
+        mask: Hex = field(XmpHex(size=6))
         """6 hex bytes, specifying the six bytes of the field. Default value: 0xFFFFFFFFFFFF"""
 
     class SetDataAttr(RequestBodyStruct):
@@ -1809,7 +1809,7 @@ class PEF_ANYCONFIG:
         :rtype: PEF_ANYCONFIG.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, position: int, value: str, mask: str) -> Token[None]:
         """Set the ANY field filter configuration
@@ -1822,7 +1822,7 @@ class PEF_ANYCONFIG:
         :type mask: str
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], position=position, value=value, mask=mask))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], position=position, value=value, mask=mask))
 
 
 @register_command
@@ -1850,14 +1850,10 @@ class PEF_TPLDSETTINGS:
     _filter_type: FilterType
 
     class GetDataAttr(ResponseBodyStruct):
-        # use: FilterUse = field(XmpByte())
-        # """coded byte, specifies the use of TPLD information.information."""
         action: InfoAction = field(XmpByte())
         """coded byte, specifies the action of TPLD information."""
 
     class SetDataAttr(RequestBodyStruct):
-        # use: FilterUse = field(XmpByte())
-        # """coded byte, specifies the use of TPLD information."""
         action: InfoAction = field(XmpByte())
         """coded byte, specifies the action of TPLD information."""
 
@@ -1868,18 +1864,16 @@ class PEF_TPLDSETTINGS:
         :rtype: PEF_TPLDSETTINGS.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
-    def set(self, use: FilterUse, action: InfoAction) -> Token[None]:
+    def set(self, action: InfoAction) -> Token[None]:
         """Set the settings of filtering on TPLD field in a packet.
 
-        :param use: specifies the use of TPLD information.
-        :type use: FilterUse
         :param action: specifies the action of TPLD information.
         :type action: InfoAction
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], use=use, action=action))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], action=action))
 
 
 @register_command
@@ -1923,7 +1917,7 @@ class PEF_TPLDCONFIG:
         :rtype: PEF_TPLDCONFIG.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type, self._test_payload_filter_index]))
 
     def set(self, use: OnOff, id: int) -> Token[None]:
         """Set the TPLD filter configuration.
@@ -1934,7 +1928,7 @@ class PEF_TPLDCONFIG:
         :type id: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], use=use, id=id))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type, self._test_payload_filter_index], use=use, id=id))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """The TPLD information is not used."""
@@ -2045,7 +2039,7 @@ class PEF_VALUE:
         :rtype: PEF_VALUE.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, value: str) -> Token[None]:
         """Set the byte values that can be matched if selected by PEF_MASK.
@@ -2054,7 +2048,7 @@ class PEF_VALUE:
         :type value: str
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], value=value))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], value=value))
 
 
 @register_command
@@ -2106,7 +2100,7 @@ class PEF_MASK:
         :rtype: PEF_MASK.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, masks: str) -> Token[None]:
         """Set the mask byte values that select the values specified by PEF_VALUE`.
@@ -2115,7 +2109,7 @@ class PEF_MASK:
         :type masks: str
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], masks=masks))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], masks=masks))
 
 
 @register_command
@@ -2162,7 +2156,7 @@ class PEF_PROTOCOL:
         :rtype: PEF_PROTOCOL.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, segment_list: typing.List[ProtocolOption]) -> Token[None]:
         """Set the sequence of protocol segments that can be matched.
@@ -2172,7 +2166,7 @@ class PEF_PROTOCOL:
         :type segment_list: typing.List[ProtocolOption]
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], segment_list=segment_list))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], segment_list=segment_list))
 
 
 @register_command
@@ -2204,7 +2198,7 @@ class PEF_MODE:
         :rtype: PEF_MODE.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, mode: FilterMode) -> Token[None]:
         """Set the filter mode.
@@ -2213,7 +2207,7 @@ class PEF_MODE:
         :type sid: FlowMode
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex], mode=mode))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], mode=mode))
 
     set_basic = functools.partialmethod(set, FilterMode.BASIC)
     """Set the filter mode to Basic."""
