@@ -1756,12 +1756,10 @@ class PEF_TPLDSETTINGS:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)  # coded byte, specifies the use of TPLD information.
         action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)  # coded byte, specifies the action of TPLD information.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)  # coded byte, specifies the use of TPLD information.information.
         action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)  # coded byte, specifies the action of TPLD information.
 
     def get(self) -> "Token[GetDataAttr]":
@@ -1772,7 +1770,7 @@ class PEF_TPLDSETTINGS:
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
-    def set(self, use: FilterUse, action: InfoAction) -> "Token":
+    def set(self, action: InfoAction) -> "Token":
         """Set the settings of filtering on TPLD field in a packet.
 
         :param use: specifies the use of TPLD information.
@@ -1780,7 +1778,7 @@ class PEF_TPLDSETTINGS:
         :param action: specifies the action of TPLD information.
         :type action: InfoAction
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, action=action))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], action=action))
 
 
 @register_command
