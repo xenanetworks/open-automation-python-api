@@ -73,12 +73,12 @@ class DoAnlt:
             timeout_mode=timeout_mode,
         )
 
-    def __pl1_cfg_tmp(
-        self, serdes: int, config_type: int, values: list[int]
-    ) -> Token:
-        return commands.PL1_CFG_TMP(*self._group, serdes, config_type).set(
-            values=values
-        )
+    def __pl1_cfg_tmp(self, serdes: int, config_type: enums.Layer1ConfigType, values: list[int]) -> Token:
+        return commands.PL1_CFG_TMP(
+            *self._group,
+            serdes,
+            config_type
+        ).set(values=values)
 
     def __select_modes(self) -> tuple[enums.LinkTrainingMode, enums.TimeoutMode]:
         if self.should_do_an:
@@ -232,9 +232,7 @@ async def __lt_coeff(
     return enums.LinkTrainCmdResults.UNKNOWN
 
 
-async def lt_coeff_inc(
-    port: GenericL23Port, serdes: int, emphasis: enums.LinkTrainCoeffs
-) -> enums.LinkTrainCmdResults:
+async def lt_coeff_inc(port: GenericL23Port, serdes: int, emphasis: enums.LinkTrainCoeffs) -> enums.LinkTrainCmdResults:
     """
     .. versionadded:: 1.1
 
@@ -252,9 +250,7 @@ async def lt_coeff_inc(
     return await __lt_coeff(port, serdes, emphasis, cmd=enums.LinkTrainCmd.CMD_INC)
 
 
-async def lt_coeff_dec(
-    port: GenericL23Port, serdes: int, emphasis: enums.LinkTrainCoeffs
-) -> enums.LinkTrainCmdResults:
+async def lt_coeff_dec(port: GenericL23Port, serdes: int, emphasis: enums.LinkTrainCoeffs) -> enums.LinkTrainCmdResults:
     """
     .. versionadded:: 1.1
 
@@ -272,9 +268,7 @@ async def lt_coeff_dec(
     return await __lt_coeff(port, serdes, emphasis, cmd=enums.LinkTrainCmd.CMD_DEC)
 
 
-async def lt_preset(
-    port: GenericL23Port, serdes: int, preset: enums.LinkTrainPresets
-) -> enums.LinkTrainCmdResults:
+async def lt_preset(port: GenericL23Port, serdes: int, preset: enums.LinkTrainPresets) -> enums.LinkTrainCmdResults:
     """
     .. versionadded:: 1.1
 
@@ -516,10 +510,7 @@ async def anlt_stop(port: GenericL23Port) -> None:
     await anlt.run()
 
 
-async def txtap_autotune(
-    port: GenericL23Port,
-    serdes: int,
-) -> None:
+async def txtap_autotune(port: GenericL23Port, serdes: int) -> None:
     """
     .. versionadded:: 1.3
 

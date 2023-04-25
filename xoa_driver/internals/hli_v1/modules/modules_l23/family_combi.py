@@ -54,7 +54,7 @@ class MOdin10G4S2PCombi(ModuleL23):
             ports_count=self.ports_count
         )
         """Port Index Manager of Odin-10G-4S-2P-Combi
-        
+
         :type: PortsCombiManager
         """
 

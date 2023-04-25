@@ -150,6 +150,7 @@ from .internals.commands.enums import (
     UpdateState,
     WhoClose,
     YesNo,
+    Layer1ConfigType
 )
 
 __all__ = (
@@ -302,4 +303,5 @@ __all__ = (
     "UpdateState",
     "WhoClose",
     "YesNo",
+    "Layer1ConfigType",
 )

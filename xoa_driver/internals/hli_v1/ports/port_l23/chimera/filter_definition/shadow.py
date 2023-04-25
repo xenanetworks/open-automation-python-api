@@ -46,22 +46,22 @@ class FilterDefinitionShadow:
 
         self.initiating = PEF_INIT(conn, module_id, port_id, flow_index)
         """Preparing filter definition.
-        
+
         :type: PEF_INIT
         """
         self.apply = PEF_APPLY(conn, module_id, port_id, flow_index)
         """Apply filter definition.
-        
+
         :type: PEF_APPLY
         """
         self.enable = PEF_ENABLE(conn, module_id, port_id, flow_index, self._filter_type)
         """Enabling the filter.
-        
+
         :type: PEF_ENABLE
         """
         # self.mode = PEF_MODE(conn, module_id, port_id, flow_index, self._filter_type)
         # """Filter mode.
-        # 
+        #
         # :type: PEF_MODE`
         # """
 

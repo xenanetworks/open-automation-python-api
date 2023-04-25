@@ -53,7 +53,7 @@ class TXClock:
 
         self.status = M_TXCLOCKSTATUS_NEW(conn, module_id)
         """TX clock status of the test module.
-        
+
         :type: M_TXCLOCKSTATUS_NEW
         """
 
@@ -133,7 +133,7 @@ class MTiming:
 
         self.clock_local_adjust = M_CLOCKPPB(conn, module_id)
         """Time adjustment controlling of the local clock of the test module, which drives the TX rate of the test ports.
-        
+
         :type: M_CLOCKPPB
         """
 
@@ -228,19 +228,19 @@ class ModuleL23(bm.BaseModule["modules_state.ModuleL23LocalState"]):
 
         self.timing = MTiming(conn, self.module_id)
         """Test module's timing configuration.
-        
+
         :type: MTiming
         """
 
         self.advanced_timing = AdvancedTiming(conn, self.module_id)
         """Test module's advanced timing configuration.
-        
+
         :type: AdvancedTiming
         """
 
         self.cfp = CFP(conn, self.module_id)
         """Test module's CFP configuration.
-        
+
         :type: CFP
         """
 
@@ -252,7 +252,7 @@ class ModuleL23(bm.BaseModule["modules_state.ModuleL23LocalState"]):
 
         self.ports: Optional[pm.PortsManager] = None
         """L23 Port Index Manager of the test module.
-        
+
         :type: PortsManager
         """
 

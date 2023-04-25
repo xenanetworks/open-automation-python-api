@@ -22,7 +22,7 @@ def main():
         url="https://github.com/xenanetworks/open-automation-python-api",
         packages=setuptools.find_packages(),
         license='Apache 2.0',
-        install_requires=["typing_extensions", "loguru"],
+        install_requires=["typing_extensions"],  # we are not able to skip of using typing_extensions, for make code compatible with python 3.8
         classifiers=[
             "Development Status :: 4 - Beta",
             "Intended Audience :: Developers",
