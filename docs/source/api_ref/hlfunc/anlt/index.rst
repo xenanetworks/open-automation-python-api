@@ -21,6 +21,10 @@ HL ANLT Functions
 
 .. autofunction:: anlt_log
 
+.. autofunction:: anlt_strict
+
+.. autofunction:: anlt_log_control
+
 
 HL Auto-Negotiation Functions
 ------------------------------
