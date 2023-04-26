@@ -13,8 +13,12 @@ def get_ctx(port: GenericAnyPort) -> tuple["itf.IConnection", int, int]:
 def dictionize_autoneg_status(
     loopback: commands.PL1_CFG_TMP.GetDataAttr,
     auto_neg_info: commands.PL1_AUTONEGINFO.GetDataAttr,
+    status: commands.PP_AUTONEGSTATUS.GetDataAttr,
 ) -> dict:
+    is_enabled = True if status.mode == enums.AutoNegMode.ANEG_ON else False
     return {
+        
+        "is_enabled": is_enabled,
         "loopback": "allowed" if loopback.values[0] else "not allowed",
         "duration": auto_neg_info.duration_us,
         "successes": auto_neg_info.negotiation_success_count,
