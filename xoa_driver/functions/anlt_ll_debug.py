@@ -234,9 +234,9 @@ async def px_get(
     resp = await port.transceiver.access_rw(page_address, register_address).get()
 
     if resp.value.lower().find("dead") != -1:
-        return (True, resp.value)
-    else:
         return (False, resp.value)
+    else:
+        return (True, resp.value)
     
 async def px_set(
     port: GenericL23Port,
