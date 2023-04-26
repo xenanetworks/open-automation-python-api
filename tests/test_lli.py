@@ -18,21 +18,14 @@ from xoa_driver.lli import establish_connection  # noqa: E402
 from xoa_driver.lli import commands  # noqa: E402
 from xoa_driver.lli import TransportationHandler  # noqa: E402
 from xoa_driver.utils import apply, apply_iter  # noqa: E402
-from xoa_driver.internals.core.transporter.protocol.payload import ResponseBodyStruct, field, XmpSequence, XmpByte
+
 # TODO: <GET> response contain more fields then driver can parse
 # TODO: <GET> response contains less fields then driver can parse
 # TODO: <SET> request require more fields then server expecting
 # TODO: <SET> request require less fields then server expects
 
 
-async def test_command() -> None:
-    data = b'\x00\x02\x00\x06\x00\x06\x00\x06'
-
-    class GetDataAttr(ResponseBodyStruct):
-        port_counts: List[int] = field(XmpSequence(types_chunk=[XmpByte()]))
-
-    obj = GetDataAttr(data)
-    print(obj)
+MULTIPLIER = 10_000
 
 
 async def test_lli() -> None:
@@ -41,9 +34,9 @@ async def test_lli() -> None:
     #     level=logging.DEBUG
     # )
     # logger_ = logging.getLogger(__file__)
-    ctx = TransportationHandler(enable_logging=True,)
-    await establish_connection(ctx, "192.168.1.198")
-    MULTIPLIER = 1_000_000
+    ctx = TransportationHandler()
+    await establish_connection(ctx, "demo.xenanetworks.com")
+
     # # print("Is connected", ctx.is_connected)
     # with cProfile.Profile() as pr:
     *_, cc, mc, pc = await apply(
@@ -56,23 +49,23 @@ async def test_lli() -> None:
         # commands.P_CAPABILITIES(ctx, 1, 1).get(),
         # commands.P_ARPRXTABLE(ctx, 3, 1).get()
     )
-        # print(repr(pc))
-        # a = await commands.C_INDICES(ctx).get()
-        # print((await commands.C_STATSESSION(ctx, a.session_ids[-1]).get()).to_bytes())
-        # port_counts = (await commands.C_PORTCOUNTS(ctx).get()).port_counts
+    # print(repr(pc))
+    # a = await commands.C_INDICES(ctx).get()
+    # print((await commands.C_STATSESSION(ctx, a.session_ids[-1]).get()).to_bytes())
+    # port_counts = (await commands.C_PORTCOUNTS(ctx).get()).port_counts
 
-        # indices = (
-        #     slot_id
-        #     for slot_id, p_count in enumerate(port_counts)
-        #     if p_count > 0
-        # )
-        # for mid in indices:
-        #     r = await commands.M_REVISION(ctx, mid).get()
-        #     print(
-        #         r.revision, 
-        #         r.to_bytes(), 
-        #         r.nbytes(),
-        #     )
+    # indices = (
+    #     slot_id
+    #     for slot_id, p_count in enumerate(port_counts)
+    #     if p_count > 0
+    # )
+    # for mid in indices:
+    #     r = await commands.M_REVISION(ctx, mid).get()
+    #     print(
+    #         r.revision,
+    #         r.to_bytes(),
+    #         r.nbytes(),
+    #     )
     tasks = (commands.P_CAPABILITIES(ctx, 1, 1).get() for _ in range(MULTIPLIER))
     async for resp in apply_iter(*tasks):
         resp.tx_eq_tap_max_val
@@ -102,9 +95,11 @@ def run(method: Coroutine) -> None:
 
 if __name__ == "__main__":
     run(test_lli())
-    # result = timeit.timeit(
-    #     "run(test_lli())",
-    #     setup="from __main__ import run, test_lli",
-    #     number=1
-    # )
-    # print(result)
+    result = timeit.timeit(
+        "run(test_lli())",
+        setup="from __main__ import run, test_lli",
+        number=1
+    )
+    print(
+        f"Time pass: {result}, Packets Sent: {MULTIPLIER}, PPS: {MULTIPLIER / result}"
+    )

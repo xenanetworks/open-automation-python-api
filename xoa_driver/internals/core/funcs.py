@@ -1,6 +1,7 @@
 from __future__ import annotations
 import asyncio
 from asyncio.events import AbstractEventLoop
+import io
 from typing import (
     TYPE_CHECKING,
     Any,
@@ -36,14 +37,15 @@ async def apply_iter(*cmd_tokens: Token[Any], return_exceptions: bool = False) -
     Main interface for chunking the commands which need to be send to the single tester at the same time.
     """
     conn: "interfaces.IConnection" = cmd_tokens[0].connection
-    buffer_bytes = bytearray()
+    buffer_bytes = io.BytesIO()
     queue: asyncio.Queue[asyncio.Future] = asyncio.Queue()
     for t in cmd_tokens:
         (data, fut) = await t.connection.prepare_data(t.request)
-        buffer_bytes.extend(data)
+        buffer_bytes.write(data)
         queue.put_nowait(fut)
-    conn.send(buffer_bytes)
-    buffer_bytes.clear()
+    conn.send(buffer_bytes.getvalue())
+    buffer_bytes.close()
+    del buffer_bytes
     __excp_to_raise = None
     while not queue.empty():
         future = await queue.get()
