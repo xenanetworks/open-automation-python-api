@@ -36,6 +36,8 @@ async def apply_iter(*cmd_tokens: Token[Any], return_exceptions: bool = False) -
     """
     Main interface for chunking the commands which need to be send to the single tester at the same time.
     """
+    if not cmd_tokens:
+        return
     conn: "interfaces.IConnection" = cmd_tokens[0].connection
     buffer_bytes = io.BytesIO()
     queue: asyncio.Queue[asyncio.Future] = asyncio.Queue()

@@ -83,7 +83,7 @@ class HModifierExtended:
 
         self.range = PS_MODIFIEREXTRANGE(conn, module_id, port_id, stream_idx, modifier_idx)
         """32-bit modifier's range
-        
+
         :type: PS_MODIFIEREXTRANGE
         """
 
