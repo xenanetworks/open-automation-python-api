@@ -199,13 +199,14 @@ async def autoneg_status(port: GenericL23Port) -> dict[str, t.Any]:
     :rtype: typing.Dict[str, typing.Any]
     """
     conn, mid, pid = get_ctx(port)
-    loopback, auto_neg_info = await apply(
+    loopback, auto_neg_info, status = await apply(
         commands.PL1_CFG_TMP(
             conn, mid, pid, 0, enums.Layer1ConfigType.AN_LOOPBACK
         ).get(),
         commands.PL1_AUTONEGINFO(conn, mid, pid, 0).get(),
+        commands.PP_AUTONEGSTATUS(conn, mid, pid).get(),
     )
-    return dictionize_autoneg_status(loopback, auto_neg_info)
+    return dictionize_autoneg_status(loopback, auto_neg_info, status)
 
 
 LinkTrainType = t.Union[
