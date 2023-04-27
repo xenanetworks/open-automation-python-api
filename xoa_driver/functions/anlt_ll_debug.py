@@ -261,9 +261,7 @@ async def xla_dump_ctrl(
     on: bool
 ) -> None:
     conn, mid, pid = get_ctx(port)
-    capabilities = await commands.P_CAPABILITIES(conn, mid, pid).get()
-    for i in range(0, capabilities.serdes_count):
-        await commands.PL1_CFG_TMP(conn, mid, pid, i, enums.Layer1ConfigType.AN_LT_XLA_MODE).set(values=[int(on)])
+    await commands.PL1_CFG_TMP(conn, mid, pid, 0, enums.Layer1ConfigType.AN_LT_XLA_MODE).set(values=[int(on)])
     
 
 
