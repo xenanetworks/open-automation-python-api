@@ -17,6 +17,8 @@ class AnLtD(IntEnum):
     AN_RX_STATUS_REGISTER = 0x19
     AN_TX_PAGE_0_REGISTER = 0x14
     AN_TX_PAGE_1_REGISTER = 0x15
+    AN_RX_DME_MV_RANGE    = 0x1A
+    AN_RX_DME_BIT_RANGE   = 0x1B
     AN_RX_PAGE_0_REGISTER = 0x1C
     AN_RX_PAGE_1_REGISTER = 0x1D
 
@@ -114,6 +116,12 @@ an_tx_config_set = partial(__set, reg=AnLtD.AN_TX_CONFIG_REGISTER)
 
 an_rx_config_get = partial(__get, reg=AnLtD.AN_RX_CONFIG_REGISTER)
 an_rx_config_set = partial(__set, reg=AnLtD.AN_RX_CONFIG_REGISTER)
+
+an_rx_dme_mv_range_get = partial(__get, reg=AnLtD.AN_RX_DME_MV_RANGE)
+an_rx_dme_mv_range_set = partial(__set, reg=AnLtD.AN_RX_DME_MV_RANGE)
+
+an_rx_dme_bit_range_get = partial(__get, reg=AnLtD.AN_RX_DME_BIT_RANGE)
+an_rx_dme_bit_range_set = partial(__set, reg=AnLtD.AN_RX_DME_BIT_RANGE)
 
 an_rx_page0_get = partial(__get, reg=AnLtD.AN_RX_PAGE_0_REGISTER)
 an_rx_page1_get = partial(__get, reg=AnLtD.AN_RX_PAGE_1_REGISTER)
@@ -248,6 +256,17 @@ async def px_set(
     await port.transceiver.access_rw(page_address, register_address).set(value_hexstr)
 
 
+async def xla_dump_ctrl(
+    port: GenericL23Port,
+    on: bool
+) -> None:
+    conn, mid, pid = get_ctx(port)
+    capabilities = await commands.P_CAPABILITIES(conn, mid, pid).get()
+    for i in range(0, capabilities.serdes_count):
+        await commands.PL1_CFG_TMP(conn, mid, pid, i, enums.Layer1ConfigType.AN_LT_XLA_MODE).set(values=[int(on)])
+    
+
+
 __all__ = (
     "init",
     "serdes_reset",
@@ -277,4 +296,20 @@ __all__ = (
     "lt_tx_tf_set",
     "px_get",
     "px_set",
+    "xla_dump_ctrl",
+    "an_tx_config_get",
+    "an_tx_config_set",
+    "an_rx_dme_bit_range_get",
+    "an_rx_dme_bit_range_set",
+    "an_rx_dme_mv_range_get",
+    "an_rx_dme_mv_range_set",
+    "an_rx_page0_get",
+    "an_rx_page1_get",
+    "an_status",
+    "an_tx_config_get",
+    "an_tx_config_set",
+    "an_tx_page0_get",
+    "an_tx_page0_set",
+    "an_tx_page1_get",
+    "an_tx_page1_set",
 )
