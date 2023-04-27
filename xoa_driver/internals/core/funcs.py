@@ -48,23 +48,20 @@ async def apply_iter(*cmd_tokens: Token[Any], return_exceptions: bool = False) -
     conn.send(buffer_bytes.getvalue())
     buffer_bytes.close()
     del buffer_bytes
-    __excp_to_raise = None
+
     while not queue.empty():
         future = await queue.get()
         try:
-            result_ = await future
+            result_ = await asyncio.wait_for(future, 1)
         except Exception as e:
             if return_exceptions:
                 yield e
-            elif not __excp_to_raise:
-                __excp_to_raise = e
+            else:
+                raise e
         else:
-            if not __excp_to_raise:
-                yield result_
+            yield result_
         queue.task_done()
     await queue.join()
-    if __excp_to_raise:
-        raise __excp_to_raise
 
 
 async def apply(*cmd_tokens: Token[Any], return_exceptions: bool = False) -> list[Any]:
