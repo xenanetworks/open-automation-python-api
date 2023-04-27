@@ -80,7 +80,7 @@ class MediaInfo:
     :rtype: MediaConfigurationType
     """
 
-    avaliable_speeds: List["ModuleSpeed"] = field(default_factory=list)
+    available_speeds: List["ModuleSpeed"] = field(default_factory=list)
     """List of module's port-speed information
 
     :return: list of module's port-speed information

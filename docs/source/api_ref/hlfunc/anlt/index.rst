@@ -17,7 +17,13 @@ HL ANLT Functions
 
 .. autofunction:: anlt_status
 
+.. autofunction:: anlt_stop
+
 .. autofunction:: anlt_log
+
+.. autofunction:: anlt_strict
+
+.. autofunction:: anlt_log_control
 
 
 HL Auto-Negotiation Functions
@@ -44,5 +50,7 @@ HL Link Training Functions
 .. autofunction:: txtap_get
 
 .. autofunction:: txtap_set
+
+.. autofunction:: txtap_autotune
 
 

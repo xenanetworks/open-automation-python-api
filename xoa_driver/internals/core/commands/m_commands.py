@@ -14,6 +14,7 @@ from ..protocol.fields import data_types as xt
 from ..protocol.fields.field import XmpField
 from ..registry import register_command
 from .enums import *  # noqa: F403
+from xoa_driver.internals import warn
 
 
 @register_command
@@ -167,6 +168,7 @@ class M_VERSIONNO:
 
     _connection: "interfaces.IConnection"
     _module: int
+
     @dataclass(frozen=True)
     class GetDataAttr:
         version: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, the hardware image version number.
@@ -214,7 +216,7 @@ class M_PORTCOUNT:
 
     .. note::
 
-        For a CFP-type module this number refers to the maximum number of ports possible on the module regardless of the media configuration. So if a CFP-type module can be set in for instance either 1x100G mode or 8x10G mode then this command will always return 8. If you want the current number of ports for a CFP-type module you need to read the M_CFPCONFIG` command which returns the number of current ports.
+        For a CFP-type module this number refers to the maximum number of ports possible on the module regardless of the media configuration. So if a CFP-type module can be set in for instance either 1x100G mode or 8x10G mode then this command will always return 8. If you want the current number of ports for a CFP-type module you need to read the M_CFPCONFIGEXT` command which returns the number of current ports.
 
     """
 
@@ -388,6 +390,8 @@ class M_CFPTYPE:
 @dataclass
 class M_CFPCONFIG:
     """
+    .. deprecated:: 1.3
+
     The current number of ports and their speed of a CFP test module. If the CFP
     type is NOTFLEXIBLE then it reflects the transceiver currently in the CFP cage.
     If the CFP type is FLEXIBLE (or NOTPRESENT) then the configuration can be changed
@@ -419,6 +423,9 @@ class M_CFPCONFIG:
             - port speed, in Gbps
         :rtype: M_CFPCONFIG.GetDataAttr
         """
+
+        warn.depricated("module.cfp.config.get() (M_CFPCONFIG) is deprecated. Please use module.cfp.config_extended.get() (M_CFPCONFIGEXT) instead.")
+
         return Token(self._connection, build_get_request(self, module=self._module))
 
     def set(self, port_count: int, port_speed: int) -> "Token":
@@ -429,6 +436,9 @@ class M_CFPCONFIG:
         :param port_speed: port speed, in Gbps
         :type port_speed: int
         """
+
+        warn.depricated("module.cfp.config.set() (M_CFPCONFIG) is deprecated. Please use module.cfp.config_extended.set() (M_CFPCONFIGEXT) instead.")
+
         return Token(self._connection, build_set_request(self, module=self._module, port_count=port_count, port_speed=port_speed))
 
 
@@ -1428,17 +1438,23 @@ class M_CLOCKPPBSWEEP:
     @dataclass(frozen=True)
     class SetDataAttr:
         mode: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=PPMSweepMode)  # coded byte, specifying the sweeping function: OFF or TRIANGLE
-        ppb_step: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer >=0, the numeric clock adjustment in ppb per step of the sweep. If set to 0, the sweep will use as small steps as possible, creating a "linear" sweep of the clock rate.
-        step_delay: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer >0 the delay in µs between each step in the sweep. If ppb_step is 0: The total time in µs to sweep linearly from 0 to max_ppb.
-        max_ppb: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer != 0, the numeric maximum clock adjustment. The sign of max_ppb determines if the sweep will start with positive or negative offsets. When the next step would exceed the limit set by max_ppb, the sweep changes direction. I.e. the deviation will sweep from 0 to max_ppb, to (-max_ppb), and back to 0.
+        # integer >=0, the numeric clock adjustment in ppb per step of the sweep. If set to 0, the sweep will use as small steps as possible, creating a "linear" sweep of the clock rate.
+        ppb_step: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        # integer >0 the delay in µs between each step in the sweep. If ppb_step is 0: The total time in µs to sweep linearly from 0 to max_ppb.
+        step_delay: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        # integer != 0, the numeric maximum clock adjustment. The sign of max_ppb determines if the sweep will start with positive or negative offsets. When the next step would exceed the limit set by max_ppb, the sweep changes direction. I.e. the deviation will sweep from 0 to max_ppb, to (-max_ppb), and back to 0.
+        max_ppb: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         loops: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer >=0, the number of full sweeps performed. 0 means "indefinitely".
 
     @dataclass(frozen=True)
     class GetDataAttr:
         mode: XmpField[xt.XmpInt] = XmpField(xt.XmpInt, choices=PPMSweepMode)  # coded byte, specifying the sweeping function.
-        ppb_step: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer >=0, the numeric clock adjustment in ppb per step of the sweep. If set to 0, the sweep will use as small steps as possible, creating a "linear" sweep of the clock rate.
-        step_delay: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer >0 the delay in µs between each step in the sweep. If ppb_step is 0: The total time in µs to sweep linearly from 0 to max_ppb.
-        max_ppb: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer != 0, the numeric maximum clock adjustment. The sign of max_ppb determines if the sweep will start with positive or negative offsets. When the next step would exceed the limit set by max_ppb, the sweep changes direction. I.e. the deviation will sweep from 0 to max_ppb, to (-max_ppb), and back to 0.
+        # integer >=0, the numeric clock adjustment in ppb per step of the sweep. If set to 0, the sweep will use as small steps as possible, creating a "linear" sweep of the clock rate.
+        ppb_step: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        # integer >0 the delay in µs between each step in the sweep. If ppb_step is 0: The total time in µs to sweep linearly from 0 to max_ppb.
+        step_delay: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
+        # integer != 0, the numeric maximum clock adjustment. The sign of max_ppb determines if the sweep will start with positive or negative offsets. When the next step would exceed the limit set by max_ppb, the sweep changes direction. I.e. the deviation will sweep from 0 to max_ppb, to (-max_ppb), and back to 0.
+        max_ppb: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
         loops: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer >=0, the number of full sweeps performed. 0 means "indefinitely".
 
     def get(self) -> "Token[GetDataAttr]":
@@ -1489,7 +1505,8 @@ class M_CLOCKSWEEPSTATUS:
         curr_sweep: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer >=0, the current full sweep number, counting from 0.
         curr_step: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer >=0 the current step number inside the sweep, counting from 0.
 
-        max_steps: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)  # integer, >0, the total number of steps comprising a full sweep. For "linear" sweeps (ppb_step=0, see M_CLOCKPPBSWEEP) this number is determined by the chassis. In other cases, the number is implicitly given by the M_CLOCKPPBSWEEP parameters.
+        # integer, >0, the total number of steps comprising a full sweep. For "linear" sweeps (ppb_step=0, see M_CLOCKPPBSWEEP) this number is determined by the chassis. In other cases, the number is implicitly given by the M_CLOCKPPBSWEEP parameters.
+        max_steps: XmpField[xt.XmpInt] = XmpField(xt.XmpInt)
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the current status of the :class:`M_CLOCKPPBSWEEP` function.

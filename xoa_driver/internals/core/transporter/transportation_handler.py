@@ -115,7 +115,7 @@ class TransportationHandler(asyncio.Protocol):
     async def process_data(self, header, data: bytearray) -> None:
         try:
             response = await self.__serialize_to_response(header, data)
-        except t_ex.RepeatedRequestID as e:
+        except (t_ex.RepeatedRequestID, RuntimeError) as e:
             self.__log.error(f"{e} Original Data: {data}")
         else:
             if response.header.is_pushed:

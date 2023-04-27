@@ -1,9 +1,9 @@
-﻿MChi40G5S2P
+﻿MChi40G2S2P
 ===========
 
 
 
-.. autoclass:: xoa_driver.internals.hli_v1.modules.module_chimera.MChi40G5S2P
+.. autoclass:: xoa_driver.internals.hli_v1.modules.module_chimera.MChi40G2S2P
     :members:
     :show-inheritance:
     :inherited-members:
@@ -23,6 +23,7 @@
         ~xoa_driver.internals.hli_v1.modules.base_module.BaseModule.on_serial_number_change
         ~xoa_driver.internals.hli_v1.modules.base_module.BaseModule.on_version_number_change
         ~xoa_driver.internals.hli_v1.modules.module_chimera.ModuleChimera.on_cfp_config_change
+        ~xoa_driver.internals.hli_v1.modules.module_chimera.ModuleChimera.on_cfp_config_extended_change
         ~xoa_driver.internals.hli_v1.modules.module_chimera.ModuleChimera.on_cfp_type_change
         ~xoa_driver.internals.hli_v1.modules.module_chimera.ModuleChimera.on_latency_mode_change
         ~xoa_driver.internals.hli_v1.modules.module_chimera.ModuleChimera.on_status_change

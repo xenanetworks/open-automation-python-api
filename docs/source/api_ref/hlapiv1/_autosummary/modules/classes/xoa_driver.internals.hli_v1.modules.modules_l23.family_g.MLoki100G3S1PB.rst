@@ -1,9 +1,9 @@
-﻿MThor400G7S1P\_b
+﻿MLoki100G3S1PB
 ================
 
 
 
-.. autoclass:: xoa_driver.internals.hli_v1.modules.modules_l23.family_l.MThor400G7S1P_b
+.. autoclass:: xoa_driver.internals.hli_v1.modules.modules_l23.family_g.MLoki100G3S1PB
     :members:
     :show-inheritance:
     :inherited-members:

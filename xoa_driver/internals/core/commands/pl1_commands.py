@@ -99,7 +99,7 @@ class PL1_LINKTRAININFO:
     @dataclass(frozen=True)
     class GetDataAttr:
 
-        duration_us: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # duration of the auto-negotiation process in microseconds, from autoneg is enabled on the port to the negotiation is finished.
+        duration_us: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # duration of the link training process in microseconds, from LT is enabled on the port to the LT is finished.
 
         lock_lost_count: XmpField[xt.XmpUnsignedInt] = XmpField(xt.XmpUnsignedInt)  # number of lost locks on auto-neg.
 

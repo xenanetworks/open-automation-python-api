@@ -3,21 +3,18 @@ import asyncio
 from xoa_driver import testers
 from xoa_driver import modules
 
-async def my_awesome_func():
+CHASSIS_IP = "demo.xenanetworks.com"
+USERNAME = "xoa"
+MODULE_ID = 0
+PORT_IDS =[0,1]
+
+async def main():
     # create tester instance and establish connection
-    tester = await testers.L23Tester("192.168.1.200", "xoa") 
-    my_module = tester.modules.obtain(0)
+    my_tester = await testers.L23Tester(CHASSIS_IP, USERNAME) 
+    my_module = my_tester.modules.obtain(MODULE_ID)
     
     # get access to port 0 and 1
-    ( tx_port, rx_port ) = resources = my_module.ports.obtain_multiple(0, 1)
-
-def main():
-    try:
-        loop = asyncio.get_event_loop()
-        loop.create_task(my_awesome_func())
-        loop.run_forever()
-    except KeyboardInterrupt:
-        pass
+    ( tx_port, rx_port ) = resources = my_module.ports.obtain_multiple(*PORT_IDS)
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())

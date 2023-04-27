@@ -31,6 +31,7 @@
         ~xoa_driver.internals.hli_v1.modules.modules_l23.module_l23_base.ModuleL23.on_adv_timing_sma_status_change
         ~xoa_driver.internals.hli_v1.modules.modules_l23.module_l23_base.ModuleL23.on_cfp_config_change
         ~xoa_driver.internals.hli_v1.modules.modules_l23.module_l23_base.ModuleL23.on_cfp_config_extended_change
+        
         ~xoa_driver.internals.hli_v1.modules.modules_l23.module_l23_base.ModuleL23.on_cfp_type_change
         ~xoa_driver.internals.hli_v1.modules.modules_l23.module_l23_base.ModuleL23.on_comment_change
         ~xoa_driver.internals.hli_v1.modules.modules_l23.module_l23_base.ModuleL23.on_media_change

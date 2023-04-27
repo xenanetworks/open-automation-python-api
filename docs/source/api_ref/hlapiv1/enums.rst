@@ -11,6 +11,7 @@ Enum Classes
 
     AlgorithmMethod
     AlignLockStatus
+    AnLtLogControl
     ApplicationLayerBehavior
     AutoNegFECOption
     AutoNegFECStatus
