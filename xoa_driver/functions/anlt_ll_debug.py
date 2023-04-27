@@ -248,6 +248,17 @@ async def px_set(
     await port.transceiver.access_rw(page_address, register_address).set(value_hexstr)
 
 
+async def xla_dump_ctrl(
+    port: GenericL23Port,
+    on: bool
+) -> None:
+    conn, mid, pid = get_ctx(port)
+    capabilities = await commands.P_CAPABILITIES(conn, mid, pid).get()
+    for i in range(0, capabilities.serdes_count):
+        await commands.PL1_CFG_TMP(conn, mid, pid, i, enums.Layer1ConfigType.AN_LT_XLA_MODE).set(values=[int(on)])
+    
+
+
 __all__ = (
     "init",
     "serdes_reset",
@@ -277,4 +288,5 @@ __all__ = (
     "lt_tx_tf_set",
     "px_get",
     "px_set",
+    "xla_dump_ctrl",
 )
