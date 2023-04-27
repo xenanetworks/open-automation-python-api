@@ -17,6 +17,8 @@ class AnLtD(IntEnum):
     AN_RX_STATUS_REGISTER = 0x19
     AN_TX_PAGE_0_REGISTER = 0x14
     AN_TX_PAGE_1_REGISTER = 0x15
+    AN_RX_DME_MV_RANGE    = 0x1A
+    AN_RX_DME_BIT_RANGE   = 0x1B
     AN_RX_PAGE_0_REGISTER = 0x1C
     AN_RX_PAGE_1_REGISTER = 0x1D
 
@@ -114,6 +116,12 @@ an_tx_config_set = partial(__set, reg=AnLtD.AN_TX_CONFIG_REGISTER)
 
 an_rx_config_get = partial(__get, reg=AnLtD.AN_RX_CONFIG_REGISTER)
 an_rx_config_set = partial(__set, reg=AnLtD.AN_RX_CONFIG_REGISTER)
+
+an_rx_dme_mv_range_get = partial(__get, reg=AnLtD.AN_RX_DME_MV_RANGE)
+an_rx_dme_mv_range_set = partial(__set, reg=AnLtD.AN_RX_DME_MV_RANGE)
+
+an_rx_dme_bit_range_get = partial(__get, reg=AnLtD.AN_RX_DME_BIT_RANGE)
+an_rx_dme_bit_range_get = partial(__set, reg=AnLtD.AN_RX_DME_BIT_RANGE)
 
 an_rx_page0_get = partial(__get, reg=AnLtD.AN_RX_PAGE_0_REGISTER)
 an_rx_page1_get = partial(__get, reg=AnLtD.AN_RX_PAGE_1_REGISTER)
