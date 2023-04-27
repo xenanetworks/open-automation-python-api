@@ -121,7 +121,7 @@ an_rx_dme_mv_range_get = partial(__get, reg=AnLtD.AN_RX_DME_MV_RANGE)
 an_rx_dme_mv_range_set = partial(__set, reg=AnLtD.AN_RX_DME_MV_RANGE)
 
 an_rx_dme_bit_range_get = partial(__get, reg=AnLtD.AN_RX_DME_BIT_RANGE)
-an_rx_dme_bit_range_get = partial(__set, reg=AnLtD.AN_RX_DME_BIT_RANGE)
+an_rx_dme_bit_range_set = partial(__set, reg=AnLtD.AN_RX_DME_BIT_RANGE)
 
 an_rx_page0_get = partial(__get, reg=AnLtD.AN_RX_PAGE_0_REGISTER)
 an_rx_page1_get = partial(__get, reg=AnLtD.AN_RX_PAGE_1_REGISTER)
@@ -297,4 +297,19 @@ __all__ = (
     "px_get",
     "px_set",
     "xla_dump_ctrl",
+    "an_tx_config_get",
+    "an_tx_config_set",
+    "an_rx_dme_bit_range_get",
+    "an_rx_dme_bit_range_set",
+    "an_rx_dme_mv_range_get",
+    "an_rx_dme_mv_range_set",
+    "an_rx_page0_get",
+    "an_rx_page1_get",
+    "an_status",
+    "an_tx_config_get",
+    "an_tx_config_set",
+    "an_tx_page0_get",
+    "an_tx_page0_set",
+    "an_tx_page1_get",
+    "an_tx_page1_set",
 )
