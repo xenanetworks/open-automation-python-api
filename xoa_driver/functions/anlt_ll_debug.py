@@ -85,7 +85,7 @@ async def __get(
     if inf is None:
         inf = await init(port, serdes)
     conn, mid, pid = get_ctx(port)
-    addr = inf.base + reg.value + (serdes * 0x40)
+    addr = inf.base + reg.value
     r = commands.PX_RW(conn, mid, pid, 2000, addr)
     return int((await r.get()).value, 16)
 
@@ -100,7 +100,7 @@ async def __set(
     if inf is None:
         inf = await init(port, serdes)
     conn, mid, pid = get_ctx(port)
-    addr = inf.base + reg.value + (serdes * 0x40)
+    addr = inf.base + reg.value 
     r = commands.PX_RW(conn, mid, pid, 2000, addr)
     await r.set(f"0x{value:08X}")
     return None
