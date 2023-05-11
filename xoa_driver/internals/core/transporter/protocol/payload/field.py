@@ -191,7 +191,6 @@ class HexSpec(FieldSpecs):
         return val
 
     def unpack(self, format: str, buffer: memoryview, offset: int) -> Any:
-        print(self.is_dynamic, format, buffer.tobytes(), offset, self.xmp_type.repetitions, self.calc_bsize())
         return next(iter(struct.unpack_from(format, buffer, offset)), b"")
 
 
