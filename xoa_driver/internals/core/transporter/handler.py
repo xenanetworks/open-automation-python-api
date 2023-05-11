@@ -58,7 +58,14 @@ class TransportationHandler(asyncio.Protocol):
 
     def data_received(self, data: bytes) -> None:
         """Process received data from xenaserver."""
-        self.__stream.feed_data(data)
+        try:
+            self.__stream.feed_data(data)
+        except AssertionError:
+            if self.is_connected:
+                self.__stream._eof = False
+                self.__stream.feed_data(data)
+            else:
+                self.close()
 
     def eof_received(self) -> None:
         self.__stream.feed_eof()
@@ -86,6 +93,7 @@ class TransportationHandler(asyncio.Protocol):
         """Close connection with xenaserver."""
         if self.is_connected:
             self.__transport.close()  # type: ignore[reportOptionalMemberAccess]
+        self.__transport = None
 
     async def prepare_data(self, request: Request) -> tuple[bytes, asyncio.Future]:
         assert self.is_connected, "Cannot add command because Socket is disconnected"

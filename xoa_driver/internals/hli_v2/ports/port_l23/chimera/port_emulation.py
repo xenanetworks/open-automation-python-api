@@ -2,7 +2,6 @@ from typing import (
     TYPE_CHECKING,
     Tuple,
 )
-from dataclasses import astuple
 from xoa_driver.internals.commands.enums import ImpairmentTypeIndex
 from xoa_driver.internals.commands.ped_commands import PED_ENABLE, PED_ONESHOTSTATUS, PED_SCHEDULE
 
@@ -190,10 +189,10 @@ class ChimeraPE:
         return self._setup().__await__()
 
     async def _setup(self) -> None:
-        indices = astuple(await PE_INDICES(self._conn, self.module_id, self.port_id).get())
+        indices = await PE_INDICES(self._conn, self.module_id, self.port_id).get()
         self.flow = tuple(
             CFlow(self._conn, self.module_id, self.port_id, idx)
-            for idx in indices
+            for idx in indices.to_tuple()
         )
 
 

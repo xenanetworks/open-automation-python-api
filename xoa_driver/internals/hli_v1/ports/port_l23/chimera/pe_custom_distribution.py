@@ -26,19 +26,19 @@ class CustomDistribution:
         self.__cdi = custom_distribution_index
         self.definition = PEC_VAL(conn, module_id, port_id, custom_distribution_index)
         """Custom distribution definition.
-        
+
         :type: PEC_VAL
         """
 
         self.comment = PEC_COMMENT(conn, module_id, port_id, custom_distribution_index)
         """Custom distribution description.
-        
+
         :type: PEC_COMMENT
         """
 
         self.type = PEC_DISTTYPE(conn, module_id, port_id, custom_distribution_index)
         """Custom distribution type.
-        
+
         :type: PEC_DISTTYPE
         """
 

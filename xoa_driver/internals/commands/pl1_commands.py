@@ -21,7 +21,8 @@ from xoa_driver.internals.core.transporter.protocol.payload import (
 from .enums import (
     LinkTrainFrameLock,
     LinkTrainCmdResults,
-    LinkTrainCmd
+    LinkTrainCmd,
+    Layer1ConfigType,
 )
 
 
@@ -323,7 +324,7 @@ class PL1_CFG_TMP:
     _module: int
     _port: int
     _serdes_xindex: int
-    _type: int
+    _type: Layer1ConfigType
 
     class GetDataAttr(ResponseBodyStruct):
         values: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))

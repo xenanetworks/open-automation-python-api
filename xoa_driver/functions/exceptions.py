@@ -61,8 +61,6 @@ class NotSupportPortSpeed(ConfigError):
 
 __all__ = (
     "ConfigError",
-    "NoSuchModuleError",
-    "NoSuchPortError",
     "NotConnectedError",
     "NotRightLaneLengthError",
     "NotRightLaneValueError",

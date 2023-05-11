@@ -11,7 +11,7 @@ from xoa_driver.internals.commands import (
     C_RESERVEDBY,
 )
 from xoa_driver.internals.utils import attributes as utils
-from xoa_driver.internals.exceptions.testers import UnsuportedFirmwareError
+from xoa_driver.internals.exceptions.testers import UnsupportedFirmwareError
 
 MIN_SUPPORTED_VERSION = 446.5
 
@@ -101,4 +101,4 @@ class GenuineTesterLocalState(TesterLocalState):
         self.version_minor = v_minor.chassis_minor_version
         current_version = float(f"{self.version_major}.{self.version_minor}")
         if current_version < MIN_SUPPORTED_VERSION:
-            raise UnsuportedFirmwareError(current_version)
+            raise UnsupportedFirmwareError(current_version)

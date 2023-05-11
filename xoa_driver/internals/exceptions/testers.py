@@ -11,7 +11,7 @@ class WrongTesterPasswordError(Exception):
         super().__init__(self.msg)
 
 
-class UnsuportedFirmwareError(Exception):
+class UnsupportedFirmwareError(Exception):
     def __init__(self, version: float) -> None:
         self.version = version
         self.msg = f"Testers firmware version is to old, current: {self.version} Min required: 446.5"

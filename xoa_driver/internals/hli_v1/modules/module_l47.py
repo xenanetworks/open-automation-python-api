@@ -176,7 +176,7 @@ class Replay:
         self.file = ReplayFile(conn, module_id)
         """
         Replay file settings and control.
-        
+
         :type: ReplayFile
         """
 
@@ -218,7 +218,7 @@ class Capture:
         self.parse = CaptureParse(conn, module_id)
         """
         Capture file parser settings.
-        
+
         :type: CaptureParse
         """
 
@@ -326,31 +326,31 @@ class ModuleL47(bm.BaseModule["modules_state.ModuleLocalState"]):
 
         self.module_system = ModuleSystem(conn, self.module_id)
         """L47 module info.
-        
+
         :type: ModuleSystem
         """
 
         self.license = License(conn, self.module_id)
         """L47 license management.
-        
+
         :type: License
         """
 
         self.replay = Replay(conn, self.module_id)
         """L47 pcap replay.
-        
+
         :type: Replay
         """
 
         self.capture = Capture(conn, self.module_id)
         """L47 capture to pcap files.
-        
+
         :type: Capture
         """
 
         self.packet_engine = PacketEngine(conn, self.module_id)
         """L47 packet engine.
-        
+
         :type: ~xoa_driver.internals.hli_v1.modules.module_l47.PacketEngine
         """
 
@@ -362,7 +362,7 @@ class ModuleL47(bm.BaseModule["modules_state.ModuleLocalState"]):
         )
         """
         L47 Port index manager of this test module.
-        
+
         :type: PortsManager
         """
 
