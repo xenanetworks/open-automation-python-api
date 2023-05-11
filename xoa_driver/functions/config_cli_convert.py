@@ -121,6 +121,10 @@ class CLIConverter:
             dic["magic"] = -1480937026
         elif class_name == "M_FPGAREIMAGE":
             dic["key_code"] = 42
+        elif class_name == "PP_EYEMEASURE":
+            dic["dummy"] = []
+        elif class_name == "PP_PHYTXEQ":
+            dic["mode"] = 4
         return dic
 
     @classmethod
@@ -278,7 +282,30 @@ class CLIConverter:
 
     @classmethod
     def _special_cast(cls, class_name: str, string_param: str, type_name: str) -> t.Any:
-        if class_name == "P_MULTICASTHDR":
+        if type_name == "ProtocolOption":
+            enum_cast = getattr(enums, type_name, None)
+            if enum_cast is not None:
+                try:
+                    i = int(string_param)
+                    return enum_cast(256 + i)
+                except Exception:
+                    return None
+        elif type_name == "SMAInputFunction":
+            enum_cast = getattr(enums, type_name, None)
+            if enum_cast is not None and string_param == "NOTUSED":
+                return enum_cast["NOT_USED"]
+        elif type_name == "SourceType":
+            enum_cast = getattr(enums, type_name, None)
+            if enum_cast is not None:
+                return {
+                    "TXIFG": enum_cast["TX_IFG"],
+                    "TXLEN": enum_cast["TX_LEN"],
+                    "RXIFG": enum_cast["RX_IFG"],
+                    "RXLEN": enum_cast["RX_LEN"],
+                    "RXLAT": enum_cast["RX_LATENCY"],
+                    "RXJIT": enum_cast["RX_JITTER"],
+                }.get(string_param, None)
+        elif class_name == "P_MULTICASTHDR":
             enum_cast = getattr(enums, type_name, None)
             if enum_cast is not None:
                 return enum_cast[string_param.upper().replace("DEI_", "")]

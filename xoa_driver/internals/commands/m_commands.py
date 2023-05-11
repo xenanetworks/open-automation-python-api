@@ -864,7 +864,7 @@ class M_SMAINPUT:
 
         return Token(self._connection, build_set_request(self, module=self._module, sma_in=sma_in))
 
-    set_notused = functools.partialmethod(set, SMAInputFunction.NOTUSED)
+    set_notused = functools.partialmethod(set, SMAInputFunction.NOT_USED)
     """Set SMA input to Not Used
     """
 
