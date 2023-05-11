@@ -117,8 +117,10 @@ class CLIConverter:
 
     @classmethod
     def _special_add(cls, class_name: str, dic: dict) -> dict:
-        if class_name == "C_DOWN":
+        if class_name in ("C_DOWN", "C_FILEFINISH", "M_UPGRADE"):
             dic["magic"] = -1480937026
+        elif class_name == "M_FPGAREIMAGE":
+            dic["key_code"] = 42
         return dic
 
     @classmethod
@@ -438,6 +440,22 @@ class CLIConverter:
                 r = cls.convert_each_command(buf)
                 if r is not None:
                     yield r
+
+    @classmethod
+    def read_commands_from_long_string(
+        cls, long_str: str, comment_start: tuple[str, ...] = (";", "#", "//")
+    ) -> t.Generator[Body, None, None]:
+        for line in long_str.split("\n"):
+            buf = line.strip()
+            for i, char in enumerate(buf):
+                if char in comment_start:
+                    buf = buf[:i]
+                    break
+            if not buf:
+                continue
+            r = cls.convert_each_command(buf)
+            if r is not None:
+                yield r
 
 
 # example:
