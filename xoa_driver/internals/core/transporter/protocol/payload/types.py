@@ -95,9 +95,10 @@ class XmpHex(XmpType[Hex]):
 
     def server_format(self, val: Hex) -> bytes:
         if self.repetitions is not None:
-            if len(val) > self.repetitions:
+            size_ = self.repetitions * 2
+            if len(val) > size_:
                 raise ValueError(f"Expected Hex of size not bigger then {self.repetitions} bytes")
-            val = Hex(cast(str, val).zfill(self.repetitions * 2))
+            val = Hex(cast(str, val).zfill(size_))
         return bytes.fromhex(val)
 
 
