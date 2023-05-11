@@ -8,6 +8,7 @@ from typing import (
     NewType,
     Protocol,
     TypeVar,
+    cast,
 )
 
 FMT_ORDER_NETWORK = "!"
@@ -35,12 +36,10 @@ class XmpType(Protocol[GenericType]):
     repetitions: int | None
     data_format: str
 
-    @staticmethod
-    def client_format(val: Any) -> Any:
+    def client_format(self, val: Any) -> Any:
         return val
 
-    @staticmethod
-    def server_format(val: Any) -> Any:
+    def server_format(self, val: Any) -> Any:
         return val
 
 # endregion
@@ -91,12 +90,14 @@ class XmpHex(XmpType[Hex]):
         self.data_format = FMT_BYTES_STRING
         self.repetitions = size
 
-    @staticmethod
-    def client_format(val: bytes) -> Hex:
+    def client_format(self, val: bytes) -> Hex:
         return Hex(val.hex())
 
-    @staticmethod
-    def server_format(val: Hex) -> bytes:
+    def server_format(self, val: Hex) -> bytes:
+        if self.repetitions is not None:
+            if len(val) > self.repetitions:
+                raise ValueError(f"Expected Hex of size not bigger then {self.repetitions} bytes")
+            val = Hex(cast(str, val).zfill(self.repetitions * 2))
         return bytes.fromhex(val)
 
 
@@ -107,12 +108,10 @@ class XmpIPv6Address(XmpType[IPv6Address]):
         self.data_format = FMT_BYTES_STRING
         self.repetitions = 16
 
-    @staticmethod
-    def client_format(val: bytes) -> IPv6Address:
+    def client_format(self, val: bytes) -> IPv6Address:
         return IPv6Address(val)
 
-    @staticmethod
-    def server_format(val: IPv6Address) -> bytes:
+    def server_format(self, val: IPv6Address) -> bytes:
         return val.packed
 
 
@@ -123,12 +122,10 @@ class XmpIPv4Address(XmpType[IPv4Address]):
         self.data_format = FMT_BYTES_STRING
         self.repetitions = 4
 
-    @staticmethod
-    def client_format(val: bytes) -> IPv4Address:
+    def client_format(self, val: bytes) -> IPv4Address:
         return IPv4Address(val)
 
-    @staticmethod
-    def server_format(val: IPv4Address) -> bytes:
+    def server_format(self, val: IPv4Address) -> bytes:
         return val.packed
 
 
@@ -150,12 +147,10 @@ class XmpStr(XmpType[str]):
         self.repetitions = None
         self.min_len = min_len
 
-    @staticmethod
-    def client_format(val: bytes) -> str:
+    def client_format(self, val: bytes) -> str:
         return val.partition(b'\0')[0].decode()
 
-    @staticmethod
-    def server_format(val: str) -> bytes:
+    def server_format(self, val: str) -> bytes:
         return val.encode()
 
 

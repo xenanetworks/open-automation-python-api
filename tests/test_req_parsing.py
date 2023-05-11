@@ -83,7 +83,7 @@ def test_hex() -> None:
 
     obj = SetDataAttr(
         custom_field=Hex("00"),
-        custom_field2=Hex("0000ff")
+        custom_field2=Hex("ff")
     )
     assert obj.to_bytes() == data
 
