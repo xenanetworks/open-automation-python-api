@@ -807,12 +807,10 @@ class PEF_IPV4SETTINGS:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)  # coded byte, specifies the use of IPv4 information.
         action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)  # coded byte, specifies the action of IPv4 information.
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=FilterUse)  # coded byte, specifies the use of IPv4 information.
         action: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=InfoAction)  # coded byte, specifies the action of IPv4 information.
 
     def get(self) -> "Token[GetDataAttr]":
@@ -823,16 +821,14 @@ class PEF_IPV4SETTINGS:
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
-    def set(self, use: FilterUse, action: InfoAction) -> "Token":
+    def set(self, action: InfoAction) -> "Token":
         """Set the filter action settings on IPv4 header.
 
-        :param use: specifies the use of IPv4 information
-        :type use: FilterUse
         :param action: specifies the action of IPv4 information
         :type action: InfoAction
         """
         return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, action=action)
+            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], action=action)
         )
 
 
@@ -981,7 +977,6 @@ class PEF_IPV4DSCP:
 
     @dataclass(frozen=True)
     class SetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of IPv4 information.
         value: XmpField[xt.XmpByte] = XmpField(
             xt.XmpByte
         )  # byte, specifying the value of the IPv4 DSCP/TOS in the upper 6 bits. value[7:2] = DSCP/TOS, value[1:0] = reserved (must be zero). Default value: 0
@@ -991,7 +986,6 @@ class PEF_IPV4DSCP:
 
     @dataclass(frozen=True)
     class GetDataAttr:
-        use: XmpField[xt.XmpByte] = XmpField(xt.XmpByte, choices=OnOff)  # coded byte, specifies the use of IPv4 information.
         value: XmpField[xt.XmpByte] = XmpField(
             xt.XmpByte
         )  # byte, specifying the value of the IPv4 DSCP/TOS in the upper 6 bits. value[7:2] = DSCP/TOS, value[1:0] = reserved (must be zero). Default value: 0
@@ -1010,15 +1004,13 @@ class PEF_IPV4DSCP:
     def set(self, use: OnOff, value: int, mask: str) -> "Token":
         """Set IPv4 DSCP/TOS settings for the filter.
 
-        :param use: specifies the use of IPv4 DSCP/TOS information.
-        :type use: OnOff
         :param value: specifying the value of the IPv4 DSCP/TOS in the upper 6 bits. value[7:2] = DSCP/TOS, value[1:0] = reserved (must be zero). Default value: 0
         :type value: int
         :param mask: specifying the filter mask of the value in the upper 6 bits. mask[7:2] = DSCP/TOS mask, mask[1:0] = reserved (must be zero). Default value: 0xFC
         :type mask: str
         """
         return Token(
-            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask)
+            self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], value=value, mask=mask)
         )
 
     set_off = functools.partialmethod(set, OnOff.OFF)
