@@ -14,7 +14,8 @@ from xoa_driver.internals.core.transporter.protocol._constants import CommandTyp
 from xoa_driver.internals.core.transporter._typings import XoaCommandType
 import re
 
-module = port = index = r"\d+"  # hm.one_or_more(hm.DIGIT)
+module = port = r"\d+"  # hm.one_or_more(hm.DIGIT)
+index = r"((0x|0X)?[A-Fa-f\d]+)"
 zero_or_more_space = r"\s*"  # hm.zero_or_more(hm.WHITESPACE)
 module_port_group = r"((?P<module>\d+)(/(?P<port>\d+))?\s*)?"
 # hm.optional_group(
@@ -27,7 +28,7 @@ command_name_group = r"(?P<command_name>[A-Z_a-z0-9]+\s*)"
 #     "command_name",
 #     hm.one_or_more(hm.chars("A-Z", "_", "a-z", "0-9")) + zero_or_more_space,
 # )
-indices_group = r"(?P<indices>(\[\d+(,?\s*\d+)?(,?\s*\d+)?\]\s*)?)"
+indices_group = r"(?P<indices>(\[((0x|0X)?[A-Fa-f\d]+)(,?\s*((0x|0X)?[A-Fa-f\d]+))?(,?\s*((0x|0X)?[A-Fa-f\d]+))?\]\s*)?)"
 # hm.named_group(
 #     "indices",
 #     hm.optional_group(
@@ -61,7 +62,7 @@ class Body:
     type: CommandType = CommandType.COMMAND_STATUS
     module: t.Optional[int] = None
     port: t.Optional[int] = None
-    indices: list[int] = field(default_factory=list)
+    square_indices: list[int] = field(default_factory=list)
     values: dict = field(default_factory=dict)
 
     def as_request(
@@ -71,14 +72,14 @@ class Body:
         indices_num: list[int] | Unpassed = Unpassed(),
     ) -> Request:
         if not isinstance(indices_num, Unpassed):
-            self.indices = indices_num
+            self.square_indices = indices_num
         if not isinstance(module_num, Unpassed):
             self.module = module_num
         if not isinstance(port_num, Unpassed):
             self.port = port_num
 
         dic = dict(
-            indices=self.indices, module=self.module, port=self.port, **self.values
+            indices=self.square_indices, module=self.module, port=self.port, **self.values
         )
         return (
             build_get_request(self.cmd_class, **dic)  # type: ignore
@@ -96,7 +97,10 @@ class CLIConverter:
             if not i:
                 continue
             try:
-                result.append(int(i.strip()))
+                if "0x" in i or "0X" in i:
+                    result.append(int(i.strip(), 16))
+                else:
+                    result.append(int(i.strip()))
             except Exception:
                 raise ValueError(f"Invalid indices str {indices_str}!")
         return result
@@ -241,10 +245,10 @@ class CLIConverter:
         type_name: str,
     ) -> ipaddress.IPv4Address | ipaddress.IPv6Address | None:
         ips = {
-            "ipaddress.IPv4Address": ipaddress.ip_address,
-            "IPv4Address": ipaddress.ip_address,
-            "ipaddress.IPv6Address": ipaddress.ip_address,
-            "IPv6Address": ipaddress.ip_address,
+            "ipaddress.IPv4Address": ipaddress.IPv4Address,
+            "IPv4Address": ipaddress.IPv4Address,
+            "ipaddress.IPv6Address": ipaddress.IPv6Address,
+            "IPv6Address": ipaddress.IPv6Address,
         }
         ips_cast = ips.get(type_name, None)
         if ips_cast is not None:
@@ -329,6 +333,17 @@ class CLIConverter:
             mac_address = Hex(string_param[38:])
             chunk = NdpChunk(ipv6_address, prefix, patched_mac, mac_address)
             return chunk
+        elif class_name == "PL1_LINKTRAIN_CMD":
+            s = string_param.upper()
+            t1 = ("PRE1", "MAIN", "POST", "PRE2", "PRE3")
+            t2 = ("PRESET_1", "PRESET_2", "PRESET_3", "PRESET_4", "PRESET_5")
+            t3 = ("PAM2", "PAM4", "PAM4_WITH_PRECODING")
+            if s in t1:
+                return t1.index(s)
+            elif s in t2:
+                return t2.index(s)
+            elif s in t3:
+                return t3.index(s)
 
     @classmethod
     def _bind_one_param(
@@ -367,9 +382,12 @@ class CLIConverter:
         buf = []
         for c in param_string:
             if state == OUTSIDE:
-                if c in (" ", "\t", "\r", "\n", "\f") and buf:
-                    string_list.append("".join(buf))
-                    buf = []
+                if c in (" ", "\t", "\r", "\n", "\f"):
+                    string = "".join(buf).strip()
+                    if string:
+                        string_list.append(string)
+                    if buf:
+                        buf = []
                 elif c == '"':
                     state = INSIDE_DOUBLE_QUOTE
                 elif c == "'":
@@ -380,7 +398,7 @@ class CLIConverter:
                 if c == "\\":
                     state = ESCAPED_DOUBLE_QUOTE
                 elif c == '"':
-                    string_list.append('"%s"' % "".join(buf))
+                    string_list.append("".join(buf))
                     buf = []
                     state = OUTSIDE
                 else:
@@ -389,7 +407,7 @@ class CLIConverter:
                 if c == "\\":
                     state = ESCAPED_SINGLE_QUOTE
                 elif c == "'":
-                    string_list.append("'{%s}'" % "".join(buf))
+                    string_list.append("".join(buf))
                     buf = []
                     state = OUTSIDE
                 else:
@@ -404,7 +422,7 @@ class CLIConverter:
             s = '"' if state == INSIDE_DOUBLE_QUOTE else "'"
             raise ValueError(f"String not complete: ({s}{''.join(buf)}).")
         if buf:
-            string_list.append("".join(buf))
+            string_list.append("".join(buf).strip())
         return string_list
 
     @classmethod
@@ -425,6 +443,8 @@ class CLIConverter:
         if n is None:
             return None
         try:
+            if isinstance(n, str) and ("0x" in n or "0X" in n):
+                return int(n.strip(), 16)
             return int(n)
         except Exception:
             return None

@@ -26,7 +26,7 @@ FMT_U_SHORT = "H"
 
 GenericType = TypeVar("GenericType", covariant=True)
 
-Hex = NewType('Hex', str)
+Hex = NewType("Hex", str)
 """Type aliace of string for indicate as string suppose to contain only valid HEX symbols"""
 
 
@@ -42,10 +42,12 @@ class XmpType(Protocol[GenericType]):
     def server_format(self, val: Any) -> Any:
         return val
 
+
 # endregion
 
 
 # region Xmp Types
+
 
 class XmpByte(XmpType[int]):
     """Description class of XMP Byte type representation"""
@@ -58,7 +60,9 @@ class XmpByte(XmpType[int]):
 class XmpInt(XmpType[int]):
     """Description class of XMP Int type representation"""
 
-    def __init__(self, *, signed: bool = True, climb: tuple[int, int] | None = None) -> None:
+    def __init__(
+        self, *, signed: bool = True, climb: tuple[int, int] | None = None
+    ) -> None:
         self.data_format = FMT_INT if signed else FMT_U_INT
         self.repetitions = None
 
@@ -97,8 +101,14 @@ class XmpHex(XmpType[Hex]):
         if self.repetitions is not None:
             size_ = self.repetitions * 2
             if len(val) > size_:
-                raise ValueError(f"Expected Hex of size not bigger then {self.repetitions} bytes")
+                raise ValueError(
+                    f"Expected Hex of size not bigger then {self.repetitions} bytes"
+                )
             val = Hex(cast(str, val).zfill(size_))
+        elif len(val) % 2:
+            # odd number string -> bytes
+            val = Hex(cast(str, val).zfill(len(val) + 1))
+
         return bytes.fromhex(val)
 
 
@@ -149,7 +159,7 @@ class XmpStr(XmpType[str]):
         self.min_len = min_len
 
     def client_format(self, val: bytes) -> str:
-        return val.partition(b'\0')[0].decode()
+        return val.partition(b"\0")[0].decode()
 
     def server_format(self, val: str) -> bytes:
         return val.encode()
@@ -162,12 +172,24 @@ class XmpSequence(XmpType[tuple]):
 
     def __init__(
         self,
-        types_chunk: list[XmpByte | XmpInt | XmpShort | XmpLong | XmpHex | XmpIPv4Address | XmpIPv6Address | XmpMacAddress],
-        length: int | None = None
+        types_chunk: list[
+            XmpByte
+            | XmpInt
+            | XmpShort
+            | XmpLong
+            | XmpHex
+            | XmpIPv4Address
+            | XmpIPv6Address
+            | XmpMacAddress
+        ],
+        length: int | None = None,
     ) -> None:
         self.types_chunk = tuple(types_chunk)
         self.length = length
         self.repetitions = None
-        self.data_format = "".join(f"{t.repetitions or ''}{t.data_format}" for t in self.types_chunk)
+        self.data_format = "".join(
+            f"{t.repetitions or ''}{t.data_format}" for t in self.types_chunk
+        )
+
 
 # endregion

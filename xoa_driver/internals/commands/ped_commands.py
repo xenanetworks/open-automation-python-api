@@ -460,7 +460,7 @@ class PED_GE:
         """integer, specifies the good state probability in ppm. Default value: 0."""
         good_state_trans_prob: int = field(XmpInt())
         """integer, specifies the good state transition probability in ppm. Default value: 0."""
-        bad_prob: int = field(XmpInt())
+        bad_state_prob: int = field(XmpInt())
         """integer, specifies the bad state probability in ppm. Default value: 0."""
         bad_state_trans_prob: int = field(XmpInt())
         """integer, specifies the bad state transition probability in ppm. Default value: 0."""

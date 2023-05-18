@@ -1404,7 +1404,7 @@ class PS_IPV4GATEWAY:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._stream_xindex]))
 
-    def set(self, gateway: typing.Union[str, ipaddress.IPv4Address, int]) -> Token[None]:
+    def set(self, gateway: ipaddress.IPv4Address) -> Token[None]:
         """Set the IPv4 gateway address of a stream.
 
         :param gateway: the IPv4 gateway address of the stream
@@ -1446,7 +1446,7 @@ class PS_IPV6GATEWAY:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._stream_xindex]))
 
-    def set(self, gateway: typing.Union[str, ipaddress.IPv6Address, int]) -> Token[None]:
+    def set(self, gateway: ipaddress.IPv6Address) -> Token[None]:
         """Set the IPv6 gateway address of a stream.
 
         :param gateway: the IPv6 gateway address of the stream
