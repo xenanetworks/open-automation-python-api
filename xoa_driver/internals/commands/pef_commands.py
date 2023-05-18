@@ -1789,18 +1789,18 @@ class PEF_ANYCONFIG:
     class GetDataAttr(ResponseBodyStruct):
         position: int = field(XmpByte())
         """byte, specifies the start position of the ANY field. Default value: 0, Range:0-127"""
-        value: Hex = field(XmpHex(size=8))
-        """8 hex bytes, specifying the six bytes of the field. Default value: 0x000000000000"""
+        value: Hex = field(XmpHex(size=6))
+        """6 hex bytes, specifying the six bytes of the field. Default value: 0x000000000000"""
         mask: Hex = field(XmpHex(size=8))
-        """8 hex bytes, specifying the six bytes of the field. Default value: 0xFFFFFFFFFFFF"""
+        """6 hex bytes, specifying the six bytes of the field. Default value: 0xFFFFFFFFFFFF"""
 
     class SetDataAttr(RequestBodyStruct):
         position: int = field(XmpByte())
         """byte, specifies the start position of the ANY field. Default value: 0, Range:0-127"""
-        value: Hex = field(XmpHex(size=8))
-        """8 hex bytes, specifying the six bytes of the field. Default value: 0x000000000000"""
-        mask: Hex = field(XmpHex(size=8))
-        """8 hex bytes, specifying the six bytes of the field. Default value: 0xFFFFFFFFFFFF"""
+        value: Hex = field(XmpHex(size=6))
+        """6 hex bytes, specifying the six bytes of the field. Default value: 0x000000000000"""
+        mask: Hex = field(XmpHex(size=6))
+        """6 hex bytes, specifying the six bytes of the field. Default value: 0xFFFFFFFFFFFF"""
 
     def get(self) -> Token[GetDataAttr]:
         """Get the ANY field filter configuration.
