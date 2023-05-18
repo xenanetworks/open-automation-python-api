@@ -504,7 +504,7 @@ class PEF_VLANTAG:
         :rtype: PEF_VLANTAG.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type, self._vlan_type]))
 
     def set(self, use: OnOff, value: int, mask: str) -> Token[None]:
         """Set the VLAN TAG settings for the VLAN filter.
@@ -517,7 +517,7 @@ class PEF_VLANTAG:
         :type mask: str
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type, self._vlan_type], use=use, value=value, mask=mask))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """VLAN TAG is not used for the filter."""
@@ -571,7 +571,7 @@ class PEF_VLANPCP:
         :rtype: PEF_VLANPCP.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type, self._vlan_type]))
 
     def set(self, use: OnOff, value: int, mask: str) -> Token[None]:
         """Set the VLAN PCP settings for the VLAN filter.
@@ -584,7 +584,7 @@ class PEF_VLANPCP:
         :type mask: str
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type, self._vlan_type], use=use, value=value, mask=mask))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
     """VLAN PCP is not used for the filter."""
