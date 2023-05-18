@@ -79,7 +79,10 @@ class Body:
             self.port = port_num
 
         dic = dict(
-            indices=self.square_indices, module=self.module, port=self.port, **self.values
+            indices=self.square_indices,
+            module=self.module,
+            port=self.port,
+            **self.values,
         )
         return (
             build_get_request(self.cmd_class, **dic)  # type: ignore
@@ -233,7 +236,14 @@ class CLIConverter:
                 if basic_type is str:
                     return str(string_param).strip('"').strip("'")
                 elif basic_type is Hex:
-                    return Hex(string_param).replace("0x", "").replace("0X", "")
+                    s = (
+                        string_param
+                        .replace("0x", "")
+                        .replace("0X", "")
+                    )
+                    if len(s) % 2:
+                        s = '0' + s
+                    return Hex(s)
                 return basic_type(string_param)
             except ValueError:
                 return None

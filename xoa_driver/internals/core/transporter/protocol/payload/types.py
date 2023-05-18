@@ -105,10 +105,6 @@ class XmpHex(XmpType[Hex]):
                     f"Expected Hex of size not bigger then {self.repetitions} bytes"
                 )
             val = Hex(cast(str, val).zfill(size_))
-        elif len(val) % 2:
-            # odd number string -> bytes
-            val = Hex(cast(str, val).zfill(len(val) + 1))
-
         return bytes.fromhex(val)
 
 
