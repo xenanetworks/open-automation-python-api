@@ -236,13 +236,9 @@ class CLIConverter:
                 if basic_type is str:
                     return str(string_param).strip('"').strip("'")
                 elif basic_type is Hex:
-                    s = (
-                        string_param
-                        .replace("0x", "")
-                        .replace("0X", "")
-                    )
+                    s = string_param.replace("0x", "").replace("0X", "")
                     if len(s) % 2:
-                        s = '0' + s
+                        s = "0" + s
                     return Hex(s)
                 return basic_type(string_param)
             except ValueError:
