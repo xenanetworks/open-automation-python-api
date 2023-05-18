@@ -1697,14 +1697,14 @@ class PEF_ANYCONFIG:
     @dataclass(frozen=True)
     class SetDataAttr:
         position: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, specifies the start position of the ANY field. Default value: 0, Range:0-127
-        value: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)  # 8 hex bytes, specifying the six bytes of the field. Default value: 0x000000000000
-        mask: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)  # 8 hex bytes, specifying the six bytes of the field. Default value: 0xFFFFFFFFFFFF
+        value: XmpField[xt.XmpHex6] = XmpField(xt.XmpHex6)  # 6 hex bytes, specifying the six bytes of the field. Default value: 0x000000000000
+        mask: XmpField[xt.XmpHex6] = XmpField(xt.XmpHex6)  # 6 hex bytes, specifying the six bytes of the field. Default value: 0xFFFFFFFFFFFF
 
     @dataclass(frozen=True)
     class GetDataAttr:
         position: XmpField[xt.XmpByte] = XmpField(xt.XmpByte)  # byte, specifies the start position of the ANY field. Default value: 0, Range:0-127
-        value: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)  # 8 hex bytes, specifying the six bytes of the field. Default value: 0x000000000000
-        mask: XmpField[xt.XmpHex8] = XmpField(xt.XmpHex8)  # 8 hex bytes, specifying the six bytes of the field. Default value: 0xFFFFFFFFFFFF
+        value: XmpField[xt.XmpHex6] = XmpField(xt.XmpHex6)  # 8 hex bytes, specifying the six bytes of the field. Default value: 0x000000000000
+        mask: XmpField[xt.XmpHex6] = XmpField(xt.XmpHex6)  # 8 hex bytes, specifying the six bytes of the field. Default value: 0xFFFFFFFFFFFF
 
     def get(self) -> "Token[GetDataAttr]":
         """Get the ANY field filter configuration.
