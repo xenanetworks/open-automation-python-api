@@ -32,7 +32,7 @@ async def establish_connection(transporter: "TransportationHandler", host: str, 
         raise exceptions.XoaConnectionTimeoutError(host, port, seconds_timeout) from None
 
 
-async def apply_iter(*cmd_tokens: Token[Any], return_exceptions: bool = False) -> AsyncGenerator[Any, None]:
+async def apply_iter(*cmd_tokens: Token[Any], return_exceptions: bool = False, token_timeout_sec: float | None = 5.0) -> AsyncGenerator[Any, None]:
     """
     Main interface for chunking the commands which need to be send to the single tester at the same time.
     """
@@ -52,7 +52,10 @@ async def apply_iter(*cmd_tokens: Token[Any], return_exceptions: bool = False) -
     while not queue.empty():
         future = await queue.get()
         try:
-            result_ = await asyncio.wait_for(future, 1)
+            result_ = await asyncio.wait_for(
+                future, 
+                token_timeout_sec if return_exceptions else None
+            )
         except Exception as e:
             if return_exceptions:
                 yield e
@@ -64,9 +67,15 @@ async def apply_iter(*cmd_tokens: Token[Any], return_exceptions: bool = False) -
     await queue.join()
 
 
-async def apply(*cmd_tokens: Token[Any], return_exceptions: bool = False) -> list[Any]:
+async def apply(*cmd_tokens: Token[Any], return_exceptions: bool = False, token_timeout_sec: float | None = 5.0) -> list[Any]:
     """
     Main interface for chunking the commands which need to be send to one or multiple testers at the same time.
     """
     assert len(cmd_tokens) <= 200, "Number of the commands is bigger then 200 for one aggregation, please use function <apply_iter> instead"
-    return [f async for f in apply_iter(*cmd_tokens, return_exceptions=return_exceptions)]
+    return [
+        f async for f in apply_iter(
+            *cmd_tokens, 
+            return_exceptions=return_exceptions, 
+            token_timeout_sec=token_timeout_sec
+        )
+    ]

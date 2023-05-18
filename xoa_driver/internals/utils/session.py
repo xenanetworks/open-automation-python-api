@@ -49,7 +49,8 @@ class TesterSession:
             C_LOGON(self._conn).set(self.pwd),
             C_OWNER(self._conn).set(self.owner_name),
             C_TIMEOUT(self._conn).set(self.timeout),
-            return_exceptions=True
+            return_exceptions=True,
+            token_timeout_sec=1.0
         )
         if isinstance(logon, XmpBadValueError):
             raise exceptions.WrongTesterPasswordError(self.pwd) from None
