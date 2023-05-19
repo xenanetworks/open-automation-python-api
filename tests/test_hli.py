@@ -392,7 +392,7 @@ C_TKSTATUSEXT ?
 0/1 PP_AUTONEG ANEG_OFF DEFAULT_TECH_MODE DEFAULT_FEC DEFAULT_FEC NO_PAUSE
 0/1 PP_AUTONEG ?
 0/1 PP_AUTONEGSTATUS ?
-# 0/1 PP_LINKTRAIN AUTO P16K_FRAME NO_INIT NRZ_NO_PRESET DEFAULT_TIMEOUT
+0/1 PP_LINKTRAIN AUTO P16K_FRAME NO_INIT NRZ_NO_PRESET DEFAULT_TIMEOUT
 0/1 PP_LINKTRAIN ?
 0/1 PP_LINKTRAINSTATUS [0] ?    
 """
@@ -1026,17 +1026,16 @@ C_TKSTATUSEXT ?
         + c_pr_commands
     )
     for c in CLIConverter.read_commands_from_long_string(all_commands):
-        if c.command_name == 'PR_FLOWCLEAR':
-            print()
         print(c)
         print(c.as_request())
 
-    with open('./all_commands.txt', 'w') as f:
+    with open("./all_commands.txt", "w") as f:
         f.write(all_commands)
-    for c in CLIConverter.read_commands_from_file('./all_commands.txt'):
+    for c in CLIConverter.read_commands_from_file("./all_commands.txt"):
         print(c)
         print(c.as_request())
-    os.unlink('./all_commands.txt')
+    os.unlink("./all_commands.txt")
+
 
 def run(method: Coroutine) -> None:
     import platform

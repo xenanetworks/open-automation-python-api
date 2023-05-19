@@ -360,6 +360,14 @@ class CLIConverter:
                     "RXLAT": enum_cast["RX_LATENCY"],
                     "RXJIT": enum_cast["RX_JITTER"],
                 }.get(string_param, None)
+        elif type_name == "LinkTrainingMode":
+            enum_cast = getattr(enums, type_name, None)
+            if enum_cast is not None and string_param == "AUTO":
+                return enum_cast["START_AFTER_AUTONEG"]
+        elif type_name == "TimeoutMode":
+            enum_cast = getattr(enums, type_name, None)
+            if enum_cast is not None and string_param == "DEFAULT_TIMEOUT":
+                return enum_cast["DEFAULT"]
         elif class_name == "P_MULTICASTHDR":
             enum_cast = getattr(enums, type_name, None)
             if enum_cast is not None:
