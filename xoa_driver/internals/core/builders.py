@@ -13,7 +13,7 @@ def build_set_request(cls: ICmdOnlySet, **kwargs) -> Request:
     port = kwargs.pop("port", None)
     req_values = cls.SetDataAttr(**kwargs)
     return Request(
-        class_name=cls.__name__,
+        class_name=type(cls).__name__,
         cmd_type=CommandType.COMMAND_VALUE,
         cmd_code=cls.code,
         module_index=module,
@@ -29,7 +29,7 @@ def build_get_request(cls: ICmdOnlyGet, **kwargs) -> Request:
     port = kwargs.pop("port", None)
     req_values = None
     return Request(
-        class_name=cls.__name__,
+        class_name=type(cls).__name__,
         cmd_type=CommandType.COMMAND_QUERY,
         cmd_code=cls.code,
         module_index=module,

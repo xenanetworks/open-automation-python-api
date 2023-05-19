@@ -1026,6 +1026,8 @@ C_TKSTATUSEXT ?
         + c_pr_commands
     )
     for c in CLIConverter.read_commands_from_long_string(all_commands):
+        if c.command_name == 'PR_FLOWCLEAR':
+            print()
         print(c)
         print(c.as_request())
 

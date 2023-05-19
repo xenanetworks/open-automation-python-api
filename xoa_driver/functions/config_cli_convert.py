@@ -8,11 +8,56 @@ from xoa_driver.internals import commands
 from xoa_driver import enums
 from xoa_driver.misc import ArpChunk, NdpChunk
 from xoa_driver.internals.core.transporter.protocol.payload import Hex
-from xoa_driver.internals.core.builders import build_get_request, build_set_request
 from xoa_driver.internals.core.transporter.protocol.struct_request import Request
 from xoa_driver.internals.core.transporter.protocol._constants import CommandType
-from xoa_driver.internals.core.transporter._typings import XoaCommandType
+from xoa_driver.internals.core.transporter._typings import (
+    XoaCommandType,
+    ICmdOnlyGet,
+    ICmdOnlySet,
+)
+from typing import ClassVar, Protocol
 import re
+
+
+class ICmdOnlyGett(ICmdOnlyGet, Protocol):
+    __name__: ClassVar[str]
+
+
+class ICmdOnlySett(ICmdOnlySet, Protocol):
+    __name__: ClassVar[str]
+
+
+def build_set_requestt(cls: ICmdOnlySett, **kwargs) -> Request:
+    indices = kwargs.pop("indices", [])
+    module = kwargs.pop("module", None)
+    port = kwargs.pop("port", None)
+    req_values = cls.SetDataAttr(**kwargs)
+    return Request(
+        class_name=cls.__name__,
+        cmd_type=CommandType.COMMAND_VALUE,
+        cmd_code=cls.code,
+        module_index=module,
+        port_index=port,
+        indices=indices,
+        values=req_values,
+    )
+
+
+def build_get_requestt(cls: ICmdOnlyGett, **kwargs) -> Request:
+    indices = kwargs.pop("indices", [])
+    module = kwargs.pop("module", None)
+    port = kwargs.pop("port", None)
+    req_values = None
+    return Request(
+        class_name=cls.__name__,
+        cmd_type=CommandType.COMMAND_QUERY,
+        cmd_code=cls.code,
+        module_index=module,
+        port_index=port,
+        indices=indices,
+        values=req_values,
+    )
+
 
 module = port = r"\d+"  # hm.one_or_more(hm.DIGIT)
 index = r"((0x|0X)?[A-Fa-f\d]+)"
@@ -85,9 +130,9 @@ class Body:
             **self.values,
         )
         return (
-            build_get_request(self.cmd_class, **dic)  # type: ignore
+            build_get_requestt(self.cmd_class, **dic)  # type: ignore
             if self.type == CommandType.COMMAND_QUERY
-            else build_set_request(self.cmd_class, **dic)  # type: ignore
+            else build_set_requestt(self.cmd_class, **dic)  # type: ignore
         )
 
 
