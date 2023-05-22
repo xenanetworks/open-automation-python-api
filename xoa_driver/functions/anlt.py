@@ -73,18 +73,21 @@ class DoAnlt:
             timeout_mode=timeout_mode,
         )
 
-    def __pl1_cfg_tmp(self, serdes: int, config_type: enums.Layer1ConfigType, values: list[int]) -> Token:
-        return commands.PL1_CFG_TMP(
-            *self._group,
-            serdes,
-            config_type
-        ).set(values=values)
+    def __pl1_cfg_tmp(
+        self, serdes: int, config_type: enums.Layer1ConfigType, values: list[int]
+    ) -> Token:
+        return commands.PL1_CFG_TMP(*self._group, serdes, config_type).set(
+            values=values
+        )
 
     def __select_modes(self) -> tuple[enums.LinkTrainingMode, enums.TimeoutMode]:
-        if self.should_do_an:
+        if self.should_do_an == True and self.should_lt_interactive == False:
             lt_mode = enums.LinkTrainingMode.START_AFTER_AUTONEG
             timeout_mode = enums.TimeoutMode.DEFAULT
-        elif self.should_lt_interactive:
+        elif self.should_do_an == True and self.should_lt_interactive == True:
+            lt_mode = enums.LinkTrainingMode.INTERACTIVE
+            timeout_mode = enums.TimeoutMode.DISABLED
+        elif self.should_do_an == False and self.should_lt_interactive == True:
             lt_mode = enums.LinkTrainingMode.INTERACTIVE
             timeout_mode = enums.TimeoutMode.DISABLED
         else:
@@ -196,13 +199,14 @@ async def autoneg_status(port: GenericL23Port) -> dict[str, t.Any]:
     :rtype: typing.Dict[str, typing.Any]
     """
     conn, mid, pid = get_ctx(port)
-    loopback, auto_neg_info = await apply(
+    loopback, auto_neg_info, status = await apply(
         commands.PL1_CFG_TMP(
             conn, mid, pid, 0, enums.Layer1ConfigType.AN_LOOPBACK
         ).get(),
         commands.PL1_AUTONEGINFO(conn, mid, pid, 0).get(),
+        commands.PP_AUTONEGSTATUS(conn, mid, pid).get(),
     )
-    return dictionize_autoneg_status(loopback, auto_neg_info)
+    return dictionize_autoneg_status(loopback, auto_neg_info, status)
 
 
 LinkTrainType = t.Union[
@@ -569,7 +573,6 @@ async def lt_algorithm_status(port: GenericL23Port) -> dict[str, t.Any]:
     #     raise NotSupportLinkTrainError(port)
     conn, mid, pid = get_ctx(port)
     capabilities = await commands.P_CAPABILITIES(conn, mid, pid).get()
-    initial_mods = {}
     algorithms = {}
     for i in range(0, capabilities.serdes_count):
         alg = await commands.PL1_CFG_TMP(conn, mid, pid, i, enums.Layer1ConfigType.LT_TRAINING_ALGORITHM).get()
@@ -577,6 +580,46 @@ async def lt_algorithm_status(port: GenericL23Port) -> dict[str, t.Any]:
 
     return dictionize_lt_algorithm_status(capabilities, algorithms)
 
+
+async def anlt_strict(port: GenericL23Port, enable: bool) -> None:
+    """
+    .. versionadded:: 1.3
+
+    Should ANLT strict mode be enabled
+
+    :param port: the port object
+    :type port: :class:`~xoa_driver.ports.GenericL23Port`
+    :param enable: should ANLT strict mode be enabled
+    :type enable: bool
+    :return:
+    :rtype:  None
+    """
+    conn, mid, pid = get_ctx(port)
+    capabilities = await commands.P_CAPABILITIES(conn, mid, pid).get()
+    for i in range(0, capabilities.serdes_count):
+        await commands.PL1_CFG_TMP(conn, mid, pid, i, enums.Layer1ConfigType.ANLT_STRICT_MODE).set(values=[int(enable)])
+
+
+async def anlt_log_control(port: GenericL23Port, types: t.List[enums.AnLtLogControl]) -> None:
+    """
+    .. versionadded:: 1.3
+
+    Control what should be logged for ANLT by xenaserver
+
+    :param port: the port object
+    :type port: :class:`~xoa_driver.ports.GenericL23Port`
+    :param types: control what should be logged for ANLT by xenaserver
+    :type types: t.List[enums.AnLtLogControl]
+    :return:
+    :rtype:  None
+    """
+    conn, mid, pid = get_ctx(port)
+    capabilities = await commands.P_CAPABILITIES(conn, mid, pid).get()
+    type = 0
+    for _type in types:
+        type |= _type.value
+    for i in range(0, capabilities.serdes_count):
+        await commands.PL1_CFG_TMP(conn, mid, pid, i, enums.Layer1ConfigType.ANLT_LOG_CONTROL).set(values=[int(type)])
 
 __all__ = (
     "anlt_link_recovery",
@@ -596,4 +639,6 @@ __all__ = (
     "txtap_autotune",
     "lt_im_status",
     "lt_algorithm_status",
+    "anlt_strict",
+    "anlt_log_control",
 )

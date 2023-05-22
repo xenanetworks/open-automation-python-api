@@ -249,7 +249,7 @@ async def set_module_port_config(
             )
         ):
             portspeed_list = [port_count] + port_count * [port_speed]
-            await module.cfp.config_extended.set(portspeed_list=portspeed_list)
+            await module.cfp.config.set(portspeed_list=portspeed_list)
             return None
     raise NotSupportPortSpeed(module)
 

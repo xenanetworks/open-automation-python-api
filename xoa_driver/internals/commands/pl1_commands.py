@@ -305,11 +305,12 @@ class PL1_LOG:
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
+
 @register_command
 @dataclass
 class PL1_CFG_TMP:
     """
-    .. versionadded:: 2.0
+    .. versionadded:: 1.1
 
     .. warning::
 
@@ -321,37 +322,38 @@ class PL1_CFG_TMP:
     code: typing.ClassVar[int] = 388
     pushed: typing.ClassVar[bool] = False
 
-    _connection: 'interfaces.IConnection'
+    _connection: "interfaces.IConnection"
     _module: int
     _port: int
     _serdes_xindex: int
     _type: Layer1ConfigType
 
     class GetDataAttr(ResponseBodyStruct):
+        """Data structure of the get response.
+        """
         values: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
 
     class SetDataAttr(RequestBodyStruct):
+        """Data structure of the set action.
+        """
         values: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
 
-    def get(self) -> Token[GetDataAttr]:
+    def get(self) -> "Token[GetDataAttr]":
         """Get various L1 parameters
 
         :return: various L1 parameters
         :rtype: PL1_CFG_TMP.GetDataAttr
         """
-
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._type]))
 
-    def set(self, values: typing.List[OnOff]) -> Token[None]:
+    def set(self, values: typing.List[int]) -> "Token":
         """Get various L1 parameters
 
-        :param value: whether it is on or off
-        :type value: int
+        :param values: L1 parameters
+        :type values: typing.List[int]
         """
-
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._type], values=values))
-
-
+    
 @register_command
 @dataclass
 class PL1_LINKTRAIN_CMD:
