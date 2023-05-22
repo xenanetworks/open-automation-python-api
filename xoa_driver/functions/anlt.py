@@ -54,8 +54,8 @@ class DoAnlt:
         return commands.PP_AUTONEG(*self._group).set(
             state,
             enums.AutoNegTecAbility.DEFAULT_TECH_MODE,
-            enums.AutoNegFECOption.NO_FEC,
-            enums.AutoNegFECOption.NO_FEC,
+            enums.AutoNegFECOption.DEFAULT_FEC,
+            enums.AutoNegFECOption.DEFAULT_FEC,
             enums.PauseMode.NO_PAUSE,
         )
 
