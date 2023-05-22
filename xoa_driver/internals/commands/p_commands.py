@@ -1470,7 +1470,7 @@ class P_UAT_MODE:
         This command is ignored when state is set to OFF.
 
         :return: the state of the affected stream counters and time in milliseconds to wait before detection of UAT is started. Default value: 500.
-        This command is ignored when state is set to OFF.
+            This command is ignored when state is set to OFF.
         :rtype: P_UAT_MODE.GetDataAttr
         """
 
@@ -2635,7 +2635,7 @@ class P_RATEL2BPS:
         expressed in units of bits per-second at layer-2, thus including the Ethernet header but excluding the inter-frame gap.
 
         :return: the port-level rate of the traffic transmitted for a port in sequential tx mode,
-        expressed in units of bits per-second at layer-2, thus including the Ethernet header but excluding the inter-frame gap
+            expressed in units of bits per-second at layer-2, thus including the Ethernet header but excluding the inter-frame gap
         :rtype: P_RATEL2BPS.GetDataAttr
         """
 
@@ -2646,7 +2646,7 @@ class P_RATEL2BPS:
         thus including the Ethernet header but excluding the inter-frame gap.
 
         :param port_rate_bps: the port-level rate of the traffic transmitted for a port in sequential tx mode,
-        expressed in units of bits per-second at layer-2, thus including the Ethernet header but excluding the inter-frame gap
+            expressed in units of bits per-second at layer-2, thus including the Ethernet header but excluding the inter-frame gap
         :type port_rate_bps: int
         """
 
@@ -3962,7 +3962,7 @@ class P_TXBURSTPERIOD:
         """Set the duration in microseconds from the start of one sequence of bursts (from a number of streams) to the start of next sequence of bursts in Burst TX mode.
 
         :param burst_period: the duration in microseconds from the start of one sequence of bursts
-        (from a number of streams) to the start of next sequence of bursts in Burst TX mode
+            (from a number of streams) to the start of next sequence of bursts in Burst TX mode
         :type burst_period: int
         """
 
