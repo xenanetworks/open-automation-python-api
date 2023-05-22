@@ -11,16 +11,16 @@ from typing import (
     cast,
 )
 
-FMT_ORDER_NETWORK = "!"
-FMT_BYTES_STRING = "s"
-FMT_SIG_CHAR = "b"
-FMT_U_SIG_CHAR = "B"
-FMT_LONG = "q"
-FMT_U_LONG = "Q"
-FMT_INT = "i"
-FMT_U_INT = "I"
-FMT_SHORT = "h"
-FMT_U_SHORT = "H"
+FMT_ORDER_NETWORK = '!'
+FMT_BYTES_STRING = 's'
+FMT_SIG_CHAR = 'b'
+FMT_U_SIG_CHAR = 'B'
+FMT_LONG = 'q'
+FMT_U_LONG = 'Q'
+FMT_INT = 'i'
+FMT_U_INT = 'I'
+FMT_SHORT = 'h'
+FMT_U_SHORT = 'H'
 
 # region Base Type
 
@@ -31,7 +31,7 @@ Hex = NewType("Hex", str)
 
 
 class XmpType(Protocol[GenericType]):
-    __slots__ = ("data_format", "repetitions")
+    __slots__ = ("data_format", "repetitions",)
 
     repetitions: int | None
     data_format: str
@@ -42,12 +42,10 @@ class XmpType(Protocol[GenericType]):
     def server_format(self, val: Any) -> Any:
         return val
 
-
 # endregion
 
 
 # region Xmp Types
-
 
 class XmpByte(XmpType[int]):
     """Description class of XMP Byte type representation"""
@@ -60,9 +58,7 @@ class XmpByte(XmpType[int]):
 class XmpInt(XmpType[int]):
     """Description class of XMP Int type representation"""
 
-    def __init__(
-        self, *, signed: bool = True, climb: tuple[int, int] | None = None
-    ) -> None:
+    def __init__(self, *, signed: bool = True, climb: tuple[int, int] | None = None) -> None:
         self.data_format = FMT_INT if signed else FMT_U_INT
         self.repetitions = None
 
@@ -101,9 +97,7 @@ class XmpHex(XmpType[Hex]):
         if self.repetitions is not None:
             size_ = self.repetitions * 2
             if len(val) > size_:
-                raise ValueError(
-                    f"Expected Hex of size not bigger then {self.repetitions} bytes"
-                )
+                raise ValueError(f"Expected Hex of size not bigger then {self.repetitions} bytes")
             val = Hex(cast(str, val).zfill(size_))
         return bytes.fromhex(val)
 
@@ -155,7 +149,7 @@ class XmpStr(XmpType[str]):
         self.min_len = min_len
 
     def client_format(self, val: bytes) -> str:
-        return val.partition(b"\0")[0].decode()
+        return val.partition(b'\0')[0].decode()
 
     def server_format(self, val: str) -> bytes:
         return val.encode()
@@ -164,28 +158,16 @@ class XmpStr(XmpType[str]):
 class XmpSequence(XmpType[tuple]):
     """Description class of XMP Sequence type representation"""
 
-    __slots__ = ("types_chunk", "length")
+    __slots__ = ("types_chunk", "length",)
 
     def __init__(
         self,
-        types_chunk: list[
-            XmpByte
-            | XmpInt
-            | XmpShort
-            | XmpLong
-            | XmpHex
-            | XmpIPv4Address
-            | XmpIPv6Address
-            | XmpMacAddress
-        ],
-        length: int | None = None,
+        types_chunk: list[XmpByte | XmpInt | XmpShort | XmpLong | XmpHex | XmpIPv4Address | XmpIPv6Address | XmpMacAddress],
+        length: int | None = None
     ) -> None:
         self.types_chunk = tuple(types_chunk)
         self.length = length
         self.repetitions = None
-        self.data_format = "".join(
-            f"{t.repetitions or ''}{t.data_format}" for t in self.types_chunk
-        )
-
+        self.data_format = "".join(f"{t.repetitions or ''}{t.data_format}" for t in self.types_chunk)
 
 # endregion
