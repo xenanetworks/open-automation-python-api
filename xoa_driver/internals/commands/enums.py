@@ -2231,10 +2231,10 @@ class LinkTrainEncoding(IntEnum):
     NRZ = 0
     """NRZ (PAM2)"""
 
-    PAM4 = 1
+    PAM4 = 2
     """PAM4"""
 
-    PAM4_WITH_PRECODING = 2
+    PAM4_WITH_PRECODING = 3
     """PAM4 with precoding"""
 
     UNKNOWN = 255
