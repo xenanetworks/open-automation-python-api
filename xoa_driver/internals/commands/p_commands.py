@@ -2166,7 +2166,7 @@ class P_MULTICAST:
     _port: int
 
     class GetDataAttr(ResponseBodyStruct):
-        ipv4_multicast_addresses: typing.List[ipaddress.IPv4Address] = field(XmpSequence(types_chunk=[XmpIPv4Address()], length=2))
+        ipv4_multicast_addresses: typing.List[ipaddress.IPv4Address] = field(XmpSequence(types_chunk=[XmpIPv4Address()]))
         """a multicast group address to join or leave"""
         operation: MulticastOperation = field(XmpByte())
         """coded byte, specifying the operation."""
@@ -2174,7 +2174,7 @@ class P_MULTICAST:
         """the interval between repeated joins in seconds."""
 
     class SetDataAttr(RequestBodyStruct):
-        ipv4_multicast_addresses: typing.List[ipaddress.IPv4Address] = field(XmpSequence(types_chunk=[XmpIPv4Address()], length=2))
+        ipv4_multicast_addresses: typing.List[ipaddress.IPv4Address] = field(XmpSequence(types_chunk=[XmpIPv4Address()]))
         """a multicast group address to join or leave"""
         operation: MulticastOperation = field(XmpByte())
         """coded byte, specifying the operation."""
@@ -2247,7 +2247,7 @@ class P_MULTICASTEXT:
     _port: int
 
     class GetDataAttr(ResponseBodyStruct):
-        ipv4_multicast_addresses: typing.List[ipaddress.IPv4Address] = field(XmpSequence(types_chunk=[XmpIPv4Address()], length=3))
+        ipv4_multicast_addresses: typing.List[ipaddress.IPv4Address] = field(XmpSequence(types_chunk=[XmpIPv4Address()]))
         """list of addresses, up to 8 multicast group addresses to receive an operation"""
         operation: MulticastExtOperation = field(XmpByte())
         """coded byte, specifying the operation."""
@@ -2257,7 +2257,7 @@ class P_MULTICASTEXT:
         """coded byte, specifying the IGMP version."""
 
     class SetDataAttr(RequestBodyStruct):
-        ipv4_multicast_addresses: typing.List[ipaddress.IPv4Address] = field(XmpSequence(types_chunk=[XmpIPv4Address()], length=3))
+        ipv4_multicast_addresses: typing.List[ipaddress.IPv4Address] = field(XmpSequence(types_chunk=[XmpIPv4Address()]))
         """list of addresses, up to 8 multicast group addresses to receive an operation"""
         operation: MulticastExtOperation = field(XmpByte())
         """coded byte, specifying the operation."""

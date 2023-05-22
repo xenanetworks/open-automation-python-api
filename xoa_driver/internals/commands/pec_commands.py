@@ -53,11 +53,11 @@ class PEC_INDICES:
     _port: int
 
     class GetDataAttr(ResponseBodyStruct):
-        indices: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        indexations: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, a list of the indices to the custom distributions which are currently defined on that port, max 40 elements."""
 
     class SetDataAttr(RequestBodyStruct):
-        indices: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        indexations: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
         """list of integers, a list of the indices to the custom distributions which are currently defined on that port, max 40 elements."""
 
     def get(self) -> Token[GetDataAttr]:
@@ -69,14 +69,14 @@ class PEC_INDICES:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
-    def set(self, indices: typing.List[int]) -> Token[None]:
+    def set(self, indexations: typing.List[int]) -> Token[None]:
         """Set a list of indices to create new custom distributions.
 
-        :param indices: a list of indices to create new custom distributions
-        :type indices: typing.List[int]
+        :param indexations: a list of indices to create new custom distributions
+        :type indexations: typing.List[int]
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=indices))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indexations=indexations))
 
 
 @register_command

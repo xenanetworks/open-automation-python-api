@@ -955,7 +955,7 @@ class PS_PACKETHEADER:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._stream_xindex]))
 
-    def set(self, hex_data: str) -> Token[None]:
+    def set(self, hex_data: Hex) -> Token[None]:
         """Set the packet header of a stream. This
         starts with the 14 bytes of the Ethernet header, followed by any contained
         protocol segments. All packets transmitted for the stream start with this fixed
@@ -966,7 +966,7 @@ class PS_PACKETHEADER:
         by-field layout of the various protocol segments.
 
         :param hex_data: the raw bytes comprising the packet header
-        :type hex_data: str
+        :type hex_data: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._stream_xindex], hex_data=hex_data))
@@ -1133,7 +1133,7 @@ class PS_MODIFIER:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._stream_xindex, self._modifier_xindex]))
 
-    def set(self, position: int, mask: str, action: ModifierAction, repetition: int) -> Token[None]:
+    def set(self, position: int, mask: Hex, action: ModifierAction, repetition: int) -> Token[None]:
         """Set a packet modifier for a stream header. The headers of each packet transmitted
         for the stream will be varied according to the modifier specification. This
         command requires two sub-indices, one for the stream and one for the modifier.
@@ -1327,7 +1327,7 @@ class PS_PAYLOAD:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._stream_xindex]))
 
-    def set(self, payload_type: PayloadType, hex_data: str) -> Token[None]:
+    def set(self, payload_type: PayloadType, hex_data: Hex) -> Token[None]:
         """Set the payload content of the packets transmitted for a stream. The payload portion
         of a packet starts after the header and continues up until the test payload or
         the frame checksum. The payload may vary in length and is filled with either an
@@ -1338,7 +1338,7 @@ class PS_PAYLOAD:
         :param payload_type: the kind of payload content
         :type payload_type: PayloadType
         :param hex_data: a pattern of bytes to be repeated. The maximum length of the pattern is 18 bytes. Only used if the type is set to PATTERN.
-        :type hex_data: str
+        :type hex_data: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._stream_xindex], payload_type=payload_type, hex_data=hex_data))
@@ -1404,7 +1404,7 @@ class PS_IPV4GATEWAY:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._stream_xindex]))
 
-    def set(self, gateway: typing.Union[str, ipaddress.IPv4Address, int]) -> Token[None]:
+    def set(self, gateway: ipaddress.IPv4Address) -> Token[None]:
         """Set the IPv4 gateway address of a stream.
 
         :param gateway: the IPv4 gateway address of the stream
@@ -1446,7 +1446,7 @@ class PS_IPV6GATEWAY:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._stream_xindex]))
 
-    def set(self, gateway: typing.Union[str, ipaddress.IPv6Address, int]) -> Token[None]:
+    def set(self, gateway: ipaddress.IPv6Address) -> Token[None]:
         """Set the IPv6 gateway address of a stream.
 
         :param gateway: the IPv6 gateway address of the stream
@@ -1737,7 +1737,7 @@ class PS_MODIFIEREXT:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._stream_xindex, self._modifier_xindex]))
 
-    def set(self, position: int, mask: str, action: ModifierAction, repetition: int) -> Token[None]:
+    def set(self, position: int, mask: Hex, action: ModifierAction, repetition: int) -> Token[None]:
         """Set an extended packet modifier for a stream header. The headers of each packet
         transmitted for the stream will be varied according to the modifier
         specification. The modifier acts on 24 bits and takes up the space for two
@@ -1999,7 +1999,7 @@ class PS_CDFDATA:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._stream_xindex, self._custom_data_field_xindex]))
 
-    def set(self, hex_data: str) -> Token[None]:
+    def set(self, hex_data: Hex) -> Token[None]:
         """Set the actual field data for a single field. It is possible to define fields with
         different data lengths for each stream. If the length of a data field exceeds
         (packet length - CDF offset) defined for the stream the field data will be
@@ -2008,7 +2008,7 @@ class PS_CDFDATA:
         all streams on this port.
 
         :param hex_data: a pattern of bytes to be used
-        :type hex_data: str
+        :type hex_data: Hex
         """
 
         return Token(
@@ -2061,7 +2061,7 @@ class PS_EXTPAYLOAD:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._stream_xindex]))
 
-    def set(self, hex_data: str) -> Token[None]:
+    def set(self, hex_data: Hex) -> Token[None]:
         """Set the extended payload in bytes of a stream. The PS_EXTPAYLOAD command allow the definition
         of a much larger (up to MTU) payload buffer for each stream. The extended
         payload will be inserted immediately after the end of the protocol segment area.
@@ -2069,7 +2069,7 @@ class PS_EXTPAYLOAD:
         EXTPL. This enables the feature for all streams on this port.
 
         :param hex_data: the extended payload in bytes of a stream
-        :type hex_data: str
+        :type hex_data: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._stream_xindex], hex_data=hex_data))

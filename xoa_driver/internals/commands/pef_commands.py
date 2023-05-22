@@ -259,15 +259,15 @@ class PEF_ETHSRCADDR:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
-    def set(self, use: OnOff, value: str, mask: str) -> Token[None]:
+    def set(self, use: OnOff, value: Hex, mask: Hex) -> Token[None]:
         """Set the Ethernet Source Address settings for the Ethernet filter.
 
         :param use: specifies the use of Ethernet Source Address information
         :type use: OnOff
         :param value: specifying the six bytes of the address. Default value: 0x000000000000.
-        :type value: str
+        :type value: Hex
         :param mask: specifying the mask corresponding to the address. Default value: 0xFFFFFFFFFFFF.
-        :type mask: str
+        :type mask: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask))
@@ -325,15 +325,15 @@ class PEF_ETHDESTADDR:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
-    def set(self, use: OnOff, value: str, mask: str) -> Token[None]:
+    def set(self, use: OnOff, value: Hex, mask: Hex) -> Token[None]:
         """Set the Ethernet Destination Address settings for the Ethernet filter.
 
         :param use: specifies the use of Ethernet Destination Address information
         :type use: OnOff
         :param value: specifying the six bytes of the address. Default value: 0x000000000000
-        :type value: str
+        :type value: Hex
         :param mask: specifying the mask corresponding to the address. Default value: 0xFFFFFFFFFFFF
-        :type mask: str
+        :type mask: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask))
@@ -506,7 +506,7 @@ class PEF_VLANTAG:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type, self._vlan_type]))
 
-    def set(self, use: OnOff, value: int, mask: str) -> Token[None]:
+    def set(self, use: OnOff, value: int, mask: Hex) -> Token[None]:
         """Set the VLAN TAG settings for the VLAN filter.
 
         :param use: specifies the use of VLAN TAG information
@@ -514,7 +514,7 @@ class PEF_VLANTAG:
         :param value: specifying the 12 bit value of the tag. Default value: 0.
         :type value: int
         :param mask: specifying the 12 bit value of the tag. Default value: 0x0FFF
-        :type mask: str
+        :type mask: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type, self._vlan_type], use=use, value=value, mask=mask))
@@ -573,7 +573,7 @@ class PEF_VLANPCP:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type, self._vlan_type]))
 
-    def set(self, use: OnOff, value: int, mask: str) -> Token[None]:
+    def set(self, use: OnOff, value: int, mask: Hex) -> Token[None]:
         """Set the VLAN PCP settings for the VLAN filter.
 
         :param use: specifies the use of VLAN PCP information
@@ -581,7 +581,7 @@ class PEF_VLANPCP:
         :param value: specifying the value of the PCP. Default value: 0 (Range: 0 to 7)
         :type value: int
         :param mask: specifying the 8 bit value mask. Default value: 0x07
-        :type mask: str
+        :type mask: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type, self._vlan_type], use=use, value=value, mask=mask))
@@ -688,7 +688,7 @@ class PEF_MPLSLABEL:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
-    def set(self, use: OnOff, value: int, mask: str) -> Token[None]:
+    def set(self, use: OnOff, value: int, mask: Hex) -> Token[None]:
         """Set the MPLS label settings for the filter.
 
         :param use: specifies the use of MPLS label information.
@@ -696,7 +696,7 @@ class PEF_MPLSLABEL:
         :param value: specifying the 20-bit value of the label. Default value: 0.
         :type value: int
         :param mask: specifying the 20-bit value of the label. Default value: 0x0FFFFF,
-        :type mask: str
+        :type mask: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask))
@@ -754,7 +754,7 @@ class PEF_MPLSTOC:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
-    def set(self, use: OnOff, value: int, mask: str) -> Token[None]:
+    def set(self, use: OnOff, value: int, mask: Hex) -> Token[None]:
         """Set the MPLS TOC settings for the filter.
 
         :param use: specifies the use of MPLS TOC information
@@ -762,7 +762,7 @@ class PEF_MPLSTOC:
         :param value: specifying the value of the MPLS TOC. Default value: 0 (Range: 0 to 7).
         :type value: int
         :param mask: specifying the filter mask for the value of the MPLS TOC. Default value: 0x07
-        :type mask: str
+        :type mask: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask))
@@ -932,7 +932,7 @@ class PEF_IPV4SRCADDR:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
-    def set(self, use: OnOff, value: ipaddress.IPv4Address, mask: str) -> Token[None]:
+    def set(self, use: OnOff, value: ipaddress.IPv4Address, mask: Hex) -> Token[None]:
         """Set the IPv4 Source Address settings for the IPv4 filter.
 
         :param use: specifies the use of IPv4 Source Address information
@@ -940,7 +940,7 @@ class PEF_IPV4SRCADDR:
         :param value: specifying the four bytes of the address. Default value: 0.0.0.0
         :type value: ipaddress.IPv4Address
         :param mask: specifying the filter mask of the value. Default value: 0xFFFFFFFF
-        :type mask: str
+        :type mask: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask))
@@ -998,7 +998,7 @@ class PEF_IPV4DESTADDR:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
-    def set(self, use: OnOff, value: ipaddress.IPv4Address, mask: str) -> Token[None]:
+    def set(self, use: OnOff, value: ipaddress.IPv4Address, mask: Hex) -> Token[None]:
         """Set the IPv4 Destination Address settings for the IPv4 filter.
 
         :param use: specifies the use of IPv4 Destination Address information
@@ -1006,7 +1006,7 @@ class PEF_IPV4DESTADDR:
         :param value: specifying the four bytes of the address. Default value: 0.0.0.0
         :type value: ipaddress.IPv4Address
         :param mask: specifying the filter mask of the value. Default value: 0xFFFFFFFF
-        :type mask: str
+        :type mask: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask))
@@ -1064,7 +1064,7 @@ class PEF_IPV4DSCP:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
-    def set(self, use: OnOff, value: int, mask: str) -> Token[None]:
+    def set(self, use: OnOff, value: int, mask: Hex) -> Token[None]:
         """Set IPv4 DSCP/TOS settings for the filter.
 
         :param use: specifies the use of IPv4 DSCP/TOS information.
@@ -1072,7 +1072,7 @@ class PEF_IPV4DSCP:
         :param value: specifying the value of the IPv4 DSCP/TOS in the upper 6 bits. value[7:2] = DSCP/TOS, value[1:0] = reserved (must be zero). Default value: 0
         :type value: int
         :param mask: specifying the filter mask of the value in the upper 6 bits. mask[7:2] = DSCP/TOS mask, mask[1:0] = reserved (must be zero). Default value: 0xFC
-        :type mask: str
+        :type mask: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask))
@@ -1184,15 +1184,15 @@ class PEF_IPV6SRCADDR:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
-    def set(self, use: OnOff, value: str, mask: str) -> Token[None]:
+    def set(self, use: OnOff, value: ipaddress.IPv6Address, mask: Hex) -> Token[None]:
         """Set the IPv6 Source Address settings for the IPv6 filter.
 
         :param use: specifies the use of IPv6 Source Address information
         :type use: OnOff
         :param value: specifying the address. Default : 0x00000000000000000000000000000000
-        :type value: str
+        :type value: ipaddress.IPv6Address
         :param mask: specifying the six first bytes of the address. Default value: 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-        :type mask: str
+        :type mask: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask))
@@ -1250,15 +1250,15 @@ class PEF_IPV6DESTADDR:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
-    def set(self, use: OnOff, value: str, mask: str) -> Token[None]:
+    def set(self, use: OnOff, value: ipaddress.IPv6Address, mask: Hex) -> Token[None]:
         """Set the IPv6 Destination Address settings for the IPv6 filter.
 
         :param use:  specifies the use of IPv6 Destination Address information
         :type use: OnOff
         :param value: specifying the address. Default : 0x00000000000000000000000000000000
-        :type value: str
+        :type value: ipaddress.IPv6Address
         :param mask: specifying the six first bytes of the address. Default value: 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-        :type mask: str
+        :type mask: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask))
@@ -1316,15 +1316,15 @@ class PEF_IPV6TC:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
-    def set(self, use: OnOff, value: int, mask: str) -> Token[None]:
+    def set(self, use: OnOff, value: ipaddress.IPv6Address, mask: Hex) -> Token[None]:
         """Set IPv6 Traffic Class settings used for the filter.
 
         :param use: specifies the use of the IPv6 Traffic Class information.
         :type use: OnOff
         :param value: specifying the value of the IPv6 Traffic Class in the upper 6 bits. value[7:2] = IPv6 Traffic Class. value[1:0] = reserved (must be zero). Default value: 0
-        :type value: int
+        :type value: ipaddress.IPv6Address
         :param mask: specifying the filter mask for the value in the upper 6 bits. mask[7:2] = IPv6 Traffic Class mask. mask[1:0] = reserved (must be zero). Default value: 0xFC
-        :type mask: str
+        :type mask: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask))
@@ -1436,7 +1436,7 @@ class PEF_UDPSRCPORT:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
-    def set(self, use: OnOff, value: int, mask: str) -> Token[None]:
+    def set(self, use: OnOff, value: int, mask: Hex) -> Token[None]:
         """Set UDP Source Port settings used for the filter.
 
         :param use: specifies the use of UDP Source Port information
@@ -1444,7 +1444,7 @@ class PEF_UDPSRCPORT:
         :param value: specifying the value of the UDP Source Port. Default value: 0
         :type value: int
         :param mask: specifying the filter mask for the value. Default value: 0xFFFF
-        :type mask: str
+        :type mask: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask))
@@ -1501,7 +1501,7 @@ class PEF_UDPDESTPORT:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
-    def set(self, use: OnOff, value: int, mask: str) -> Token[None]:
+    def set(self, use: OnOff, value: int, mask: Hex) -> Token[None]:
         """Set UDP Destination Port settings used for the filter.
 
         :param use: specifies the use of UDP Destination Port information
@@ -1509,7 +1509,7 @@ class PEF_UDPDESTPORT:
         :param value: specifying the value of the UDP Destination Port. Default value: 0
         :type value: int
         :param mask: specifying the filter mask for the value. Default value: 0xFFFF
-        :type mask: str
+        :type mask: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask))
@@ -1622,7 +1622,7 @@ class PEF_TCPSRCPORT:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
-    def set(self, use: OnOff, value: int, mask: str) -> Token[None]:
+    def set(self, use: OnOff, value: int, mask: Hex) -> Token[None]:
         """Set TCP Source Port settings used for the filter.
 
         :param use:  specifies the use of TCP Source Port information
@@ -1630,7 +1630,7 @@ class PEF_TCPSRCPORT:
         :param value: specifies the value of the TCP Source Port. Default value: 0
         :type value: int
         :param mask: specifies the filter mask for the value. Default value: 0xFFFF
-        :type mask: str
+        :type mask: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask))
@@ -1688,7 +1688,7 @@ class PEF_TCPDESTPORT:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
-    def set(self, use: OnOff, value: int, mask: str) -> Token[None]:
+    def set(self, use: OnOff, value: int, mask: Hex) -> Token[None]:
         """Set TCP Destination Port settings used for the filter.
 
         :param use: specifies the use of TCP Destination Port information
@@ -1696,7 +1696,7 @@ class PEF_TCPDESTPORT:
         :param value: specifies the value of the TCP Destination Port. Default value: 0
         :type value: int
         :param mask: specifies the filter mask for the value. Default value: 0xFFFF
-        :type mask: str
+        :type mask: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, value=value, mask=mask))
@@ -1811,7 +1811,7 @@ class PEF_ANYCONFIG:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
-    def set(self, position: int, value: str, mask: str) -> Token[None]:
+    def set(self, position: int, value: Hex, mask: Hex) -> Token[None]:
         """Set the ANY field filter configuration
 
         :param position: specifies the start position of the ANY field. Default value: 0, Range:0-127
@@ -2041,11 +2041,11 @@ class PEF_VALUE:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
-    def set(self, value: str) -> Token[None]:
+    def set(self, value: Hex) -> Token[None]:
         """Set the byte values that can be matched if selected by PEF_MASK.
 
         :param value: the raw bytes comprising the packet header
-        :type value: str
+        :type value: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], value=value))
@@ -2102,11 +2102,11 @@ class PEF_MASK:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
-    def set(self, masks: str) -> Token[None]:
+    def set(self, masks: Hex) -> Token[None]:
         """Set the mask byte values that select the values specified by PEF_VALUE`.
 
         :param masks: mask byte values
-        :type masks: str
+        :type masks: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], masks=masks))

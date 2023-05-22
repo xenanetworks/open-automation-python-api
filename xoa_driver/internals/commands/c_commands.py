@@ -1443,7 +1443,7 @@ class C_FILEFINISH:
         """Completes upload of a file to the chassis. After validation it will replace any existing file with the same name.
         """
 
-        return Token(self._connection, build_set_request(self))
+        return Token(self._connection, build_set_request(self, magic=-1480937026))
 
 
 @register_command

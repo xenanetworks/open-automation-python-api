@@ -2326,6 +2326,7 @@ class AnLtLogControl(IntEnum):
     ANLT log control bits
 
     """
+
     # 1st nibble
     LOG_TYPE_DEBUG = 0x2
     """debug log output"""
@@ -2365,5 +2366,6 @@ class AnLtLogControl(IntEnum):
 
     LOG_TYPE_FSM_LT_ALG1 = 0x800000
     """link training algorithm -1 state machine transitions"""
+
 
 # endregion

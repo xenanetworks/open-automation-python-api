@@ -151,7 +151,7 @@ class PC_KEEP:
         """
 
     class SetDataAttr(RequestBodyStruct):
-        type: PacketType = field(XmpInt())
+        kind: PacketType = field(XmpInt())
         """coded integer, which general kind of packets to keep"""
         index: int = field(XmpInt())
         """integer, test payload id or filter index for which packets to keep."""

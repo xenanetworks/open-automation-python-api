@@ -150,7 +150,17 @@ from .internals.commands.enums import (
     UpdateState,
     WhoClose,
     YesNo,
-    Layer1ConfigType
+    Layer1ConfigType,
+    LinkTrainAlgorithm,
+    LinkTrainCmd,
+    LinkTrainAnnounce,
+    Layer1LogType,
+    LinkTrainCmdFlags,
+    LinkTrainCmdResults,
+    LinkTrainCoeffs,
+    LinkTrainEncoding,
+    LinkTrainPresets,
+    AnLtLogControl,
 )
 
 __all__ = (
@@ -304,4 +314,14 @@ __all__ = (
     "WhoClose",
     "YesNo",
     "Layer1ConfigType",
+    "LinkTrainAlgorithm",
+    "LinkTrainCmd",
+    "LinkTrainAnnounce",
+    "Layer1LogType",
+    "LinkTrainCmdFlags",
+    "LinkTrainCmdResults",
+    "LinkTrainCoeffs",
+    "LinkTrainEncoding",
+    "LinkTrainPresets",
+    "AnLtLogControl",
 )

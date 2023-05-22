@@ -30,7 +30,6 @@ GetStructType = t.TypeVar("GetStructType", bound="ResponseBodyStruct", covariant
 
 class ICmdOnlySet(ICommand, t.Protocol):
     """A template class which provide only <cmd_set> method."""
-
     SetDataAttr: t.Type[SetStructType]  # type: ignore
     set: t.Callable[..., Token[None]]
 

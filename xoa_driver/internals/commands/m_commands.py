@@ -312,7 +312,7 @@ class M_UPGRADE:
         :type image_name: str
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, image_name=image_name))
+        return Token(self._connection, build_set_request(self, module=self._module, magic=-1480937026, image_name=image_name))
 
 
 @register_command
@@ -687,7 +687,7 @@ class M_FPGAREIMAGE:
         :type key_code: int.
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module))
+        return Token(self._connection, build_set_request(self, module=self._module, key_code=42))
 
 
 @register_command

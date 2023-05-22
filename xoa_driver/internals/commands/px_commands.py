@@ -54,11 +54,11 @@ class PX_RW:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._page_xindex, self._register_xaddress]))
 
-    def set(self, value: str) -> Token[None]:
+    def set(self, value: Hex) -> Token[None]:
         """Set the register value of a transceiver.
 
         :param value: register value of a transceiver
-        :type value: str
+        :type value: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._page_xindex, self._register_xaddress], value=value))
@@ -105,11 +105,11 @@ class PX_RW_SEQ:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._page_xindex, self._register_xaddress, self._byte_xcount]))
 
-    def set(self, value: str) -> Token[None]:
+    def set(self, value: Hex) -> Token[None]:
         """Set the register value of a transceiver in one I2C transaction.
 
         :param value: register value of a transceiver
-        :type value: str
+        :type value: Hex
         """
 
         return Token(
@@ -155,11 +155,11 @@ class PX_MII:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._register_xaddress]))
 
-    def set(self, value: str) -> Token[None]:
+    def set(self, value: Hex) -> Token[None]:
         """Set the register value of a transceiver.
 
         :param value: register value of a transceiver
-        :type value: str
+        :type value: Hex
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._register_xaddress], value=value))

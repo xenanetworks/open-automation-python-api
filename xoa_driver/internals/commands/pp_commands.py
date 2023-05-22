@@ -906,7 +906,7 @@ class PP_EYEMEASURE:
         :type status: StartOrStop
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], status=status))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], status=status, dummy=[]))
 
     set_stop = functools.partialmethod(set, StartOrStop.STOP)
     """Start a new BER eye-measure on a 25G serdes.
@@ -1167,7 +1167,7 @@ class PP_PHYTXEQ:
                 indices=[self._serdes_xindex],
                 pre2=pre2,
                 pre1=pre1,
-                main=main, post1=post1, post2=post2, post3=post3))
+                main=main, post1=post1, post2=post2, post3=post3, mode=4))
 
 
 @register_command
