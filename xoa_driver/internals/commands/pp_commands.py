@@ -406,7 +406,7 @@ class PP_RXFECSTATS:
         """Get statistics on how many FEC blocks have been seen with a given number of symbol errors.
 
         :return: stats type (currently always 0), number of values, correction stats array, and the number of received uncorrectable code words.
-        The correction stats array shows how many FEC blocks have been seen with [0, 1, 2, 3....15, >15] symbol errors, length = value_count-1.
+            The correction stats array shows how many FEC blocks have been seen with [0, 1, 2, 3....15, >15] symbol errors, length = value_count-1.
 
         :rtype: PP_RXFECSTATS.GetDataAttr
         """
@@ -1010,7 +1010,7 @@ class PP_EYEREAD:
         """Read a single column of a measured BER eye on a 25G serdes.
 
         :return: x resolution, y resolution, number of valid columns, and the number of bit errors measured out of a total of 1M bits
-        at each of the individual sampling points (x=timeaxis, y = 0/1 threshold).
+            at each of the individual sampling points (x=timeaxis, y = 0/1 threshold).
         :rtype: PP_EYEREAD.GetDataAttr
         """
 

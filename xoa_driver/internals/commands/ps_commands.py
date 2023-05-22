@@ -585,7 +585,7 @@ class PS_MODIFIEREXTRANGE:
         max, where max must be equal to min plus a multiple of step. Note that when
         "decrement" is specified in PS_MODIFIEREXT as the action, the value sequence
         will begin with the max value instead of the min value and decrement from there:
-        {max, max-1, max-2, ...., min, max, max-1...}.vv
+        {max, max-1, max-2, ...., min, max, max-1...}.
 
         :param min_val: the minimum modifier value
         :type min_val: int
@@ -641,8 +641,7 @@ class PS_MODIFIERRANGE:
         """integer, the maximum modifier value."""
 
     def get(self) -> Token[GetDataAttr]:
-        """Get the range specification for a packet modifier for a stream header, specifying which
-        values the modifier should take on.
+        """Get the range specification for a packet modifier for a stream header, specifying which values the modifier should take on.
 
         :return: the minimum modifier value, the increment between modifier values, the maximum modifier value.
         :rtype: PS_MODIFIERRANGE.GetDataAttr
@@ -1127,7 +1126,7 @@ class PS_MODIFIER:
         identical packets are transmitted before applying the next modification.
 
         :return: the byte position from the start of the packet, the mask specifying which bits to affect, which action to perform on the affected bits,
-        and how many times to repeat on each packet
+            and how many times to repeat on each packet
         :rtype: PS_MODIFIER.GetDataAttr
         """
 

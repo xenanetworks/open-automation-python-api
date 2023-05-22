@@ -46,7 +46,7 @@ class PT_TOTAL:
         """Get statistics concerning all the packets transmitted on a port.
 
         :return: number of bits transmitted in the last second, number of packets transmitted in the last second,
-        number of bytes transmitted since statistics were cleared, and number of packets transmitted since statistics were cleared.
+            number of bytes transmitted since statistics were cleared, and number of packets transmitted since statistics were cleared.
         :rtype: PT_TOTAL.GetDataAttr
         """
 
@@ -82,7 +82,7 @@ class PT_NOTPLD:
         """Get statistics concerning the packets without a test payload transmitted on a port.
 
         :return: number of bits transmitted in the last second, number of packets transmitted in the last second,
-        number of bytes transmitted since statistics were cleared, and number of packets transmitted since statistics were cleared
+            number of bytes transmitted since statistics were cleared, and number of packets transmitted since statistics were cleared
         :rtype: PT_NOTPLD.GetDataAttr
         """
 
@@ -119,7 +119,7 @@ class PT_STREAM:
         """Get statistics concerning the packets of a specific stream transmitted on a port.
 
         :return: number of bits transmitted in the last second, number of packets transmitted in the last second,
-        number of bytes transmitted since statistics were cleared, and number of packets transmitted since statistics were cleared.
+            number of bytes transmitted since statistics were cleared, and number of packets transmitted since statistics were cleared.
         :rtype: PT_STREAM.GetDataAttr
         """
 
@@ -212,8 +212,8 @@ class PT_TOTALEXT:
         """Get statistics concerning all the packets transmitted on a port.
 
         :return: number of bits transmitted in the last second, number of bytes transmitted in the last second,
-        number of packets transmitted in the last second, number of bytes transmitted since statistics were cleared,
-        and number of packets transmitted since statistics were cleared.
+            number of packets transmitted in the last second, number of bytes transmitted since statistics were cleared,
+            and number of packets transmitted since statistics were cleared.
         :rtype: PT_TOTALEXT.GetDataAttr
         """
 
@@ -253,8 +253,8 @@ class PT_NOTPLDEXT:
         """Get statistics concerning the packets without a test payload transmitted on a port.
 
         :return: number of bits transmitted in the last second, number of bytes transmitted in the last second,
-        number of packets transmitted in the last second, number of bytes transmitted since statistics were cleared,
-        and number of packets transmitted since statistics were cleared
+            number of packets transmitted in the last second, number of bytes transmitted since statistics were cleared,
+            and number of packets transmitted since statistics were cleared
         :rtype: PT_NOTPLDEXT.GetDataAttr
         """
 
@@ -295,8 +295,8 @@ class PT_STREAMEXT:
         """Get statistics concerning the packets of a specific stream transmitted on a port.
 
         :return: number of bits transmitted in the last second, number of bytes transmitted in the last second,
-        number of packets transmitted in the last second, number of bytes transmitted since statistics were cleared,
-        and number of packets transmitted since statistics were cleared.
+            number of packets transmitted in the last second, number of bytes transmitted since statistics were cleared,
+            and number of packets transmitted since statistics were cleared.
         :rtype: PT_STREAMEXT.GetDataAttr
         """
 
