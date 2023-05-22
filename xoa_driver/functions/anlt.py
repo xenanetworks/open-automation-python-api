@@ -449,7 +449,10 @@ async def anlt_link_recovery(port: GenericL23Port, enable: bool) -> None:
     cmd_ = commands.PL1_CFG_TMP(
         conn, mid, pid, 0, enums.Layer1ConfigType.ANLT_INTERACTIVE
     )
-    await cmd_.set(values=[int(enable)])
+    if enable:
+        await cmd_.set(values=[enums.OnOff.ON])
+    else:
+        await cmd_.set(values=[enums.OnOff.OFF])
 
 
 async def anlt_status(port: GenericL23Port) -> dict[str, t.Any]:
@@ -606,7 +609,7 @@ async def anlt_strict(port: GenericL23Port, enable: bool) -> None:
     conn, mid, pid = get_ctx(port)
     capabilities = await commands.P_CAPABILITIES(conn, mid, pid).get()
     for i in range(0, capabilities.serdes_count):
-        await commands.PL1_CFG_TMP(conn, mid, pid, i, enums.Layer1ConfigType.ANLT_STRICT_MODE).set(values=[int(enable)])
+        await commands.PL1_CFG_TMP(conn, mid, pid, i, enums.Layer1ConfigType.ANLT_STRICT_MODE).set(values=[int(enable)]) # type: ignore
 
 
 async def anlt_log_control(port: GenericL23Port, types: t.List[enums.AnLtLogControl]) -> None:
@@ -628,7 +631,7 @@ async def anlt_log_control(port: GenericL23Port, types: t.List[enums.AnLtLogCont
     for _type in types:
         type |= _type.value
     for i in range(0, capabilities.serdes_count):
-        await commands.PL1_CFG_TMP(conn, mid, pid, i, enums.Layer1ConfigType.ANLT_LOG_CONTROL).set(values=[int(type)])
+        await commands.PL1_CFG_TMP(conn, mid, pid, i, enums.Layer1ConfigType.ANLT_LOG_CONTROL).set(values=[int(type)]) # type: ignore
 
 
 __all__ = (
