@@ -204,10 +204,9 @@ html_theme_options = {
     "repository_url": "https://github.com/xenanetworks/open-automation-python-api",
     "use_repository_button": True,
     "home_page_in_toc": True,
-    "show_toc_level": 1,
+    "show_toc_level": 2,
     "use_download_button": True,
-    "show_navbar_depth": 1,
-    "announcement": "This is the development version. Don't use it with the published package.",
+    "show_navbar_depth": 1
 }
 
 # If true, the index is generated twice: once as a single page with all the entries, 
