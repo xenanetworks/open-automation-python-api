@@ -1025,7 +1025,7 @@ C_TKSTATUSEXT ?
         + c_pt_commands
         + c_pr_commands
     )
-    for c in CLIConverter.read_commands_from_long_string(all_commands):
+    for c in CLIConverter.read_commands_from_string(all_commands):
         print(c)
         print(c.as_request())
 

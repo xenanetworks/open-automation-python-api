@@ -6,7 +6,10 @@ import ipaddress
 from enum import Enum
 from xoa_driver.internals import commands
 from xoa_driver import enums
+from xoa_driver.ports import GenericAnyPort
 from xoa_driver.misc import ArpChunk, NdpChunk
+from xoa_driver.utils import apply
+from xoa_driver.internals.core.token import Token
 from xoa_driver.internals.core.transporter.protocol.payload import Hex
 from xoa_driver.internals.core.transporter.protocol.struct_request import Request
 from xoa_driver.internals.core.transporter.protocol._constants import CommandType
@@ -15,16 +18,15 @@ from xoa_driver.internals.core.transporter._typings import (
     ICmdOnlyGet,
     ICmdOnlySet,
 )
-from typing import ClassVar, Protocol
 import re
 
 
-class ICmdOnlyGett(ICmdOnlyGet, Protocol):
-    __name__: ClassVar[str]
+class ICmdOnlyGett(ICmdOnlyGet, t.Protocol):
+    __name__: t.ClassVar[str]
 
 
-class ICmdOnlySett(ICmdOnlySet, Protocol):
-    __name__: ClassVar[str]
+class ICmdOnlySett(ICmdOnlySet, t.Protocol):
+    __name__: t.ClassVar[str]
 
 
 def build_set_requestt(cls: ICmdOnlySett, **kwargs) -> Request:
@@ -59,34 +61,13 @@ def build_get_requestt(cls: ICmdOnlyGett, **kwargs) -> Request:
     )
 
 
-module = port = r"\d+"  # hm.one_or_more(hm.DIGIT)
+module = port = r"\d+"
 index = r"((0x|0X)?[A-Fa-f\d]+)"
-zero_or_more_space = r"\s*"  # hm.zero_or_more(hm.WHITESPACE)
+zero_or_more_space = r"\s*"
 module_port_group = r"((?P<module>\d+)(/(?P<port>\d+))?\s*)?"
-# hm.optional_group(
-#     hm.named_group("module", module)
-#     + hm.optional_group("/" + hm.named_group("port", port))
-#     + zero_or_more_space
-# )
 command_name_group = r"(?P<command_name>[A-Z_a-z0-9]+\s*)"
-# hm.named_group(
-#     "command_name",
-#     hm.one_or_more(hm.chars("A-Z", "_", "a-z", "0-9")) + zero_or_more_space,
-# )
 indices_group = r"(?P<indices>(\[((0x|0X)?[A-Fa-f\d]+)(,?\s*((0x|0X)?[A-Fa-f\d]+))?(,?\s*((0x|0X)?[A-Fa-f\d]+))?\]\s*)?)"
-# hm.named_group(
-#     "indices",
-#     hm.optional_group(
-#         "\["
-#         + hm.one_or_more(hm.DIGIT)
-#         + hm.optional_group(hm.optional(",") + zero_or_more_space + index)
-#         + hm.optional_group(hm.optional(",") + zero_or_more_space + index)
-#         + "\]"
-#         + zero_or_more_space
-#     ),
-# )
 params_group = r"(?P<params>.*)"
-# hm.named_group("params", hm.zero_or_more(hm.ANYCHAR))
 command_pattern = re.compile(
     module_port_group + command_name_group + indices_group + params_group
 )
@@ -160,10 +141,10 @@ class CLIConverter:
             params.pop(0)
         elif class_name == "P_ARPRXTABLE":
             orr_params = or_params[0].replace("0x", "").replace("0X", "")
-            params = [orr_params[i : i + 26] for i in range(0, len(orr_params), 26)]
+            params = [orr_params[i: i + 26] for i in range(0, len(orr_params), 26)]
         elif class_name == "P_NDPRXTABLE":
             orr_params = or_params[0].replace("0x", "").replace("0X", "")
-            params = [orr_params[i : i + 50] for i in range(0, len(orr_params), 50)]
+            params = [orr_params[i: i + 50] for i in range(0, len(orr_params), 50)]
 
         return params
 
@@ -194,8 +175,6 @@ class CLIConverter:
             if "list[" in str(v.annotation).lower():
                 list_index = i - 1
             func_sigs.append(v)
-        # if len(params) < len(func_sigs) and func_sigs:
-        #     raise ValueError("Not enough parameters!")
 
         if list_index == -1:
             dic = {
@@ -230,8 +209,8 @@ class CLIConverter:
         fore_sigs = func_sigs[:list_index]
         fore_params = params[:list_index]
 
-        back_sigs = func_sigs[list_index + 1 :]
-        back_params = params[-len(back_sigs) :]
+        back_sigs = func_sigs[list_index + 1:]
+        back_params = params[-len(back_sigs):]
 
         if len(func_sigs) == 1:  # only one param and is list
             dic.update(
@@ -548,7 +527,7 @@ class CLIConverter:
                     yield r
 
     @classmethod
-    def read_commands_from_long_string(
+    def read_commands_from_string(
         cls, long_str: str, comment_start: tuple[str, ...] = (";", "#", "//")
     ) -> t.Generator[Body, None, None]:
         for line in long_str.split("\n"):
@@ -564,9 +543,26 @@ class CLIConverter:
                 yield r
 
 
-# example:
-# for i in CLIConverter.read_commands_from_file("198-5.xmc"):
-#     print(i.as_request(3))
+read_commands_from_file = CLIConverter.read_commands_from_file
+read_commands_from_string = CLIConverter.read_commands_from_string
 
-# for i in CLIConverter.read_commands_from_file("198-5.xpc"):
-#     print(i.as_request(3, 1))
+
+async def upload_port_config_from(port: GenericAnyPort, long_str: str, is_file: bool, comment_start: tuple[str, ...] = (";", "#", "//")):
+    tokens = []
+    func = read_commands_from_file if is_file else read_commands_from_string
+    for command in func(long_str, comment_start):
+        request = command.as_request(module_num=port.kind.module_id, port_num=port.kind.port_id)
+        token = Token(port._conn, request)
+        tokens.append(token)
+    await apply(*tokens)
+
+
+async def upload_port_config_from_string(port: GenericAnyPort, long_str: str, comment_start: tuple[str, ...] = (";", "#", "//")):
+    return await upload_port_config_from(port, long_str, False, comment_start)
+
+
+async def upload_port_config_from_file(port: GenericAnyPort, path: str, comment_start: tuple[str, ...] = (";", "#", "//")):
+    return await upload_port_config_from(port, path, True, comment_start)
+
+
+__all__ = ("read_commands_from_file", "read_commands_from_string", 'upload_port_config_from_string', "upload_port_config_from_file")
