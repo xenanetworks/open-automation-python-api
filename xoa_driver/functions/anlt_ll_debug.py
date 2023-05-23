@@ -5,6 +5,7 @@ from functools import partial
 from xoa_driver import enums
 from xoa_driver.ports import GenericL23Port
 from xoa_driver.lli import commands
+from xoa_driver.misc import Hex
 from dataclasses import dataclass
 from enum import IntEnum
 from .tools import get_ctx
@@ -17,8 +18,8 @@ class AnLtD(IntEnum):
     AN_RX_STATUS_REGISTER = 0x19
     AN_TX_PAGE_0_REGISTER = 0x14
     AN_TX_PAGE_1_REGISTER = 0x15
-    AN_RX_DME_MV_RANGE    = 0x1A
-    AN_RX_DME_BIT_RANGE   = 0x1B
+    AN_RX_DME_MV_RANGE = 0x1A
+    AN_RX_DME_BIT_RANGE = 0x1B
     AN_RX_PAGE_0_REGISTER = 0x1C
     AN_RX_PAGE_1_REGISTER = 0x1D
 
@@ -47,6 +48,28 @@ class AnLtLowLevelInfo:
 
 
 async def init(port: GenericL23Port, serdes: int) -> AnLtLowLevelInfo:
+    """
+    The init function initializes the communication parameters required to read the configuration of a Serializer/Deserializer. 
+    It takes in a port object used for communication, and the index of the Serializer/Deserializer to read (serdes). 
+    The function returns an object of type AnLtLowLevelInfo, which contains low-level communication information.
+
+    Args:
+        port (GenericL23Port): The port object for communication.
+        serdes (int): The index of the Serializer/Deserializer to read.
+
+
+    Returns:
+        AnLtLowLevelInfo: An object containing low-level communication information.
+
+
+    Raises:
+        Exception: If there is any error encountered during communication.
+
+
+    Example:
+        >>> port = GenericL23Port()
+        >>> inf = await init(port, serdes=0)  # Initialize communication parameters for the first Serializer/Deserializer.
+    """
     conn, mid, pid = get_ctx(port)
     inf = await commands.PL1_CFG_TMP(
         conn, mid, pid, serdes, enums.Layer1ConfigType.LL_DEBUG_INFO
@@ -56,9 +79,32 @@ async def init(port: GenericL23Port, serdes: int) -> AnLtLowLevelInfo:
     return inf
 
 
-async def serdes_reset(
-    port: GenericL23Port, serdes: int, inf: t.Optional[AnLtLowLevelInfo] = None
-) -> None:
+async def serdes_reset(port: GenericL23Port, serdes: int, inf: t.Optional[AnLtLowLevelInfo] = None) -> None:
+    """
+    Resets the Serializer/Deserializer specified by serdes.
+
+
+    The method sets and clears the bit 2 of configuration register GTM_QUAD_GT_CONFIG in order to reset the
+    Serializer/Deserializer in question. The port and connection parameters are set through the input `port`. The
+    Serializer/Deserializer is specified by the input `serdes`. If the input `inf` is not specified, the `init` method is
+    called on the `port` object to initialize the configuration.
+
+    Args:
+        port (GenericL23Port): The port object for communication.
+        serdes (int): The number of the Serializer/Deserializer to reset.
+        inf (AnLtLowLevelInfo, optional): Object with low-level information, which defaults to `None` if not provided.
+            This object is used to generate the address of the GTM_QUAD_GT_CONFIG configuration register.
+
+    Returns:
+        None.
+
+    Raises:
+        Exception: if any async I/O operation encounters an error.
+
+    Examples:
+        >>> port = GenericL23Port()
+        >>> await serdes_reset(port, serdes=0)  # Reset the first Serializer/Deserializer.
+    """
     GTM_QUAD_GT_CONFIG = 0x102
     if inf is None:
         inf = await init(port, serdes)
@@ -68,20 +114,15 @@ async def serdes_reset(
     v = int((await r.get()).value, 16)
     # Set bit 2
     v |= 1 << 2
-    await r.set(value=f"{v:08X}")
+    await r.set(value=Hex(f"{v:08X}"))
     # in XOA-Driver V2 `0x` prefix will be drop from the hex strings
     # Clear bit 2
     v &= ~(1 << 2)
-    await r.set(value=f"{v:08X}")
+    await r.set(value=Hex(f"{v:08X}"))
     return None
 
 
-async def __get(
-    port: GenericL23Port,
-    serdes: int,
-    reg: AnLtD,
-    inf: t.Optional[AnLtLowLevelInfo] = None,
-) -> int:
+async def __get(port: GenericL23Port, serdes: int, reg: AnLtD, inf: t.Optional[AnLtLowLevelInfo] = None) -> int:
     if inf is None:
         inf = await init(port, serdes)
     conn, mid, pid = get_ctx(port)
@@ -90,19 +131,13 @@ async def __get(
     return int((await r.get()).value, 16)
 
 
-async def __set(
-    port: GenericL23Port,
-    serdes: int,
-    reg: AnLtD,
-    value: int,
-    inf: t.Optional[AnLtLowLevelInfo] = None,
-) -> None:
+async def __set(port: GenericL23Port, serdes: int, reg: AnLtD, value: int, inf: t.Optional[AnLtLowLevelInfo] = None) -> None:
     if inf is None:
         inf = await init(port, serdes)
     conn, mid, pid = get_ctx(port)
-    addr = inf.base + reg.value 
+    addr = inf.base + reg.value
     r = commands.PX_RW(conn, mid, pid, 2000, addr)
-    await r.set(value=f"{value:08X}")
+    await r.set(value=Hex(f"{value:08X}"))
     return None
 
 
@@ -164,12 +199,20 @@ xla_rd_page_set = partial(__set, reg=AnLtD.XLA_RD_PAGE)
 xla_rd_data_get = partial(__get, reg=AnLtD.XLA_RD_DATA)
 
 
+async def lt_prbs(port: GenericL23Port, serdes: int, inf: t.Optional[AnLtLowLevelInfo] = None) -> dict[str, float]:
+    """Reads error statistics of an LT PRBS test.
 
-async def lt_prbs(
-    port: GenericL23Port,
-    serdes: int,
-    inf: t.Optional[AnLtLowLevelInfo] = None,
-) -> dict[str, float]:
+    Args:
+        port: A GenericL23Port object.
+        serdes: An integer representing the SERDES.
+        inf: Optional AnLtLowLevelInfo object.
+
+    Returns:
+        A dictionary with total_bits, error_bits, and ber (bit error rate) values.
+
+    Raises:
+        Possible exceptions if any async I/O operation encounters an error.
+    """ 
     if inf is None:
         inf = await init(port, serdes)
 
@@ -202,12 +245,30 @@ async def lt_prbs(
     return {"total_bits": total_bits, "error_bits": error_bits, "ber": float(ber)}
 
 
-async def xla_dump(
-    port: GenericL23Port,
-    serdes: int,
-    inf: t.Optional[AnLtLowLevelInfo] = None
-) -> t.Dict[str, str]:
-    """This will dump the 320bit words in the capture buffer"""
+async def xla_dump(port: GenericL23Port, serdes: int, inf: t.Optional[AnLtLowLevelInfo] = None) -> t.Dict[str, str]:
+    """
+    This method takes a GenericL23Port object representing the port for communication, an int serdes representing
+    the data serializer for the connection, and an optional AnLtLowLevelInfo object named inf.
+    It dumps the 320-bit words in the capture buffer.
+
+    Args:
+        port (GenericL23Port): The port for communication.
+        serdes (int): The data serializer for the connection.
+        inf (AnLtLowLevelInfo, optional): The information object. Defaults to None.
+
+    Returns:
+        dict[str,str]: A dictionary of results. The "Trigger Position" key contains the trigger position value
+        as a string, and the "Analyzer Status" key contains the status of the analyzer as a string.
+    
+    Raises:
+        Exception: If any async I/O operation encounters an error.
+
+    Examples:
+        >>> port= GenericL23Port()
+        >>> serdes=1
+        >>> inf=None
+        >>> result= await xla_dump(port, serdes,inf)
+    """
     if inf is None:
         inf = await init(port, serdes)
     result = {}
@@ -226,7 +287,7 @@ async def xla_dump(
         await xla_rd_addr_set(port, serdes, inf=inf, value=r)
         for p in range(10):
             # Read the data
-            await xla_rd_page_set(port, serdes, inf=inf, value=9-p)
+            await xla_rd_page_set(port, serdes, inf=inf, value=9 - p)
             d = await xla_rd_data_get(port, serdes, inf=inf)
             data_list.append(f"{d:08X}")
         data_list.append("\n")
@@ -234,40 +295,90 @@ async def xla_dump(
     return result
 
 
-async def px_get(
-    port: GenericL23Port,
-    page_address: int,
-    register_address: int
-) -> t.Tuple[bool, str]:
+async def px_get(port: GenericL23Port, page_address: int, register_address: int) -> t.Tuple[bool, str]:
+    """Reads the value of a register located at a specified page address using the PX API.
+
+    Args:
+        port (GenericL23Port): A GenericL23Port object representing the port for communication.
+        page_address (int): An integer representing the page address of the register to be read.
+        register_address (int): An integer representing the address of the register to be read.
+
+    Returns:
+        A tuple (bool, str) representing the results of the read operation. The first element of the tuple is a flag 
+        indicating whether the read operation was successful or not. The second element represents the value read from 
+        the specified register.
+
+    Raises:
+        Possible exceptions if any async I/O operation encounters an error.
+    """
     resp = await port.transceiver.access_rw(page_address, register_address).get()
 
     if resp.value.lower().find("dead") != -1:
         return (False, resp.value)
     else:
         return (True, resp.value)
-    
-async def px_set(
-    port: GenericL23Port,
-    page_address: int,
-    register_address: int,
-    value: int
-) -> None:
-    # value_hexstr = hex(value)
-    value_hexstr = f"{value:X}"
+
+
+async def px_set(port: GenericL23Port, page_address: int, register_address: int, value: int) -> None:
+    """
+    Sets a register value in the given page address using the GenericL23Port object for communication.
+
+    Args:
+        port (GenericL23Port): The port object for communication.
+        page_address (int): The page address of the register.
+        register_address (int): The register address.
+        value (int): The value to write to the register.
+
+    Returns:
+        None.
+
+    Raises:
+        Exception: if any async I/O operation encounters an error.
+
+    Examples:
+        >>> port= GenericL23Port()
+        >>> page_addr=0x1
+        >>> reg_addr=0x4
+        >>> value= 0x00FF
+        >>> await px_set(port,page_addr, reg_addr, value)
+    """
+    value_hexstr = Hex(f"{value:X}")
     await port.transceiver.access_rw(page_address, register_address).set(value_hexstr)
 
 
-async def xla_dump_ctrl(
-    port: GenericL23Port,
-    on: bool
-) -> None:
+async def xla_dump_ctrl(port: GenericL23Port, on: bool) -> None:
+    """
+    Enables or disables XLA mode on the given port by sending a command to set the AN_LT_XLA_MODE configuration
+    option. 
+
+    Args:
+        port (GenericL23Port): The port object for communication.
+        on (bool): Whether to enable XLA mode (True) or disable it (False).
+
+    Returns:
+        None.
+
+    Raises:
+        Exception: if any async I/O operation encounters an error.
+
+    Examples:
+        >>> port = GenericL23Port()
+        >>> await xla_dump_ctrl(port, on=False)  # Disable XLA mode on the port.
+        >>> await xla_dump_ctrl(port, on=True)   # Enable XLA mode on the port.
+    """
     conn, mid, pid = get_ctx(port)
     # await commands.PL1_CFG_TMP(conn, mid, pid, 0, enums.Layer1ConfigType.AN_LT_XLA_MODE).set(values=[int(on)])
-    if on:
-        await commands.PL1_CFG_TMP(conn, mid, pid, 0, enums.Layer1ConfigType.AN_LT_XLA_MODE).set(values=[enums.OnOff.ON])
-    else:
-        await commands.PL1_CFG_TMP(conn, mid, pid, 0, enums.Layer1ConfigType.AN_LT_XLA_MODE).set(values=[enums.OnOff.OFF])
-    
+    await commands.PL1_CFG_TMP(
+        conn, 
+        mid, 
+        pid, 
+        0, 
+        enums.Layer1ConfigType.AN_LT_XLA_MODE
+    ).set(
+        values=[
+            enums.OnOff.ON if on else enums.OnOff.OFF
+        ]
+    )
 
 
 __all__ = (
