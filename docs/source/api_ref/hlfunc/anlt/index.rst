@@ -39,6 +39,8 @@ HL Link Training Functions
 
 .. autofunction:: lt_coeff_dec
 
+.. autofunction:: lt_coeff_no_eq
+
 .. autofunction:: lt_preset
 
 .. autofunction:: lt_encoding
