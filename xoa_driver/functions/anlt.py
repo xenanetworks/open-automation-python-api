@@ -275,6 +275,25 @@ async def lt_coeff_dec(
     """
     return await __lt_coeff(port, serdes, emphasis, cmd=enums.LinkTrainCmd.CMD_DEC)
 
+async def lt_coeff_no_eq(
+    port: GenericL23Port, serdes: int, emphasis: enums.LinkTrainCoeffs
+) -> enums.LinkTrainCmdResults:
+    """
+    .. versionadded:: 1.1
+
+    Ask the remote port to set the coeff to NO_EQ on the specified serdes.
+
+    :param port: the port object
+    :type port: :class:`~xoa_driver.ports.GenericL23Port`
+    :param serdes: the serdes index, starting from 0
+    :type serdes: int
+    :param emphasis: the emphasis to set to NO_EQ
+    :type emphasis: enums.LinkTrainCoeffs
+    :return:
+    :rtype: None
+    """
+    return await __lt_coeff(port, serdes, emphasis, cmd=enums.LinkTrainCmd.CMD_NO_EQ)
+
 
 async def lt_preset(
     port: GenericL23Port, serdes: int, preset: enums.LinkTrainPresets

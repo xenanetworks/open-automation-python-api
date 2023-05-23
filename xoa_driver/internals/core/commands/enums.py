@@ -2155,6 +2155,9 @@ class LinkTrainCmd(IntEnum):
     CMD_ENCODING = 4
     """Set encoding provided in ARG"""
 
+    CMD_NO_EQ = 5
+    """Set the coeff to NO_EQ"""
+
     CMD_LOCAL_TRAINED = 255
     """Signal training completed"""
 
