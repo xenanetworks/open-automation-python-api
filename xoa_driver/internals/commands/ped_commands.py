@@ -556,10 +556,10 @@ class PED_UNI:
         """Set the configuration of Uniform distribution.
 
         :param minimum: in case of iid != DELAY, specifies the minimum no. of packets. Default value: 0 (Range 0 to 4194288).
-        In case of iid = DELAY, specifies the minimum latency limit. Unit is nanosecond (must be multiples of 100 ns). Default value: minimum latency.
+            In case of iid = DELAY, specifies the minimum latency limit. Unit is nanosecond (must be multiples of 100 ns). Default value: minimum latency.
         :type minimum: int
         :param maximum: in case of iid != DELAY, specifies the maximum no. of packets. Default value: 0 (Range 0 to 4194288).
-        In case of iid = DELAY, specifies the maximum latency limit. Unit is nanosecond (must be multiples of 100 ns). Default value: minimum latency.
+            In case of iid = DELAY, specifies the maximum latency limit. Unit is nanosecond (must be multiples of 100 ns). Default value: minimum latency.
         :type maximum: int
         """
 

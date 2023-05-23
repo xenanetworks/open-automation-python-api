@@ -17,6 +17,8 @@ class AnLtD(IntEnum):
     AN_RX_STATUS_REGISTER = 0x19
     AN_TX_PAGE_0_REGISTER = 0x14
     AN_TX_PAGE_1_REGISTER = 0x15
+    AN_RX_DME_MV_RANGE    = 0x1A
+    AN_RX_DME_BIT_RANGE   = 0x1B
     AN_RX_PAGE_0_REGISTER = 0x1C
     AN_RX_PAGE_1_REGISTER = 0x1D
 
@@ -66,11 +68,11 @@ async def serdes_reset(
     v = int((await r.get()).value, 16)
     # Set bit 2
     v |= 1 << 2
-    await r.set(f"0x{v:08X}")
+    await r.set(value=f"{v:08X}")
     # in XOA-Driver V2 `0x` prefix will be drop from the hex strings
     # Clear bit 2
     v &= ~(1 << 2)
-    await r.set(f"0x{v:08X}")
+    await r.set(value=f"{v:08X}")
     return None
 
 
@@ -83,7 +85,7 @@ async def __get(
     if inf is None:
         inf = await init(port, serdes)
     conn, mid, pid = get_ctx(port)
-    addr = inf.base + reg.value + (serdes * 0x40)
+    addr = inf.base + reg.value
     r = commands.PX_RW(conn, mid, pid, 2000, addr)
     return int((await r.get()).value, 16)
 
@@ -98,9 +100,9 @@ async def __set(
     if inf is None:
         inf = await init(port, serdes)
     conn, mid, pid = get_ctx(port)
-    addr = inf.base + reg.value + (serdes * 0x40)
+    addr = inf.base + reg.value 
     r = commands.PX_RW(conn, mid, pid, 2000, addr)
-    await r.set(f"0x{value:08X}")
+    await r.set(value=f"{value:08X}")
     return None
 
 
@@ -114,6 +116,12 @@ an_tx_config_set = partial(__set, reg=AnLtD.AN_TX_CONFIG_REGISTER)
 
 an_rx_config_get = partial(__get, reg=AnLtD.AN_RX_CONFIG_REGISTER)
 an_rx_config_set = partial(__set, reg=AnLtD.AN_RX_CONFIG_REGISTER)
+
+an_rx_dme_mv_range_get = partial(__get, reg=AnLtD.AN_RX_DME_MV_RANGE)
+an_rx_dme_mv_range_set = partial(__set, reg=AnLtD.AN_RX_DME_MV_RANGE)
+
+an_rx_dme_bit_range_get = partial(__get, reg=AnLtD.AN_RX_DME_BIT_RANGE)
+an_rx_dme_bit_range_set = partial(__set, reg=AnLtD.AN_RX_DME_BIT_RANGE)
 
 an_rx_page0_get = partial(__get, reg=AnLtD.AN_RX_PAGE_0_REGISTER)
 an_rx_page1_get = partial(__get, reg=AnLtD.AN_RX_PAGE_1_REGISTER)
@@ -154,6 +162,7 @@ xla_rd_page_get = partial(__get, reg=AnLtD.XLA_RD_PAGE)
 xla_rd_page_set = partial(__set, reg=AnLtD.XLA_RD_PAGE)
 
 xla_rd_data_get = partial(__get, reg=AnLtD.XLA_RD_DATA)
+
 
 
 async def lt_prbs(
@@ -217,7 +226,7 @@ async def xla_dump(
         await xla_rd_addr_set(port, serdes, inf=inf, value=r)
         for p in range(10):
             # Read the data
-            await xla_rd_page_set(port, serdes, inf=inf, value=9 - p)
+            await xla_rd_page_set(port, serdes, inf=inf, value=9-p)
             d = await xla_rd_data_get(port, serdes, inf=inf)
             data_list.append(f"{d:08X}")
         data_list.append("\n")
@@ -233,19 +242,32 @@ async def px_get(
     resp = await port.transceiver.access_rw(page_address, register_address).get()
 
     if resp.value.lower().find("dead") != -1:
-        return (True, resp.value)
-    else:
         return (False, resp.value)
-
-
+    else:
+        return (True, resp.value)
+    
 async def px_set(
     port: GenericL23Port,
     page_address: int,
     register_address: int,
     value: int
 ) -> None:
-    value_hexstr = hex(value)
+    # value_hexstr = hex(value)
+    value_hexstr = f"{value:X}"
     await port.transceiver.access_rw(page_address, register_address).set(value_hexstr)
+
+
+async def xla_dump_ctrl(
+    port: GenericL23Port,
+    on: bool
+) -> None:
+    conn, mid, pid = get_ctx(port)
+    # await commands.PL1_CFG_TMP(conn, mid, pid, 0, enums.Layer1ConfigType.AN_LT_XLA_MODE).set(values=[int(on)])
+    if on:
+        await commands.PL1_CFG_TMP(conn, mid, pid, 0, enums.Layer1ConfigType.AN_LT_XLA_MODE).set(values=[enums.OnOff.ON])
+    else:
+        await commands.PL1_CFG_TMP(conn, mid, pid, 0, enums.Layer1ConfigType.AN_LT_XLA_MODE).set(values=[enums.OnOff.OFF])
+    
 
 
 __all__ = (
@@ -277,4 +299,20 @@ __all__ = (
     "lt_tx_tf_set",
     "px_get",
     "px_set",
+    "xla_dump_ctrl",
+    "an_tx_config_get",
+    "an_tx_config_set",
+    "an_rx_dme_bit_range_get",
+    "an_rx_dme_bit_range_set",
+    "an_rx_dme_mv_range_get",
+    "an_rx_dme_mv_range_set",
+    "an_rx_page0_get",
+    "an_rx_page1_get",
+    "an_status",
+    "an_tx_config_get",
+    "an_tx_config_set",
+    "an_tx_page0_get",
+    "an_tx_page0_set",
+    "an_tx_page1_get",
+    "an_tx_page1_set",
 )

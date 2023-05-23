@@ -2162,7 +2162,7 @@ class PEF_PROTOCOL:
         """Set the sequence of protocol segments that can be matched.
 
         :param segment_list: specifying the list of protocol segment types in the order they are expected in a frame.
-        First segment type must be ``ETHERNET``; the following can be chosen freely.
+            First segment type must be ``ETHERNET``; the following can be chosen freely.
         :type segment_list: typing.List[ProtocolOption]
         """
 

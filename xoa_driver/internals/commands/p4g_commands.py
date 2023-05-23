@@ -2005,7 +2005,7 @@ class P4G_TCP_RTO_PROLONGED_MODE:
         :param mode: specifying whether to enable/disable prolonged retransmission mode
         :type mode: IsEnabled
         :param timeout: retransmission timeout in milliseconds, when prolonged mode is enabled.
-        When ``mode`` is set to 0, the value of the timeout is ignored. When ``mode`` is set to 1, the value of the timeout may not be 0.
+            When ``mode`` is set to 0, the value of the timeout is ignored. When ``mode`` is set to 1, the value of the timeout may not be 0.
         :type timeout: int
         """
 
