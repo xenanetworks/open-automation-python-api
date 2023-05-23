@@ -5,7 +5,7 @@ This module contains the **L47 module packet engine classes**.
 
 -------
 
-.. currentmodule:: xoa_driver.internals.core.commands.m4e_commands
+.. currentmodule:: xoa_driver.internals.commands.m4e_commands
 
 
 M4E_MODE

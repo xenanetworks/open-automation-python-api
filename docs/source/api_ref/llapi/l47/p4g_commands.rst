@@ -33,7 +33,7 @@ By combining several :term:`CGs<CG>` on a port, it is possible to create more co
 
 -------
 
-.. currentmodule:: xoa_driver.internals.core.commands.p4g_commands
+.. currentmodule:: xoa_driver.internals.commands.p4g_commands
 
 
 P4G_INDICES

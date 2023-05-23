@@ -11,7 +11,7 @@ While a histogram is actively collecting samples its parameters cannot be change
 
 -------
 
-.. currentmodule:: xoa_driver.internals.core.commands.pd_commands
+.. currentmodule:: xoa_driver.internals.commands.pd_commands
 
 PD_INDICES
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

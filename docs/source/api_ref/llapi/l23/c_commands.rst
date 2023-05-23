@@ -6,7 +6,7 @@ This module contains the **chassis classes** that deal with basic information an
 
 -------
 
-.. currentmodule:: xoa_driver.internals.core.commands.c_commands
+.. currentmodule:: xoa_driver.internals.commands.c_commands
 
 
 C_LOGON

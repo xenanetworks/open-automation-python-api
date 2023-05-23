@@ -14,7 +14,7 @@ The high-speed port command names all have the form ``PP_<xxx>`` and require a m
 
 -------
 
-.. currentmodule:: xoa_driver.internals.core.commands.pp_commands
+.. currentmodule:: xoa_driver.internals.commands.pp_commands
 
 PP_ALARMS_ERRORS
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

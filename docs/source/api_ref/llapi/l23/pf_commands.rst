@@ -11,7 +11,7 @@ While a filter is enabled, neither its condition nor the definition of each matc
 
 -------
 
-.. currentmodule:: xoa_driver.internals.core.commands.pf_commands
+.. currentmodule:: xoa_driver.internals.commands.pf_commands
 
 
 PF_INDICES

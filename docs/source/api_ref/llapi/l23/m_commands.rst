@@ -6,7 +6,7 @@ This module contains the **L23 module classes** that deal with basic information
 
 -------
 
-.. currentmodule:: xoa_driver.internals.core.commands.m_commands
+.. currentmodule:: xoa_driver.internals.commands.m_commands
 
 M_RESERVATION
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -102,15 +102,6 @@ M_CFPTYPE
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autoclass:: M_CFPTYPE
-    :members:
-    :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
-
-
-M_CFPCONFIG
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autoclass:: M_CFPCONFIG
     :members:
     :no-undoc-members:
     :exclude-members: GetDataAttr, SetDataAttr

@@ -5,7 +5,7 @@ This module contains the **L47 module classes**.
 
 -------
 
-.. currentmodule:: xoa_driver.internals.core.commands.m4_commands
+.. currentmodule:: xoa_driver.internals.commands.m4_commands
 
 M4_SYSTEMID
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

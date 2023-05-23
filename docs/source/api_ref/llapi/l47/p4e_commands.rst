@@ -5,7 +5,7 @@ This module contains the **L47 port packet engine classes**.
 
 -------
 
-.. currentmodule:: xoa_driver.internals.core.commands.p4e_commands
+.. currentmodule:: xoa_driver.internals.commands.p4e_commands
 
 P4E_ASSIGN
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

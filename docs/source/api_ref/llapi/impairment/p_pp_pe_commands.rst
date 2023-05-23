@@ -5,7 +5,7 @@ This module contains the **impairment port commands**.
 
 -------
 
-.. currentmodule:: xoa_driver.internals.core.commands.p_commands
+.. currentmodule:: xoa_driver.internals.commands.p_commands
 
 P_EMULATE
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -25,7 +25,7 @@ P_LOADMODE
     :exclude-members: GetDataAttr, SetDataAttr
 
 
-.. currentmodule:: xoa_driver.internals.core.commands.pe_commands
+.. currentmodule:: xoa_driver.internals.commands.pe_commands
 
 
 PE_FCSDROP
@@ -109,7 +109,7 @@ PE_BANDSHAPER
     :exclude-members: GetDataAttr, SetDataAttr
 
 
-.. currentmodule:: xoa_driver.internals.core.commands.pp_commands
+.. currentmodule:: xoa_driver.internals.commands.pp_commands
 
 
 PP_PMAERRPUL_PARAMS

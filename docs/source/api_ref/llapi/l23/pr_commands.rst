@@ -9,7 +9,7 @@ All bit-and byte-level statistics are at layer-2, so they include the full Ether
 
 -------
 
-.. currentmodule:: xoa_driver.internals.core.commands.pr_commands
+.. currentmodule:: xoa_driver.internals.commands.pr_commands
 
 
 PR_TPLDJITTER

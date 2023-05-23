@@ -7,7 +7,7 @@ This module contains the **L23 port classes** that deal with basic information a
 
 -------
 
-.. currentmodule:: xoa_driver.internals.core.commands.p_commands
+.. currentmodule:: xoa_driver.internals.commands.p_commands
 
 
 P_RESERVATION

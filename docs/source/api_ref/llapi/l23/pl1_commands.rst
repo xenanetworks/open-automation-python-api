@@ -5,7 +5,7 @@ This module contains the **Layer-1 classes** that mainly deal auto-negotiation a
 
 -------
 
-.. currentmodule:: xoa_driver.internals.core.commands.pl1_commands
+.. currentmodule:: xoa_driver.internals.commands.pl1_commands
 
 
 PL1_AUTONEGINFO

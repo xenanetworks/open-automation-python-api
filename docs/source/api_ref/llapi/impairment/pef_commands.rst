@@ -21,7 +21,7 @@ There are 2 register copies used to configure the filters:
 
 -------
 
-.. currentmodule:: xoa_driver.internals.core.commands.pef_commands
+.. currentmodule:: xoa_driver.internals.commands.pef_commands
 
 
 PEF_INIT

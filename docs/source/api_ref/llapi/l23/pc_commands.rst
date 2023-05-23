@@ -9,7 +9,7 @@ The capture command names all have the form ``PC_<xxx>`` and require both a modu
 
 -------
 
-.. currentmodule:: xoa_driver.internals.core.commands.pc_commands
+.. currentmodule:: xoa_driver.internals.commands.pc_commands
 
 
 PC_TRIGGER

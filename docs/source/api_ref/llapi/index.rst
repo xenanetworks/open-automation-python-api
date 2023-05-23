@@ -12,13 +12,11 @@ The low-level Python APIs are categorized into six groups:
 * Impairment (Chimera)
 * Enums
 * Exceptions
-* Utilities
 
 
 .. toctree::
+    :maxdepth: 1
 
     l23/index
     l47/index
     impairment/index
-    enums
-    utils

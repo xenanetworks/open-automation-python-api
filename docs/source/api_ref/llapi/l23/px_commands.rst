@@ -5,7 +5,7 @@ This module contains the **L23 port transceiver classes** that deal with access 
 
 -------
 
-.. currentmodule:: xoa_driver.internals.core.commands.px_commands
+.. currentmodule:: xoa_driver.internals.commands.px_commands
 
 
 PX_TEMPERATURE
