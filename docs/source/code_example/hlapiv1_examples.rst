@@ -14,7 +14,7 @@ To connect to a tester, create a tester object and the driver will automatically
 
 A tester instance also can be created without awaiting the connection establishment for more flexible manipulation of instances in user code.
 
-Available tester types are :doc:`L23Tester <../api_ref/hlapiv1/_autosummary/testers/classes/xoa_driver.internals.hli_v1.testers.l23_tester.L23Tester>` , :doc:`L23VeTester <../api_ref/hlapiv1/_autosummary/testers/classes/xoa_driver.internals.hli_v1.testers.l23ve_tester.L23VeTester>`, :doc:`L47Tester <../api_ref/hlapiv1/_autosummary/testers/classes/xoa_driver.internals.hli_v1.testers.l47_tester.L47Tester>`, :doc:`L47VeTester <../api_ref/hlapiv1/_autosummary/testers/classes/xoa_driver.internals.hli_v1.testers.l47ve_tester.L47VeTester>`.
+Available tester types are `L23Tester`, `L23VeTester`, `L47Tester`, and `L47VeTester`.
 
 .. literalinclude:: hlapiv1/01_create_tester_from_type.py
     :language: python
