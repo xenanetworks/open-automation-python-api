@@ -100,11 +100,7 @@ async def __set(
     if inf is None:
         inf = await init(port, serdes)
     conn, mid, pid = get_ctx(port)
-<<<<<<< HEAD
     addr = inf.base + reg.value
-=======
-    addr = inf.base + reg.value 
->>>>>>> dev-v2
     r = commands.PX_RW(conn, mid, pid, 2000, addr)
     await r.set(value=f"{value:08X}")
     return None
@@ -168,7 +164,6 @@ xla_rd_page_set = partial(__set, reg=AnLtD.XLA_RD_PAGE)
 xla_rd_data_get = partial(__get, reg=AnLtD.XLA_RD_DATA)
 
 
-
 async def lt_prbs(
     port: GenericL23Port,
     serdes: int,
@@ -230,7 +225,7 @@ async def xla_dump(
         await xla_rd_addr_set(port, serdes, inf=inf, value=r)
         for p in range(10):
             # Read the data
-            await xla_rd_page_set(port, serdes, inf=inf, value=9-p)
+            await xla_rd_page_set(port, serdes, inf=inf, value=9 - p)
             d = await xla_rd_data_get(port, serdes, inf=inf)
             data_list.append(f"{d:08X}")
         data_list.append("\n")
@@ -249,12 +244,8 @@ async def px_get(
         return (False, resp.value)
     else:
         return (True, resp.value)
-<<<<<<< HEAD
 
 
-=======
-    
->>>>>>> dev-v2
 async def px_set(
     port: GenericL23Port,
     page_address: int,
@@ -271,16 +262,11 @@ async def xla_dump_ctrl(
     on: bool
 ) -> None:
     conn, mid, pid = get_ctx(port)
-<<<<<<< HEAD
-    await commands.PL1_CFG_TMP(conn, mid, pid, 0, enums.Layer1ConfigType.AN_LT_XLA_MODE).set(values=[int(on)])
-=======
     # await commands.PL1_CFG_TMP(conn, mid, pid, 0, enums.Layer1ConfigType.AN_LT_XLA_MODE).set(values=[int(on)])
     if on:
         await commands.PL1_CFG_TMP(conn, mid, pid, 0, enums.Layer1ConfigType.AN_LT_XLA_MODE).set(values=[enums.OnOff.ON])
     else:
         await commands.PL1_CFG_TMP(conn, mid, pid, 0, enums.Layer1ConfigType.AN_LT_XLA_MODE).set(values=[enums.OnOff.OFF])
-    
->>>>>>> dev-v2
 
 
 __all__ = (
