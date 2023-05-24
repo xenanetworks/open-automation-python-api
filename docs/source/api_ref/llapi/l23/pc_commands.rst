@@ -1,4 +1,4 @@
-Capture Classes
+Capture
 =================================
 
 This module contains the **L23 port capture classes** that deal with configuration of the capture criteria and inspection of the captured data from a port.

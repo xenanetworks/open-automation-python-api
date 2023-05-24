@@ -1,4 +1,4 @@
-Module Classes
+Module
 =================================
 
 This module contains the **impairment module commands**.

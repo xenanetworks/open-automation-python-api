@@ -1,4 +1,4 @@
-RX Statistics Classes
+RX Statistics
 =================================
 
 This module contains the **L23 port RX statistics classes** that provide quantitative information about the received packets on a port.

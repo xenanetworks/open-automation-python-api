@@ -1,8 +1,9 @@
-L23 Classes
+Valkyrie
 =========================
 
 .. toctree::
-
+    :maxdepth: 1
+    
     c_commands
     m_commands
     p_commands

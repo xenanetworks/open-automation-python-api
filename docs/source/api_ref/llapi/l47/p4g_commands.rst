@@ -1,4 +1,4 @@
-Connection Group Classes
+Connection Group
 =================================
 
 This module contains the **L47 connection group classes** that deal with configuration of TCP connections and are specific to L47. The commands have the form ``P4G_<xxx>`` and require a module index id and a port index id, and a connection group index id.

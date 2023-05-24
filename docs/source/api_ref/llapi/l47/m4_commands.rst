@@ -1,4 +1,4 @@
-Module Classes
+Module
 =================================
 
 This module contains the **L47 module classes**.

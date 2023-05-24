@@ -1,4 +1,4 @@
-Filter Classes
+Port Filter
 =================================
 
 This module contains the **impairment port flow filter commands**.

@@ -1,4 +1,4 @@
-Impairment Statistics Classes (Port Level)
+Port Impairment Statistics
 ===========================================
 
 This module contains the **impairment port statistics commands**.

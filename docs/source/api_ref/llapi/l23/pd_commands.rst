@@ -1,4 +1,4 @@
-Histogram Classes
+Histogram
 =================================
 
 This module contains the **L23 port histogram classes** that deal with configuration of data collection and retrieval of samples from a port.

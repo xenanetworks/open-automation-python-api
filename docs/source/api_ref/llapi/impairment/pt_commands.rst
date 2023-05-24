@@ -1,4 +1,4 @@
-TX Statistics Classes (Flow Level)
+Flow TX Statistics Classes
 ===================================
 
 This module contains the **impairment flow TX statistics commands**.
@@ -11,13 +11,13 @@ This module contains the **impairment flow TX statistics commands**.
 .. autoclass:: PT_FLOWTOTAL
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
+    :exclude-members: GetDataAttr, SetDataAttr,  __init__
 
 
 .. autoclass:: PT_FLOWCLEAR
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
+    :exclude-members: GetDataAttr, SetDataAttr,  __init__
 
 
 

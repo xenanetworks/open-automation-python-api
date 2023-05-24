@@ -1,4 +1,4 @@
-TX Statistics Classes
+TX Statistics
 =================================
 
 This module contains the **L23 port TX statistics classes** that provide quantitative information about the transmitted packets on a port.

@@ -1,4 +1,4 @@
-Filter Classes
+Filter
 =================================
 
 This module contains the **L23 port filter classes** that deal with configuration of the filters on the received traffic of a port.

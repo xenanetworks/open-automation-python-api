@@ -1,4 +1,4 @@
-Length Term Classes
+Length Term
 =================================
 
 This module contains the **L23 port length term classes** that deal with configuration of the length term on the received traffic of a port.

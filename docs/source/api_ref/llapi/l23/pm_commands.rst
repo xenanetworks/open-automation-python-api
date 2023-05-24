@@ -1,4 +1,4 @@
-Match Term Classes
+Match Term
 =================================
 
 This module contains the **L23 port match term classes** that deal with configuration of the length term on the received traffic of a port.

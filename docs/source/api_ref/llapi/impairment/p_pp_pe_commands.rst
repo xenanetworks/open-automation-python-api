@@ -1,4 +1,4 @@
-Port Classes
+Port
 =================================
 
 This module contains the **impairment port commands**.
@@ -77,19 +77,5 @@ This module contains the **impairment port commands**.
     :exclude-members: GetDataAttr, SetDataAttr, __init__
 
 
-.. currentmodule:: xoa_driver.internals.commands.pp_commands
-
-See :class:`PP_PMAERRPUL_PARAMS`.
-
-
-See :class:`PP_PMAERRPUL_ENABLE`.
-
-
-See :class:`PP_LINKFLAP_PARAMS`.
-
-
-See :class:`PP_LINKFLAP_ENABLE`.
-
-
-The other port commands are the same as :ref:`L23 Port Commands <l23_p_commands>`.
+The other port commands are the same as :ref:`Valkyrie Port Commands <l23_p_commands>`.
 

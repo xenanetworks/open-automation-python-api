@@ -1,4 +1,4 @@
-Custom Impairment Distribution Classes
+Impairment Custom Distribution
 ========================================
 
 This module contains the **impairment custom distribution commands**.
