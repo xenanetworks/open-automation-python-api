@@ -28,14 +28,8 @@ on:
 jobs:
   call-regression-test:
     name: "Regression test"
-    uses: xenanetworks/xoa-regression-tests/.github/workflows/execute-test-suite-denmark-tester.yml@fch-actions
+    uses: xenanetworks/xoa-regression-tests/.github/workflows/execute-test-suite-denmark-tester.yml@main
     secrets: inherit
-    with:
-      test_suites_branch: ${{inputs.test_suites_branch}}
-      core_branch: ${{inputs.core_branch}}
-      converter_branch: ${{inputs.converter_branch}}
-      driver_branch: ${{inputs.driver_branch}}
-
 
 concurrency:
   group: ${{ github.head_ref || github.ref_name }}

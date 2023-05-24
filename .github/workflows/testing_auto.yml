@@ -1,0 +1,22 @@
+name: Auto Testing
+run-name: 🐛 Compatibility of "${{ github.event.head_commit.message }}"
+
+on:
+  push:
+    branches:
+      - "**"
+    paths-ignore:
+      - 'docs/**'
+      - README.md
+      - .gitignore
+      - .github/**
+
+jobs:
+  call-regression-test:
+    name: "Regression test"
+    uses: xenanetworks/xoa-regression-tests/.github/workflows/execute-test-suite-denmark-tester.yml@main
+    secrets: inherit
+
+concurrency:
+  group: ${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
