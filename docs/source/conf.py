@@ -217,6 +217,7 @@ html_theme_options = {
         "color-brand-primary": "#295341",
         "color-brand-content": "#295341",
     },
+    "navigation_with_keys": True,
 }
 
 # If true, the index is generated twice: once as a single page with all the entries, 
