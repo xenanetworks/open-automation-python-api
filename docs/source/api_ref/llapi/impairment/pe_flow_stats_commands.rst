@@ -7,65 +7,54 @@ This module contains the **impairment flow statistics commands**.
 
 .. currentmodule:: xoa_driver.internals.commands.pe_commands
 
-PE_FLOWDROPTOTAL
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autoclass:: PE_FLOWDROPTOTAL
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
+    :exclude-members: GetDataAttr, SetDataAttr, __init__
 
 
-PE_FLOWLATENCYTOTAL
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autoclass:: PE_FLOWLATENCYTOTAL
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
+    :exclude-members: GetDataAttr, SetDataAttr, __init__
 
 
-PE_FLOWDUPTOTAL
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autoclass:: PE_FLOWDUPTOTAL
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
+    :exclude-members: GetDataAttr, SetDataAttr, __init__
 
 
-PE_FLOWMISTOTAL
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 
 .. autoclass:: PE_FLOWMISTOTAL
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
+    :exclude-members: GetDataAttr, SetDataAttr, __init__
 
 
-PE_FLOWCORTOTAL
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 
 .. autoclass:: PE_FLOWCORTOTAL
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
+    :exclude-members: GetDataAttr, SetDataAttr, __init__
 
 
-PE_FLOWJITTERTOTAL
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autoclass:: PE_FLOWJITTERTOTAL
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
+    :exclude-members: GetDataAttr, SetDataAttr, __init__
 
 
-PE_FLOWCLEAR
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 
 .. autoclass:: PE_FLOWCLEAR
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
+    :exclude-members: GetDataAttr, SetDataAttr, __init__
 

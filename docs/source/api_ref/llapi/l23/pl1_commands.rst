@@ -5,41 +5,8 @@ This module contains the **Layer-1 classes** that mainly deal auto-negotiation a
 
 -------
 
-.. currentmodule:: xoa_driver.internals.commands.pl1_commands
-
-
-PL1_AUTONEGINFO
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autoclass:: PL1_AUTONEGINFO
+.. automodule:: xoa_driver.internals.commands.pl1_commands
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
-
-
-PL1_LINKTRAININFO
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autoclass:: PL1_LINKTRAININFO
-    :members:
-    :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
-
-
-PL1_LOG
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autoclass:: PL1_LOG
-    :members:
-    :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
-
-
-PL1_CFG_TMP
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autoclass:: PL1_CFG_TMP
-    :members:
-    :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
+    :exclude-members: GetDataAttr, SetDataAttr, __init__
 

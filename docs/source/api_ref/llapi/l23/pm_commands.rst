@@ -11,59 +11,8 @@ While a filter is enabled, neither its condition nor the definition of each matc
 
 -------
 
-.. currentmodule:: xoa_driver.internals.commands.pm_commands
-
-
-PM_INDICES
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autoclass:: PM_INDICES
+.. automodule:: xoa_driver.internals.commands.pm_commands
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
-
-
-PM_CREATE
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autoclass:: PM_CREATE
-    :members:
-    :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
-
-
-PM_DELETE
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autoclass:: PM_DELETE
-    :members:
-    :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
-
-
-PM_PROTOCOL
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autoclass:: PM_PROTOCOL
-    :members:
-    :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
-
-
-PM_POSITION
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autoclass:: PM_POSITION
-    :members:
-    :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
-
-
-PM_MATCH
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autoclass:: PM_MATCH
-    :members:
-    :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
+    :exclude-members: GetDataAttr, SetDataAttr, __init__
 

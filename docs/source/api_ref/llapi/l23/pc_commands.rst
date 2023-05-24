@@ -9,49 +9,7 @@ The capture command names all have the form ``PC_<xxx>`` and require both a modu
 
 -------
 
-.. currentmodule:: xoa_driver.internals.commands.pc_commands
-
-
-PC_TRIGGER
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autoclass:: PC_TRIGGER
+.. automodule:: xoa_driver.internals.commands.pc_commands
     :members:
     :no-undoc-members:
-    :exclude-members: SetDataAttr
-
-
-PC_KEEP
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autoclass:: PC_KEEP
-    :members:
-    :no-undoc-members:
-    :exclude-members: SetDataAttr
-
-
-PC_STATS
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autoclass:: PC_STATS
-    :members:
-    :no-undoc-members:
-    :exclude-members: SetDataAttr
-
-
-PC_EXTRA
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autoclass:: PC_EXTRA
-    :members:
-    :no-undoc-members:
-    :exclude-members: SetDataAttr
-
-
-PC_PACKET
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autoclass:: PC_PACKET
-    :members:
-    :no-undoc-members:
-    :exclude-members: SetDataAttr
+    :exclude-members: GetDataAttr, SetDataAttr, __init__
