@@ -2,7 +2,7 @@ Advanced Timing
 =========================
 
 TX Clock Filter Loop Bandwidth
----------------------------
+------------------------------
 
 .. code-block:: python
 
