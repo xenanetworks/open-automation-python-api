@@ -5,14 +5,7 @@ LL-API contains low-level API classes, giving you the direct control of the test
 
 However, unlike HL-API, LL-API does not provide functionalities such as *auto connection keep-alive* and *auto index management*. This means you need to write more codes to handle those yourself.
 
-The low-level Python APIs are categorized into six groups:
-
-* L23 (Valkyrie)
-* L47 (Vulcan)
-* Impairment (Chimera)
-* Enums
-* Exceptions
-
+The low-level Python APIs are categorized into:
 
 .. toctree::
     :maxdepth: 1
