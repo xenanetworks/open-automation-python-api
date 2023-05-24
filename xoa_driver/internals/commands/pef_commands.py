@@ -50,14 +50,14 @@ class PEF_INIT:
         There are 2 register copies used to configure the filters:
 
             (1) ``Shadow-copy (type value = 0)`` temporary copy configured by sever.
-                Values stored in ``shadow-copy`` have no immediate effect on the flow filters. :class:`PEF_APPLY` will pass the values from the ``shadow-copy`` to the ``working-copy``.
+                Values stored in ``shadow-copy`` have no immediate effect on the flow filters. PEF_APPLY will pass the values from the ``shadow-copy`` to the ``working-copy``.
 
             (2) ``Working-copy (type value = 1)`` reflects what is currently used for filtering in the FPGA.
                 ``Working-copy`` cannot be written directly. Only ``shadow-copy`` allows direct write.
 
             (3) All ``set`` actions are performed on ``shadow-copy`` ONLY.
 
-            (4) Only when :class:`PEF_APPLY` is called, ``working-copy`` and FPGA are updated with values from the ``shadow-copy``.
+            (4) Only when PEF_APPLY is called, ``working-copy`` and FPGA are updated with values from the ``shadow-copy``.
     """
 
     code: typing.ClassVar[int] = 1700
@@ -1993,9 +1993,9 @@ class PEF_CANCEL:
 @dataclass
 class PEF_VALUE:
     """
-    This command is valid only for ``Extended filter mode`` (check :class:`PEF_MODE`).
+    This command is valid only for ``Extended filter mode`` (check PEF_MODE).
 
-    Defines the byte values that can be matched if selected by :class:`PEF_MASK`.
+    Defines the byte values that can be matched if selected by PEF_MASK.
 
     If ``<protocol_segment_index> = 0`` the maximum number of match value
     bytes that can be set is determined by the total length of the protocol segments
@@ -2033,16 +2033,16 @@ class PEF_VALUE:
         """list of hex bytes, the raw bytes comprising the packet header."""
 
     def get(self) -> Token[GetDataAttr]:
-        """Get the byte values that can be matched if selected by :class:`PEF_MASK`.
+        """Get the byte values that can be matched if selected by PEF_MASK.
 
-        :return: the byte values that can be matched if selected by :class:`PEF_MASK`
+        :return: the byte values that can be matched if selected by PEF_MASK
         :rtype: PEF_VALUE.GetDataAttr
         """
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, value: Hex) -> Token[None]:
-        """Set the byte values that can be matched if selected by :class:`PEF_MASK`.
+        """Set the byte values that can be matched if selected by PEF_MASK.
 
         :param value: the raw bytes comprising the packet header
         :type value: Hex
@@ -2055,12 +2055,12 @@ class PEF_VALUE:
 @dataclass
 class PEF_MASK:
     """
-    This command is valid only for ``Extended filter mode`` (check :class:`PEF_MODE`).
+    This command is valid only for ``Extended filter mode`` (check PEF_MODE`).
 
-    Defines the mask byte values that select the values specified by :class:`PEF_VALUE`.
+    Defines the mask byte values that select the values specified by PEF_VALUE`.
 
     For a chosen ``<protocol_segment_index>`` the first byte in the value masks the
-    first byte of the corresponding :class:`PEF_VALUE` and so on.
+    first byte of the corresponding PEF_VALUE and so on.
 
     If ``<protocol_segment_index> = 0`` the maximum number of match value
     bytes that can be set is determined by the total length of the protocol segments
@@ -2074,7 +2074,7 @@ class PEF_MASK:
     so if PEF_PROTOCOL is set to ``ETHERNET VLAN ETHERTYPE eCPRI`` then ``<protocol_segment_index> = 4`` selects the 8
     bytes of the eCPRI header starting at byte position (12 + 2 + 4) = 18.
 
-    ``get/set`` semantics are similar to :class:`PEF_VALUE`.
+    ``get/set`` semantics are similar to PEF_VALUE.
     """
 
     code: typing.ClassVar[int] = 1778
@@ -2094,16 +2094,16 @@ class PEF_MASK:
         masks: Hex = field(XmpHex())
 
     def get(self) -> Token[GetDataAttr]:
-        """Get the mask byte values that select the values specified by :class:`PEF_VALUE`.
+        """Get the mask byte values that select the values specified by PEF_VALUE.
 
-        :return: the mask byte values that select the values specified by :class:`PEF_VALUE`.
+        :return: the mask byte values that select the values specified by PEF_VALUE.
         :rtype: PEF_MASK.GetDataAttr
         """
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
     def set(self, masks: Hex) -> Token[None]:
-        """Set the mask byte values that select the values specified by :class:`PEF_VALUE`.
+        """Set the mask byte values that select the values specified by PEF_VALUE`.
 
         :param masks: mask byte values
         :type masks: Hex
@@ -2116,7 +2116,7 @@ class PEF_MASK:
 @dataclass
 class PEF_PROTOCOL:
     """
-    This command is valid only for ``Extended filter mode`` (check :class:`PEF_MODE`).
+    This command is valid only for ``Extended filter mode`` (check `PEF_MODE`_).
 
     Defines the sequence of protocol segments that can be
     matched. The total length of the specified segments cannot exceed 128 bytes. If
@@ -2125,7 +2125,7 @@ class PEF_PROTOCOL:
     may have changed. However, if the total length, in bytes, of the segments is
     reduced, then the excess bytes of value and mask are set to zero. I.e. to update
     an existing filter, you must first correct the list of segments (using
-    PEF_PROTOCOL) and subsequently update the filtering value (using `:class:`PEF_VALUE`) and filtering mask (:class:`PEF_MASK`).
+    PEF_PROTOCOL) and subsequently update the filtering value (using `PEF_VALUE`_) and filtering mask (`PEF_MASK`_).
     """
 
     code: typing.ClassVar[int] = 1779

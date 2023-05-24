@@ -46,7 +46,7 @@ class PS_INDICES:
     transmitted for the port. Setting the value of this command creates a new
     empty stream for each value that is not already in use, and deletes each stream
     that is not mentioned in the list. The same can be accomplished one-stream-at-a-
-    time using the :class:`PS_CREATE` and :class:`PS_DELETE` commands.
+    time using the `PS_CREATE`_ and `PS_DELETE`_ commands.
     """
 
     code: typing.ClassVar[int] = 150
