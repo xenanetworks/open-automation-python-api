@@ -143,7 +143,7 @@ autodoc_inherit_docstrings = True
 # They are applied to all autodoc directives automatically. 
 # It must be a dictionary which maps option names to the values.
 autodoc_default_options = {
-    'member-order': 'bysource',
+    'member-order': 'alphabetical',
     'private-members': False,
     'undoc-members': False,
     'show-inheritance': True
