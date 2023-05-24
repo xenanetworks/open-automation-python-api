@@ -8,5 +8,5 @@ This module contains the **Layer-1 classes** that mainly deal auto-negotiation a
 .. automodule:: xoa_driver.internals.commands.pl1_commands
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr, __init__
+    :exclude-members: __init__
 

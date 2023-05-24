@@ -12,4 +12,4 @@ The capture command names all have the form ``PC_<xxx>`` and require both a modu
 .. automodule:: xoa_driver.internals.commands.pc_commands
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr, __init__
+    :exclude-members: __init__

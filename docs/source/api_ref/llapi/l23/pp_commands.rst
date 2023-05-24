@@ -17,4 +17,4 @@ The high-speed port command names all have the form ``PP_<xxx>`` and require a m
 .. automodule:: xoa_driver.internals.commands.pp_commands
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr, __init__
+    :exclude-members: __init__

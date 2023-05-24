@@ -10,4 +10,4 @@ This module contains the **L23 port classes** that deal with basic information a
 .. automodule:: xoa_driver.internals.commands.p_commands
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr, __init__, P_EMULATE, P_LOADMODE
+    :exclude-members: __init__, P_EMULATE, P_LOADMODE

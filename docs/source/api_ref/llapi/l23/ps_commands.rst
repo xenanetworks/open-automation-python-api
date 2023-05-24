@@ -76,4 +76,4 @@ If the stream payload type is set to ``Incrementing``, then an additional minimu
 .. automodule:: xoa_driver.internals.commands.ps_commands
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr, __init__
+    :exclude-members: __init__

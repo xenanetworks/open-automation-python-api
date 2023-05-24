@@ -9,4 +9,4 @@ This module contains the **L23 module classes** that deal with basic information
 .. automodule:: xoa_driver.internals.commands.m_commands
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr, __init__, M_EMULBYPASS, M_LATENCYMODE
+    :exclude-members: __init__, M_EMULBYPASS, M_LATENCYMODE

@@ -14,4 +14,4 @@ While a histogram is actively collecting samples its parameters cannot be change
 .. automodule:: xoa_driver.internals.commands.pd_commands
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr, __init__
+    :exclude-members: __init__

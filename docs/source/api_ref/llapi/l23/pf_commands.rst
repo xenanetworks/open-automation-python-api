@@ -14,5 +14,5 @@ While a filter is enabled, neither its condition nor the definition of each matc
 .. automodule:: xoa_driver.internals.commands.pf_commands
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr, __init__
+    :exclude-members: __init__
 

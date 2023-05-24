@@ -12,5 +12,5 @@ All bit-and byte-level statistics are at layer-2, so they include the full Ether
 .. automodule:: xoa_driver.internals.commands.pt_commands
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr, __init__, PT_FLOWTOTAL, PT_FLOWCLEAR
+    :exclude-members: __init__, PT_FLOWTOTAL, PT_FLOWCLEAR
 
