@@ -1,0 +1,42 @@
+name: Manual Testing
+run-name: 🐛 Compatibility of TS@${{inputs.test_suites_branch}}, core@${{inputs.core_branch}}, converter@${{inputs.converter_branch}} and driver@${{inputs.driver_branch}}
+
+on:
+  workflow_dispatch:
+    inputs:
+      test_suites_branch:
+          description: 'Test suites branch'
+          required: true
+          type: string
+          default: 'dev'
+      core_branch:
+          description: 'Core branch'
+          required: true
+          type: string
+          default: 'dev'
+      converter_branch:
+          description: 'Converter branch'
+          required: true
+          type: string
+          default: 'dev'
+      driver_branch:
+          description: 'Driver branch'
+          required: true
+          type: string
+          default: 'dev'
+
+jobs:
+  call-regression-test:
+    name: "Regression test"
+    uses: xenanetworks/xoa-regression-tests/.github/workflows/execute-test-suite-denmark-tester.yml@fch-actions
+    secrets: inherit
+    with:
+      test_suites_branch: ${{inputs.test_suites_branch}}
+      core_branch: ${{inputs.core_branch}}
+      converter_branch: ${{inputs.converter_branch}}
+      driver_branch: ${{inputs.driver_branch}}
+
+
+concurrency:
+  group: ${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
