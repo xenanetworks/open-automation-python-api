@@ -1,4 +1,4 @@
-High-Level API (V1)
+High-Level API
 ===================================
 
 The boilerplate code that is used to run the examples in this section:
