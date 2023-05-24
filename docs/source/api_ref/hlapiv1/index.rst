@@ -1,4 +1,4 @@
-High-Level API (V1)
+High-Level API
 ========================
 
 .. versionadded:: v1.1
@@ -19,21 +19,12 @@ HL-API uses the classes defined in LL-API and lets you quickly develop scripts o
 
     The restructuring won't affect the LL-API.
 
-The HL-API (V1) are categorized into six groups:
-
-* Testers
-* Modules
-* Ports
-* Enums
-* Exceptions
-* Utils
+The HL-API (V1) are categorized into:
 
 .. toctree::
 
-    api_map
-    testers
-    modules
-    ports
-    indices
-    enums
-    exceptions
+    tester/index
+    module/index
+    port/index
+    exception
+    enum
