@@ -1246,6 +1246,14 @@ class PP_PHYAUTOTUNE:
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], on_off=on_off))
+    
+    set_off = functools.partialmethod(set, OnOff.OFF)
+    """Turn off tap autotune.
+    """
+
+    set_on = functools.partialmethod(set, OnOff.ON)
+    """Turn off tap autotune.
+    """
 
 
 @register_command
