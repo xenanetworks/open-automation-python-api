@@ -14,7 +14,7 @@ on:
 jobs:
   call-regression-test:
     name: "Regression test"
-    uses: xenanetworks/xoa-regression-tests/.github/workflows/execute-test-suite-denmark-tester.yml@main
+    uses: xenanetworks/xoa-regression-tests/.github/workflows/execute-test-suite-denmark-tester.yml@fch-actions
     secrets: inherit
 
 concurrency:
