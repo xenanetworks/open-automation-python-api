@@ -8,6 +8,8 @@ Interface
 
     await port.interface.get()
 
+    port.on_interface_change(_callback_func)
+
 
 Description
 -----------

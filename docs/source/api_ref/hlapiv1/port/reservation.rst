@@ -21,5 +21,5 @@ Reserved By
 
     await port.reserved_by.get()
     port.is_reserved_by_me()
+    port.is_reserved_by_others()
     port.on_reserved_by_change(_callback_func())
-

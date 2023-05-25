@@ -24,6 +24,9 @@ Mode Selection
     await port.speed.mode.selection.set_unknown()
     await port.speed.mode.selection.get()
 
+    port.on_speed_change(_callback_func)
+    port.on_speed_selection_change(_callback_func)
+
 
 Supported Modes
 ----------------
