@@ -131,15 +131,18 @@ def test_mac() -> None:
 def test_string() -> None:
     data1 = b'Odin-10G-1S-6P[b]\x00\x00\x00'
     data2 = b"Xena"
+    data3 = b""
 
     class SetDataAttr(RequestBodyStruct):
         custom_field: str = field(XmpStr())
 
     obj1 = SetDataAttr(custom_field="Odin-10G-1S-6P[b]")
     obj2 = SetDataAttr(custom_field="Xena")
+    obj3 = SetDataAttr(custom_field="")
 
     assert obj1.to_bytes() == data1
     assert obj2.to_bytes() == data2
+    assert obj3.to_bytes() == data3
 
 
 def test_unlimited_list() -> None:

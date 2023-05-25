@@ -150,19 +150,23 @@ def test_mac() -> None:
 
 
 def test_string() -> None:
-    data_1 = b'Odin-10G-1S-6P[b]\x00\x00\n'
-    data_2 = b'Odin-10G-1S-6P[b]\x00\x00\x0c'
+    data_1 = b"Odin-10G-1S-6P[b]\x00\x00\n"
+    data_2 = b"Odin-10G-1S-6P[b]\x00\x00\x0c"
+    data_3 = b""
 
     class GetDataAttr(ResponseBodyStruct):
         custom_field: str = field(XmpStr())
 
     obj1 = GetDataAttr(data_1)
     obj2 = GetDataAttr(data_2)
+    obj3 = GetDataAttr(data_3)
 
     assert isinstance(obj1.custom_field, str)
     assert isinstance(obj2.custom_field, str)
+    assert isinstance(obj3.custom_field, str)
     assert obj1.custom_field == "Odin-10G-1S-6P[b]"
     assert obj2.custom_field == "Odin-10G-1S-6P[b]"
+    assert obj3.custom_field == ""
 
 
 def test_unlimited_list() -> None:

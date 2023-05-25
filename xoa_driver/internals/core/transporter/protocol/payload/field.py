@@ -61,7 +61,7 @@ TYPES_COMPOSED = (XmpSequence,)
 
 @lru_cache
 def _build_format(format_letter: str, repetition: int | None = None) -> str:
-    return f"{FMT_ORDER_NETWORK}{repetition or ''}{format_letter}"
+    return f"{FMT_ORDER_NETWORK}{repetition if repetition is not None else ''}{format_letter}"
 
 
 class FieldSpecs:
