@@ -115,7 +115,7 @@ async def stop_traffic(ports: typing.List["ports.GenericL23Port"]) -> None:
 
 
 async def fetch_result(port: "ports.GenericL23Port") -> "Results":
-    stream = port.streams.index(0) # Retrieve stream which we created for port
+    stream = port.streams.obtain(0) # Retrieve stream which we created for port
     tpld = port.statistics.rx.access_tpld(0) # before was port.reception_statistics.access_tpld(0)
     return Results.from_data(
         await utils.apply(

@@ -1,71 +1,58 @@
-Impairment Statistics Classes (Port Level)
+Port Impairment Statistics
 ===========================================
 
 This module contains the **impairment port statistics commands**.
 
 -------
 
-.. currentmodule:: xoa_driver.internals.core.commands.pe_commands
+.. currentmodule:: xoa_driver.internals.commands.pe_commands
 
-PE_CLEAR
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 
 .. autoclass:: PE_CLEAR
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
+    :exclude-members: GetDataAttr, SetDataAttr, __init__
 
 
-PE_DUPTOTAL
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autoclass:: PE_DUPTOTAL
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
+    :exclude-members: GetDataAttr, SetDataAttr, __init__
 
 
-PE_MISTOTAL
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autoclass:: PE_MISTOTAL
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
+    :exclude-members: GetDataAttr, SetDataAttr, __init__
 
 
-PE_CORTOTAL
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autoclass:: PE_CORTOTAL
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
+    :exclude-members: GetDataAttr, SetDataAttr, __init__
 
 
-PE_JITTERTOTAL
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autoclass:: PE_JITTERTOTAL
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
+    :exclude-members: GetDataAttr, SetDataAttr, __init__
 
 
-PE_LATENCYTOTAL
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autoclass:: PE_LATENCYTOTAL
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
+    :exclude-members: GetDataAttr, SetDataAttr, __init__
 
 
-PE_DROPTOTAL
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autoclass:: PE_DROPTOTAL
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
+    :exclude-members: GetDataAttr, SetDataAttr, __init__
 

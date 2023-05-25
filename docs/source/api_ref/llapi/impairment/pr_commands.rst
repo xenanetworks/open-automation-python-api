@@ -1,27 +1,22 @@
-RX Statistics Classes (Flow Level)
+Flow RX Statistics Classes
 ===================================
 
 This module contains the **impairment flow RX statistics commands**.
 
 -------
 
-.. currentmodule:: xoa_driver.internals.core.commands.pr_commands
+.. currentmodule:: xoa_driver.internals.commands.pr_commands
 
-
-PR_FLOWTOTAL
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autoclass:: PR_FLOWTOTAL
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
+    :exclude-members: GetDataAttr, SetDataAttr, __init__
 
 
-PR_FLOWCLEAR
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autoclass:: PR_FLOWCLEAR
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
+    :exclude-members: GetDataAttr, SetDataAttr,  __init__
 

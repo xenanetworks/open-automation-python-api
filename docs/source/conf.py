@@ -76,7 +76,7 @@ source_suffix = '.rst'
 
 # If true, figures, tables and code-blocks are automatically numbered if they have a caption. 
 # The numref role is enabled. Obeyed so far only by HTML and LaTeX builders. Default is False.
-numfig = True
+numfig = False
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -143,7 +143,7 @@ autodoc_inherit_docstrings = True
 # They are applied to all autodoc directives automatically. 
 # It must be a dictionary which maps option names to the values.
 autodoc_default_options = {
-    'member-order': 'bysource',
+    'member-order': 'alphabetical',
     'private-members': False,
     'undoc-members': False,
     'show-inheritance': True
@@ -217,6 +217,7 @@ html_theme_options = {
         "color-brand-primary": "#295341",
         "color-brand-content": "#295341",
     },
+    "navigation_with_keys": True,
 }
 
 # If true, the index is generated twice: once as a single page with all the entries, 
