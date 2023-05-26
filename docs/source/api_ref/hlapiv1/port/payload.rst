@@ -47,3 +47,14 @@ MIX Lengths
 
     await port.mix.lengths.set()
     await port.mix.lengths.get()
+
+
+Payload Mode
+-------------
+
+.. code-block:: python
+
+    await port.payload_mode.set_normal()
+    await port.payload_mode.set_extpl()
+    await port.payload_mode.set_cdf()
+    await port.payload_mode.get()
