@@ -200,15 +200,6 @@ html_show_copyright = True
 # If true, “Created using Sphinx” is shown in the HTML footer
 html_show_sphinx = False
 
-# html_theme_options = {
-#     "repository_url": "https://github.com/xenanetworks/open-automation-python-api",
-#     "use_repository_button": True,
-#     "home_page_in_toc": True,
-#     "show_toc_level": 2,
-#     "use_download_button": True,
-#     "show_navbar_depth": 1
-# }
-
 html_theme_options = {
     "light_logo": "xoa_logo_light.png",
     "dark_logo": "xoa_logo_dark.png",
