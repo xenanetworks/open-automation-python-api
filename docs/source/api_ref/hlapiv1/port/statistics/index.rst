@@ -7,3 +7,4 @@ Statistics APIs.
     :glob:
 
     valkyrie/*
+    chimera/*
