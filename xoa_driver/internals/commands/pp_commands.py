@@ -344,33 +344,54 @@ class PP_RXTOTALSTATS:
     _port: int
 
     class GetDataAttr(ResponseBodyStruct):
-        total_corrected_fec_symbol_count: int = field(XmpLong())
-        """integer, total corrected FEC symbols count."""
-        total_uncorrectable_fec_block_count: int = field(XmpLong())
-        """integer, total uncorrectable FEC blocks count."""
-        total_pre_ber: int = field(XmpLong())
-        """integer, total pre-FEC BER estimate sent as "total_pre_ber = received_bits / total_corfecerrs".
-        To get the real total pre-BER, calculate the inverse: 1/total_pre_ber. If zero physical bit errors have been detected,
+        total_rx_bit_count: int = field(XmpLong())
+        """integer, total received bits"""
+
+        total_rx_codeword_count: int = field(XmpLong())
+        """integer, total received codewords"""
+
+        total_corrected_codeword_count: int = field(XmpLong())
+        """integer, total corrected codewords"""
+
+        total_uncorrectable_codeword_count: int = field(XmpLong())
+        """integer, total uncorrectable codewords"""
+
+        total_corrected_symbol_count: int = field(XmpLong())
+        """integer, total corrected symbol count."""
+
+        total_pre_fec_ber: int = field(XmpLong())
+        """integer, total pre-FEC BER estimate sent as "total_pre_fec_ber = received_bits / total_corfecerrs".
+        To get the real total pre-BER, calculate the inverse: 1/total_pre_fec_ber. If zero physical bit errors have been detected,
         the negative value "-received_bits" is provided, which can be used to generate the "< BER" value.
         """
-        total_post_ber: int = field(XmpLong())
-        """integer, total post-FEC BER estimate sent as "total_post_ber = received_bits / total_estimated_uncorrectable_errors".
-        To get the real total post-BER, calculate the inverse: 1/total_post_ber. If zero physical bit errors have been detected,
+
+        total_post_fec_ber: int = field(XmpLong())
+        """integer, total post-FEC BER estimate sent as "total_post_fec_ber = received_bits / total_estimated_uncorrectable_errors".
+        To get the real total post-BER, calculate the inverse: 1/total_post_fec_ber. If zero physical bit errors have been detected,
         the negative value "-received_bits" is provided, which can be used to generate the "< BER" value.
         """
 
     def get(self) -> Token[GetDataAttr]:
-        """Get FEC Total counters of the port:
-            1. total corrected FEC symbols count.
-            2. total uncorrectable FEC blocks count.
-            3. total pre-FEC BER estimate sent as "total_pre_ber = received_bits / total_corfecerrs".
-                To get the real total pre-BER, calculate the inverse: 1/total_pre_ber.
-                If zero physical bit errors have been detected, the negative value "-received_bits" is provided, which can be used to generate the "< BER" value.
-            4. total post-FEC BER estimate sent as "total_post_ber = received_bits / total_estimated_uncorrectable_errors".
-                To get the real total post-BER, calculate the inverse: 1/total_post_ber.
-                If zero physical bit errors have been detected, the negative value "-received_bits" is provided, which can be used to generate the "< BER" value.
+        """Get FEC Total counters of the port            
 
-        :return: total corrected FEC symbols count, total uncorrectable FEC blocks count, total pre-FEC BER estimate sent, and Total post-FEC BER estimate sent.
+        :return:
+            1. Total RX bits
+
+            2. Total codewords
+
+            3. Corrected codewords
+
+            4. Uncorrectable codewords
+
+            5. Corrected symbols
+
+            6. Pre-FEC BER estimate, sent as "total_pre_fec_ber = received_bits / total_corfecerrs".
+                To get the real total pre-BER, calculate the inverse: 1/total_pre_fec_ber.
+                If zero physical bit errors have been detected, the negative value "-received_bits" is provided, which can be used to generate the "< BER" value.
+                
+            7. Post-FEC BER estimate sent as "total_post_fec_ber = received_bits / total_estimated_uncorrectable_errors".
+                To get the real total post-BER, calculate the inverse: 1/total_post_fec_ber.
+                If zero physical bit errors have been detected, the negative value "-received_bits" is provided, which can be used to generate the "< BER" value.
 
         :rtype: PP_RXTOTALSTATS.GetDataAttr
         """
