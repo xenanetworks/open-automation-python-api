@@ -73,12 +73,12 @@ class DoAnlt:
             timeout_mode=timeout_mode,
         )
 
-    def __pl1_cfg_tmp(self, serdes: int, config_type: enums.Layer1ConfigType, values: list[int]) -> Token:
-        return commands.PL1_CFG_TMP(
-            *self._group,
-            serdes,
-            config_type
-        ).set(values=values)
+    def __pl1_cfg_tmp(
+        self, serdes: int, config_type: enums.Layer1ConfigType, values: list[int]
+    ) -> Token:
+        return commands.PL1_CFG_TMP(*self._group, serdes, config_type).set(
+            values=values
+        )
 
     def __select_modes(self) -> tuple[enums.LinkTrainingMode, enums.TimeoutMode]:
         if self.should_do_an == True and self.should_lt_interactive == False:

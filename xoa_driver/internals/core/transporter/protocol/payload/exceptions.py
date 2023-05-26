@@ -10,7 +10,7 @@ class FirmwareVersionError(XmpException):
         self.cmd_name = cmd_name
         self.field_name = field_name
         self.min_version = min_version
-        self.msg = f"The field: [{self.field_name}] of command {self.cmd_name} is avaliable only from the firmware version: {self.min_version}"
+        self.msg = f"The field: [{self.field_name}] of command {self.cmd_name} is available only from the firmware version: {self.min_version}"
         super().__init__(self.msg)
 
 
