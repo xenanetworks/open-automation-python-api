@@ -13,7 +13,7 @@ from .exceptions import (
     NotSupportPortSpeed,
 )
 from .tools import MODULE_EOL_INFO
-from itertools import chain
+from itertools import chain  # type: ignore[Pylance false warning]
 from datetime import datetime
 
 PcsPmaSupported = (FamilyL, FamilyL1)
@@ -37,7 +37,7 @@ async def reserve_tester(tester: GenericAnyTester, force: bool = True) -> None:
     """
     r = await tester.reservation.get()
     if force and r.operation == enums.ReservedStatus.RESERVED_BY_OTHER:
-        await asyncio.gather(*[free_module(m) for m in tester.modules])
+        await asyncio.gather(*(free_module(m) for m in tester.modules))
         await tester.reservation.set_reserve()
     elif r.operation == enums.ReservedStatus.RELEASED:
         # can fail in condition if an module or port is reserved by someone else
@@ -60,7 +60,7 @@ async def free_tester(tester: GenericAnyTester) -> None:
         await tester.reservation.set_relinquish()
     elif r.operation == enums.ReservedStatus.RESERVED_BY_YOU:
         await tester.reservation.set_release()
-    await asyncio.gather(*[free_module(m) for m in tester.modules])
+    await asyncio.gather(*(free_module(m) for m in tester.modules))
 
 
 # endregion
@@ -411,7 +411,7 @@ async def free_ports(*ports: GenericAnyPort) -> None:
     :param module: The module object
     :type module: GenericAnyModule
     """
-    await asyncio.gather(*[free_port(port=p) for p in ports])
+    await asyncio.gather(*(free_port(port=p) for p in ports))
 
 
 # endregion
