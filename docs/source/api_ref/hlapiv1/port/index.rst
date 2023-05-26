@@ -7,3 +7,11 @@ Package ``xoa_driver.ports`` includes port APIs for Valkyrie, Vulcan, Chimera, V
     :glob:
 
     *
+    histogram/index
+    filter/index
+    matchterm/index
+    lengthterm/index
+    pcs_pma/index
+    phy/index
+    prbs/index
+    statistics/index

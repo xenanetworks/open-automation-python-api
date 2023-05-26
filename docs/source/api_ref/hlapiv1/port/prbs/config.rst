@@ -1,11 +1,8 @@
-PRBS
+Configuration
 =========================
 
-Configuration
--------------------------
-
 RX Type
-^^^^^^^^
+-------------------------
 
 .. code-block:: python
 
@@ -13,7 +10,7 @@ RX Type
     await port.serdes[serdex_idx].prbs.config.rx_type.get()
 
 TX Type
-^^^^^^^^
+-------------------------
 
 .. code-block:: python
 
@@ -21,17 +18,9 @@ TX Type
     await port.serdes[serdex_idx].prbs.config.tx_type.get()
 
 Type
-^^^^^
+-------------------------
 
 .. code-block:: python
 
     await port.serdes[serdex_idx].prbs.config.type.set()
     await port.serdes[serdex_idx].prbs.config.type.get()
-
-
-Statistics
--------------------------
-
-.. code-block:: python
-
-    await port.serdes[serdex_idx].prbs.status.get()

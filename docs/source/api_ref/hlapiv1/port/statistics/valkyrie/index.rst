@@ -1,7 +1,7 @@
-Modifier
+Statistics
 =========================
 
-Stream modifier APIs for Valkyrie.
+Statistics for Valkyrie ports.
 
 .. toctree::
     :glob:

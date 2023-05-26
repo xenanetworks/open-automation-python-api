@@ -1,21 +1,8 @@
-Error Handling
+Error Injection
 =========================
 
-Insert Frame Checksum
----------------------
-
-.. code-block:: python
-
-    await stream.insert_packets_checksum.set_on()
-    await stream.insert_packets_checksum.set_off()
-    await stream.insert_packets_checksum.get()
-
-
-Error Injection
--------------------------
-
 Misorder Error
-^^^^^^^^^^^^^^
+------------------------------
 
 .. code-block:: python
 
@@ -23,7 +10,7 @@ Misorder Error
 
 
 Payload Integrity Error
-^^^^^^^^^^^^^^^^^^^^^^^
+------------------------------
 
 .. code-block:: python
 
@@ -31,7 +18,7 @@ Payload Integrity Error
 
 
 Sequence Error
-^^^^^^^^^^^^^^^^^^^^^^^
+------------------------------
 
 .. code-block:: python
 
@@ -39,7 +26,7 @@ Sequence Error
 
 
 Test Payload Error
-^^^^^^^^^^^^^^^^^^^^^^^
+------------------------------
 
 .. code-block:: python
 
@@ -47,7 +34,7 @@ Test Payload Error
 
 
 Checksum Error
-^^^^^^^^^^^^^^^^^^^^^^^
+------------------------------
 
 .. code-block:: python
 

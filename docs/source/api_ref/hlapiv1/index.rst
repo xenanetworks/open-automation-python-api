@@ -1,4 +1,4 @@
-High-Level API
+🚀 High-Level API
 ========================
 
 .. versionadded:: v1.1
@@ -27,10 +27,5 @@ The HL-API (V1) are categorized into:
     module/index
     port/index
     stream/index
-    filter/index
-    match/index
-    length/index
-    modifier/index
-    histogram/index
     exception
     enum
