@@ -1,5 +1,7 @@
-Match Term
+Histogram
 =========================
+
+Histogram APIs for Valkyrie.
 
 .. toctree::
     :glob:

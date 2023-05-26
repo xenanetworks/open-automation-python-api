@@ -1,7 +1,7 @@
-Stream
+Length Term
 =========================
 
-Stream APIs for Valkyrie.
+Length Term APIs for Valkyrie.
 
 .. toctree::
     :glob:

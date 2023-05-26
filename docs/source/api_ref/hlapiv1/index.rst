@@ -26,5 +26,11 @@ The HL-API (V1) are categorized into:
     tester/index
     module/index
     port/index
+    stream/index
+    filter/index
+    match/index
+    length/index
+    modifier/index
+    histogram/index
     exception
     enum
