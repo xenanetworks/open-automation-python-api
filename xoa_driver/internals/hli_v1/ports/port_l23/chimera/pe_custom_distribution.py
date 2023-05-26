@@ -82,7 +82,7 @@ class CustomDistributions:
                 self.__port_id,
                 idx
             )
-            for idx in _resp.indices
+            for idx in _resp.indexations
         ]
 
     def __len__(self) -> int:

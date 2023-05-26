@@ -289,7 +289,7 @@ class CCorruptionImpairment:
         Representation of PED_ONESHOTSTATUS
         """
 
-        self.enable = PED_ENABLE(conn, module_id, port_id, flow_index, ImpairmentTypeIndex.DROP)
+        self.enable = PED_ENABLE(conn, module_id, port_id, flow_index, ImpairmentTypeIndex.CORRUPTION)
         """Impairment distribution control.
         Representation of PED_ENABLE
         """
@@ -314,7 +314,7 @@ class CMisorderingImpairment:
         Representation of PED_ONESHOTSTATUS
         """
 
-        self.enable = PED_ENABLE(conn, module_id, port_id, flow_index, ImpairmentTypeIndex.DROP)
+        self.enable = PED_ENABLE(conn, module_id, port_id, flow_index, ImpairmentTypeIndex.MISORDER)
         """Impairment distribution control.
         Representation of PED_ENABLE
         """
@@ -340,7 +340,7 @@ class CLatencyJitterImpairment:
         Representation of PED_ONESHOTSTATUS
         """
 
-        self.enable = PED_ENABLE(conn, module_id, port_id, flow_index, ImpairmentTypeIndex.DROP)
+        self.enable = PED_ENABLE(conn, module_id, port_id, flow_index, ImpairmentTypeIndex.LATENCYJITTER)
         """Impairment distribution control.
         Representation of PED_ENABLE
         """
@@ -361,7 +361,7 @@ class CDuplicationImpairment:
         Representation of PED_ONESHOTSTATUS
         """
 
-        self.enable = PED_ENABLE(conn, module_id, port_id, flow_index, ImpairmentTypeIndex.DROP)
+        self.enable = PED_ENABLE(conn, module_id, port_id, flow_index, ImpairmentTypeIndex.DUPLICATION)
         """Impairment distribution control.
         Representation of PED_ENABLE
         """
