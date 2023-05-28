@@ -1,4 +1,4 @@
-Connection Group
+Counter
 =========================
 
 .. note::
@@ -6,8 +6,6 @@ Connection Group
     Applicable to Vulcan port only.
 
 .. toctree::
-    :glob:
-
-    *
-    l4/index
-    application/index
+    
+    port/index
+    cg/index

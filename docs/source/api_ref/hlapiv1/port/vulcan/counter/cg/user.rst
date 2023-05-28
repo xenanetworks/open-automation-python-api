@@ -1,6 +1,10 @@
 User
 =========================
 
+.. note::
+
+    Applicable to Vulcan port only.
+    
 .. code-block:: python
 
     await cg.user_state.current.get()

@@ -1,6 +1,10 @@
 ARP
 =========================
 
+.. note::
+
+    Applicable to Vulcan port only.
+    
 Total
 -----------------
 

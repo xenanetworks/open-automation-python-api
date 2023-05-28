@@ -45,7 +45,7 @@ Certificate and Key
 
 
 Max Record Size
---------------
+----------------
 
 .. code-block:: python
 

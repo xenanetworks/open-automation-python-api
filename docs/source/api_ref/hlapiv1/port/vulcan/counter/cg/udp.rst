@@ -1,6 +1,10 @@
 UDP
 =========================
 
+.. note::
+
+    Applicable to Vulcan port only.
+    
 Packet
 ------
 

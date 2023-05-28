@@ -1,6 +1,10 @@
 TCP
 =========================
 
+.. note::
+
+    Applicable to Vulcan port only.
+    
 ACK Configuration
 -----------------------
 

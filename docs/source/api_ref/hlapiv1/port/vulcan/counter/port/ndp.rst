@@ -1,6 +1,10 @@
 NDP
 =========================
 
+.. note::
+
+    Applicable to Vulcan port only.
+    
 Total
 -----------------
 

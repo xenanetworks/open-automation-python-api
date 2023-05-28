@@ -1,12 +1,16 @@
-ARP
+All
 =========================
 
+.. note::
+
+    Applicable to Vulcan port only.
+    
 Total
 -----------------
 
 .. code-block:: python
 
-    await port.counters.arp.total.get()
+    await port.counters.total.get()
 
 
 TX
@@ -14,7 +18,7 @@ TX
 
 .. code-block:: python
 
-    await port.counters.arp.tx.get()
+    await port.counters.total_tx.get()
 
 
 RX
@@ -22,5 +26,5 @@ RX
 
 .. code-block:: python
 
-    await port.counters.arp.rx.get()
+    await port.counters.total_rx.get()
 

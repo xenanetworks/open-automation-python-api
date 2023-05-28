@@ -1,6 +1,10 @@
 IPv6
 =========================
 
+.. note::
+
+    Applicable to Vulcan port only.
+    
 Total
 -----------------
 

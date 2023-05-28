@@ -1,12 +1,12 @@
-Total
+IPv4
 =========================
 
-All
+Total
 -----------------
 
 .. code-block:: python
 
-    await port.counters.total.get()
+    await port.counters.ipv4.total.get()
 
 
 TX
@@ -14,7 +14,7 @@ TX
 
 .. code-block:: python
 
-    await port.counters.total_tx.get()
+    await port.counters.ipv4.tx.get()
 
 
 RX
@@ -22,5 +22,5 @@ RX
 
 .. code-block:: python
 
-    await port.counters.total_rx.get()
+    await port.counters.ipv4.rx.get()
 
