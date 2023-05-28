@@ -1,4 +1,4 @@
-Counters
+Connection Group Counters
 =========================
 
 .. note::
