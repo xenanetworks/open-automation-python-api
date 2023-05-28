@@ -1,9 +1,9 @@
-Impairment Type
+Connection Group
 =========================
 
 .. note::
 
-    Applicable to Chimera port only.
+    Applicable to Vulcan port only.
 
 .. toctree::
     :glob:

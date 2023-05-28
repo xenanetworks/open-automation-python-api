@@ -3,6 +3,13 @@ Statistics
 
 Statistics for Chimera ports.
 
+Clear Counter
+-------------
+
+.. code-block:: python
+
+    await port.emulation.clear.set()
+
 Corruption
 -------------
 

@@ -1,4 +1,4 @@
-Configuration
+Impairment Configuration
 =========================
 
 Impairment On/OFF

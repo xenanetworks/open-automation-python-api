@@ -1,0 +1,34 @@
+L2
+==========================
+
+.. note::
+
+    Applicable to Chimera port only.
+
+
+Ethernet DST
+-------------------
+
+.. code-block:: python
+
+    await filter.ethernet.dest_address.set_on()
+    await filter.ethernet.dest_address.set_off()
+    await filter.ethernet.dest_address.get()
+
+Ethernet SRC
+-------------------
+
+.. code-block:: python
+
+    await filter.ethernet.src_address.set_on()
+    await filter.ethernet.src_address.set_off()
+    await filter.ethernet.src_address.get()
+
+Ethernet Settings
+-------------------
+
+.. code-block:: python
+
+    await filter.ethernet.settings.set()
+    await filter.ethernet.settings.get()
+
