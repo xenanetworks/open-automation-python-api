@@ -349,8 +349,8 @@ class PL1_CFG_TMP:
     def set(self, values: typing.List[int]) -> "Token":
         """Get various L1 parameters
 
-        :param value: L1 parameters
-        :type value: typing.List[int]
+        :param values: L1 parameters
+        :type values: typing.List[int]
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._type], values=values))
     
