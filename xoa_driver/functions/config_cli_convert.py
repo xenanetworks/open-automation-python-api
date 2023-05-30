@@ -8,7 +8,7 @@ from xoa_driver.internals import commands
 from xoa_driver import enums
 from xoa_driver.ports import GenericAnyPort
 from xoa_driver.misc import ArpChunk, NdpChunk
-from xoa_driver.utils import apply
+from xoa_driver.utils import apply_iter
 from xoa_driver.internals.core.token import Token
 from xoa_driver.internals.core.transporter.protocol.payload import Hex
 from xoa_driver.internals.core.transporter.protocol.struct_request import Request
@@ -18,6 +18,7 @@ from xoa_driver.internals.core.transporter._typings import (
     ICmdOnlyGet,
     ICmdOnlySet,
 )
+from asyncio import gather
 import re
 
 
@@ -547,22 +548,19 @@ read_commands_from_file = CLIConverter.read_commands_from_file
 read_commands_from_string = CLIConverter.read_commands_from_string
 
 
-async def upload_port_config_from(port: GenericAnyPort, long_str: str, is_file: bool, comment_start: tuple[str, ...] = (";", "#", "//")):
-    tokens = []
+def upload_port_config_from(port: GenericAnyPort, long_str: str, is_file: bool, comment_start: tuple[str, ...] = (";", "#", "//")) -> t.Generator[Token, None, None]:
     func = read_commands_from_file if is_file else read_commands_from_string
     for command in func(long_str, comment_start):
         request = command.as_request(module_num=port.kind.module_id, port_num=port.kind.port_id)
-        token = Token(port._conn, request)
-        tokens.append(token)
-    await apply(*tokens)
+        yield Token(port._conn, request)
 
 
 async def upload_port_config_from_string(port: GenericAnyPort, long_str: str, comment_start: tuple[str, ...] = (";", "#", "//")):
-    return await upload_port_config_from(port, long_str, False, comment_start)
+    return await gather(*apply_iter(*upload_port_config_from(port, long_str, False, comment_start), return_exceptions=True))
 
 
 async def upload_port_config_from_file(port: GenericAnyPort, path: str, comment_start: tuple[str, ...] = (";", "#", "//")):
-    return await upload_port_config_from(port, path, True, comment_start)
+    return await gather(*apply_iter(*upload_port_config_from(port, path, True, comment_start), return_exceptions=True))
 
 
 __all__ = ("read_commands_from_file", "read_commands_from_string", 'upload_port_config_from_string', "upload_port_config_from_file")
