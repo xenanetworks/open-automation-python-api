@@ -1850,10 +1850,12 @@ class PEF_TPLDSETTINGS:
     _filter_type: FilterType
 
     class GetDataAttr(ResponseBodyStruct):
+        use: OnOff = field(XmpByte())
         action: InfoAction = field(XmpByte())
         """coded byte, specifies the action of TPLD information."""
 
     class SetDataAttr(RequestBodyStruct):
+        use: OnOff = field(XmpByte())
         action: InfoAction = field(XmpByte())
         """coded byte, specifies the action of TPLD information."""
 
@@ -1866,14 +1868,14 @@ class PEF_TPLDSETTINGS:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
-    def set(self, action: InfoAction) -> Token[None]:
+    def set(self, use: OnOff, action: InfoAction) -> Token[None]:
         """Set the settings of filtering on TPLD field in a packet.
 
         :param action: specifies the action of TPLD information.
         :type action: InfoAction
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], action=action))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, action=action))
 
 
 @register_command

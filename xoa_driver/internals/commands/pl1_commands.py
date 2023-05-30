@@ -331,12 +331,12 @@ class PL1_CFG_TMP:
     class GetDataAttr(ResponseBodyStruct):
         """Data structure of the get response.
         """
-        values: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        value: OnOff = field(XmpByte())
 
     class SetDataAttr(RequestBodyStruct):
         """Data structure of the set action.
         """
-        values: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        value: OnOff = field(XmpByte())
 
     def get(self) -> "Token[GetDataAttr]":
         """Get various L1 parameters
@@ -346,13 +346,13 @@ class PL1_CFG_TMP:
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._type]))
 
-    def set(self, values: typing.List[int]) -> "Token":
+    def set(self, value: OnOff) -> "Token":
         """Get various L1 parameters
 
-        :param values: L1 parameters
-        :type values: typing.List[int]
+        :param value: L1 parameters
+        :type value: OnOff
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._type], values=values))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._type], value=value))
     
 @register_command
 @dataclass
