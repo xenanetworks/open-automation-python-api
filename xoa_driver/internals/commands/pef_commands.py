@@ -1866,7 +1866,7 @@ class PEF_TPLDSETTINGS:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
-    def set(self, use: OnOff, action: InfoAction) -> Token[None]:
+    def set(self, action: InfoAction) -> Token[None]:
         """Set the settings of filtering on TPLD field in a packet.
 
         :param action: specifies the action of TPLD information.
