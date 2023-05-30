@@ -1855,7 +1855,6 @@ class PEF_TPLDSETTINGS:
         """coded byte, specifies the action of TPLD information."""
 
     class SetDataAttr(RequestBodyStruct):
-        use: OnOff = field(XmpByte())
         action: InfoAction = field(XmpByte())
         """coded byte, specifies the action of TPLD information."""
 
@@ -1875,7 +1874,7 @@ class PEF_TPLDSETTINGS:
         :type action: InfoAction
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use, action=action))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], action=action))
 
 
 @register_command
