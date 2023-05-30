@@ -1850,7 +1850,6 @@ class PEF_TPLDSETTINGS:
     _filter_type: FilterType
 
     class GetDataAttr(ResponseBodyStruct):
-        use: OnOff = field(XmpByte())
         action: InfoAction = field(XmpByte())
         """coded byte, specifies the action of TPLD information."""
 
