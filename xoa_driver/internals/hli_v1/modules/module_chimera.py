@@ -333,8 +333,8 @@ class MChi100G5S2P_b(ModuleChimera):
 
 @typing.final
 @revisions.register_chimera_module(rev="Chimera-40G-5S-2P")
-class MChi40G5S2P(ModuleChimera):
-    """Chimera module Chi-40G-5S-2P"""
+class MChi40G2S2P(ModuleChimera):
+    """Chimera module Chi-40G-2S-2P"""
 
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
