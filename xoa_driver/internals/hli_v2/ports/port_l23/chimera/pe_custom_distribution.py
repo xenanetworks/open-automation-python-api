@@ -90,11 +90,14 @@ class CustomDistributions:
         """Return the number of existing indices"""
         return len(self.__items)
 
-    def __iter__(self):
-        return iter(self.__items)
+    def items(self):
+        return self.__items.items()
 
-    def __next__(self):
-        return next(iter(self.__items))
+    def keys(self):
+        return self.__items.keys()
+
+    def values(self):
+        return self.__items.values()
 
     def __getitem__(self, key: int):
         return self.__items[key]
