@@ -107,14 +107,14 @@ class CustomDistributions:
         """Remove a index from port"""
         await self.__items[custom_distribution_index].delete()
 
-    async def get_available_custom_distribution_index(self) -> int:
+    async def __get_available_custom_distribution_index(self) -> int:
         await self.server_sync()
         if len(self.keys()) == 40:
             raise ValueError("The server was full of custom distributions.")
         return next(i for i in range(1, 41) if i not in self.keys())
 
     async def add(self, linear: OnOff, entry_count: int, data_x: List[int], comment: str) -> "CustomDistribution":
-        cdi = await self.get_available_custom_distribution_index()
+        cdi = await self.__get_available_custom_distribution_index()
         cd = CustomDistribution(
             self.__observer,
             self.__conn,
