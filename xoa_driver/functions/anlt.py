@@ -2,27 +2,11 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 import typing as t
 from xoa_driver import enums
-from dataclasses import dataclass, field
-import typing as t
-from xoa_driver import enums
 from xoa_driver.utils import apply
 from xoa_driver.internals.hli_v1.ports.port_l23.family_l import FamilyL
 from xoa_driver.internals.hli_v1.ports.port_l23.family_l1 import FamilyL1
 from xoa_driver.ports import GenericL23Port
-from xoa_driver.ports import GenericL23Port
 from xoa_driver.lli import commands
-from xoa_driver.internals.core import interfaces as itf
-from xoa_driver.misc import Token
-from .tools import (
-    get_ctx,
-    dictionize_autoneg_status,
-    dictionize_lt_status,
-    dictionize_txtap_get,
-    dictionize_anlt_status,
-    dictionize_lt_im_status,
-    dictionize_lt_algorithm_status
-)
-import asyncio
 from xoa_driver.internals.core import interfaces as itf
 from xoa_driver.misc import Token
 from .tools import (
@@ -206,7 +190,6 @@ async def anlt_start(
 async def autoneg_status(port: GenericL23Port) -> dict[str, t.Any]:
     """
     .. versionadded:: 1.1
-    .. versionadded:: 1.1
 
     Get the auto-negotiation status
 
@@ -260,7 +243,6 @@ async def lt_coeff_inc(
 ) -> enums.LinkTrainCmdResults:
     """
     .. versionadded:: 1.1
-    .. versionadded:: 1.1
 
     Ask the remote port to increase coeff of the specified serdes.
 
@@ -271,7 +253,7 @@ async def lt_coeff_inc(
     :param emphasis: the emphasis to increase
     :type emphasis: enums.LinkTrainCoeffs
     :return:
-    :rtype: typing.Dict[str, typing.Any]
+    :rtype: None
     """
     return await __lt_coeff(port, serdes, emphasis, cmd=enums.LinkTrainCmd.CMD_INC)
 
@@ -341,7 +323,6 @@ async def lt_preset(
     :rtype: None
     """
     return await __lt_coeff(port, serdes, preset, cmd=enums.LinkTrainCmd.CMD_PRESET)
-    return await __lt_coeff(port, serdes, preset, cmd=enums.LinkTrainCmd.CMD_PRESET)
 
 
 async def lt_encoding(
@@ -360,20 +341,12 @@ async def lt_encoding(
     :type serdes: int
     :param encoding: link training encoding
     :type encoding: enums.LinkTrainCoeffs
-    :param port: the port object
-    :type port: :class:`~xoa_driver.ports.GenericL23Port`
-    :param serdes: the serdes index, starting from 0
-    :type serdes: int
-    :param encoding: link training encoding
-    :type encoding: enums.LinkTrainCoeffs
     :return:
     :rtype: None
     """
     return await __lt_coeff(port, serdes, encoding, cmd=enums.LinkTrainCmd.CMD_ENCODING)
-    return await __lt_coeff(port, serdes, encoding, cmd=enums.LinkTrainCmd.CMD_ENCODING)
 
 
-async def lt_trained(port: GenericL23Port, serdes: int) -> enums.LinkTrainCmdResults:
 async def lt_trained(port: GenericL23Port, serdes: int) -> enums.LinkTrainCmdResults:
     """
     .. versionadded:: 1.1
@@ -384,10 +357,6 @@ async def lt_trained(port: GenericL23Port, serdes: int) -> enums.LinkTrainCmdRes
     :type port: :class:`~xoa_driver.ports.GenericL23Port`
     :param serdes: the serdes index, starting from 0
     :type serdes: int
-    :param port: the port object
-    :type port: :class:`~xoa_driver.ports.GenericL23Port`
-    :param serdes: the serdes index, starting from 0
-    :type serdes: int
     :return:
     :rtype: None
     """
@@ -397,15 +366,8 @@ async def lt_trained(port: GenericL23Port, serdes: int) -> enums.LinkTrainCmdRes
         arg=enums.LinkTrainAnnounce.TRAINED,
         cmd=enums.LinkTrainCmd.CMD_LOCAL_TRAINED,
     )
-    return await __lt_coeff(
-        port,
-        serdes,
-        arg=enums.LinkTrainAnnounce.TRAINED,
-        cmd=enums.LinkTrainCmd.CMD_LOCAL_TRAINED,
-    )
 
 
-async def lt_status(port: GenericL23Port, serdes: int) -> dict[str, t.Any]:
 async def lt_status(port: GenericL23Port, serdes: int) -> dict[str, t.Any]:
     """
     .. versionadded:: 1.1
@@ -418,21 +380,7 @@ async def lt_status(port: GenericL23Port, serdes: int) -> dict[str, t.Any]:
     :type serdes: int
     :return: LT status of the serdes
     :rtype: typing.Dict[str, typing.Any]
-    :param port: the port object
-    :type port: :class:`~xoa_driver.ports.GenericL23Port`
-    :param serdes: the serdes index, starting from 0
-    :type serdes: int
-    :return: LT status of the serdes
-    :rtype: typing.Dict[str, typing.Any]
     """
-    conn, mid, pid = get_ctx(port)
-    status, info, ltconf, cfg = await apply(
-        commands.PP_LINKTRAINSTATUS(conn, mid, pid, serdes).get(),
-        commands.PL1_LINKTRAININFO(conn, mid, pid, serdes, 0).get(),
-        commands.PP_LINKTRAIN(conn, mid, pid).get(),
-        commands.PL1_CFG_TMP(
-            conn, mid, pid, serdes, enums.Layer1ConfigType.LT_INITIAL_MODULATION
-        ).get(),
     conn, mid, pid = get_ctx(port)
     status, info, ltconf, cfg = await apply(
         commands.PP_LINKTRAINSTATUS(conn, mid, pid, serdes).get(),
@@ -443,9 +391,7 @@ async def lt_status(port: GenericL23Port, serdes: int) -> dict[str, t.Any]:
         ).get(),
     )
     total_bit_count = (info.prbs_total_bits_high << 32) + info.prbs_total_bits_low
-    total_bit_count = (info.prbs_total_bits_high << 32) + info.prbs_total_bits_low
     total_error_bit_count = (
-        info.prbs_total_error_bits_high << 32
         info.prbs_total_error_bits_high << 32
     ) + info.prbs_total_error_bits_low
     ber = total_error_bit_count / total_bit_count if total_bit_count > 0 else float("nan")
@@ -470,19 +416,13 @@ async def txtap_get(port: GenericL23Port, serdes: int) -> dict[str, int]:
     conn, mid, pid = get_ctx(port)
     r = await commands.PP_PHYTXEQ(conn, mid, pid, serdes).get()
     return dictionize_txtap_get(r)
-    conn, mid, pid = get_ctx(port)
-    r = await commands.PP_PHYTXEQ(conn, mid, pid, serdes).get()
-    return dictionize_txtap_get(r)
 
 
 async def txtap_set(
     port: GenericL23Port,
     serdes: int,
-    port: GenericL23Port,
-    serdes: int,
     pre3: int,
     pre2: int,
-    pre: int,
     pre: int,
     main: int,
     post1: int,
@@ -502,8 +442,6 @@ async def txtap_set(
     :type pre2: int
     :param pre: pre value
     :type pre: int
-    :param pre: pre value
-    :type pre: int
     :param main: main value
     :type main: int
     :param post1: post1 value
@@ -511,10 +449,6 @@ async def txtap_set(
     :return:
     :rtype: None
     """
-    conn, mid, pid = get_ctx(port)
-    cmd_ = commands.PP_PHYTXEQ(conn, mid, pid, serdes)
-    await cmd_.set(
-        pre1=pre,
     conn, mid, pid = get_ctx(port)
     cmd_ = commands.PP_PHYTXEQ(conn, mid, pid, serdes)
     await cmd_.set(
