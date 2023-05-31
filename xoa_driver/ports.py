@@ -13,7 +13,7 @@ from .internals.hli_v1.ports.port_l23.chimera.port_chimera import (
     PortChimera,
     PChi100G5S2P,
     PChi100G5S2P_b,
-    PChi40G5S2P,
+    PChi40G2S2P,
 )
 
 from .internals.hli_v1.ports.port_l23.bases.port_l23 import BasePortL23
@@ -56,6 +56,7 @@ from xoa_driver.internals.hli_v1.ports.port_l23.family_g import (
     PLoki100G3S1P,
     PLoki100G3S1P_b,
     PLoki100G3S1PSE,
+    PLoki100G3S1PB,
 )
 
 from xoa_driver.internals.hli_v1.ports.port_l23.family_h import (
@@ -107,6 +108,7 @@ GenericL23Port = typing.Union[
     "PLoki100G3S1P",
     "PLoki100G3S1P_b",
     "PLoki100G3S1PSE",
+    "PLoki100G3S1PB",
     "PLoki100G5S1P",
     "PLoki100G5S2P",
     "PThor100G5S4P",
@@ -134,7 +136,7 @@ GenericAnyPort = typing.Union[
     "PortChimera",
     "PChi100G5S2P",
     "PChi100G5S2P_b",
-    "PChi40G5S2P",
+    "PChi40G2S2P",
 ]
 
 __all__ = (
@@ -162,6 +164,7 @@ __all__ = (
     "PLoki100G3S1P",
     "PLoki100G3S1P_b",
     "PLoki100G3S1PSE",
+    "PLoki100G3S1PB",
     "PLoki100G5S1P",
     "PLoki100G5S2P",
     "PThor100G5S4P",
@@ -185,7 +188,7 @@ __all__ = (
     "PortChimera",
     "PChi100G5S2P",
     "PChi100G5S2P_b",
-    "PChi40G5S2P",
+    "PChi40G2S2P",
     "GenericL23Port",
     "GenericAnyPort",
 )

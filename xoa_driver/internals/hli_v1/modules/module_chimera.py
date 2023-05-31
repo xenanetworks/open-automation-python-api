@@ -338,13 +338,13 @@ class MChi40G5S2P(ModuleChimera):
 
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
-        self.ports: pm.PortsManager[ports.PChi40G5S2P] = pm.PortsManager(
+        self.ports: pm.PortsManager[ports.PChi40G2S2P] = pm.PortsManager(
             conn=conn,
-            ports_type=ports.PChi40G5S2P,
+            ports_type=ports.PChi40G2S2P,
             module_id=self.module_id,
             ports_count=self.ports_count
         )
-        """Port index manager of Chi-40G-5S-2P
+        """Port index manager of Chi-40G-2S-2P
 
         :type: PortsManager
         """

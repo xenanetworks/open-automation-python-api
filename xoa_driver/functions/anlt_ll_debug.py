@@ -4,6 +4,10 @@ import typing as t
 from functools import partial
 from xoa_driver import enums
 from xoa_driver.ports import GenericL23Port
+import typing as t
+from functools import partial
+from xoa_driver import enums
+from xoa_driver.ports import GenericL23Port
 from xoa_driver.lli import commands
 from xoa_driver.misc import Hex
 from dataclasses import dataclass
@@ -222,7 +226,21 @@ async def lt_prbs(port: GenericL23Port, serdes: int, inf: t.Optional[AnLtLowLeve
     await lt_rx_config_set(port, serdes, inf=inf, value=cfg)  # Trigger PRBS read
     cfg &= ~(1 << 20)  # Clear bit 20
     await lt_rx_config_set(port, serdes, inf=inf, value=cfg)
+    cfg = await lt_rx_config_get(port, serdes, inf=inf)
+    cfg &= ~(3 << 21)  # Clear bit 22-21
+    cfg |= 1 << 20  # Set bit 20
+    await lt_rx_config_set(port, serdes, inf=inf, value=cfg)  # Trigger PRBS read
+    cfg &= ~(1 << 20)  # Clear bit 20
+    await lt_rx_config_set(port, serdes, inf=inf, value=cfg)
 
+    # Read the total # bits
+    cfg &= ~(3 << 21)  # Clear bit 22-21
+    cfg |= 1 << 21
+    await lt_rx_config_set(port, serdes, inf=inf, value=cfg)
+    v = await lt_rx_error_stat0_get(port, serdes, inf=inf)
+    total_bits = v
+    v = await lt_rx_error_stat1_get(port, serdes, inf=inf)
+    total_bits |= v << 32
     # Read the total # bits
     cfg &= ~(3 << 21)  # Clear bit 22-21
     cfg |= 1 << 21

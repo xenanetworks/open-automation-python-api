@@ -28,6 +28,7 @@ from xoa_driver.internals.hli_v2.modules.modules_l23.family_g import (
     MLoki100G3S1P,
     MLoki100G3S1P_b,
     MLoki100G3S1PSE,
+    MLoki100G3S1PB,
 )
 from xoa_driver.internals.hli_v2.modules.modules_l23.family_h import (
     MLoki100G5S1P,
@@ -63,7 +64,7 @@ from xoa_driver.internals.hli_v2.modules.module_chimera import (
     ModuleChimera,
     MChi100G5S2P,
     MChi100G5S2P_b,
-    MChi40G5S2P,
+    MChi40G2S2P,
 )
 from xoa_driver.internals.hli_v2.modules.module_l47 import ModuleL47
 from xoa_driver.internals.hli_v2.modules.module_l47ve import ModuleL47VE
@@ -95,6 +96,7 @@ GenericL23Module = typing.Union[
     "MLoki100G3S1P",
     "MLoki100G3S1P_b",
     "MLoki100G3S1PSE",
+    "MLoki100G3S1PB",
     "MLoki100G5S1P",
     "MLoki100G5S2P",
     "MThor100G5S4P",
@@ -119,7 +121,7 @@ GenericAnyModule = typing.Union[
     "ModuleChimera",
     "MChi100G5S2P",
     "MChi100G5S2P_b",
-    "MChi40G5S2P",
+    "MChi40G2S2P",
     "ModuleL47",
     "ModuleL47VE",
 ]
@@ -150,6 +152,7 @@ __all__ = (
     "MLoki100G3S1P",
     "MLoki100G3S1P_b",
     "MLoki100G3S1PSE",
+    "MLoki100G3S1PB",
     "MLoki100G5S1P",
     "MLoki100G5S2P",
     "MThor100G5S4P",
@@ -170,7 +173,7 @@ __all__ = (
     "ModuleChimera",
     "MChi100G5S2P",
     "MChi100G5S2P_b",
-    "MChi40G5S2P",
+    "MChi40G2S2P",
     "ModuleL47",
     "ModuleL47VE",
     "GenericL23Module",

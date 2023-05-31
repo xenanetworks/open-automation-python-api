@@ -54,3 +54,8 @@ class PLoki100G3S1PSE(FamilyG):
     """L23 port on Loki-100G-3S-1P-SE module.
     """
     ...
+
+class PLoki100G3S1PB(FamilyG):
+    """L23 port on Loki-100G-3S-1P-B module.
+    """
+    ...

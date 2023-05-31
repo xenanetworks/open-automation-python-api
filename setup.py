@@ -24,7 +24,7 @@ def main():
         license='Apache 2.0',
         install_requires=["typing_extensions"],  # we are not able to skip of using typing_extensions, for make code compatible with python 3.8
         classifiers=[
-            "Development Status :: 4 - Beta",
+            "Development Status :: 5 - Production/Stable",
             "Intended Audience :: Developers",
             "Topic :: Software Development :: Libraries :: Python Modules",
             "License :: OSI Approved :: Apache Software License",

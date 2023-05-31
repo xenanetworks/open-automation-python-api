@@ -10,3 +10,4 @@ furo
 sphinx-copybutton
 sphinx-remove-toctrees
 typing_extensions>=4.3.0
+pydata-sphinx-theme==0.13.1

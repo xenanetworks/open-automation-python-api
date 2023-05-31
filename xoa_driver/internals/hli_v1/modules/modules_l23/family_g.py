@@ -53,3 +53,18 @@ class MLoki100G3S1PSE(ModuleL23):
             ports_count=self.ports_count
         )
         """Port Index Manager of Loki-100G-3S-1P-SE"""
+
+
+@typing.final
+@revisions.register_valkyrie_module(rev="Loki-100G-3S-1P-B")
+class MLoki100G3S1PB(ModuleL23):
+    """Test module Loki-100G-3S-1P-B"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.PLoki100G3S1PB] = pm.PortsManager(
+            conn=conn,
+            ports_type=ports.PLoki100G3S1PB,
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port index manager of Loki-100G-3S-1P-B"""
