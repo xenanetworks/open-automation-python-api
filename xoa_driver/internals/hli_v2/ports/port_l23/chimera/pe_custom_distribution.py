@@ -3,6 +3,7 @@ from typing import (
     Dict,
     List,
 )
+from collections import UserDict
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
 from xoa_driver.internals.commands import (
@@ -55,14 +56,14 @@ class CustomDistribution:
         self.__observer.notify(observer.IndexEvents.DEL, self)
 
 
-class CustomDistributions:
+class CustomDistributions(UserDict[int, "CustomDistribution"]):
     """Custom distributions"""
 
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.__conn = conn
         self.__module_id = module_id
         self.__port_id = port_id
-        self.__items: Dict[int, CustomDistribution] = {}
+        self.data: Dict[int, CustomDistribution] = {}
         self.__observer = observer.IndicesObserver()
         self.__observer.subscribe(
             observer.IndexEvents.DEL,
@@ -72,7 +73,7 @@ class CustomDistributions:
     async def server_sync(self) -> None:
         """Sync the indices with xenaserver"""
         _resp = await PEC_INDICES(self.__conn, self.__module_id, self.__port_id).get()
-        self.__items = {
+        self.data = {
             idx: CustomDistribution(
                 self.__observer,
                 self.__conn,
@@ -83,29 +84,16 @@ class CustomDistributions:
             for idx in _resp.indexations
         }
 
-    def __len__(self) -> int:
-        """Return the number of existing indices"""
-        return len(self.__items)
-
-    def __getitem__(self, key: int):
-        return self.__items[key]
-
-    def items(self):
-        return self.__items.items()
-
-    def keys(self):
-        return self.__items.keys()
-
-    def values(self):
-        return self.__items.values()
-
     def __remove_from_slot(self, index_inst: "CustomDistribution") -> None:
         # throws ValueError if element is not exists in list of indices
-        del self.__items[index_inst.custom_distribution_index]
+        del self.data[index_inst.custom_distribution_index]
+
+    def __setitem__(self, key, value):
+        raise NotImplementedError("Only support assign item by 'add' method")
 
     async def remove(self, custom_distribution_index: int) -> None:
         """Remove a index from port"""
-        await self.__items[custom_distribution_index].delete()
+        await self.data[custom_distribution_index].delete()
 
     async def __get_available_custom_distribution_index(self) -> int:
         await self.server_sync()
@@ -124,5 +112,5 @@ class CustomDistributions:
         )
         await cd.definition.set(linear=linear, symmetric=OnOff.OFF, entry_count=entry_count, data_x=data_x)
         await cd.comment.set(comment)
-        self.__items[cdi] = cd
+        self.data[cdi] = cd
         return cd
