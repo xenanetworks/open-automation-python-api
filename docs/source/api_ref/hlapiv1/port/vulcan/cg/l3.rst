@@ -1,0 +1,84 @@
+L3
+=========================
+
+.. note::
+
+    Applicable to Vulcan port only.
+
+    
+IP Version
+--------------
+
+.. code-block:: python
+
+    await cg.l3.ip_version.set_ipv4()
+    await cg.l3.ip_version.set_ipv6()
+    await cg.l3.ip_version.get()
+
+
+IPv4 Range
+-----------------------
+
+.. code-block:: python
+
+    await cg.l3.ipv4.client_range.set()
+    await cg.l3.ipv4.client_range.get()
+
+    await cg.l3.ipv4.server_range.set()
+    await cg.l3.ipv4.server_range.get()
+
+
+
+IPv4 DiffServ Config
+-----------------------
+
+.. code-block:: python
+
+    await cg.l3.diffserv.mask.set()
+    await cg.l3.diffserv.mask.get()
+
+    await cg.l3.diffserv.range_limits.set()
+    await cg.l3.diffserv.range_limits.get()
+
+    await cg.l3.diffserv.step.set()
+    await cg.l3.diffserv.step.get()
+
+    await cg.l3.diffserv.type.set()
+    await cg.l3.diffserv.type.get()
+
+    await cg.l3.diffserv.value.set()
+    await cg.l3.diffserv.value.get()
+
+
+IPv6 Range
+-----------------------
+
+.. code-block:: python
+
+    await cg.l3.ipv6.client_range.set()
+    await cg.l3.ipv6.client_range.get()
+
+    await cg.l3.ipv6.server_range.set()
+    await cg.l3.ipv6.server_range.get()
+
+
+IPv6 Flow Label Config
+-----------------------
+
+.. code-block:: python
+
+    await cg.l3.ipv6.flow_label.set()
+    await cg.l3.ipv6.flow_label.get()
+
+    await cg.l3.ipv6.traffic_class.set()
+    await cg.l3.ipv6.traffic_class.get()
+
+
+NAT
+----
+
+.. code-block:: python
+
+    await cg.l3.nat.set_on()
+    await cg.l3.nat.set_off()
+    await cg.l3.nat.get()

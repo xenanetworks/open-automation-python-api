@@ -42,7 +42,7 @@ Serial Number
     await module.serial_number.get()
 
 
-Firmeware Version
+Firmware Version
 -----------------
 
 .. code-block:: python

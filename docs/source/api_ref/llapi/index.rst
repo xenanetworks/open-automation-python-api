@@ -1,4 +1,4 @@
-Low-Level API
+🧱 Low-Level API
 =========================
 
 LL-API contains low-level API classes, giving you the direct control of the tester. The names of the classes are the same as the the CLI commands in :term:`XOA CLI`, making it easy for you to understand the Python API if you are already familiar with XOA CLI.

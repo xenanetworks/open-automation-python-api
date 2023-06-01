@@ -1,4 +1,4 @@
-PCAP Capture
+Capture
 =========================
 
 .. note::

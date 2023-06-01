@@ -28,7 +28,7 @@ Rate Frames Per Second
     await port.rate.pps.get()
 
 
-Traffic Control
+Start and Stop
 ----------------
 
 .. code-block:: python
@@ -61,9 +61,3 @@ Single Frame Time
 .. code-block:: python
 
     await port.tx_single_pkt.time.get()
-
-
-Single Frame Time
-----------------------------
-
-.. code-block:: python

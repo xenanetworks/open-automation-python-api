@@ -1539,7 +1539,7 @@ class M_TXCLOCKFILTER_NEW:
 @dataclass
 class M_CLOCKPPBSWEEP:
     """
-    .. versionadded:: v2.0
+    .. versionadded:: 1.1
 
     Start and stop deviation sweep the local clock of the test module, which drives the TX rate of the test ports.
 
@@ -1619,7 +1619,7 @@ class M_CLOCKPPBSWEEP:
 @dataclass
 class M_CLOCKSWEEPSTATUS:
     """
-    .. versionadded:: 2.0
+    .. versionadded:: 1.1
 
     Return the current status of the :class:`M_CLOCKPPBSWEEP` function.
 

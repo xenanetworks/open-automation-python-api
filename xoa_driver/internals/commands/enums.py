@@ -1,4 +1,3 @@
-#: Enumeration Types
 
 from enum import IntEnum
 
