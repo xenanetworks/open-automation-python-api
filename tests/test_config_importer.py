@@ -3,10 +3,12 @@ import os
 import sys
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
+import pytest
 from typing import Coroutine
 from xoa_driver.functions.config_cli_convert import CLIConverter  # noqa: E402
 
+
+@pytest.mark.asyncio
 async def test_config_cli() -> None:
     c_commands = """C_LOGON "xena"
 C_OWNER "Bob"

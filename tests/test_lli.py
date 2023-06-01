@@ -2,6 +2,7 @@ from __future__ import annotations
 
 
 import timeit
+import pytest
 import pstats
 import cProfile
 
@@ -27,7 +28,7 @@ from xoa_driver.utils import apply, apply_iter  # noqa: E402
 
 MULTIPLIER = 10_000
 
-
+@pytest.mark.asyncio
 async def test_lli() -> None:
     logging.basicConfig(
         format='%(relativeCreated)5d %(name)-15s %(levelname)-8s %(message)s',

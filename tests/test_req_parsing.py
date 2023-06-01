@@ -281,7 +281,6 @@ def test_chunk_type() -> None:
             )
         ]
     )
-    print(obj.to_bytes())
     assert obj.to_bytes() == data
 
 # endregion

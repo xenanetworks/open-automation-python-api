@@ -3,7 +3,7 @@ from __future__ import annotations
 import timeit
 import pstats
 import cProfile
-
+import pytest
 import asyncio
 import os
 import sys
@@ -17,7 +17,7 @@ from xoa_driver.testers import L23Tester  # noqa: E402
 
 
 
-
+@pytest.mark.asyncio
 async def test_hli() -> None:
     # logger.add(
     #     "./app.log",
