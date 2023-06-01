@@ -1,6 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
-from operator import attrgetter
+import re
 import typing as t
 import inspect
 import ipaddress
@@ -11,18 +11,12 @@ from xoa_driver.testers import GenericAnyTester
 from xoa_driver.modules import GenericAnyModule
 from xoa_driver.ports import GenericAnyPort
 from xoa_driver.misc import ArpChunk, NdpChunk
-from xoa_driver.utils import apply, apply_iter
+from xoa_driver.utils import apply_iter
 from xoa_driver.internals.core.token import Token
 from xoa_driver.internals.core.transporter.protocol.payload import Hex
 from xoa_driver.internals.core.transporter.protocol.struct_request import Request
 from xoa_driver.internals.core.transporter.protocol._constants import CommandType
-from xoa_driver.internals.core.transporter._typings import (
-    XoaCommandType,
-    ICmdOnlyGet,
-    ICmdOnlySet,
-)
-from asyncio import gather
-import re
+from xoa_driver.internals.core.transporter._typings import (XoaCommandType, ICmdOnlyGet, ICmdOnlySet)
 
 
 class ICmdOnlyGett(ICmdOnlyGet, t.Protocol):
@@ -38,15 +32,7 @@ def build_set_requestt(cls: ICmdOnlySett, **kwargs) -> Request:
     module = kwargs.pop("module", None)
     port = kwargs.pop("port", None)
     req_values = cls.SetDataAttr(**kwargs)
-    return Request(
-        class_name=cls.__name__,
-        cmd_type=CommandType.COMMAND_VALUE,
-        cmd_code=cls.code,
-        module_index=module,
-        port_index=port,
-        indices=indices,
-        values=req_values,
-    )
+    return Request(class_name=cls.__name__, cmd_type=CommandType.COMMAND_VALUE, cmd_code=cls.code, module_index=module, port_index=port, indices=indices, values=req_values)
 
 
 def build_get_requestt(cls: ICmdOnlyGett, **kwargs) -> Request:
@@ -54,15 +40,7 @@ def build_get_requestt(cls: ICmdOnlyGett, **kwargs) -> Request:
     module = kwargs.pop("module", None)
     port = kwargs.pop("port", None)
     req_values = None
-    return Request(
-        class_name=cls.__name__,
-        cmd_type=CommandType.COMMAND_QUERY,
-        cmd_code=cls.code,
-        module_index=module,
-        port_index=port,
-        indices=indices,
-        values=req_values,
-    )
+    return Request(class_name=cls.__name__, cmd_type=CommandType.COMMAND_QUERY, cmd_code=cls.code, module_index=module, port_index=port, indices=indices, values=req_values)
 
 
 module = port = r"\d+"
@@ -72,9 +50,7 @@ module_port_group = r"((?P<module>\d+)(/(?P<port>\d+))?\s*)?"
 command_name_group = r"(?P<command_name>[A-Z_a-z0-9]+\s*)"
 indices_group = r"(?P<indices>(\[((0x|0X)?[A-Fa-f\d]+)(,?\s*((0x|0X)?[A-Fa-f\d]+))?(,?\s*((0x|0X)?[A-Fa-f\d]+))?\]\s*)?)"
 params_group = r"(?P<params>.*)"
-command_pattern = re.compile(
-    module_port_group + command_name_group + indices_group + params_group
-)
+command_pattern = re.compile(module_port_group + command_name_group + indices_group + params_group)
 
 
 class Unpassed:
@@ -108,17 +84,8 @@ class Body:
         if not isinstance(port_num, Unpassed):
             self.port = port_num
 
-        dic = dict(
-            indices=self.square_indices,
-            module=self.module,
-            port=self.port,
-            **self.values,
-        )
-        return (
-            build_get_requestt(self.cmd_class, **dic)  # type: ignore
-            if self.type == CommandType.COMMAND_QUERY
-            else build_set_requestt(self.cmd_class, **dic)  # type: ignore
-        )
+        dic = dict(indices=self.square_indices, module=self.module, port=self.port, **self.values,)
+        return build_get_requestt(self.cmd_class, **dic) if self.type == CommandType.COMMAND_QUERY else build_set_requestt(self.cmd_class, **dic)  # type: ignore
 
 
 class CLIConverter:
@@ -147,12 +114,12 @@ class CLIConverter:
             params = []
             if or_params:
                 orr_params = or_params[0].replace("0x", "").replace("0X", "")
-                params = [orr_params[i : i + 26] for i in range(0, len(orr_params), 26)]
+                params = [orr_params[i: i + 26] for i in range(0, len(orr_params), 26)]
         elif class_name == "P_NDPRXTABLE":
             params = []
             if or_params:
                 orr_params = or_params[0].replace("0x", "").replace("0X", "")
-                params = [orr_params[i : i + 50] for i in range(0, len(orr_params), 50)]
+                params = [orr_params[i: i + 50] for i in range(0, len(orr_params), 50)]
 
         return params
 
@@ -185,83 +152,40 @@ class CLIConverter:
             func_sigs.append(v)
 
         if list_index == -1:
-            dic = {
-                f.name: cls._bind_one_param(class_name, p, f.annotation)
-                for p, f in zip(params, func_sigs)
-            }
+            dic = {f.name: cls._bind_one_param(class_name, p, f.annotation) for p, f in zip(params, func_sigs)}
         else:
-            element_sig = (
-                values[list_index + 1]
-                .annotation.replace("typing.", "")
-                .replace("list[", "")
-                .replace("List[", "")
-                .replace("]", "")
-            )
-            dic = cls._bind_has_list(
-                class_name, params, func_sigs, list_index, element_sig
-            )
+            element_sig = (values[list_index + 1].annotation.replace("typing.", "").replace("list[", "").replace("List[", "").replace("]", ""))
+            dic = cls._bind_has_list(class_name, params, func_sigs, list_index, element_sig)
         dic = cls._special_add(class_name, dic)
         return dic
 
     @classmethod
-    def _bind_has_list(
-        cls,
-        class_name: str,
-        params: list[str],
-        func_sigs: list[inspect.Parameter],
-        list_index: int,
-        element_sig: str,
-    ) -> dict[str, t.Any]:
+    def _bind_has_list(cls, class_name: str, params: list[str], func_sigs: list[inspect.Parameter], list_index: int, element_sig: str,) -> dict[str, t.Any]:
         dic = {}
         name = func_sigs[list_index].name
         fore_sigs = func_sigs[:list_index]
         fore_params = params[:list_index]
 
-        back_sigs = func_sigs[list_index + 1 :]
-        back_params = params[-len(back_sigs) :]
+        back_sigs = func_sigs[list_index + 1:]
+        back_params = params[-len(back_sigs):]
 
         if len(func_sigs) == 1:  # only one param and is list
-            dic.update(
-                {
-                    name: [
-                        cls._bind_one_param(class_name, p, element_sig) for p in params
-                    ]
-                }
-            )
+            dic.update({name: [cls._bind_one_param(class_name, p, element_sig) for p in params]})
         elif len(fore_params) == len(fore_sigs) != 0:  # others followed by a list
             list_params = params[list_index:]
-            dic.update(
-                {
-                    f.name: cls._bind_one_param(class_name, p, f.annotation)
-                    for p, f in zip(fore_params, fore_sigs)
-                }
-            )
-            dic[name] = [
-                cls._bind_one_param(class_name, b, element_sig) for b in list_params
-            ]
+            dic.update({f.name: cls._bind_one_param(class_name, p, f.annotation) for p, f in zip(fore_params, fore_sigs)})
+            dic[name] = [cls._bind_one_param(class_name, b, element_sig) for b in list_params]
         elif len(back_params) == len(back_sigs) != 0:  # a list follow by others
             list_params = params[: -(len(func_sigs) - list_index - 1)]
-            dic.update(
-                {
-                    f.name: cls._bind_one_param(class_name, p, f.annotation)
-                    for p, f in zip(back_params, back_sigs)
-                }
-            )
-            dic[name] = [
-                cls._bind_one_param(class_name, b, element_sig) for b in list_params
-            ]
+            dic.update({f.name: cls._bind_one_param(class_name, p, f.annotation) for p, f in zip(back_params, back_sigs)})
+            dic[name] = [cls._bind_one_param(class_name, b, element_sig) for b in list_params]
         return dic
 
     @classmethod
     def _basic_cast(
         cls, string_param: str, type_name: str
     ) -> str | int | float | Hex | None:
-        basics = {
-            "str": str,
-            "int": int,
-            "float": float,
-            "Hex": Hex,
-        }
+        basics = {"str": str, "int": int, "float": float, "Hex": Hex}
         basic_type = basics.get(type_name, None)
         if basic_type is not None:
             try:
@@ -282,12 +206,8 @@ class CLIConverter:
         string_param: str,
         type_name: str,
     ) -> ipaddress.IPv4Address | ipaddress.IPv6Address | None:
-        ips = {
-            "ipaddress.IPv4Address": ipaddress.IPv4Address,
-            "IPv4Address": ipaddress.IPv4Address,
-            "ipaddress.IPv6Address": ipaddress.IPv6Address,
-            "IPv6Address": ipaddress.IPv6Address,
-        }
+        ips = {"ipaddress.IPv4Address": ipaddress.IPv4Address, "IPv4Address": ipaddress.IPv4Address,
+               "ipaddress.IPv6Address": ipaddress.IPv6Address, "IPv6Address": ipaddress.IPv6Address}
         ips_cast = ips.get(type_name, None)
         if ips_cast is not None:
             try:
@@ -339,14 +259,9 @@ class CLIConverter:
         elif type_name == "SourceType":
             enum_cast = getattr(enums, type_name, None)
             if enum_cast is not None:
-                return {
-                    "TXIFG": enum_cast["TX_IFG"],
-                    "TXLEN": enum_cast["TX_LEN"],
-                    "RXIFG": enum_cast["RX_IFG"],
-                    "RXLEN": enum_cast["RX_LEN"],
-                    "RXLAT": enum_cast["RX_LATENCY"],
-                    "RXJIT": enum_cast["RX_JITTER"],
-                }.get(string_param, None)
+                return {"TXIFG": enum_cast["TX_IFG"], "TXLEN": enum_cast["TX_LEN"],
+                        "RXIFG": enum_cast["RX_IFG"], "RXLEN": enum_cast["RX_LEN"],
+                        "RXLAT": enum_cast["RX_LATENCY"], "RXJIT": enum_cast["RX_JITTER"]}.get(string_param, None)
         elif type_name == "LinkTrainingMode":
             enum_cast = getattr(enums, type_name, None)
             if enum_cast is not None and string_param == "AUTO":
@@ -364,18 +279,14 @@ class CLIConverter:
         elif class_name == "P_ARPRXTABLE":
             ipv4_address = ipaddress.IPv4Address(bytes.fromhex(string_param[0:8]))
             prefix = int.from_bytes(bytes.fromhex(string_param[8:12]), "big")
-            patched_mac = enums.OnOff(
-                int.from_bytes(bytes.fromhex(string_param[12:14]), "big")
-            )
+            patched_mac = enums.OnOff(int.from_bytes(bytes.fromhex(string_param[12:14]), "big"))
             mac_address = Hex(string_param[14:])
             chunk = ArpChunk(ipv4_address, prefix, patched_mac, mac_address)
             return chunk
         elif class_name == "P_NDPRXTABLE":
             ipv6_address = ipaddress.IPv6Address(bytes.fromhex(string_param[0:32]))
             prefix = int.from_bytes(bytes.fromhex(string_param[32:36]), "big")
-            patched_mac = enums.OnOff(
-                int.from_bytes(bytes.fromhex(string_param[36:38]), "big")
-            )
+            patched_mac = enums.OnOff(int.from_bytes(bytes.fromhex(string_param[36:38]), "big"))
             mac_address = Hex(string_param[38:])
             chunk = NdpChunk(ipv6_address, prefix, patched_mac, mac_address)
             return chunk
@@ -506,15 +417,7 @@ class CLIConverter:
         port_index = cls._read_int(result.group("port"))
         indices = cls._read_indices(result.group("indices"))
         body_type, values = cls._read_params(result.group("params") or "", cmd_class)
-        body = Body(
-            command_name,
-            cmd_class,
-            body_type,
-            module_index,
-            port_index,
-            indices,
-            values,
-        )
+        body = Body(command_name, cmd_class, body_type, module_index, port_index, indices, values)
         return body
 
     @classmethod
@@ -555,13 +458,8 @@ read_commands_from_file = CLIConverter.read_commands_from_file
 read_commands_from_string = CLIConverter.read_commands_from_string
 
 
-def upload_config_from(
-    obj: GenericAnyTester | GenericAnyModule | GenericAnyPort,
-    long_str: str,
-    is_file: bool,
-    mode: str,
-    comment_start: tuple[str, ...] = (";", "#", "//"),
-) -> t.Generator[Token, None, None]:
+def upload_config_from(obj: GenericAnyTester | GenericAnyModule | GenericAnyPort, long_str: str,
+                       is_file: bool, mode: str, comment_start: tuple[str, ...] = (";", "#", "//")) -> t.Generator[Token, None, None]:
     func = read_commands_from_file if is_file else read_commands_from_string
     for command in func(long_str, comment_start):
         if not command.command_name.startswith(mode):
@@ -578,76 +476,36 @@ def upload_config_from(
         yield Token(obj._conn, request)
 
 
-async def _helper(
-    obj: GenericAnyTester | GenericAnyModule | GenericAnyPort,
-    long_str: str,
-    is_file: bool,
-    mode: str,
-    comment_start: tuple[str, ...],
-) -> None:
-
-    async for f in apply_iter(
-        *upload_config_from(obj, long_str, is_file, mode, comment_start),
-        return_exceptions=True,
-    ):
+async def _helper(obj: GenericAnyTester | GenericAnyModule | GenericAnyPort, long_str: str, is_file: bool, mode: str, comment_start: tuple[str, ...]) -> None:
+    async for f in apply_iter(*upload_config_from(obj, long_str, is_file, mode, comment_start), return_exceptions=True):
         pass
 
 
-async def upload_tester_config_from_string(
-    tester: GenericAnyTester,
-    long_str: str,
-    comment_start: tuple[str, ...] = (";", "#", "//"),
-) -> None:
+async def upload_tester_config_from_string(tester: GenericAnyTester, long_str: str, comment_start: tuple[str, ...] = (";", "#", "//")) -> None:
     await _helper(tester, long_str, False, "C", comment_start)
 
 
-async def upload_tester_config_from_file(
-    tester: GenericAnyTester,
-    path: str,
-    comment_start: tuple[str, ...] = (";", "#", "//"),
-) -> None:
+async def upload_tester_config_from_file(tester: GenericAnyTester, path: str, comment_start: tuple[str, ...] = (";", "#", "//")) -> None:
     await _helper(tester, path, True, "C", comment_start)
 
 
-async def upload_module_config_from_string(
-    module: GenericAnyModule,
-    long_str: str,
-    comment_start: tuple[str, ...] = (";", "#", "//"),
-) -> None:
-    assert (
-        module.is_reserved_by_me()
-    ), f"Please reserve Module {module.module_id} first!"
+async def upload_module_config_from_string(module: GenericAnyModule, long_str: str, comment_start: tuple[str, ...] = (";", "#", "//")) -> None:
+    assert (module.is_reserved_by_me()), f"Please reserve Module {module.module_id} first!"
     await _helper(module, long_str, False, "M", comment_start)
 
 
-async def upload_module_config_from_file(
-    module: GenericAnyModule,
-    path: str,
-    comment_start: tuple[str, ...] = (";", "#", "//"),
-) -> None:
-    assert (
-        module.is_reserved_by_me()
-    ), f"Please reserve Module {module.module_id} first!"
+async def upload_module_config_from_file(module: GenericAnyModule, path: str, comment_start: tuple[str, ...] = (";", "#", "//")) -> None:
+    assert (module.is_reserved_by_me()), f"Please reserve Module {module.module_id} first!"
     await _helper(module, path, True, "M", comment_start)
 
 
-async def upload_port_config_from_string(
-    port: GenericAnyPort,
-    long_str: str,
-    comment_start: tuple[str, ...] = (";", "#", "//"),
-) -> None:
-    assert (
-        port.is_reserved_by_me()
-    ), f"Please reserve Port {port.kind.module_id}/{port.kind.port_id} first!"
+async def upload_port_config_from_string(port: GenericAnyPort, long_str: str, comment_start: tuple[str, ...] = (";", "#", "//")) -> None:
+    assert (port.is_reserved_by_me()), f"Please reserve Port {port.kind.module_id}/{port.kind.port_id} first!"
     await _helper(port, long_str, False, "P", comment_start)
 
 
-async def upload_port_config_from_file(
-    port: GenericAnyPort, path: str, comment_start: tuple[str, ...] = (";", "#", "//")
-) -> None:
-    assert (
-        port.is_reserved_by_me()
-    ), f"Please reserve Port {port.kind.module_id}/{port.kind.port_id} first!"
+async def upload_port_config_from_file(port: GenericAnyPort, path: str, comment_start: tuple[str, ...] = (";", "#", "//")) -> None:
+    assert (port.is_reserved_by_me()), f"Please reserve Port {port.kind.module_id}/{port.kind.port_id} first!"
     await _helper(port, path, True, "P", comment_start)
 
 
