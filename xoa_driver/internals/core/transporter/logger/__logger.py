@@ -5,6 +5,7 @@ import logging
 from .__state_off import StateOff
 from .__state_on_default import StateOnDefault
 from .__state_on_loguru import StateOnLoguru
+from .__state_on_user import StateOnUser
 
 
 class TransportationLogger:
@@ -23,7 +24,14 @@ class TransportationLogger:
             return StateOnDefault
         elif isinstance(logger, logging.Logger):
             return StateOnDefault
-        return StateOnLoguru
+        try:
+            from loguru import Logger as LoguruLogger
+        except ImportError:
+            pass
+        else:
+            if isinstance(logger, LoguruLogger):
+                return StateOnLoguru
+        return StateOnUser
 
     def info(self, msg: t.Any) -> None:
         self.__state.info(self, msg)
@@ -42,6 +50,11 @@ class TransportationLogger:
 
 
 class CustomLogger(t.Protocol):
+    """
+        The custom logger must be an instance of python Logger or Loguru Logger.
+        by providing the custom class of the logger we will not waranty as all of 
+        the messages will be visible to the user.
+    """
     def debug(self, msg, /, *args, **kwargs: t.Any) -> None:
         ...
 

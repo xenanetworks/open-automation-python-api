@@ -29,27 +29,29 @@ MULTIPLIER = 10_000
 
 
 async def test_lli() -> None:
-    # logging.basicConfig(
-    #     format='%(relativeCreated)5d %(name)-15s %(levelname)-8s %(message)s',
-    #     level=logging.DEBUG
-    # )
-    # logger_ = logging.getLogger(__file__)
+    logging.basicConfig(
+        format='%(relativeCreated)5d %(name)-15s %(levelname)-8s %(message)s',
+        level=logging.DEBUG
+    )
+    logger_ = logging.getLogger(__file__)
     ctx = TransportationHandler()
-    await establish_connection(ctx, "demo.xenanetworks.com")
+    await establish_connection(ctx, "87.61.110.118")
 
     # # print("Is connected", ctx.is_connected)
     # with cProfile.Profile() as pr:
     *_, cc, mc, pc = await apply(
         commands.C_LOGON(ctx).set("xena"),
         commands.C_OWNER(ctx).set("xoa" * 10),
-        commands.C_OWNER(ctx).get(),
+        # commands.C_OWNER(ctx).get(),
+        # commands.C_SERIALNO(ctx).get(),
         # commands.C_MODEL(ctx).get()
         # commands.C_CAPABILITIES(ctx).get(),
         # commands.M_CAPABILITIES(ctx, 1).get(),
         # commands.P_CAPABILITIES(ctx, 1, 1).get(),
         # commands.P_ARPRXTABLE(ctx, 3, 1).get()
+        commands.PED_SCHEDULE(ctx, 2, 3, 1, 0).get()
     )
-    # print(repr(pc))
+    print(repr(pc), pc)
     # a = await commands.C_INDICES(ctx).get()
     # print((await commands.C_STATSESSION(ctx, a.session_ids[-1]).get()).to_bytes())
     # port_counts = (await commands.C_PORTCOUNTS(ctx).get()).port_counts
@@ -66,9 +68,9 @@ async def test_lli() -> None:
     #         r.to_bytes(),
     #         r.nbytes(),
     #     )
-    tasks = (commands.P_CAPABILITIES(ctx, 1, 1).get() for _ in range(MULTIPLIER))
-    async for resp in apply_iter(*tasks):
-        resp.tx_eq_tap_max_val
+    # tasks = (commands.P_CAPABILITIES(ctx, 1, 1).get() for _ in range(MULTIPLIER))
+    # async for resp in apply_iter(*tasks):
+    #     resp.tx_eq_tap_max_val
     # stats = pstats.Stats(pr)
     # stats.sort_stats(pstats.SortKey.TIME)
     # print(MULTIPLIER)
