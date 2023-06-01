@@ -44,7 +44,7 @@ class GAckTcp:
         """
         Representation of P4G_TCP_DUP_THRES
         """
-        self.frequency = P4G_TCP_ACK_FREQUENCY(conn, module_id, port_id, group_idx)  # TODO: probably need a better name to be closer to cmd description
+        self.frequency = P4G_TCP_ACK_FREQUENCY(conn, module_id, port_id, group_idx)
         """
         Representation of P4G_TCP_ACK_FREQUENCY
         """

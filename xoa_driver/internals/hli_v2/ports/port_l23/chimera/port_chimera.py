@@ -51,7 +51,8 @@ class PortChimera(base_port.BasePort[ports_state.PortChimeraLocalState]):
         Representation of P_LOADMODE
         """
 
-        self.emulation = ChimeraPE(self._conn, *self.kind)  # TODO: Missing description
+        self.emulation = ChimeraPE(self._conn, *self.kind)
+        """Chimera Port Emulation"""
 
         self.emulate = P_EMULATE(conn, module_id, port_id)
         """Chimera port emulation control.

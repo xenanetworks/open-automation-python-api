@@ -17,12 +17,12 @@ from .pcs_pma_ghijkl import (
 
 class FamilyG(BasePortL23Genuine):
     pcs_pma: PcsPma
-    """PCS/PMA layer
-
-    :type: PcsPma
+    """PCS/PMA settings.
+        
+    :type: ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_ghijkl.PcsPma
     """
     
-    ser_des: Tuple[SerDes, ...]
+    serdes: Tuple[SerDes, ...]
     """SerDes index
 
     :type: Tuple[SerDes, ...]
@@ -36,18 +36,13 @@ class FamilyG(BasePortL23Genuine):
         :type: P_DYNAMIC
         """
 
-        self.pcs_pma = PcsPma(conn, self)
-        """PCS/PMA settings.
-        
-        :type: ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_ghijkl.PcsPma
-        """
-
     async def _setup(self) -> Self:
         await super()._setup()
         self.serdes = tuple(
             SerDes(self._conn, *self.kind, serdes_xindex=serdes_xindex)
             for serdes_xindex in range(self.info.capabilities.serdes_count)
         )
+        self.pcs_pma = PcsPma(self._conn, self)
         return self
 
     on_dynamic_change = functools.partialmethod(utils.on_event, P_DYNAMIC)
