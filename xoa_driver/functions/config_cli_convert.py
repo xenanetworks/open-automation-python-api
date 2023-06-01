@@ -1,14 +1,17 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
+from operator import attrgetter
 import typing as t
 import inspect
 import ipaddress
 from enum import Enum
 from xoa_driver.internals import commands
 from xoa_driver import enums
+from xoa_driver.testers import GenericAnyTester
+from xoa_driver.modules import GenericAnyModule
 from xoa_driver.ports import GenericAnyPort
 from xoa_driver.misc import ArpChunk, NdpChunk
-from xoa_driver.utils import apply_iter
+from xoa_driver.utils import apply, apply_iter
 from xoa_driver.internals.core.token import Token
 from xoa_driver.internals.core.transporter.protocol.payload import Hex
 from xoa_driver.internals.core.transporter.protocol.struct_request import Request
@@ -141,11 +144,15 @@ class CLIConverter:
         if class_name == "C_DOWN" and params.index("-1480937026") == 0:
             params.pop(0)
         elif class_name == "P_ARPRXTABLE":
-            orr_params = or_params[0].replace("0x", "").replace("0X", "")
-            params = [orr_params[i: i + 26] for i in range(0, len(orr_params), 26)]
+            params = []
+            if or_params:
+                orr_params = or_params[0].replace("0x", "").replace("0X", "")
+                params = [orr_params[i : i + 26] for i in range(0, len(orr_params), 26)]
         elif class_name == "P_NDPRXTABLE":
-            orr_params = or_params[0].replace("0x", "").replace("0X", "")
-            params = [orr_params[i: i + 50] for i in range(0, len(orr_params), 50)]
+            params = []
+            if or_params:
+                orr_params = or_params[0].replace("0x", "").replace("0X", "")
+                params = [orr_params[i : i + 50] for i in range(0, len(orr_params), 50)]
 
         return params
 
@@ -210,8 +217,8 @@ class CLIConverter:
         fore_sigs = func_sigs[:list_index]
         fore_params = params[:list_index]
 
-        back_sigs = func_sigs[list_index + 1:]
-        back_params = params[-len(back_sigs):]
+        back_sigs = func_sigs[list_index + 1 :]
+        back_params = params[-len(back_sigs) :]
 
         if len(func_sigs) == 1:  # only one param and is list
             dic.update(
@@ -548,19 +555,109 @@ read_commands_from_file = CLIConverter.read_commands_from_file
 read_commands_from_string = CLIConverter.read_commands_from_string
 
 
-def upload_port_config_from(port: GenericAnyPort, long_str: str, is_file: bool, comment_start: tuple[str, ...] = (";", "#", "//")) -> t.Generator[Token, None, None]:
+def upload_config_from(
+    obj: GenericAnyTester | GenericAnyModule | GenericAnyPort,
+    long_str: str,
+    is_file: bool,
+    mode: str,
+    comment_start: tuple[str, ...] = (";", "#", "//"),
+) -> t.Generator[Token, None, None]:
     func = read_commands_from_file if is_file else read_commands_from_string
     for command in func(long_str, comment_start):
-        request = command.as_request(module_num=port.kind.module_id, port_num=port.kind.port_id)
-        yield Token(port._conn, request)
+        if not command.command_name.startswith(mode):
+            continue
+        if mode == "M":
+            request = command.as_request(module_num=getattr(obj, "module_id", None))
+        elif mode == "P":
+            request = command.as_request(
+                module_num=getattr(getattr(obj, "kind", None), "module_id", None),
+                port_num=getattr(getattr(obj, "kind", None), "port_id", None),
+            )
+        else:
+            request = command.as_request()
+        yield Token(obj._conn, request)
 
 
-async def upload_port_config_from_string(port: GenericAnyPort, long_str: str, comment_start: tuple[str, ...] = (";", "#", "//")):
-    return await gather(*apply_iter(*upload_port_config_from(port, long_str, False, comment_start), return_exceptions=True))
+async def _helper(
+    obj: GenericAnyTester | GenericAnyModule | GenericAnyPort,
+    long_str: str,
+    is_file: bool,
+    mode: str,
+    comment_start: tuple[str, ...],
+) -> None:
+
+    async for f in apply_iter(
+        *upload_config_from(obj, long_str, is_file, mode, comment_start),
+        return_exceptions=True,
+    ):
+        pass
 
 
-async def upload_port_config_from_file(port: GenericAnyPort, path: str, comment_start: tuple[str, ...] = (";", "#", "//")):
-    return await gather(*apply_iter(*upload_port_config_from(port, path, True, comment_start), return_exceptions=True))
+async def upload_tester_config_from_string(
+    tester: GenericAnyTester,
+    long_str: str,
+    comment_start: tuple[str, ...] = (";", "#", "//"),
+) -> None:
+    await _helper(tester, long_str, False, "C", comment_start)
 
 
-__all__ = ("read_commands_from_file", "read_commands_from_string", 'upload_port_config_from_string', "upload_port_config_from_file")
+async def upload_tester_config_from_file(
+    tester: GenericAnyTester,
+    path: str,
+    comment_start: tuple[str, ...] = (";", "#", "//"),
+) -> None:
+    await _helper(tester, path, True, "C", comment_start)
+
+
+async def upload_module_config_from_string(
+    module: GenericAnyModule,
+    long_str: str,
+    comment_start: tuple[str, ...] = (";", "#", "//"),
+) -> None:
+    assert (
+        module.is_reserved_by_me()
+    ), f"Please reserve Module {module.module_id} first!"
+    await _helper(module, long_str, False, "M", comment_start)
+
+
+async def upload_module_config_from_file(
+    module: GenericAnyModule,
+    path: str,
+    comment_start: tuple[str, ...] = (";", "#", "//"),
+) -> None:
+    assert (
+        module.is_reserved_by_me()
+    ), f"Please reserve Module {module.module_id} first!"
+    await _helper(module, path, True, "M", comment_start)
+
+
+async def upload_port_config_from_string(
+    port: GenericAnyPort,
+    long_str: str,
+    comment_start: tuple[str, ...] = (";", "#", "//"),
+) -> None:
+    assert (
+        port.is_reserved_by_me()
+    ), f"Please reserve Port {port.kind.module_id}/{port.kind.port_id} first!"
+    await _helper(port, long_str, False, "P", comment_start)
+
+
+async def upload_port_config_from_file(
+    port: GenericAnyPort, path: str, comment_start: tuple[str, ...] = (";", "#", "//")
+) -> None:
+    assert (
+        port.is_reserved_by_me()
+    ), f"Please reserve Port {port.kind.module_id}/{port.kind.port_id} first!"
+    await _helper(port, path, True, "P", comment_start)
+
+
+__all__ = (
+    "read_commands_from_file",
+    "read_commands_from_string",
+    "upload_tester_config_from_string",
+    "upload_module_config_from_string",
+    "upload_port_config_from_string",
+    "upload_tester_config_from_file",
+    "upload_module_config_from_file",
+    "upload_port_config_from_file",
+)
