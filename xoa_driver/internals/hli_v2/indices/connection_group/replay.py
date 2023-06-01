@@ -26,7 +26,7 @@ class GFilesReplay:
         Representation of P4G_REPLAY_FILE_INDICES
         """
 
-    def name(self, replay_file_idx: int) -> "P4G_REPLAY_FILE_NAME":  # TODO: Not sure about function name
+    def name(self, replay_file_idx: int) -> "P4G_REPLAY_FILE_NAME":
         """
         Representation of P4G_REPLAY_FILE_NAME
         """

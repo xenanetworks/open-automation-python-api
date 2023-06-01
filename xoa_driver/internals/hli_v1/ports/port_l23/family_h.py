@@ -16,7 +16,7 @@ from .pcs_pma_ghijkl import (
 
 
 class FamilyH(BasePortL23Genuine):
-    ser_des: Tuple[SerDes, ...]
+    serdes: Tuple[SerDes, ...]
     """SerDes index
 
     :type: Tuple[SerDes, ...]
@@ -45,14 +45,20 @@ class FamilyH(BasePortL23Genuine):
 class PLoki100G5S1P(FamilyH):
     """L23 port on Loki-100G-5S-1P module.
     """
+
+    pcs_pma: PcsPma
+    """PCS/PMA settings.
+        
+    :type: ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_ghijkl.PcsPma
+    """
+
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         super().__init__(conn, module_id, port_id)
 
-        self.pcs_pma = PcsPma(conn, self)
-        """PCS/PMA settings.
-        
-        :type: ~xoa_driver.internals.hli_v1.ports.port_l23.pcs_pma_ghijkl.PcsPma
-        """
+    async def _setup(self) -> Self:
+        await super()._setup()
+        self.pcs_pma = PcsPma(self._conn, self)
+        return self
 
 
 class POdin100G3S1P(FamilyH):
