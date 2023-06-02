@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     P4G_RAW_TEST_SCENARIO,
     P4G_RAW_PAYLOAD_TYPE,
     P4G_RAW_PAYLOAD_TOTAL_LEN,

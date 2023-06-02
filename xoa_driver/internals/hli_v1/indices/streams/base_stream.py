@@ -4,7 +4,7 @@ from typing import (
     TypeVar,
     TYPE_CHECKING,
 )
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     PS_INDICES,
     PS_CREATE,
     PS_DELETE,
@@ -83,7 +83,7 @@ class HModifierExtended:
 
         self.range = PS_MODIFIEREXTRANGE(conn, module_id, port_id, stream_idx, modifier_idx)
         """32-bit modifier's range
-        
+
         :type: PS_MODIFIEREXTRANGE
         """
 

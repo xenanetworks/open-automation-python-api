@@ -9,13 +9,11 @@ from xoa_driver.ports import GenericAnyPort
 from xoa_driver.modules import GenericAnyModule, GenericL23Module, ModuleChimera
 from xoa_driver.testers import GenericAnyTester
 from .exceptions import (
-    NoSuchModuleError,
-    NoSuchPortError,
     NotSupportMedia,
     NotSupportPortSpeed,
 )
-from .tools import module_eol_info
-from itertools import chain
+from .tools import MODULE_EOL_INFO
+from itertools import chain  # type: ignore[Pylance false warning]
 from datetime import datetime
 
 PcsPmaSupported = (FamilyL, FamilyL1)
@@ -27,7 +25,7 @@ LinkTrainingSupported = FamilyL
 async def reserve_tester(tester: GenericAnyTester, force: bool = True) -> None:
     """
     .. versionadded:: 1.1
-    
+
     Reserve a tester regardless whether it is owned by others or not.
 
     :param tester: The tester to reserve
@@ -39,7 +37,7 @@ async def reserve_tester(tester: GenericAnyTester, force: bool = True) -> None:
     """
     r = await tester.reservation.get()
     if force and r.operation == enums.ReservedStatus.RESERVED_BY_OTHER:
-        await asyncio.gather(*[free_module(m) for m in tester.modules])
+        await asyncio.gather(*(free_module(m) for m in tester.modules))
         await tester.reservation.set_reserve()
     elif r.operation == enums.ReservedStatus.RELEASED:
         # can fail in condition if an module or port is reserved by someone else
@@ -49,7 +47,7 @@ async def reserve_tester(tester: GenericAnyTester, force: bool = True) -> None:
 async def free_tester(tester: GenericAnyTester) -> None:
     """
     .. versionadded:: 1.1
-    
+
     Free a tester. If the tester is reserved by you, release the tester. If the tester is reserved by others, relinquish the tester. The tester should have no owner afterwards.
 
     :param tester: The tester to free
@@ -62,7 +60,7 @@ async def free_tester(tester: GenericAnyTester) -> None:
         await tester.reservation.set_relinquish()
     elif r.operation == enums.ReservedStatus.RESERVED_BY_YOU:
         await tester.reservation.set_release()
-    await asyncio.gather(*[free_module(m) for m in tester.modules])
+    await asyncio.gather(*(free_module(m) for m in tester.modules))
 
 
 # endregion
@@ -74,7 +72,7 @@ async def free_tester(tester: GenericAnyTester) -> None:
 def get_module(tester: GenericAnyTester, module_id: int) -> GenericAnyModule:
     """
     .. versionadded:: 1.1
-    
+
     Get a module object of the tester.
 
     :param tester: The tester object
@@ -85,16 +83,13 @@ def get_module(tester: GenericAnyTester, module_id: int) -> GenericAnyModule:
     :return: module object
     :rtype: :class:`~xoa_driver.modules.GenericAnyModule`
     """
-    try:
-        return tester.modules.obtain(module_id)
-    except KeyError:
-        raise NoSuchModuleError(module_id)
+    return tester.modules.obtain(module_id)
 
 
 def get_modules(tester: GenericAnyTester) -> tuple[GenericAnyModule, ...]:
     """
     .. versionadded:: 1.1
-    
+
     Get all modules of the tester
 
     :param tester: The tester object
@@ -108,7 +103,7 @@ def get_modules(tester: GenericAnyTester) -> tuple[GenericAnyModule, ...]:
 async def reserve_module(module: GenericAnyModule, force: bool = True) -> None:
     """
     .. versionadded:: 1.1
-    
+
     Reserve a module regardless whether it is owned by others or not.
 
     :param module: The module to reserve
@@ -130,7 +125,7 @@ async def reserve_module(module: GenericAnyModule, force: bool = True) -> None:
 async def free_module(module: GenericAnyModule, should_free_ports: bool = False) -> None:
     """
     .. versionadded:: 1.2
-    
+
     Free a module. If the module is reserved by you, release the module. If the module is reserved by others, relinquish the module. The module should have no owner afterwards.
 
     :param module: The module to free
@@ -149,9 +144,7 @@ async def free_module(module: GenericAnyModule, should_free_ports: bool = False)
         await free_ports(*module.ports)
 
 
-def get_module_supported_media(
-    module: GenericL23Module | ModuleChimera,
-) -> list[dict[str, t.Any]]:
+def get_module_supported_media(module: GenericL23Module | ModuleChimera) -> list[dict[str, t.Any]]:
     """    
     .. versionadded:: 1.3
 
@@ -165,7 +158,7 @@ def get_module_supported_media(
     supported_media_list = []
     item = {}
 
-    for media_item in module.info.media_info_list: # type: ignore
+    for media_item in module.info.media_info_list:  # type: ignore
         for sub_item in media_item.available_speeds:
             item = dict()
             item["media"] = media_item.cage_type
@@ -257,7 +250,7 @@ async def set_module_port_config(
             )
         ):
             portspeed_list = [port_count] + port_count * [port_speed]
-            await module.cfp.config_extended.set(portspeed_list=portspeed_list)
+            await module.cfp.config.set(portspeed_list=portspeed_list)
             return None
     raise NotSupportPortSpeed(module)
 
@@ -273,12 +266,9 @@ async def get_module_eol_date(module: GenericAnyModule) -> str:
     :return: Module's EOL date
     :rtype: str
     """
-    m_eol = module_eol_info()
     resp = await module.serial_number.get()
-    for key, value in m_eol.items():
-        if str(resp.serial_number)[-2:] == key:
-            return value
-    return "2999-01-01"
+    module_key = str(resp.serial_number)[-2:]
+    return MODULE_EOL_INFO.get(module_key, "2999-01-01")
 
 
 async def get_module_eol_days(module: GenericAnyModule) -> int:
@@ -292,17 +282,10 @@ async def get_module_eol_days(module: GenericAnyModule) -> int:
     :return: days until module's End-of-Life date
     :rtype: int
     """
+    eol_string = await get_module_eol_date(module)
     date1 = datetime.now()
-    date2 = datetime.strptime("2999-01-01", '%Y-%M-%d')
+    date2 = datetime.strptime(eol_string, '%Y-%M-%d')
     timedelta = date2 - date1
-    m_eol = module_eol_info()
-    resp = await module.serial_number.get()
-    for key, value in m_eol.items():
-        if str(resp.serial_number)[-2:] == key:
-            date1 = datetime.now()
-            date2 = datetime.strptime(value, '%Y-%M-%d')
-            timedelta = date2 - date1
-            break
     return timedelta.days
 
 # endregion
@@ -314,7 +297,7 @@ async def get_module_eol_days(module: GenericAnyModule) -> int:
 def get_all_ports(tester: GenericAnyTester) -> tuple[GenericAnyPort, ...]:
     """
     .. versionadded:: 1.1
-    
+
     Get all ports of the tester
 
     :param tester: The tester object
@@ -329,7 +312,7 @@ def get_all_ports(tester: GenericAnyTester) -> tuple[GenericAnyPort, ...]:
 def get_ports(tester: GenericAnyTester, module_id: int) -> tuple[GenericAnyPort, ...]:
     """
     .. versionadded:: 1.1
-    
+
     Get all ports of the module
 
     :param tester: The tester object
@@ -346,7 +329,7 @@ def get_ports(tester: GenericAnyTester, module_id: int) -> tuple[GenericAnyPort,
 def get_port(tester: GenericAnyTester, module_id: int, port_id: int) -> GenericAnyPort:
     """
     .. versionadded:: 1.1
-    
+
     Get a port of the module
 
     :param tester: The tester object
@@ -360,16 +343,13 @@ def get_port(tester: GenericAnyTester, module_id: int, port_id: int) -> GenericA
     :rtype: :class:`~xoa_driver.ports.GenericAnyPort`
     """
     module = get_module(tester, module_id)
-    try:
-        return module.ports.obtain(port_id)
-    except KeyError:
-        raise NoSuchPortError(port_id)
+    return module.ports.obtain(port_id)
 
 
 async def reserve_port(port: GenericAnyPort, force: bool = True) -> None:
     """
     .. versionadded:: 1.1
-    
+
     Reserve a port regardless whether it is owned by others or not.
 
     :param port: The port to reserve
@@ -392,7 +372,7 @@ async def reserve_port(port: GenericAnyPort, force: bool = True) -> None:
 async def reset_port(port: GenericAnyPort) -> None:
     """
     .. versionadded:: 1.1
-    
+
     Reserve and reset a port
 
     :param port: The port to reset
@@ -407,7 +387,7 @@ async def reset_port(port: GenericAnyPort) -> None:
 async def free_port(port: GenericAnyPort) -> None:
     """
     .. versionadded:: 1.1
-    
+
     Free a port. If the port is reserved by you, release the port. If the port is reserved by others, relinquish the port. The port should have no owner afterwards.
 
     :param port: The port to free
@@ -425,13 +405,13 @@ async def free_port(port: GenericAnyPort) -> None:
 async def free_ports(*ports: GenericAnyPort) -> None:
     """
     .. versionadded:: 1.1
-    
+
     Free all ports on a module.
 
     :param module: The module object
     :type module: GenericAnyModule
     """
-    await asyncio.gather(*[free_port(port=p) for p in ports])
+    await asyncio.gather(*(free_port(port=p) for p in ports))
 
 
 # endregion

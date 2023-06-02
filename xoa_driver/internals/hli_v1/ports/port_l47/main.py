@@ -2,7 +2,7 @@ import functools
 from typing import TYPE_CHECKING
 from typing_extensions import Self
 
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     P4_TRAFFIC,
     P4_STATE,
     P4_CAPABILITIES,

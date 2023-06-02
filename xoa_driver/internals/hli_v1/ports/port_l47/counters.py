@@ -1,5 +1,5 @@
 from xoa_driver.internals.core import interfaces as itf
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     P4_ETH_TX_COUNTERS,
     P4_ETH_RX_COUNTERS,
     P4_PORT_TX_COUNTERS,

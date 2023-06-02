@@ -3,7 +3,7 @@ import asyncio
 import functools
 from typing import TYPE_CHECKING
 from typing_extensions import Self
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     M_STATUS,
     M_UPGRADE,
     M_UPGRADEPROGRESS,
@@ -22,11 +22,10 @@ from xoa_driver.internals.core.commands import (
     M_CLOCKSYNCSTATUS,
     M_NAME,
     M_CFPCONFIGEXT,
-    M_CFPCONFIG,
 )
 
 from xoa_driver.internals.hli_v1 import revisions
-from xoa_driver.internals.utils import ports_manager as pm
+from xoa_driver.internals.utils.managers import ports_manager as pm
 from xoa_driver.internals.utils import attributes as utils
 from xoa_driver.internals.state_storage import modules_state
 from xoa_driver import ports
@@ -40,17 +39,18 @@ class ChTXClock:
     """
     Advanced timing feature (Chimera).
     """
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.source = M_TXCLOCKSOURCE_NEW(conn, module_id)
         """
         The source that drives the TX clock rate of the ports on the test module.
-        
+
         :type: M_TXCLOCKSOURCE_NEW
         """
         self.status = M_TXCLOCKSTATUS_NEW(conn, module_id)
         """
         TX clock status of the test module.
-        
+
         :type: M_TXCLOCKSTATUS_NEW
         """
 
@@ -59,23 +59,18 @@ class ChCFP:
     """
     CFP test module (Chimera).
     """
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.type = M_CFPTYPE(conn, module_id)
         """
         The transceiver's CFP type currently inserted.
-        
+
         :type: M_CFPTYPE
         """
-        self.config = M_CFPCONFIG(conn, module_id)
+        self.config = M_CFPCONFIGEXT(conn, module_id)
         """
         The CFP configuration of the test module.
-        
-        :type: M_CFPCONFIG
-        """
-        self.config_extended = M_CFPCONFIGEXT(conn, module_id)
-        """
-        The CFP configuration of the test module.
-        
+
         :type: M_CFPCONFIGEXT
         """
 
@@ -84,19 +79,21 @@ class ChUpgrade:
     """
     Upgrade test module (Chimera).
     """
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.start = M_UPGRADE(conn, module_id)
         """
         Start the upgrade progress of the test module.
-        
+
         :type: M_UPGRADE
         """
         self.progress = M_UPGRADEPROGRESS(conn, module_id)
         """
         Upgrade progress status of the test module.
-        
+
         :type: M_UPGRADEPROGRESS
         """
+
 
 class ChTiming:
     """Test module timing and clock configuration"""
@@ -110,7 +107,7 @@ class ChTiming:
 
         self.clock_local_adjust = M_CLOCKPPB(conn, module_id)
         """Time adjustment controlling of the local clock of the test module, which drives the TX rate of the test ports.
-        
+
         :type: M_CLOCKPPB
         """
 
@@ -125,6 +122,7 @@ class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
     """
     This is a conceptual class of Chimera module.
     """
+
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
 
@@ -161,42 +159,42 @@ class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
         self.capabilities = M_CAPABILITIES(conn, self.module_id)
         """
         Test module's capabilities.
-        
+
         :type: M_CAPABILITIES
         """
 
         self.comment = M_COMMENT(conn, self.module_id)
         """
         Test module's description.
-        
+
         :type: M_COMMENT
         """
 
         self.status = M_STATUS(conn, self.module_id)
         """
         Test module's status.
-        
+
         :type: M_STATUS
         """
 
         self.clock_ppb = M_CLOCKPPB(conn, self.module_id)
         """
         Test module's local clock adjustment.
-        
+
         :type: M_CLOCKPPB
         """
 
         self.emulator_bypass_mode = M_EMULBYPASS(conn, self.module_id)
         """
         Bypass mode of the Chimera module.
-        
+
         :type: M_EMULBYPASS
         """
 
         self.latency_mode = M_LATENCYMODE(conn, self.module_id)
         """
         Latency mode of the Chimera module.
-        
+
         :type: M_LATENCYMODE
         """
 
@@ -253,12 +251,7 @@ class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
     Register a callback function to the event that the module's CFP type changes.
     """
 
-    on_cfp_config_change = functools.partialmethod(utils.on_event, M_CFPCONFIG)
-    """
-    Register a callback function to the event that the module's CFP configuration changes.
-    """
-
-    on_cfp_config_extended_change = functools.partialmethod(utils.on_event, M_CFPCONFIGEXT)
+    on_cfp_config_change = functools.partialmethod(utils.on_event, M_CFPCONFIGEXT)
     """
     Register a callback function to the event that the module's CFP configuration changes.
     """
@@ -304,6 +297,7 @@ class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
 @revisions.register_chimera_module(rev="Chimera-100G-5S-2P")
 class MChi100G5S2P(ModuleChimera):
     """Chimera module Chi-100G-5S-2P"""
+
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
         self.ports: pm.PortsManager[ports.PChi100G5S2P] = pm.PortsManager(
@@ -313,7 +307,7 @@ class MChi100G5S2P(ModuleChimera):
             ports_count=self.ports_count
         )
         """Port index manager of Chi-100G-5S-2P
-        
+
         :type: PortsManager
         """
 
@@ -322,6 +316,7 @@ class MChi100G5S2P(ModuleChimera):
 @revisions.register_chimera_module(rev="Chimera-100G-5S-2P[b]")
 class MChi100G5S2P_b(ModuleChimera):
     """Chimera module Chi-100G-5S-2P[b]"""
+
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
         self.ports: pm.PortsManager[ports.PChi100G5S2P_b] = pm.PortsManager(
@@ -331,15 +326,16 @@ class MChi100G5S2P_b(ModuleChimera):
             ports_count=self.ports_count
         )
         """Port index manager of Chi-100G-5S-2P[b]
-        
+
         :type: PortsManager
         """
 
 
 @typing.final
-@revisions.register_chimera_module(rev="Chimera-40G-2S-2P")
+@revisions.register_chimera_module(rev="Chimera-40G-5S-2P")
 class MChi40G2S2P(ModuleChimera):
     """Chimera module Chi-40G-2S-2P"""
+
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
         self.ports: pm.PortsManager[ports.PChi40G2S2P] = pm.PortsManager(

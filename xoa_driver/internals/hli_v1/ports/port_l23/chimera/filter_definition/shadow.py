@@ -6,17 +6,18 @@ from typing import (
 )
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
-from xoa_driver.internals.core.commands.enums import (
+from xoa_driver.internals.commands.enums import (
     FilterType,
     ProtocolOption,
     FilterMode,
 )
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     PEF_INIT,
     PEF_APPLY,
     PEF_ENABLE,
     PEF_PROTOCOL,
     PEF_MODE,
+    PEF_CANCEL,
 )
 from . import general
 
@@ -46,22 +47,27 @@ class FilterDefinitionShadow:
 
         self.initiating = PEF_INIT(conn, module_id, port_id, flow_index)
         """Preparing filter definition.
-        
+
         :type: PEF_INIT
         """
         self.apply = PEF_APPLY(conn, module_id, port_id, flow_index)
         """Apply filter definition.
-        
+
         :type: PEF_APPLY
         """
         self.enable = PEF_ENABLE(conn, module_id, port_id, flow_index, self._filter_type)
         """Enabling the filter.
-        
+
         :type: PEF_ENABLE
+        """
+        self.cancel = PEF_CANCEL(conn, module_id, port_id, flow_index)
+        """Cancel changes made to Shadow and restores them to the ones in Working.
+
+        :type: PEF_CANCEL
         """
         # self.mode = PEF_MODE(conn, module_id, port_id, flow_index, self._filter_type)
         # """Filter mode.
-        # 
+        #
         # :type: PEF_MODE`
         # """
 

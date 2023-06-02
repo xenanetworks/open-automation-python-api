@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     P4G_REPLAY_FILE_INDICES,
     P4G_REPLAY_FILE_NAME,
     P4G_REPLAY_FILE_CLEAR,
@@ -26,7 +26,7 @@ class GFilesReplay:
         Representation of P4G_REPLAY_FILE_INDICES
         """
 
-    def name(self, replay_file_idx: int) -> "P4G_REPLAY_FILE_NAME":  # TODO: Not sure about function name
+    def name(self, replay_file_idx: int) -> "P4G_REPLAY_FILE_NAME":
         """
         Representation of P4G_REPLAY_FILE_NAME
         """

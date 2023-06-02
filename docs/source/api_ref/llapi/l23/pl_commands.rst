@@ -1,4 +1,4 @@
-Length Term Classes
+Length Term
 =================================
 
 This module contains the **L23 port length term classes** that deal with configuration of the length term on the received traffic of a port.
@@ -11,41 +11,8 @@ While a filter is enabled, neither its condition nor the definition of each matc
 
 -------
 
-.. currentmodule:: xoa_driver.internals.core.commands.pl_commands
-
-
-PL_INDICES
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autoclass:: PL_INDICES
+.. automodule:: xoa_driver.internals.commands.pl_commands
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
-
-
-PL_CREATE
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autoclass:: PL_CREATE
-    :members:
-    :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
-
-
-PL_DELETE
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autoclass:: PL_DELETE
-    :members:
-    :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
-
-
-PL_LENGTH
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autoclass:: PL_LENGTH
-    :members:
-    :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
+    :exclude-members: __init__
 

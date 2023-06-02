@@ -1,13 +1,13 @@
 import asyncio
 import typing
 from typing_extensions import Self
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     M_COMMENT,
     M_CAPABILITIES,
     M_MULTIUSER
 )
 from xoa_driver import ports
-from xoa_driver.internals.utils import ports_manager as pm
+from xoa_driver.internals.utils.managers import ports_manager as pm
 from xoa_driver.internals.state_storage import modules_state
 from . import base_module as bm
 if typing.TYPE_CHECKING:
@@ -27,19 +27,19 @@ class ModuleL23VE(bm.BaseModule["modules_state.ModuleLocalState"]):
 
         self.comment = M_COMMENT(conn, self.module_id)
         """Test module's description.
-        
+
         :type: M_COMMENT
         """
 
         self.capabilities = M_CAPABILITIES(conn, self.module_id)
         """Test module's capabilities.
-        
+
         :type: M_CAPABILITIES
         """
 
         self.multiuser = M_MULTIUSER(conn, self.module_id)
         """If multiple users are allowed to control the same test module.
-        
+
         :type: M_MULTIUSER
         """
 
@@ -50,7 +50,7 @@ class ModuleL23VE(bm.BaseModule["modules_state.ModuleLocalState"]):
             ports_count=self.ports_count
         )
         """L23 VE Port index manager of this test module.
-        
+
         :type: PortsManager
         """
 

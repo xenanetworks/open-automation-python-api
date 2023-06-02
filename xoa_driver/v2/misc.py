@@ -1,8 +1,8 @@
 #: Other types which are used by ports or as a parameter to attribute set method.
 
 
-from xoa_driver.internals.core.transporter.token import Token
-from xoa_driver.internals.core.commands.subtypes import (
+from xoa_driver.internals.core.token import Token
+from xoa_driver.internals.commands.subtypes import (
     ArpChunk,
     NdpChunk,
 )

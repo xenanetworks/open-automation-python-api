@@ -1,10 +1,12 @@
 from typing import (
     TYPE_CHECKING,
+    Dict,
     List,
 )
+from collections import UserDict
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     PEC_INDICES,
     PEC_VAL,
     PEC_COMMENT,
@@ -13,6 +15,7 @@ from xoa_driver.internals.core.commands import (
 )
 
 from xoa_driver.internals.utils.indices import observer
+from xoa_driver.enums import OnOff
 
 
 class CustomDistribution:
@@ -23,7 +26,7 @@ class CustomDistribution:
         self.__conn = conn
         self.__module_id = module_id
         self.__port_id = port_id
-        self.__cdi = custom_distribution_index
+        self.custom_distribution_index = custom_distribution_index
         self.definition = PEC_VAL(conn, module_id, port_id, custom_distribution_index)
         """Custom distribution definition.
         Representation of PEC_VAL
@@ -48,19 +51,19 @@ class CustomDistribution:
             self.__conn,
             self.__module_id,
             self.__port_id,
-            self.__cdi
+            self.custom_distribution_index
         ).set()
         self.__observer.notify(observer.IndexEvents.DEL, self)
 
 
-class CustomDistributions:
+class CustomDistributions(UserDict[int, "CustomDistribution"]):
     """Custom distributions"""
 
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.__conn = conn
         self.__module_id = module_id
         self.__port_id = port_id
-        self.__items: List[CustomDistribution] = []
+        self.data: Dict[int, CustomDistribution] = {}
         self.__observer = observer.IndicesObserver()
         self.__observer.subscribe(
             observer.IndexEvents.DEL,
@@ -69,54 +72,45 @@ class CustomDistributions:
 
     async def server_sync(self) -> None:
         """Sync the indices with xenaserver"""
-
         _resp = await PEC_INDICES(self.__conn, self.__module_id, self.__port_id).get()
-        self.__items = [
-            CustomDistribution(
+        self.data = {
+            idx: CustomDistribution(
                 self.__observer,
                 self.__conn,
                 self.__module_id,
                 self.__port_id,
                 idx
             )
-            for idx in _resp.indices
-        ]
-
-    def __len__(self) -> int:
-        """Return the number of existing indices"""
-        return len(self.__items)
-
-    def __iter__(self):
-        self.__k = 0
-        return self
-
-    def __next__(self):
-        try:
-            v = self.__items[self.__k]
-        except IndexError:
-            raise StopIteration()
-        else:
-            self.__k += 1
-            return v
-
-    def __getitem__(self, key: int):
-        return self.__items[key]
+            for idx in _resp.indexations
+        }
 
     def __remove_from_slot(self, index_inst: "CustomDistribution") -> None:
         # throws ValueError if element is not exists in list of indices
-        self.__items.remove(index_inst)
+        del self.data[index_inst.custom_distribution_index]
 
-    async def assign(self, idx_cuantity: int = 0) -> None:
-        """
-        Assign Custom distribution indices, all indices which is out of range will be removed.
-        ``idx_cuantity`` permitted values is: 0 <= idx_cuantity <= 40
-        """
+    def __setitem__(self, key, value):
+        raise NotImplementedError("Only support assign item by 'add' method")
 
-        if not (0 <= idx_cuantity <= 40):
-            raise ValueError("idx_cuantity must be in range of: 0 <= idx_cuantity <= 40")
-        await PEC_INDICES(self.__conn, self.__module_id, self.__port_id).set([i for i in range(idx_cuantity)])
-        await self.server_sync()
-
-    async def remove(self, position_idx: int) -> None:
+    async def remove(self, custom_distribution_index: int) -> None:
         """Remove a index from port"""
-        await self.__items[position_idx].delete()
+        await self.data[custom_distribution_index].delete()
+
+    async def __get_available_custom_distribution_index(self) -> int:
+        await self.server_sync()
+        if len(self.keys()) == 40:
+            raise ValueError("The server was full of custom distributions.")
+        return next(i for i in range(1, 41) if i not in self.keys())
+
+    async def add(self, linear: OnOff, entry_count: int, data_x: List[int], comment: str) -> "CustomDistribution":
+        cdi = await self.__get_available_custom_distribution_index()
+        cd = CustomDistribution(
+            self.__observer,
+            self.__conn,
+            self.__module_id,
+            self.__port_id,
+            custom_distribution_index=cdi,
+        )
+        await cd.definition.set(linear=linear, symmetric=OnOff.OFF, entry_count=entry_count, data_x=data_x)
+        await cd.comment.set(comment)
+        self.data[cdi] = cd
+        return cd

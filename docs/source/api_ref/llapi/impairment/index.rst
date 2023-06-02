@@ -1,7 +1,8 @@
-Impairment Classes
+Chimera
 =============================
 
 .. toctree::
+    :maxdepth: 1
 
     m_commands
     p_pp_pe_commands

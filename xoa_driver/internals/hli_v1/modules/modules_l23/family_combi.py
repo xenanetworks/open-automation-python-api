@@ -2,8 +2,8 @@ import typing
 import functools
 from xoa_driver import ports
 from xoa_driver.internals.hli_v1 import revisions
-from xoa_driver.internals.core.commands import P_CAPABILITIES
-from xoa_driver.internals.utils import ports_manager as pm
+from xoa_driver.internals.commands import P_CAPABILITIES
+from xoa_driver.internals.utils.managers import ports_manager as pm
 from xoa_driver.internals.utils.cap_id import CapID
 
 if typing.TYPE_CHECKING:
@@ -40,6 +40,7 @@ async def _port_resolver(conn: "itf.IConnection", module_id: int, port_id: int, 
 class MOdin10G4S2PCombi(ModuleL23):
     """Test module Odin-10G-4S-2P-Combi
     """
+
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
         PORTS_MAP = {
@@ -53,7 +54,7 @@ class MOdin10G4S2PCombi(ModuleL23):
             ports_count=self.ports_count
         )
         """Port Index Manager of Odin-10G-4S-2P-Combi
-        
+
         :type: PortsCombiManager
         """
 
@@ -63,6 +64,7 @@ class MOdin10G4S2PCombi(ModuleL23):
 class MOdin10G4S2PCombi_b(ModuleL23):
     """Test module Odin-10G-4S-2P-Combi[b]
     """
+
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
         PORTS_MAP = {
@@ -76,6 +78,6 @@ class MOdin10G4S2PCombi_b(ModuleL23):
             ports_count=self.ports_count
         )
         """Port Index Manager of Odin-10G-4S-2P-Combi[b]
-        
+
         :type: PortsCombiManager
         """

@@ -1,5 +1,5 @@
 from typing import TYPE_CHECKING
-from xoa_driver.internals.core.commands import PF_STRING
+from xoa_driver.internals.commands import PF_STRING
 
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf

@@ -1,0 +1,12 @@
+;XENAPORT
+;FormatVersion: 2
+;Savedby: ValkyrieManager (v1.84.8385.1)
+;Testbed: Default testbed
+;Chassis: 198 S.456, D.38)
+;ChassisSerial: 11144099
+;ModuleModel: M6SFP-E
+;Port: 1/0
+;ModuleSerial: 640829
+;ModuleVersion: 320
+;Global: S+C+T+R+
+C_NAME "Bob"

@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import (
     TypeVar,
     Awaitable,
@@ -11,8 +12,8 @@ from abc import (
     abstractmethod,
 )
 import functools
-from xoa_driver.internals.core.commands import enums
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import enums
+from xoa_driver.internals.commands import (
     C_RESERVATION,
     C_DOWN,
     C_PASSWORD,
@@ -26,12 +27,11 @@ from xoa_driver.internals.core.commands import (
     C_SERIALNO,
     C_RESERVEDBY,
 )
-from xoa_driver.internals.core.transporter import (
-    establish_connection,
-    TransportationHandler,
-)
+from xoa_driver.internals.core.funcs import establish_connection
+from xoa_driver.internals.core.transporter.handler import TransportationHandler
+from xoa_driver.internals.core.transporter.logger import CustomLogger
 
-import xoa_driver.internals.hli_v2.testers._tester_session as session
+from xoa_driver.internals.utils import session
 from xoa_driver.internals.state_storage import testers_state
 
 
@@ -39,13 +39,15 @@ T = TypeVar('T', bound="BaseTester")
 TesterStateStorage = TypeVar('TesterStateStorage', bound="testers_state.TesterLocalState")
 
 
-# TODO: lately update imports to correct style
-# min version = 83.2
+# min version = rel v83.2 eq fw v446.5
 class BaseTester(ABC, Generic[TesterStateStorage]):
-    def __init__(self, host: str, username: str, password: str = "xena", port: int = 22606, *, debug: bool = False) -> None:
+    def __init__(self, host: str, username: str, password: str = "xena", port: int = 22606, *, enable_logging: bool = False, custom_logger: CustomLogger | None = None) -> None:
         self.__host = host
         self.__port = port
-        self._conn = TransportationHandler(debug=debug)
+        self._conn = TransportationHandler(
+            enable_logging=enable_logging,
+            custom_logger=custom_logger
+        )
         self.session = session.TesterSession(
             self._conn,
             username,
@@ -132,7 +134,7 @@ class BaseTester(ABC, Generic[TesterStateStorage]):
 
     async def _setup(self: T) -> T:
         await establish_connection(self._conn, self.__host, self.__port)
-        await self.session
+        await self.session.logon()
         return self
 
     def __is_reservation(self, reserved_status: enums.ReservedStatus) -> bool:

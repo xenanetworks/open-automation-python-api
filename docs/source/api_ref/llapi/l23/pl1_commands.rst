@@ -1,45 +1,12 @@
-Port Layer-1 Classes
+Port Layer-1
 =================================
 
 This module contains the **Layer-1 classes** that mainly deal auto-negotiation and link training on a Freya port.
 
 -------
 
-.. currentmodule:: xoa_driver.internals.core.commands.pl1_commands
-
-
-PL1_AUTONEGINFO
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autoclass:: PL1_AUTONEGINFO
+.. automodule:: xoa_driver.internals.commands.pl1_commands
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
-
-
-PL1_LINKTRAININFO
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autoclass:: PL1_LINKTRAININFO
-    :members:
-    :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
-
-
-PL1_LOG
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autoclass:: PL1_LOG
-    :members:
-    :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
-
-
-PL1_CFG_TMP
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autoclass:: PL1_CFG_TMP
-    :members:
-    :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
+    :exclude-members: __init__
 

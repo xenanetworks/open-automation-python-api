@@ -5,20 +5,19 @@ from typing import (
     Optional,
 )
 from typing_extensions import Self
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     M_STATUS,
     M_UPGRADE,
     M_UPGRADEPROGRESS,
     M_TIMESYNC,
     M_CFPTYPE,
+    M_CFPCONFIGEXT,
     M_COMMENT,
     # M_TIMEADJUSTMENT,
     M_CAPABILITIES,
     M_MEDIASUPPORT,
     M_FPGAREIMAGE,
     M_MULTIUSER,
-    M_CFPCONFIGEXT,
-    M_CFPCONFIG,
     M_CLOCKPPB,
     M_SMAINPUT,
     M_SMAOUTPUT,
@@ -35,7 +34,7 @@ if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
 
 from xoa_driver.internals.utils import attributes as utils
-from xoa_driver.internals.utils import ports_manager as pm
+from xoa_driver.internals.utils.managers import ports_manager as pm
 from xoa_driver.internals.state_storage import modules_state
 
 from .. import base_module as bm
@@ -44,6 +43,7 @@ from .. import __interfaces as m_itf
 
 class TXClock:
     """Advanced timing clock"""
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.source = M_TXCLOCKSOURCE_NEW(conn, module_id)
         """The source that drives the TX clock rate of the ports on the test module.
@@ -53,7 +53,7 @@ class TXClock:
 
         self.status = M_TXCLOCKSTATUS_NEW(conn, module_id)
         """TX clock status of the test module.
-        
+
         :type: M_TXCLOCKSTATUS_NEW
         """
 
@@ -66,6 +66,7 @@ class TXClock:
 
 class SMA:
     """SMA connector"""
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.input = M_SMAINPUT(conn, module_id)
         """SMA input of the test module.
@@ -88,6 +89,7 @@ class SMA:
 
 class AdvancedTiming:
     """Advanced Timing config and control"""
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.clock_tx = TXClock(conn, module_id)
         """Advanced timing clock config and status
@@ -104,6 +106,7 @@ class AdvancedTiming:
 
 class CFP:
     """Test module CFP"""
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.type = M_CFPTYPE(conn, module_id)
         """The transceiver's CFP type currently inserted.
@@ -111,13 +114,7 @@ class CFP:
         :type: M_CFPTYPE
         """
 
-        self.config = M_CFPCONFIG(conn, module_id)
-        """The CFP configuration of the test module.
-
-        :type: M_CFPCONFIG
-        """
-
-        self.config_extended = M_CFPCONFIGEXT(conn, module_id)
+        self.config = M_CFPCONFIGEXT(conn, module_id)
         """The CFP configuration of the test module.
 
         :type: M_CFPCONFIGEXT
@@ -136,7 +133,7 @@ class MTiming:
 
         self.clock_local_adjust = M_CLOCKPPB(conn, module_id)
         """Time adjustment controlling of the local clock of the test module, which drives the TX rate of the test ports.
-        
+
         :type: M_CLOCKPPB
         """
 
@@ -149,6 +146,7 @@ class MTiming:
 
 class MUpgrade:
     """Test module upgrade"""
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.start = M_UPGRADE(conn, module_id)
         """Start the upgrade progress of the test module.
@@ -174,6 +172,7 @@ class ModuleL23(bm.BaseModule["modules_state.ModuleL23LocalState"]):
     This is a conceptual class of L23 test module on a Valkyrie tester.
 
     """
+
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
 
@@ -229,19 +228,19 @@ class ModuleL23(bm.BaseModule["modules_state.ModuleL23LocalState"]):
 
         self.timing = MTiming(conn, self.module_id)
         """Test module's timing configuration.
-        
+
         :type: MTiming
         """
 
         self.advanced_timing = AdvancedTiming(conn, self.module_id)
         """Test module's advanced timing configuration.
-        
+
         :type: AdvancedTiming
         """
 
         self.cfp = CFP(conn, self.module_id)
         """Test module's CFP configuration.
-        
+
         :type: CFP
         """
 
@@ -253,7 +252,7 @@ class ModuleL23(bm.BaseModule["modules_state.ModuleL23LocalState"]):
 
         self.ports: Optional[pm.PortsManager] = None
         """L23 Port Index Manager of the test module.
-        
+
         :type: PortsManager
         """
 
@@ -279,10 +278,7 @@ class ModuleL23(bm.BaseModule["modules_state.ModuleL23LocalState"]):
     on_cfp_type_change = functools.partialmethod(utils.on_event, M_CFPTYPE)
     """Register a callback to the event that the module's CFP type (:class:`M_CFPTYPE`) changes."""
 
-    on_cfp_config_change = functools.partialmethod(utils.on_event, M_CFPCONFIG)
-    """Register a callback to the event that the module's CFP configuration changes."""
-
-    on_cfp_config_extended_change = functools.partialmethod(utils.on_event, M_CFPCONFIGEXT)
+    on_cfp_config_change = functools.partialmethod(utils.on_event, M_CFPCONFIGEXT)
     """Register a callback to the event that the module's CFP configuration changes."""
 
     on_status_change = functools.partialmethod(utils.on_event, M_STATUS)

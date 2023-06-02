@@ -1,7 +1,24 @@
-from .. import protocol
+from __future__ import annotations
 
 
-class EstablishConnectionError(Exception):
+class XoaException(Exception):
+    ...
+
+
+class TransporterException(XoaException):
+    ...
+
+
+class XoaConnectionTimeoutError(XoaException):
+    def __init__(self, host: str, port: int, seconds_timeout: int) -> None:
+        self.host = host
+        self.port = port
+        self.seconds_timeout = seconds_timeout
+        self.msg = f"Can't establish the connect to {host}:{port}, in period of {seconds_timeout} sec."
+        super().__init__(self.msg)
+
+
+class XoaConnectionError(XoaException):
     def __init__(self, host: str, port: int) -> None:
         self.host = host
         self.port = port
@@ -9,39 +26,19 @@ class EstablishConnectionError(Exception):
         super().__init__(self.msg)
 
 
-class BadStatus(Exception):
-    def __init__(self, response: protocol.Response) -> None:
-        self.msg = f"Bad status {response.command_status!r} of {response.class_name}!\n{response}"
-        self.response = response
-        super().__init__(self.msg)
-
-
-class NotImplementedCommand(Exception):
-    def __init__(self, header: protocol.ResponseHeader) -> None:
-        self.msg = f"Server sending command which is not implemented {header.cmd_code}."
-        self.response_header = header
-        super().__init__(self.msg)
-
-
-class RepeatedRequestID(Exception):
-    def __init__(self, header: protocol.ResponseHeader) -> None:
+class RepeatedRequestID(TransporterException):
+    def __init__(self, request_identifier: int,) -> None:
         self.msg = f"""
-        Got repeated request id {header.request_identifier}, {header}.
+        Got repeated request id {request_identifier}.
         This is a bug of xenaserver returning the same request identifier twice.
         """
-        self.response_header = header
+        self.request_identifier = request_identifier
         super().__init__(self.msg)
 
 
-class LostFuture(Exception):
-    def __init__(self, response: protocol.Response) -> None:
-        self.msg = f"Lost Future {response.header.request_identifier} {response.class_name}."
-        self.response = response
+class XoaLostFuture(XoaException):
+    def __init__(self, req_id: int, cls_name: str) -> None:
+        self.req_id = req_id
+        self.cls_name = cls_name
+        self.msg = f"Command was sent but the response handler was not registered {req_id} {cls_name}."
         super().__init__(self.msg)
-
-
-# class TooShortData(Exception):
-#     def __init__(self, data: bytes) -> None:
-#         self.data = data
-#         self.msg = f"{data} is too short."
-#         super().__init__(self.msg)
