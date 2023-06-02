@@ -2,7 +2,7 @@ TX Statistics
 =========================
 
 TX Clear Counter
--------------
+----------------
 
 .. code-block:: python
 
@@ -10,7 +10,7 @@ TX Clear Counter
 
 
 TX Total Counter
---------------
+----------------
 
 .. code-block:: python
 
@@ -18,7 +18,7 @@ TX Total Counter
 
 
 TX Non-TPLD Counter
------------------
+-------------------
 
 .. code-block:: python
 
@@ -26,7 +26,7 @@ TX Non-TPLD Counter
 
 
 TX Extra Counter
--------------
+----------------
 
 .. code-block:: python
 
@@ -34,7 +34,7 @@ TX Extra Counter
 
 
 TX Stream Counter
----------------
+-----------------
 
 .. code-block:: python
 

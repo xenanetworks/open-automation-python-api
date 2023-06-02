@@ -2,7 +2,7 @@ RX Statistics
 =========================
 
 RX Clear Counter
--------------
+--------------------
 
 .. code-block:: python
 
@@ -10,7 +10,7 @@ RX Clear Counter
 
 
 RX Calibrate
--------------
+--------------------
 
 .. code-block:: python
 
@@ -18,7 +18,7 @@ RX Calibrate
 
 
 RX Total Counter
--------------
+--------------------
 
 .. code-block:: python
 
@@ -26,7 +26,7 @@ RX Total Counter
 
 
 RX Non-TPLD Counter
------------------
+--------------------
 
 .. code-block:: python
 
@@ -34,7 +34,7 @@ RX Non-TPLD Counter
 
 
 RX PFC Counter
--------------
+--------------------
 
 .. code-block:: python
 
@@ -42,7 +42,7 @@ RX PFC Counter
 
 
 RX Extra Counter
--------------
+--------------------
 
 .. code-block:: python
 
@@ -50,7 +50,7 @@ RX Extra Counter
 
 
 RX UAT Status
--------------
+--------------------
 
 .. code-block:: python
 
@@ -74,7 +74,7 @@ Received TPLDs
 
 
 RX TPLD - Error Counter
---------------------
+-----------------------
 
 .. code-block:: python
 
@@ -82,7 +82,7 @@ RX TPLD - Error Counter
 
 
 RX TPLD - Latency Counter
------------------------
+-------------------------
 
 .. code-block:: python
 
@@ -90,7 +90,7 @@ RX TPLD - Latency Counter
 
 
 RX TPLD - Jitter Counter
------------------------
+------------------------
 
 .. code-block:: python
 
@@ -98,7 +98,7 @@ RX TPLD - Jitter Counter
 
 
 RX TPLD - Traffic Counter
------------------------
+-------------------------
 
 .. code-block:: python
 
