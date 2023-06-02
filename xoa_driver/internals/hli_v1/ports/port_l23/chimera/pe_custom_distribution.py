@@ -4,7 +4,7 @@ from typing import (
 )
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     PEC_INDICES,
     PEC_VAL,
     PEC_COMMENT,
@@ -26,19 +26,19 @@ class CustomDistribution:
         self.__cdi = custom_distribution_index
         self.definition = PEC_VAL(conn, module_id, port_id, custom_distribution_index)
         """Custom distribution definition.
-        
+
         :type: PEC_VAL
         """
 
         self.comment = PEC_COMMENT(conn, module_id, port_id, custom_distribution_index)
         """Custom distribution description.
-        
+
         :type: PEC_COMMENT
         """
 
         self.type = PEC_DISTTYPE(conn, module_id, port_id, custom_distribution_index)
         """Custom distribution type.
-        
+
         :type: PEC_DISTTYPE
         """
 
@@ -82,7 +82,7 @@ class CustomDistributions:
                 self.__port_id,
                 idx
             )
-            for idx in _resp.indices
+            for idx in _resp.indexations
         ]
 
     def __len__(self) -> int:

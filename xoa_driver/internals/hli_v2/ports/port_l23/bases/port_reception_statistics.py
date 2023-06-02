@@ -5,7 +5,7 @@ from typing import (
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
 
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     PR_TPLDJITTER,
     PR_TOTAL,
     PR_NOTPLD,

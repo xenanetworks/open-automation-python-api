@@ -1,14 +1,13 @@
-from typing import (
-    TYPE_CHECKING,
-    List,
-)
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
 from enum import (
     Enum,
     auto
 )
-from xoa_driver.internals.core.commands import enums
+from xoa_driver.internals.commands import enums
 if TYPE_CHECKING:
-    from xoa_driver.internals.core.commands import P_CAPABILITIES
+    from xoa_driver.internals.commands import P_CAPABILITIES
 
 
 class EPortInterfaceSubtype(Enum):
@@ -51,21 +50,21 @@ class SpeedDetector:
             EPortInterfaceSubtype.Single
         }
 
-    def __define_single(self) -> List[enums.PortSpeedMode]:
-        if "T1S" in self.interface:
-            return [
-                enums.PortSpeedMode.AUTO,
-                enums.PortSpeedMode.F100M,
-                enums.PortSpeedMode.F1G,
-            ]
-        return []
+    def __define_single(self) -> list[enums.PortSpeedMode]:
+        if "T1S" not in self.interface:
+            return []
+        return [
+            enums.PortSpeedMode.AUTO,
+            enums.PortSpeedMode.F100M,
+            enums.PortSpeedMode.F1G,
+        ]
 
-    def __define_dual(self) -> List[enums.PortSpeedMode]:
+    def __define_dual(self) -> list[enums.PortSpeedMode]:
         if "T1" in self.interface:
             return [enums.PortSpeedMode.F10MHDX, ]
         return []
 
-    def __define_triple(self) -> List[enums.PortSpeedMode]:
+    def __define_triple(self) -> list[enums.PortSpeedMode]:
         if self.interface.startswith("SFP"):
             if self.capabilities.max_speed == 1_000:
                 return [
@@ -96,7 +95,7 @@ class SpeedDetector:
             ]
         return []
 
-    def __define_quint(self) -> List[enums.PortSpeedMode]:
+    def __define_quint(self) -> list[enums.PortSpeedMode]:
         speeds = [
             enums.PortSpeedMode.AUTO,
             enums.PortSpeedMode.F100M,
@@ -110,7 +109,7 @@ class SpeedDetector:
             speeds.append(enums.PortSpeedMode.F10G)
         return speeds
 
-    def find_port_possible_speed(self) -> List[enums.PortSpeedMode]:
+    def find_port_possible_speed(self) -> list[enums.PortSpeedMode]:
         if not self.can_set_port_speed:
             return []
         define_func = {

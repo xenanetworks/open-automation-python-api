@@ -6,7 +6,7 @@ from typing import (
     TYPE_CHECKING,
 )
 
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     P4G_INDICES,
     P4G_CREATE,
     P4G_DELETE,

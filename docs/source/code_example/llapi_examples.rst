@@ -55,7 +55,7 @@ Setting
 
 .. note::
     
-    Reservation is required to do ``set`` to: :doc:`Testers <../api_ref/hlapiv1/testers>`, :doc:`Modules <../api_ref/hlapiv1/modules>`, and :doc:`Ports <../api_ref/hlapiv1/ports>`. 
+    Reservation is required to do ``set`` to: `Testers`, `Modules`, and `Ports`. 
 
 .. literalinclude:: ll/setting_parameters.py
     :caption: Configure port

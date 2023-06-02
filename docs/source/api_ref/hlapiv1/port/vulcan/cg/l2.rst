@@ -1,0 +1,63 @@
+L2
+=========================
+
+.. note::
+
+    Applicable to Vulcan port only.
+
+    
+ARP Resolution
+--------------
+
+.. code-block:: python
+
+    await cg.l2.address_resolve.set_no()
+    await cg.l2.address_resolve.set_yes()
+    await cg.l2.address_resolve.get()
+
+
+Use Gateway MAC as DMAC
+-----------------------
+
+.. code-block:: python
+
+    await cg.l2.gateway.use.set_yes()
+    await cg.l2.gateway.use.set_no()
+    await cg.l2.gateway.use.get()
+
+
+Gateway Config
+-----------------------
+
+.. code-block:: python
+
+    await cg.l2.gateway.ipv4.set()
+    await cg.l2.gateway.ipv4.get()
+
+    await cg.l2.gateway.ipv6.set()
+    await cg.l2.gateway.ipv6.get()
+
+
+MAC Address
+----------------------------
+
+.. code-block:: python
+
+    await cg.l2.mac.client.set()
+    await cg.l2.mac.client.get()
+
+    await cg.l2.mac.server.set()
+    await cg.l2.mac.server.get()
+
+
+VLAN Settings
+--------------
+
+.. code-block:: python
+
+    await cg.l2.vlan.enable.set_on()
+    await cg.l2.vlan.enable.set_off()
+    await cg.l2.vlan.enable.get()
+
+    await cg.l2.vlan.tci.set()
+    await cg.l2.vlan.tci.get()

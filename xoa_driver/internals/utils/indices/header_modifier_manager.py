@@ -6,10 +6,9 @@ from typing import (
     TypeVar,
     TYPE_CHECKING,
 )
-import dataclasses
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
-    from xoa_driver.internals.core.commands import (
+    from xoa_driver.internals.commands import (
         PS_MODIFIERCOUNT,
         PS_MODIFIEREXTCOUNT
     )
@@ -28,7 +27,7 @@ class ModifiersManager(Generic[MT]):
         self.__items: List[MT] = []
 
     async def _populate(self) -> None:
-        count = dataclasses.astuple(await self._count.get())[0]  # modifier_count or ext_modifier_count
+        count = (await self._count.get()).to_tuple()[0]  # modifier_count or ext_modifier_count
         self.__items = [
             self.__modifier_type(
                 self.__conn,

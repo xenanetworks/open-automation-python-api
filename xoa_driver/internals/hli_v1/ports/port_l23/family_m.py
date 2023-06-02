@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 
-from xoa_driver.internals.core.commands import P_BRRMODE
+from xoa_driver.internals.commands import P_BRRMODE
 
 from .bases.port_l23_genuine import BasePortL23Genuine
 

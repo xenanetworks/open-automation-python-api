@@ -2,7 +2,7 @@ import functools
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     P_FLASH,
     P_SPEEDSELECTION,
     P_SPEEDS_SUPPORTED,

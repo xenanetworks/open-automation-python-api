@@ -76,7 +76,7 @@ source_suffix = '.rst'
 
 # If true, figures, tables and code-blocks are automatically numbered if they have a caption. 
 # The numref role is enabled. Obeyed so far only by HTML and LaTeX builders. Default is False.
-numfig = True
+numfig = False
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -143,7 +143,7 @@ autodoc_inherit_docstrings = True
 # They are applied to all autodoc directives automatically. 
 # It must be a dictionary which maps option names to the values.
 autodoc_default_options = {
-    'member-order': 'bysource',
+    'member-order': 'alphabetical',
     'private-members': False,
     'undoc-members': False,
     'show-inheritance': True
@@ -175,7 +175,7 @@ autosummary_generate_overwrite = False
 # -- Options for HTML output -----------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.
-html_theme = 'sphinx_book_theme'
+html_theme = 'furo'
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'xoa_driver_doc'
@@ -185,7 +185,7 @@ htmlhelp_basename = 'xoa_driver_doc'
 html_title = title
 
 # The path to the HTML logo image in the static path, or URL to the logo, or ''.
-html_logo = './_static/xoa_logo.png'
+# html_logo = './_static/xoa_logo.png'
 
 html_favicon = './_static/xoa_favicon_16.png'
 
@@ -201,12 +201,14 @@ html_show_copyright = True
 html_show_sphinx = False
 
 html_theme_options = {
-    "repository_url": "https://github.com/xenanetworks/open-automation-python-api",
-    "use_repository_button": True,
-    "home_page_in_toc": True,
-    "show_toc_level": 2,
-    "use_download_button": True,
-    "show_navbar_depth": 1
+    "light_logo": "xoa_logo_light.png",
+    "dark_logo": "xoa_logo_dark.png",
+    "source_repository": "https://github.com/xenanetworks/open-automation-python-api",
+    "light_css_variables": {
+        "color-brand-primary": "#295341",
+        "color-brand-content": "#295341",
+    },
+    "navigation_with_keys": True,
 }
 
 # If true, the index is generated twice: once as a single page with all the entries, 

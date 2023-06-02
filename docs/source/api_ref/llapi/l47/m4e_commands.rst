@@ -1,29 +1,12 @@
-Packet Engine Classes (Module Level)
+Module Packet Engine 
 ======================================
 
 This module contains the **L47 module packet engine classes**.
 
 -------
 
-.. currentmodule:: xoa_driver.internals.core.commands.m4e_commands
-
-
-M4E_MODE
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autoclass:: M4E_MODE
+.. automodule:: xoa_driver.internals.commands.m4e_commands
     :members:
     :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
-
-
-M4E_RESERVE
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autoclass:: M4E_RESERVE
-    :members:
-    :no-undoc-members:
-    :exclude-members: GetDataAttr, SetDataAttr
-
-
+    :exclude-members: GetDataAttr, SetDataAttr, __init__
 

@@ -4,9 +4,9 @@ from dataclasses import (
     dataclass,
     field,
 )
-from xoa_driver.internals.core.transporter import funcs
-from xoa_driver.internals.core.commands import enums
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.core import funcs
+from xoa_driver.internals.commands import enums
+from xoa_driver.internals.commands import (
     M_MODEL,
     M_RESERVATION,
     M_RESERVEDBY,
@@ -46,7 +46,7 @@ class ModuleLocalState:
 
     def register_subscriptions(self, module) -> None:
         module._conn.subscribe(M_RESERVEDBY, utils.Update(self, "reserved_by", "username", module._check_identity))
-        module._conn.subscribe(M_RESERVATION, utils.Update(self, "reservation", "operation", module._check_identity, format=lambda a: enums.ReservedStatus(a)))
+        module._conn.subscribe(M_RESERVATION, utils.Update(self, "reservation", "operation", module._check_identity))
         module._conn.subscribe(M_MODEL, utils.Update(self, "model", "model", module._check_identity))
 
 
@@ -121,7 +121,7 @@ class ModuleL23LocalState(ModuleLocalState):
             M_MEDIASUPPORT(module._conn, module.module_id).get(),
             super().initiate(module)
         )
-        self.media_info_list = m_support_resp.media_info_list  # type: ignore
+        self.media_info_list = m_support_resp.media_info_list
 
     def register_subscriptions(self, module) -> None:
         super().register_subscriptions(module)

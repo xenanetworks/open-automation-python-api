@@ -5,7 +5,7 @@ from typing import (
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
 
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     PR_TPLDJITTER,
     PR_TOTAL,
     PR_NOTPLD,
@@ -37,7 +37,7 @@ class PrsTPLD:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, tpld_idx: int) -> None:
         self.traffic = PR_TPLDTRAFFIC(conn, module_id, port_id, tpld_idx)
         """L23 port's statistics of traffic with TPLD.
-        
+
         :type: PR_TPLDTRAFFIC
         """
 
@@ -49,19 +49,19 @@ class PrsTPLD:
 
         self.errors = PR_TPLDERRORS(conn, module_id, port_id, tpld_idx)
         """L23 port's error statistics of traffic with TPLD.
-        
+
         :type: PR_TPLDERRORS
         """
 
         self.latency = PR_TPLDLATENCY(conn, module_id, port_id, tpld_idx)
         """L23 port's latency statistics of traffic with TPLD.
-        
+
         :type: PR_TPLDLATENCY
         """
 
         self.jitter = PR_TPLDJITTER(conn, module_id, port_id, tpld_idx)
         """L23 port's jitter statistics of traffic with TPLD.
-        
+
         :type: PR_TPLDJITTER
         """
 
@@ -78,7 +78,7 @@ class PortReceptionStatistics:
 
         self.total = PR_TOTAL(conn, module_id, port_id)
         """L23 port's total traffic statistics.
-        
+
         :type: PR_TOTAL
         """
 
@@ -90,7 +90,7 @@ class PortReceptionStatistics:
 
         self.no_tpld = PR_NOTPLD(conn, module_id, port_id)
         """L23 port's statistics of traffic without TPLD.
-        
+
         :type: PR_NOTPLD
         """
 
@@ -102,17 +102,17 @@ class PortReceptionStatistics:
 
         self.extra = PR_EXTRA(conn, module_id, port_id)
         """L23 port's extra traffic statistics.
-        
+
         :type: PR_EXTRA
         """
         self.pfc_stats = PR_PFCSTATS(conn, module_id, port_id)
         """L23 port's statistics of received PFC packets.
-        
+
         :type: PR_PFCSTATS
         """
         self.clear = PR_CLEAR(conn, module_id, port_id)
         """Clear all RX statistics on the L23 port.
-        
+
         :type: PR_CLEAR
         """
 
@@ -177,13 +177,13 @@ class GPrsUat():
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.status = PR_UAT_STATUS(conn, module_id, port_id)
         """L23 port UAT status.
-        
+
         :type: PR_UAT_STATUS
         """
 
         self.time = PR_UAT_TIME(conn, module_id, port_id)
         """L23 port number of unavailable seconds.
-        
+
         :type: PR_UAT_TIME
         """
 
@@ -195,7 +195,7 @@ class GenuinePortReceptionStatistics(PortReceptionStatistics):
         super().__init__(conn, module_id, port_id)
         self.calibrate = PR_CALIBRATE(conn, module_id, port_id)
         """L23 port calibration of latency for received packets.
-        
+
         :type: PR_CALIBRATE
         """
 

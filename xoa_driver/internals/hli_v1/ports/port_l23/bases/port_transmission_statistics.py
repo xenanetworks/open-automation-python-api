@@ -5,7 +5,7 @@ from typing import (
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
     from xoa_driver.internals.hli_v1.indices.streams.genuine_stream import GenuineStreamIdx
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     PT_TOTAL,
     PT_NOTPLD,
     PT_STREAM,

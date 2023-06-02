@@ -2,7 +2,7 @@ import functools
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     P_FLASH,
     P_SPEEDSELECTION,
     P_SPEEDS_SUPPORTED,
@@ -41,13 +41,13 @@ class SpeedMode:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.selection = P_SPEEDSELECTION(conn, module_id, port_id)
         """L23 port speed mode selection.
-        
+
         :type: P_SPEEDSELECTION
         """
 
         self.supported = P_SPEEDS_SUPPORTED(conn, module_id, port_id)
         """L23 port's supported speed modes.
-        
+
         :type: P_SPEEDS_SUPPORTED
         """
 
@@ -65,13 +65,13 @@ class UnAvailableTime:
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         self.mode = P_UAT_MODE(conn, module_id, port_id)
         """L23 port's Unavailable Time mode.
-        
+
         :type: P_UAT_MODE
         """
 
         self.frame_loss_ratio = P_UAT_FLR(conn, module_id, port_id)
         """L23 port's Frame Loss Ratio for UAT.
-        
+
         :type: P_UAT_FLR
         """
 
@@ -97,31 +97,31 @@ class BasePortL23Genuine(BasePortL23):
 
         self.flash = P_FLASH(conn, module_id, port_id)
         """L23 port flashes.
-        
+
         :type: P_FLASH
         """
 
         self.status = P_STATUS(conn, module_id, port_id)
         """L23 port's received optical signal level'.
-        
+
         :type: P_STATUS
         """
 
         self.config_load_mode = P_LOADMODE(conn, module_id, port_id)
         """Chimera Port loading mode.
-        
+
         :type: P_LOADMODE
         """
 
         self.tcvr_status = P_TCVRSTATUS(conn, module_id, port_id)
         """L23 port transceiver status information.
-        
+
         :type: P_TCVRSTATUS
         """
 
         self.fec_mode = PP_FECMODE(conn, module_id, port_id)
         """L23 port FEC mode.
-        
+
         :type: PP_FECMODE
         """
 

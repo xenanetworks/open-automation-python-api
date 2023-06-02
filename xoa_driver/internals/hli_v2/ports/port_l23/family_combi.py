@@ -1,5 +1,5 @@
 from typing import TYPE_CHECKING
-from xoa_driver.internals.core.commands import P_AUTONEGSELECTION
+from xoa_driver.internals.commands import P_AUTONEGSELECTION
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
 

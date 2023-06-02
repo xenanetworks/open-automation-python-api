@@ -1,8 +1,9 @@
 #: Other types which are used by ports or as a parameter to attribute set method.
 
 
-from .internals.core.transporter.token import Token
-from .internals.core.commands.subtypes import (
+from .internals.core.token import Token
+from .internals.core.transporter.protocol.payload.types import Hex
+from .internals.commands.subtypes import (
     ArpChunk,
     NdpChunk,
 )
@@ -28,6 +29,7 @@ from .internals.hli_v1.ports.port_l23.chimera.filter_definition.general import M
 
 __all__ = (
     "Token",
+    "Hex",
     "ArpChunk",
     "NdpChunk",
     "ConnectionGroup",

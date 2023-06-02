@@ -5,7 +5,7 @@ from typing import (
 from typing_extensions import Self
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     PP_ALARMS_ERRORS,
     PP_TXLANECONFIG,
     PP_TXLANEINJECT,
@@ -299,6 +299,11 @@ class Prbs:
         self.status = PP_RXPRBSSTATUS(conn, module_id, port_id, serdes_xindex)
         """RX PRBS status on a SerDes
         Representation of PP_RXPRBSSTATUS
+        """
+
+        self.config = PRBSConfig(conn, module_id, port_id)
+        """
+        L23 high-speed port PRBS configuration.
         """
 
 

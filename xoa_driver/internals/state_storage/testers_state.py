@@ -3,15 +3,17 @@ from typing import (
     Optional,
     Final,
 )
-
-from xoa_driver.internals.core.transporter import funcs
-from xoa_driver.internals.core.commands import enums
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.core import funcs
+from xoa_driver.internals.commands import enums
+from xoa_driver.internals.commands import (
     C_RESERVATION,
     C_CAPABILITIES,
     C_RESERVEDBY,
 )
 from xoa_driver.internals.utils import attributes as utils
+from xoa_driver.internals.exceptions.testers import UnsupportedFirmwareError
+
+MIN_SUPPORTED_VERSION = 446.5
 
 
 class TesterLocalState:
@@ -66,12 +68,12 @@ class TesterLocalState:
         self.driver_version = v_major_res.pci_driver_version
         self.version_major = v_major_res.chassis_major_version
         self.serial_number = serial_res.serial_number
-        self.reservation = enums.ReservedStatus(reservation_resp.operation)
+        self.reservation = reservation_resp.operation
         self.capabilities = capabilities_resp
 
     def register_subscriptions(self, tester) -> None:
         tester._conn.subscribe(C_RESERVEDBY, utils.Update(self, "reserved_by", "username"))
-        tester._conn.subscribe(C_RESERVATION, utils.Update(self, "reservation", "operation", format=lambda a: enums.ReservedStatus(a)))
+        tester._conn.subscribe(C_RESERVATION, utils.Update(self, "reservation", "operation"))
 
 
 class GenuineTesterLocalState(TesterLocalState):
@@ -82,15 +84,21 @@ class GenuineTesterLocalState(TesterLocalState):
     :param port: the port number for connection establishment
     :type port: int
     """
-    __slots__ = ("build_string",)
+    __slots__ = ("build_string", "version_minor")
 
     def __init__(self, host: str, port: int) -> None:
         super().__init__(host, port)
         self.build_string: str = ""
+        self.version_minor: int = 0
 
     async def initiate(self, tester) -> None:
-        bs, _ = await asyncio.gather(
+        bs, v_minor, _ = await asyncio.gather(
             tester.build_string.get(),
+            tester.version_no_minor.get(),
             super().initiate(tester)
         )
         self.build_string = bs.build_string
+        self.version_minor = v_minor.chassis_minor_version
+        current_version = float(f"{self.version_major}.{self.version_minor}")
+        if current_version < MIN_SUPPORTED_VERSION:
+            raise UnsupportedFirmwareError(current_version)

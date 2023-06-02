@@ -1,5 +1,5 @@
 from typing import NoReturn, TypeVar
-from xoa_driver.internals.core.commands.enums import FilterType
+from xoa_driver.internals.commands.enums import FilterType
 
 T = TypeVar("T")
 

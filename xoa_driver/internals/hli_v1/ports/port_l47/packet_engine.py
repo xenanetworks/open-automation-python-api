@@ -1,5 +1,5 @@
 from xoa_driver.internals.core import interfaces as itf
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     P4E_ASSIGN,
     P4E_AVAILABLE,
     P4E_ALLOCATE,

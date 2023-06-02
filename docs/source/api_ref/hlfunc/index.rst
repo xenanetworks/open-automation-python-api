@@ -1,4 +1,4 @@
-High-Level Functions
+🎨 High-Level Functions
 ===============================
 
 HL-FUNC provides high-level abstraction functions on top of the object-oriented HL-API, aiming to help you simplify code logics and increase readability and maintainability.

@@ -1,0 +1,88 @@
+L3
+==========================
+
+.. note::
+
+    Applicable to Chimera port only.
+
+
+Type
+-------------------
+
+.. code-block:: python
+
+    await filter.l3_use.set_ip4()
+    await filter.l3_use.set_ip6()
+    await filter.l3_use.set_na()
+    await filter.l3_use.get()
+
+IPv4 DST
+-------------------
+
+.. code-block:: python
+
+    await filter.ip.v4.dest_address.set_on()
+    await filter.ip.v4.dest_address.set_off()
+    await filter.ip.v4.dest_address.get()
+
+IPv4 SRC
+-------------------
+
+.. code-block:: python
+
+    await filter.ip.v4.src_address.set_on()
+    await filter.ip.v4.src_address.set_off()
+    await filter.ip.v4.src_address.get()
+
+IPv4 DSCP
+-------------------
+
+.. code-block:: python
+
+    await filter.ip.v4.dscp.set_on()
+    await filter.ip.v4.dscp.set_off()
+    await filter.ip.v4.dscp.get()
+
+IPv4 Settings
+-------------------
+
+.. code-block:: python
+    
+    await filter.ip.v4.settings.set()
+    await filter.ip.v4.settings.get()
+
+
+IPv6 DST
+-------------------
+
+.. code-block:: python
+
+    await filter.ip.v6.dest_address.set_on()
+    await filter.ip.v6.dest_address.set_off()
+    await filter.ip.v6.dest_address.get()
+
+IPv6 SRC
+-------------------
+
+.. code-block:: python
+
+    await filter.ip.v6.src_address.set_on()
+    await filter.ip.v6.src_address.set_off()
+    await filter.ip.v6.src_address.get()
+
+IPv6 Traffic Class
+-------------------
+
+.. code-block:: python
+
+    await filter.ip.v6.traffic_class.set_on()
+    await filter.ip.v6.traffic_class.set_off()
+    await filter.ip.v6.traffic_class.get()
+
+IPv6 Settings
+-------------------
+
+.. code-block:: python
+    
+    await filter.ip.v6.settings.set()
+    await filter.ip.v6.settings.get()

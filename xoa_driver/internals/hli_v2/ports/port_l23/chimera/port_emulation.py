@@ -2,14 +2,13 @@ from typing import (
     TYPE_CHECKING,
     Tuple,
 )
-from dataclasses import astuple
-from xoa_driver.internals.core.commands.enums import ImpairmentTypeIndex
-from xoa_driver.internals.core.commands.ped_commands import PED_ENABLE, PED_ONESHOTSTATUS, PED_SCHEDULE
+from xoa_driver.internals.commands.enums import ImpairmentTypeIndex
+from xoa_driver.internals.commands.ped_commands import PED_ENABLE, PED_ONESHOTSTATUS, PED_SCHEDULE
 
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
 
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     PE_FCSDROP,
     PE_TPLDMODE,
     PE_COMMENT,
@@ -189,10 +188,10 @@ class ChimeraPE:
         return self._setup().__await__()
 
     async def _setup(self) -> None:
-        indices = astuple(await PE_INDICES(self._conn, self.module_id, self.port_id).get())
+        indices = await PE_INDICES(self._conn, self.module_id, self.port_id).get()
         self.flow = tuple(
             CFlow(self._conn, self.module_id, self.port_id, idx)
-            for idx in indices
+            for idx in indices.to_tuple()
         )
 
 
@@ -290,7 +289,7 @@ class CCorruptionImpairment:
         Representation of PED_ONESHOTSTATUS
         """
 
-        self.enable = PED_ENABLE(conn, module_id, port_id, flow_index, ImpairmentTypeIndex.DROP)
+        self.enable = PED_ENABLE(conn, module_id, port_id, flow_index, ImpairmentTypeIndex.CORRUPTION)
         """Impairment distribution control.
         Representation of PED_ENABLE
         """
@@ -315,7 +314,7 @@ class CMisorderingImpairment:
         Representation of PED_ONESHOTSTATUS
         """
 
-        self.enable = PED_ENABLE(conn, module_id, port_id, flow_index, ImpairmentTypeIndex.DROP)
+        self.enable = PED_ENABLE(conn, module_id, port_id, flow_index, ImpairmentTypeIndex.MISORDER)
         """Impairment distribution control.
         Representation of PED_ENABLE
         """
@@ -341,7 +340,7 @@ class CLatencyJitterImpairment:
         Representation of PED_ONESHOTSTATUS
         """
 
-        self.enable = PED_ENABLE(conn, module_id, port_id, flow_index, ImpairmentTypeIndex.DROP)
+        self.enable = PED_ENABLE(conn, module_id, port_id, flow_index, ImpairmentTypeIndex.LATENCYJITTER)
         """Impairment distribution control.
         Representation of PED_ENABLE
         """
@@ -362,7 +361,7 @@ class CDuplicationImpairment:
         Representation of PED_ONESHOTSTATUS
         """
 
-        self.enable = PED_ENABLE(conn, module_id, port_id, flow_index, ImpairmentTypeIndex.DROP)
+        self.enable = PED_ENABLE(conn, module_id, port_id, flow_index, ImpairmentTypeIndex.DUPLICATION)
         """Impairment distribution control.
         Representation of PED_ENABLE
         """

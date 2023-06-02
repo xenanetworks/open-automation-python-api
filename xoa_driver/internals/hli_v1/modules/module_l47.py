@@ -2,7 +2,7 @@ import asyncio
 import functools
 import typing
 from typing_extensions import Self
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     M_LICENSE_DEMO_INFO,
     M_LICENSE_MAINTENANCE_INFO,
     M_LICENSE_CWB_DETECTED,
@@ -39,7 +39,7 @@ from xoa_driver.internals.core.commands import (
 )
 from xoa_driver.internals.hli_v1 import revisions
 from xoa_driver.internals.utils import attributes as utils
-from xoa_driver.internals.utils import ports_manager as pm
+from xoa_driver.internals.utils.managers import ports_manager as pm
 from xoa_driver.internals.state_storage import modules_state
 from xoa_driver import ports
 from . import base_module as bm
@@ -52,6 +52,7 @@ class License:
     """
     License management of a Vulcan tester.
     """
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.demo_info = M_LICENSE_DEMO_INFO(conn, module_id)
         """
@@ -107,6 +108,7 @@ class CaptureParse:
     """
     Parse a captured pcap file.
     """
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.start = M4_REPLAY_PARSE_START(conn, module_id)
         """
@@ -141,6 +143,7 @@ class ReplayFile:
     """
     The pcap files to replay.
     """
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.list_bson = M4_REPLAY_FILE_LIST_BSON(conn, module_id)
         """
@@ -168,11 +171,12 @@ class Replay:
     """
     PCAP replay settings and control.
     """
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.file = ReplayFile(conn, module_id)
         """
         Replay file settings and control.
-        
+
         :type: ReplayFile
         """
 
@@ -181,6 +185,7 @@ class Capture:
     """
     Captured pcap file settings and control.
     """
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.size = M4_CAPTURE_SIZE(conn, module_id)
         """
@@ -213,7 +218,7 @@ class Capture:
         self.parse = CaptureParse(conn, module_id)
         """
         Capture file parser settings.
-        
+
         :type: CaptureParse
         """
 
@@ -222,6 +227,7 @@ class PacketEngine:
     """
     Packet engine.
     """
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.license_info = M4_LICENSE_INFO(conn, module_id)
         """
@@ -249,6 +255,7 @@ class ModuleSystem:
     """
     L47 module info.
     """
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.id = M4_SYSTEMID(conn, module_id)
         """
@@ -276,6 +283,7 @@ class ModuleL47(bm.BaseModule["modules_state.ModuleLocalState"]):
     """
     This is a conceptual class of L47 test module on a Vulcan tester.
     """
+
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
 
@@ -318,31 +326,31 @@ class ModuleL47(bm.BaseModule["modules_state.ModuleLocalState"]):
 
         self.module_system = ModuleSystem(conn, self.module_id)
         """L47 module info.
-        
+
         :type: ModuleSystem
         """
 
         self.license = License(conn, self.module_id)
         """L47 license management.
-        
+
         :type: License
         """
 
         self.replay = Replay(conn, self.module_id)
         """L47 pcap replay.
-        
+
         :type: Replay
         """
-        
+
         self.capture = Capture(conn, self.module_id)
         """L47 capture to pcap files.
-        
+
         :type: Capture
         """
 
         self.packet_engine = PacketEngine(conn, self.module_id)
         """L47 packet engine.
-        
+
         :type: ~xoa_driver.internals.hli_v1.modules.module_l47.PacketEngine
         """
 
@@ -354,7 +362,7 @@ class ModuleL47(bm.BaseModule["modules_state.ModuleLocalState"]):
         )
         """
         L47 Port index manager of this test module.
-        
+
         :type: PortsManager
         """
 
@@ -365,7 +373,7 @@ class ModuleL47(bm.BaseModule["modules_state.ModuleLocalState"]):
         :return: the module's local state
         :rtype: ModuleLocalState
         """
-        
+
         return self._local_states
 
     async def _setup(self) -> Self:

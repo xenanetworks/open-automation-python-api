@@ -17,3 +17,4 @@
 .pyenv
 **/.DS_Store
 .python-version
+dev*.py

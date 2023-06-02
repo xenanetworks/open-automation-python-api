@@ -1,14 +1,14 @@
 import typing
 from xoa_driver.v2 import ports
 from xoa_driver.internals.hli_v2 import revisions
-from xoa_driver.internals.utils import ports_manager as pm
+from xoa_driver.internals.utils.managers import ports_manager as pm
 
 if typing.TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
     from .. import __interfaces as m_itf
 
 from .module_l23_base import ModuleL23
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     M_CLOCKPPBSWEEP,
     M_CLOCKSWEEPSTATUS,
 )

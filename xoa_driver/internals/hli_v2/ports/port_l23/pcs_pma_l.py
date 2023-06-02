@@ -4,7 +4,7 @@ from typing import (
 )
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
-from xoa_driver.internals.core.commands import (
+from xoa_driver.internals.commands import (
     PP_AUTONEG,
     PP_AUTONEGSTATUS,
     PP_LINKTRAIN,
