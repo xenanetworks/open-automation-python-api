@@ -6,6 +6,7 @@ from xoa_driver.internals.commands.subtypes import (
     ArpChunk,
     NdpChunk,
 )
+from xoa_driver.internals.core.transporter.protocol.payload.types import Hex
 
 # indices types
 from xoa_driver.internals.hli_v2.indices.connection_group.cg import ConnectionGroupIdx as ConnectionGroup
@@ -25,6 +26,7 @@ __all__ = (
     "Token",
     "ArpChunk",
     "NdpChunk",
+    "Hex",
     "ConnectionGroup",
     "BasePortFilter",
     "GenuinePortFilter",
