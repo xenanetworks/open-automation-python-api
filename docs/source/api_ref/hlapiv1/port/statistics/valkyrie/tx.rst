@@ -1,7 +1,7 @@
 TX Statistics
 =========================
 
-TX Clear Counter
+Clear Counter
 -------------
 
 .. code-block:: python
@@ -9,7 +9,7 @@ TX Clear Counter
     await port.statistics.tx.clear.set()
 
 
-TX Total Counter
+Total Counter
 --------------
 
 .. code-block:: python
@@ -17,7 +17,7 @@ TX Total Counter
     await port.statistics.tx.total.get()
 
 
-TX Non-TPLD Counter
+Non-TPLD Counter
 -----------------
 
 .. code-block:: python
@@ -25,7 +25,7 @@ TX Non-TPLD Counter
     await port.statistics.tx.no_tpld.get()
 
 
-TX Extra Counter
+Extra Counter
 -------------
 
 .. code-block:: python
@@ -33,7 +33,7 @@ TX Extra Counter
     await port.statistics.tx.extra.get()
 
 
-TX Stream Counter
+Stream Counter
 ---------------
 
 .. code-block:: python

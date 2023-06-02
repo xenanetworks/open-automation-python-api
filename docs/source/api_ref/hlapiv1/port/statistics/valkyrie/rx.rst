@@ -1,7 +1,7 @@
 RX Statistics
 =========================
 
-RX Clear Counter
+Clear Counter
 -------------
 
 .. code-block:: python
@@ -9,7 +9,7 @@ RX Clear Counter
     await port.statistics.rx.clear.set()
 
 
-RX Calibrate
+Calibrate
 -------------
 
 .. code-block:: python
@@ -17,7 +17,7 @@ RX Calibrate
     await port.statistics.rx.calibrate.set()
 
 
-RX Total Counter
+Total Counter
 -------------
 
 .. code-block:: python
@@ -25,7 +25,7 @@ RX Total Counter
     await port.statistics.rx.total.get()
 
 
-RX Non-TPLD Counter
+Non-TPLD Counter
 -----------------
 
 .. code-block:: python
@@ -33,7 +33,7 @@ RX Non-TPLD Counter
     await port.statistics.rx.no_tpld.get()
 
 
-RX PFC Counter
+PFC Counter
 -------------
 
 .. code-block:: python
@@ -41,7 +41,7 @@ RX PFC Counter
     await port.statistics.rx.pfc_stats.get()
 
 
-RX Extra Counter
+Extra Counter
 -------------
 
 .. code-block:: python
@@ -49,7 +49,7 @@ RX Extra Counter
     await port.statistics.rx.extra.get()
 
 
-RX UAT Status
+UAT Status
 -------------
 
 .. code-block:: python
@@ -57,7 +57,7 @@ RX UAT Status
     await port.statistics.rx.uat.status.get()
 
 
-RX UAT Time
+UAT Time
 -------------
 
 .. code-block:: python
@@ -73,7 +73,7 @@ Received TPLDs
     await port.statistics.rx.obtain_available_tplds()
 
 
-RX TPLD - Error Counter
+TPLD - Error Counter
 --------------------
 
 .. code-block:: python
@@ -81,7 +81,7 @@ RX TPLD - Error Counter
     await port.statistics.rx.access_tpld(tpld_id).errors.get()
 
 
-RX TPLD - Latency Counter
+TPLD - Latency Counter
 -----------------------
 
 .. code-block:: python
@@ -89,7 +89,7 @@ RX TPLD - Latency Counter
     await port.statistics.rx.access_tpld(tpld_id=1).latency.get()
 
 
-RX TPLD - Jitter Counter
+TPLD - Jitter Counter
 -----------------------
 
 .. code-block:: python
@@ -97,7 +97,7 @@ RX TPLD - Jitter Counter
     await port.statistics.rx.access_tpld(tpld_id=1).jitter.get()
 
 
-RX TPLD - Traffic Counter
+TPLD - Traffic Counter
 -----------------------
 
 .. code-block:: python
@@ -105,7 +105,7 @@ RX TPLD - Traffic Counter
     await port.statistics.rx.access_tpld(tpld_id=1).traffic.get()
 
 
-RX Filter Statistics
+Filter Statistics
 --------------------
 
 .. code-block:: python
