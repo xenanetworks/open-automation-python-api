@@ -53,7 +53,7 @@ async def apply_iter(*cmd_tokens: Token[Any], return_exceptions: bool = False, t
         future = await queue.get()
         try:
             result_ = await asyncio.wait_for(
-                future, 
+                asyncio.shield(future),
                 token_timeout_sec if return_exceptions else None
             )
         except Exception as e:
