@@ -15,6 +15,7 @@ if TYPE_CHECKING:
 
 from .abc import AbcResourcesManager
 from .exceptions import NoSuchPortError
+from ..con_traffic_light import ConnectionTrafficLight
 
 
 class IPort(Protocol):
@@ -47,19 +48,22 @@ class PortsManager(PortBaseManager[PT]):
         super().__init__()
         self._conn = conn
         self._ports_type = ports_type
-        self._ports_count = ports_count
         self._module_id = module_id
+        self.reinit(ports_count)
+    
+    def reinit(self, ports_count: int) -> None:
         self._items: OrderedDict[int, PT] = OrderedDict(
             (
                 port_id,
                 self._ports_type(
-                    conn=self._conn,
+                    conn=ConnectionTrafficLight(self._conn),
                     module_id=self._module_id,
                     port_id=port_id,
                 )
             )
             for port_id in range(self._ports_count)
         )
+        self._ports_count = ports_count
 
     async def fill(self) -> None:
         assert not self._lock, "Method <fill> can be called only once."
@@ -88,7 +92,7 @@ class PortsCombiManager(PortBaseManager[PT]):
         assert not self._lock, "Method <fill> can be called only once."
         coros = iter(
             self._resolver(
-                conn=self._conn,
+                conn=ConnectionTrafficLight(self._conn),
                 module_id=self._module_id,
                 port_id=port_id,
             )

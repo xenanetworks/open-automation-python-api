@@ -1,3 +1,5 @@
+from typing import TYPE_CHECKING, Optional
+from xoa_driver.internals.commands import M_MEDIA
 import asyncio
 import functools
 from typing import (
@@ -29,6 +31,7 @@ from xoa_driver.internals.commands import (
     M_TXCLOCKSOURCE_NEW,
     M_TXCLOCKSTATUS_NEW,
     M_TXCLOCKFILTER_NEW,
+    M_PORTCOUNT
 )
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
@@ -36,7 +39,8 @@ if TYPE_CHECKING:
 from xoa_driver.internals.utils import attributes as utils
 from xoa_driver.internals.utils.managers import ports_manager as pm
 from xoa_driver.internals.state_storage import modules_state
-
+from xoa_driver.enums import MediaConfigurationType
+from xoa_driver.internals.core.token import Token
 from .. import base_module as bm
 from .. import __interfaces as m_itf
 
@@ -167,6 +171,39 @@ class MUpgrade:
         """
 
 
+if TYPE_CHECKING:
+    from xoa_driver.internals.core import interfaces as itf
+    from xoa_driver.internals.utils.managers.modules_manager import ModulesManager
+
+
+class ExtendedToken:
+    def __init__(
+        self, token: Token, module: "ModuleL23"
+    ) -> None:
+        self.__token = token
+        self.__module = module
+
+    def __await__(self):
+        return self.__ask_then().__await__()
+
+    async def __ask_then(self):
+        r = await self.__token
+        p_counts = (await self.__module.port_count.get()).port_count
+        return r
+
+
+class MediaModule:
+    def __init__(self, conn: "itf.IConnection", module: "ModuleL23") -> None:
+        self.__media = M_MEDIA(conn, module.module_id)
+        self.__module = module
+
+    def get(self) -> Token:
+        return self.__media.get()
+
+    def set(self, media_config: MediaConfigurationType) -> ExtendedToken:
+        return ExtendedToken(self.__media.set(media_config), self.__module)
+
+
 class ModuleL23(bm.BaseModule["modules_state.ModuleL23LocalState"]):
     """
     This is a conceptual class of L23 test module on a Valkyrie tester.
@@ -196,10 +233,10 @@ class ModuleL23(bm.BaseModule["modules_state.ModuleL23LocalState"]):
         :type: M_STATUS
         """
 
-        self.media = M_MEDIA(conn, self.module_id)
+        self.media = MediaModule(conn, self)
         """Test module's media type.
 
-        :type: M_MEDIA
+        :type: ModuleMedia
         """
 
         self.available_speeds = M_MEDIASUPPORT(conn, self.module_id)
