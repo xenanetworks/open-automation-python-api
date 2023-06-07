@@ -67,6 +67,19 @@ async def test_getting_a_removed_port():
     # This line should do fine.
 
 
+async def test_getting_stream_under_a_removed_port():
+    # Module 7 of destination chassis is supposed to have two modes: BASE-T1(7 ports), BASE-T1S(2 ports), switch to BASE-T1 to start this test.
+    t = await L23Tester("192.168.1.198", "Ron", enable_logging=False)
+    m1 = t.modules.obtain(7)
+    p1 = m1.ports.obtain(3)
+    await p1.reservation.set_reserve()
+    s = await p1.streams.create()
+    b = s.comment
+    await set_module_media_config(m1, MediaConfigurationType.BASE_T1S)
+
+    print(await b.get())
+
+
 def run(method: Coroutine) -> None:
     import platform
 
@@ -76,4 +89,4 @@ def run(method: Coroutine) -> None:
 
 
 if __name__ == "__main__":
-    run(test_getting_a_removed_port())
+    run(test_getting_stream_under_a_removed_port())

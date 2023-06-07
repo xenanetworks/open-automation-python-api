@@ -39,23 +39,23 @@ class Red:
 
     @staticmethod
     def send(inst: itf.IConnection, data: bytes | bytearray | memoryview) -> None:
-        raise ConnectionRefusedError("The instance is not valid animore")
+        raise ConnectionRefusedError("The instance is not valid anymore, please obtain() a new one.")
 
     @staticmethod
     def close(inst) -> None:
-        raise ConnectionRefusedError("The instance is not valid animore")
+        raise ConnectionRefusedError("The instance is not valid anymore, please obtain() a new one.")
 
     @staticmethod
     async def prepare_data(inst, request: "Request") -> tuple[bytes, asyncio.Future]:
-        raise ConnectionRefusedError("The instance is not valid animore")
+        raise ConnectionRefusedError("The instance is not valid anymore, please obtain() a new one.")
 
     @staticmethod
     def subscribe(inst, xmc_cls: "ICommand", callback: t.Callable) -> None:
-        raise ConnectionRefusedError("The instance is not valid animore")
+        raise ConnectionRefusedError("The instance is not valid anymore, please obtain() a new one.")
 
     @staticmethod
     def on_disconnected(inst, callback: t.Callable) -> None:
-        raise ConnectionRefusedError("The instance is not valid animore")
+        raise ConnectionRefusedError("The instance is not valid anymore, please obtain() a new one.")
 
 
 class ConnectionTrafficLight:
