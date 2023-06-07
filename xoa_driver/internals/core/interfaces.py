@@ -42,3 +42,6 @@ class IConnection(t.Protocol):
 
     def on_disconnected(self, callback: "t.Callable") -> None:
         ...
+
+    def set_outdated(self) -> None:
+        ...

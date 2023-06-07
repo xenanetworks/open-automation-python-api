@@ -1,11 +1,10 @@
+from __future__ import annotations
 import asyncio
 import functools
-from typing import (
-    TYPE_CHECKING,
-    Optional,
-)
+from typing import TYPE_CHECKING, Optional, Union
 from typing_extensions import Self
 from xoa_driver.internals.commands import (
+    M_MEDIA,
     M_STATUS,
     M_UPGRADE,
     M_UPGRADEPROGRESS,
@@ -24,25 +23,28 @@ from xoa_driver.internals.commands import (
     M_SMASTATUS,
     M_NAME,
     M_REVISION,
-    M_MEDIA,
     M_CLOCKSYNCSTATUS,
     M_TXCLOCKSOURCE_NEW,
     M_TXCLOCKSTATUS_NEW,
     M_TXCLOCKFILTER_NEW,
 )
-if TYPE_CHECKING:
-    from xoa_driver.internals.core import interfaces as itf
 
 from xoa_driver.internals.utils import attributes as utils
 from xoa_driver.internals.utils.managers import ports_manager as pm
 from xoa_driver.internals.state_storage import modules_state
-
+from xoa_driver.enums import MediaConfigurationType
+from xoa_driver.internals.core.token import Token
 from .. import base_module as bm
 from .. import __interfaces as m_itf
+
+if TYPE_CHECKING:
+    from xoa_driver.internals.core import interfaces as itf
+    from xoa_driver.internals.hli_v1.modules.module_chimera import ModuleChimera
 
 
 class TXClock:
     """Advanced timing clock"""
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.source = M_TXCLOCKSOURCE_NEW(conn, module_id)
         """The source that drives the TX clock rate of the ports on the test module.
@@ -62,6 +64,7 @@ class TXClock:
 
 class SMA:
     """SMA connector"""
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.input = M_SMAINPUT(conn, module_id)
         """SMA input of the test module.
@@ -81,6 +84,7 @@ class SMA:
 
 class AdvancedTiming:
     """Advanced Timing config and control"""
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.clock_tx = TXClock(conn, module_id)
         """Advanced timing clock config and status
@@ -93,6 +97,7 @@ class AdvancedTiming:
 
 class CFP:
     """Test module CFP"""
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.type = M_CFPTYPE(conn, module_id)
         """The transceiver's CFP type currently inserted.
@@ -107,6 +112,7 @@ class CFP:
 
 class MTiming:
     """Test module timing and clock configuration"""
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.source = M_TIMESYNC(conn, module_id)
         """Timing source of the test module.
@@ -126,6 +132,7 @@ class MTiming:
 
 class MUpgrade:
     """Test module upgrade"""
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.start = M_UPGRADE(conn, module_id)
         """Start the upgrade progress of the test module.
@@ -143,10 +150,42 @@ class MUpgrade:
         """
 
 
+class ExtendedToken:
+    def __init__(
+        self, token: Token, module: Union["ModuleL23", "ModuleChimera"]
+    ) -> None:
+        self.__token = token
+        self.__module = module
+
+    def __await__(self):
+        return self.__ask_then().__await__()
+
+    async def __ask_then(self):
+        r = await self.__token
+        p_counts = (await self.__module.port_count.get()).port_count
+        if self.__module.ports is not None:
+            self.__module.ports.reinit(p_counts)
+            await self.__module.ports.fill()
+        return r
+
+
+class MediaModule:
+    def __init__(self, conn: "itf.IConnection", module: Union["ModuleL23", "ModuleChimera"]) -> None:
+        self.__media = M_MEDIA(conn, module.module_id)
+        self.__module = module
+
+    def get(self) -> Token:
+        return self.__media.get()
+
+    def set(self, media_config: MediaConfigurationType) -> ExtendedToken:
+        return ExtendedToken(self.__media.set(media_config), self.__module)
+
+
 class ModuleL23(bm.BaseModule["modules_state.ModuleL23LocalState"]):
     """
     Representation of a L23 test module on a physical tester.
     """
+
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
 
@@ -167,9 +206,9 @@ class ModuleL23(bm.BaseModule["modules_state.ModuleL23LocalState"]):
         Representation of M_STATUS
         """
 
-        self.media = M_MEDIA(conn, self.module_id)
+        self.media = MediaModule(conn, self)
         """Test module's media configuration.
-        Representation of M_MEDIA
+        Representation of MediaModule
         """
 
         self.available_speeds = M_MEDIASUPPORT(conn, self.module_id)

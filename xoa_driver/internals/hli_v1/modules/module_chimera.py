@@ -29,7 +29,9 @@ from xoa_driver.internals.utils.managers import ports_manager as pm
 from xoa_driver.internals.utils import attributes as utils
 from xoa_driver.internals.state_storage import modules_state
 from xoa_driver import ports
+from xoa_driver.internals.hli_v1.modules.modules_l23.module_l23_base import MediaModule
 from . import base_module as bm
+
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
     from . import __interfaces as m_itf
@@ -204,10 +206,10 @@ class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
         :type: M_REVISION
         """
 
-        self.media = M_MEDIA(conn, self.module_id)
+        self.media = MediaModule(conn, self)
         """Test module's media type.
 
-        :type: M_MEDIA
+        :type: MediaModule
         """
 
         self.available_speeds = M_MEDIASUPPORT(conn, self.module_id)

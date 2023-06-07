@@ -19,6 +19,8 @@ from ..con_traffic_light import ConnectionTrafficLight
 
 
 class IPort(Protocol):
+    _conn: "itf.IConnection"
+
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         ...
 
@@ -49,9 +51,18 @@ class PortsManager(PortBaseManager[PT]):
         self._conn = conn
         self._ports_type = ports_type
         self._module_id = module_id
+        self._items: OrderedDict[int, PT] = OrderedDict()
+        self._ports_count = 0
         self.reinit(ports_count)
-    
+
     def reinit(self, ports_count: int) -> None:
+        if ports_count == self._ports_count:
+            return
+        
+        if self._items:
+            for v in self._items.values():
+                v._conn.set_outdated()
+        del self._items
         self._items: OrderedDict[int, PT] = OrderedDict(
             (
                 port_id,
@@ -61,7 +72,7 @@ class PortsManager(PortBaseManager[PT]):
                     port_id=port_id,
                 )
             )
-            for port_id in range(self._ports_count)
+            for port_id in range(ports_count)
         )
         self._ports_count = ports_count
 

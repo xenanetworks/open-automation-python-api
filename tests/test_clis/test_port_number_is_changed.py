@@ -19,46 +19,51 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from loguru import logger  # noqa: E402
 from xoa_driver.testers import L23Tester  # noqa: E402
-from xoa_driver.functions.config_cli_convert import CLIConverter  # noqa: E402
-from xoa_driver.internals.utils.artificial_event import ReloadPortResponseLike
+from xoa_driver.internals.utils.managers.exceptions import NoSuchPortError  # noqa: E402
+
 
 async def test_using_a_outdated_port():
     # Module 7 of destination chassis is supposed to have two modes: BASE-T1(7 ports), BASE-T1S(2 ports), switch to BASE-T1 to start this test.
     t = await L23Tester("192.168.1.198", "Ron", enable_logging=False)
 
-
     m1 = t.modules.obtain(7)
-    print(await m1.port_count.get())
+    p1 = m1.ports.obtain(3)
+    print(await p1.interface.get())
+    print('success1')
     await set_module_media_config(m1, MediaConfigurationType.BASE_T1S)
-    print(await m1.port_count.get())
-
-
-    # p1 = m1.ports.obtain(3)
-    # await p1.capabilities.get()
-    # print('success1')
-    # await set_module_media_config(m1, MediaConfigurationType.BASE_T1S)
-    # await p1.capabilities.get()
-    # # print('success2')
-    # This line should raise a ValueError: This instance is outdated, please obtain a new instance.
-    # p2 = m1.ports.obtain(3)
-    # await p2.capabilities.get()
+    try:
+        print(await p1.interface.get())
+        print('success2')
+    except ConnectionRefusedError as e:
+        print(e)
+    try:
+        p2 = m1.ports.obtain(3)
+        print(await p2.interface.get())
+        print('success3')
+    except NoSuchPortError as e:
+        print(e)
 
 
 async def test_getting_a_removed_port():
     # Module 7 of destination chassis is supposed to have two modes: BASE-T1(7 ports), BASE-T1S(2 ports), switch to BASE-T1 to start this test.
     t = await L23Tester("192.168.1.198", "Ron", enable_logging=False)
     m1 = t.modules.obtain(7)
+    print(len(m1.ports))
+
     p1 = m1.ports.obtain(1)
+    print('success1', await p1.interface.get())
+
+    await set_module_media_config(m1, MediaConfigurationType.BASE_T1S)
 
     print(len(m1.ports))
-    print('success1', await p1.interface.get())
-    await set_module_media_config(m1, MediaConfigurationType.BASE_T1S)
+    try:
+        print('success2', await p1.interface.get())
+    except ConnectionRefusedError as e:
+        print(e)
+    # This will raise Exceptions.
+
     p2 = m1.ports.obtain(1)
-    await p2.capabilities.get()
-    print('success2', await p2.interface.get())
-    await p1.capabilities.get()
-    print('success3', await p1.interface.get())
-    print(len(m1.ports))
+    print('success3', await p2.interface.get())
     # This line should do fine.
 
 
@@ -71,4 +76,4 @@ def run(method: Coroutine) -> None:
 
 
 if __name__ == "__main__":
-    run(test_using_a_outdated_port())
+    run(test_getting_a_removed_port())

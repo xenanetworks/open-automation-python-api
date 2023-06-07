@@ -1,13 +1,10 @@
-from typing import TYPE_CHECKING, Optional
-from xoa_driver.internals.commands import M_MEDIA
+from __future__ import annotations
 import asyncio
 import functools
-from typing import (
-    TYPE_CHECKING,
-    Optional,
-)
+from typing import TYPE_CHECKING, Optional, Union
 from typing_extensions import Self
 from xoa_driver.internals.commands import (
+    M_MEDIA,
     M_STATUS,
     M_UPGRADE,
     M_UPGRADEPROGRESS,
@@ -26,15 +23,11 @@ from xoa_driver.internals.commands import (
     M_SMASTATUS,
     M_NAME,
     M_REVISION,
-    M_MEDIA,
     M_CLOCKSYNCSTATUS,
     M_TXCLOCKSOURCE_NEW,
     M_TXCLOCKSTATUS_NEW,
     M_TXCLOCKFILTER_NEW,
-    M_PORTCOUNT
 )
-if TYPE_CHECKING:
-    from xoa_driver.internals.core import interfaces as itf
 
 from xoa_driver.internals.utils import attributes as utils
 from xoa_driver.internals.utils.managers import ports_manager as pm
@@ -43,6 +36,10 @@ from xoa_driver.enums import MediaConfigurationType
 from xoa_driver.internals.core.token import Token
 from .. import base_module as bm
 from .. import __interfaces as m_itf
+
+if TYPE_CHECKING:
+    from xoa_driver.internals.core import interfaces as itf
+    from xoa_driver.internals.hli_v1.modules.module_chimera import ModuleChimera
 
 
 class TXClock:
@@ -171,14 +168,9 @@ class MUpgrade:
         """
 
 
-if TYPE_CHECKING:
-    from xoa_driver.internals.core import interfaces as itf
-    from xoa_driver.internals.utils.managers.modules_manager import ModulesManager
-
-
 class ExtendedToken:
     def __init__(
-        self, token: Token, module: "ModuleL23"
+        self, token: Token, module: Union["ModuleL23", "ModuleChimera"]
     ) -> None:
         self.__token = token
         self.__module = module
@@ -189,11 +181,14 @@ class ExtendedToken:
     async def __ask_then(self):
         r = await self.__token
         p_counts = (await self.__module.port_count.get()).port_count
+        if self.__module.ports is not None:
+            self.__module.ports.reinit(p_counts)
+            await self.__module.ports.fill()
         return r
 
 
 class MediaModule:
-    def __init__(self, conn: "itf.IConnection", module: "ModuleL23") -> None:
+    def __init__(self, conn: "itf.IConnection", module: Union["ModuleL23", "ModuleChimera"]) -> None:
         self.__media = M_MEDIA(conn, module.module_id)
         self.__module = module
 
