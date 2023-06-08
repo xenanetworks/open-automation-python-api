@@ -55,9 +55,9 @@ class PortsManager(PortBaseManager[PT]):
         self._ports_count = 0
         self.reinit(ports_count)
 
-    def reinit(self, ports_count: int) -> None:
+    def reinit(self, ports_count: int) -> bool:
         if ports_count == self._ports_count:
-            return
+            return False
         
         if self._items:
             for v in self._items.values():
@@ -75,6 +75,7 @@ class PortsManager(PortBaseManager[PT]):
             for port_id in range(ports_count)
         )
         self._ports_count = ports_count
+        return True
 
     async def fill(self) -> None:
         assert not self._lock, "Method <fill> can be called only once."

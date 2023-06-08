@@ -182,8 +182,9 @@ class ExtendedToken:
         r = await self.__token
         p_counts = (await self.__module.port_count.get()).port_count
         if self.__module.ports is not None:
-            self.__module.ports.reinit(p_counts)
-            await self.__module.ports.fill()
+            changed = self.__module.ports.reinit(p_counts)
+            if changed:
+                await self.__module.ports.fill()
         return r
 
 
