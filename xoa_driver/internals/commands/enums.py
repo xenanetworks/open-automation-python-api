@@ -1989,6 +1989,8 @@ class AutoNegFECOption(IntEnum):
     """RS 544"""
     RS272 = 1024
     """RS 272"""
+    RSFEC_CL161 = 8
+    """RS CL 161"""
 
 
 class AutoNegFECType(IntEnum):
@@ -2044,6 +2046,9 @@ class AutoNegFECStatus(IntEnum):
     """RS 544"""
     RS272 = 1024
     """RS 272"""
+    RSFEC_CL161 = 8
+    """RS CL 161"""
+
 
 
 class LinkTrainingMode(IntEnum):
