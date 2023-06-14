@@ -15,9 +15,12 @@ if TYPE_CHECKING:
 
 from .abc import AbcResourcesManager
 from .exceptions import NoSuchPortError
+from ..con_traffic_light import ConnectionTrafficLight
 
 
 class IPort(Protocol):
+    _conn: "itf.IConnection"
+
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         ...
 
@@ -47,19 +50,32 @@ class PortsManager(PortBaseManager[PT]):
         super().__init__()
         self._conn = conn
         self._ports_type = ports_type
-        self._ports_count = ports_count
         self._module_id = module_id
+        self._items: OrderedDict[int, PT] = OrderedDict()
+        self._ports_count = 0
+        self.reinit(ports_count)
+
+    def reinit(self, ports_count: int) -> bool:
+        if ports_count == self._ports_count:
+            return False
+        
+        if self._items:
+            for v in self._items.values():
+                v._conn.set_outdated()
+        del self._items
         self._items: OrderedDict[int, PT] = OrderedDict(
             (
                 port_id,
                 self._ports_type(
-                    conn=self._conn,
+                    conn=ConnectionTrafficLight(self._conn),
                     module_id=self._module_id,
                     port_id=port_id,
                 )
             )
-            for port_id in range(self._ports_count)
+            for port_id in range(ports_count)
         )
+        self._ports_count = ports_count
+        return True
 
     async def fill(self) -> None:
         assert not self._lock, "Method <fill> can be called only once."
@@ -88,7 +104,7 @@ class PortsCombiManager(PortBaseManager[PT]):
         assert not self._lock, "Method <fill> can be called only once."
         coros = iter(
             self._resolver(
-                conn=self._conn,
+                conn=ConnectionTrafficLight(self._conn),
                 module_id=self._module_id,
                 port_id=port_id,
             )

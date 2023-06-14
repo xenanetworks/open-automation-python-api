@@ -1,7 +1,6 @@
-import typing
 import asyncio
 import functools
-from typing import TYPE_CHECKING
+import typing
 from typing_extensions import Self
 from xoa_driver.internals.commands import (
     M_STATUS,
@@ -23,8 +22,9 @@ from xoa_driver.internals.utils.managers import ports_manager as pm
 from xoa_driver.internals.utils import attributes as utils
 from xoa_driver.internals.state_storage import modules_state
 from xoa_driver.v2 import ports
+from xoa_driver.internals.hli_v2.modules.modules_l23.module_l23_base import CfpModule
 from . import base_module as bm
-if TYPE_CHECKING:
+if typing.TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
     from . import __interfaces as m_itf
 
@@ -33,6 +33,7 @@ class ChTXClock:
     """
     Advanced timing feature (Chimera).
     """
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.source = M_TXCLOCKSOURCE_NEW(conn, module_id)
         """
@@ -50,16 +51,17 @@ class ChCFP:
     """
     CFP test module (Chimera).
     """
-    def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
-        self.type = M_CFPTYPE(conn, module_id)
+
+    def __init__(self, conn: "itf.IConnection", module: 'ModuleChimera') -> None:
+        self.type = M_CFPTYPE(conn, module.module_id)
         """
         The transceiver's CFP type currently inserted.
         Representation of M_CFPTYPE
         """
-        self.config = M_CFPCONFIGEXT(conn, module_id)
+        self.config = CfpModule(conn, module)
         """
         The CFP configuration of the test module.
-        Representation of M_CFPCONFIGEXT
+        Representation of CfpModule
         """
 
 
@@ -67,6 +69,7 @@ class ChUpgrade:
     """
     Upgrade test module (Chimera).
     """
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.start = M_UPGRADE(conn, module_id)
         """
@@ -82,6 +85,7 @@ class ChUpgrade:
 
 class ChTiming:
     """Test module timing and clock configuration"""
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
 
         self.clock_local_adjust = M_CLOCKPPB(conn, module_id)
@@ -92,6 +96,7 @@ class ChTiming:
 
 class ChAdvancedTiming:
     """Advanced Timing config and control"""
+
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
         self.clock = ChTXClock(conn, module_id)
         """Advanced timing clock config and status
@@ -102,6 +107,7 @@ class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
     """
     Representation of a Chimera module on physical tester.
     """
+
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
 
@@ -112,7 +118,7 @@ class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
         Advanced timing feature (Chimera).
         """
 
-        self.cfp = ChCFP(conn, self.module_id)
+        self.cfp = ChCFP(conn, self)
         """
         CFP test module (Chimera).
         """
@@ -216,6 +222,7 @@ class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
 @revisions.register_chimera_module(rev="Chimera-100G-5S-2P")
 class MChi100G5S2P(ModuleChimera):
     """Chimera module Chi-100G-5S-2P"""
+
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
         self.ports: pm.PortsManager[ports.PChi100G5S2P] = pm.PortsManager(
@@ -231,6 +238,7 @@ class MChi100G5S2P(ModuleChimera):
 @revisions.register_chimera_module(rev="Chimera-100G-5S-2P[b]")
 class MChi100G5S2P_b(ModuleChimera):
     """Chimera module Chi-100G-5S-2P[b]"""
+
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
         self.ports: pm.PortsManager[ports.PChi100G5S2P_b] = pm.PortsManager(
@@ -246,6 +254,7 @@ class MChi100G5S2P_b(ModuleChimera):
 @revisions.register_chimera_module(rev="Chimera-40G-2S-2P")
 class MChi40G2S2P(ModuleChimera):
     """Chimera module Chi-40G-2S-2P"""
+
     def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
         super().__init__(conn, init_data)
         self.ports: pm.PortsManager[ports.PChi40G2S2P] = pm.PortsManager(

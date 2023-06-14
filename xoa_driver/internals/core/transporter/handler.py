@@ -122,3 +122,6 @@ class TransportationHandler(asyncio.Protocol):
     def on_disconnected(self, callback: Callable) -> None:
         """Regiser users callback which will be called after connection was terminated."""
         self.__resp_publisher.subscribe_connection_lost(callback)
+
+    def set_outdated(self) -> None:
+        pass

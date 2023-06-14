@@ -50,7 +50,7 @@ class NotRightLaneValueError(ConfigError):
 class NotSupportMedia(ConfigError):
     def __init__(self, module: GenericAnyModule) -> None:
         module_id = module.module_id
-        self.msg = f"This module {module_id} does not support the media configuration!"
+        self.msg = f"This module {module_id} does not support this media configuration!"
 
 
 class NotSupportPortSpeed(ConfigError):

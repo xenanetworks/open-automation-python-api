@@ -1,5 +1,5 @@
 
-from enum import IntEnum
+from enum import IntEnum, IntFlag
 
 
 # region L23 enums
@@ -522,10 +522,74 @@ class ProtocolOption(IntEnum):
     """EtherType"""
 
     # Generate RAW form 1...64 bytes
-    _ignore_ = "ProtocolOption i"
-    ProtocolOption = vars()
-    for i in range(1, 65):
-        ProtocolOption["RAW_%d" % i] = 256 - i  # type: ignore
+    # _ignore_ = "ProtocolOption i"
+    # ProtocolOption = vars()
+    # for i in range(1, 65):
+    #     ProtocolOption["RAW_%d" % i] = 256 - i  # type: ignore
+    RAW_1 = 255
+    RAW_2 = 254
+    RAW_3 = 253
+    RAW_4 = 252
+    RAW_5 = 251
+    RAW_6 = 250
+    RAW_7 = 249
+    RAW_8 = 248
+    RAW_9 = 247
+    RAW_10 = 246
+    RAW_11 = 245
+    RAW_12 = 244
+    RAW_13 = 243
+    RAW_14 = 242
+    RAW_15 = 241
+    RAW_16 = 240
+    RAW_17 = 239
+    RAW_18 = 238
+    RAW_19 = 237
+    RAW_20 = 236
+    RAW_21 = 235
+    RAW_22 = 234
+    RAW_23 = 233
+    RAW_24 = 232
+    RAW_25 = 231
+    RAW_26 = 230
+    RAW_27 = 229
+    RAW_28 = 228
+    RAW_29 = 227
+    RAW_30 = 226
+    RAW_31 = 225
+    RAW_32 = 224
+    RAW_33 = 223
+    RAW_34 = 222
+    RAW_35 = 221
+    RAW_36 = 220
+    RAW_37 = 219
+    RAW_38 = 218
+    RAW_39 = 217
+    RAW_40 = 216
+    RAW_41 = 215
+    RAW_42 = 214
+    RAW_43 = 213
+    RAW_44 = 212
+    RAW_45 = 211
+    RAW_46 = 210
+    RAW_47 = 209
+    RAW_48 = 208
+    RAW_49 = 207
+    RAW_50 = 206
+    RAW_51 = 205
+    RAW_52 = 204
+    RAW_53 = 203
+    RAW_54 = 202
+    RAW_55 = 201
+    RAW_56 = 200
+    RAW_57 = 199
+    RAW_58 = 198
+    RAW_59 = 197
+    RAW_60 = 196
+    RAW_61 = 195
+    RAW_62 = 194
+    RAW_63 = 193
+    RAW_64 = 192
 
 
 class ModifierAction(IntEnum):
@@ -909,6 +973,15 @@ class MediaConfigurationType(IntEnum):
 
     OSFP800 = 112
     """OSFP800"""
+
+    QSFPDD800_ANLT = 113
+    """QSFPDD800 ANLT"""
+
+    QSFP112_ANLT = 114
+    """QSFP112 ANLT"""
+
+    OSFP800_ANLT = 115
+    """OSFP800 ANLT"""
 
     UNKNOWN = 255
 
@@ -1908,7 +1981,7 @@ class AutoNegTecAbility(IntEnum):
     """BAM 400G CR8 KR8"""
 
 
-class AutoNegFECOption(IntEnum):
+class AutoNegFECOption(IntFlag):
     """Auto Neg FEC Options"""
 
     DEFAULT_FEC = 0
@@ -1925,6 +1998,8 @@ class AutoNegFECOption(IntEnum):
     """RS 544"""
     RS272 = 1024
     """RS 272"""
+    RSFEC_CL161 = 8
+    """RS CL 161"""
 
 
 class AutoNegFECType(IntEnum):
@@ -1963,7 +2038,7 @@ class AutoNegStatus(IntEnum):
     """AN Good"""
 
 
-class AutoNegFECStatus(IntEnum):
+class AutoNegFECStatus(IntFlag):
     """Auto Neg FEC Status"""
 
     DEFAULT_FEC = 0
@@ -1980,6 +2055,8 @@ class AutoNegFECStatus(IntEnum):
     """RS 544"""
     RS272 = 1024
     """RS 272"""
+    RSFEC_CL161 = 8
+    """RS CL 161"""
 
 
 class LinkTrainingMode(IntEnum):

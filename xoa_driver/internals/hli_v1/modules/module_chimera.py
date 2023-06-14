@@ -1,7 +1,6 @@
 import typing
 import asyncio
 import functools
-from typing import TYPE_CHECKING
 from typing_extensions import Self
 from xoa_driver.internals.commands import (
     M_STATUS,
@@ -29,9 +28,12 @@ from xoa_driver.internals.utils.managers import ports_manager as pm
 from xoa_driver.internals.utils import attributes as utils
 from xoa_driver.internals.state_storage import modules_state
 from xoa_driver import ports
+from xoa_driver.internals.hli_v1.modules.modules_l23.module_l23_base import MediaModule, CfpModule
 from . import base_module as bm
-if TYPE_CHECKING:
+
+if typing.TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
+    from xoa_driver.internals.hli_v1.modules.modules_l23.module_l23_base import ModuleL23
     from . import __interfaces as m_itf
 
 
@@ -60,18 +62,18 @@ class ChCFP:
     CFP test module (Chimera).
     """
 
-    def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
-        self.type = M_CFPTYPE(conn, module_id)
+    def __init__(self, conn: "itf.IConnection", module: typing.Union["ModuleL23", "ModuleChimera"]) -> None:
+        self.type = M_CFPTYPE(conn, module.module_id)
         """
         The transceiver's CFP type currently inserted.
 
         :type: M_CFPTYPE
         """
-        self.config = M_CFPCONFIGEXT(conn, module_id)
+        self.config = CfpModule(conn, module)
         """
         The CFP configuration of the test module.
 
-        :type: M_CFPCONFIGEXT
+        :type: CfpModule
         """
 
 
@@ -142,7 +144,7 @@ class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
         :type: ChTiming
         """
 
-        self.cfp = ChCFP(conn, self.module_id)
+        self.cfp = ChCFP(conn, self)
         """
         CFP test module (Chimera).
 
@@ -204,10 +206,10 @@ class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
         :type: M_REVISION
         """
 
-        self.media = M_MEDIA(conn, self.module_id)
+        self.media = MediaModule(conn, self)
         """Test module's media type.
 
-        :type: M_MEDIA
+        :type: MediaModule
         """
 
         self.available_speeds = M_MEDIASUPPORT(conn, self.module_id)

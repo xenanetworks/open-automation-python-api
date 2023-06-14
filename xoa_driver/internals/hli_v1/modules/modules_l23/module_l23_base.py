@@ -1,11 +1,10 @@
+from __future__ import annotations
 import asyncio
 import functools
-from typing import (
-    TYPE_CHECKING,
-    Optional,
-)
+import typing
 from typing_extensions import Self
 from xoa_driver.internals.commands import (
+    M_MEDIA,
     M_STATUS,
     M_UPGRADE,
     M_UPGRADEPROGRESS,
@@ -24,21 +23,23 @@ from xoa_driver.internals.commands import (
     M_SMASTATUS,
     M_NAME,
     M_REVISION,
-    M_MEDIA,
     M_CLOCKSYNCSTATUS,
     M_TXCLOCKSOURCE_NEW,
     M_TXCLOCKSTATUS_NEW,
     M_TXCLOCKFILTER_NEW,
 )
-if TYPE_CHECKING:
-    from xoa_driver.internals.core import interfaces as itf
 
 from xoa_driver.internals.utils import attributes as utils
 from xoa_driver.internals.utils.managers import ports_manager as pm
 from xoa_driver.internals.state_storage import modules_state
-
+from xoa_driver.enums import MediaConfigurationType
+from xoa_driver.internals.core.token import Token
 from .. import base_module as bm
 from .. import __interfaces as m_itf
+
+if typing.TYPE_CHECKING:
+    from xoa_driver.internals.core import interfaces as itf
+    from xoa_driver.internals.hli_v1.modules.module_chimera import ModuleChimera
 
 
 class TXClock:
@@ -104,20 +105,64 @@ class AdvancedTiming:
         """
 
 
+class ExtendedToken:
+    def __init__(
+        self, token: Token, module: typing.Union["ModuleL23", "ModuleChimera"]
+    ) -> None:
+        self.__token = token
+        self.__module = module
+
+    def __await__(self):
+        return self.__ask_then().__await__()
+
+    async def __ask_then(self):
+        r = await self.__token
+        p_counts = (await self.__module.port_count.get()).port_count
+        if self.__module.ports is not None:
+            changed = self.__module.ports.reinit(p_counts)
+            if changed:
+                await self.__module.ports.fill()
+        return r
+
+
+class MediaModule:
+    def __init__(self, conn: "itf.IConnection", module: typing.Union["ModuleL23", "ModuleChimera"]) -> None:
+        self.__media = M_MEDIA(conn, module.module_id)
+        self.__module = module
+
+    def get(self) -> Token:
+        return self.__media.get()
+
+    def set(self, media_config: MediaConfigurationType) -> ExtendedToken:
+        return ExtendedToken(self.__media.set(media_config), self.__module)
+    
+
+class CfpModule:
+    def __init__(self, conn: "itf.IConnection", module: typing.Union["ModuleL23", "ModuleChimera"]) -> None:
+        self.__cfpconfigext = M_CFPCONFIGEXT(conn, module.module_id)
+        self.__module = module
+    
+    def get(self) -> Token:
+        return self.__cfpconfigext.get()
+
+    def set(self, portspeed_list: typing.List[int]) -> ExtendedToken:
+        return ExtendedToken(self.__cfpconfigext.set(portspeed_list), self.__module)
+
+
 class CFP:
     """Test module CFP"""
 
-    def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
-        self.type = M_CFPTYPE(conn, module_id)
+    def __init__(self, conn: "itf.IConnection", module: typing.Union["ModuleL23", "ModuleChimera"]) -> None:
+        self.type = M_CFPTYPE(conn, module.module_id)
         """The transceiver's CFP type currently inserted.
 
         :type: M_CFPTYPE
         """
 
-        self.config = M_CFPCONFIGEXT(conn, module_id)
+        self.config = CfpModule(conn, module)
         """The CFP configuration of the test module.
 
-        :type: M_CFPCONFIGEXT
+        :type: CfpModule
         """
 
 
@@ -196,10 +241,10 @@ class ModuleL23(bm.BaseModule["modules_state.ModuleL23LocalState"]):
         :type: M_STATUS
         """
 
-        self.media = M_MEDIA(conn, self.module_id)
+        self.media = MediaModule(conn, self)
         """Test module's media type.
 
-        :type: M_MEDIA
+        :type: ModuleMedia
         """
 
         self.available_speeds = M_MEDIASUPPORT(conn, self.module_id)
@@ -238,7 +283,7 @@ class ModuleL23(bm.BaseModule["modules_state.ModuleL23LocalState"]):
         :type: AdvancedTiming
         """
 
-        self.cfp = CFP(conn, self.module_id)
+        self.cfp = CFP(conn, self)
         """Test module's CFP configuration.
 
         :type: CFP
@@ -250,7 +295,7 @@ class ModuleL23(bm.BaseModule["modules_state.ModuleL23LocalState"]):
         :type: MUpgrade
         """
 
-        self.ports: Optional[pm.PortsManager] = None
+        self.ports: typing.Optional[pm.PortsManager] = None
         """L23 Port Index Manager of the test module.
 
         :type: PortsManager
