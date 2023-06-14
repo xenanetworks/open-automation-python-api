@@ -2029,7 +2029,7 @@ class AutoNegStatus(IntEnum):
     """AN Good"""
 
 
-class AutoNegFECStatus(IntEnum):
+class AutoNegFECStatus(IntFlag):
     """Auto Neg FEC Status"""
 
     DEFAULT_FEC = 0
