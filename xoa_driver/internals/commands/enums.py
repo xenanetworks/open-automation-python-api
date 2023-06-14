@@ -974,6 +974,15 @@ class MediaConfigurationType(IntEnum):
     OSFP800 = 112
     """OSFP800"""
 
+    QSFPDD800_ANLT = 113
+    """QSFPDD800 ANLT"""
+
+    QSFP112_ANLT = 114
+    """QSFP112 ANLT"""
+
+    OSFP800_ANLT = 115
+    """OSFP800 ANLT"""
+
     UNKNOWN = 255
 
 
