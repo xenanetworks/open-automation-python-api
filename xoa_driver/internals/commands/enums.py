@@ -1,5 +1,5 @@
 
-from enum import IntEnum
+from enum import IntEnum, IntFlag
 
 
 # region L23 enums
@@ -1972,7 +1972,7 @@ class AutoNegTecAbility(IntEnum):
     """BAM 400G CR8 KR8"""
 
 
-class AutoNegFECOption(IntEnum):
+class AutoNegFECOption(IntFlag):
     """Auto Neg FEC Options"""
 
     DEFAULT_FEC = 0
@@ -2048,7 +2048,6 @@ class AutoNegFECStatus(IntEnum):
     """RS 272"""
     RSFEC_CL161 = 8
     """RS CL 161"""
-
 
 
 class LinkTrainingMode(IntEnum):
