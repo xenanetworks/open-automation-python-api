@@ -235,6 +235,7 @@ async def set_module_port_config(
     """
 
     # reserve the module first
+    await free_module(module, True)
     await reserve_module(module, force)
 
     # get the supported media by the module
@@ -255,6 +256,7 @@ async def set_module_port_config(
         ):
             portspeed_list = [port_count] + port_count * [port_speed]
             await module.cfp.config.set(portspeed_list=portspeed_list)
+            await free_module(module, False)
             return None
     raise NotSupportPortSpeed(module)
 
