@@ -122,7 +122,9 @@ async def reserve_module(module: GenericAnyModule, force: bool = True) -> None:
         await module.reservation.set_reserve()
 
 
-async def free_module(module: GenericAnyModule, should_free_ports: bool = False) -> None:
+async def free_module(
+    module: GenericAnyModule, should_free_ports: bool = False
+) -> None:
     """
     .. versionadded:: 1.2
 
@@ -144,8 +146,10 @@ async def free_module(module: GenericAnyModule, should_free_ports: bool = False)
         await free_ports(*module.ports)
 
 
-def get_module_supported_media(module: GenericL23Module | ModuleChimera) -> list[dict[str, t.Any]]:
-    """    
+def get_module_supported_media(
+    module: GenericL23Module | ModuleChimera,
+) -> list[dict[str, t.Any]]:
+    """
     .. versionadded:: 1.3
 
     Get a list of supported media, port speed and count of the module.
@@ -284,9 +288,10 @@ async def get_module_eol_days(module: GenericAnyModule) -> int:
     """
     eol_string = await get_module_eol_date(module)
     date1 = datetime.now()
-    date2 = datetime.strptime(eol_string, '%Y-%M-%d')
+    date2 = datetime.strptime(eol_string, "%Y-%M-%d")
     timedelta = date2 - date1
     return timedelta.days
+
 
 # endregion
 
@@ -428,6 +433,21 @@ async def remove_streams(port: GenericAnyPort) -> None:
 
 # endregion
 
+# region streams
+async def remove_streams(port: GenericAnyPort) -> None:
+    """
+    .. versionadded:: 2.1
+
+    Remove all streams on a port.
+
+    :param module: The port object
+    :type module: GenericAnyPort
+    """
+    await port.streams.server_sync()
+    await asyncio.gather(*(s.delete() for s in port.streams))
+
+
+# endregion
 
 __all__ = (
     "free_module",
@@ -448,4 +468,5 @@ __all__ = (
     "reset_port",
     "set_module_media_config",
     "set_module_port_config",
+    "remove_streams"
 )
