@@ -1873,9 +1873,9 @@ class PP_AUTONEG:
         """coded integer, mode"""
         tec_ability: AutoNegTecAbility = field(XmpInt())
         """coded integer, technical ability."""
-        fec_capable: AutoNegFECOption = field(XmpInt())
+        fec_capable: int = field(XmpInt())
         """coded integer, FEC capable."""
-        fec_requested: AutoNegFECOption = field(XmpInt())
+        fec_requested: int = field(XmpInt())
         """coded integer, FEC requested."""
         pause_mode: PauseMode = field(XmpInt())
         """coded integer, pause mode."""
@@ -1885,9 +1885,9 @@ class PP_AUTONEG:
         """coded integer, mode"""
         tec_ability: AutoNegTecAbility = field(XmpInt())
         """coded integer, technical ability."""
-        fec_capable: AutoNegFECOption = field(XmpInt())
+        fec_capable: int = field(XmpInt())
         """coded integer, FEC capable."""
-        fec_requested: AutoNegFECOption = field(XmpInt())
+        fec_requested: int = field(XmpInt())
         """coded integer, FEC requested."""
         pause_mode: PauseMode = field(XmpInt())
         """coded integer, pause mode."""
@@ -1954,9 +1954,9 @@ class PP_AUTONEGSTATUS:
         """coded integer, auto-negotiation state."""
         tec_ability: AutoNegTecAbility = field(XmpInt())
         """coded integer, technical ability."""
-        fec_capable: AutoNegFECStatus = field(XmpInt())
+        fec_capable: int = field(XmpInt())
         """coded integer, FEC capable partner."""
-        fec_requested: AutoNegFECStatus = field(XmpInt())
+        fec_requested: int = field(XmpInt())
         """coded integer, FEC requested partner."""
         pause_mode: PauseMode = field(XmpInt())
         """coded integer, pause mode."""

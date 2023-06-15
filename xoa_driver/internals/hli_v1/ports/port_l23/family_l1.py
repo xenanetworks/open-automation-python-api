@@ -19,7 +19,7 @@ from .pcs_pma_ghijkl import (
     PcsPma as PcsPma2,
     SerDes,
 )
-from .pcs_pma_l import PcsPmaL1 as PcsPma3  # PcsPmaL1 for current version is different if compare to L family
+from .pcs_pma_l import PcsPma as PcsPma3  
 
 
 class PcsPma(PcsPma1, PcsPma2, PcsPma3):

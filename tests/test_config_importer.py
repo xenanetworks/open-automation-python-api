@@ -2,11 +2,14 @@ import asyncio
 import os
 import sys
 import pytest
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # IMPORTANT: Suppose to stay before driver import
+
 from xoa_driver.functions.mgmt import reserve_port, reserve_module, reserve_tester
 from xoa_driver.testers import L23Tester
 from typing import Coroutine
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 
 from xoa_driver.functions.config_cli_convert import (
     read_commands_from_file,

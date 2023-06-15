@@ -1522,59 +1522,6 @@ class C_VERSIONNO_MINOR:
 
 @register_command
 @dataclass
-class C_START:
-    """
-    Start traffic on N ports and each port is described by (module index, port
-    index).
-    """
-
-    code: typing.ClassVar[int] = 60
-    pushed: typing.ClassVar[bool] = False
-
-    _connection: 'interfaces.IConnection'
-
-    class SetDataAttr(RequestBodyStruct):
-        module_ports: typing.List[int] = field(XmpSequence(types_chunk=[XmpByte()]))
-        """list of bytes, specifies ports on modules, which should stop or start generating traffic."""
-
-    def set(self, module_ports: typing.List[int]) -> Token[None]:
-        """Start traffic on N ports and each port is described by (module index, port index).
-
-        :param module_ports: specifies ports on modules, which should stop or start generating traffic
-        :type module_ports: typing.List[int]
-        """
-
-        return Token(self._connection, build_set_request(self, module_ports=module_ports))
-
-
-@register_command
-@dataclass
-class C_STOP:
-    """
-    Stop traffic on N ports and each port is described by (module index, port index)
-    """
-
-    code: typing.ClassVar[int] = 61
-    pushed: typing.ClassVar[bool] = False
-
-    _connection: 'interfaces.IConnection'
-
-    class SetDataAttr(RequestBodyStruct):
-        module_ports: typing.List[int] = field(XmpSequence(types_chunk=[XmpByte()]))
-        """list of bytes, specifies ports on modules, which should stop or start generating traffic."""
-
-    def set(self, module_ports: typing.List[int]) -> Token[None]:
-        """Stop traffic on N ports and each port is described by (module index, port index).
-
-        :param module_ports: specifies ports on modules, which should stop or start generating traffic
-        :type module_ports: typing.List[int]
-        """
-
-        return Token(self._connection, build_set_request(self, module_ports=module_ports))
-
-
-@register_command
-@dataclass
 class C_MULTIUSER:
     """
     Enable or disable the ability to control one resource from several different TCP

@@ -28,8 +28,8 @@ class Response:
         idx_count_ = struct.calcsize(idces_fmt_)
         self.__buffer = memoryview(buffer)
         self.index_values = self.__parse_indices(idces_fmt_, self.__buffer[:idx_count_])
-        stop_position = header.number_of_value_bytes if idx_count_ == 0 else header.body_size
-        self.values: Any = self.__parse_values(self.__buffer[idx_count_:stop_position], response_struct)
+        payload_position = slice(idx_count_, idx_count_ + header.number_of_value_bytes)
+        self.values: Any = self.__parse_values(self.__buffer[payload_position], response_struct)
 
     def __str__(self) -> str:
         return _utils.format_str(self)

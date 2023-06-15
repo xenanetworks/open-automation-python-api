@@ -66,13 +66,13 @@ class PcsPma:
         """
 
 
-# Temporary ports are not supporting LinkTrain, in future release of xenaserver it will be the same as regular PcsPma
-class PcsPmaL1:
-    """L23 high-speed port PCS/PMA settings"""
+# # Temporary ports are not supporting LinkTrain, in future release of xenaserver it will be the same as regular PcsPma
+# class PcsPmaL1:
+#     """L23 high-speed port PCS/PMA settings"""
 
-    def __init__(self, conn: "itf.IConnection", port) -> None:
-        self.auto_neg = AutoNeg(conn, *port.kind)
-        """PCS/PMA auto-negotiation settings.
+#     def __init__(self, conn: "itf.IConnection", port) -> None:
+#         self.auto_neg = AutoNeg(conn, *port.kind)
+#         """PCS/PMA auto-negotiation settings.
         
-        :type: AutoNeg
-        """
+#         :type: AutoNeg
+#         """
