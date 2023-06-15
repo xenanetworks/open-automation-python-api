@@ -340,7 +340,7 @@ def get_port(tester: GenericAnyTester, module_id: int, port_id: int) -> GenericA
     :type port_id: int
     :raises NoSuchPortError: No port found with the index
     :return: The port object
-    :rtype: :class:`~xoa_driver.ports.GenericAnyPort`
+    :rtype: GenericAnyPort
     """
     module = get_module(tester, module_id)
     return module.ports.obtain(port_id)
@@ -353,7 +353,7 @@ async def reserve_port(port: GenericAnyPort, force: bool = True) -> None:
     Reserve a port regardless whether it is owned by others or not.
 
     :param port: The port to reserve
-    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :type port: GenericAnyPort
     :param force: Should force reserve the port
     :type force: boolean
     :return:
@@ -376,7 +376,7 @@ async def reset_port(port: GenericAnyPort) -> None:
     Reserve and reset a port
 
     :param port: The port to reset
-    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :type port: GenericAnyPort
     :return:
     :rtype: None
     """
@@ -391,7 +391,7 @@ async def free_port(port: GenericAnyPort) -> None:
     Free a port. If the port is reserved by you, release the port. If the port is reserved by others, relinquish the port. The port should have no owner afterwards.
 
     :param port: The port to free
-    :type port: :class:`~xoa_driver.ports.GenericAnyPort`
+    :type port: GenericAnyPort
     :return:
     :rtype: None
     """
@@ -408,10 +408,22 @@ async def free_ports(*ports: GenericAnyPort) -> None:
 
     Free all ports on a module.
 
-    :param module: The module object
-    :type module: GenericAnyModule
+    :param port: The port to free
+    :type port: GenericAnyPort
     """
     await asyncio.gather(*(free_port(port=p) for p in ports))
+
+
+async def remove_streams(port: GenericAnyPort) -> None:
+    """
+    .. versionadded:: 2.1
+
+    Remove all streams on a port
+
+    :param port: The port object
+    :type port: GenericAnyPort
+    """
+
 
 
 # endregion
