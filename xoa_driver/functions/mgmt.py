@@ -419,21 +419,11 @@ async def free_ports(*ports: GenericAnyPort) -> None:
     await asyncio.gather(*(free_port(port=p) for p in ports))
 
 
-async def remove_streams(port: GenericAnyPort) -> None:
-    """
-    .. versionadded:: 2.1
-
-    Remove all streams on a port
-
-    :param port: The port object
-    :type port: GenericAnyPort
-    """
-
-
 
 # endregion
 
-# region streams
+
+# region Streams
 async def remove_streams(port: GenericAnyPort) -> None:
     """
     .. versionadded:: 2.1
