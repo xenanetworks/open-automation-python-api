@@ -55,6 +55,9 @@ from .enums import (
     PRBSPattern,
     PHYSignalStatus,
     OnOffDefault,
+    PreCodingStatus,
+    GrayCodingStatus,
+    Endianess
 )
 
 
@@ -2088,3 +2091,187 @@ class PP_LINKTRAINSTATUS:
         """
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._lane_xindex]))
+
+@register_command
+@dataclass
+class PP_RXPRECODING:
+    """
+    GET/SET Rx Pre-Coding Configurations.
+    """
+
+    code: typing.ClassVar[int] = 420
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        status: PreCodingStatus = field(XmpInt())
+        """Status Off/On/Auto"""
+        endianess: Endianess = field(XmpInt())
+        """Endianess Normal/Reverted"""
+
+    class SetDataAttr(RequestBodyStruct):
+        status: PreCodingStatus = field(XmpInt())
+        """Status Off/On/Auto"""
+        endianess: Endianess = field(XmpInt())
+        """Endianess Normal/Reverted"""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the Rx Pre-Coding Configurations.
+
+        :return: Rx Pre-Coding configurations including status, and endianess type.
+        :rtype: PP_RXPRECODING.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+
+    def set(self, status: PreCodingStatus, endianess: Endianess) -> Token[None]:
+        """Set the Rx Pre-coding settings of the PHY.
+
+        :param status: The status(Off/On/Auto)
+        :type status: PreCodingStatus
+        :param endianess: Endianess type
+        :type endianess: Endianess
+        """
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, status=status, endianess=endianess))
+    
+@register_command
+@dataclass
+class PP_TXPRECODING:
+    """
+    GET/SET Tx Pre-Coding Configurations.
+    """
+
+    code: typing.ClassVar[int] = 421
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        status: PreCodingStatus = field(XmpInt())
+        """Status Off/On/Auto"""
+        endianess: Endianess = field(XmpInt())
+        """Endianess Normal/Reverted"""
+
+    class SetDataAttr(RequestBodyStruct):
+        status: PreCodingStatus = field(XmpInt())
+        """Status Off/On/Auto"""
+        endianess: Endianess = field(XmpInt())
+        """Endianess Normal/Reverted"""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the Tx Pre-Coding Configurations.
+
+        :return: Tx Pre-Coding configurations including status, and endianess type.
+        :rtype: PP_TXPRECODING.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+
+    def set(self, status: PreCodingStatus, endianess: Endianess) -> Token[None]:
+        """Set the Tx Pre-coding settings of the PHY.
+
+        :param status: The status(Off/On/Auto)
+        :type status: PreCodingStatus
+        :param endianess: Endianess type
+        :type endianess: Endianess
+        """
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, status=status, endianess=endianess))
+    
+@register_command
+@dataclass
+class PP_RXGRAYCODING:
+    """
+    GET/SET Rx Gray-Coding Configurations.
+    """
+
+    code: typing.ClassVar[int] = 422
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        status: GrayCodingStatus = field(XmpInt())
+        """Status Off/On"""
+        endianess: Endianess = field(XmpInt())
+        """Endianess Normal/Reverted"""
+
+    class SetDataAttr(RequestBodyStruct):
+        status: GrayCodingStatus = field(XmpInt())
+        """Status Off/On"""
+        endianess: Endianess = field(XmpInt())
+        """Endianess Normal/Reverted"""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the Rx Gray-Coding Configurations.
+
+        :return: Rx Gray-Coding configurations including status, and endianess type.
+        :rtype: PP_RXGRAYCODING.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+
+    def set(self, status: GrayCodingStatus, endianess: Endianess) -> Token[None]:
+        """Set the Rx Gray-coding settings of the PHY.
+
+        :param status: The status(Off/On)
+        :type status: GrayCodingStatus
+        :param endianess: Endianess type
+        :type endianess: Endianess
+        """
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, status=status, endianess=endianess))
+    
+@register_command
+@dataclass
+class PP_TXGRAYCODING:
+    """
+    GET/SET Tx Gray-Coding Configurations.
+    """
+
+    code: typing.ClassVar[int] = 423
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        status: GrayCodingStatus = field(XmpInt())
+        """Status Off/On/Auto"""
+        endianess: Endianess = field(XmpInt())
+        """Endianess Normal/Reverted"""
+
+    class SetDataAttr(RequestBodyStruct):
+        status: GrayCodingStatus = field(XmpInt())
+        """Status Off/On/Auto"""
+        endianess: Endianess = field(XmpInt())
+        """Endianess Normal/Reverted"""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the Tx Gray-Coding Configurations.
+
+        :return: Tx Gray-Coding configurations including status, and endianess type.
+        :rtype: PP_TXGRAYCODING.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+
+    def set(self, status: GrayCodingStatus, endianess: Endianess) -> Token[None]:
+        """Set the Tx Gray-coding settings of the PHY.
+
+        :param status: The status(Off/On/Auto)
+        :type status: GrayCodingStatus
+        :param endianess: Endianess type
+        :type endianess: Endianess
+        """
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, status=status, endianess=endianess))
