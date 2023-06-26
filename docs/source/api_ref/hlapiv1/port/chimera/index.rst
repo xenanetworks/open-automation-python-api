@@ -1,4 +1,4 @@
-Chimera
+Impairment
 =========================
 
 .. note::
@@ -16,3 +16,4 @@ Chimera
     corruption/index
     policer/index
     shaper/index
+    statistics/index
