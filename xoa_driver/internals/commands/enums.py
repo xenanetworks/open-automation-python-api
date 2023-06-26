@@ -2483,9 +2483,9 @@ class Endianess(IntEnum):
     """Endianess (Big/Little Endian)."""
     
     NORMAL      = 0
-    """Normal"""
+    """Big Endian"""
     
     REVERTED    = 1
-    """Reverted"""
+    """Little Endian"""
 
 # endregion
