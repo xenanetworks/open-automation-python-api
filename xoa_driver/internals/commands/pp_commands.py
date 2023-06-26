@@ -2147,7 +2147,7 @@ class PP_TXPRECODING:
     """
 
     code: typing.ClassVar[int] = 421
-    pushed: typing.ClassVar[bool] = False
+    pushed: typing.ClassVar[bool] = True
 
     _connection: 'interfaces.IConnection'
     _module: int
@@ -2194,7 +2194,7 @@ class PP_RXGRAYCODING:
     """
 
     code: typing.ClassVar[int] = 422
-    pushed: typing.ClassVar[bool] = False
+    pushed: typing.ClassVar[bool] = True
 
     _connection: 'interfaces.IConnection'
     _module: int
@@ -2241,7 +2241,7 @@ class PP_TXGRAYCODING:
     """
 
     code: typing.ClassVar[int] = 423
-    pushed: typing.ClassVar[bool] = False
+    pushed: typing.ClassVar[bool] = True
 
     _connection: 'interfaces.IConnection'
     _module: int
