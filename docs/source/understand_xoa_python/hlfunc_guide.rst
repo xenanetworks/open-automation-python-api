@@ -112,6 +112,20 @@ LT Functionalities
    * Link partner frame lock status
 
 
+CLI Integration
+------------------------------------
+
+The XOA Python API allows users to interact with Xena Networks test equipment using Python code, providing an object-oriented and user-friendly interface for automating network testing tasks. It enables users to create and execute test scenarios, generate traffic, and analyze network performance using Python programming language. On the other hand, the XOA CLI allows users to configure and control Xena test equipment through command-line commands. It provides a familiar and efficient way to interact with the equipment, allowing users to perform various configuration tasks, manage ports, and execute test commands.
+
+By leveraging both the XOA Python API and XOA CLI, users can take advantage of the best of both worlds. They can harness the power of Python for automation, scripting, and advanced data analysis while utilizing the precise control and configuration options provided by the CLI commands. With the XOA Python API, users can seamlessly work with CLI commands and port configuration files from ValkyrieManager, streamlining the configuration process. Whether users prefer a programming approach or a straightforward command-line interface, both options are available to suit different requirements and preferences when working with Xena test equipment. This synergy enhances the overall testing experience, enabling users to perform complex testing tasks efficiently and effectively.
+
+1. Send tester configuration from a configuration file
+2. Send module configuration from a configuration file
+3. Send port configuration from a configuration file (.xpc file)
+4. Send tester configuration from a string
+5. Send module configuration from a string
+6. Send port configuration from a string
+
 Test Resource Management
 ------------------------------------
 
