@@ -1,10 +1,10 @@
 #: High-level functions
 from xoa_driver.functions import (
     anlt,
+    cli,
     mgmt,
     anlt_ll_debug,
     exceptions,
-    config_cli_convert,
 )
 
 __all__ = (
@@ -12,5 +12,5 @@ __all__ = (
     "mgmt",
     "anlt_ll_debug",
     "exceptions",
-    "config_cli_convert"
+    "cli"
 )
