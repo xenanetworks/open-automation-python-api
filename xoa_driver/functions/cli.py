@@ -481,30 +481,84 @@ async def _helper(obj: GenericAnyTester | GenericAnyModule | GenericAnyPort, lon
         pass
 
 
-async def upload_tester_config_from_string(tester: GenericAnyTester, long_str: str, comment_start: tuple[str, ...] = (";", "#", "//")) -> None:
+async def tester_config_from_string(tester: GenericAnyTester, long_str: str, comment_start: tuple[str, ...] = (";", "#", "//")) -> None:
+    """Send tester configuration from a string. The CLI commands must all start with `C_` prefix.
+
+    :param tester: the tester object
+    :type tester: GenericAnyTester
+    :param long_str: the string containing the CLI commands
+    :type long_str: str
+    :param comment_start: symbol used to start a comment, defaults to (";", "#", "//")
+    :type comment_start: tuple[str, ...], optional
+    """
     await _helper(tester, long_str, False, "C", comment_start)
 
 
-async def upload_tester_config_from_file(tester: GenericAnyTester, path: str, comment_start: tuple[str, ...] = (";", "#", "//")) -> None:
+async def tester_config_from_file(tester: GenericAnyTester, path: str, comment_start: tuple[str, ...] = (";", "#", "//")) -> None:
+    """Send tester configuration from a configuration file. The CLI commands must all start with `C_` prefix.
+
+    :param tester: the tester object
+    :type tester: GenericAnyTester
+    :param path: the path to the configuration file
+    :type path: str
+    :param comment_start: symbol used to start a comment, defaults to (";", "#", "//")
+    :type comment_start: tuple[str, ...], optional
+    """
     await _helper(tester, path, True, "C", comment_start)
 
 
-async def upload_module_config_from_string(module: GenericAnyModule, long_str: str, comment_start: tuple[str, ...] = (";", "#", "//")) -> None:
+async def module_config_from_string(module: GenericAnyModule, long_str: str, comment_start: tuple[str, ...] = (";", "#", "//")) -> None:
+    """Send module configuration from a string. The CLI commands must all start with `M_` prefix.
+
+    :param module: the module object
+    :type module: GenericAnyModule
+    :param long_str: the string containing the CLI commands
+    :type long_str: str
+    :param comment_start: symbol used to start a comment, defaults to (";", "#", "//")
+    :type comment_start: tuple[str, ...], optional
+    """
     assert (module.is_reserved_by_me()), f"Please reserve Module {module.module_id} first!"
     await _helper(module, long_str, False, "M", comment_start)
 
 
-async def upload_module_config_from_file(module: GenericAnyModule, path: str, comment_start: tuple[str, ...] = (";", "#", "//")) -> None:
+async def module_config_from_file(module: GenericAnyModule, path: str, comment_start: tuple[str, ...] = (";", "#", "//")) -> None:
+    """Send module configuration from a configuration file. The CLI commands must all start with `M_` prefix.
+
+    :param module: the module object
+    :type module: GenericAnyModule
+    :param path: the path to the configuration file
+    :type path: str
+    :param comment_start: symbol used to start a comment, defaults to (";", "#", "//")
+    :type comment_start: tuple[str, ...], optional
+    """
     assert (module.is_reserved_by_me()), f"Please reserve Module {module.module_id} first!"
     await _helper(module, path, True, "M", comment_start)
 
 
-async def upload_port_config_from_string(port: GenericAnyPort, long_str: str, comment_start: tuple[str, ...] = (";", "#", "//")) -> None:
+async def port_config_from_string(port: GenericAnyPort, long_str: str, comment_start: tuple[str, ...] = (";", "#", "//")) -> None:
+    """Send port configuration from a string. The CLI commands must all start with `P_` prefix.
+
+    :param port: the port object
+    :type port: GenericAnyPort
+    :param long_str: the string containing the CLI commands
+    :type long_str: str
+    :param comment_start: symbol used to start a comment, defaults to (";", "#", "//")
+    :type comment_start: tuple[str, ...], optional
+    """
     assert (port.is_reserved_by_me()), f"Please reserve Port {port.kind.module_id}/{port.kind.port_id} first!"
     await _helper(port, long_str, False, "P", comment_start)
 
 
-async def upload_port_config_from_file(port: GenericAnyPort, path: str, comment_start: tuple[str, ...] = (";", "#", "//")) -> None:
+async def port_config_from_file(port: GenericAnyPort, path: str, comment_start: tuple[str, ...] = (";", "#", "//")) -> None:
+    """Send port configuration from a port configuration file (.xpc file).
+
+    :param port: the port object
+    :type port: GenericAnyPort
+    :param path: the path to the configuration file
+    :type path: str
+    :param comment_start: symbol used to start a comment, defaults to (";", "#", "//")
+    :type comment_start: tuple[str, ...], optional
+    """
     assert (port.is_reserved_by_me()), f"Please reserve Port {port.kind.module_id}/{port.kind.port_id} first!"
     await _helper(port, path, True, "P", comment_start)
 
@@ -512,10 +566,10 @@ async def upload_port_config_from_file(port: GenericAnyPort, path: str, comment_
 __all__ = (
     "read_commands_from_file",
     "read_commands_from_string",
-    "upload_tester_config_from_string",
-    "upload_module_config_from_string",
-    "upload_port_config_from_string",
-    "upload_tester_config_from_file",
-    "upload_module_config_from_file",
-    "upload_port_config_from_file",
+    "tester_config_from_string",
+    "module_config_from_string",
+    "port_config_from_string",
+    "tester_config_from_file",
+    "module_config_from_file",
+    "port_config_from_file",
 )
