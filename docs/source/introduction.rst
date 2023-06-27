@@ -43,14 +43,14 @@ In summary, the XOA Python API and XOA CLI work together to provide a comprehens
 
 .. figure:: /_static/xoa_cli_synergy.png
     :scale: 100 %
-    :align: center
+    :align: left
 
     Synergy Between XOA Python API and CLI
 
-    A1: Save port configurations from ValkyrieManager and conveniently load them at a later time.
+        A1: Save port configurations from ValkyrieManager and conveniently load them at a later time.
 
-    A2: Save port configurations from ValkyrieManager and conveniently load them using XOA Python API to facilitate the automation process.
+        A2: Use CLI commands to manage and control testers.
 
-    B1: Use CLI commands to manage and control testers.
+        B1: Save port configurations from ValkyrieManager and conveniently load them using XOA Python API to facilitate the automation process.
 
-    B2: Use CLI commands inside XOA Python API to manage and control testers.
+        B2: Use CLI commands inside XOA Python API to manage and control testers.
