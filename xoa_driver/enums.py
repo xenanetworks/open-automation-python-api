@@ -163,7 +163,7 @@ from .internals.commands.enums import (
     AnLtLogControl,
     PreCodingStatus,
     GrayCodingStatus,
-    Endianess
+    Endianness
 )
 
 __all__ = (
@@ -329,5 +329,5 @@ __all__ = (
     "AnLtLogControl",
     "PreCodingStatus",
     "GrayCodingStatus",
-    "Endianess"
+    "Endianness"
 )

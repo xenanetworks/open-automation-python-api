@@ -2479,8 +2479,8 @@ class GrayCodingStatus(IntEnum):
     ON      = 1
     """On"""
 
-class Endianess(IntEnum):
-    """Endianess (Big/Little Endian)."""
+class Endianness(IntEnum):
+    """Endianness (Big/Little Endian)."""
     
     NORMAL      = 0
     """Big Endian"""
