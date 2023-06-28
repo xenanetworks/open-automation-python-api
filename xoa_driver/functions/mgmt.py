@@ -37,14 +37,17 @@ async def reserve_tester(tester: GenericAnyTester, force: bool = True) -> None:
     """
     r = await tester.reservation.get()
     if force and r.operation == enums.ReservedStatus.RESERVED_BY_OTHER:
-        await asyncio.gather(*(free_module(m) for m in tester.modules))
+        await tester.reservation.set_relinquish()
+        await asyncio.gather(*(free_module(m, True) for m in tester.modules))
         await tester.reservation.set_reserve()
     elif r.operation == enums.ReservedStatus.RELEASED:
-        # can fail in condition if an module or port is reserved by someone else
         await tester.reservation.set_reserve()
 
 
-async def free_tester(tester: GenericAnyTester) -> None:
+async def free_tester(
+        tester: GenericAnyTester, 
+        should_free_modules_ports: bool = False,
+        ) -> None:
     """
     .. versionadded:: 1.1
 
@@ -52,6 +55,8 @@ async def free_tester(tester: GenericAnyTester) -> None:
 
     :param tester: The tester to free
     :type tester: :class:`~xoa_driver.testers.GenericAnyTester`
+    :param should_free_modules_ports: should modules and ports also be freed, defaults to False
+    :type should_free_modules_ports: bool, optional
     :return:
     :rtype: None
     """
@@ -60,7 +65,8 @@ async def free_tester(tester: GenericAnyTester) -> None:
         await tester.reservation.set_relinquish()
     elif r.operation == enums.ReservedStatus.RESERVED_BY_YOU:
         await tester.reservation.set_release()
-    await asyncio.gather(*(free_module(m) for m in tester.modules))
+    if should_free_modules_ports:
+        await asyncio.gather(*(free_module(m, True) for m in tester.modules))
 
 
 # endregion
@@ -118,7 +124,6 @@ async def reserve_module(module: GenericAnyModule, force: bool = True) -> None:
         await free_module(module, True)
         await module.reservation.set_reserve()
     elif r.operation == enums.ReservedStatus.RELEASED:
-        # will fail in condition coz module can be released but port can be occupied by some one else
         await module.reservation.set_reserve()
 
 
@@ -132,7 +137,7 @@ async def free_module(
 
     :param module: The module to free
     :type module: :class:`~xoa_driver.modules.GenericAnyModule`
-    :param should_free_ports: _description_, defaults to False
+    :param should_free_ports: should ports also be freed, defaults to False
     :type should_free_ports: bool, optional
     :return:
     :rtype: None

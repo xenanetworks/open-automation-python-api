@@ -1,9 +1,14 @@
 Code Examples
 ===================
 
+.. note::
+    
+    For more examples, please go to `XOA Scripting Library <https://github.com/xenanetworks/open-automation-script-library>`_.
+
 .. toctree::
 
-    hlapiv1_examples
-    hlapiv1_vs_xpc_examples
-    hlapiv1_vs_cli_examples
-    llapi_examples
+    hlapiv1
+    xpc_integration
+    cli_integration
+    cli_conversion
+    llapi

@@ -28,8 +28,8 @@ The target audience of this document is test specialists who develop and run aut
 
    introduction
    getting_started/index
-   test_resource_mgt
    understand_xoa_python/index
+   test_resource_mgt
    command_grouping
    status_msg_exceptions
    code_example/index

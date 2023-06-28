@@ -2482,4 +2482,37 @@ class RxEqExtCapStatus(IntEnum):
     """Freeze."""
 
 
+class PreCodingStatus(IntEnum):
+    """Rx/Tx Pre-Coding Status."""
+    
+    OFF = 0
+    """Off"""
+    
+    ON = 1
+    """On"""
+    
+    AUTO = 2
+    """Auto"""
+
+
+class GrayCodingStatus(IntEnum):
+    """Rx/Tx Gray-Coding Status."""
+    
+    OFF = 0
+    """Off"""
+    
+    ON = 1
+    """On"""
+
+
+class Endianness(IntEnum):
+    """Endianness (Big/Little Endian)."""
+    
+    NORMAL = 0
+    """Big Endian"""
+    
+    REVERTED = 1
+    """Little Endian"""
+
+
 # endregion

@@ -1,6 +1,10 @@
 High-Level API
 ===================================
 
+.. note::
+    
+    For more examples, please go to `XOA Scripting Library <https://github.com/xenanetworks/open-automation-script-library>`_.
+    
 The boilerplate code that is used to run the examples in this section:
 
 .. literalinclude:: boilerplate.py

@@ -1,10 +1,9 @@
 Statistics
 =========================
 
-Statistics APIs.
+Statistics for Valkyrie ports.
 
 .. toctree::
     :glob:
 
-    valkyrie/*
-    chimera/*
+    *
