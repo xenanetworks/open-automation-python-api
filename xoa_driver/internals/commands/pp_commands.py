@@ -1904,6 +1904,7 @@ class PP_PHYRXEQ_EXT:
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._capability_type], status=status, value=value))
 
+
 @register_command
 @dataclass
 class PP_AUTONEG:

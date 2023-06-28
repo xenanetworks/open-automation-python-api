@@ -2458,21 +2458,26 @@ class AnLtLogControl(IntEnum):
     LOG_TYPE_FSM_LT_ALG1 = 0x800000
     """link training algorithm -1 state machine transitions"""
 
+
 class RxEqExtCap(IntEnum):
     """Rx Equalizer Advanced Capability type."""
 
     CTLE_LOW = 0
     """CTLE low frequency."""
+
     CTLE_HIGH = 1
     """CTLE high frequency."""
+
 
 class RxEqExtCapStatus(IntEnum):
     """Status for Rx Equalizer Advanced Capability."""
 
     STATUS_AUTO = 0
     """Auto."""
+
     STATUS_MANUAL = 1
     """Manual."""
+
     STATUS_FREEZE = 2
     """Freeze."""
 
