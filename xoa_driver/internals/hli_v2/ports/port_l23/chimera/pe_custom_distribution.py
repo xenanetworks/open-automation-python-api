@@ -56,7 +56,7 @@ class CustomDistribution:
         self.__observer.notify(observer.IndexEvents.DEL, self)
 
 
-class CustomDistributions(UserDict[int, "CustomDistribution"]):
+class CustomDistributions(UserDict):
     """Custom distributions"""
 
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
