@@ -161,9 +161,11 @@ from .internals.commands.enums import (
     LinkTrainEncoding,
     LinkTrainPresets,
     AnLtLogControl,
+    RxEqExtCap,
+    RxEqExtCapStatus,
     PreCodingStatus,
     GrayCodingStatus,
-    Endianness
+    Endianness,
 )
 
 __all__ = (
@@ -327,7 +329,9 @@ __all__ = (
     "LinkTrainEncoding",
     "LinkTrainPresets",
     "AnLtLogControl",
+    "RxEqExtCap",
+    "RxEqExtCapStatus",
     "PreCodingStatus",
     "GrayCodingStatus",
-    "Endianness"
+    "Endianness",
 )

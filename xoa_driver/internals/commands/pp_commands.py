@@ -55,9 +55,11 @@ from .enums import (
     PRBSPattern,
     PHYSignalStatus,
     OnOffDefault,
+    RxEqExtCap,
+    RxEqExtCapStatus,
     PreCodingStatus,
     GrayCodingStatus,
-    Endianness
+    Endianness,
 )
 
 
@@ -1806,7 +1808,7 @@ class PP_PHYSETTINGS:
 @dataclass
 class PP_PHYRXEQ:
     """
-    RX EQ parameters.
+    RX EQ parameters (For non Freya Modules).
     """
 
     code: typing.ClassVar[int] = 380
@@ -1854,6 +1856,56 @@ class PP_PHYRXEQ:
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], auto=auto, ctle=ctle, reserved=reserved))
+
+
+@register_command
+@dataclass
+class PP_PHYRXEQ_EXT:
+    """
+    GET/SET RX EQ Advanced parameters(Only for Freya Modules).
+    """
+
+    code: typing.ClassVar[int] = 397
+    pushed: typing.ClassVar[bool] = True
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _serdes_xindex: int
+    _capability_type: RxEqExtCap
+
+    class GetDataAttr(ResponseBodyStruct):
+        status: RxEqExtCapStatus = field(XmpInt())
+        """The status of the capability"""
+        value: int = field(XmpInt())
+        """The value for the capability"""
+
+    class SetDataAttr(RequestBodyStruct):
+        status: RxEqExtCapStatus = field(XmpInt())
+        """The status of the capability Auto/Manual/Freeze"""
+        value: int = field(XmpInt())
+        """The value for the capability"""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get RX EQ Advanced parameters.
+
+        :return: status Auto/Manual/Freeze, value.
+        :rtype: PP_PHYRXEQ_EXT.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._capability_type]))
+    
+    def set(self, status: RxEqExtCapStatus, value: int) -> Token[None]:
+        """Set RX EQ Advanced parameters.
+        The type of the capability(RxEqExtCap) should be passed as the second index.
+
+        :param status:  Auto/Manual/Freeze
+        :type status: RxEqExtCapStatus
+        :param value: The value for the capability
+        :type value: int
+        """
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._capability_type], status=status, value=value))
 
 
 @register_command
