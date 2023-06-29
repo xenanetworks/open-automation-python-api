@@ -2481,9 +2481,8 @@ class RxEqExtCapStatus(IntEnum):
     STATUS_FREEZE = 2
     """Freeze."""
 
-
-class PreCodingStatus(IntEnum):
-    """Rx/Tx Pre-Coding Status."""
+class PreCodingMode(IntEnum):
+    """Rx/Tx Pre-Coding Mode."""
     
     OFF = 0
     """Off"""
@@ -2494,9 +2493,8 @@ class PreCodingStatus(IntEnum):
     AUTO = 2
     """Auto"""
 
-
-class GrayCodingStatus(IntEnum):
-    """Rx/Tx Gray-Coding Status."""
+class GrayCodingMode(IntEnum):
+    """Rx/Tx Gray-Coding Mode."""
     
     OFF = 0
     """Off"""

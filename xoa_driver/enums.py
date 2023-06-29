@@ -163,9 +163,9 @@ from .internals.commands.enums import (
     AnLtLogControl,
     RxEqExtCap,
     RxEqExtCapStatus,
-    PreCodingStatus,
-    GrayCodingStatus,
-    Endianness,
+    PreCodingMode,
+    GrayCodingMode,
+    Endianness
 )
 
 __all__ = (
@@ -331,7 +331,7 @@ __all__ = (
     "AnLtLogControl",
     "RxEqExtCap",
     "RxEqExtCapStatus",
-    "PreCodingStatus",
-    "GrayCodingStatus",
-    "Endianness",
+    "PreCodingMode",
+    "GrayCodingMode",
+    "Endianness"
 )
