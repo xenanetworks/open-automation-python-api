@@ -2458,34 +2458,36 @@ class AnLtLogControl(IntEnum):
     LOG_TYPE_FSM_LT_ALG1 = 0x800000
     """link training algorithm -1 state machine transitions"""
 
-class PreCodingMode(IntEnum):
-    """Rx/Tx Pre-Coding Mode."""
+
+class PreCodingStatus(IntEnum):
+    """Rx/Tx Pre-Coding Status."""
     
-    OFF     = 0
+    OFF = 0
     """Off"""
     
-    ON      = 1
+    ON = 1
     """On"""
     
-    AUTO    = 2
+    AUTO = 2
     """Auto"""
 
 class GrayCodingMode(IntEnum):
     """Rx/Tx Gray-Coding Mode."""
     
-    OFF     = 0
+    OFF = 0
     """Off"""
     
-    ON      = 1
+    ON = 1
     """On"""
+
 
 class Endianness(IntEnum):
     """Endianness (Big/Little Endian)."""
     
-    NORMAL      = 0
+    NORMAL = 0
     """Big Endian"""
     
-    REVERTED    = 1
+    REVERTED = 1
     """Little Endian"""
 
 # endregion
