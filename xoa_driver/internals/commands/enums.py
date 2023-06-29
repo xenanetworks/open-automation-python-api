@@ -2459,8 +2459,8 @@ class AnLtLogControl(IntEnum):
     """link training algorithm -1 state machine transitions"""
 
 
-class PreCodingStatus(IntEnum):
-    """Rx/Tx Pre-Coding Status."""
+class PreCodingMode(IntEnum):
+    """Rx/Tx Pre-Coding Mode."""
     
     OFF = 0
     """Off"""
