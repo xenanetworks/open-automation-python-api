@@ -2469,16 +2469,16 @@ class RxEqExtCap(IntEnum):
     """CTLE high frequency."""
 
 
-class RxEqExtCapStatus(IntEnum):
+class RxEqExtCapMode(IntEnum):
     """Status for Rx Equalizer Advanced Capability."""
 
-    STATUS_AUTO = 0
+    AUTO = 0
     """Auto."""
 
-    STATUS_MANUAL = 1
+    MANUAL = 1
     """Manual."""
 
-    STATUS_FREEZE = 2
+    FREEZE = 2
     """Freeze."""
 
 class PreCodingMode(IntEnum):

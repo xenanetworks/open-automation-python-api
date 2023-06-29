@@ -56,7 +56,7 @@ from .enums import (
     PHYSignalStatus,
     OnOffDefault,
     RxEqExtCap,
-    RxEqExtCapStatus,
+    RxEqExtCapMode,
     PreCodingMode,
     GrayCodingMode,
     Endianness
@@ -1875,37 +1875,37 @@ class PP_PHYRXEQ_EXT:
     _capability_type: RxEqExtCap
 
     class GetDataAttr(ResponseBodyStruct):
-        status: RxEqExtCapStatus = field(XmpInt())
-        """The status of the capability"""
+        mode: RxEqExtCapMode = field(XmpInt())
+        """The capability mode"""
         value: int = field(XmpInt())
         """The value for the capability"""
 
     class SetDataAttr(RequestBodyStruct):
-        status: RxEqExtCapStatus = field(XmpInt())
-        """The status of the capability Auto/Manual/Freeze"""
+        mode: RxEqExtCapMode = field(XmpInt())
+        """The capability mode Auto/Manual/Freeze"""
         value: int = field(XmpInt())
         """The value for the capability"""
 
     def get(self) -> Token[GetDataAttr]:
         """Get RX EQ Advanced parameters.
 
-        :return: status Auto/Manual/Freeze, value.
+        :return: mode Auto/Manual/Freeze, value.
         :rtype: PP_PHYRXEQ_EXT.GetDataAttr
         """
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._capability_type]))
     
-    def set(self, status: RxEqExtCapStatus, value: int) -> Token[None]:
+    def set(self, mode: RxEqExtCapMode, value: int) -> Token[None]:
         """Set RX EQ Advanced parameters.
         The type of the capability(RxEqExtCap) should be passed as the second index.
 
-        :param status:  Auto/Manual/Freeze
-        :type status: RxEqExtCapStatus
+        :param mode:  Auto/Manual/Freeze
+        :type mode: RxEqExtCapMode
         :param value: The value for the capability
         :type value: int
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._capability_type], status=status, value=value))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._capability_type], mode=mode, value=value))
 
 
 @register_command
