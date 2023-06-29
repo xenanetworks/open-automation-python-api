@@ -2458,8 +2458,8 @@ class AnLtLogControl(IntEnum):
     LOG_TYPE_FSM_LT_ALG1 = 0x800000
     """link training algorithm -1 state machine transitions"""
 
-class PreCodingStatus(IntEnum):
-    """Rx/Tx Pre-Coding Status."""
+class PreCodingMode(IntEnum):
+    """Rx/Tx Pre-Coding Mode."""
     
     OFF     = 0
     """Off"""
@@ -2470,8 +2470,8 @@ class PreCodingStatus(IntEnum):
     AUTO    = 2
     """Auto"""
 
-class GrayCodingStatus(IntEnum):
-    """Rx/Tx Gray-Coding Status."""
+class GrayCodingMode(IntEnum):
+    """Rx/Tx Gray-Coding Mode."""
     
     OFF     = 0
     """Off"""

@@ -161,8 +161,8 @@ from .internals.commands.enums import (
     LinkTrainEncoding,
     LinkTrainPresets,
     AnLtLogControl,
-    PreCodingStatus,
-    GrayCodingStatus,
+    PreCodingMode,
+    GrayCodingMode,
     Endianness
 )
 
@@ -327,7 +327,7 @@ __all__ = (
     "LinkTrainEncoding",
     "LinkTrainPresets",
     "AnLtLogControl",
-    "PreCodingStatus",
-    "GrayCodingStatus",
+    "PreCodingMode",
+    "GrayCodingMode",
     "Endianness"
 )
