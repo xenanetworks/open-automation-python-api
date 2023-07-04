@@ -38,7 +38,7 @@ class FamilyL1(BasePortL23Genuine):
     :type: PcsPma
     """
     
-    ser_des: Tuple[SerDes, ...]
+    serdes: Tuple[SerDes, ...]
     """SerDes index
 
     :type: Tuple[SerDes, ...]
@@ -57,7 +57,7 @@ class FamilyL1(BasePortL23Genuine):
     async def _setup(self) -> Self:
         await super()._setup()
         self.pcs_pma = PcsPma(self._conn, self)
-        self.ser_des = tuple(
+        self.serdes = tuple(
             SerDes(self._conn, *self.kind, serdes_xindex=serdes_xindex)
             for serdes_xindex in range(self.info.capabilities.serdes_count)
         )
