@@ -1192,10 +1192,27 @@ class MulticastHeaderFormat(IntEnum):
 
 
 class PFCMode(IntEnum):
-    """Priority Flow Control (PFC) Mode"""
-
+    """The PFC CoS value of the stream"""
+    ZERO = 0
+    """the PFC CoS value = 0"""
+    ONE = 1
+    """the PFC CoS value = 1"""
+    TWO = 2
+    """the PFC CoS value = 2"""
+    THREE = 3
+    """the PFC CoS value = 3"""
+    FOUR = 4
+    """the PFC CoS value = 4"""
+    FIVE = 5
+    """the PFC CoS value = 5"""
+    SIX = 6
+    """the PFC CoS value = 6"""
+    SEVEN = 7
+    """the PFC CoS value = 7"""
     VLAN_PCP = 128
-    """VLAN PCP"""
+    """PFC CoS value is automatically using the outer VLAN PCP value of the stream. If the VLAN field is missing, the stream won't have a PFC CoS."""
+    OFF = 129
+    """Remove PFC CoS value of the stream."""
 
 
 class PRBSOnOff(IntEnum):
