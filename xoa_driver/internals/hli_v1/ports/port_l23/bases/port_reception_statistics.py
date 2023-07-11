@@ -74,7 +74,7 @@ class PortReceptionStatistics:
         self.__module_id = module_id
         self.__port_id = port_id
 
-        self.__tpld_ids = PR_TPLDS(conn, module_id, module_id)
+        self.__tpld_ids = PR_TPLDS(conn, module_id, port_id)
 
         self.total = PR_TOTAL(conn, module_id, port_id)
         """L23 port's total traffic statistics.
