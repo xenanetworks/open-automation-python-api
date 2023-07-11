@@ -2078,7 +2078,7 @@ class PS_EXTPAYLOAD:
 @dataclass
 class PS_PFCPRIORITY:
     """
-    Set and get the Priority Flow Control (PFC) mode.
+    Set and get the Priority Flow Control (PFC) Cos value of a stream.
     """
 
     code: typing.ClassVar[int] = 219
@@ -2090,27 +2090,27 @@ class PS_PFCPRIORITY:
     _stream_xindex: int
 
     class GetDataAttr(ResponseBodyStruct):
-        pcp: PFCMode = field(XmpByte())
-        """coded byte, Priority Flow Control mode."""
+        cos: PFCMode = field(XmpByte())
+        """coded byte, the Priority Flow Control (PFC) Cos value of a stream."""
 
     class SetDataAttr(RequestBodyStruct):
-        pcp: PFCMode = field(XmpByte())
-        """coded byte, Priority Flow Control mode."""
+        cos: PFCMode = field(XmpByte())
+        """coded byte, the Priority Flow Control (PFC) Cos value of a stream."""
 
     def get(self) -> Token[GetDataAttr]:
-        """Get the Priority Flow Control (PFC) mode of a stream.
+        """Get the the Priority Flow Control (PFC) Cos value of a stream.
 
-        :return: the Priority Flow Control mode of the stream
+        :return: the Priority Flow Control (PFC) Cos value of a stream.
         :rtype: PS_PFCPRIORITY.GetDataAttr
         """
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._stream_xindex]))
 
-    def set(self, pcp: PFCMode) -> Token[None]:
-        """Set the Priority Flow Control (PFC) mode of a stream.
+    def set(self, cos: PFCMode) -> Token[None]:
+        """Set the Priority Flow Control (PFC) Cos value of a stream.
 
-        :param pcp: the Priority Flow Control mode of the stream
-        :type pcp: str
+        :param cos: the Priority Flow Control (PFC) Cos value of a stream.
+        :type cos: PFCMode
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._stream_xindex], pcp=pcp))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._stream_xindex], cos=cos))

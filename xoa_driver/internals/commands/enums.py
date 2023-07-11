@@ -1192,10 +1192,27 @@ class MulticastHeaderFormat(IntEnum):
 
 
 class PFCMode(IntEnum):
-    """Priority Flow Control (PFC) Mode"""
-
+    """The PFC CoS value of the stream"""
+    ZERO = 0
+    """the PFC CoS value = 0"""
+    ONE = 1
+    """the PFC CoS value = 1"""
+    TWO = 2
+    """the PFC CoS value = 2"""
+    THREE = 3
+    """the PFC CoS value = 3"""
+    FOUR = 4
+    """the PFC CoS value = 4"""
+    FIVE = 5
+    """the PFC CoS value = 5"""
+    SIX = 6
+    """the PFC CoS value = 6"""
+    SEVEN = 7
+    """the PFC CoS value = 7"""
     VLAN_PCP = 128
-    """VLAN PCP"""
+    """PFC CoS value is automatically using the outer VLAN PCP value of the stream. If the VLAN field is missing, the stream won't have a PFC CoS."""
+    OFF = 129
+    """Remove PFC CoS value of the stream."""
 
 
 class PRBSOnOff(IntEnum):
@@ -2457,6 +2474,62 @@ class AnLtLogControl(IntEnum):
 
     LOG_TYPE_FSM_LT_ALG1 = 0x800000
     """link training algorithm -1 state machine transitions"""
+
+
+class RxEqExtCap(IntEnum):
+    """Rx Equalizer Advanced Capability type."""
+
+    CTLE_LOW = 0
+    """CTLE low frequency."""
+
+    CTLE_HIGH = 1
+    """CTLE high frequency."""
+
+
+class RxEqExtCapStatus(IntEnum):
+    """Status for Rx Equalizer Advanced Capability."""
+
+    STATUS_AUTO = 0
+    """Auto."""
+
+    STATUS_MANUAL = 1
+    """Manual."""
+
+    STATUS_FREEZE = 2
+    """Freeze."""
+
+
+class PreCodingStatus(IntEnum):
+    """Rx/Tx Pre-Coding Status."""
+    
+    OFF = 0
+    """Off"""
+    
+    ON = 1
+    """On"""
+    
+    AUTO = 2
+    """Auto"""
+
+
+class GrayCodingStatus(IntEnum):
+    """Rx/Tx Gray-Coding Status."""
+    
+    OFF = 0
+    """Off"""
+    
+    ON = 1
+    """On"""
+
+
+class Endianness(IntEnum):
+    """Endianness (Big/Little Endian)."""
+    
+    NORMAL = 0
+    """Big Endian"""
+    
+    REVERTED = 1
+    """Little Endian"""
 
 
 # endregion

@@ -33,7 +33,7 @@ class FamilyJ(BasePortL23Genuine):
     :type: PcsPma
     """
     
-    ser_des: Tuple[SerDes, ...]
+    serdes: Tuple[SerDes, ...]
     """SerDes index
 
     :type: Tuple[SerDes, ...]

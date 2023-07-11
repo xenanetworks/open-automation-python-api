@@ -31,7 +31,7 @@ class PcsPma(PcsPma1, PcsPma2, PcsPma3):
 
 class FamilyL1(BasePortL23Genuine):
     pcs_pma: PcsPma
-    ser_des: Tuple[SerDes, ...]
+    serdes: Tuple[SerDes, ...]
 
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
         super().__init__(conn, module_id, port_id)
@@ -45,7 +45,7 @@ class FamilyL1(BasePortL23Genuine):
     async def _setup(self) -> Self:
         await super()._setup()
         self.pcs_pma = PcsPma(self._conn, self)
-        self.ser_des = tuple(
+        self.serdes = tuple(
             SerDes(self._conn, *self.kind, serdes_xindex=serdes_xindex)
             for serdes_xindex in range(self.info.capabilities.serdes_count)
         )
