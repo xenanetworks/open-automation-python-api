@@ -1294,7 +1294,7 @@ class PEF_IPV6TC:
     class GetDataAttr(ResponseBodyStruct):
         use: OnOff = field(XmpByte())
         """coded byte, specifies the use of IPv6 information."""
-        value: ipaddress.IPv6Address = field(XmpIPv6Address())
+        value: int = field(XmpByte())
         """byte, specifying the value of the IPv6 Traffic Class in the upper 6 bits. value[7:2] = IPv6 Traffic Class. value[1:0] = reserved (must be zero). Default value: 0"""
         mask: Hex = field(XmpHex(size=1))
         """hex byte, specifying the filter mask for the value in the upper 6 bits. mask[7:2] = IPv6 Traffic Class mask. mask[1:0] = reserved (must be zero). Default value: 0xFC"""
@@ -1302,7 +1302,7 @@ class PEF_IPV6TC:
     class SetDataAttr(RequestBodyStruct):
         use: OnOff = field(XmpByte())
         """coded byte, specifies the use of IPv6 information."""
-        value: ipaddress.IPv6Address = field(XmpIPv6Address())
+        value: int = field(XmpByte())
         """byte, specifying the value of the IPv6 Traffic Class in the upper 6 bits. value[7:2] = IPv6 Traffic Class. value[1:0] = reserved (must be zero). Default value: 0"""
         mask: Hex = field(XmpHex(size=1))
         """hex byte, specifying the filter mask for the value in the upper 6 bits. mask[7:2] = IPv6 Traffic Class mask. mask[1:0] = reserved (must be zero). Default value: 0xFC"""
@@ -1316,13 +1316,13 @@ class PEF_IPV6TC:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
-    def set(self, use: OnOff, value: ipaddress.IPv6Address, mask: Hex) -> Token[None]:
+    def set(self, use: OnOff, value: int, mask: Hex) -> Token[None]:
         """Set IPv6 Traffic Class settings used for the filter.
 
         :param use: specifies the use of the IPv6 Traffic Class information.
         :type use: OnOff
         :param value: specifying the value of the IPv6 Traffic Class in the upper 6 bits. value[7:2] = IPv6 Traffic Class. value[1:0] = reserved (must be zero). Default value: 0
-        :type value: ipaddress.IPv6Address
+        :type value: int
         :param mask: specifying the filter mask for the value in the upper 6 bits. mask[7:2] = IPv6 Traffic Class mask. mask[1:0] = reserved (must be zero). Default value: 0xFC
         :type mask: Hex
         """
