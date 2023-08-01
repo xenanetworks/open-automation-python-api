@@ -30,7 +30,7 @@ from .enums import (
     FilterUse,
     InfoAction,
     L2PlusPresent,
-    L3PlusPresent,
+    L3Present,
     FilterMode,
     FilterType,
     FilterVlanType,
@@ -797,11 +797,11 @@ class PEF_L3USE:
     _filter_type: FilterType
 
     class GetDataAttr(ResponseBodyStruct):
-        use: L3PlusPresent = field(XmpByte())
+        use: L3Present = field(XmpByte())
         """coded byte, specifies the presence of Layer 3 protocols:"""
 
     class SetDataAttr(RequestBodyStruct):
-        use: L3PlusPresent = field(XmpByte())
+        use: L3Present = field(XmpByte())
         """coded byte, specifies the presence of Layer 3 protocols:"""
 
     def get(self) -> Token[GetDataAttr]:
@@ -813,22 +813,22 @@ class PEF_L3USE:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
-    def set(self, use: L3PlusPresent) -> Token[None]:
+    def set(self, use: L3Present) -> Token[None]:
         """Set Layer 3 protocols settings for the filter.
 
         :param use: specifies the presence of Layer 3 protocols
-        :type use: L3PlusPresent
+        :type use: L3Present
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type], use=use))
 
-    set_na = functools.partialmethod(set, L3PlusPresent.NA)
+    set_na = functools.partialmethod(set, L3Present.NA)
     """Set Layer 3 protocol presence to NA."""
 
-    set_ip4 = functools.partialmethod(set, L3PlusPresent.IP4)
+    set_ip4 = functools.partialmethod(set, L3Present.IP4)
     """Set Layer 3 protocol presence to IPv4."""
 
-    set_ip6 = functools.partialmethod(set, L3PlusPresent.IP6)
+    set_ip6 = functools.partialmethod(set, L3Present.IP6)
     """Set Layer 3 protocol presence to IPv6."""
 
 
@@ -1294,7 +1294,7 @@ class PEF_IPV6TC:
     class GetDataAttr(ResponseBodyStruct):
         use: OnOff = field(XmpByte())
         """coded byte, specifies the use of IPv6 information."""
-        value: ipaddress.IPv6Address = field(XmpIPv6Address())
+        value: int = field(XmpByte())
         """byte, specifying the value of the IPv6 Traffic Class in the upper 6 bits. value[7:2] = IPv6 Traffic Class. value[1:0] = reserved (must be zero). Default value: 0"""
         mask: Hex = field(XmpHex(size=1))
         """hex byte, specifying the filter mask for the value in the upper 6 bits. mask[7:2] = IPv6 Traffic Class mask. mask[1:0] = reserved (must be zero). Default value: 0xFC"""
@@ -1302,7 +1302,7 @@ class PEF_IPV6TC:
     class SetDataAttr(RequestBodyStruct):
         use: OnOff = field(XmpByte())
         """coded byte, specifies the use of IPv6 information."""
-        value: ipaddress.IPv6Address = field(XmpIPv6Address())
+        value: int = field(XmpByte())
         """byte, specifying the value of the IPv6 Traffic Class in the upper 6 bits. value[7:2] = IPv6 Traffic Class. value[1:0] = reserved (must be zero). Default value: 0"""
         mask: Hex = field(XmpHex(size=1))
         """hex byte, specifying the filter mask for the value in the upper 6 bits. mask[7:2] = IPv6 Traffic Class mask. mask[1:0] = reserved (must be zero). Default value: 0xFC"""
@@ -1316,13 +1316,13 @@ class PEF_IPV6TC:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._flow_xindex, self._filter_type]))
 
-    def set(self, use: OnOff, value: ipaddress.IPv6Address, mask: Hex) -> Token[None]:
+    def set(self, use: OnOff, value: int, mask: Hex) -> Token[None]:
         """Set IPv6 Traffic Class settings used for the filter.
 
         :param use: specifies the use of the IPv6 Traffic Class information.
         :type use: OnOff
         :param value: specifying the value of the IPv6 Traffic Class in the upper 6 bits. value[7:2] = IPv6 Traffic Class. value[1:0] = reserved (must be zero). Default value: 0
-        :type value: ipaddress.IPv6Address
+        :type value: int
         :param mask: specifying the filter mask for the value in the upper 6 bits. mask[7:2] = IPv6 Traffic Class mask. mask[1:0] = reserved (must be zero). Default value: 0xFC
         :type mask: Hex
         """

@@ -1781,7 +1781,7 @@ class L2PlusPresent(IntEnum):
     """MPLS label is present"""
 
 
-class L3PlusPresent(IntEnum):
+class L3Present(IntEnum):
     """Presence of Layer-3 protocols"""
 
     NA = 0

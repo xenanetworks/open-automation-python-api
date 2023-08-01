@@ -204,7 +204,7 @@ class FMpls:
 class FTpld:
     """Filter for Xena TPLD field."""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, flow_index: int, filter_type: FilterType) -> None:
-        self.settings = prevent_set(PEF_TPLDSETTINGS(conn, module_id, port_id, flow_index, filter_type))
+        self.settings = prevent_set(PEF_TPLDSETTINGS(conn, module_id, port_id, flow_index, filter_type), filter_type)
         """Filter action on Xena TPLD field.
         Representation of PEF_TPLDSETTINGS
         """
