@@ -17,9 +17,30 @@ from xoa_driver.internals.hli_v2.indices.match_term import MatchTermIdx as Match
 from xoa_driver.internals.hli_v2.indices.port_dataset import PortDatasetIdx as PortDataset
 from xoa_driver.internals.hli_v2.indices.streams.base_stream import BaseStreamIdx as BaseStream
 from xoa_driver.internals.hli_v2.indices.streams.genuine_stream import GenuineStreamIdx as GenuineStream
-from xoa_driver.internals.hli_v2.ports.port_l23.chimera.port_emulation import CFlow as ImpairmentFlow
+from xoa_driver.internals.hli_v2.ports.port_l23.chimera.filter_definition.general import ProtocolSegment
+from xoa_driver.internals.hli_v2.ports.port_l23.chimera.port_emulation import (
+    CFlow as ImpairmentFlow,
+    StatisticsTotals,
+    CPerFlowStats as PerImpairmentFlowStats,
+    CLatencyJitterImpairment,
+    CDropImpairment,
+    CMisorderingImpairment,
+    CDuplicationImpairment,
+    CCorruptionImpairment,
+    CPolicerImpairment,
+    CShaperImpairment,
+)
 from xoa_driver.internals.hli_v2.ports.port_l23.chimera.filter_definition.general import ModeBasic as BasicImpairmentFlowFilter
 from xoa_driver.internals.hli_v2.ports.port_l23.chimera.filter_definition.general import ModeExtended as ExtendedImpairmentFlowFilter
+from xoa_driver.internals.hli_v2.ports.port_l23.chimera.pe_custom_distribution import (
+    CustomDistributions,
+    CustomDistribution,
+)
+from xoa_driver.internals.hli_v2.ports.port_l23.chimera.filter_definition.shadow import (
+    FilterDefinitionShadow,
+    ModeExtendedS,
+)
+from xoa_driver.internals.hli_v2.ports.port_l23.chimera.filter_definition.general import ModeBasic
 
 
 __all__ = (
@@ -38,4 +59,19 @@ __all__ = (
     "ImpairmentFlow",
     "BasicImpairmentFlowFilter",
     "ExtendedImpairmentFlowFilter",
+    "StatisticsTotals",
+    "CustomDistributions",
+    "CustomDistribution",
+    "PerImpairmentFlowStats",
+    "CLatencyJitterImpairment",
+    "CDropImpairment",
+    "CMisorderingImpairment",
+    "CDuplicationImpairment",
+    "CCorruptionImpairment",
+    "CPolicerImpairment",
+    "CShaperImpairment",
+    "FilterDefinitionShadow",
+    "ModeExtendedS",
+    "ModeBasic",
+    "ProtocolSegment",
 )
