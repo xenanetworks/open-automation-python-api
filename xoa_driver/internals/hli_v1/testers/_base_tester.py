@@ -52,11 +52,15 @@ class BaseTester(ABC, Generic[TesterStateStorage]):
     :type password: str, optional
     :param port: the port number for connection establishment, default to 22606
     :type port: int, optional
-    :param debug: `True` if debug log output from the tester is needed, and `False` otherwise
-    :type debug: int, optional
+    :param enable_logging: `True` if debug log output from the tester is needed, and `False` otherwise
+    :type enable_logging: bool
+    :param custom_logger: `None` allow to specify logger with custom configurations
+    :type enable_logging: CustomLogger | None
+    :param session_timeout: `130` Session timeout in seconds
+    :type session_timeout: int
     """
 
-    def __init__(self, host: str, username: str, password: str = "xena", port: int = 22606, *, enable_logging: bool = False, custom_logger: CustomLogger | None = None) -> None:
+    def __init__(self, host: str, username: str, password: str = "xena", port: int = 22606, *, enable_logging: bool = False, custom_logger: CustomLogger | None = None, session_timeout: int = 130) -> None:
         self.__host = host
         self.__port = port
         self._conn = TransportationHandler(
@@ -67,6 +71,7 @@ class BaseTester(ABC, Generic[TesterStateStorage]):
             self._conn,
             username,
             password=password,
+            timeout_seconds=session_timeout,
             keepalive=True,
         )
         """
