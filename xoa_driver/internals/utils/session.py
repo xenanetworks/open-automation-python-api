@@ -1,4 +1,5 @@
 import asyncio
+from contextlib import suppress
 from typing import (
     TYPE_CHECKING,
     Tuple
@@ -61,6 +62,13 @@ class TesterSession:
             )
         return self
 
+    async def chang_timeout(self, seconds: int = 130) -> None:
+        """Modify session timeout, """
+        if not self.is_online:
+            raise RuntimeError("Timeout can be changet only after connection is established.")
+        self.timeout = seconds
+        await C_TIMEOUT(self._conn).set(self.timeout)
+
     def __handle_exceptions(self, fut: asyncio.Future) -> None:
         if fut.cancelled():
             return None
@@ -69,7 +77,8 @@ class TesterSession:
 
     async def __do_keepalive(self) -> None:
         while self._conn.is_connected:
-            await C_KEEPALIVE(self._conn).get()
+            with suppress(Exception):
+                await C_KEEPALIVE(self._conn).get()
             await asyncio.sleep(max(0, self.timeout - 5))
 
     @property
