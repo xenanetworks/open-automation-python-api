@@ -366,6 +366,10 @@ class P_CAPABILITIES:
         """integer, Enabled traffic engine on port. 0x01 = TGA, 0x02 = uTGA."""
         reconc_sublayer: ReconciliationSublayerSupport = field(XmpInt(), min_version=456)
         """integer, Reconciliation Sublayer support, bitmask, 0 = fault signalling not support; 1 = fault signalling supported (XMP: P_FAULTSTATUS/P_FAULTSIGNALING)"""
+        max_match_term_pos: int = field(XmpInt(), min_version=457)
+        """integer, max match term position in bytes"""
+        stream_misc: int = field(XmpInt(), min_version=457)
+        """integer, bit pattern, what streams on this port can do. [0]: Whether the port supports streams with DEC8/INC16/DEC16 payload. [1]: Whether the port supports INCPLDFROM0 stream option (refer to the PS_OPTIONS command)."""
 
     def get(self) -> Token[GetDataAttr]:
         """Get the internal limits, aka. capabilities, of the port.
