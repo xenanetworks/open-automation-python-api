@@ -165,7 +165,8 @@ from .internals.commands.enums import (
     RxEqExtCapMode,
     PreCodingMode,
     GrayCodingMode,
-    Endianness
+    Endianness,
+    StreamOption
 )
 
 __all__ = (
@@ -334,4 +335,5 @@ __all__ = (
     "PreCodingMode",
     "GrayCodingMode",
     "Endianness"
+    "StreamOption"
 )
