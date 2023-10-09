@@ -85,8 +85,39 @@ class PFreya800G1S1POSFP_a(FamilyL1):
     ...
 
 
+
 class PFreya800G4S1P_a(FamilyL1):
     """L23 port on Freya-800G-4S-1P[a] module.
+    """
+    ...
+
+
+class PFreya800G4S1P_b(FamilyL1):
+    """L23 port on Freya-800G-4S-1P[b] module.
+    """
+    ...
+
+
+class PFreya800G4S1P_c(FamilyL1):
+    """L23 port on Freya-800G-4S-1P[c] module.
+    """
+    ...
+
+
+class PFreya800G4S1P_d(FamilyL1):
+    """L23 port on Freya-800G-4S-1P[d] module.
+    """
+    ...
+
+
+class PFreya800G4S1P_e(FamilyL1):
+    """L23 port on Freya-800G-4S-1P[e] module.
+    """
+    ...
+
+
+class PFreya800G4S1P_f(FamilyL1):
+    """L23 port on Freya-800G-4S-1P[f] module.
     """
     ...
 
@@ -97,7 +128,31 @@ class PFreya800G4S1POSFP_a(FamilyL1):
     ...
 
 
-class PFreya800G4S1P_b(FamilyL1):
-    """L23 port on Freya-800G-4S-1P[b] module.
+class PFreya800G4S1POSFP_b(FamilyL1):
+    """L23 port on Freya-800G-4S-1P-OSFP[b] module.
+    """
+    ...
+
+
+class PFreya800G4S1POSFP_c(FamilyL1):
+    """L23 port on Freya-800G-4S-1P-OSFP[c] module.
+    """
+    ...
+
+
+class PFreya800G4S1POSFP_d(FamilyL1):
+    """L23 port on Freya-800G-4S-1P-OSFP[d] module.
+    """
+    ...
+
+
+class PFreya800G4S1POSFP_e(FamilyL1):
+    """L23 port on Freya-800G-4S-1P-OSFP[e] module.
+    """
+    ...
+
+
+class PFreya800G4S1POSFP_f(FamilyL1):
+    """L23 port on Freya-800G-4S-1P-OSFP[f] module.
     """
     ...

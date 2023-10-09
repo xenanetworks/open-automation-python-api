@@ -41,3 +41,13 @@ Statistics
 
     await port.capturer.stats.get()
 
+
+Read Captured Packets
+---------------------
+
+.. code-block:: python
+
+    pkts = await port.capturer.obtain_captured()
+    for i in range(len(pkts)):
+        resp = await pkts[i].packet.get()
+        print(f"Packet content # {i}: {resp.hex_data}")

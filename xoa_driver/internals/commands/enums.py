@@ -1422,6 +1422,11 @@ class ReconciliationSublayerSupport(IntEnum):
     FAULT_SIGNALING = 1
     """Supported, which means P_FAULTSTATUS and P_FAULTSIGNALLING are supported by the port."""
 
+class StreamOption(IntEnum):
+    """Stream Options"""
+
+    INCPLDFROM0 = 0
+    """This flag affects the INC8/DEC8/INC16/DEC16 payload types (refer to the PS_PAYLOAD command): With the flag set, the first payload byte/word after the header will be 0 (INC8/INC16) or -1 (DEC8/DEC16). With the flag unset, the default is used: The first payload byte/word of the payload will be equal to <length of header> (INC8/INC16), or -<length of header> - 1 (DEC8/DEC16)."""
 
 # endregion
 
