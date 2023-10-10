@@ -296,7 +296,7 @@ class PL1_LOG:
         log_string: str = field(XmpStr())
 
     def get(self) -> Token[GetDataAttr]:
-        """Return a log line of either AN (``<_type> = 0``) or LT (``<_type> = 1``) for the given Serdes. (latest 100 lines)
+        """Return a log line of ANLT of all serdes on a port. (latest 100 lines)
 
         :return: a log line from AN/LT for the given Serdes.
         :rtype: PL1_LOG.GetDataAttr
