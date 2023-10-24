@@ -93,6 +93,15 @@ class POdin10G1S6P_b(FamilyF):
         self.preamble = Preamble(conn, module_id, port_id)
         """Preamble settiNgs."""
 
+class POdin10G6S6P_a(FamilyF):
+    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
+        super().__init__(conn, module_id, port_id)
+        self.runt = Runt(conn, module_id, port_id)
+        """Runt settings."""
+
+        self.preamble = Preamble(conn, module_id, port_id)
+        """Preamble settiNgs."""
+
 
 class POdin10G1S2PT(FamilyF):
     """L23 port on Odin-10G-1S-2P-T module.

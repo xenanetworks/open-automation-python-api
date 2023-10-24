@@ -23,6 +23,7 @@ from xoa_driver.internals.hli_v2.modules.modules_l23.family_f import (
     MOdin10G1S6P,
     MOdin10G1S6P_b,
     MOdin10G1S12P,
+    MOdin10G6S6P_a,
 )
 from xoa_driver.internals.hli_v2.modules.modules_l23.family_g import (
     MLoki100G3S1P,
@@ -131,6 +132,7 @@ GenericL23Module = typing.Union[
     "MOdin1G3S6PT1RJ45",
     "MOdin10G4S2PCombi",
     "MOdin10G4S2PCombi_b",
+    "MOdin10G6S6P_a",
 ]
 
 GenericAnyModule = typing.Union[
@@ -196,6 +198,7 @@ __all__ = (
     "MOdin1G3S6PT1RJ45",
     "MOdin10G4S2PCombi",
     "MOdin10G4S2PCombi_b",
+    "MOdin10G6S6P_a",
     "ModuleL23VE",
     "ModuleChimera",
     "MChi100G5S2P",
