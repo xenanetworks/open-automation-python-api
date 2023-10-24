@@ -1910,6 +1910,40 @@ class PP_PHYRXEQ_EXT:
 
 @register_command
 @dataclass
+class PP_PHYRXEQSTATUS_EXT:
+    """
+    Get RX EQ advanced parameter values. (Only for Freya modules)
+    """
+
+    code: typing.ClassVar[int] = 398
+    pushed: typing.ClassVar[bool] = True
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _serdes_xindex: int
+    _capability_type: RxEqExtCap
+
+    class GetDataAttr(ResponseBodyStruct):
+        value1: int = field(XmpInt())
+        """the 1st value for the capability"""
+        value2: int = field(XmpInt())
+        """the 2nd value for the capability"""
+
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get RX EQ Advanced parameters.
+
+        :return: mode Auto/Manual/Freeze, value.
+        :rtype: PP_PHYRXEQ_EXT.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._capability_type]))
+
+    
+
+@register_command
+@dataclass
 class PP_AUTONEG:
     """
     Auto-negotiation settings of the PHY - for Thor-400G-7S-1P Thor-400G-7S-1P[b]
@@ -2030,8 +2064,7 @@ class PP_AUTONEGSTATUS:
 @dataclass
 class PP_LINKTRAIN:
     """
-    Link training settings - for Thor-400G-7S-1P rev.B. The PP_LINKTRAIN command is
-    per port.
+    Link training settings - for Thor-400G-7S-1P and Freya modules
     """
 
     code: typing.ClassVar[int] = 383
@@ -2115,8 +2148,7 @@ class PP_LINKTRAIN:
 @dataclass
 class PP_LINKTRAINSTATUS:
     """
-    Per lane Link training status - for Thor-400G-7S-1P rev.B. The PP_LINKTRAINSTATUS command
-    is per lane.
+    Per lane Link training status - for Thor-400G-7S-1P and Freya modules
     """
 
     code: typing.ClassVar[int] = 384
@@ -2148,7 +2180,7 @@ class PP_LINKTRAINSTATUS:
 @dataclass
 class PP_PRECODING:
     """
-    GET/SET Pre-Coding Configurations.
+    GET/SET Pre-Coding Configurations. (only for Freya)
     """
     
     code: typing.ClassVar[int] = 420
@@ -2201,14 +2233,13 @@ class PP_PRECODING:
         :type endianness: Endianness
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], 
-                                                         rx_mode=rx_mode, rx_endianness=rx_endianness, tx_mode=tx_mode, tx_endianness=tx_endianness))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], rx_mode=rx_mode, rx_endianness=rx_endianness, tx_mode=tx_mode, tx_endianness=tx_endianness))
 
 @register_command
 @dataclass
 class PP_GRAYCODING:
     """
-    GET/SET Gray-Coding Configurations.
+    GET/SET Gray-Coding Configurations. (only for Freya)
     """
     
     code: typing.ClassVar[int] = 421
@@ -2261,5 +2292,39 @@ class PP_GRAYCODING:
         :type endianness: Endianness
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], 
-                                                         rx_mode=rx_mode, rx_endianness=rx_endianness, tx_mode=tx_mode, tx_endianness=tx_endianness))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], rx_mode=rx_mode, rx_endianness=rx_endianness, tx_mode=tx_mode, tx_endianness=tx_endianness))
+
+
+@register_command
+@dataclass
+class PP_PRECODINGSTATUS:
+    """
+    GET Pre-Coding status (only for Freya)
+    """
+    
+    code: typing.ClassVar[int] = 422
+    pushed: typing.ClassVar[bool] = True
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _serdes_xindex: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        rx_mode: OnOff = field(XmpInt())
+        """RX Mode Off/On"""
+        rx_endianness: Endianness = field(XmpInt())
+        """RX Endianness Normal/Reverted(BigEndian/LittleEndian)) """
+        tx_mode: OnOff = field(XmpInt())
+        """TX Mode Off/On"""
+        tx_endianness: Endianness = field(XmpInt())
+        """TX Endianness Normal/Reverted(BigEndian/LittleEndian)) """
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the Pre-Coding Configurations.
+
+        :return: Pre-Coding configurations including rx_mode, rx_endianness, tx_mode, and tx_endianness.
+        :rtype: PP_PRECODING.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex]))
