@@ -50,6 +50,7 @@ from xoa_driver.internals.hli_v1.ports.port_l23.family_f import (
     POdin10G1S12P,
     POdin40G2S2P,
     POdin40G2S2PB,
+    POdin10G6S6P_a,
 )
 
 from xoa_driver.internals.hli_v1.ports.port_l23.family_g import (
@@ -57,6 +58,7 @@ from xoa_driver.internals.hli_v1.ports.port_l23.family_g import (
     PLoki100G3S1P_b,
     PLoki100G3S1PSE,
     PLoki100G3S1PB,
+    PLoki100G3S1PB_b,
 )
 
 from xoa_driver.internals.hli_v1.ports.port_l23.family_h import (
@@ -145,6 +147,8 @@ GenericL23Port = typing.Union[
     "POdin1G4S4PCombi_b",
     "POdin10G4S2PCombi",
     "POdin10G4S2PCombi_b",
+    "POdin10G6S6P_a",
+    "PLoki100G3S1PB_b",
 ]
 
 GenericAnyPort = typing.Union[
@@ -210,6 +214,8 @@ __all__ = (
     "POdin1G4S4PCombi_b",
     "POdin10G4S2PCombi",
     "POdin10G4S2PCombi_b",
+    "POdin10G6S6P_a",
+    "PLoki100G3S1PB_b",
     "PortL47",
     "PortL23VE",
     "PortChimera",

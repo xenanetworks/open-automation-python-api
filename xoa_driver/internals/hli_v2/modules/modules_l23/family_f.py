@@ -128,3 +128,17 @@ class MOdin10G1S12P(ModuleL23):
             ports_count=self.ports_count
         )
         """Port index manager Odin-10G-1S-12P"""
+
+@typing.final
+@revisions.register_valkyrie_module(rev="Odin-10G-6S-6P[a]")
+class MOdin10G6S6P_a(ModuleL23):
+    """Test module Odin-10G-6S-6P[a]"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.POdin10G6S6P_a] = pm.PortsManager(
+            conn=conn,
+            ports_type=ports.POdin10G6S6P_a,
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port Index Manager Odin-10G-6S-6P[a]"""
