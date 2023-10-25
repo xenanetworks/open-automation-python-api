@@ -233,11 +233,6 @@ Methods to gain access to a module or a port from a :term:`resource manager`:
 
     obtain(<module-index> | <port-index>)
 
-**Example**:
-
-.. literalinclude:: /code_example/hlapiv1/04_obtain_one_module.py
-    :caption: Access a single module on a tester
-    
 
 
 Gain Access to Multiple Objects
@@ -250,12 +245,6 @@ Methods to gain access to multiple resources from a :term:`resource manager`:
 .. code-block:: python
 
     obtain_multiple(<module-index> | <port-index>, ...)
-
-**Example**:
-
-.. literalinclude:: /code_example/hlapiv1/05_obtain_multiple_modules.py
-    :caption: Access multiple modules on a tester
-    
 
 
 Index Managers
