@@ -370,6 +370,155 @@ class P_CAPABILITIES:
         """integer, max match term position in bytes"""
         stream_misc: int = field(XmpInt(), min_version=457)
         """integer, bit pattern, what streams on this port can do. [0]: Whether the port supports streams with DEC8/INC16/DEC16 payload. [1]: Whether the port supports INCPLDFROM0 stream option (refer to the PS_OPTIONS command)."""
+        rxeq_cap_ctle_low_min: int = field(XmpInt(), min_version=457) 
+        """min value of CTLE LOW."""
+        rxeq_cap_ctle_high_min: int = field(XmpInt(), min_version=457)
+        """min value of CTLE HIGH."""
+        rxeq_cap_agc_min: int = field(XmpInt(), min_version=457)
+        """min value of Automatic Gain Control."""
+        rxeq_cap_oc_min: int = field(XmpInt(), min_version=457)
+        """min value of Offset Cancellation."""
+        rxeq_cap_ffe_pre1_min: int = field(XmpInt(), min_version=457)
+        """min value of FFE Pre 1."""
+        rxeq_cap_ffe_pre2_min: int = field(XmpInt(), min_version=457)
+        """min value of FFE Pre 2."""
+        rxeq_cap_ffe_pre3_min: int = field(XmpInt(), min_version=457)
+        """min value of FFE Pre 3."""
+        rxeq_cap_ffe_pre4_min: int = field(XmpInt(), min_version=457)
+        """min value of FFE Pre 4."""
+        rxeq_cap_ffe_pre5_min: int = field(XmpInt(), min_version=457)
+        """min value of FFE Pre 5."""
+        rxeq_cap_ffe_pre6_min: int = field(XmpInt(), min_version=457)
+        """min value of FFE Pre 6."""
+        rxeq_cap_ffe_pre7_min: int = field(XmpInt(), min_version=457)
+        """min value of FFE Pre 7."""
+        rxeq_cap_ffe_pre8_min: int = field(XmpInt(), min_version=457)
+        """min value of FFE Pre 8."""
+        rxeq_cap_ffe_post1_min: int = field(XmpInt(), min_version=457)
+        """min value of FFE Post 1."""
+        rxeq_cap_ffe_post2_min: int = field(XmpInt(), min_version=457)
+        """min value of FFE Post 2."""
+        rxeq_cap_ffe_post3_min: int = field(XmpInt(), min_version=457)
+        """min value of FFE Post 3."""
+        rxeq_cap_ffe_post4_min: int = field(XmpInt(), min_version=457)
+        """min value of FFE Post 4."""
+        rxeq_cap_ffe_post5_min: int = field(XmpInt(), min_version=457)
+        """min value of FFE Post 5."""
+        rxeq_cap_ffe_post6_min: int = field(XmpInt(), min_version=457)
+        """min value of FFE Post 6."""
+        rxeq_cap_ffe_post7_min: int = field(XmpInt(), min_version=457)
+        """min value of FFE Post 7."""
+        rxeq_cap_ffe_post8_min: int = field(XmpInt(), min_version=457)
+        """min value of FFE Post 8."""
+        rxeq_cap_ffe_post9_min: int = field(XmpInt(), min_version=457)
+        """min value of FFE Post 9."""
+        rxeq_cap_ffe_post10_min: int = field(XmpInt(), min_version=457)
+        """min value of FFE Post 10."""
+        rxeq_cap_ffe_post11_min: int = field(XmpInt(), min_version=457)
+        """min value of FFE Post 11."""
+        rxeq_cap_ffe_post12_min: int = field(XmpInt(), min_version=457)
+        """min value of FFE Post 12."""
+        rxeq_cap_ffe_post13_min: int = field(XmpInt(), min_version=457)
+        """min value of FFE Post 13."""
+        rxeq_cap_ffe_post14_min: int = field(XmpInt(), min_version=457)
+        """min value of FFE Post 14."""
+        rxeq_cap_ffe_post15_min: int = field(XmpInt(), min_version=457)
+        """min value of FFE Post 15."""
+        rxeq_cap_ffe_post16_min: int = field(XmpInt(), min_version=457)
+        """min value of FFE Post 16."""
+        rxeq_cap_ffe_post17_min: int = field(XmpInt(), min_version=457)
+        """min value of FFE Post 17."""
+        rxeq_cap_ffe_post18_min: int = field(XmpInt(), min_version=457)
+        """min value of FFE Post 18."""
+        rxeq_cap_ffe_post19_min: int = field(XmpInt(), min_version=457)
+        """min value of FFE Post 19."""
+        rxeq_cap_ffe_post20_min: int = field(XmpInt(), min_version=457)
+        """min value of FFE Post 20."""
+        rxeq_cap_ffe_post21_min: int = field(XmpInt(), min_version=457)
+        """min value of FFE Post 21."""
+        rxeq_cap_ffe_post22_min: int = field(XmpInt(), min_version=457)
+        """min value of FFE Post 22."""
+        rxeq_cap_ffe_post23_min: int = field(XmpInt(), min_version=457)
+        """min value of FFE Post 23."""
+        rxeq_cap_ctle_low_max: int = field(XmpInt(), min_version=457)
+        """max value of CTLE LOW."""
+        rxeq_cap_ctle_high_max: int = field(XmpInt(), min_version=457)
+        """max value of CTLE HIGH."""
+        rxeq_cap_agc_max: int = field(XmpInt(), min_version=457)
+        """max value of Automatic Gain Control."""
+        rxeq_cap_oc_max: int = field(XmpInt(), min_version=457)
+        """max value of Offset Cancellation."""
+        rxeq_cap_ffe_pre1_max: int = field(XmpInt(), min_version=457)
+        """max value of FFE Pre 1."""
+        rxeq_cap_ffe_pre2_max: int = field(XmpInt(), min_version=457)
+        """max value of FFE Pre 2."""
+        rxeq_cap_ffe_pre3_max: int = field(XmpInt(), min_version=457)
+        """max value of FFE Pre 3."""
+        rxeq_cap_ffe_pre4_max: int = field(XmpInt(), min_version=457)
+        """max value of FFE Pre 4."""
+        rxeq_cap_ffe_pre5_max: int = field(XmpInt(), min_version=457)
+        """max value of FFE Pre 5."""
+        rxeq_cap_ffe_pre6_max: int = field(XmpInt(), min_version=457)
+        """max value of FFE Pre 6."""
+        rxeq_cap_ffe_pre7_max: int = field(XmpInt(), min_version=457)
+        """max value of FFE Pre 7."""
+        rxeq_cap_ffe_pre8_max: int = field(XmpInt(), min_version=457)
+        """max value of FFE Pre 8."""
+        rxeq_cap_ffe_post1_max: int = field(XmpInt(), min_version=457)
+        """max value of FFE Post 1."""
+        rxeq_cap_ffe_post2_max: int = field(XmpInt(), min_version=457)
+        """max value of FFE Post 2."""
+        rxeq_cap_ffe_post3_max: int = field(XmpInt(), min_version=457)
+        """max value of FFE Post 3."""
+        rxeq_cap_ffe_post4_max: int = field(XmpInt(), min_version=457)
+        """max value of FFE Post 4."""
+        rxeq_cap_ffe_post5_max: int = field(XmpInt(), min_version=457)
+        """max value of FFE Post 5."""
+        rxeq_cap_ffe_post6_max: int = field(XmpInt(), min_version=457)
+        """max value of FFE Post 6."""
+        rxeq_cap_ffe_post7_max: int = field(XmpInt(), min_version=457)
+        """max value of FFE Post 7."""
+        rxeq_cap_ffe_post8_max: int = field(XmpInt(), min_version=457)
+        """max value of FFE Post 8."""
+        rxeq_cap_ffe_post9_max: int = field(XmpInt(), min_version=457)
+        """max value of FFE Post 9."""
+        rxeq_cap_ffe_post10_max: int = field(XmpInt(), min_version=457)
+        """max value of FFE Post 10."""
+        rxeq_cap_ffe_post11_max: int = field(XmpInt(), min_version=457)
+        """max value of FFE Post 11."""
+        rxeq_cap_ffe_post12_max: int = field(XmpInt(), min_version=457)
+        """max value of FFE Post 12."""
+        rxeq_cap_ffe_post13_max: int = field(XmpInt(), min_version=457)
+        """max value of FFE Post 13."""
+        rxeq_cap_ffe_post14_max: int = field(XmpInt(), min_version=457)
+        """max value of FFE Post 14."""
+        rxeq_cap_ffe_post15_max: int = field(XmpInt(), min_version=457)
+        """max value of FFE Post 15."""
+        rxeq_cap_ffe_post16_max: int = field(XmpInt(), min_version=457)
+        """max value of FFE Post 16."""
+        rxeq_cap_ffe_post17_max: int = field(XmpInt(), min_version=457)
+        """max value of FFE Post 17."""
+        rxeq_cap_ffe_post18_max: int = field(XmpInt(), min_version=457)
+        """max value of FFE Post 18."""
+        rxeq_cap_ffe_post19_max: int = field(XmpInt(), min_version=457)
+        """max value of FFE Post 19."""
+        rxeq_cap_ffe_post20_max: int = field(XmpInt(), min_version=457)
+        """max value of FFE Post 20."""
+        rxeq_cap_ffe_post21_max: int = field(XmpInt(), min_version=457)
+        """max value of FFE Post 21."""
+        rxeq_cap_ffe_post22_max: int = field(XmpInt(), min_version=457)
+        """max value of FFE Post 22."""
+        rxeq_cap_ffe_post23_max: int = field(XmpInt(), min_version=457)
+        """max value of FFE Post 23."""
+        length_histogram_step_max: int = field(XmpInt(), min_version=457)
+        """minimum step size for length histograms."""
+        length_histogram_step_max: int = field(XmpInt(), min_version=457)
+        """maximum step size for length histograms."""
+        latency_histogram_step_max: int = field(XmpInt(), min_version=457)
+        """minimum step size for latency histograms."""
+        latency_histogram_step_max: int = field(XmpInt(), min_version=457)
+        """maximum step size for latency histograms."""
+
 
     def get(self) -> Token[GetDataAttr]:
         """Get the internal limits, aka. capabilities, of the port.

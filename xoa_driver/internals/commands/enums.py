@@ -2490,6 +2490,111 @@ class RxEqExtCap(IntEnum):
     CTLE_HIGH = 1
     """CTLE high frequency."""
 
+    AGC = 2
+    """Automatic Gain Control"""
+
+    OC = 3
+    """Offset Cancellation"""
+
+    CDR = 4
+    """Clock and Data Recovery"""
+
+    PRE_FFE_1 = 5
+    """Pre Feed-Forward Equalizer #1"""
+
+    PRE_FFE_2 = 6
+    """Pre Feed-Forward Equalizer #2"""
+
+    PRE_FFE_3 = 7
+    """Pre Feed-Forward Equalizer #3"""
+
+    PRE_FFE_4 = 8
+    """Pre Feed-Forward Equalizer #4"""
+
+    PRE_FFE_5 = 9
+    """Pre Feed-Forward Equalizer #5"""
+
+    PRE_FFE_6 = 10
+    """Pre Feed-Forward Equalizer #6"""
+
+    PRE_FFE_7 = 11
+    """Pre Feed-Forward Equalizer #7"""
+
+    PRE_FFE_8 = 12
+    """Pre Feed-Forward Equalizer #8"""
+
+    DFE = 13
+    """Decision Feedback Equalization"""
+
+    POST_FFE_1 = 14
+    """Post Feed-Forward Equalizer #1"""
+
+    POST_FFE_2 = 15
+    """Post Feed-Forward Equalizer #2"""
+
+    POST_FFE_3 = 16
+    """Post Feed-Forward Equalizer #3"""
+
+    POST_FFE_4 = 17
+    """Post Feed-Forward Equalizer #4"""
+
+    POST_FFE_5 = 18
+    """Post Feed-Forward Equalizer #5"""
+
+    POST_FFE_6 = 19
+    """Post Feed-Forward Equalizer #6"""
+
+    POST_FFE_7 = 20
+    """Post Feed-Forward Equalizer #7"""
+
+    POST_FFE_8 = 21
+    """Post Feed-Forward Equalizer #8"""
+
+    POST_FFE_9 = 22
+    """Post Feed-Forward Equalizer #9"""
+
+    POST_FFE_10 = 23
+    """Post Feed-Forward Equalizer #10"""
+
+    POST_FFE_11 = 24
+    """Post Feed-Forward Equalizer #11"""
+
+    POST_FFE_12 = 25
+    """Post Feed-Forward Equalizer #12"""
+
+    POST_FFE_13 = 26
+    """Post Feed-Forward Equalizer #13"""
+
+    POST_FFE_14 = 27
+    """Post Feed-Forward Equalizer #14"""
+
+    POST_FFE_15 = 28
+    """Post Feed-Forward Equalizer #15"""
+
+    POST_FFE_16 = 29
+    """Post Feed-Forward Equalizer #16"""
+
+    POST_FFE_17 = 30
+    """Post Feed-Forward Equalizer #17"""
+
+    POST_FFE_18 = 31
+    """Post Feed-Forward Equalizer #18"""
+
+    POST_FFE_19 = 32
+    """Post Feed-Forward Equalizer #19"""
+
+    POST_FFE_20 = 33
+    """Post Feed-Forward Equalizer #20"""
+
+    POST_FFE_21 = 34
+    """Post Feed-Forward Equalizer #21"""
+
+    POST_FFE_22 = 35
+    """Post Feed-Forward Equalizer #22"""
+
+    POST_FFE_23 = 36
+    """Post Feed-Forward Equalizer #23"""
+
 
 class RxEqExtCapMode(IntEnum):
     """Status for Rx Equalizer Advanced Capability."""
