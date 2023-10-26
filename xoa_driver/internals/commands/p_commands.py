@@ -217,7 +217,7 @@ class P_CAPABILITIES:
         """integer, max streams per port"""
         max_percent: int = field(XmpInt())
         """integer, max input rate in percent"""
-        max_pps: int = field(XmpInt())
+        max_pps: int = field(XmpInt(signed=False))
         """integer,  max input rate in pps"""
         max_mbps: int = field(XmpInt())
         """integer, max input rate in mbps"""
