@@ -378,6 +378,8 @@ class P_CAPABILITIES:
         """min value of Automatic Gain Control."""
         rxeq_cap_oc_min: int = field(XmpInt(), min_version=457)
         """min value of Offset Cancellation."""
+        rxeq_cap_cdr_min: int = field(XmpInt(), min_version=457)
+        """min value of CDR, always 0."""
         rxeq_cap_ffe_pre1_min: int = field(XmpInt(), min_version=457)
         """min value of FFE Pre 1."""
         rxeq_cap_ffe_pre2_min: int = field(XmpInt(), min_version=457)
@@ -394,6 +396,8 @@ class P_CAPABILITIES:
         """min value of FFE Pre 7."""
         rxeq_cap_ffe_pre8_min: int = field(XmpInt(), min_version=457)
         """min value of FFE Pre 8."""
+        rxeq_cap_dfe_min: int = field(XmpInt(), min_version=457)
+        """min value of DFE, always 0."""
         rxeq_cap_ffe_post1_min: int = field(XmpInt(), min_version=457)
         """min value of FFE Post 1."""
         rxeq_cap_ffe_post2_min: int = field(XmpInt(), min_version=457)
@@ -440,6 +444,26 @@ class P_CAPABILITIES:
         """min value of FFE Post 22."""
         rxeq_cap_ffe_post23_min: int = field(XmpInt(), min_version=457)
         """min value of FFE Post 23."""
+        reserved_min_1: int = field(XmpInt(), min_version=457)
+        """Reserved."""
+        reserved_min_2: int = field(XmpInt(), min_version=457)
+        """Reserved."""
+        reserved_min_3: int = field(XmpInt(), min_version=457)
+        """Reserved."""
+        reserved_min_4: int = field(XmpInt(), min_version=457)
+        """Reserved."""
+        reserved_min_5: int = field(XmpInt(), min_version=457)
+        """Reserved."""
+        reserved_min_6: int = field(XmpInt(), min_version=457)
+        """Reserved."""
+        reserved_min_7: int = field(XmpInt(), min_version=457)
+        """Reserved."""
+        reserved_min_8: int = field(XmpInt(), min_version=457)
+        """Reserved."""
+        reserved_min_9: int = field(XmpInt(), min_version=457)
+        """Reserved."""
+        reserved_min_10: int = field(XmpInt(), min_version=457)
+        """Reserved."""
         rxeq_cap_ctle_low_max: int = field(XmpInt(), min_version=457)
         """max value of CTLE LOW."""
         rxeq_cap_ctle_high_max: int = field(XmpInt(), min_version=457)
@@ -448,6 +472,8 @@ class P_CAPABILITIES:
         """max value of Automatic Gain Control."""
         rxeq_cap_oc_max: int = field(XmpInt(), min_version=457)
         """max value of Offset Cancellation."""
+        rxeq_cap_cdr_max: int = field(XmpInt(), min_version=457)
+        """max value of CDR, always 0."""
         rxeq_cap_ffe_pre1_max: int = field(XmpInt(), min_version=457)
         """max value of FFE Pre 1."""
         rxeq_cap_ffe_pre2_max: int = field(XmpInt(), min_version=457)
@@ -464,6 +490,8 @@ class P_CAPABILITIES:
         """max value of FFE Pre 7."""
         rxeq_cap_ffe_pre8_max: int = field(XmpInt(), min_version=457)
         """max value of FFE Pre 8."""
+        rxeq_cap_dfe_max: int = field(XmpInt(), min_version=457)
+        """max value of DFE, always 0."""
         rxeq_cap_ffe_post1_max: int = field(XmpInt(), min_version=457)
         """max value of FFE Post 1."""
         rxeq_cap_ffe_post2_max: int = field(XmpInt(), min_version=457)
@@ -510,11 +538,31 @@ class P_CAPABILITIES:
         """max value of FFE Post 22."""
         rxeq_cap_ffe_post23_max: int = field(XmpInt(), min_version=457)
         """max value of FFE Post 23."""
-        length_histogram_step_max: int = field(XmpInt(), min_version=457)
+        reserved_max_1: int = field(XmpInt(), min_version=457)
+        """Reserved."""
+        reserved_max_2: int = field(XmpInt(), min_version=457)
+        """Reserved."""
+        reserved_max_3: int = field(XmpInt(), min_version=457)
+        """Reserved."""
+        reserved_max_4: int = field(XmpInt(), min_version=457)
+        """Reserved."""
+        reserved_max_5: int = field(XmpInt(), min_version=457)
+        """Reserved."""
+        reserved_max_6: int = field(XmpInt(), min_version=457)
+        """Reserved."""
+        reserved_max_7: int = field(XmpInt(), min_version=457)
+        """Reserved."""
+        reserved_max_8: int = field(XmpInt(), min_version=457)
+        """Reserved."""
+        reserved_max_9: int = field(XmpInt(), min_version=457)
+        """Reserved."""
+        reserved_max_10: int = field(XmpInt(), min_version=457)
+        """Reserved."""
+        length_histogram_step_min: int = field(XmpInt(), min_version=457)
         """minimum step size for length histograms."""
         length_histogram_step_max: int = field(XmpInt(), min_version=457)
         """maximum step size for length histograms."""
-        latency_histogram_step_max: int = field(XmpInt(), min_version=457)
+        latency_histogram_step_min: int = field(XmpInt(), min_version=457)
         """minimum step size for latency histograms."""
         latency_histogram_step_max: int = field(XmpInt(), min_version=457)
         """maximum step size for latency histograms."""
