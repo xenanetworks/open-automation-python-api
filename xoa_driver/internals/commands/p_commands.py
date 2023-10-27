@@ -460,10 +460,6 @@ class P_CAPABILITIES:
         """Reserved."""
         reserved_min_8: int = field(XmpInt(), min_version=457)
         """Reserved."""
-        reserved_min_9: int = field(XmpInt(), min_version=457)
-        """Reserved."""
-        reserved_min_10: int = field(XmpInt(), min_version=457)
-        """Reserved."""
         rxeq_cap_ctle_low_max: int = field(XmpInt(), min_version=457)
         """max value of CTLE LOW."""
         rxeq_cap_ctle_high_max: int = field(XmpInt(), min_version=457)
@@ -553,10 +549,6 @@ class P_CAPABILITIES:
         reserved_max_7: int = field(XmpInt(), min_version=457)
         """Reserved."""
         reserved_max_8: int = field(XmpInt(), min_version=457)
-        """Reserved."""
-        reserved_max_9: int = field(XmpInt(), min_version=457)
-        """Reserved."""
-        reserved_max_10: int = field(XmpInt(), min_version=457)
         """Reserved."""
         length_histogram_step_min: int = field(XmpInt(), min_version=457)
         """minimum step size for length histograms."""
