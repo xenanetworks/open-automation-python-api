@@ -50,13 +50,27 @@ are represented as
 
     If there is a method returning both a single value and multiple values, it is considered a bug.
 
-Attributes and Methods
+Get and Set Methods
 --------------------------------
 
 There are only two types of methods for each command, ``get`` and/or ``set``:
 
 * Method ``get`` is used to **query** the values, status, configuration of the resource.
+
+When you do ``get``, you will receive an object that contains the values as its properties. For example, if you want to get the IPv4 configuration of a port, you should do ``resp = await port.net_config.ipv4.address.get()`` and then variable ``resp`` will have all the values returned by ``P_IPADDRESS``. You can then type ``.`` after the ``resp`` and your IDE will show the attributes for you to select as shown below.
+
+.. figure:: images/auto_complete_get.png
+    :scale: 50%
+
+    Auto-complete of method get
+
 * Method ``set`` is used to **change** the values, status, configuration of the resource.
+
+When you do ``set``, your IDE will automatically pop up the expected input arguments and their types as shown below.
+
+.. figure:: images/auto_complete_set.png
+
+    Auto-complete of method set
 
 .. attention::
 
@@ -66,7 +80,7 @@ There are only two types of methods for each command, ``get`` and/or ``set``:
 
 .. code-block:: python
     
-    await <resource>.<command_oo_name>.get()
+    resp = await <resource>.<command_oo_name>.get()
 
     await <resource>.<command_oo_name>.set(<values>)
 
@@ -78,7 +92,7 @@ There are only two types of methods for each command, ``get`` and/or ``set``:
 
 .. code-block:: python
     
-    await <Port>.speed.supported.get()
+    resp = await <Port>.speed.supported.get()
 
     await <Port>.speed.selection.set(mode=PortSpeedMode.AUTO)
 
