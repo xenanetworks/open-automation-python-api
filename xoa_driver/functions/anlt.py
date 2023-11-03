@@ -460,31 +460,33 @@ async def txtap_set(
     )
 
 
-async def anlt_link_recovery(port: GenericL23Port, enable: bool) -> None:
+async def anlt_link_recovery(port: GenericL23Port, restart_link_down: bool, restart_lt_failure: bool) -> None:
     """
-    .. versionadded:: 1.1
-
-    Should xenaserver automatically do link recovery when detecting down signal.
+    This command manages the auto-restart features.
 
     :param port: the port object
     :type port: :class:`~xoa_driver.ports.GenericL23Port`
-    :param enable: should the port automatically do link recovery when link is down.
-    :type enable: bool
+    :param restart_link_down: enable AN+LT auto-restart when a link down condition is detected. A "link down" state signifies the loss of a valid input signal, which can occur due to events such as cable unplugging and re-plugging, TX disable, or link flap on the link partner's end. The auto-restart process will continue until the link is re-established. Please note that this setting is only effective when AN and/or LT are enabled.
+    :type restart_link_down: bool
+    :param restart_lt_failure: if LT is enabled and experiences a failure on either side, the port will initiate the AN+LT restart process repeatedly until LT succeeds. This functionality is only applicable when LT is enabled.
+    :type restart_lt_failure: bool
     :return:
     :rtype:  None
     """
     conn, mid, pid = get_ctx(port)
+    param = 0
+    if restart_link_down == True:
+        param += 1
+    if restart_lt_failure == True:
+        param += 2
     cmd_ = commands.PL1_CFG_TMP(
-        conn, mid, pid, 0, enums.Layer1ConfigType.ANLT_INTERACTIVE
+        conn, mid, pid, 0, enums.Layer1ConfigType.AUTO_LINK_RECOVERY
     )
-    param = enums.OnOff.ON if enable else enums.OnOff.OFF
     await cmd_.set(values=[param])
 
 
 async def anlt_status(port: GenericL23Port) -> dict[str, t.Any]:
     """
-    .. versionadded:: 1.1
-
     Get the overview of ANLT status
 
     :param port: the port object
@@ -498,7 +500,7 @@ async def anlt_status(port: GenericL23Port) -> dict[str, t.Any]:
     conn, mid, pid = get_ctx(port)
     r = await apply(
         commands.PL1_CFG_TMP(
-            conn, mid, pid, 0, enums.Layer1ConfigType.ANLT_INTERACTIVE
+            conn, mid, pid, 0, enums.Layer1ConfigType.AUTO_LINK_RECOVERY
         ).get(),
         commands.PP_AUTONEGSTATUS(conn, mid, pid).get(),
         commands.PP_LINKTRAIN(conn, mid, pid).get(),

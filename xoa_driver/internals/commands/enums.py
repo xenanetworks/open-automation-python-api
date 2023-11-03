@@ -2186,8 +2186,8 @@ class Layer1ConfigType(IntEnum):
     Enums for PL1_CFG_TMP's type.
     """
 
-    ANLT_INTERACTIVE = 0
-    """ANLT Interactive mode config"""
+    AUTO_LINK_RECOVERY = 0
+    """ANLT Auto Link Recovery"""
 
     AN_LOOPBACK = 1
     """Auto-negotiation loopback config"""
