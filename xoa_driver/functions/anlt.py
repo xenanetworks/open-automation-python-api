@@ -111,9 +111,9 @@ class DoAnlt:
         )
 
         # yield self.__pp_autoneg(self.should_do_an and not self.should_do_lt)
-        if (not self.should_do_an) or self.should_do_lt:
-            # Disable autoneg
-            yield self.__pp_autoneg(False)
+        # if (not self.should_do_an) or self.should_do_lt:
+        # Disable autoneg
+        yield self.__pp_autoneg(False)
 
         if self.should_do_lt:
             for serdes_str, algorithm in self.lt_algorithm.items():
