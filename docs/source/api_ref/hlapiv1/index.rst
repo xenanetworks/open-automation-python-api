@@ -1,8 +1,6 @@
 🚀 High-Level API
 ========================
 
-.. versionadded:: 1.1
-
 HL-API uses the classes defined in LL-API and lets you quickly develop scripts or program in an **object-oriented** fashion with explicit definition of commands of different *tester*, *module*, *port* types. In addition, the HL-API layer provides functionalities such as:
 
 * :ref:`Auto connection keep-alive <session_label>`

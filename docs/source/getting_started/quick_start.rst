@@ -96,8 +96,6 @@ At last, release the ports (It is absolutely OK if you don't release them.)
 Integrate with CLI and ValkyrieManager
 --------------------------------------
 
-.. versionadded:: 2.1.1
-
 The simple code example demonstrates how to use XOA Python API :
 
 * Establish connection to a Valkyrie tester.
