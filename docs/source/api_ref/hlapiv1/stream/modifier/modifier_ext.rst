@@ -37,8 +37,8 @@ Range
 
 .. code-block:: python
 
-    modifier_ext.range.set()
-    modifier_ext.range.get()
+    await modifier_ext.range.set()
+    await modifier_ext.range.get()
 
 
 Position, Action, Mask
@@ -46,5 +46,5 @@ Position, Action, Mask
 
 .. code-block:: python
 
-    modifier_ext.specification.set()
-    modifier_ext.specification.get()
+    await modifier_ext.specification.set()
+    await modifier_ext.specification.get()

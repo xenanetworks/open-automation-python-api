@@ -20,7 +20,6 @@ Packet Auto Size
 .. code-block:: python
 
     await stream.packet.auto_adjust.set()
-    await stream.packet.auto_adjust.get()
 
 
 Payload Type

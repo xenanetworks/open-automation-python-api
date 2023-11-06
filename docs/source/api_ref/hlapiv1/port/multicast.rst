@@ -27,8 +27,8 @@ Source List
 
 .. code-block:: python
 
-    await port.multicast.source_list..set()
-    await port.multicast.source_list..get()
+    await port.multicast.source_list.set()
+    await port.multicast.source_list.get()
 
 
 Header

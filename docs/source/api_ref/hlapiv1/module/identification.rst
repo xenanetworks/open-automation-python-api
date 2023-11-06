@@ -22,7 +22,7 @@ Legacy Model
 
 .. code-block:: python
 
-    await module.mode.get()
+    await module.model.get()
 
 Model
 -------------

@@ -33,7 +33,7 @@ Clear Counters
     await port.pcs_pma.rx.clear.set()
 
 
-RX FEX Stats
+RX FEC Stats
 ---------------
 
 .. code-block:: python

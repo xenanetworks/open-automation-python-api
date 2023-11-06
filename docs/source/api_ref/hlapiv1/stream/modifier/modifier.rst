@@ -37,8 +37,8 @@ Range
 
 .. code-block:: python
 
-    modifier.range.set()
-    modifier.range.get()
+    await modifier.range.set()
+    await modifier.range.get()
 
 
 Position, Action, Mask
@@ -46,5 +46,5 @@ Position, Action, Mask
 
 .. code-block:: python
 
-    modifier.specification.set()
-    modifier.specification.get()
+    await modifier.specification.set()
+    await modifier.specification.get()
