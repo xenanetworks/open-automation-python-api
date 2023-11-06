@@ -1248,6 +1248,16 @@ class PRBSPattern(IntEnum):
     """PRBS-23"""
     PRBS31 = 5
     """PRBS-31"""
+    PRBS58 = 6
+    """PRBS-58"""
+    PRBS49 = 7
+    """PRBS-49"""
+    PRBS10 = 8
+    """PRBS-10"""
+    PRBS20 = 9
+    """PRBS-20"""
+    PRBS13 = 10
+    """PRBS-13"""
 
 
 class PHYSignalStatus(IntEnum):
