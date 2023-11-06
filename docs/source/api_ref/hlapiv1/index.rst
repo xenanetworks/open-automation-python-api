@@ -21,6 +21,7 @@ The HL-API (V1) are categorized into:
 
 .. toctree::
 
+    summary
     tester/index
     module/index
     port/index

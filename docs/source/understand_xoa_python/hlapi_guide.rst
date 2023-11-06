@@ -50,6 +50,8 @@ are represented as
 
     If there is a method returning both a single value and multiple values, it is considered a bug.
 
+.. _get_set_methods:
+
 Get and Set Methods
 --------------------------------
 
