@@ -97,7 +97,7 @@ class PED_ONESHOTSTATUS:
     .. note::
 
         The return value is only valid, if the configured distribution is either accumulate & burst (DELAY) or fixed burst (non-DELAY).
-
+        
     """
 
     code: typing.ClassVar[int] = 1612
@@ -510,7 +510,7 @@ class PED_UNI:
 
     .. note::
 
-        If minimum is less than minimum latency, value is set to minimum latency. If minimum is greater than maximum latency, value is set to maximum latency.
+        If minimum is less than minimum , value is set to minimum. If minimum is greater than maximum, value is set to maximum.
 
     """
 

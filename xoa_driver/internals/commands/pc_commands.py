@@ -307,8 +307,7 @@ class PC_EXTRA:
 class PC_PACKET:
     """
     Obtains the raw bytes of a captured packet for a port. The packet data may be
-    truncated if the :class:`PC_KEEP` command specified a limit on the number of bytes
-    kept.
+    truncated if the :class:`PC_KEEP` command specified a limit on the number of bytes kept.
     """
 
     code: typing.ClassVar[int] = 226

@@ -319,7 +319,7 @@ class PE_MISORDER:
 
     .. note::
 
-        probability [see PED_FIXED] * (depth + 1) should be less than 1,000,000.
+        probability * (depth + 1) should be less than 1,000,000. (see PED_FIXED)
 
     """
 
@@ -333,11 +333,11 @@ class PE_MISORDER:
 
     class GetDataAttr(ResponseBodyStruct):
         depth: int = field(XmpInt())
-        """integer, specifies the misordering depth (Range 1 - 32). Default value. Note: probability [see PED_FIXED] * (depth + 1) should be less than 1,000,000."""
+        """integer, specifies the misordering depth (Range 1 - 32). Default value. probability * (depth + 1) should be less than 1,000,000. (see PED_FIXED)"""
 
     class SetDataAttr(RequestBodyStruct):
         depth: int = field(XmpInt())
-        """integer, specifies the misordering depth (Range 1 - 32). Default value. Note: probability [see PED_FIXED] * (depth + 1) should be less than 1,000,000."""
+        """integer, specifies the misordering depth (Range 1 - 32). Default value. probability * (depth + 1) should be less than 1,000,000. (see PED_FIXED)"""
 
     def get(self) -> Token[GetDataAttr]:
         """Get the misordering depth in number of packets of a flow.

@@ -69,11 +69,7 @@ from .enums import (
 @dataclass
 class P_RESERVATION:
     """
-    You set this command to reserve, release, or relinquish a port. The port must
-    be reserved before any of its configuration can be changed, including streams,
-    filters, capture, and datasets.The owner of the session must already have been
-    specified. Reservation will fail if the chassis or module is reserved to other
-    users.
+    You set this command to reserve, release, or relinquish a port. The port must be reserved before any of its configuration can be changed, including streams, filters, capture, and datasets.The owner of the session must already have been specified. Reservation will fail if the chassis or module is reserved to other users.
     """
 
     code: typing.ClassVar[int] = 102
@@ -133,12 +129,7 @@ class P_RESERVATION:
 @dataclass
 class P_RESERVEDBY:
     """
-    Identify the user who has a port reserved. The empty string if the port is not
-    currently reserved. Note that multiple connections can specify the same name
-    with C_OWNER, but a resource can only be reserved to one connection. Therefore
-    you cannot count on having the port just because it is reserved in your name.
-    The port is reserved to this connection only if P_RESERVATION returns
-    RESERVED_BY_YOU.
+    Identify the user who has a port reserved. The empty string if the port is not currently reserved. Note that multiple connections can specify the same name with C_OWNER, but a resource can only be reserved to one connection. Therefore you cannot count on having the port just because it is reserved in your name. The port is reserved to this connection only if P_RESERVATION returns RESERVED_BY_YOU.
     """
 
     code: typing.ClassVar[int] = 103
@@ -809,11 +800,7 @@ class P_COMMENT:
 @dataclass
 class P_SPEEDREDUCTION:
     """
-    A speed reduction applied to the transmitting side of a port, resulting in an
-    effective traffic rate that is slightly lower than the rate of the physical
-    interface. Speed reduction is effectuated by inserting short idle periods in the
-    generated traffic pattern to consume part of the port's physical bandwidth. The
-    port's clock speed is not altered.
+    A speed reduction applied to the transmitting side of a port, resulting in an effective traffic rate that is slightly lower than the rate of the physical interface. Speed reduction is effectuated by inserting short idle periods in the generated traffic pattern to consume part of the port's physical bandwidth. The port's clock speed is not altered.
     """
 
     code: typing.ClassVar[int] = 113
@@ -854,8 +841,7 @@ class P_SPEEDREDUCTION:
 @dataclass
 class P_INTERFRAMEGAP:
     """
-    The minimum gap between packets in the traffic generated for a port. The gap
-    includes the Ethernet preamble.
+    The minimum gap between packets in the traffic generated for a port. The gap includes the Ethernet preamble.
     """
 
     code: typing.ClassVar[int] = 114
@@ -1156,13 +1142,7 @@ class P_PAUSE:
 @dataclass
 class P_RANDOMSEED:
     """
-    A fixed seed value specified for a port. This value is used for a pseudo-random
-    number generator used when generating traffic that requires random variation in
-    packet length, payload, or modified fields. As long as no part of the port
-    configuration is changed, the generated traffic patterns are reproducible when
-    restarting traffic for the port. A specified seed value of -1 instead creates
-    variation by using a new time-based seed value each time traffic generation is
-    restarted.
+    A fixed seed value specified for a port. This value is used for a pseudo-random number generator used when generating traffic that requires random variation in packet length, payload, or modified fields. As long as no part of the port configuration is changed, the generated traffic patterns are reproducible when restarting traffic for the port. A specified seed value of -1 instead creates variation by using a new time-based seed value each time traffic generation is restarted.
     """
 
     code: typing.ClassVar[int] = 121
@@ -1203,12 +1183,7 @@ class P_RANDOMSEED:
 @dataclass
 class P_LOOPBACK:
     """
-    The loopback mode for a port. Ports can be configured to perform two different
-    kinds of loopback: 1) External RX-to-TX loopback, where the received packets
-    are re-transmitted immediately. The packets are still processed by the receive
-    logic, and can be captured and analyzed. 2) Internal TX-to-RX loopback, where
-    the transmitted packets are received directly by the port itself. This is mainly
-    useful for testing the generated traffic patterns before actual use.
+    The loopback mode for a port. Ports can be configured to perform two different kinds of loopback: 1) External RX-to-TX loopback, where the received packets are re-transmitted immediately. The packets are still processed by the receive logic, and can be captured and analyzed. 2) Internal TX-to-RX loopback, where the transmitted packets are received directly by the port itself. This is mainly useful for testing the generated traffic patterns before actual use.
 
     """
 
@@ -1330,12 +1305,11 @@ class P_FLASH:
 class P_TRAFFIC:
     """
     Whether a port is transmitting packets. When on, the port generates a sequence
-    of packets with contributions from each stream that is enabled. The streams are
-    configured using the PS_xxx parameters.
+    of packets with contributions from each stream that is enabled. The streams are configured using the PS_xxx parameters.
 
     .. note::
 
-        From Release 57.1, if any of the specified packet sizes cannot fit into the packet generator, this command will return FAILED and not start the traffic.
+        If any of the specified packet sizes cannot fit into the packet generator, this command will return FAILED and not start the traffic.
         While traffic is on the streams for this port cannot be enabled or disabled, and the configuration of those streams that are enabled cannot be changed.
 
     """
@@ -1737,16 +1711,7 @@ class P_UAT_FLR:
 class P_MIXWEIGHTS:
     """
     Allow changing the distribution of the MIX packet length by specifying the
-    percentage of each of the 16 possible frame sizes used in the MIX.  The sum of
-    the percentage values specified must be 100. The command will affect the mix-
-    distribution for all streams on the port. The possible 16 frame sizes are: 56
-    (not valid for 40G/100G), 60, 64, 70, 78, 92, 256, 496, 512, 570, 576, 594,
-    1438, 1518, 9216, and 16360.
-
-    .. note::
-
-        This command requires Xena server version 375 or higher.
-
+    percentage of each of the 16 possible frame sizes used in the MIX.  The sum of the percentage values specified must be 100. The command will affect the mix-distribution for all streams on the port. The possible 16 frame sizes are: 56 (not valid for 40G/100G), 60, 64, 70, 78, 92, 256, 496, 512, 570, 576, 594, 1438, 1518, 9216, and 16360.
     """
 
     code: typing.ClassVar[int] = 192
@@ -2060,8 +2025,7 @@ class P_CHECKSUM:
     """
     Controls an extra payload integrity checksum, which also covers the header
     protocols following the Ethernet header. It will therefore catch any
-    modifications to the protocol fields (which should therefore not have modifiers
-    on them).
+    modifications to the protocol fields (which should therefore not have modifiers on them).
     """
 
     code: typing.ClassVar[int] = 302
@@ -2198,18 +2162,7 @@ class P_AUTONEGSELECTION:
 @dataclass
 class P_MIXLENGTH:
     """
-    Allows inspecting the frame sizes defined for each position of the P_MIXWEIGHTS
-    command.  By default, the 16 frame sizes are: 56 (not valid for 40G/100G), 60,
-    64, 70, 78, 92, 256, 496, 512, 570, 576, 594, 1438, 1518, 9216, and 16360.  In
-    addition to inspecting these sizes one by one, it also allows changing frame
-    size for positions 0, 1, 14 and 15 (default values 56, 60, 9216 and 16360).
-    Supported by the following modules: Thor-400G-7S-1P, Thor-100G-5S-4P and
-    Loki-100G-5S-2P.
-
-    .. note::
-
-        This command requires release 84 or higher.
-
+    Allows inspecting the frame sizes defined for each position of the P_MIXWEIGHTS command.  By default, the 16 frame sizes are: 56 (not valid for 40G/100G), 60, 64, 70, 78, 92, 256, 496, 512, 570, 576, 594, 1438, 1518, 9216, and 16360.  In addition to inspecting these sizes one by one, it also allows changing frame size for positions 0, 1, 14 and 15 (default values 56, 60, 9216 and 16360).
     """
 
     code: typing.ClassVar[int] = 305
@@ -2347,8 +2300,7 @@ class P_NDPRXTABLE:
 @dataclass
 class P_MULTICAST:
     """
-    A multicast mode for a port. Ports can use the IGMPv2 protocol to join or leave
-    multicast groups, either on an on-off basis or repeatedly.
+    A multicast mode for a port. Ports can use the IGMPv2 protocol to join or leave multicast groups, either on an on-off basis or repeatedly.
     """
 
     code: typing.ClassVar[int] = 311
@@ -2427,9 +2379,7 @@ class P_MULTICAST:
 @dataclass
 class P_MULTICASTEXT:
     """
-    A multicast mode for a port. Ports can use the IGMPv2/IGMPv3 protocol to join or
-    leave multicast groups, either on an on-off basis or repeatedly. ** Requires
-    software release 83.2 or higher
+    A multicast mode for a port. Ports can use the IGMPv2/IGMPv3 protocol to join or leave multicast groups, either on an on-off basis or repeatedly. 
     """
 
     code: typing.ClassVar[int] = 312
@@ -2499,8 +2449,7 @@ class P_MULTICASTEXT:
 @dataclass
 class P_MCSRCLIST:
     """
-    Multicast source list of the port. Only valid if the IGMP protocol version is
-    IGMPv3 set by P_MULTICASTEXT.
+    Multicast source list of the port. Only valid if the IGMP protocol version is IGMPv3 set by P_MULTICASTEXT.
     """
 
     code: typing.ClassVar[int] = 313
@@ -2635,8 +2584,7 @@ class P_TXMODE:
 @dataclass
 class P_MULTICASTHDR:
     """
-    Allows addition of a VLAN tag to IGMPv2 and IGPMv3 packets. This command
-    requires software release 83.2 or higher.
+    Allows addition of a VLAN tag to IGMPv2 and IGPMv3 packets.
     """
 
     code: typing.ClassVar[int] = 314
@@ -2713,10 +2661,7 @@ class P_MULTICASTHDR:
 @dataclass
 class P_RATEFRACTION:
     """
-    The port-level rate of the traffic transmitted for a port in sequential tx mode,
-    expressed in millionths of the effective rate for the port. The bandwidth
-    consumption includes the inter-frame gaps, and does not depend on the length of
-    the packets for the streams.
+    The port-level rate of the traffic transmitted for a port in sequential tx mode, expressed in millionths of the effective rate for the port. The bandwidth consumption includes the inter-frame gaps, and does not depend on the length of the packets for the streams.
     """
 
     code: typing.ClassVar[int] = 321
@@ -2757,10 +2702,7 @@ class P_RATEFRACTION:
 @dataclass
 class P_RATEPPS:
     """
-    The port-level rate of the traffic transmitted for a port in sequential tx mode,
-    expressed in packets per second. The bandwidth consumption is heavily dependent
-    on the length of the packets generated for the streams, and also on the inter-
-    frame gap for the port.
+    The port-level rate of the traffic transmitted for a port in sequential tx mode, expressed in packets per second. The bandwidth consumption is heavily dependent on the length of the packets generated for the streams, and also on the inter-frame gap for the port.
     """
 
     code: typing.ClassVar[int] = 322
@@ -2801,11 +2743,7 @@ class P_RATEPPS:
 @dataclass
 class P_RATEL2BPS:
     """
-    The port-level rate of the traffic transmitted for a port in sequential tx mode,
-    expressed in units of bits per-second at layer-2, thus including the Ethernet
-    header but excluding the inter-frame gap. The bandwidth consumption is somewhat
-    dependent on the length of the packets generated for the stream, and also on the
-    inter-frame gap for the port.
+    The port-level rate of the traffic transmitted for a port in sequential tx mode, expressed in units of bits per-second at layer-2, thus including the Ethernet header but excluding the inter-frame gap. The bandwidth consumption is somewhat dependent on the length of the packets generated for the stream, and also on the inter-frame gap for the port.
     """
 
     code: typing.ClassVar[int] = 323
@@ -2850,13 +2788,7 @@ class P_RATEL2BPS:
 @dataclass
 class P_PAYLOADMODE:
     """
-    Set this command to configure the port to use different payload modes, i.e.
-    normal, extend payload, and custom payload field, for ALL streams on this port.
-    The extended payload feature allows the definition of a much larger (up to MTU)
-    payload buffer for each stream. The custom payload field feature allows you to
-    define a sequence of custom data fields for each stream. The data fields will
-    then be used in a round robin fashion when packets are sent based on the stream
-    definition.
+    Set this command to configure the port to use different payload modes, i.e. normal, extend payload, and custom payload field, for ALL streams on this port. The extended payload feature allows the definition of a much larger (up to MTU) payload buffer for each stream. The custom payload field feature allows you to define a sequence of custom data fields for each stream. The data fields will then be used in a round robin fashion when packets are sent based on the stream definition.
     """
 
     code: typing.ClassVar[int] = 324
@@ -2910,8 +2842,7 @@ class P_PAYLOADMODE:
 class P_BRRMODE:
     """
     Selects the Master/Slave setting of
-    100 Mbit/s (requires Valkyrie release 76.1 or higher),
-    1000 Mbit/s (requires Valkyrie release 76.2 or higher) BroadR-Reach copper interfaces.
+    100 Mbit/s, 1000 Mbit/s BroadR-Reach copper interfaces.
     """
 
     code: typing.ClassVar[int] = 326
@@ -3009,12 +2940,7 @@ class P_TXENABLE:
 @dataclass
 class P_MAXHEADERLENGTH:
     """
-    The maximum number of header content bytes that can be freely specified for each
-    generated stream. The remaining payload bytes of the packet are auto-
-    generated.The default is 128 bytes. When a larger number is select there is a
-    corresponding proportional reduction in the number of stream definitions that
-    are available for the port. Possible values: 128 (default), 256, 512, 1024,
-    2048.
+    The maximum number of header content bytes that can be freely specified for each generated stream. The remaining payload bytes of the packet are auto-generated.The default is 128 bytes. When a larger number is select there is a corresponding proportional reduction in the number of stream definitions that are available for the port. Possible values: 128 (default), 256, 512, 1024, 2048.
     """
 
     code: typing.ClassVar[int] = 328
@@ -3127,8 +3053,7 @@ class P_TXTIME:
 @dataclass
 class P_XMITONETIME:
     """
-    The time at which the latest packet was transmitted using the P_XMITONE command.
-    The time reference is the same used by the time stamps of captured packets.
+    The time at which the latest packet was transmitted using the P_XMITONE command. The time reference is the same used by the time stamps of captured packets.
     """
 
     code: typing.ClassVar[int] = 331
@@ -3767,10 +3692,6 @@ class P_FAULTSTATUS:
     Shows if a local or remote fault is currently being detected by the
     Reconciliation Sub-layer of the port.
 
-    .. note::
-
-        Currently only available on M1CFP100, M2CFP40, M2QSFP+ and M1CFP4QSFP28CXP.
-
     """
 
     code: typing.ClassVar[int] = 349
@@ -3938,8 +3859,7 @@ class P_TXPACKETLIMIT:
 @dataclass
 class P_TCVRSTATUS:
     """
-    Get various tcvr status information. RX loss status of the individual RX optical
-    lanes (only 4 lanes are supported currently).
+    Get various tcvr status information. RX loss status of the individual RX optical lanes (only 4 lanes are supported currently).
     """
 
     code: typing.ClassVar[int] = 357
@@ -4023,8 +3943,7 @@ class P_DYNAMIC:
 @dataclass
 class P_PFCENABLE:
     """
-    This setting control whether a port responds to incoming Ethernet Priority Flow
-    Control (PFC) frames, by holding back outgoing traffic for that priority.
+    This setting control whether a port responds to incoming Ethernet Priority Flow Control (PFC) frames, by holding back outgoing traffic for that priority.
     """
 
     code: typing.ClassVar[int] = 373
@@ -4207,8 +4126,7 @@ class P_TXRUNTLENGTH:
 @dataclass
 class P_RXRUNTLENGTH:
     """
-    Enable RX runt length detection to flag if packets are seen with length not
-    being I bytes.
+    Enable RX runt length detection to flag if packets are seen with length not being I bytes.
     """
 
     code: typing.ClassVar[int] = 391
