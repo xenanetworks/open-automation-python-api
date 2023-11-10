@@ -341,7 +341,7 @@ class PP_RXTOTALSTATS:
     Provides FEC Total counters.
     """
 
-    code: typing.ClassVar[int] = 285
+    code: typing.ClassVar[int] = 270
     pushed: typing.ClassVar[bool] = False
 
     _connection: 'interfaces.IConnection'
