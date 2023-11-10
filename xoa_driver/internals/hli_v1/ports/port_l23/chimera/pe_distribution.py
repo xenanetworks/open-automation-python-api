@@ -92,7 +92,7 @@ class ImpairmentDistributionConfig:
         :type: PED_GAUSS
         """
 
-        self.poison = PED_POISSON(conn, module_id, port_id, flow_index, impairment_type_index)
+        self.poisson = PED_POISSON(conn, module_id, port_id, flow_index, impairment_type_index)
         """Poisson distribution configuration.
 
         :type: PED_POISSON
