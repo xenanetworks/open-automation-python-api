@@ -423,16 +423,15 @@ class PP_RXFECSTATS:
         """long integer, currently always 0."""
         data_count: int = field(XmpLong())
         """long integer, number of values."""
-        correction_stats: typing.List[int] = field(XmpSequence(types_chunk=[XmpLong()], length=8))
-        """list of long integers, array of length value_count-1. The correction_stats array shows how many FEC blocks have been seen with [0, 1, 2, 3....15, >15] symbol errors."""
-        sum_of_zero_and_correctable_fec_block: int = field(XmpLong())
-        """long integer, the sum of FEC blocks with <=n symbol errors."""
+        stats: typing.List[int] = field(XmpSequence(types_chunk=[XmpLong()]))
+        """list of long integers, array of length value_count. The stats array shows how many FEC blocks have been seen with [0, 1, 2, 3....15, >15] symbol errors and the last one is the sum of FEC blocks with <=n symbol errors"""
+        # sum_of_zero_and_correctable_fec_block: int = field(XmpLong())
+        # """long integer, the sum of FEC blocks with <=n symbol errors."""
 
     def get(self) -> Token[GetDataAttr]:
         """Get statistics on how many FEC blocks have been seen with a given number of symbol errors.
 
         :return: stats type (currently always 0), number of values, correction stats array, and the number of received uncorrectable code words.
-            The correction stats array shows how many FEC blocks have been seen with [0, 1, 2, 3....15, >15] symbol errors, length = value_count-1.
 
         :rtype: PP_RXFECSTATS.GetDataAttr
         """
