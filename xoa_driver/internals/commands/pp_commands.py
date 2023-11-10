@@ -421,12 +421,12 @@ class PP_RXFECSTATS:
     class GetDataAttr(ResponseBodyStruct):
         stats_type: int = field(XmpLong())
         """long integer, currently always 0."""
-        value_count: int = field(XmpLong())
+        data_count: int = field(XmpLong())
         """long integer, number of values."""
         correction_stats: typing.List[int] = field(XmpSequence(types_chunk=[XmpLong()], length=8))
         """list of long integers, array of length value_count-1. The correction_stats array shows how many FEC blocks have been seen with [0, 1, 2, 3....15, >15] symbol errors."""
-        rx_uncorrectable_code_word_count: int = field(XmpLong())
-        """long integer, the number of received uncorrectable code words."""
+        sum_of_zero_and_correctable_fec_block: int = field(XmpLong())
+        """long integer, the sum of FEC blocks with <=n symbol errors."""
 
     def get(self) -> Token[GetDataAttr]:
         """Get statistics on how many FEC blocks have been seen with a given number of symbol errors.
@@ -813,9 +813,7 @@ class PP_RXLASERPOWER:
 class PP_TXLASERPOWER:
     """
     Reading of the optical power level of the transmission signal. There is one
-    value for each laser/wavelength, and the number of these depends on the kind of
-    CFP transceiver used. The list is empty if the CFP transceiver does not support
-    optical power read-out.
+    value for each laser/wavelength, and the number of these depends on the kind of CFP transceiver used. The list is empty if the CFP transceiver does not support optical power read-out.
     """
 
     code: typing.ClassVar[int] = 296
