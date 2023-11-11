@@ -505,6 +505,7 @@ async def my_awesome_func(stop_event: asyncio.Event):
     if isinstance(module, modules.ModuleChimera):
         resp = await module.tx_clock.status.get()
         resp.status
+    
 # endregion
 
 # region Port
@@ -1187,10 +1188,13 @@ async def my_awesome_func(stop_event: asyncio.Event):
     resp.rx_loss_lane_3
 
     # Transceiver Read & Write
-    await port.transceiver.access_rw(page_address=0, register_address=0).set(value=Hex("00"))
+    my_int = 1234
+    await port.transceiver.access_rw(page_address=0, register_address=0).set(value=hex(my_int)[2:])
     
     resp = await port.transceiver.access_rw(page_address=0, register_address=0).get()
     resp.value
+    my_int_resp = int(resp.value, 16)
+    print(f"Returned value: {my_int_resp}")
 
     # Transceiver Sequential Read & Write
     await port.transceiver.access_rw_seq(page_address=0, register_address=0, byte_count=4).set(value=Hex("00FF00FF"))
@@ -1323,6 +1327,10 @@ async def my_awesome_func(stop_event: asyncio.Event):
     
     resp = await port.dynamic.get()
     resp.on_off
+
+    await port.uat.mode.set(mode=enums.OnOff.ON, delay=500)
+    await port.uat.mode.set(mode=enums.OnOff.OFF, delay=500)
+    await port.uat.frame_loss_ratio.get()
 
     #################################################
     #                 Port Filter                   #
@@ -1543,9 +1551,8 @@ async def my_awesome_func(stop_event: asyncio.Event):
     # RX Status - RX FEC Stats
     resp = await port.pcs_pma.rx.fec_status.get()
     resp.stats_type
-    resp.value_count
-    resp.correction_stats
-    resp.rx_uncorrectable_code_word_count
+    resp.data_count
+    resp.stats
 
     # RX Status - RX Total Stats
     resp = await port.pcs_pma.rx.total_status.get()
@@ -1671,10 +1678,10 @@ async def my_awesome_func(stop_event: asyncio.Event):
     await port.serdes[0].phy.tx_equalizer.set(pre2=0, pre1=0, main=86, post1=0, post2=0, post3=0)
     resp = await port.serdes[0].phy.tx_equalizer.get()
     resp.pre2
-    resp.pre1
+    resp.pre
     resp.main
-    resp.post1
-    resp.post2
+    resp.post
+    resp.pre3_post2
     resp.post3
 
     # RX Tap Configuration
@@ -1750,6 +1757,7 @@ async def my_awesome_func(stop_event: asyncio.Event):
     resp.polynomial
     resp.invert
     resp.statistics_mode
+
 
     # PRBS Statistics
     resp = await port.serdes[0].prbs.status.get()
@@ -2457,12 +2465,15 @@ async def my_awesome_func(stop_event: asyncio.Event):
         if isinstance(filter, misc.ExtendedImpairmentFlowFilter):
 
             await filter.use_segments(
-                enums.ProtocolOption.VLAN)
+                enums.ProtocolOption.VLAN
+                )
             protocol_segments = await filter.get_protocol_segments()
             await protocol_segments[0].value.set(value=Hex("AAAAAAAAAAAABBBBBBBBBBBB8100"))
             await protocol_segments[0].mask.set(masks=Hex("0000000000000000000000000000"))
             await protocol_segments[1].value.set(value=Hex("0064FFFF"))
             await protocol_segments[1].mask.set(masks=Hex("00000000"))
+
+            await protocol_segments[1].get()
 
         # Configure impairment - Drop
         # Fixed Burst distribution for impairment Drop
@@ -2523,7 +2534,7 @@ async def my_awesome_func(stop_event: asyncio.Event):
 
         # Poisson distribution for impairment Drop
         await utils.apply(
-            flow.impairment_distribution.drop_type_config.poison.set(mean=9),
+            flow.impairment_distribution.drop_type_config.poisson.set(mean=9),
             flow.impairment_distribution.drop_type_config.schedule.set(duration=1, period=1), # repeat pattern
             flow.impairment_distribution.drop_type_config.schedule.set(duration=0, period=0), #continuous
         )
@@ -2592,6 +2603,7 @@ async def my_awesome_func(stop_event: asyncio.Event):
             flow.impairment_distribution.latency_jitter_type_config.step.set(low=1300, high=77000),
             flow.impairment_distribution.latency_jitter_type_config.schedule.set(duration=0, period=0), #continuous
         )
+        await flow.impairment_distribution.corruption_type_config.off.set()
 
         # Uniform distribution for impairment Latency & Jitter
         await utils.apply(
@@ -2605,9 +2617,13 @@ async def my_awesome_func(stop_event: asyncio.Event):
             flow.impairment_distribution.latency_jitter_type_config.schedule.set(duration=0, period=0), #continuous
         )
 
+        resp = await flow.latency_range.get()
+        resp.
+        
+
         # Poisson distribution for impairment Latency & Jitter
         await utils.apply(
-            flow.impairment_distribution.latency_jitter_type_config.poison.set(mean=1),
+            flow.impairment_distribution.latency_jitter_type_config.poisson.set(mean=1),
             flow.impairment_distribution.latency_jitter_type_config.schedule.set(duration=0, period=0), #continuous
         )
 
@@ -2692,7 +2708,7 @@ async def my_awesome_func(stop_event: asyncio.Event):
 
         # Poisson distribution for impairment Duplication
         await utils.apply(
-            flow.impairment_distribution.duplication_type_config.poison.set(mean=9),
+            flow.impairment_distribution.duplication_type_config.poisson.set(mean=9),
             flow.impairment_distribution.duplication_type_config.schedule.set(duration=1, period=1), # repeat pattern
             flow.impairment_distribution.duplication_type_config.schedule.set(duration=0, period=0), #continuous
         )
@@ -2727,7 +2743,6 @@ async def my_awesome_func(stop_event: asyncio.Event):
             flow.impairment_distribution.corruption_type_config.schedule.set(duration=1, period=1), #repeat (duration = 1, period = x)
             flow.impairment_distribution.corruption_type_config.schedule.set(duration=1, period=0), #one shot
         )
-
         # Random Burst distribution for impairment Corruption
         await utils.apply(
             flow.impairment_distribution.corruption_type_config.random_burst.set(minimum=1, maximum=1, probability=10_0000),
@@ -2779,7 +2794,7 @@ async def my_awesome_func(stop_event: asyncio.Event):
 
         # Poisson distribution for impairment Corruption
         await utils.apply(
-            flow.impairment_distribution.corruption_type_config.poison.set(mean=9),
+            flow.impairment_distribution.corruption_type_config.poisson.set(mean=9),
             flow.impairment_distribution.corruption_type_config.schedule.set(duration=1, period=1), # repeat pattern
             flow.impairment_distribution.corruption_type_config.schedule.set(duration=0, period=0), #continuous
         )
@@ -2804,6 +2819,7 @@ async def my_awesome_func(stop_event: asyncio.Event):
         )
 
         # Set distribution and start impairment Corruption
+        await flow.corruption.set(corruption_type=enums.CorruptionType.OFF)
         await flow.corruption.set(corruption_type=enums.CorruptionType.ETH)
         await flow.corruption.set(corruption_type=enums.CorruptionType.IP)
         await flow.corruption.set(corruption_type=enums.CorruptionType.TCP)
@@ -2812,6 +2828,10 @@ async def my_awesome_func(stop_event: asyncio.Event):
         await flow.impairment_distribution.corruption_type_config.enable.set_on()
         await flow.impairment_distribution.corruption_type_config.enable.set_off()
 
+        await flow.impairment_distribution.corruption_type_config.enable.set_on()
+
+        resp = await flow.impairment_distribution.corruption_type_config.one_shot_status.get()
+        resp.one_shot_status
 
         # Configure bandwidth control - Policer
 

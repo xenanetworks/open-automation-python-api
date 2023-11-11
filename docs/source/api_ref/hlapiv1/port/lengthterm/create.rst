@@ -18,7 +18,7 @@ Obtain an existing length term on the port with an explicit length term index.
 
 .. code-block:: python
 
-    length_term = port.length_terms.obtain(idx)
+    length_term = port.length_terms.obtain(key=0)
 
 
 Obtain Multiple
@@ -28,20 +28,19 @@ Obtain multiple existing length terms on the port with explicit length term indi
 
 .. code-block:: python
 
-    length_term_list = port.length_terms.obtain_multiple(*idx_list)
+    length_term_list = port.length_terms.obtain_multiple(*[0,1,2])
 
 
 Remove
 ---------------
 
-Remove a length term on the port with an explicit length term index by the index manager of the port.
+Deletes the length term definition with the specified sub-index value. A length
+term cannot be deleted while it is used in the condition of any filter for the
+port.
+
+Corresponding CLI command: ``PL_DELETE``
 
 .. code-block:: python
 
-    await port.length_terms.remove(idx)
-
-Remove a length term by deleting the object.
-
-.. code-block:: python
-
-    await length_term.delete()
+    # Remove a length term on the port with an explicit length term index by the index manager of the port.
+    await port.length_terms.remove(position_idx=0)

@@ -9,6 +9,7 @@ System
 Memory Information
 --------------------
 
+
 .. code-block:: python
 
     await module.memory_info.get()
@@ -16,6 +17,7 @@ Memory Information
 
 Identifier
 --------------------
+
 
 .. code-block:: python
 
@@ -25,6 +27,7 @@ Identifier
 Status
 --------------------
 
+
 .. code-block:: python
 
     await module.module_system.status.get()
@@ -32,6 +35,7 @@ Status
 
 Time
 ----------------------------
+
 
 .. code-block:: python
 
@@ -41,6 +45,7 @@ Time
 
 Compatible Client Version
 ----------------------------
+
 
 .. code-block:: python
 

@@ -7,3 +7,4 @@ Module
     :glob:
 
     *
+    vulcan/index

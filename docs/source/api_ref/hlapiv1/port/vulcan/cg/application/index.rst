@@ -9,6 +9,8 @@ Test Application
 Type
 --------------
 
+
+
 .. code-block:: python
 
     await cg.test_application.set_none()

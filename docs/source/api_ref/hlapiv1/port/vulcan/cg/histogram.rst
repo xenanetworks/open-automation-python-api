@@ -9,6 +9,8 @@ Histogram
 Configuration
 --------------
 
+
+
 .. code-block:: python
 
     await cg.histogram.config.transaction.set()
@@ -23,6 +25,8 @@ Configuration
 Recalculate
 --------------
 
+
+
 .. code-block:: python
 
     await cg.histogram.recalculates.transaction.set()
@@ -34,6 +38,8 @@ Recalculate
 
 Transaction
 --------------
+
+
 
 .. code-block:: python
 

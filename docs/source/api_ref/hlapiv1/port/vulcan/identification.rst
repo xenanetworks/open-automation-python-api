@@ -4,6 +4,8 @@ Identification
 Firmware Version
 -----------------
 
+
+
 .. code-block:: python
 
     await port.nic_firmware_version.get()
@@ -12,12 +14,16 @@ Firmware Version
 NIC Name
 ------------
 
+
+
 .. code-block:: python
 
     await port.nic_name.get()
 
 Status
 ------
+
+
 
 .. code-block:: python
     
@@ -26,6 +32,8 @@ Status
 
 License Info
 -------------
+
+
 
 .. code-block:: python
 

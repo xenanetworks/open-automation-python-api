@@ -9,6 +9,8 @@ L2
 ARP Resolution
 --------------
 
+
+
 .. code-block:: python
 
     await cg.l2.address_resolve.set_no()
@@ -19,6 +21,8 @@ ARP Resolution
 Use Gateway MAC as DMAC
 -----------------------
 
+
+
 .. code-block:: python
 
     await cg.l2.gateway.use.set_yes()
@@ -28,6 +32,8 @@ Use Gateway MAC as DMAC
 
 Gateway Config
 -----------------------
+
+
 
 .. code-block:: python
 
@@ -41,6 +47,8 @@ Gateway Config
 MAC Address
 ----------------------------
 
+
+
 .. code-block:: python
 
     await cg.l2.mac.client.set()
@@ -52,6 +60,8 @@ MAC Address
 
 VLAN Settings
 --------------
+
+
 
 .. code-block:: python
 

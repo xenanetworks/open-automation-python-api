@@ -7,52 +7,121 @@ L4
 
 TCP DST Port
 -------------------
+Basic mode only. Defines TCP Destination Port settings used for the filter.
+
+.. note::
+
+    For SET, the only allowed ``_filter_type`` is ``shadow-copy``.
+
+Corresponding CLI command: ``PEF_TCPDESTPORT``
 
 .. code-block:: python
 
-    await filter.tcp.dest_port.set_on()
-    await filter.tcp.dest_port.set_off()
-    await filter.tcp.dest_port.get()
+    await filter.tcp.dest_port.set(use=enums.OnOff.OFF, value=80, mask=Hex("FFFF"))
+    await filter.tcp.dest_port.set(use=enums.OnOff.ON, value=80, mask=Hex("FFFF"))
+
+    resp = await filter.tcp.dest_port.get()
+    resp.use
+    resp.value
+    resp.mask
 
 TCP SRC Port
 -------------------
+Basic mode only. Defines TCP Source Port settings used for the filter.
+
+.. note::
+
+    For SET, the only allowed ``_filter_type`` is ``shadow-copy``.
+
+Corresponding CLI command: ``PEF_TCPSRCPORT``
 
 .. code-block:: python
 
-    await filter.tcp.src_port.set_on()
-    await filter.tcp.src_port.set_off()
-    await filter.tcp.src_port.get()
+    await filter.tcp.src_port.set(use=enums.OnOff.OFF, value=80, mask=Hex("FFFF"))
+    await filter.tcp.src_port.set(use=enums.OnOff.ON, value=80, mask=Hex("FFFF"))
+
+    resp = await filter.tcp.src_port.get()
+    resp.use
+    resp.value
+    resp.mask
 
 TCP Settings
 -------------------
+Basic mode only. Defines if filtering on TCP information is used for flow
+filtering.
+
+.. note::
+
+    For SET, the only allowed ``_filter_type`` is ``shadow-copy``.
+
+Corresponding CLI command: ``PEF_TCPSETTINGS``
 
 .. code-block:: python
     
-    await filter.tcp.settings.set()
-    await filter.tcp.settings.get()
+    await filter.tcp.settings.set(use=enums.FilterUse.OFF, action=enums.InfoAction.EXCLUDE)
+    await filter.tcp.settings.set(use=enums.FilterUse.AND, action=enums.InfoAction.EXCLUDE)
+    await filter.tcp.settings.set(use=enums.FilterUse.AND, action=enums.InfoAction.INCLUDE)
+
+    resp = await filter.tcp.settings.get()
+    resp.use
+    resp.action
 
 UDP DST Port
 -------------------
+Basic mode only. Defines UDP Destination Port settings used for the filter.
+
+.. note::
+
+    For SET, the only allowed ``_filter_type`` is ``shadow-copy``.
+
+Corresponding CLI command: ``PEF_UDPDESTPORT``
 
 .. code-block:: python
 
-    await filter.udp.dest_port.set_on()
-    await filter.udp.dest_port.set_off()
-    await filter.udp.dest_port.get()
+    await filter.tcp.dest_port.set(use=enums.OnOff.ON, value=80, mask=Hex("FFFF"))
+    await filter.tcp.dest_port.set(use=enums.OnOff.OFF, value=80, mask=Hex("FFFF"))
+
+    resp = await filter.udp.dest_port.get()
+    resp.use
+    resp.value
+    resp.mask
 
 UDP SRC Port
 -------------------
+Basic mode only. Defines UDP Source Port settings used for the filter.
+
+.. note::
+
+    For SET, the only allowed ``_filter_type`` is ``shadow-copy``
+
+Corresponding CLI command: ``PEF_UDPSRCPORT``
 
 .. code-block:: python
 
-    await filter.udp.src_port.set_on()
-    await filter.udp.src_port.set_off()
-    await filter.udp.src_port.get()
+    await filter.tcp.src_port.set(use=enums.OnOff.ON, value=80, mask=Hex("FFFF"))
+    await filter.tcp.src_port.set(use=enums.OnOff.OFF, value=80, mask=Hex("FFFF"))
+
+    resp = await filter.udp.src_port.get()
+    resp.use
+    resp.value
+    resp.mask
 
 UDP Settings
 -------------------
+Basic mode only. Controls if UDP packet information is used for flow filtering.
+
+.. note::
+
+    For SET, the only allowed ``_filter_type`` is ``shadow-copy``
+
+Corresponding CLI command: ``PEF_UDPSETTINGS``
 
 .. code-block:: python
     
-    await filter.udp.settings.set()
-    await filter.udp.settings.get()
+    await filter.udp.settings.set(use=enums.FilterUse.OFF, action=enums.InfoAction.EXCLUDE)
+    await filter.udp.settings.set(use=enums.FilterUse.AND, action=enums.InfoAction.EXCLUDE)
+    await filter.udp.settings.set(use=enums.FilterUse.AND, action=enums.InfoAction.INCLUDE)
+
+    resp = await filter.udp.settings.get()
+    resp.use
+    resp.action

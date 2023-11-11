@@ -8,6 +8,8 @@ TLS
 Alerts
 ------
 
+
+
 .. code-block:: python
 
     await cg.tls.counters.alert.fatal.get()
@@ -17,6 +19,8 @@ Alerts
 Payload
 --------
 
+
+
 .. code-block:: python
 
     await cg.tls.counters.payload.tx.get()
@@ -24,6 +28,8 @@ Payload
 
 State
 -----
+
+
 
 .. code-block:: python
 
@@ -33,6 +39,8 @@ State
 
 Histogram
 ----------
+
+
 
 .. code-block:: python
 

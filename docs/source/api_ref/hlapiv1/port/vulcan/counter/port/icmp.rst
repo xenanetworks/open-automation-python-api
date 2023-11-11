@@ -8,6 +8,8 @@ ICMP
 Total
 -----------------
 
+
+
 .. code-block:: python
 
     await port.counters.icmp.total.get()
@@ -16,6 +18,8 @@ Total
 TX
 -----------------
 
+
+
 .. code-block:: python
 
     await port.counters.icmp.tx.get()
@@ -23,6 +27,8 @@ TX
 
 RX
 -----------------
+
+
 
 .. code-block:: python
 

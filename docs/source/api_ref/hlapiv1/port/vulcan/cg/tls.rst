@@ -8,6 +8,8 @@ TLS
 Enable
 --------------
 
+
+
 .. code-block:: python
 
     await cg.tls.enable.set_yes()
@@ -18,6 +20,8 @@ Enable
 Cipher Suites
 --------------
 
+
+
 .. code-block:: python
 
     await cg.tls.cipher_suites.set()
@@ -26,6 +30,8 @@ Cipher Suites
 
 Close Notify
 --------------
+
+
 
 .. code-block:: python
 
@@ -37,6 +43,8 @@ Close Notify
 Certificate and Key
 --------------------
 
+
+
 .. code-block:: python
 
     await cg.tls.file.certificate_path.set()
@@ -47,6 +55,8 @@ Certificate and Key
 Max Record Size
 ----------------
 
+
+
 .. code-block:: python
 
     await cg.tls.max_record_size.set()
@@ -55,6 +65,8 @@ Max Record Size
 
 Protocol Version
 ----------------
+
+
 
 .. code-block:: python
 
@@ -68,6 +80,8 @@ Protocol Version
 Minimum Required Version
 ------------------------
 
+
+
 .. code-block:: python
 
     await cg.tls.protocol.min_required_version.get()
@@ -75,6 +89,8 @@ Minimum Required Version
 
 Server Name
 ------------------------
+
+
 
 .. code-block:: python
 

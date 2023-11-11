@@ -1,6 +1,17 @@
 Capabilities
 =========================
+Gets the module capabilities.
+
+Corresponding CLI command: ``M_CAPABILITIES``
 
 .. code-block:: python
 
-    await module.capabilities.get()
+    # Capabilities
+    resp = await module.capabilities.get()
+    resp.can_advanced_timing
+    resp.can_local_time_adjust
+    resp.can_media_config
+    resp.can_ppm_sweep
+    resp.can_tsn
+    resp.is_chimera
+    resp.max_clock_ppm

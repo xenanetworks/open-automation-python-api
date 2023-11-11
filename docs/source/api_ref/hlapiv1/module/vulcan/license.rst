@@ -9,6 +9,7 @@ License
 Clock Windback
 --------------------
 
+
 .. code-block:: python
 
     await module.license.clock_windback.get()
@@ -17,6 +18,7 @@ Clock Windback
 Demo Information
 --------------------
 
+
 .. code-block:: python
 
     await module.license.demo_info.get()
@@ -24,6 +26,7 @@ Demo Information
 
 Online Mode
 --------------------
+
 
 .. code-block:: python
 
@@ -35,6 +38,7 @@ Online Mode
 Update
 ----------------------------
 
+
 .. code-block:: python
 
     await module.license.update.set()
@@ -42,6 +46,7 @@ Update
 
 Update Status
 ----------------------------
+
 
 .. code-block:: python
 
@@ -51,6 +56,7 @@ Update Status
 Management Information
 ----------------------------
 
+
 .. code-block:: python
 
     await module.license.management_info.get()
@@ -58,6 +64,7 @@ Management Information
 
 List License BSON Files
 ----------------------------
+
 
 .. code-block:: python
 
