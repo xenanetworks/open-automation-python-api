@@ -451,11 +451,11 @@ async def txtap_set(
     conn, mid, pid = get_ctx(port)
     cmd_ = commands.PP_PHYTXEQ(conn, mid, pid, serdes)
     await cmd_.set(
-        pre1=pre,
+        pre=pre,
         main=main,
-        post1=post1,
+        post=post1,
         pre2=pre2,
-        post2=pre3,
+        pre3_post2=pre3,
         post3=0,
     )
 

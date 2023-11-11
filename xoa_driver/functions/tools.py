@@ -120,11 +120,11 @@ def dictionize_lt_status(
 
 def dictionize_txtap_get(r: commands.PP_PHYTXEQ.GetDataAttr) -> dict[str, int]:
     return {
-        "c(-3)": r.post2,
+        "c(-3)": r.pre3_post2,
         "c(-2)": r.pre2,
-        "c(-1)": r.pre1,
+        "c(-1)": r.pre,
         "c(0)": r.main,
-        "c(1)": r.post1,
+        "c(1)": r.post,
     }
 
 

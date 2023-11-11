@@ -1132,15 +1132,15 @@ class PP_PHYTXEQ:
     _serdes_xindex: int
 
     class GetDataAttr(ResponseBodyStruct):
-        pre1: int = field(XmpInt())
+        pre: int = field(XmpInt())
         """integer, preemphasis, (range: Module dependent), default = 0 (neutral)."""
         main: int = field(XmpInt())
         """integer, amplification, (range: Module dependent), default = 0 (neutral)."""
-        post1: int = field(XmpInt())
+        post: int = field(XmpInt())
         """integer, postemphasis, (range: Module dependent), default = 0 (neutral)."""
         pre2: int = field(XmpInt())
         """integer, preemphasis, (range: Module dependent), default = 0 (neutral)."""
-        post2: int = field(XmpInt())
+        pre3_post2: int = field(XmpInt())
         """integer, postemphasis, (range: Module dependent), default = 0 (neutral)."""
         post3: int = field(XmpInt())
         """integer, postemphasis, (range: Module dependent), default = 0 (neutral)."""
@@ -1148,15 +1148,15 @@ class PP_PHYTXEQ:
         """integer, value must be 4"""
 
     class SetDataAttr(RequestBodyStruct):
-        pre1: int = field(XmpInt())
+        pre: int = field(XmpInt())
         """integer, preemphasis, (range: Module dependent), default = 0 (neutral)."""
         main: int = field(XmpInt())
         """integer, amplification, (range: Module dependent), default = 0 (neutral)."""
-        post1: int = field(XmpInt())
+        post: int = field(XmpInt())
         """integer, postemphasis, (range: Module dependent), default = 0 (neutral)."""
         pre2: int = field(XmpInt())
         """integer, preemphasis, (range: Module dependent), default = 0 (neutral)."""
-        post2: int = field(XmpInt())
+        pre3_post2: int = field(XmpInt())
         """integer, postemphasis, (range: Module dependent), default = 0 (neutral)."""
         post3: int = field(XmpInt())
         """integer, postemphasis, (range: Module dependent), default = 0 (neutral)."""
@@ -1173,12 +1173,22 @@ class PP_PHYTXEQ:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex]))
 
-    def set(self, pre2: int, pre1: int, main: int, post1: int, post2: int, post3: int) -> Token[None]:
+    def set(self, pre2: int, pre: int, main: int, post: int, pre3_post2: int, post3: int) -> Token[None]:
         """Set the equalizer settings of the on-board PHY in the
         transmission direction (towards the transceiver cage) on Thor and Loki modules.
 
-        :param pre1: preemphasis, (range: Module dependent), default = 0 (neutral)
-        :type pre1: typing.List[int]
+        :param pre2: pre2 emphasis
+        :type pre2: int
+        :param pre: pre emphasis
+        :type pre: int
+        :param main: main emphasis
+        :type main: int
+        :param post: post emphasis
+        :type post: int
+        :param pre3_post2: post2 or pre3 emphasis
+        :type pre3_post2: int
+        :param post3: post3 emphasis
+        :type post3: int
         """
 
         return Token(
@@ -1189,8 +1199,12 @@ class PP_PHYTXEQ:
                 port=self._port,
                 indices=[self._serdes_xindex],
                 pre2=pre2,
-                pre1=pre1,
-                main=main, post1=post1, post2=post2, post3=post3, mode=4))
+                pre=pre,
+                main=main,
+                post=post,
+                pre3_post2=pre3_post2,
+                post3=post3,
+                mode=4))
 
 
 @register_command
