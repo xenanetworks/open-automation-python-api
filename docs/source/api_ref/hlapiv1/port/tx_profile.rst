@@ -37,24 +37,15 @@ TX Mode
 The scheduling mode for outgoing traffic from the port, specifying how multiple
 logical streams are merged onto one physical port. There are four primary modes:
 
-* Normal Interleaved: The streams are treated independently, and are merged into a
-combined traffic pattern for the port, which honors each stream's ideal packet
-placements as well as possible. This is the default mode.
-* Strict Uniform: This is a slight variation of normal interleaved scheduling, which emphasizes strict
-uniformity of the inter-packet-gaps as more important than hitting the stream
-rates absolutely precisely.
-* Sequential: Each stream in turn contribute one or
-more packets, before continuing to the next stream, in a cyclical pattern. The
-count of packets for each stream is obtained from the PS_PACKETLIMIT command
-value for the stream. The individual rates for each stream are ignored, and
-instead the overall rate is determined at the port-level. This in turn determines
-the rates for each stream, taking into account their packet lengths and counts.
-The maximum number of packets in a cycle (i.e. the sum of PS_PACKETLIMIT for all
-enabled streams) is 500. If the packet number is larger than 500,  will be returned
-when attempting to start the traffic (P_TRAFFIC ON).
+* Normal Interleaved: The streams are treated independently, and are merged into a combined traffic pattern for the port, which honors each stream's ideal packet placements as well as possible. This is the default mode.
+
+* Strict Uniform: This is a slight variation of normal interleaved scheduling, which emphasizes strict uniformity of the inter-packet-gaps as more important than hitting the stream rates absolutely precisely.
+
+* Sequential: Each stream in turn contribute one or more packets, before continuing to the next stream, in a cyclical pattern. The count of packets for each stream is obtained from the PS_PACKETLIMIT command value for the stream. The individual rates for each stream are ignored, and instead the overall rate is determined at the port-level. This in turn determines the rates for each stream, taking into account their packet lengths and counts. The maximum number of packets in a cycle (i.e. the sum of PS_PACKETLIMIT for all enabled streams) is 500. If the packet number is larger than 500,  will be returned when attempting to start the traffic (P_TRAFFIC ON).
+
 * Burst: When this mode is selected, frames from the streams on a port are sent as bursts as depicted below:
- * The Burst Period is defined in the P_TXBURSTPERIOD command.
- * For the individual streams the number of packets in a burst is defined by the PS_BURST command, while the Inter Packet Gap and the Inter Burst Gap are defined by the PS_BURSTGAP command.
+    * The Burst Period is defined in the P_TXBURSTPERIOD command.
+    * For the individual streams the number of packets in a burst is defined by the PS_BURST command, while the Inter Packet Gap and the Inter Burst Gap are defined by the PS_BURSTGAP command.
 
 Corresponding CLI command: ``P_TXMODE``
 
