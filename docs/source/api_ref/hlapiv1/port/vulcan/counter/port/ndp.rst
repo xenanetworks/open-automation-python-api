@@ -8,6 +8,8 @@ NDP
 Total
 -----------------
 
+
+
 .. code-block:: python
 
     await port.counters.ndp.total.get()
@@ -16,6 +18,8 @@ Total
 TX
 -----------------
 
+
+
 .. code-block:: python
 
     await port.counters.ndp.tx.get()
@@ -23,6 +27,8 @@ TX
 
 RX
 -----------------
+
+
 
 .. code-block:: python
 

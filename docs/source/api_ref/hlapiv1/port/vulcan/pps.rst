@@ -1,6 +1,8 @@
 Max Packet Rate
 =========================
 
+
+
 .. code-block:: python
 
     await port.max_packet_rate.set_automatic()

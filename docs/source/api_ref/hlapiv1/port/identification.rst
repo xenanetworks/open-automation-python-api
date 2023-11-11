@@ -3,63 +3,40 @@ Identification
 
 Interface
 ----------
+Obtains the name of the physical interface type of a port.
+
+Corresponding CLI command: ``P_INTERFACE``
 
 .. code-block:: python
 
-    await port.interface.get()
-
-    port.on_interface_change(_callback_func)
+    # Interface
+    resp = await port.interface.get()
+    resp.interface
 
 
 Description
 -----------
+The description of a port.
+
+Corresponding CLI command: ``P_COMMENT``
 
 .. code-block:: python
 
+    # Description
     await port.comment.set(comment="description")
-    await port.comment.get()
-
-Legacy Model
-------------
-
-.. code-block:: python
-
-    await module.mode.get()
-
-Model
--------------
-
-.. code-block:: python
-
-    await module.revision.get()
+    
+    resp = await port.comment.get()
+    resp.comment
 
 
-Serial Number
------------------
+Optical Signal Level
+---------------------
+Get the received signal level for optical ports.
 
-.. code-block:: python
-
-    await module.serial_number.get()
-
-
-Firmware Version
------------------
-
-.. code-block:: python
-
-    await module.version_number.get()
-
-
-Port Count
-------------
-
-.. code-block:: python
-
-    await module.port_count.get()
-
-Status
-------
+Corresponding CLI command: ``P_STATUS``
 
 .. code-block:: python
     
-    await module.status.get()
+    # Status
+    resp = await port.status.get()
+    resp.optical_power

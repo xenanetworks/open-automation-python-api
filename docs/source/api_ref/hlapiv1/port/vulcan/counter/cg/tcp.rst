@@ -8,12 +8,16 @@ TCP
 Error
 -----
 
+
+
 .. code-block:: python
 
     await cg.tcp.counters.error.get()
 
 Packet
 ------
+
+
 
 .. code-block:: python
 
@@ -23,6 +27,8 @@ Packet
 Payload
 --------
 
+
+
 .. code-block:: python
 
     await cg.tcp.counters.payload.rx.get()
@@ -31,12 +37,16 @@ Payload
 Retransmission
 --------------
 
+
+
 .. code-block:: python
 
     await cg.tcp.counters.retransmission.get()
 
 State
 -----
+
+
 
 .. code-block:: python
 
@@ -46,6 +56,8 @@ State
 
 Histogram
 ----------
+
+
 
 .. code-block:: python
 
@@ -58,6 +70,8 @@ Histogram
 
 Clear Port Test Statistics
 --------------------------
+
+
 
 .. code-block:: python
 

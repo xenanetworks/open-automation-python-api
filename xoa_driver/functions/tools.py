@@ -120,11 +120,11 @@ def dictionize_lt_status(
 
 def dictionize_txtap_get(r: commands.PP_PHYTXEQ.GetDataAttr) -> dict[str, int]:
     return {
-        "c(-3)": r.post2,
+        "c(-3)": r.pre3_post2,
         "c(-2)": r.pre2,
-        "c(-1)": r.pre1,
+        "c(-1)": r.pre,
         "c(0)": r.main,
-        "c(1)": r.post1,
+        "c(1)": r.post,
     }
 
 
@@ -139,7 +139,8 @@ def dictionize_anlt_status(
         "autoneg_enabled": enums.AutoNegMode(autoneg.mode).name.lower().lstrip("aneg_"),
         "link_training_mode": enums.LinkTrainingMode(linktrain.mode).name.lower(),
         "link_training_timeout": enums.TimeoutMode(linktrain.timeout_mode).name.lower(),
-        "link_recovery": "on" if link_recovery.values[0] == 1 else "off",
+        "restart_link_down": "on" if link_recovery.values[0] == 1 or link_recovery.values[0] == 3 else "off",
+        "restart_lt_fail": "on" if link_recovery.values[0] == 2 or link_recovery.values[0] == 3 else "off",
         "serdes_count": capabilities.serdes_count,
         "autoneg_allow_loopback": allow_loopback.values,
         "link_training_preset0": enums.NRZPreset(linktrain.nrz_preset).name.lower(),

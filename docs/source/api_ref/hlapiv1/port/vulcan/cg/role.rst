@@ -5,6 +5,8 @@ Role
 
     Applicable to Vulcan port only.
 
+
+
 .. code-block:: python
 
     await cg.role.set_client()

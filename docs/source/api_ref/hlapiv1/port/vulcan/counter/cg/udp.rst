@@ -8,6 +8,8 @@ UDP
 Packet
 ------
 
+
+
 .. code-block:: python
 
     await cg.udp.counters.packet.rx.get()
@@ -15,6 +17,8 @@ Packet
 
 Payload
 --------
+
+
 
 .. code-block:: python
 
@@ -25,6 +29,8 @@ Payload
 State
 -----
 
+
+
 .. code-block:: python
 
     await cg.udp.counters.state.current.get()
@@ -33,6 +39,8 @@ State
 
 Histogram
 ----------
+
+
 
 .. code-block:: python
 

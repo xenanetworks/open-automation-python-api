@@ -8,6 +8,8 @@ All
 Total
 -----------------
 
+
+
 .. code-block:: python
 
     await port.counters.total.get()
@@ -16,6 +18,8 @@ Total
 TX
 -----------------
 
+
+
 .. code-block:: python
 
     await port.counters.total_tx.get()
@@ -23,6 +27,8 @@ TX
 
 RX
 -----------------
+
+
 
 .. code-block:: python
 

@@ -8,81 +8,184 @@ L3
 
 Type
 -------------------
+Basic mode only. Defines what Layer 3 protocols that are present and may be used
+for the filter.
+
+.. note::
+
+    For SET, the only allowed ``_filter_type`` is ``shadow-copy``
+
+Corresponding CLI command: ``PEF_L3USE``
 
 .. code-block:: python
 
+    await filter.l3_use.set(use=enums.L3Present.IP4)
     await filter.l3_use.set_ip4()
+    await filter.l3_use.set(use=enums.L3Present.IP6)
     await filter.l3_use.set_ip6()
+    await filter.l3_use.set(use=enums.L3Present.NA)
     await filter.l3_use.set_na()
-    await filter.l3_use.get()
+
+    resp = await filter.l3_use.get()
+    resp.use
 
 IPv4 DST
 -------------------
+Basic mode only. Defines the IPv4 Destination Address settings for the IPv4 filter.
+
+.. note::
+
+    For SET, the only allowed ``_filter_type`` is ``shadow-copy``
+
+Corresponding CLI command: ``PEF_IPV4DESTADDR``
 
 .. code-block:: python
 
-    await filter.ip.v4.dest_address.set_on()
-    await filter.ip.v4.dest_address.set_off()
-    await filter.ip.v4.dest_address.get()
+    await filter.ip.v4.dest_address.set(use=enums.OnOff.ON, value=ipaddress.IPv4Address("10.0.0.2"), mask=Hex("FFFFFFFF"))
+    await filter.ip.v4.dest_address.set(use=enums.OnOff.OFF, value=ipaddress.IPv4Address("10.0.0.2"), mask=Hex("FFFFFFFF"))
+
+    resp = await filter.ip.v4.dest_address.get()
+    resp.use
+    resp.value
+    resp.mask
 
 IPv4 SRC
 -------------------
+Basic mode only. Defines the IPv4 Source Address settings for the IPv4 filter.
+
+.. note::
+
+    For SET, the only allowed ``_filter_type`` is ``shadow-copy``
+
+Corresponding CLI command: ``PEF_IPV4SRCADDR``
 
 .. code-block:: python
 
-    await filter.ip.v4.src_address.set_on()
-    await filter.ip.v4.src_address.set_off()
-    await filter.ip.v4.src_address.get()
+    await filter.ip.v4.src_address.set(use=enums.OnOff.ON, value=ipaddress.IPv4Address("10.0.0.2"), mask=Hex("FFFFFFFF"))
+    await filter.ip.v4.src_address.set(use=enums.OnOff.OFF, value=ipaddress.IPv4Address("10.0.0.2"), mask=Hex("FFFFFFFF"))
+
+    resp = await filter.ip.v4.src_address.get()
+    resp.use
+    resp.value
+    resp.mask
 
 IPv4 DSCP
 -------------------
+Basic mode only. Defines if IPv4 DSCP/TOS settings used for the IPv4 filter.
+
+.. note::
+
+    For SET, the only allowed ``_filter_type`` is ``shadow-copy``
+
+Corresponding CLI command: ``PEF_IPV4DSCP``
 
 .. code-block:: python
 
-    await filter.ip.v4.dscp.set_on()
-    await filter.ip.v4.dscp.set_off()
-    await filter.ip.v4.dscp.get()
+    await filter.ip.v4.dscp.set(use=enums.OnOff.ON, value=0, mask=Hex("FC"))
+    await filter.ip.v4.dscp.set(use=enums.OnOff.OFF, value=0, mask=Hex("FC"))
+    
+    resp = await filter.ip.v4.dscp.get()
+    resp.use
+    resp.value
+    resp.mask
 
 IPv4 Settings
 -------------------
+Basic mode only. Defines what filter action is performed on the IPv4 header.
+
+.. note::
+
+    For SET, the only allowed ``_filter_type`` is ``shadow-copy``
+
+Corresponding CLI command: ``PEF_IPV4SETTINGS``
 
 .. code-block:: python
     
-    await filter.ip.v4.settings.set()
-    await filter.ip.v4.settings.get()
+    await filter.ip.v4.settings.set(use=enums.FilterUse.OFF, action=enums.InfoAction.EXCLUDE)
+    await filter.ip.v4.settings.set(use=enums.FilterUse.AND, action=enums.InfoAction.EXCLUDE)
+    await filter.ip.v4.settings.set(use=enums.FilterUse.AND, action=enums.InfoAction.INCLUDE)
+
+    resp = await filter.ip.v4.settings.get()
+    resp.use
+    resp.action
 
 
 IPv6 DST
 -------------------
+Basic mode only. Defines the IPv6 Destination Address settings for the IPv6 filter.
+
+.. note::
+
+    For SET, the only allowed ``_filter_type`` is ``shadow-copy``
+
+Corresponding CLI command: ``PEF_IPV6DESTADDR``
 
 .. code-block:: python
 
-    await filter.ip.v6.dest_address.set_on()
-    await filter.ip.v6.dest_address.set_off()
-    await filter.ip.v6.dest_address.get()
+    await filter.ip.v6.dest_address.set(use=enums.OnOff.OFF, value=ipaddress.IPv6Address("2002::2"), mask=Hex("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"))
+    await filter.ip.v6.dest_address.set(use=enums.OnOff.ON, value=ipaddress.IPv6Address("2002::2"), mask=Hex("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"))
+
+    resp = await filter.ip.v6.dest_address.get()
+    resp.use
+    resp.value
+    resp.mask
 
 IPv6 SRC
 -------------------
+Basic mode only. Defines the IPv6 Source Address settings for the IPv6 filter.
+
+.. note::
+
+    For SET, the only allowed ``_filter_type`` is ``shadow-copy``
+
+Corresponding CLI command: ``PEF_IPV6SRCADDR``
 
 .. code-block:: python
 
-    await filter.ip.v6.src_address.set_on()
-    await filter.ip.v6.src_address.set_off()
-    await filter.ip.v6.src_address.get()
+    await filter.ip.v6.src_address.set(use=enums.OnOff.OFF, value=ipaddress.IPv6Address("2002::2"), mask=Hex("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"))
+    await filter.ip.v6.src_address.set(use=enums.OnOff.ON, value=ipaddress.IPv6Address("2002::2"), mask=Hex("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"))
+
+    resp = await filter.ip.v6.src_address.get()
+    resp.use
+    resp.value
+    resp.mask
 
 IPv6 Traffic Class
 -------------------
+Basic mode only. Defines the IPv6 Traffic Class settings used for the filter.
+
+.. note::
+
+    For SET, the only allowed ``_filter_type`` is ``shadow-copy``
+
+Corresponding CLI command: ``PEF_IPV6TC``
 
 .. code-block:: python
 
-    await filter.ip.v6.traffic_class.set_on()
-    await filter.ip.v6.traffic_class.set_off()
-    await filter.ip.v6.traffic_class.get()
+    await filter.ip.v6.traffic_class.set(use=enums.OnOff.OFF, value=0, mask=Hex("FC"))
+    await filter.ip.v6.traffic_class.set(use=enums.OnOff.ON, value=0, mask=Hex("FC"))
+    
+    resp = await filter.ip.v6.traffic_class.get()
+    resp.use
+    resp.value
+    resp.mask
 
 IPv6 Settings
 -------------------
+Basic mode only. Defines what filter action is performed on the IPv6 header.
+
+.. note::
+
+    For SET, the only allowed ``_filter_type`` is ``shadow-copy``
+
+Corresponding CLI command: ``PEF_IPV6SETTINGS``
 
 .. code-block:: python
     
-    await filter.ip.v6.settings.set()
-    await filter.ip.v6.settings.get()
+    await filter.ip.v6.settings.set(use=enums.FilterUse.OFF, action=enums.InfoAction.EXCLUDE)
+    await filter.ip.v6.settings.set(use=enums.FilterUse.AND, action=enums.InfoAction.EXCLUDE)
+    await filter.ip.v6.settings.set(use=enums.FilterUse.AND, action=enums.InfoAction.INCLUDE)
+
+    resp = await filter.ip.v6.settings.get()
+    resp.use
+    resp.action

@@ -24,8 +24,7 @@ from xoa_driver.internals.core.transporter.protocol.payload import (
 @dataclass
 class PX_RW:
     """
-    Provides read and write access to the register interface supported by the port transceiver.  It
-    is possible to both read and write register values.
+    Provides read and write access to the register interface supported by the port transceiver. It is possible to both read and write register values.
     """
 
     code: typing.ClassVar[int] = 501
@@ -68,8 +67,6 @@ class PX_RW:
 @dataclass
 class PX_RW_SEQ:
     """
-    .. versionadded: v1.1
-
     :term:`I2C<I2C>` sequential access to a transceiver's register.
     When invoked, the ``<byte_count>`` number of bytes will be read or written in one I2C transaction,
     in which the ``<value>`` is read or written with only a single register address setup.
@@ -127,7 +124,7 @@ class PX_RW_SEQ:
 @register_command
 @dataclass
 class PX_MII:
-    """Provides access to the register interface supported by the media-independent interface (MII) transceiver.  It
+    """Provides access to the register interface supported by the media-independent interface (MII) transceiver. It
     is possible to both read and write register values."""
 
     code: typing.ClassVar[int] = 537

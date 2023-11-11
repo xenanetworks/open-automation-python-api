@@ -341,7 +341,7 @@ class PP_RXTOTALSTATS:
     Provides FEC Total counters.
     """
 
-    code: typing.ClassVar[int] = 285
+    code: typing.ClassVar[int] = 270
     pushed: typing.ClassVar[bool] = False
 
     _connection: 'interfaces.IConnection'
@@ -421,18 +421,17 @@ class PP_RXFECSTATS:
     class GetDataAttr(ResponseBodyStruct):
         stats_type: int = field(XmpLong())
         """long integer, currently always 0."""
-        value_count: int = field(XmpLong())
+        data_count: int = field(XmpLong())
         """long integer, number of values."""
-        correction_stats: typing.List[int] = field(XmpSequence(types_chunk=[XmpLong()], length=8))
-        """list of long integers, array of length value_count-1. The correction_stats array shows how many FEC blocks have been seen with [0, 1, 2, 3....15, >15] symbol errors."""
-        rx_uncorrectable_code_word_count: int = field(XmpLong())
-        """long integer, the number of received uncorrectable code words."""
+        stats: typing.List[int] = field(XmpSequence(types_chunk=[XmpLong()]))
+        """list of long integers, array of length value_count. The stats array shows how many FEC blocks have been seen with [0, 1, 2, 3....15, >15] symbol errors and the last one is the sum of FEC blocks with <=n symbol errors"""
+        # sum_of_zero_and_correctable_fec_block: int = field(XmpLong())
+        # """long integer, the sum of FEC blocks with <=n symbol errors."""
 
     def get(self) -> Token[GetDataAttr]:
         """Get statistics on how many FEC blocks have been seen with a given number of symbol errors.
 
         :return: stats type (currently always 0), number of values, correction stats array, and the number of received uncorrectable code words.
-            The correction stats array shows how many FEC blocks have been seen with [0, 1, 2, 3....15, >15] symbol errors, length = value_count-1.
 
         :rtype: PP_RXFECSTATS.GetDataAttr
         """
@@ -813,9 +812,7 @@ class PP_RXLASERPOWER:
 class PP_TXLASERPOWER:
     """
     Reading of the optical power level of the transmission signal. There is one
-    value for each laser/wavelength, and the number of these depends on the kind of
-    CFP transceiver used. The list is empty if the CFP transceiver does not support
-    optical power read-out.
+    value for each laser/wavelength, and the number of these depends on the kind of CFP transceiver used. The list is empty if the CFP transceiver does not support optical power read-out.
     """
 
     code: typing.ClassVar[int] = 296
@@ -1135,15 +1132,15 @@ class PP_PHYTXEQ:
     _serdes_xindex: int
 
     class GetDataAttr(ResponseBodyStruct):
-        pre1: int = field(XmpInt())
+        pre: int = field(XmpInt())
         """integer, preemphasis, (range: Module dependent), default = 0 (neutral)."""
         main: int = field(XmpInt())
         """integer, amplification, (range: Module dependent), default = 0 (neutral)."""
-        post1: int = field(XmpInt())
+        post: int = field(XmpInt())
         """integer, postemphasis, (range: Module dependent), default = 0 (neutral)."""
         pre2: int = field(XmpInt())
         """integer, preemphasis, (range: Module dependent), default = 0 (neutral)."""
-        post2: int = field(XmpInt())
+        pre3_post2: int = field(XmpInt())
         """integer, postemphasis, (range: Module dependent), default = 0 (neutral)."""
         post3: int = field(XmpInt())
         """integer, postemphasis, (range: Module dependent), default = 0 (neutral)."""
@@ -1151,15 +1148,15 @@ class PP_PHYTXEQ:
         """integer, value must be 4"""
 
     class SetDataAttr(RequestBodyStruct):
-        pre1: int = field(XmpInt())
+        pre: int = field(XmpInt())
         """integer, preemphasis, (range: Module dependent), default = 0 (neutral)."""
         main: int = field(XmpInt())
         """integer, amplification, (range: Module dependent), default = 0 (neutral)."""
-        post1: int = field(XmpInt())
+        post: int = field(XmpInt())
         """integer, postemphasis, (range: Module dependent), default = 0 (neutral)."""
         pre2: int = field(XmpInt())
         """integer, preemphasis, (range: Module dependent), default = 0 (neutral)."""
-        post2: int = field(XmpInt())
+        pre3_post2: int = field(XmpInt())
         """integer, postemphasis, (range: Module dependent), default = 0 (neutral)."""
         post3: int = field(XmpInt())
         """integer, postemphasis, (range: Module dependent), default = 0 (neutral)."""
@@ -1176,12 +1173,22 @@ class PP_PHYTXEQ:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex]))
 
-    def set(self, pre2: int, pre1: int, main: int, post1: int, post2: int, post3: int) -> Token[None]:
+    def set(self, pre2: int, pre: int, main: int, post: int, pre3_post2: int, post3: int) -> Token[None]:
         """Set the equalizer settings of the on-board PHY in the
         transmission direction (towards the transceiver cage) on Thor and Loki modules.
 
-        :param pre1: preemphasis, (range: Module dependent), default = 0 (neutral)
-        :type pre1: typing.List[int]
+        :param pre2: pre2 emphasis
+        :type pre2: int
+        :param pre: pre emphasis
+        :type pre: int
+        :param main: main emphasis
+        :type main: int
+        :param post: post emphasis
+        :type post: int
+        :param pre3_post2: post2 or pre3 emphasis
+        :type pre3_post2: int
+        :param post3: post3 emphasis
+        :type post3: int
         """
 
         return Token(
@@ -1192,8 +1199,12 @@ class PP_PHYTXEQ:
                 port=self._port,
                 indices=[self._serdes_xindex],
                 pre2=pre2,
-                pre1=pre1,
-                main=main, post1=post1, post2=post2, post3=post3, mode=4))
+                pre=pre,
+                main=main,
+                post=post,
+                pre3_post2=pre3_post2,
+                post3=post3,
+                mode=4))
 
 
 @register_command

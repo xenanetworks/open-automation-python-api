@@ -1,9 +1,24 @@
-Depth
+Misorder Configuration
 =========================
+
+Misorder Depth
+---------------
+
+Configures the misordering depth in number of packets.
+
+.. note::
+
+    probability * (depth + 1) should be less than 1,000,000. (see PED_FIXED)
+
+Corresponding CLI command: ``PE_MISORDER``
 
 .. code-block:: python
 
-    await port.emulation.flows[flow_idx].misordering.set()
+    flow = port.emulation.flows[1] # e.g. flow_id = 1
+    await flow.misordering.set(depth=1)
+
+    resp = await flow.misordering.get()
+    resp.depth
 
 
 

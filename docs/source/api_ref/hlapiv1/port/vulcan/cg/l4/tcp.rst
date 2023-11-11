@@ -8,6 +8,8 @@ TCP
 ACK Configuration
 -----------------------
 
+
+
 .. code-block:: python
 
     await cg.tcp.ack.duplicate_thresholds.set()
@@ -23,6 +25,8 @@ ACK Configuration
 Congestion Control
 ----------------------
 
+
+
 .. code-block:: python
 
     await cg.tcp.cwnd.congestion_mode.set_none()
@@ -33,6 +37,8 @@ Congestion Control
 
 Initial CWND
 ----------------------
+
+
 
 .. code-block:: python
 
@@ -45,6 +51,8 @@ Initial CWND
 Initial Slow Slart
 ----------------------
 
+
+
 .. code-block:: python
 
     await cg.tcp.iss_treshold.set_automatic()
@@ -55,6 +63,8 @@ Initial Slow Slart
 Max Segment Size - Fixed
 ------------------------
 
+
+
 .. code-block:: python
 
     await cg.tcp.mss.fixed_value.set()
@@ -63,6 +73,8 @@ Max Segment Size - Fixed
 
 Max Segment Size - Varying
 --------------------------
+
+
 
 .. code-block:: python
 
@@ -78,6 +90,8 @@ Max Segment Size - Varying
 RWND Scaling
 ----------------------
 
+
+
 .. code-block:: python
 
     await cg.tcp.rwnd.scaling.set_yes()
@@ -88,6 +102,8 @@ RWND Scaling
 RWND Size
 ----------------------
 
+
+
 .. code-block:: python
 
     await cg.tcp.rwnd.size.set()
@@ -96,6 +112,8 @@ RWND Size
 
 Retransmission Timeout Prolonged Mode
 --------------------------------------
+
+
 
 .. code-block:: python
 
@@ -106,6 +124,8 @@ Retransmission Timeout Prolonged Mode
 Retransmission Timeout Range
 --------------------------------------
 
+
+
 .. code-block:: python
 
     await cg.tcp.rto.range_limits.set()
@@ -113,6 +133,8 @@ Retransmission Timeout Range
 
 SYN Retransmission Timeout
 --------------------------------------
+
+
 
 .. code-block:: python
 

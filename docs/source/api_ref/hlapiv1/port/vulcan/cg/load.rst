@@ -8,6 +8,8 @@ Load Profile
 Shape
 ------
 
+
+
 .. code-block:: python
 
     await cg.load_profile.shape.set()
@@ -16,6 +18,8 @@ Shape
 
 Time Scale
 ----------
+
+
 
 .. code-block:: python
 

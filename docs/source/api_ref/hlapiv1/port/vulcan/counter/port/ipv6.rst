@@ -8,6 +8,8 @@ IPv6
 Total
 -----------------
 
+
+
 .. code-block:: python
 
     await port.counters.ipv6.total.get()
@@ -16,6 +18,8 @@ Total
 TX
 -----------------
 
+
+
 .. code-block:: python
 
     await port.counters.ipv6.tx.get()
@@ -23,6 +27,8 @@ TX
 
 RX
 -----------------
+
+
 
 .. code-block:: python
 

@@ -1054,8 +1054,7 @@ class M_REVISION:
 @dataclass
 class M_MEDIA:
     """
-    For the test modules that support media configuration (check M_CAPABILITIES), this command sets the desired media
-    type (front port).
+    For the test modules that support media configuration (check M_CAPABILITIES), this command sets the desired media type (front port).
     """
 
     code: typing.ClassVar[int] = 342
@@ -1657,12 +1656,11 @@ class M_CLOCKSWEEPSTATUS:
 @dataclass
 class M_LATENCYMODE:
     """
-    Configures the latency mode for Chimera module. In extended latency mode, the FPGA allows all latency parameters to be 10 times higher,
-    at the cost of reduced latency precision.
+    Configures the latency mode for Chimera module. In extended latency mode, the FPGA allows all latency parameters to be 10 times higher, at the cost of reduced latency precision.
 
     .. note::
 
-        - When change the latency mode, all latency configurations are reset on all ports in chimera module.
+        When change the latency mode, all latency configurations are reset on all ports in chimera module.
 
     """
 

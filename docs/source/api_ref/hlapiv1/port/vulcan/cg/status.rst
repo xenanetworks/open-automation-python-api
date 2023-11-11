@@ -6,6 +6,8 @@ Status
     Applicable to Vulcan port only.
 
     
+
+
 .. code-block:: python
 
     await cg.status.set_on()

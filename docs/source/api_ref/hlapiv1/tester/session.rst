@@ -4,6 +4,8 @@ Session
 Information
 -----------
 
+The following are pre-fetched in cache when connection is established, thus no need to use ``await``.
+
 .. code-block:: python
 
     tester.session.owner_name
@@ -17,6 +19,10 @@ Information
 
 Logoff
 ----------
+Terminates the current session. Courtesy only, the chassis will also
+handle disconnection at the TCP/IP level.
+
+Corresponding CLI command: ``C_LOGOFF``
 
 .. code-block:: python
 

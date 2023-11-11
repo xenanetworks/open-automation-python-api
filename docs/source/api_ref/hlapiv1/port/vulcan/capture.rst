@@ -4,6 +4,8 @@ Capture
 Start
 --------------
 
+
+
 .. code-block:: python
 
     await port.capture.start.set_on()
@@ -13,6 +15,8 @@ Start
 
 Read PCAP
 ----------------
+
+
 
 .. code-block:: python
 

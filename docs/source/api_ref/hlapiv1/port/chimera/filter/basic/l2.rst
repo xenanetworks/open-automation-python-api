@@ -8,27 +8,61 @@ L2
 
 Ethernet DST
 -------------------
+Defines the Ethernet Destination Address settings for the Ethernet filter.
+
+.. note::
+
+    For SET, the only allowed ``_filter_type`` is ``shadow-copy``
+
+Corresponding CLI command: ``PEF_ETHDESTADDR``
 
 .. code-block:: python
 
-    await filter.ethernet.dest_address.set_on()
-    await filter.ethernet.dest_address.set_off()
-    await filter.ethernet.dest_address.get()
+    await filter.ethernet.dest_address.set(use=enums.OnOff.OFF, value=Hex("BBBBBBBBBBBB"), mask=Hex("FFFFFFFFFFFF"))
+    await filter.ethernet.dest_address.set(use=enums.OnOff.ON, value=Hex("BBBBBBBBBBBB"), mask=Hex("FFFFFFFFFFFF"))
+
+    resp = await filter.ethernet.dest_address.get()
+    resp.use
+    resp.value
+    resp.mask
 
 Ethernet SRC
 -------------------
+Defines the Ethernet Source Address settings for the Ethernet filter.
+
+.. note::
+
+    For SET, the only allowed ``_filter_type`` is ``shadow-copy``
+
+Corresponding CLI command: ``PEF_ETHSRCADDR``
 
 .. code-block:: python
 
-    await filter.ethernet.src_address.set_on()
-    await filter.ethernet.src_address.set_off()
-    await filter.ethernet.src_address.get()
+    await filter.ethernet.src_address.set(use=enums.OnOff.OFF, value=Hex("AAAAAAAAAAAA"), mask=Hex("FFFFFFFFFFFF"))
+    await filter.ethernet.src_address.set(use=enums.OnOff.ON, value=Hex("AAAAAAAAAAAA"), mask=Hex("FFFFFFFFFFFF"))
+
+    resp = await filter.ethernet.src_address.get()
+    resp.use
+    resp.value
+    resp.mask
 
 Ethernet Settings
 -------------------
+Defines what filter action is performed on the Ethernet header.
+
+.. note::
+
+    For SET, the only allowed ``_filter_type`` is ``shadow-copy``
+
+Corresponding CLI command: ``PEF_ETHSETTINGS``
 
 .. code-block:: python
 
-    await filter.ethernet.settings.set()
-    await filter.ethernet.settings.get()
+    await filter.ethernet.settings.set(use=enums.FilterUse.OFF, action=enums.InfoAction.EXCLUDE)
+    await filter.ethernet.settings.set(use=enums.FilterUse.AND, action=enums.InfoAction.EXCLUDE)
+    await filter.ethernet.settings.set(use=enums.FilterUse.AND, action=enums.InfoAction.EXCLUDE)
+
+    resp = await filter.ethernet.settings.get()
+    resp.use
+    resp.action
 
