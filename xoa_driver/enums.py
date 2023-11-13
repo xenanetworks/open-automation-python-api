@@ -334,6 +334,6 @@ __all__ = (
     "RxEqExtCapMode",
     "PreCodingMode",
     "GrayCodingMode",
-    "Endianness"
+    "Endianness",
     "StreamOption"
 )

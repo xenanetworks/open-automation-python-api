@@ -34,6 +34,7 @@ from .enums import (
     LengthType,
     PayloadType,
     PFCMode,
+    StreamOption,
 )
 
 
@@ -2114,3 +2115,45 @@ class PS_PFCPRIORITY:
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._stream_xindex], cos=cos))
+
+
+@register_command
+@dataclass
+class PS_OPTIONS:
+    """
+    Define the set of active option flags for the stream. The set form sets the flags listed in <options>, and clears the flags not listed. To clear all flags, simply omit <options> in the command.
+    """
+
+    code: typing.ClassVar[int] = 220
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _stream_xindex: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        options: typing.List[StreamOption] = field(XmpSequence(types_chunk=[XmpByte()]))
+        """coded byte, This flag affects the INC8/DEC8/INC16/DEC16 payload types (refer to the PS_PAYLOAD command): With the flag set, the first payload byte/word after the header will be 0 (INC8/INC16) or -1 (DEC8/DEC16). With the flag unset, the default is used: The first payload byte/word of the payload will be equal to <length of header> (INC8/INC16), or -<length of header> - 1 (DEC8/DEC16)."""
+
+    class SetDataAttr(RequestBodyStruct):
+        options: typing.List[StreamOption] = field(XmpSequence(types_chunk=[XmpByte()]))
+        """coded byte, This flag affects the INC8/DEC8/INC16/DEC16 payload types (refer to the PS_PAYLOAD command): With the flag set, the first payload byte/word after the header will be 0 (INC8/INC16) or -1 (DEC8/DEC16). With the flag unset, the default is used: The first payload byte/word of the payload will be equal to <length of header> (INC8/INC16), or -<length of header> - 1 (DEC8/DEC16)."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Define the set of active “option flags” for the stream. The “set” form sets the flags listed in <options>, and clears the flags not listed. To clear all flags, simply omit <options> in the command.
+
+        :return: the option flags
+        :rtype: PS_OPTION.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._stream_xindex]))
+
+    def set(self, options: StreamOption) -> Token[None]:
+        """Define the set of active “option flags” for the stream. The “set” form sets the flags listed in <options>, and clears the flags not listed. To clear all flags, simply omit <options> in the command.
+
+        :param options: the option flags
+        :type options: StreamOption
+        """
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._stream_xindex], options=options))
