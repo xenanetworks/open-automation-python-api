@@ -2155,6 +2155,5 @@ class PS_OPTIONS:
         :param options: the option flags
         :type options: StreamOption
         """
-        
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._stream_xindex], options=options))
