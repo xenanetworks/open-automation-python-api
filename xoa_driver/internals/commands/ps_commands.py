@@ -2149,11 +2149,12 @@ class PS_OPTIONS:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._stream_xindex]))
 
-    def set(self, options: StreamOption) -> Token[None]:
+    def set(self, options: typing.List[StreamOption]) -> Token[None]:
         """Define the set of active “option flags” for the stream. The “set” form sets the flags listed in <options>, and clears the flags not listed. To clear all flags, simply omit <options> in the command.
 
         :param options: the option flags
         :type options: StreamOption
         """
+        
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._stream_xindex], options=options))
