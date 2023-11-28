@@ -1650,6 +1650,8 @@ class L47PortState(IntEnum):
     """Stopping"""
     STOPPED = 8
     """Stopped"""
+    DHCP = 9
+    """DHCP Running"""
 
 
 class L47PortSpeed(IntEnum):
@@ -1697,15 +1699,16 @@ class IsPresent(IntEnum):
 
 
 class LicenseSpeed(IntEnum):
-    UNDEFINED = 0
-    F1G = 1
-    F2_5G = 2
-    F5G = 3
-    F10G = 4
-    F25G = 5
-    F40G = 6
-    F50G = 7
-    F100G = 8
+    UNDEFINED   = 0
+    F100M       = 1
+    F1G         = 2
+    F2_5G       = 3
+    F5G         = 4
+    F10G        = 5
+    F25G        = 6
+    F40G        = 7
+    F50G        = 8
+    F100G       = 9
 
 
 class TLSVersion(IntEnum):
@@ -2649,5 +2652,18 @@ class Endianness(IntEnum):
     REVERTED = 1
     """Little Endian"""
 
+class DhcpState(IntEnum):
+    DHCP_STATE_UNKNOWN = 0
+    DHCP_STATE_RUNNING = 1
+    DHCP_STATE_COMPLETED = 2
+    DHCP_STATE_FAILED = 3
+    
+class DhcpVlanState(IntEnum):
+    DHCP_VLAN_OFF = 0
+    DHCP_VLAN_ON  = 1
 
+class VlanType(IntEnum):
+    TYPE_C = 0
+    TYPE_S  = 1
+    
 # endregion

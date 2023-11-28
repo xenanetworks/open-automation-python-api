@@ -166,7 +166,10 @@ from .internals.commands.enums import (
     PreCodingMode,
     GrayCodingMode,
     Endianness,
-    StreamOption
+    StreamOption,
+    DhcpState,
+    DhcpVlanState,
+    VlanType
 )
 
 __all__ = (
@@ -335,5 +338,8 @@ __all__ = (
     "PreCodingMode",
     "GrayCodingMode",
     "Endianness",
-    "StreamOption"
+    "StreamOption",
+    "DhcpState",
+    "DhcpVlanState",
+    "VlanType"
 )
