@@ -152,7 +152,7 @@ class CLIConverter:
             func_sigs.append(v)
 
         if list_index == -1:
-            dic = {f.name: cls._bind_one_param(class_name, p, f.annotation) for p, f in zip(params, func_sigs)}
+            dic = {f.name: cls._bind_one_param(class_name, p, f.annotation, f.name) for p, f in zip(params, func_sigs)}
         else:
             element_sig = (values[list_index + 1].annotation.replace("typing.", "").replace("list[", "").replace("List[", "").replace("]", ""))
             dic = cls._bind_has_list(class_name, params, func_sigs, list_index, element_sig)
@@ -173,11 +173,11 @@ class CLIConverter:
             dic.update({name: [cls._bind_one_param(class_name, p, element_sig) for p in params]})
         elif len(fore_params) == len(fore_sigs) != 0:  # others followed by a list
             list_params = params[list_index:]
-            dic.update({f.name: cls._bind_one_param(class_name, p, f.annotation) for p, f in zip(fore_params, fore_sigs)})
+            dic.update({f.name: cls._bind_one_param(class_name, p, f.annotation, f.name) for p, f in zip(fore_params, fore_sigs)})
             dic[name] = [cls._bind_one_param(class_name, b, element_sig) for b in list_params]
         elif len(back_params) == len(back_sigs) != 0:  # a list follow by others
             list_params = params[: -(len(func_sigs) - list_index - 1)]
-            dic.update({f.name: cls._bind_one_param(class_name, p, f.annotation) for p, f in zip(back_params, back_sigs)})
+            dic.update({f.name: cls._bind_one_param(class_name, p, f.annotation, f.name) for p, f in zip(back_params, back_sigs)})
             dic[name] = [cls._bind_one_param(class_name, b, element_sig) for b in list_params]
         return dic
 
@@ -243,7 +243,7 @@ class CLIConverter:
         return None
 
     @classmethod
-    def _special_cast(cls, class_name: str, string_param: str, type_name: str) -> t.Any:
+    def _special_cast(cls, class_name: str, string_param: str, type_name: str, param_name: str) -> t.Any:
         if type_name == "ProtocolOption":
             enum_cast = getattr(enums, type_name, None)
             if enum_cast is not None:
@@ -301,10 +301,16 @@ class CLIConverter:
                 return t2.index(s)
             elif s in t3:
                 return t3.index(s)
+        elif class_name == "PP_LINKFLAP_PARAMS" and param_name == "repetition":
+            if string_param.upper() == "INFINITE":
+                return 0
+            else:
+                return int(string_param)
+            
 
     @classmethod
     def _bind_one_param(
-        cls, class_name: str, string_param: str, type_name: str
+        cls, class_name: str, string_param: str, type_name: str, param_name: str = ""
     ) -> t.Any:
         basic_cast = cls._basic_cast(string_param, type_name)
         if basic_cast is not None:
@@ -318,7 +324,7 @@ class CLIConverter:
         if enum_cast is not None:
             return enum_cast
 
-        special_cast = cls._special_cast(class_name, string_param, type_name)
+        special_cast = cls._special_cast(class_name, string_param, type_name, param_name)
         if special_cast is not None:
             return special_cast
 
