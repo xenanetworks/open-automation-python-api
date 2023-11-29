@@ -16,6 +16,7 @@ from xoa_driver.internals.core.transporter.protocol.payload import (
     RequestBodyStruct,
     ResponseBodyStruct,
     XmpByte,
+    XmpShort,
     XmpHex,
     XmpInt,
     XmpIPv4Address,
@@ -48,7 +49,9 @@ from .enums import (
     L47IPVersion,
     L47ProtocolType,
     TLSVersion,
+    VlanType
 )
+from . import subtypes
 
 
 @register_command
@@ -3327,42 +3330,40 @@ class P4G_VLAN_ENABLE:
 @dataclass
 class P4G_VLAN_TCI:
     """
-    Specify the VLAN TCI.
+    Specify the List of VLAN TCIs.
     """
 
     code: typing.ClassVar[int] = 665
     pushed: typing.ClassVar[bool] = False
 
-    _connection: 'interfaces.IConnection'
+    _connection: "interfaces.IConnection"
     _module: int
     _port: int
     _group_xindex: int
 
-    class GetDataAttr(ResponseBodyStruct):
-        tci: Hex = field(XmpHex(size=2))
-        """two hex bytes, specifying the 16 bit TCI"""
-
     class SetDataAttr(RequestBodyStruct):
-        tci: Hex = field(XmpHex(size=2))
-        """two hex bytes, specifying the 16 bit TCI"""
+        vlans:  typing.List[subtypes.VlanTag] = field(XmpSequence(types_chunk=[XmpShort(), XmpByte()])) # A list of vlans. up to 8 TCIs can be define
 
-    def get(self) -> Token[GetDataAttr]:
-        """Get the VLAN TCI value.
+    class GetDataAttr(ResponseBodyStruct):
+        vlans:  typing.List[subtypes.VlanTag] = field(XmpSequence(types_chunk=[XmpShort(), XmpByte()])) # A list of vlans. up to 8 TCIs can be define
 
-        :return: the VLAN TCI value.
+    def get(self) -> "Token[GetDataAttr]":
+        """Get the list of VLANs.
+
+        :return: the list of VLANs.
         :rtype: P4G_VLAN_TCI.GetDataAttr
         """
-
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._group_xindex]))
 
-    def set(self, tci: Hex) -> Token[None]:
-        """Set the VLAN TCI value.
+    def set(self, vlans: typing.List[subtypes.VlanTag]) -> "Token":
+        """Set a list of VLANs.
+            Up to 8 TCIs can be defined.
+            The order of the VLANs is like the following: ethernet/vlan0/vlan1/../vlanN/uppler_layer(like IPv4)
 
-        :param tci: specifying the 16 bit TCI
-        :type tci: Hex
+        :param vlans: specifying a list of VlanTag
+        :type vlans: typing.List[subtypes.VlanTag]
         """
-
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], tci=tci))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], vlans=vlans))
 
 
 @register_command
@@ -4133,6 +4134,86 @@ class P4G_L4_PROTOCOL:
     set_udp = functools.partialmethod(set, L47ProtocolType.UDP)
     """Use UDP as the Layer 4 protocol of the Connection Group."""
 
+@register_command
+@dataclass
+class P4G_IPV4_CLIENT_ADDRESS_POOL:
+    """
+    Configure the group's client to use ip addresses from this pool
+    """
+
+    code: typing.ClassVar[int] = 690
+    pushed: typing.ClassVar[bool] = True
+
+    _connection: "interfaces.IConnection"
+    _module: int
+    _port: int
+    _group_xindex: int
+
+    class SetDataAttr(RequestBodyStruct):
+        concurrent_address_count:   int = field(XmpInt())  # integer, the number of concurrent ip addresses, this value should be less than the number of addresses in address pool
+        start_port:                 int = field(XmpInt())  # integer, the start port number, of the port range
+        port_count:                 int = field(XmpInt())  # integer, the number of ports
+        address_pool: typing.List[subtypes.GroupAddressElem] = field(XmpSequence(types_chunk=[XmpIPv4Address(), XmpIPv4Address(), XmpMacAddress()]))
+
+    def set(self, concurrent_address_count: int, start_port: int, port_count: int, address_pool: typing.List[subtypes.GroupAddressElem]) -> "Token":
+        """Set a pool of ip addresses for the client role of this group
+
+        :param concurrent_address_count: the number of concurrent ip addresses, this value should be less than the number of addresses in the address pool
+        :type concurrent_address_count: int
+        :param start_port: the starting port number of the port range
+        :type start_port: int
+        :param port_count: the number of ports
+        :type port_count: int
+        :param address_pool:
+            * IP address 
+            * Subnet Mask
+            * MAC address
+        :type address_pool: List[GroupAddressElem]
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], 
+                                                            concurrent_address_count=concurrent_address_count, start_port=start_port, port_count=port_count,
+                                                            address_pool=address_pool))
+        
+        
+@register_command
+@dataclass
+class P4G_IPV4_SERVER_ADDRESS_POOL:
+    """
+    Configure the group's server to use ip addresses from this pool
+    """
+
+    code: typing.ClassVar[int] = 691
+    pushed: typing.ClassVar[bool] = True
+
+    _connection: "interfaces.IConnection"
+    _module: int
+    _port: int
+    _group_xindex: int
+
+    class SetDataAttr(RequestBodyStruct):
+        concurrent_address_count:   int = field(XmpInt())  # integer, the number of concurrent ip addresses, this value should be less than the number of addresses in address pool
+        start_port:                 int = field(XmpInt())  # integer, the start port number, of the port range
+        port_count:                 int = field(XmpInt())  # integer, the number of ports
+        address_pool: typing.List[subtypes.GroupAddressElem] = field(XmpSequence(types_chunk=[XmpIPv4Address(), XmpIPv4Address(), XmpMacAddress()]))
+
+    def set(self, concurrent_address_count: int, start_port: int, port_count: int, address_pool: typing.List[subtypes.GroupAddressElem]) -> "Token":
+        """Set a pool of ip addresses for the server role of this group
+
+        :param concurrent_address_count: the number of concurrent ip addresses, this value should be less than the number of addresses in the address pool
+        :type concurrent_address_count: int
+        :param start_port: the starting port number of the port range
+        :type start_port: int
+        :param port_count: the number of ports
+        :type port_count: int
+        :param address_pool:
+            * IP address 
+            * Subnet Mask
+            * MAC address
+        :type address_pool: List[GroupAddressElem]
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._group_xindex], 
+                                                            concurrent_address_count=concurrent_address_count, start_port=start_port, port_count=port_count,
+                                                            address_pool=address_pool))
 
 @register_command
 @dataclass
