@@ -49,6 +49,7 @@ from xoa_driver.internals.commands import (
     P_TXPACKETLIMIT,
     P_PFCENABLE,
     P_TXBURSTPERIOD,
+    P_CAPABILITIES_EXT,
 )
 if typing.TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
@@ -299,6 +300,12 @@ class BasePortL23(base_port.BasePort[ports_state.PortL23LocalState]):
         self.capabilities = P_CAPABILITIES(conn, module_id, port_id)
         """L23 port capabilities.
         Representation of P_CAPABILITIES
+        """
+        
+        self.capabilities_ext = P_CAPABILITIES_EXT(conn, module_id, port_id)
+        """L23 port capabilities ext.
+
+        Representation of P_CAPABILITIES_EXT
         """
 
         self.pause = P_PAUSE(conn, module_id, port_id)
