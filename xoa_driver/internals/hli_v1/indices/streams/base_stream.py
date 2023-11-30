@@ -41,6 +41,7 @@ from xoa_driver.internals.commands import (
     PS_EXTPAYLOAD,
     PS_PFCPRIORITY,
     PS_AUTOADJUST,
+    PS_OPTIONS,
 )
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
@@ -327,6 +328,7 @@ class BaseStreamIdx(BaseIndex):
         
         :type: SPayload
         """
+
         self.request = SRequest(conn, *kind)
         """L23 stream request config
         
@@ -367,6 +369,12 @@ class BaseStreamIdx(BaseIndex):
         """L23 stream rate config
         
         :type: SRate
+        """
+
+        self.options = PS_OPTIONS(conn, *kind)
+        """L23 stream options
+
+        :type: PS_OPTIONS
         """
 
     async def delete(self):

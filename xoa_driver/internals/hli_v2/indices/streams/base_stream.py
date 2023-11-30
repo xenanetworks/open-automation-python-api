@@ -40,6 +40,8 @@ from xoa_driver.internals.commands import (
     PS_CDFDATA,
     PS_EXTPAYLOAD,
     PS_PFCPRIORITY,
+    PS_AUTOADJUST,
+    PS_OPTIONS,
 )
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
@@ -168,6 +170,8 @@ class SPacket:
         """Representation of PS_PACKETLENGTH"""
         self.header = SPHeader(conn, module_id, port_id, stream_idx)
         """Packet header config"""
+        self.auto_adjust = PS_AUTOADJUST(conn, module_id, port_id, stream_idx)
+        """Auto adjust the packet length distribution of the stream."""
 
 
 class SBurst:
@@ -211,6 +215,8 @@ class BaseStreamIdx(BaseIndex):
         """L23 stream custom data field config"""
         self.rate = SRate(conn, *kind)
         """L23 stream rate config"""
+        self.options = PS_OPTIONS(conn, *kind)
+        """L23 stream options"""
 
     async def delete(self):
         """Representation of PS_DELETE"""
