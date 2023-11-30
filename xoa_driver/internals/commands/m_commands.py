@@ -609,6 +609,8 @@ class M_CAPABILITIES:
         """coded integer, does this module support Time Sensitive Networking (TSN) ?"""
         can_ppm_sweep: YesNo = field(XmpInt())
         """coded integer, does this module support Local Clock Adjustment/Sweep (aka. PPM Sweep) ?"""
+        monitoring_bitmask: int = field(XmpInt())
+        """extended module monitoring capabilities"""
 
     def get(self) -> Token[GetDataAttr]:
         """Get the test module capabilities.
@@ -1752,3 +1754,30 @@ class M_EMULBYPASS:
     set_on = functools.partialmethod(set, OnOff.ON)
     """Enable the bypass mode of the impairment emulator.
     """
+
+
+@register_command
+@dataclass
+class M_HEALTH:
+    """
+    Gets the module health information.
+    """
+
+    code: typing.ClassVar[int] = 456
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        info: str = field(XmpStr())
+        """Module health information json string"""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Gets the module health information.
+
+        :return: Module health information json string
+        :rtype: M_HEALTH.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, module=self._module))

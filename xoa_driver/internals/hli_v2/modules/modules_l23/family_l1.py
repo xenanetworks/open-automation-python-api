@@ -11,6 +11,7 @@ from .module_l23_base import ModuleL23
 from xoa_driver.internals.commands import (
     M_CLOCKPPBSWEEP,
     M_CLOCKSWEEPSTATUS,
+    M_HEALTH,
 )
 
 
@@ -35,6 +36,9 @@ class ModuleFamilyL1(ModuleL23):
 
         self.clock_sweep = MClockSweep(conn, self.module_id)
         """Clock ppm sweep control"""
+
+        self.health = M_HEALTH(conn, self.module_id)
+        """Module health info"""
 
 
 @typing.final
