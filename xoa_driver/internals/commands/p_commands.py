@@ -549,6 +549,10 @@ class P_CAPABILITIES:
         """minimum step size for latency histograms."""
         latency_histogram_step_max: int = field(XmpInt(), min_version=457)
         """maximum step size for latency histograms."""
+        min_i2c_frequency: int = field(XmpInt(), min_version=463)
+        """minimum I2C frequency"""
+        max_i2c_frequency: int = field(XmpInt(), min_version=463)
+        """maximum I2C frequency"""
 
 
     def get(self) -> Token[GetDataAttr]:
