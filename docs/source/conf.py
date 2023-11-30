@@ -205,8 +205,8 @@ html_theme_options = {
     "dark_logo": "xoa_logo_dark.png",
     "source_repository": "https://github.com/xenanetworks/open-automation-python-api",
     "light_css_variables": {
-        "color-brand-primary": "#295341",
-        "color-brand-content": "#295341",
+        "color-brand-primary": "#0076c0",
+        "color-brand-content": "#0076c0",
     },
     "navigation_with_keys": True,
 }
