@@ -1917,12 +1917,10 @@ class P4_DHCP_VLAN:
         vlans:  typing.List[subtypes.VlanTag] = field(XmpSequence(types_chunk=[XmpShort(), XmpByte()])) # A list of vlans. up to 8 TCIs can be define
 
     def set(self, state: DhcpVlanState, vlans: typing.List[subtypes.VlanTag]) -> "Token":
-        """Set a list of VLANs for current DHCP Process
-            Up to 8 TCIs can be defined.
-            The order of the VLANs is like the following: ethernet/vlan0/vlan1/../vlanN/uppler_layer(like IPv4)
+        """Set a list of VLANs for current DHCP Process, up to 8 TCIs can be defined. The order of the VLANs is like the following: ethernet/vlan0/vlan1/../vlanN/uppler_layer(like IPv4)
             
         :param state: Enable/Disable Vlan configuration
-        :type DhcpVlanState(byte)
+        :type state: DhcpVlanState
         :param vlans: specifying a list of VlanTag
         :type vlans: typing.List[subtypes.VlanTag]
         """
