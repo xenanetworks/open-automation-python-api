@@ -6,6 +6,7 @@ from xoa_driver.internals.commands import (
     PX_MII,
     PX_TEMPERATURE,
     PX_RW_SEQ,
+    PX_I2C_CONFIG,
 )
 
 
@@ -16,6 +17,11 @@ class PortTransceiver:
         self.__conn = conn
         self.__module_id = module_id
         self.__port_id = port_id
+
+        self.i2c_config = PX_I2C_CONFIG(conn, module_id, port_id)
+        """Access speed on a transceiver.
+        :type: PX_I2C_CONFIG
+        """
 
     def access_temperature(self):
         """Transceiver temperature in Celsius.

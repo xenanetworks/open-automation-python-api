@@ -38,6 +38,9 @@ from xoa_driver.internals.commands import (
     PP_PRBSTYPE,
     PP_PHYSETTINGS,
     PP_PHYRXEQ,
+    PP_PRECODING,
+    PP_GRAYCODING,
+    PP_PRECODINGSTATUS,
 )
 
 
@@ -332,6 +335,28 @@ class SDPhy:
         :type: PP_PHYAUTOTUNE
         """
 
+class SDPma:
+    """L23 high-speed port PMA"""
+
+    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, serdes_xindex: int) -> None:
+        self.precoding_config = PP_PRECODING(conn, module_id, port_id, serdes_xindex)
+        """GET/SET Pre-Coding Configurations. (only for Freya)
+
+        :type: PP_PRECODING
+        """
+
+        self.precoding_status = PP_PRECODINGSTATUS(conn, module_id, port_id, serdes_xindex)
+        """GET/SET Pre-Coding Configurations. (only for Freya)
+
+        :type: PP_PRECODING
+        """
+
+        self.graycoding = PP_GRAYCODING(conn, module_id, port_id, serdes_xindex)
+        """GET/SET Gray-Coding Configurations. (only for Freya)
+
+        :type: PP_GRAYCODING
+        """
+
 
 class Prbs:
     """L23 high-speed port SerDes PRBS configuration and status."""
@@ -375,6 +400,12 @@ class SerDes:
         """Eye diagram
 
         :type: SDEyeDiagram
+        """
+
+        self.pma = SDPma(conn, module_id, port_id, serdes_xindex)
+        """PMA layer
+
+        :type: SDPma
         """
 
     def __await__(self):

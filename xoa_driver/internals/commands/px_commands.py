@@ -16,6 +16,7 @@ from xoa_driver.internals.core.transporter.protocol.payload import (
     XmpByte,
     XmpHex,
     XmpSequence,
+    XmpInt,
     Hex,
 )
 
@@ -190,3 +191,43 @@ class PX_TEMPERATURE:
         """
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+
+@register_command
+@dataclass
+class PX_I2C_CONFIG:
+    """
+    Set the get the access speed on a transceiver I2C access in the unit of KHz. Default to 100. When the transceiver is plugged out and in again, the speed will be reset to the default value 100. The speed has a minimum and a maximum, which can be obtained from P_CAPABILITIES. The I2C speed configuration will not be included in the port configuration file (.xpc). When you load a port configuration to a port, the transceiver I2C access speed will be reset to default 100.
+    """
+
+    code: typing.ClassVar[int] = 539
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        frequency: int = field(XmpInt())
+        """integer, frequency in kHz, default is 100."""
+    
+    class SetDataAttr(RequestBodyStruct):
+        frequency: int = field(XmpInt())
+        """integer, frequency in kHz, default is 100."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the speed on a transceiver I2C access in the unit of KHz.
+
+        :return: frequency in kHz.
+        :rtype: PX_I2C_CONFIG.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+    
+    def set(self, frequency: int) -> Token[None]:
+        """Set the speed on a transceiver I2C access in the unit of KHz.
+
+        :param frequency: frequency in kHz
+        :type frequency: int
+        """
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, frequency=frequency))

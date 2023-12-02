@@ -549,6 +549,10 @@ class P_CAPABILITIES:
         """minimum step size for latency histograms."""
         latency_histogram_step_max: int = field(XmpInt(), min_version=457)
         """maximum step size for latency histograms."""
+        min_i2c_frequency: int = field(XmpInt(), min_version=463)
+        """minimum I2C frequency"""
+        max_i2c_frequency: int = field(XmpInt(), min_version=463)
+        """maximum I2C frequency"""
 
 
     def get(self) -> Token[GetDataAttr]:
@@ -556,6 +560,32 @@ class P_CAPABILITIES:
 
         :return: the internal limits, aka. capabilities, of the port.
         :rtype: P_CAPABILITIES.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+
+@register_command
+@dataclass
+class P_CAPABILITIES_EXT:
+    """
+    Get the Port Capabilities in JSON Format. The same as P_CAPABILITIES but in JSON.
+    """
+
+    code: typing.ClassVar[int] = 423
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    class GetDataAttr(ResponseBodyStruct):
+        data: str = field(XmpStr())
+        """string, containing the port capabilities in JSON format"""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the port capabilities in JSON Format
+
+        :return: The Port capabilities in JSON String
+        :rtype: P_CAPABILITIES_EXT.GetDataAttr
         """
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port))

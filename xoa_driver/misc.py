@@ -6,6 +6,10 @@ from .internals.core.transporter.protocol.payload.types import Hex
 from .internals.commands.subtypes import (
     ArpChunk,
     NdpChunk,
+    DhcpChunk,
+    GroupAddressElem,
+    VlanTag,
+    QueueStatsElem,
 )
 
 import sys
@@ -32,6 +36,10 @@ __all__ = (
     "Hex",
     "ArpChunk",
     "NdpChunk",
+    "DhcpChunk",
+    "GroupAddressElem",
+    "VlanTag",
+    "QueueStatsElem",
     "ConnectionGroup",
     "BasePortFilter",
     "GenuinePortFilter",

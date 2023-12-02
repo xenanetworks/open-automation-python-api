@@ -9,6 +9,7 @@ from xoa_driver.internals.commands import (
     P_TXENABLE,
     P_LOADMODE,
     P_EMULATE,
+    P_CAPABILITIES_EXT,
 )
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
@@ -29,6 +30,12 @@ class PortChimera(base_port.BasePort[ports_state.PortChimeraLocalState]):
         self.capabilities = P_CAPABILITIES(conn, module_id, port_id)
         """Chimera port capabilities.
         Representation of P_CAPABILITIES
+        """
+
+        self.capabilities_ext = P_CAPABILITIES_EXT(conn, module_id, port_id)
+        """Chimera port capabilities ext.
+
+        Representation of P_CAPABILITIES_EXT
         """
 
         self.interface = P_INTERFACE(conn, module_id, port_id)
