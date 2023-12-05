@@ -138,7 +138,7 @@ def dictionize_anlt_status(
     return {
         "autoneg_enabled": enums.AutoNegMode(autoneg.mode).name.lower().lstrip("aneg_"),
         "link_training_mode": enums.LinkTrainingMode(linktrain.mode).name.lower(),
-        "link_training_timeout": enums.TimeoutMode(linktrain.timeout_mode).name.lower(),
+        "link_training_timeout": "enable" if linktrain.timeout_mode == enums.TimeoutMode.DEFAULT else "disable",
         "restart_link_down": "on" if link_recovery.values[0] == 1 or link_recovery.values[0] == 3 else "off",
         "restart_lt_fail": "on" if link_recovery.values[0] == 2 or link_recovery.values[0] == 3 else "off",
         "serdes_count": capabilities.serdes_count,
