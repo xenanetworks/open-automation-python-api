@@ -43,6 +43,8 @@ class DoAnlt:
     """should perform link training manually?"""
     lt_algorithm: dict[str, enums.LinkTrainAlgorithm]
     """link training algorithm should be used?"""
+    should_enable_lt_timeout: bool
+    """should the port do link training with timeout enabled?"""
 
     _group: tuple["itf.IConnection", int, int] = field(init=False, repr=False)
 
@@ -81,12 +83,21 @@ class DoAnlt:
         )
 
     def __select_modes(self) -> tuple[enums.LinkTrainingMode, enums.TimeoutMode]:
-        if self.should_do_an == True and self.should_lt_interactive == False:
+        if self.should_do_an == True and self.should_lt_interactive == False and self.should_enable_lt_timeout == False:
+            lt_mode = enums.LinkTrainingMode.START_AFTER_AUTONEG
+            timeout_mode = enums.TimeoutMode.DISABLED
+        elif self.should_do_an == True and self.should_lt_interactive == False and self.should_enable_lt_timeout == True:
             lt_mode = enums.LinkTrainingMode.START_AFTER_AUTONEG
             timeout_mode = enums.TimeoutMode.DEFAULT
         elif self.should_do_an == True and self.should_lt_interactive == True:
             lt_mode = enums.LinkTrainingMode.INTERACTIVE
             timeout_mode = enums.TimeoutMode.DISABLED
+        elif self.should_do_an == False and self.should_lt_interactive == False and self.should_enable_lt_timeout == False:
+            lt_mode = enums.LinkTrainingMode.STANDALONE
+            timeout_mode = enums.TimeoutMode.DISABLED
+        elif self.should_do_an == False and self.should_lt_interactive == False and self.should_enable_lt_timeout == True:
+            lt_mode = enums.LinkTrainingMode.STANDALONE
+            timeout_mode = enums.TimeoutMode.DEFAULT
         elif self.should_do_an == False and self.should_lt_interactive == True:
             lt_mode = enums.LinkTrainingMode.INTERACTIVE
             timeout_mode = enums.TimeoutMode.DISABLED
@@ -150,6 +161,7 @@ async def anlt_start(
     lt_initial_modulations: dict[str, enums.LinkTrainEncoding],
     should_lt_interactive: bool,
     lt_algorithm: dict[str, enums.LinkTrainAlgorithm],
+    should_enable_lt_timeout: bool,
 ) -> None:
     """
     .. versionadded:: 1.1
@@ -172,6 +184,8 @@ async def anlt_start(
     :type should_lt_interactive: bool
     :param lt_algorithm: Link training algorithm to use
     :type lt_algorithm: Dict[str, enums.LinkTrainAlgorithm]
+    :param should_enable_lt_timeout: should run link training with timeout?
+    :type should_enable_lt_timeout: bool
     """
 
     anlt = DoAnlt(
@@ -183,6 +197,7 @@ async def anlt_start(
         lt_initial_modulations,
         should_lt_interactive,
         lt_algorithm,
+        should_enable_lt_timeout,
     )
     await anlt.run()
 
@@ -546,7 +561,8 @@ async def anlt_stop(port: GenericL23Port) -> None:
         lt_preset0=enums.NRZPreset.NRZ_NO_PRESET,
         lt_initial_modulations={},
         should_lt_interactive=False,
-        lt_algorithm={}
+        lt_algorithm={},
+        should_enable_lt_timeout=True,
     )
     await anlt.run()
 
