@@ -169,7 +169,10 @@ from .internals.commands.enums import (
     StreamOption,
     DhcpState,
     DhcpVlanState,
-    VlanType
+    VlanType,
+    ChassisModelNumber,
+    ChassisModelName,
+    ModuleModelName
 )
 
 __all__ = (
@@ -341,5 +344,8 @@ __all__ = (
     "StreamOption",
     "DhcpState",
     "DhcpVlanState",
-    "VlanType"
+    "VlanType",
+    "ChassisModelNumber",
+    "ChassisModelName",
+    "ModuleModelName"
 )
