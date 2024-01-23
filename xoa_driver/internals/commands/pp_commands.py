@@ -684,7 +684,7 @@ class PP_RXLANEERRORS:
     received on a specified physical lane.
     """
 
-    code: typing.ClassVar[int] = 292
+    code: typing.ClassVar[int] = 271
     pushed: typing.ClassVar[bool] = False
 
     _connection: 'interfaces.IConnection'
