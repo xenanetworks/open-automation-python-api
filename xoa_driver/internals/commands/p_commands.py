@@ -553,6 +553,8 @@ class P_CAPABILITIES:
         """minimum I2C frequency"""
         max_i2c_frequency: int = field(XmpInt(), min_version=463)
         """maximum I2C frequency"""
+        can_eyescan: int = field(XmpInt(), min_version=463)
+        """Bit 0 ==1 => Sampled Eye Scan supported."""
 
 
     def get(self) -> Token[GetDataAttr]:
