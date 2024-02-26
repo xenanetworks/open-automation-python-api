@@ -1415,7 +1415,7 @@ class LinkTrainFrameLock(IntEnum):
 class PPMSweepMode(IntEnum):
     """Module clock PPM Sweep Modes"""
 
-    OFF = 0
+    NONE = 0
     """Off"""
     TRIANGLE = 1
     """Triangle sweeping"""
