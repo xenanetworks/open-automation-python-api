@@ -1111,6 +1111,8 @@ class FECMode(IntEnum):
     """RS FEC KR"""
     RS_FEC_KP = 5
     """RS FEC KP"""
+    RS_FEC_INT = 6
+    """RS FEC Int"""
 
 
 class PRBSInsertedType(IntEnum):
@@ -1151,6 +1153,10 @@ class PRBSPolynomial(IntEnum):
     """PRBS-20"""
     PRBS13 = 10
     """PRBS-13"""
+    SSPRQ = 24
+    """SSPRQ"""
+    SQUARE_WAVE = 25
+    """Square Wave"""
 
 
 class PRBSInvertState(IntEnum):
