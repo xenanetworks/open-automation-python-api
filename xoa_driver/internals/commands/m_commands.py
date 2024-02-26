@@ -1555,7 +1555,7 @@ class M_CLOCKPPBSWEEP:
     _module: int
 
     class GetDataAttr(ResponseBodyStruct):
-        mode: PPMSweepMode = field(XmpInt())
+        mode: PPMSweepMode = field(XmpByte())
         """coded byte, specifying the sweeping function."""
         ppb_step: int = field(XmpInt())
         """integer >=0, the numeric clock adjustment in ppb per step of the sweep.
