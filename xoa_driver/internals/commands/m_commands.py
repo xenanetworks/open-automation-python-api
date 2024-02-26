@@ -45,6 +45,7 @@ from .enums import (
     ImpairmentLatencyMode,
     PPMSweepStatus,
     PPMSweepMode,
+    ModuleModelName
 )
 
 
@@ -1778,6 +1779,32 @@ class M_HEALTH:
 
         :return: Module health information json string
         :rtype: M_HEALTH.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, module=self._module))
+    
+@register_command
+@dataclass
+class M_MODEL_NAME:
+    """
+    Get the model name of the module.
+    """
+
+    code: typing.ClassVar[int] = 459
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        name:  ModuleModelName = field(XmpInt())
+        """ModuleModelName, model name of the Xena module."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the Xena chassis model name.
+
+        :return: the model name of the Xena tester
+        :rtype: C_MODEL_NAME.GetDataAttr
         """
 
         return Token(self._connection, build_get_request(self, module=self._module))

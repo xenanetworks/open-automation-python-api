@@ -2672,4 +2672,94 @@ class VlanType(IntEnum):
     TYPE_C = 0
     TYPE_S  = 1
     
+class ChassisModelNumber(IntEnum):
+    NA      = 0
+    XB1     = 1
+    XB2     = 2
+    XB3     = 3
+    XB4     = 4
+    XB5     = 5
+    XB6     = 6
+    XB7     = 7
+    XB8     = 8
+    XB9     = 9
+    XB10    = 10
+    XB10_5  = 11
+    XB11    = 12
+    XB12    = 13
+    XB13    = 14
+    XB14    = 15
+    XB15    = 16
+    XB16    = 17
+    XB17    = 18
+    XB18    = 19
+    XB19    = 20
+    XB20    = 21
+    XB21    = 22
+    XB22    = 23
+    XB23    = 24
+    XB33    = 25
+    XC1     = 26
+    XC2     = 27
+    XC3     = 28
+    XC4     = 29
+    XC5     = 30
+    XC6     = 31
+    XC7     = 32
+    XC8     = 33
+    XC9     = 34
+    XC10    = 35
+    XC11    = 36
+    XC12    = 37
+    XC13    = 38
+    XC14    = 39
+    XC15    = 40
+    XC16    = 41
+    XC17    = 42
+    XC18    = 43
+    XC19    = 44
+    XC20    = 45
+    XC21    = 46
+    XC22    = 47
+    XC23    = 48
+    XC24    = 49
+    XC25    = 50
+    XC26    = 51
+    
+class ChassisModelName(IntEnum):
+    NA                  = 0
+    B720                = 1
+    B720D               = 2
+    B2400               = 3
+    Z_01_T_C_ODIN       = 4
+    Z_100_Q_C_LOKI      = 5
+    Z_10_S_C_ODIN       = 6
+    Z_10_C_C_ODIN       = 7
+    Z_10_R_C_ODIN       = 8
+    Z_10_S_X_C_ODIN     = 9
+    Z_01_S_C_ODIN       = 10
+    Z_01_S_X_C_ODIN     = 11
+    Z_400_Q_C_THOR      = 12
+    Z_400_Q_LE_C_THOR   = 13
+    Z_800_Q_C_FREYA     = 14
+    Z_800_O_C_FREYA     = 15
+    Z_800_Q_A_C_FREYA   = 16
+    Z_800_O_A_C_FREYA   = 17
+    E_100_Q_C_CHIMERA   = 18
+
+class ModuleModelName(IntEnum):
+    NA              = 0
+    Z_01_T_ODIN     = 1
+    Z_100_Q_LOKI    = 2
+    Z_10_S_ODIN     = 3
+    Z_10_R_ODIN     = 4
+    Z_10_S_X_ODIN   = 5
+    Z_01_S_ODIN     = 6
+    Z_01_S_X_ODIN   = 7
+    Z_400_Q_THOR    = 8
+    Z_400_Q_LE_THOR = 9
+    Z_800_Q_FREYA   = 10
+    Z_800_O_FREYA   = 11
+    E_100_Q_CHIMERA = 12
+    
 # endregion

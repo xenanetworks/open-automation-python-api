@@ -37,7 +37,9 @@ from .enums import (
     TimeKeeperLicenseType,
     TimeKeeperLicenseError,
     TimeKeeperServiceStatus,
-    TimeKeeperServiceAction
+    TimeKeeperServiceAction,
+    ChassisModelNumber,
+    ChassisModelName
 )
 
 
@@ -1902,6 +1904,56 @@ class C_TKSTATUSEXT:
 
 
         :rtype: C_TKSTATUSEXT.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self))
+
+@register_command
+@dataclass
+class C_MODEL_NAME:
+    """
+    Get the Xena chassis model name.
+    """
+
+    code: typing.ClassVar[int] = 457
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+
+    class GetDataAttr(ResponseBodyStruct):
+        name:  ChassisModelName = field(XmpInt())
+        """ChassisModelName, the model of the Xena tester"""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the Xena chassis model name.
+
+        :return: the model name of the Xena tester
+        :rtype: C_MODEL_NAME.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self))
+
+@register_command
+@dataclass
+class C_MODEL_NUMBER:
+    """
+    Get the Xena chassis model number.
+    """
+
+    code: typing.ClassVar[int] = 458
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+
+    class GetDataAttr(ResponseBodyStruct):
+        number:  ChassisModelNumber = field(XmpInt())
+        """ChassisModelNumber, the model of the Xena tester"""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the Xena chassis model number.
+
+        :return: the model number of the Xena tester
+        :rtype: C_MODEL_NUMBER.GetDataAttr
         """
 
         return Token(self._connection, build_get_request(self))
