@@ -553,6 +553,8 @@ class P_CAPABILITIES:
         """minimum I2C frequency"""
         max_i2c_frequency: int = field(XmpInt(), min_version=463)
         """maximum I2C frequency"""
+        can_eyescan: int = field(XmpInt(), min_version=463)
+        """Bit 0 ==1 => Sampled Eye Scan supported."""
 
 
     def get(self) -> Token[GetDataAttr]:
@@ -627,7 +629,7 @@ class P_SPEEDSELECTION:
 
     .. note::
 
-        This is only a settable command when speed is selected at the port level. Use the M_CFPCONFIGEXT` command when speed is selected at the module level.
+        This is only a settable command when speed is selected at the port level. Use the M_CFPCONFIGEXT command when speed is selected at the module level.
 
     """
 

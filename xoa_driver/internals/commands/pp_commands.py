@@ -684,7 +684,7 @@ class PP_RXLANEERRORS:
     received on a specified physical lane.
     """
 
-    code: typing.ClassVar[int] = 292
+    code: typing.ClassVar[int] = 271
     pushed: typing.ClassVar[bool] = False
 
     _connection: 'interfaces.IConnection'
@@ -2168,7 +2168,7 @@ class PP_LINKTRAINSTATUS:
     _connection: 'interfaces.IConnection'
     _module: int
     _port: int
-    _lane_xindex: int
+    _serdes_xindex: int
 
     class GetDataAttr(ResponseBodyStruct):
         mode: LinkTrainingStatusMode = field(XmpByte())
@@ -2185,7 +2185,7 @@ class PP_LINKTRAINSTATUS:
         :rtype: PP_LINKTRAINSTATUS.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._lane_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex]))
 
 @register_command
 @dataclass

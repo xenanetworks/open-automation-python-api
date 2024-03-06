@@ -1,4 +1,4 @@
-Chimera
+Impairment
 =============================
 
 .. toctree::

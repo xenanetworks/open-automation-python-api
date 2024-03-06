@@ -14,12 +14,21 @@ def get_ctx(port: GenericAnyPort) -> tuple["itf.IConnection", int, int]:
 def dictionize_autoneg_status(
     loopback: commands.PL1_CFG_TMP.GetDataAttr,
     auto_neg_info: commands.PL1_AUTONEGINFO.GetDataAttr,
-    status: commands.PP_AUTONEGSTATUS.GetDataAttr,
+    status: commands.PL1_AUTONEG_STATUS.GetDataAttr,
 ) -> dict[str, Any]:
-    is_enabled = True if status.mode == enums.AutoNegMode.ANEG_ON else False
+    _is_enabled = True if status.mode == enums.AutoNegMode.ANEG_ON else False
+    _ta_hcd_status = status.tech_ability_hcd_status
+    if _ta_hcd_status == enums.FreyaTechAbilityHCDStatus.FAILED:
+        _ta_hcd_value = "N/A"
+        _fec_result_value = "N/A"
+    else:
+        _ta_hcd_value = status.tech_ability_hcd_value.name
+        _fec_result_value = status.fec_mode_result.name
     return {
-        "is_enabled": is_enabled,
+        "is_enabled": _is_enabled,
         "loopback": "allowed" if loopback.values[0] else "not allowed",
+        "hcd": _ta_hcd_value,
+        "fec_result": _fec_result_value,
         "duration": auto_neg_info.duration_us,
         "successes": auto_neg_info.negotiation_success_count,
         "timeouts": auto_neg_info.negotiation_timeout_count,
@@ -79,33 +88,36 @@ def _link_info_all(info: commands.PL1_LINKTRAININFO.GetDataAttr, index: str) -> 
 
 
 def dictionize_lt_status(
-    status: commands.PP_LINKTRAINSTATUS.GetDataAttr,
+    status: commands.PL1_LINKTRAIN_STATUS.GetDataAttr,
     info: commands.PL1_LINKTRAININFO.GetDataAttr,
-    ltconf: commands.PP_LINKTRAIN.GetDataAttr,
+    ltconf: commands.PL1_LINKTRAIN_CONFIG.GetDataAttr,
     cfg: commands.PL1_CFG_TMP.GetDataAttr,
     ber: float,
     total_bit_count: float,
     total_error_bit_count: float,
 ) -> dict[str, Any]:
-    is_enabled = True if status.mode == enums.LinkTrainingStatusMode.ENABLED else False
-    is_traind = True if status.status == enums.LinkTrainingStatus.TRAINED else False
-    preset0 = "Existing tap values" if ltconf.nrz_preset == enums.NRZPreset.NRZ_WITH_PRESET else "Standard tap values"
+    _is_enabled = True if status.mode == enums.LinkTrainingStatusMode.ENABLED else False
+    _is_traind = True if status.status == enums.LinkTrainingStatus.TRAINED else False
+    _oos_preset = "Existing" if ltconf.oos_preset == enums.FreyaOutOfSyncPreset.CURRENT else "IEEE"
     ber_str = '{:.2e}'.format(ber)
     return {
-        "is_enabled": is_enabled,
-        "is_trained": is_traind,
-        "failure": enums.LinkTrainingFailureType(status.failure).name.lower(),
-        "preset0": preset0,
+        "is_enabled": _is_enabled,
+        "is_trained": _is_traind,
+        # "failure": enums.LinkTrainingFailureType(status.failure).name.lower(),
+        "failure": status.failure.name.lower(),
+        "oos_preset": _oos_preset,
         "init_modulation": enums.LinkTrainEncoding(cfg.values[0]).name.lower(),
         "total_bits": total_bit_count,
         "total_errored_bits": total_error_bit_count,
         "ber": ber_str,
         "duration": info.duration_us,
         "lock_lost": info.lock_lost_count,
-        "frame_lock": enums.LinkTrainFrameLock(info.frame_lock).name.lower(),
-        "remote_frame_lock": enums.LinkTrainFrameLock(
-            info.remote_frame_lock
-        ).name.lower(),
+        # "frame_lock": enums.LinkTrainFrameLock(info.frame_lock).name.lower(),
+        "frame_lock": info.frame_lock.name.lower(),
+        # "remote_frame_lock": enums.LinkTrainFrameLock(
+        #     info.remote_frame_lock
+        # ).name.lower(),
+        "remote_frame_lock": info.remote_frame_lock.name.lower(),
         "frame_errors": info.num_frame_errors,
         "overrun_errors": info.num_overruns,
         "last_ic_received": _decode_ic(info.last_ic_received),
@@ -130,20 +142,20 @@ def dictionize_txtap_get(r: commands.PP_PHYTXEQ.GetDataAttr) -> dict[str, int]:
 
 def dictionize_anlt_status(
     link_recovery: commands.PL1_CFG_TMP.GetDataAttr,
-    autoneg: commands.PP_AUTONEGSTATUS.GetDataAttr,
-    linktrain: commands.PP_LINKTRAIN.GetDataAttr,
+    anlt_op: commands.PL1_ANLT.GetDataAttr,
+    linktrain_cfg: commands.PL1_LINKTRAIN_CONFIG.GetDataAttr,
     capabilities: commands.P_CAPABILITIES.GetDataAttr,
     allow_loopback: commands.PL1_CFG_TMP.GetDataAttr,
 ) -> dict[str, Any]:
     return {
-        "autoneg_enabled": enums.AutoNegMode(autoneg.mode).name.lower().lstrip("aneg_"),
-        "link_training_mode": enums.LinkTrainingMode(linktrain.mode).name.lower(),
-        "link_training_timeout": "enable" if linktrain.timeout_mode == enums.TimeoutMode.DEFAULT else "disable",
+        "autoneg_mode": anlt_op.an_mode.name.lower(),
+        "link_training_mode": anlt_op.lt_mode.name.lower(),
+        "link_training_timeout": "enable" if linktrain_cfg.timeout_mode == enums.TimeoutMode.DEFAULT else "disable",
         "restart_link_down": "on" if link_recovery.values[0] == 1 or link_recovery.values[0] == 3 else "off",
         "restart_lt_fail": "on" if link_recovery.values[0] == 2 or link_recovery.values[0] == 3 else "off",
         "serdes_count": capabilities.serdes_count,
         "autoneg_allow_loopback": allow_loopback.values,
-        "link_training_preset0": enums.NRZPreset(linktrain.nrz_preset).name.lower(),
+        "link_training_preset0": enums.FreyaOutOfSyncPreset(linktrain_cfg.oos_preset).name.lower(),
     }
 
 

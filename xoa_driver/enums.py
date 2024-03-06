@@ -169,7 +169,20 @@ from .internals.commands.enums import (
     StreamOption,
     DhcpState,
     DhcpVlanState,
-    VlanType
+    VlanType,
+    ChassisModelNumber,
+    ChassisModelName,
+    ModuleModelName,
+    FreyaAutonegMode,
+    FreyaLinkTrainingMode,
+    FreyaTecAbility,
+    FreyaFECAbility,
+    FreyaPauseAbility,
+    FreyaTechAbilityHCDStatus,
+    FreyaOutOfSyncPreset,
+    Layer1Control,
+    FreyaPCSVariant,
+    FreyaTecAbilityHCD,
 )
 
 __all__ = (
@@ -341,5 +354,18 @@ __all__ = (
     "StreamOption",
     "DhcpState",
     "DhcpVlanState",
-    "VlanType"
+    "VlanType",
+    "ChassisModelNumber",
+    "ChassisModelName",
+    "ModuleModelName",
+    "FreyaAutonegMode",
+    "FreyaLinkTrainingMode",
+    "FreyaTecAbility",
+    "FreyaFECAbility",
+    "FreyaPauseAbility",
+    "FreyaTechAbilityHCDStatus",
+    "FreyaOutOfSyncPreset",
+    "Layer1Control",
+    "FreyaPCSVariant",
+    "FreyaTecAbilityHCD",
 )
