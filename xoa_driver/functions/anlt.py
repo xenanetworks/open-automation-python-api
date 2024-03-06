@@ -4,7 +4,7 @@ import typing as t
 from xoa_driver import enums
 from xoa_driver.utils import apply
 from xoa_driver.internals.hli_v1.ports.port_l23.family_l import FamilyL
-from xoa_driver.internals.hli_v1.ports.port_l23.family_l1 import FamilyL1
+from xoa_driver.internals.hli_v1.ports.port_l23.family_l1 import FamilyFreya
 from xoa_driver.ports import GenericL23Port
 from xoa_driver.lli import commands
 from xoa_driver.internals.core import interfaces as itf
@@ -20,8 +20,8 @@ from .tools import (
 )
 import asyncio
 
-PcsPmaSupported = (FamilyL, FamilyL1)
-AutoNegSupported = (FamilyL, FamilyL1)
+PcsPmaSupported = (FamilyL, FamilyFreya)
+AutoNegSupported = (FamilyL, FamilyFreya)
 LinkTrainingSupported = FamilyL
 
 
@@ -35,7 +35,7 @@ class DoAnlt:
     """should the port do link training?"""
     an_allow_loopback: bool
     """should the autoneg allow loopback?"""
-    lt_preset0: enums.NRZPreset
+    lt_preset0: enums.FreyaOutOfSyncPreset
     """out-of-sync tap values (preset 0): existing or standard"""
     lt_initial_modulations: dict[str, enums.LinkTrainEncoding]
     """the initial modulations of each serdes"""
@@ -51,27 +51,26 @@ class DoAnlt:
     def __post_init__(self) -> None:
         self._group = get_ctx(self.port)
 
-    def __pp_autoneg(self, on: bool) -> Token:
-        state = enums.AutoNegMode.ANEG_ON if on else enums.AutoNegMode.ANEG_OFF
-        return commands.PP_AUTONEG(*self._group).set(
-            state,
-            enums.AutoNegTecAbility.DEFAULT_TECH_MODE,
-            enums.AutoNegFECOption.DEFAULT_FEC,
-            enums.AutoNegFECOption.DEFAULT_FEC,
-            enums.PauseMode.NO_PAUSE,
-        )
+    # def __pp_autoneg(self, on: bool) -> Token:
+    #     state = enums.FreyaAutonegMode.ENABLED if on else enums.FreyaAutonegMode.DISABLED
+    #     return commands.PL1_AUTONEG_CONFIG(*self._group).set(
 
-    def __pp_link_train(
+    #     )
+    #     return commands.PP_AUTONEG(*self._group).set(
+    #         state,
+    #         enums.AutoNegTecAbility.DEFAULT_TECH_MODE,
+    #         enums.AutoNegFECOption.DEFAULT_FEC,
+    #         enums.AutoNegFECOption.DEFAULT_FEC,
+    #         enums.PauseMode.NO_PAUSE,
+    #     )
+
+    def __pl1_linktrain_config(
         self,
-        mode: enums.LinkTrainingMode,
-        nrz_preset: enums.NRZPreset,
+        ooo_preset: enums.FreyaOutOfSyncPreset,
         timeout_mode: enums.TimeoutMode,
     ) -> Token:
-        return commands.PP_LINKTRAIN(*self._group).set(
-            mode=mode,
-            pam4_frame_size=enums.PAM4FrameSize.P16K_FRAME,
-            nrz_pam4_init_cond=enums.LinkTrainingInitCondition.NO_INIT,
-            nrz_preset=nrz_preset,
+        return commands.PL1_LINKTRAIN_CONFIG(*self._group).set(
+            oos_preset=ooo_preset,
             timeout_mode=timeout_mode,
         )
 
@@ -81,40 +80,49 @@ class DoAnlt:
         return commands.PL1_CFG_TMP(*self._group, serdes, config_type).set(
             values=values
         )
+    
+    def __pl1_anlt(
+        self,
+        an_mode: enums.FreyaAutonegMode,
+        lt_mode: enums.FreyaLinkTrainingMode,
+    ) -> Token:
+        return commands.PL1_ANLT(*self._group).set(
+            an_mode=an_mode,
+            lt_mode=lt_mode,
+        )
 
-    def __select_modes(self) -> tuple[enums.LinkTrainingMode, enums.TimeoutMode]:
-        if self.should_do_an == True and self.should_lt_interactive == False and self.should_enable_lt_timeout == False:
-            lt_mode = enums.LinkTrainingMode.START_AFTER_AUTONEG
-            timeout_mode = enums.TimeoutMode.DISABLED
-        elif self.should_do_an == True and self.should_lt_interactive == False and self.should_enable_lt_timeout == True:
-            lt_mode = enums.LinkTrainingMode.START_AFTER_AUTONEG
-            timeout_mode = enums.TimeoutMode.DEFAULT
-        elif self.should_do_an == True and self.should_lt_interactive == True:
-            lt_mode = enums.LinkTrainingMode.INTERACTIVE
-            timeout_mode = enums.TimeoutMode.DISABLED
-        elif self.should_do_an == False and self.should_lt_interactive == False and self.should_enable_lt_timeout == False:
-            lt_mode = enums.LinkTrainingMode.STANDALONE
-            timeout_mode = enums.TimeoutMode.DISABLED
-        elif self.should_do_an == False and self.should_lt_interactive == False and self.should_enable_lt_timeout == True:
-            lt_mode = enums.LinkTrainingMode.STANDALONE
-            timeout_mode = enums.TimeoutMode.DEFAULT
-        elif self.should_do_an == False and self.should_lt_interactive == True:
-            lt_mode = enums.LinkTrainingMode.INTERACTIVE
-            timeout_mode = enums.TimeoutMode.DISABLED
+    def __select_modes(self) -> tuple[enums.FreyaAutonegMode, enums.FreyaLinkTrainingMode, enums.TimeoutMode]:
+        if self.should_do_an == True:
+            _an_mode = enums.FreyaAutonegMode.ENABLED
         else:
-            lt_mode = enums.LinkTrainingMode.STANDALONE
-            timeout_mode = enums.TimeoutMode.DEFAULT
-        return lt_mode, timeout_mode
+            _an_mode = enums.FreyaAutonegMode.DISABLED
+        if self.should_do_lt == True:
+            # LT interactive must always disable LT timeout
+            if self.should_lt_interactive == True:
+                _lt_mode = enums.FreyaLinkTrainingMode.ENABLED_INTERACTIVE
+                _timeout_mode = enums.TimeoutMode.DISABLED
+            # For LT auto, you can either enable LT timeout or disable LT timeout
+            elif self.should_enable_lt_timeout == True:
+                _lt_mode = enums.FreyaLinkTrainingMode.ENABLED_AUTO
+                _timeout_mode = enums.TimeoutMode.DEFAULT
+            else:
+                _lt_mode = enums.FreyaLinkTrainingMode.ENABLED_AUTO
+                _timeout_mode = enums.TimeoutMode.DISABLED
+        else:
+            _lt_mode = enums.FreyaLinkTrainingMode.DISABLED
+            _timeout_mode = enums.TimeoutMode.DISABLED
+
+        return _an_mode, _lt_mode, _timeout_mode
 
     def __builder__(self) -> t.Generator[Token, None, None]:
         """Defining commands sequence"""
-        nrz_preset = self.lt_preset0
+        
         # # Set autoneg timeout
-        yield self.__pp_link_train(
-            enums.LinkTrainingMode.DISABLED,
-            enums.NRZPreset.NRZ_NO_PRESET,
-            enums.TimeoutMode.DEFAULT,
-        )
+        # yield self.__pl1_linktrain_config(
+        #     enums.LinkTrainingMode.DISABLED,
+        #     enums.NRZPreset.NRZ_NO_PRESET,
+        #     enums.TimeoutMode.DEFAULT,
+        # )
 
         # # Set autoneg allow-loopback
         yield self.__pl1_cfg_tmp(
@@ -124,28 +132,33 @@ class DoAnlt:
         # yield self.__pp_autoneg(self.should_do_an and not self.should_do_lt)
         # if (not self.should_do_an) or self.should_do_lt:
         # Disable autoneg
-        yield self.__pp_autoneg(False)
+        # yield self.__pp_autoneg(False)
 
-        if self.should_do_lt:
-            for serdes_str, algorithm in self.lt_algorithm.items():
-                # # Set the link train algorithm
-                yield self.__pl1_cfg_tmp(
-                    int(serdes_str), enums.Layer1ConfigType.LT_TRAINING_ALGORITHM, [algorithm.value]
-                )
-
-            for serdes_str, im in self.lt_initial_modulations.items():
-                yield self.__pl1_cfg_tmp(
-                    int(serdes_str), enums.Layer1ConfigType.LT_INITIAL_MODULATION, [im.value]
-                )
-
-            lt_mode, timeout_mode = self.__select_modes()
-            yield self.__pp_link_train(
-                enums.LinkTrainingMode.DISABLED, nrz_preset, timeout_mode
+        # Set the link train algorithm
+        for serdes_str, algorithm in self.lt_algorithm.items():
+            yield self.__pl1_cfg_tmp(
+                int(serdes_str), enums.Layer1ConfigType.LT_TRAINING_ALGORITHM, [algorithm.value]
             )
-            yield self.__pp_link_train(lt_mode, nrz_preset, timeout_mode)
+        # Set the link train initial modulation
+        for serdes_str, im in self.lt_initial_modulations.items():
+            yield self.__pl1_cfg_tmp(
+                int(serdes_str), enums.Layer1ConfigType.LT_INITIAL_MODULATION, [im.value]
+            )
 
-        if self.should_do_an:
-            yield self.__pp_autoneg(True)
+        # Get the mode
+        _an_mode, _lt_mode, _timeout_mode = self.__select_modes()
+
+        # Set link train config
+        _ooo_preset = self.lt_preset0
+        yield self.__pl1_linktrain_config(
+            _ooo_preset, _timeout_mode
+        )
+
+        # Start AN/LT
+        yield self.__pl1_anlt(
+            _an_mode, _lt_mode
+        )
+
 
     async def run(self) -> None:
         """Start anlt execution"""
@@ -157,14 +170,14 @@ async def anlt_start(
     should_do_an: bool,
     should_do_lt: bool,
     an_allow_loopback: bool,
-    lt_preset0: enums.NRZPreset,
+    lt_preset0: enums.FreyaOutOfSyncPreset,
     lt_initial_modulations: dict[str, enums.LinkTrainEncoding],
     should_lt_interactive: bool,
     lt_algorithm: dict[str, enums.LinkTrainAlgorithm],
     should_enable_lt_timeout: bool,
 ) -> None:
     """
-    .. versionadded:: 1.1
+    .. versionchanged:: 2.5
 
     Start ANLT on a port
 
@@ -177,7 +190,7 @@ async def anlt_start(
     :param an_allow_loopback: should the autoneg allow loopback?
     :type an_allow_loopback: bool
     :param lt_preset0: out-of-sync tap values (preset 0): existing or standard
-    :type lt_preset0: enums.NRZPreset
+    :type lt_preset0: enums.FreyaOutOfSyncPreset
     :param lt_initial_modulations: the initial modulations of each serdes
     :type lt_initial_modulations: typing.Dict[str, enums.LinkTrainEncoding]
     :param should_lt_interactive: should perform link training manually?
@@ -204,7 +217,7 @@ async def anlt_start(
 
 async def autoneg_status(port: GenericL23Port) -> dict[str, t.Any]:
     """
-    .. versionadded:: 1.1
+    .. versionchanged:: 2.5
 
     Get the auto-negotiation status
 
@@ -219,7 +232,7 @@ async def autoneg_status(port: GenericL23Port) -> dict[str, t.Any]:
             conn, mid, pid, 0, enums.Layer1ConfigType.AN_LOOPBACK
         ).get(),
         commands.PL1_AUTONEGINFO(conn, mid, pid, 0).get(),
-        commands.PP_AUTONEGSTATUS(conn, mid, pid).get(),
+        commands.PL1_AUTONEG_STATUS(conn, mid, pid).get(),
     )
     return dictionize_autoneg_status(loopback, auto_neg_info, status)
 
@@ -293,6 +306,7 @@ async def lt_coeff_dec(
     :rtype: None
     """
     return await __lt_coeff(port, serdes, emphasis, cmd=enums.LinkTrainCmd.CMD_DEC)
+
 
 async def lt_coeff_no_eq(
     port: GenericL23Port,
@@ -384,7 +398,7 @@ async def lt_trained(port: GenericL23Port, serdes: int) -> enums.LinkTrainCmdRes
 
 async def lt_status(port: GenericL23Port, serdes: int) -> dict[str, t.Any]:
     """
-    .. versionadded:: 1.1
+    .. versionchanged:: 2.5
 
     Show the link training status.
 
@@ -397,9 +411,9 @@ async def lt_status(port: GenericL23Port, serdes: int) -> dict[str, t.Any]:
     """
     conn, mid, pid = get_ctx(port)
     status, info, ltconf, cfg = await apply(
-        commands.PP_LINKTRAINSTATUS(conn, mid, pid, serdes).get(),
+        commands.PL1_LINKTRAIN_STATUS(conn, mid, pid, serdes).get(),
         commands.PL1_LINKTRAININFO(conn, mid, pid, serdes, 0).get(),
-        commands.PP_LINKTRAIN(conn, mid, pid).get(),
+        commands.PL1_LINKTRAIN_CONFIG(conn, mid, pid).get(),
         commands.PL1_CFG_TMP(
             conn, mid, pid, serdes, enums.Layer1ConfigType.LT_INITIAL_MODULATION
         ).get(),
@@ -502,6 +516,8 @@ async def anlt_link_recovery(port: GenericL23Port, restart_link_down: bool, rest
 
 async def anlt_status(port: GenericL23Port) -> dict[str, t.Any]:
     """
+    .. versionchanged:: 2.5
+
     Get the overview of ANLT status
 
     :param port: the port object
@@ -513,18 +529,17 @@ async def anlt_status(port: GenericL23Port) -> dict[str, t.Any]:
     # if not isinstance(port, LinkTrainingSupported):
     #     raise NotSupportLinkTrainError(port)
     conn, mid, pid = get_ctx(port)
-    r = await apply(
+    _link_recovery, _anlt_op, _linktrain_cfg, _capabilities, _allow_loopback = await apply(
         commands.PL1_CFG_TMP(
             conn, mid, pid, 0, enums.Layer1ConfigType.AUTO_LINK_RECOVERY
         ).get(),
-        commands.PP_AUTONEGSTATUS(conn, mid, pid).get(),
-        commands.PP_LINKTRAIN(conn, mid, pid).get(),
+        commands.PL1_ANLT(conn, mid, pid).get(),
+        commands.PL1_LINKTRAIN_CONFIG(conn, mid, pid).get(),
         commands.P_CAPABILITIES(conn, mid, pid).get(),
         commands.PL1_CFG_TMP(conn, mid, pid, 0, enums.Layer1ConfigType.AN_LOOPBACK).get(),
     )
-    link_recovery, autoneg, linktrain, capabilities, allow_loopback = r
 
-    return dictionize_anlt_status(link_recovery, autoneg, linktrain, capabilities, allow_loopback)
+    return dictionize_anlt_status(_link_recovery, _anlt_op, _linktrain_cfg, _capabilities, _allow_loopback)
 
 
 async def anlt_log(port: GenericL23Port) -> str:
@@ -545,26 +560,19 @@ async def anlt_log(port: GenericL23Port) -> str:
 
 async def anlt_stop(port: GenericL23Port) -> None:
     """
-    .. versionadded:: 1.3
+    .. versionchanged:: 2.5
 
     Stop AN & LT
 
     :param port: the port object
     :type port: :class:`~xoa_driver.ports.GenericL23Port`
     """
+    conn, mid, pid = get_ctx(port)
 
-    anlt = DoAnlt(
-        port=port,
-        should_do_an=False,
-        should_do_lt=False,
-        an_allow_loopback=False,
-        lt_preset0=enums.NRZPreset.NRZ_NO_PRESET,
-        lt_initial_modulations={},
-        should_lt_interactive=False,
-        lt_algorithm={},
-        should_enable_lt_timeout=True,
-    )
-    await anlt.run()
+    await commands.PL1_ANLT(conn, mid, pid).set(
+        an_mode=enums.FreyaAutonegMode.DISABLED,
+        lt_mode=enums.FreyaLinkTrainingMode.DISABLED
+        )
 
 
 async def txtap_autotune(port: GenericL23Port, serdes: int) -> None:
