@@ -41,7 +41,10 @@ from xoa_driver.internals.commands import (
     PP_PRECODING,
     PP_GRAYCODING,
     PP_PRECODINGSTATUS,
+    PL1_CTRL,
+    PL1_GET_DATA,
 )
+from xoa_driver import enums
 
 
 class PcsPmaAlarms:
@@ -379,6 +382,21 @@ class Prbs:
         L23 high-speed port PRBS configuration.
         """
 
+class SivScan:
+    """Signal Integrity View"""
+
+    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, serdes_xindex: int) -> None:
+        self.control = PL1_CTRL(conn, module_id, port_id, serdes_xindex, enums.Layer1Control.SAMPLED_SIGNAL_INTEGRITY_SCAN)
+        """Control SIV scan
+
+        :type: PL1_CTRL
+        """
+
+        self.data = PL1_GET_DATA(conn, module_id, port_id, serdes_xindex, enums.Layer1Control.SAMPLED_SIGNAL_INTEGRITY_SCAN)
+        """Get SIV scan data
+
+        :type: PL1_GET_DATA
+        """
 
 class SerDes:
     """L23 high-speed port SerDes configuration and status."""
@@ -406,6 +424,10 @@ class SerDes:
         """PMA layer
 
         :type: SDPma
+        """
+
+        self.siv = SivScan(conn, module_id, port_id, serdes_xindex)
+        """Signal Integrity 
         """
 
     def __await__(self):
