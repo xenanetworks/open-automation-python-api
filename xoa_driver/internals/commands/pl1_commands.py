@@ -17,13 +17,34 @@ from xoa_driver.internals.core.transporter.protocol.payload import (
     XmpInt,
     XmpSequence,
     XmpStr,
+    Hex,
+    XmpHex,
 )
 from .enums import (
     LinkTrainFrameLock,
     LinkTrainCmdResults,
     LinkTrainCmd,
     Layer1ConfigType,
-    OnOff
+    OnOff,
+    FreyaLinkTrainingMode,
+    FreyaAutonegMode,
+    FreyaTecAbility,
+    FreyaFECAbility,
+    FreyaPauseAbility,
+    AutoNegMode,
+    AutoNegStatus,
+    FreyaTechAbilityHCDStatus,
+    FECMode,
+    PauseMode,
+    FreyaOutOfSyncPreset,
+    TimeoutMode,
+    LinkTrainingStatusMode,
+    LinkTrainingStatus,
+    LinkTrainingFailureType,
+    Layer1Control,
+    Layer1Opcode,
+    FreyaPCSVariant,
+    FreyaTecAbilityHCD,
 )
 
 
@@ -404,3 +425,493 @@ class PL1_LINKTRAIN_CMD:
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], cmd=cmd, arg=arg))
+
+@register_command
+@dataclass
+class PL1_CTRL:
+    """
+    .. versionadded:: 2.5
+
+    The Signal Integrity feature offers the equivalent of an Equivalent Time oscilloscope trace of the RX PAM4 signal (later, also PAM2). The trace is done with the A/D converter in the GTM receiver also doing the data sampling / CDR function, i.e. the trace is taken after the RX equalizer.
+
+    The HW characteristics of the Versal GTM used in Freya are: Trace length = 2000 samples, sample resolution = 7 bits 2's complement, i.e. range = -64..63.
+
+    Using the sampled eye scan feature through CLI involves two steps:
+
+    Trigger the acquisition of a trace (PL1_CTRL)
+
+    Retrieve the trace data (PL1_GET_DATA)
+
+    This command is a generic control function related to Layer 1 / SERDES. For now, only used for signal integrity scan.
+    """
+
+    code: typing.ClassVar[int] = 424
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _serdes_xindex: int
+    _func_xindex: Layer1Control
+
+    class SetDataAttr(RequestBodyStruct):
+        opcode: Layer1Opcode = field(XmpInt())
+
+    def set(self, opcode: Layer1Opcode) -> Token[None]:
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._func_xindex], opcode=opcode))
+    
+@register_command
+@dataclass
+class PL1_GET_DATA:
+    """
+    .. versionadded:: 2.5
+
+    The Signal Integrity feature offers the equivalent of an Equivalent Time oscilloscope trace of the RX PAM4 signal (later, also PAM2). The trace is done with the A/D converter in the GTM receiver also doing the data sampling / CDR function, i.e. the trace is taken after the RX equalizer.
+
+    The HW characteristics of the Versal GTM used in Freya are: Trace length = 2000 samples, sample resolution = 7 bits 2’s complement, i.e. range = -64..63.
+
+    Using the sampled eye scan feature through CLI involves two steps:
+
+    Trigger the acquisition of a trace (PL1_CTRL)
+
+    Retrieve the trace data (PL1_GET_DATA)
+
+    This command is a generic function to retrieve dynamic data related to Layer 1 / SERDES. For now, only used for signal integrity scan.
+
+    For ``func==0``, sampled eye scan:
+
+    * ``result==0``: No data available.
+
+        "No data available" means that either a scan was never started, an acquisition was started and in progress, or the acquired data has become too old (e.g. older than 500 ms). The acquisition time for a trace is in the very low ms-range. If ``result==0``, ``sweep_no`` and ``age_us`` are dummy (=0), and no additional data are returned.
+
+    * ``result==1``: Data returned. In that case, the rest of the parameters apply:
+
+        ``sweep_no``: per-SERDES trace acquisition counter: 1,2,3… Each trace can be returned multiple times, to different users, within its lifetime. A new trace acquisition is triggered with the PL1_CTRL command.
+
+        ``age_us``: The “age” of the trace data in microseconds, i.e. the time from data acquisition from hardware was completed until the time the command reply data is generated.
+
+        ``value``: The rest of the reply is a set of 16 bit signed 2-complement sample values. With present hardware, the range of each sample is -64..63. In XMP scripting, each sample value is represented as two bytes, msb first.
+
+        With present implementation, 2006 sample values (4012 bytes) are returned.
+
+        The first 6 sample values are so-called “sampled levels”: <p1> <p2> < p3> <m1> <m2> <m3>
+    """
+
+    code: typing.ClassVar[int] = 425
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _serdes_xindex: int
+    _func_xindex: Layer1Control
+
+    class SetDataAttr(RequestBodyStruct):
+        result: int = field(XmpInt())
+        """Data availability."""
+
+        sweep_no: int = field(XmpInt())
+        """per-SERDES trace acquisition counter."""
+
+        age_us: int = field(XmpInt())
+        """the age of the trace data in microseconds, i.e. the time from data acquisition from hardware was completed until the time the command reply data is generated."""
+
+        value: typing.List[int] = field(XmpSequence(types_chunk=[XmpByte()]))
+        """a set of 16 bit signed 2-complement sample values. With present hardware, the range of each sample is -64..63. In CLI scripting, each sample value is represented as two bytes, msb first."""
+
+    def set(self, opcode: Layer1Opcode) -> Token[None]:
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._func_xindex], opcode=opcode))
+    
+@register_command
+@dataclass
+class PL1_PHYTXEQ_LEVEL:
+    """
+    .. versionadded:: 2.5
+    
+    Control and monitor the equalizer settings of the on-board PHY in the transmission direction (towards the transceiver cage).
+
+    .. note::
+
+        PL1_PHYTXEQ, PL1_PHYTXEQ_LEVEL, and PL1_PHYTXEQ_COEFF facilitate the configuration and retrieval of TX tap values, each offering a unique perspective. Modifications made with any of these parameters will result in updates to the read results across all of them.
+
+    """
+
+    code: typing.ClassVar[int] = 430
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _serdes_xindex: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        pre3: int = field(XmpInt())
+        """integer, pre3 tap value in dB/10, ranges from 0 to 71. Default = 0 (neutral)"""
+        pre2: int = field(XmpInt())
+        """integer, pre2 tap value in dB/10, ranges from 0 to 71. Default = 0 (neutral)"""
+        pre: int = field(XmpInt())
+        """integer, pre tap value in dB/10, ranges from 0 to 187. Default = 0 (neutral)"""
+        main: int = field(XmpInt())
+        """integer, main tap value in mV, ranges from 507 to 998."""
+        post: int = field(XmpInt())
+        """integer, post tap value in dB/10, ranges from 0 to 187 Default = 0 (neutral)"""
+        
+    class SetDataAttr(RequestBodyStruct):
+        pre3: int = field(XmpInt())
+        """integer, pre3 tap value in dB/10, ranges from 0 to 71. Default = 0 (neutral)"""
+        pre2: int = field(XmpInt())
+        """integer, pre2 tap value in dB/10, ranges from 0 to 71. Default = 0 (neutral)"""
+        pre: int = field(XmpInt())
+        """integer, pre tap value in dB/10, ranges from 0 to 187. Default = 0 (neutral)"""
+        main: int = field(XmpInt())
+        """integer, main tap value in mV, ranges from 507 to 998."""
+        post: int = field(XmpInt())
+        """integer, post tap value in dB/10, ranges from 0 to 187 Default = 0 (neutral)"""
+
+    def get(self) -> Token[GetDataAttr]:
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex]))
+
+    def set(self, pre3:int, pre2: int, pre: int, main: int, post: int) -> Token[None]:
+
+        return Token(
+            self._connection,
+            build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], pre3=pre3, pre2=pre2, pre=pre, main=main, post=post))
+    
+@register_command
+@dataclass
+class PL1_PHYTXEQ_COEFF:
+    """
+    .. versionadded:: 2.5
+    
+    Control and monitor the equalizer settings of the on-board PHY in the transmission direction (towards the transceiver cage).
+
+    .. note::
+
+        PL1_PHYTXEQ, PL1_PHYTXEQ_LEVEL, and PL1_PHYTXEQ_COEFF facilitate the configuration and retrieval of TX tap values, each offering a unique perspective. Modifications made with any of these parameters will result in updates to the read results across all of them.
+
+    """
+
+    code: typing.ClassVar[int] = 431
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _serdes_xindex: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        pre3: int = field(XmpInt())
+        """integer, pre3 tap value, negative, scaled by 1E3. Default = 0 (neutral)"""
+        pre2: int = field(XmpInt())
+        """integer, pre2 tap value, positive, scaled by 1E3. Default = 0 (neutral)"""
+        pre: int = field(XmpInt())
+        """integer, pre tap value, negative, scaled by 1E3. Default = 0 (neutral)"""
+        main: int = field(XmpInt())
+        """integer, main tap value, positive, scaled by 1E3. Default = 1000"""
+        post: int = field(XmpInt())
+        """integer, post tap value, negative, scaled by 1E3. Default = 0 (neutral)"""
+        
+    class SetDataAttr(RequestBodyStruct):
+        pre3: int = field(XmpInt())
+        """integer, pre3 tap value, negative, scaled by 1E3. Default = 0 (neutral)"""
+        pre2: int = field(XmpInt())
+        """integer, pre2 tap value, positive, scaled by 1E3. Default = 0 (neutral)"""
+        pre: int = field(XmpInt())
+        """integer, pre tap value, negative, scaled by 1E3. Default = 0 (neutral)"""
+        main: int = field(XmpInt())
+        """integer, main tap value, positive, scaled by 1E3. Default = 1000"""
+        post: int = field(XmpInt())
+        """integer, post tap value, negative, scaled by 1E3. Default = 0 (neutral)"""
+
+    def get(self) -> Token[GetDataAttr]:
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex]))
+
+    def set(self, pre3:int, pre2: int, pre: int, main: int, post: int) -> Token[None]:
+
+        return Token(
+            self._connection,
+            build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], pre3=pre3, pre2=pre2, pre=pre, main=main, post=post))    
+
+@register_command
+@dataclass
+class PL1_AUTONEG_STATUS:
+    """
+    .. versionadded:: 2.5
+
+    Returns received technology abilities, FEC abilities, pause abilities, HCD technology ability, FEC mode result, and pause mode result.
+    """
+
+    code: typing.ClassVar[int] = 432
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        mode: AutoNegMode = field(XmpInt())
+        autoneg_state: AutoNegStatus = field(XmpInt())
+        received_tech_abilities: Hex = field(XmpHex(size=8))
+        received_fec_abilities: Hex = field(XmpHex(size=1))
+        received_pause_mode: Hex = field(XmpHex(size=1))
+        tech_ability_hcd_status: FreyaTechAbilityHCDStatus = field(XmpInt())
+        tech_ability_hcd_value: FreyaTecAbilityHCD = field(XmpInt())
+        fec_mode_result: FECMode = field(XmpInt())
+        pause_mode_result: PauseMode = field(XmpInt())
+
+    def get(self) -> Token[GetDataAttr]:
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+
+@register_command
+@dataclass
+class PL1_AUTONEG_ABILITIES:
+    """
+    .. versionadded:: 2.5
+
+    Return the supported technology abilities, FEC abilities, and pause abilities of the port.
+    """
+
+    code: typing.ClassVar[int] = 433
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        tech_abilities_supported: Hex = field(XmpHex(size=8))
+        """supported technology abilities by the port. This returns a value in Hex of the format 0xHHHHHHHH (64 bits). Each bit corresponds to technology ability as shown below. A bit of 1 means the corresponding technology ability is supported by the port."""
+
+        fec_modes_supported: Hex = field(XmpHex(size=1))
+        """supported FEC modes by the port. This returns a value in Hex of the format 0xH (8 bits). Each bit corresponds to FEC mode as shown below. A bit of 1 means the corresponding FEC mode is supported by the port."""
+
+        pause_modes_supported: Hex = field(XmpHex(size=1))
+        """pause abilities supported by the port. This returns a value in Hex of the format 0xH (8 bits). Each bit corresponds to pause mode as shown below. A bit of 1 means the corresponding FEC mode is supported by the port."""
+
+    def get(self) -> Token[GetDataAttr]:
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+    
+@register_command
+@dataclass
+class PL1_PCS_VARIANT:
+    """
+    .. versionadded:: 2.5
+
+    PCS variant configuration.
+    """
+
+    code: typing.ClassVar[int] = 434
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        variant: FreyaPCSVariant = field(XmpByte())
+
+    class SetDataAttr(RequestBodyStruct):
+        variant: FreyaPCSVariant = field(XmpByte())
+
+    def get(self) -> Token[GetDataAttr]:
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+
+    def set(self, variant: FreyaPCSVariant) -> Token[None]:
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, variant=variant))
+
+
+@register_command
+@dataclass
+class PL1_AUTONEG_CONFIG:
+    """
+    .. versionadded:: 2.5
+
+    Auto-negotiation configuration for Freya
+    """
+
+    code: typing.ClassVar[int] = 440
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        advertised_tech_abilities: Hex = field(XmpHex(size=8))
+        advertised_fec_abilities: Hex = field(XmpHex(size=1))
+        advertised_pause_mode: Hex = field(XmpHex(size=1))
+
+    class SetDataAttr(RequestBodyStruct):
+        advertised_tech_abilities: Hex = field(XmpHex(size=8))
+        advertised_fec_abilities: Hex = field(XmpHex(size=1))
+        advertised_pause_mode: Hex = field(XmpHex(size=1))
+
+    def get(self) -> Token[GetDataAttr]:
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+
+    def set(self, advertised_tech_abilities: Hex, advertised_fec_abilities: Hex, advertised_pause_mode: Hex) -> Token[None]:
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, advertised_tech_abilities=advertised_tech_abilities, advertised_fec_abilities=advertised_fec_abilities, advertised_pause_mode=advertised_pause_mode))
+    
+@register_command
+@dataclass
+class PL1_ANLT:
+    """
+    .. versionadded:: 2.5
+
+    ANLT action
+    """
+
+    code: typing.ClassVar[int] = 441
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        an_mode: FreyaAutonegMode = field(XmpByte())
+
+        lt_mode: FreyaLinkTrainingMode = field(XmpByte())
+
+    class SetDataAttr(RequestBodyStruct):
+        an_mode: FreyaAutonegMode = field(XmpByte())
+
+        lt_mode: FreyaLinkTrainingMode = field(XmpByte())
+
+    def get(self) -> Token[GetDataAttr]:
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+
+    def set(self, an_mode: FreyaAutonegMode, lt_mode: FreyaLinkTrainingMode) -> Token[None]:
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, an_mode=an_mode, lt_mode=lt_mode))
+
+@register_command
+@dataclass
+class PL1_PHYTXEQ:
+    """
+    .. versionadded:: 2.5
+    
+    Control and monitor the equalizer settings of the on-board PHY in the transmission direction (towards the transceiver cage).
+
+    .. note::
+
+        PL1_PHYTXEQ, PL1_PHYTXEQ_LEVEL, and PL1_PHYTXEQ_COEFF facilitate the configuration and retrieval of TX tap values, each offering a unique perspective. Modifications made with any of these parameters will result in updates to the read results across all of them.
+
+    """
+
+    code: typing.ClassVar[int] = 442
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _serdes_xindex: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        pre3: int = field(XmpInt())
+        """integer, pre3 tap value. Default = 0 (neutral)"""
+        pre2: int = field(XmpInt())
+        """integer, pre2 tap value. Default = 0 (neutral)"""
+        pre: int = field(XmpInt())
+        """integer, pre tap value. Default = 0 (neutral)"""
+        main: int = field(XmpInt())
+        """integer, main tap value."""
+        post: int = field(XmpInt())
+        """integer, post tap value. Default = 0 (neutral)"""
+        
+    class SetDataAttr(RequestBodyStruct):
+        pre3: int = field(XmpInt())
+        """integer, pre3 tap value. Default = 0 (neutral)"""
+        pre2: int = field(XmpInt())
+        """integer, pre2 tap value. Default = 0 (neutral)"""
+        pre: int = field(XmpInt())
+        """integer, pre tap value. Default = 0 (neutral)"""
+        main: int = field(XmpInt())
+        """integer, main tap value."""
+        post: int = field(XmpInt())
+        """integer, post tap value. Default = 0 (neutral)"""
+
+    def get(self) -> Token[GetDataAttr]:
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex]))
+
+    def set(self, pre3:int, pre2: int, pre: int, main: int, post: int) -> Token[None]:
+
+        return Token(
+            self._connection,
+            build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], pre3=pre3, pre2=pre2, pre=pre, main=main, post=post))
+
+@register_command
+@dataclass
+class PL1_LINKTRAIN_CONFIG:
+    """
+    .. versionadded:: 2.5
+
+    Per-port link training settings
+    """
+
+    code: typing.ClassVar[int] = 443
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        oos_preset: FreyaOutOfSyncPreset = field(XmpByte())
+        timeout_mode: TimeoutMode = field(XmpByte())
+
+    class SetDataAttr(RequestBodyStruct):
+        oos_preset: FreyaOutOfSyncPreset = field(XmpByte())
+        timeout_mode: TimeoutMode = field(XmpByte())
+
+    def get(self) -> Token[GetDataAttr]:
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+
+    def set(self, oos_preset: FreyaOutOfSyncPreset, timeout_mode: TimeoutMode) -> Token[None]:
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, oos_preset=oos_preset, timeout_mode=timeout_mode))
+    
+@register_command
+@dataclass
+class PL1_LINKTRAIN_STATUS:
+    """
+    Per-lane link training status
+    """
+
+    code: typing.ClassVar[int] = 444
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _serdes_xindex: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        mode: LinkTrainingStatusMode = field(XmpByte())
+        """coded byte, link training mode"""
+        status: LinkTrainingStatus = field(XmpByte())
+        """coded byte, lane status."""
+        failure: LinkTrainingFailureType = field(XmpByte())
+        """coded byte, failure type."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get link training status of a lane of a port.
+
+        :return: link training status of a lane of a port, including mode, lane status, and failure type.
+        :rtype: PP_LINKTRAINSTATUS.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex]))

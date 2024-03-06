@@ -2658,6 +2658,282 @@ class Endianness(IntEnum):
     REVERTED = 1
     """Little Endian"""
 
+class FreyaAutonegMode(IntEnum):
+    """Auto Neg Mode"""
+
+    DISABLED = 0
+    """Auto Neg Off"""
+    ENABLED = 1
+    """Auto Neg On"""
+
+class FreyaLinkTrainingMode(IntEnum):
+    """Link Training Mode"""
+
+    DISABLED = 0
+    """Link training disabled"""
+
+    ENABLED_AUTO = 1
+    """Link training in auto mode"""
+
+    ENABLED_INTERACTIVE = 2
+    """Link training in interactive mode, requiring manual operation."""
+
+class FreyaTecAbility(IntFlag):
+    """Auto Neg Technical Abilities"""
+
+    ETC_800G_CR8_KR8 = 1<<29
+    """ETC_800G_CR8_KR8"""
+    
+    ETC_400G_CR8_KR8 = 1<<28
+    """ETC_400G_CR8_KR8"""
+
+    ETC_50G_CR2 = 1<<27
+    """ETC_50G_CR2"""
+
+    ETC_50G_KR2 = 1<<26
+    """ETC_50G_KR2"""
+
+    ETC_25G_CR = 1<<25
+    """ETC_25G_CR"""
+
+    ETC_25G_KR = 1<<24
+    """ETC_25G_KR"""
+
+    IEEE_1_6TBASE_CR8_KR8 = 1<<23
+    """IEEE_1_6TBASE_CR8_KR8"""
+
+    IEEE_800GBASE_CR4_KR4 = 1<<22
+    """IEEE_800GBASE_CR4_KR4"""
+
+    IEEE_400GBASE_CR2_KR2 = 1<<21
+    """IEEE_400GBASE_CR2_KR2"""
+
+    IEEE_200GBASE_CR1_KR1 = 1<<20
+    """IEEE_200GBASE_CR1_KR1"""
+
+    IEEE_800GBASE_CR8_KR8 = 1<<19
+    """IEEE_800GBASE_CR8_KR8"""
+
+    IEEE_400GBASE_CR4_KR4 = 1<<18
+    """IEEE_400GBASE_CR4_KR4"""
+
+    IEEE_200GBASE_CR2_KR2 = 1<<17
+    """IEEE_200GBASE_CR2_KR2"""
+
+    IEEE_100GBASE_CR1_KR1 = 1<<16
+    """IEEE_100GBASE_CR1_KR1"""
+
+    IEEE_200GBASE_CR4_KR4 = 1<<15
+    """IEEE_200GBASE_CR4_KR4"""
+
+    IEEE_100GBASE_CR2_KR2 = 1<<14
+    """IEEE_100GBASE_CR2_KR2"""
+
+    IEEE_50GBASE_CR_KR = 1<<13
+    """IEEE_50GBASE_CR_KR"""
+
+    IEEE_5GBASE_KR = 1<<12
+    """IEEE_5GBASE_KR"""
+
+    IEEE_2_5GBASE_KX = 1<<11
+    """IEEE_2_5GBASE_KX"""
+
+    IEEE_25GBASE_CR_KR = 1<<10
+    """IEEE_25GBASE_CR_KR"""
+
+    IEEE_25GBASE_CR_S_KR_S = 1<<9
+    """IEEE_25GBASE_CR_S_KR_S"""
+
+    IEEE_100GBASE_CR4 = 1<<8
+    """IEEE_100GBASE_CR4"""
+
+    IEEE_100GBASE_KR4 = 1<<7
+    """IEEE_100GBASE_KR4"""
+
+    IEEE_100GBASE_KP4 = 1<<6
+    """IEEE_100GBASE_KP4"""
+
+    IEEE_100GBASE_CR10 = 1<<5
+    """IEEE_100GBASE_CR10"""
+
+    IEEE_40GBASE_CR4 = 1<<4
+    """IEEE_40GBASE_CR4"""
+
+    IEEE_40GBASE_KR4 = 1<<3
+    """IEEE_40GBASE_KR4"""
+
+    IEEE_10GBASE_KR = 1<<2
+    """IEEE_10GBASE_KR"""
+
+    IEEE_10GBASE_KX4 = 1<<1
+    """IEEE_10GBASE_KX4"""
+
+    IEEE_1000BASE_KX = 1<<0
+    """IEEE_1000BASE_KX"""
+
+class FreyaFECAbility(IntFlag):
+    """Auto Neg FEC ability"""
+
+    RS_FEC_Int = 1<<4
+    """RS_FEC_Int"""
+
+    FC_FEC_25G_REQUEST = 1<<3
+    """FC_FEC_25G_REQUEST"""
+
+    RS_FEC_25G_REQUEST = 1<<2
+    """RS_FEC_25G_REQUEST"""
+
+    FC_FEC_10G_REQUEST = 1<<1
+    """FC_FEC_10G_REQUEST"""
+
+    FC_FEC_10G_ABILITY = 1<<0
+    """FC_FEC_10G_ABILITY"""
+
+class FreyaPauseAbility(IntFlag):
+    """Auto Neg Pause ability"""
+
+    ASYM_PAUSE = 1<<1
+    """ASYM_PAUSE"""
+
+    SYM_PAUSE = 1<<0
+    """SYM_PAUSE"""
+
+class FreyaTechAbilityHCDStatus(IntEnum):
+    """Auto Neg Pause ability"""
+
+    SUCCESS = 1
+    """SUCCESS"""
+
+    FAILED = 2
+    """FAILED"""
+
+class FreyaOutOfSyncPreset(IntEnum):
+    """Link Training out-of-sync preset"""
+
+    IEEE = 0
+    """IEEE"""
+
+    CURRENT = 1
+    """CURRENT"""
+
+class Layer1Control(IntEnum):
+    """Layer 1 control"""
+
+    SAMPLED_SIGNAL_INTEGRITY_SCAN = 0
+    """SAMPLED_SIGNAL_INTEGRITY_SCAN"""
+
+
+class Layer1Opcode(IntEnum):
+    """Layer 1 operation code"""
+
+    START_SCAN = 0
+    """ for sampled eye scan"""
+
+class FreyaPCSVariant(IntEnum):
+    """PCS variant"""
+
+    IEEE = 1
+    """IEEE"""
+
+    ETC = 2
+    """ETC"""
+
+class FreyaTecAbilityHCD(IntEnum):
+    """Auto Neg Technical Abilities"""
+
+    ETC_800G_CR8_KR8 = 29
+    """ETC_800G_CR8_KR8"""
+    
+    ETC_400G_CR8_KR8 = 28
+    """ETC_400G_CR8_KR8"""
+
+    ETC_50G_CR2 = 27
+    """ETC_50G_CR2"""
+
+    ETC_50G_KR2 = 26
+    """ETC_50G_KR2"""
+
+    ETC_25G_CR = 25
+    """ETC_25G_CR"""
+
+    ETC_25G_KR = 24
+    """ETC_25G_KR"""
+
+    IEEE_1_6TBASE_CR8_KR8 = 23
+    """IEEE_1_6TBASE_CR8_KR8"""
+
+    IEEE_800GBASE_CR4_KR4 = 22
+    """IEEE_800GBASE_CR4_KR4"""
+
+    IEEE_400GBASE_CR2_KR2 = 21
+    """IEEE_400GBASE_CR2_KR2"""
+
+    IEEE_200GBASE_CR1_KR1 = 20
+    """IEEE_200GBASE_CR1_KR1"""
+
+    IEEE_800GBASE_CR8_KR8 = 19
+    """IEEE_800GBASE_CR8_KR8"""
+
+    IEEE_400GBASE_CR4_KR4 = 18
+    """IEEE_400GBASE_CR4_KR4"""
+
+    IEEE_200GBASE_CR2_KR2 = 17
+    """IEEE_200GBASE_CR2_KR2"""
+
+    IEEE_100GBASE_CR1_KR1 = 16
+    """IEEE_100GBASE_CR1_KR1"""
+
+    IEEE_200GBASE_CR4_KR4 = 15
+    """IEEE_200GBASE_CR4_KR4"""
+
+    IEEE_100GBASE_CR2_KR2 = 14
+    """IEEE_100GBASE_CR2_KR2"""
+
+    IEEE_50GBASE_CR_KR = 13
+    """IEEE_50GBASE_CR_KR"""
+
+    IEEE_5GBASE_KR = 12
+    """IEEE_5GBASE_KR"""
+
+    IEEE_2_5GBASE_KX = 11
+    """IEEE_2_5GBASE_KX"""
+
+    IEEE_25GBASE_CR_KR = 10
+    """IEEE_25GBASE_CR_KR"""
+
+    IEEE_25GBASE_CR_S_KR_S = 9
+    """IEEE_25GBASE_CR_S_KR_S"""
+
+    IEEE_100GBASE_CR4 = 8
+    """IEEE_100GBASE_CR4"""
+
+    IEEE_100GBASE_KR4 = 7
+    """IEEE_100GBASE_KR4"""
+
+    IEEE_100GBASE_KP4 = 6
+    """IEEE_100GBASE_KP4"""
+
+    IEEE_100GBASE_CR10 = 5
+    """IEEE_100GBASE_CR10"""
+
+    IEEE_40GBASE_CR4 = 4
+    """IEEE_40GBASE_CR4"""
+
+    IEEE_40GBASE_KR4 = 3
+    """IEEE_40GBASE_KR4"""
+
+    IEEE_10GBASE_KR = 2
+    """IEEE_10GBASE_KR"""
+
+    IEEE_10GBASE_KX4 = 1
+    """IEEE_10GBASE_KX4"""
+
+    IEEE_1000BASE_KX = 0
+    """IEEE_1000BASE_KX"""
+
+# endregion
+
+# region misc enums
 class DhcpState(IntEnum):
     DHCP_STATE_UNKNOWN = 0
     DHCP_STATE_RUNNING = 1
