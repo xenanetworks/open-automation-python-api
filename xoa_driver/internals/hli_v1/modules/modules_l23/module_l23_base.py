@@ -27,6 +27,7 @@ from xoa_driver.internals.commands import (
     M_TXCLOCKSOURCE_NEW,
     M_TXCLOCKSTATUS_NEW,
     M_TXCLOCKFILTER_NEW,
+    M_UPGRADEPAR,
 )
 
 from xoa_driver.internals.utils import attributes as utils
@@ -209,6 +210,12 @@ class MUpgrade:
         """Reload the FPGA image of the test module.
 
         :type: M_FPGAREIMAGE
+        """
+        self.start_parallel = M_UPGRADEPAR(conn, module_id)
+        """
+        Start the parallel upgrade progress of the test module.
+
+        :type: M_UPGRADEPAR
         """
 
 
