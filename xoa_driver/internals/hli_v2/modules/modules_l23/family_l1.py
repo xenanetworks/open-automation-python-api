@@ -270,3 +270,347 @@ class MFreya800G4S1POSFP_f(ModuleFamilyL1):
             ports_count=self.ports_count
         )
         """Port Index Manager of Freya-800G-4S-1P-OSFP[f]"""
+
+
+@revisions.register_valkyrie_module(rev="Freya-800G-4S-1P[a] G1")
+class MFreya800G4S1P_a_g1(ModuleFamilyL1):
+    """Test module Freya-800G-4S-1P[a] G1"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.PFreya800G4S1P_a] = pm.PortsManager(
+            conn=conn,
+            ports_type=ports.PFreya800G4S1P_a,
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port Index Manager of Freya-800G-4S-1P[a] G1"""
+
+@revisions.register_valkyrie_module(rev="Freya-800G-4S-1P[a] G2")
+class MFreya800G4S1P_a_g2(ModuleFamilyL1):
+    """Test module Freya-800G-4S-1P[a] G2"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.PFreya800G4S1P_a] = pm.PortsManager(
+            conn=conn,
+            ports_type=ports.PFreya800G4S1P_a,
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port Index Manager of Freya-800G-4S-1P[a] G2"""
+
+
+@typing.final
+@revisions.register_valkyrie_module(rev="Freya-800G-4S-1P[b] G1")
+class MFreya800G4S1P_b_g1(ModuleFamilyL1):
+    """Test module Freya-800G-4S-1P[b] G1"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.PFreya800G4S1P_b] = pm.PortsManager(
+            conn=conn,
+            ports_type=ports.PFreya800G4S1P_b,
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port Index Manager of Freya-800G-4S-1P[b] G1"""
+
+@typing.final
+@revisions.register_valkyrie_module(rev="Freya-800G-4S-1P[b] G2")
+class MFreya800G4S1P_b_g2(ModuleFamilyL1):
+    """Test module Freya-800G-4S-1P[b] G2"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.PFreya800G4S1P_b] = pm.PortsManager(
+            conn=conn,
+            ports_type=ports.PFreya800G4S1P_b,
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port Index Manager of Freya-800G-4S-1P[b] G2"""
+
+
+@typing.final
+@revisions.register_valkyrie_module(rev="Freya-800G-4S-1P[c] G1")
+class MFreya800G4S1P_c_g1(ModuleFamilyL1):
+    """Test module Freya-800G-4S-1P[c] G1"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.PFreya800G4S1P_c] = pm.PortsManager(
+            conn=conn,
+            ports_type=ports.PFreya800G4S1P_c,
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port Index Manager of Freya-800G-4S-1P[c] G1"""
+
+@typing.final
+@revisions.register_valkyrie_module(rev="Freya-800G-4S-1P[c] G2")
+class MFreya800G4S1P_c_g2(ModuleFamilyL1):
+    """Test module Freya-800G-4S-1P[c] G2"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.PFreya800G4S1P_c] = pm.PortsManager(
+            conn=conn,
+            ports_type=ports.PFreya800G4S1P_c,
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port Index Manager of Freya-800G-4S-1P[c] G2"""
+
+
+@typing.final
+@revisions.register_valkyrie_module(rev="Freya-800G-4S-1P[d] G1")
+class MFreya800G4S1P_d_g1(ModuleFamilyL1):
+    """Test module Freya-800G-4S-1P[d] G1"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.PFreya800G4S1P_d] = pm.PortsManager(
+            conn=conn,
+            ports_type=ports.PFreya800G4S1P_d,
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port Index Manager of Freya-800G-4S-1P[d] G1"""
+
+@typing.final
+@revisions.register_valkyrie_module(rev="Freya-800G-4S-1P[d] G2")
+class MFreya800G4S1P_d_g2(ModuleFamilyL1):
+    """Test module Freya-800G-4S-1P[d] G2"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.PFreya800G4S1P_d] = pm.PortsManager(
+            conn=conn,
+            ports_type=ports.PFreya800G4S1P_d,
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port Index Manager of Freya-800G-4S-1P[d] G2"""
+
+
+@typing.final
+@revisions.register_valkyrie_module(rev="Freya-800G-4S-1P[e] G1")
+class MFreya800G4S1P_e_g1(ModuleFamilyL1):
+    """Test module Freya-800G-4S-1P[e] G1"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.PFreya800G4S1P_e] = pm.PortsManager(
+            conn=conn,
+            ports_type=ports.PFreya800G4S1P_e,
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port Index Manager of Freya-800G-4S-1P[e] G1"""
+
+@typing.final
+@revisions.register_valkyrie_module(rev="Freya-800G-4S-1P[e] G2")
+class MFreya800G4S1P_e_g2(ModuleFamilyL1):
+    """Test module Freya-800G-4S-1P[e] G2"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.PFreya800G4S1P_e] = pm.PortsManager(
+            conn=conn,
+            ports_type=ports.PFreya800G4S1P_e,
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port Index Manager of Freya-800G-4S-1P[e] G2"""
+
+
+@typing.final
+@revisions.register_valkyrie_module(rev="Freya-800G-4S-1P[f] G1")
+class MFreya800G4S1P_f_g1(ModuleFamilyL1):
+    """Test module Freya-800G-4S-1P[f] G1"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.PFreya800G4S1P_f] = pm.PortsManager(
+            conn=conn,
+            ports_type=ports.PFreya800G4S1P_f,
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port Index Manager of Freya-800G-4S-1P[f] G1"""
+
+@typing.final
+@revisions.register_valkyrie_module(rev="Freya-800G-4S-1P[f] G2")
+class MFreya800G4S1P_f_g2(ModuleFamilyL1):
+    """Test module Freya-800G-4S-1P[f] G2"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.PFreya800G4S1P_f] = pm.PortsManager(
+            conn=conn,
+            ports_type=ports.PFreya800G4S1P_f,
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port Index Manager of Freya-800G-4S-1P[f] G2"""
+
+
+@typing.final
+@revisions.register_valkyrie_module(rev="Freya-800G-4S-1P-OSFP[a] G1")
+class MFreya800G4S1POSFP_a_g1(ModuleFamilyL1):
+    """Test module Freya-800G-4S-1P-OSFP[a] G1"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.PFreya800G4S1POSFP_a] = pm.PortsManager(
+            conn=conn,
+            ports_type=ports.PFreya800G4S1POSFP_a,
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port Index Manager of Freya-800G-4S-1P-OSFP[a] G1"""
+
+@typing.final
+@revisions.register_valkyrie_module(rev="Freya-800G-4S-1P-OSFP[a] G2")
+class MFreya800G4S1POSFP_a_g2(ModuleFamilyL1):
+    """Test module Freya-800G-4S-1P-OSFP[a] G2"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.PFreya800G4S1POSFP_a] = pm.PortsManager(
+            conn=conn,
+            ports_type=ports.PFreya800G4S1POSFP_a,
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port Index Manager of Freya-800G-4S-1P-OSFP[a] G2"""
+
+
+
+@typing.final
+@revisions.register_valkyrie_module(rev="Freya-800G-4S-1P-OSFP[b] G1")
+class MFreya800G4S1POSFP_b_g1(ModuleFamilyL1):
+    """Test module Freya-800G-4S-1P-OSFP[b] G1"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.PFreya800G4S1POSFP_b] = pm.PortsManager(
+            conn=conn,
+            ports_type=ports.PFreya800G4S1POSFP_b,
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port Index Manager of Freya-800G-4S-1P-OSFP[b] G1"""
+
+
+@typing.final
+@revisions.register_valkyrie_module(rev="Freya-800G-4S-1P-OSFP[b] G2")
+class MFreya800G4S1POSFP_b_g2(ModuleFamilyL1):
+    """Test module Freya-800G-4S-1P-OSFP[b] G2"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.PFreya800G4S1POSFP_b] = pm.PortsManager(
+            conn=conn,
+            ports_type=ports.PFreya800G4S1POSFP_b,
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port Index Manager of Freya-800G-4S-1P-OSFP[b] G2"""
+
+@typing.final
+@revisions.register_valkyrie_module(rev="Freya-800G-4S-1P-OSFP[c] G1")
+class MFreya800G4S1POSFP_c_g1(ModuleFamilyL1):
+    """Test module Freya-800G-4S-1P-OSFP[c] G1"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.PFreya800G4S1POSFP_c] = pm.PortsManager(
+            conn=conn,
+            ports_type=ports.PFreya800G4S1POSFP_c,
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port Index Manager of Freya-800G-4S-1P-OSFP[c] G1"""
+
+@typing.final
+@revisions.register_valkyrie_module(rev="Freya-800G-4S-1P-OSFP[c] G2")
+class MFreya800G4S1POSFP_c_g2(ModuleFamilyL1):
+    """Test module Freya-800G-4S-1P-OSFP[c] G2"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.PFreya800G4S1POSFP_c] = pm.PortsManager(
+            conn=conn,
+            ports_type=ports.PFreya800G4S1POSFP_c,
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port Index Manager of Freya-800G-4S-1P-OSFP[c] G2"""
+
+@typing.final
+@revisions.register_valkyrie_module(rev="Freya-800G-4S-1P-OSFP[d] G1")
+class MFreya800G4S1POSFP_d_g1(ModuleFamilyL1):
+    """Test module Freya-800G-4S-1P-OSFP[d] G1"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.PFreya800G4S1POSFP_d] = pm.PortsManager(
+            conn=conn,
+            ports_type=ports.PFreya800G4S1POSFP_d,
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port Index Manager of Freya-800G-4S-1P-OSFP[d] G1"""
+
+@typing.final
+@revisions.register_valkyrie_module(rev="Freya-800G-4S-1P-OSFP[d] G2")
+class MFreya800G4S1POSFP_d_g2(ModuleFamilyL1):
+    """Test module Freya-800G-4S-1P-OSFP[d] G2"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.PFreya800G4S1POSFP_d] = pm.PortsManager(
+            conn=conn,
+            ports_type=ports.PFreya800G4S1POSFP_d,
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port Index Manager of Freya-800G-4S-1P-OSFP[d] G2"""
+
+@typing.final
+@revisions.register_valkyrie_module(rev="Freya-800G-4S-1P-OSFP[e] G1")
+class MFreya800G4S1POSFP_e_g1(ModuleFamilyL1):
+    """Test module Freya-800G-4S-1P-OSFP[e] G1"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.PFreya800G4S1POSFP_e] = pm.PortsManager(
+            conn=conn,
+            ports_type=ports.PFreya800G4S1POSFP_e,
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port Index Manager of Freya-800G-4S-1P-OSFP[e] G1"""
+
+@typing.final
+@revisions.register_valkyrie_module(rev="Freya-800G-4S-1P-OSFP[e] G2")
+class MFreya800G4S1POSFP_e_g2(ModuleFamilyL1):
+    """Test module Freya-800G-4S-1P-OSFP[e] G2"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.PFreya800G4S1POSFP_e] = pm.PortsManager(
+            conn=conn,
+            ports_type=ports.PFreya800G4S1POSFP_e,
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port Index Manager of Freya-800G-4S-1P-OSFP[e] G2"""
+
+@typing.final
+@revisions.register_valkyrie_module(rev="Freya-800G-4S-1P-OSFP[f] G1")
+class MFreya800G4S1POSFP_f_g1(ModuleFamilyL1):
+    """Test module Freya-800G-4S-1P-OSFP[f] G1"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.PFreya800G4S1POSFP_f] = pm.PortsManager(
+            conn=conn,
+            ports_type=ports.PFreya800G4S1POSFP_f,
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port Index Manager of Freya-800G-4S-1P-OSFP[f] G1"""
+
+@typing.final
+@revisions.register_valkyrie_module(rev="Freya-800G-4S-1P-OSFP[f] G2")
+class MFreya800G4S1POSFP_f_g2(ModuleFamilyL1):
+    """Test module Freya-800G-4S-1P-OSFP[f] G2"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.PFreya800G4S1POSFP_f] = pm.PortsManager(
+            conn=conn,
+            ports_type=ports.PFreya800G4S1POSFP_f,
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port Index Manager of Freya-800G-4S-1P-OSFP[f] G2"""
