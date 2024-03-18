@@ -907,54 +907,34 @@ class MediaConfigurationType(IntEnum):
     """CFP4"""
 
     QSFP28 = QSFP28_NRZ = 1
-    """
-    .. versionchanged:: 1.1
-
-    QSFP28 (NRZ)
-    """
+    """QSFP28, 25G serdes"""
 
     CXP = 2
     """CXP"""
 
     SFP28 = 3
-    """SFP28"""
+    """SFP28, 25G serdes"""
 
     QSFP56 = QSFP56_PAM4 = 4
-    """
-    .. versionchanged:: 1.1
-
-    QSFP56 (PAM4)
-    """
+    """QSFP56, 56G serdes"""
 
     QSFPDD = QSFPDD_PAM4 = 5
-    """
-    .. versionchanged:: 1.1
-
-    QSFP-DD (PAM4)
-    """
+    """QSFP-DD, 56G serdes"""
 
     SFP56 = 6
     """SFP56"""
 
     SFP_DD = SFPDD = 7
-    """
-    .. versionchanged:: 1.1
-
-    SFP-DD
-    """
+    """SFP-DD"""
 
     SFP112 = 8
     """SFP112"""
 
     QSFP_DD_NRZ = QSFPDD_NRZ = 9
-    """
-    .. versionchanged:: 1.1
-
-    QSFP-DD (NRZ)
-    """
+    """QSFP-DD, 25G serdes"""
 
     QSFP28_PAM4 = 10
-    """QSFP28 (PAM4)"""
+    """QSFP28 4x26G KP -> 2x53G KP PAM4"""
 
     CFP = 99
     """CFP"""
@@ -966,34 +946,34 @@ class MediaConfigurationType(IntEnum):
     """BASE-T1S"""
 
     QSFPDD800 = 110
-    """QSFP-DD800"""
+    """QSFP-DD800, 112G serdes"""
 
     QSFP112 = 111
-    """QSFP112"""
+    """QSFP112, 112G serdes"""
 
     OSFP800 = 112
-    """OSFP800"""
+    """OSFP800, 112G serdes"""
 
     QSFPDD800_ANLT = 113
-    """
-    .. versionadded:: 2.1
-    
-    QSFPDD800 ANLT
-    """
+    """QSFPDD800, 112G serdes, L1/ANLT"""
 
     QSFP112_ANLT = 114
-    """
-    .. versionadded:: 2.1
-    
-    QSFP112 ANLT
-    """
+    """QSFP112, 112G serdes, L1/ANLT"""
 
     OSFP800_ANLT = 115
-    """
-    .. versionadded:: 2.1
-    
-    OSFP800 ANLT
-    """
+    """OSFP800, 112G serdes, L1/ANLT"""
+
+    OSFP = 116
+    """OSFP, 56G serdes"""
+
+    QSFPDD_ANLT = 117
+    """QSFP-DD, 56G serdes, L1/ANLT"""
+
+    QSFP56_ANLT = 118
+    """QSFP56, 56G serdes, L1/ANLT"""
+
+    OSFP_ANLT = 119
+    """OSFP, 56G serdes, L1/ANLT"""
 
     UNKNOWN = 255
 
