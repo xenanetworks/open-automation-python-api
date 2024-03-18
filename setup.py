@@ -17,7 +17,7 @@ def main():
         long_description_content_type="text/markdown",
         author="Artem Constantinov, Ron Ding, Leonard Yu",
         author_email="leonard.yu@teledyne.com",
-        maintainer="Xena Networks",
+        maintainer="Teledyne LeCroy Xena",
         maintainer_email="support@xenanetworks.com",
         url="https://github.com/xenanetworks/open-automation-python-api",
         packages=setuptools.find_packages(),
