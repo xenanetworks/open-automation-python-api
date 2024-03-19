@@ -542,6 +542,41 @@ class M_COMMENT:
 
 @register_command
 @dataclass
+class M_UPGRADEPAR:
+    """
+    Parallel module upgrade.
+
+    Transfers a hardware image file from the chassis to a module. This image will
+    take effect when the chassis is powered-on the next time. The transfer takes
+    approximately 3 minutes, but no further action is required by the client.
+    """
+
+    code: typing.ClassVar[int] = 87
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+
+    class SetDataAttr(RequestBodyStruct):
+        magic: int = field(XmpInt())
+        """integer, must be the special value -1480937026."""
+        image_name: str = field(XmpStr())
+        """string, the fully qualified name of a file previously uploaded to the chassis."""
+
+    def set(self, image_name: str) -> Token[None]:
+        """Transfers a hardware image file from the chassis to a module. This image will
+        take effect when the chassis is powered-on the next time. The transfer takes
+        approximately 3 minutes, but no further action is required by the client.
+
+        :param image_name: the fully qualified name of a file previously uploaded to the chassis
+        :type image_name: str
+        """
+
+        return Token(self._connection, build_set_request(self, module=self._module, magic=-1480937026, image_name=image_name))
+
+
+@register_command
+@dataclass
 class M_TIMEADJUSTMENT:
     """
     Control time adjustment for module wall clock.

@@ -15,6 +15,7 @@ from xoa_driver.internals.commands import (
     M_TXCLOCKSTATUS_NEW,
     M_EMULBYPASS,
     M_LATENCYMODE,
+    M_UPGRADEPAR,
 )
 
 from xoa_driver.internals.hli_v2 import revisions
@@ -80,6 +81,12 @@ class ChUpgrade:
         """
         Upgrade progress status of the test module.
         Representation of M_UPGRADEPROGRESS
+        """
+        self.start_parallel = M_UPGRADEPAR(conn, module_id)
+        """
+        Start the parallel upgrade progress of the test module.
+
+        :type: M_UPGRADEPAR
         """
 
 

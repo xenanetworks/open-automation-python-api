@@ -72,6 +72,10 @@ class PFreya800G1S1POSFP_a(FamilyL1):
     """
     ...
 
+class PFreya800G1S1POSFP_b(FamilyL1):
+    """L23 port on Freya-800G-1S-1P-OSFP[b] module.
+    """
+    ...
 
 class PFreya800G4S1P_a(FamilyL1):
     """L23 port on Freya-800G-4S-1P[a] module.
