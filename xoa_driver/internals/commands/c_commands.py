@@ -1209,6 +1209,32 @@ class C_WATCHDOG:
 
 @register_command
 @dataclass
+class C_DEBUGCMD:
+    """
+    Chassis debug command
+    """
+
+    code: typing.ClassVar[int] = 37
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _cmd_xindex: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        data: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+
+    class SetDataAttr(RequestBodyStruct):
+        data: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+
+    def get(self) -> Token[GetDataAttr]:
+        return Token(self._connection, build_get_request(self, indices=[self._cmd_xindex]))
+    
+    def set(self, data: typing.List[int]) -> Token[None]:
+        return Token(self._connection, build_set_request(self, indices=[self._cmd_xindex], data=data))
+    
+
+@register_command
+@dataclass
 class C_INDICES:
     """
     Gets the session indices for all current sessions on the chassis.
