@@ -23,3 +23,17 @@ class MThor400G7S1P(ModuleL23):
             ports_count=self.ports_count
         )
         """Port index of Thor-400G-7S-1P"""
+
+@typing.final
+@revisions.register_valkyrie_module(rev="Thor-400G-7S-1P LE")
+class MThor400G7S1PLE(ModuleL23):
+    """Test module Thor-400G-7S-1P LE"""
+    def __init__(self, conn: "itf.IConnection", init_data: "m_itf.ModuleInitData") -> None:
+        super().__init__(conn, init_data)
+        self.ports: pm.PortsManager[ports.PThor400G7S1PLE] = pm.PortsManager(
+            conn=conn,
+            ports_type=ports.PThor400G7S1PLE,
+            module_id=self.module_id,
+            ports_count=self.ports_count
+        )
+        """Port index of Thor-400G-7S-1P LE"""
