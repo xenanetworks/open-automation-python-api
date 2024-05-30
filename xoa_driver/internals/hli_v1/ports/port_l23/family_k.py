@@ -66,3 +66,8 @@ class PThor400G7S1P(FamilyK):
     """L23 port on Thor-400G-7S-1P module.
     """
     ...
+
+class PThor400G7S1PLE(FamilyK):
+    """L23 port on Thor-400G-7S-1P LE module.
+    """
+    ...

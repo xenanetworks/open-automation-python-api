@@ -41,7 +41,10 @@ from .internals.hli_v1.modules.modules_l23.family_h import (
 )
 from .internals.hli_v1.modules.modules_l23.family_i import MLoki100G5S2P
 from .internals.hli_v1.modules.modules_l23.family_j import MThor100G5S4P
-from .internals.hli_v1.modules.modules_l23.family_k import MThor400G7S1P
+from .internals.hli_v1.modules.modules_l23.family_k import (
+    MThor400G7S1P,
+    MThor400G7S1PLE,
+)
 from .internals.hli_v1.modules.modules_l23.family_l import (
     MThor400G7S1P_b,
     MThor400G7S1P_c,
@@ -152,6 +155,7 @@ GenericL23Module = typing.Union[
     "MLoki100G5S2P",
     "MThor100G5S4P",
     "MThor400G7S1P",
+    "MThor400G7S1PLE",
     "MThor400G7S1P_b",
     "MThor400G7S1P_c",
     "MThor400G7S1P_d",
@@ -260,6 +264,7 @@ __all__ = (
     "MLoki100G5S2P",
     "MThor100G5S4P",
     "MThor400G7S1P",
+    "MThor400G7S1PLE",
     "MThor400G7S1P_b",
     "MThor400G7S1P_c",
     "MThor400G7S1P_d",
