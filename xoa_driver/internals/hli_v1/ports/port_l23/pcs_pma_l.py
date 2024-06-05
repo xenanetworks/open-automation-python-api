@@ -41,8 +41,8 @@ class LinkTrain:
 
         self.per_lane_status: Tuple[PP_LINKTRAINSTATUS, ...] = tuple(
             PP_LINKTRAINSTATUS(conn, *port.kind, _serdes_xindex=idx)
-            for idx in range(port.info.capabilities.lane_count)
-        )  # TODO: need to fix, currently port.info.capabilities must be none because virtual_lanes are created before awaiting the port
+            for idx in range(port.info.capabilities.serdes_count)
+        ) 
         """Link training status.
         
         :type: PP_LINKTRAINSTATUS

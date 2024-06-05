@@ -1,7 +1,7 @@
 from __future__ import annotations
 from dataclasses import dataclass
 import typing
-
+import functools
 from xoa_driver.internals.core.builders import (
     build_get_request,
     build_set_request
@@ -507,7 +507,7 @@ class PL1_GET_DATA:
     _serdes_xindex: int
     _func_xindex: Layer1Control
 
-    class SetDataAttr(RequestBodyStruct):
+    class GetDataAttr(ResponseBodyStruct):
         result: int = field(XmpInt())
         """Data availability."""
 
@@ -520,9 +520,9 @@ class PL1_GET_DATA:
         value: typing.List[int] = field(XmpSequence(types_chunk=[XmpByte()]))
         """a set of 16 bit signed 2-complement sample values. With present hardware, the range of each sample is -64..63. In CLI scripting, each sample value is represented as two bytes, msb first."""
 
-    def set(self, opcode: Layer1Opcode) -> Token[None]:
+    def get(self) -> Token[GetDataAttr]:
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._func_xindex], opcode=opcode))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._func_xindex]))
     
 @register_command
 @dataclass
@@ -795,6 +795,30 @@ class PL1_ANLT:
     def set(self, an_mode: FreyaAutonegMode, lt_mode: FreyaLinkTrainingMode) -> Token[None]:
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, an_mode=an_mode, lt_mode=lt_mode))
+    
+    enable_an_only = functools.partialmethod(set, FreyaAutonegMode.ENABLED, FreyaLinkTrainingMode.DISABLED)
+    """Enable Autoneg only.
+    """
+
+    enable_lt_auto_only = functools.partialmethod(set, FreyaAutonegMode.DISABLED, FreyaLinkTrainingMode.ENABLED_AUTO)
+    """Enable Link Training (auto) only.
+    """
+
+    enable_lt_interactive_only = functools.partialmethod(set, FreyaAutonegMode.DISABLED, FreyaLinkTrainingMode.ENABLED_INTERACTIVE)
+    """Enable Link Training (interactive) only.
+    """
+
+    enable_an_lt_auto = functools.partialmethod(set, FreyaAutonegMode.ENABLED, FreyaLinkTrainingMode.ENABLED_AUTO)
+    """Enable Autoneg + Link Training (auto).
+    """
+
+    enable_an_lt_interactive = functools.partialmethod(set, FreyaAutonegMode.ENABLED, FreyaLinkTrainingMode.ENABLED_INTERACTIVE)
+    """Enable Autoneg + Link Training (interactive).
+    """
+
+    disable_anlt = functools.partialmethod(set, FreyaAutonegMode.DISABLED, FreyaLinkTrainingMode.DISABLED)
+    """Disable ANLT.
+    """
 
 @register_command
 @dataclass
