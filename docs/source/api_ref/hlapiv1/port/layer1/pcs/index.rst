@@ -1,7 +1,5 @@
-PCS/PMA
+PCS
 =========================
-
-PCS/PMA APIs for high-speed ports.
 
 .. toctree::
     :glob:

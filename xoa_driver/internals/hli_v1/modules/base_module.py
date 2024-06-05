@@ -17,7 +17,8 @@ from xoa_driver.internals.commands import (
     M_RESERVATION,
     M_RESERVEDBY,
     M_SERIALNO,
-    M_VERSIONNO
+    M_VERSIONNO,
+    M_MODEL_NAME,
 )
 from xoa_driver.internals.utils import attributes as utils
 
@@ -54,6 +55,12 @@ class BaseModule(ABC, Generic[T]):
         """Test module's model.
 
         :type: M_MODEL
+        """
+
+        self.model_name = M_MODEL_NAME(self._conn, self.module_id)
+        """Test module's model name.
+
+        :type: M_MODEL_NAME
         """
 
         self.serial_number = M_SERIALNO(self._conn, self.module_id)

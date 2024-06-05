@@ -183,6 +183,7 @@ from .internals.commands.enums import (
     Layer1Control,
     FreyaPCSVariant,
     FreyaTecAbilityHCD,
+    Layer1Opcode,
 )
 
 __all__ = (
@@ -368,4 +369,5 @@ __all__ = (
     "Layer1Control",
     "FreyaPCSVariant",
     "FreyaTecAbilityHCD",
+    "Layer1Opcode",
 )

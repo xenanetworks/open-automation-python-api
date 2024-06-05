@@ -4,11 +4,8 @@ from typing import TYPE_CHECKING, Tuple
 from typing_extensions import Self
 from xoa_driver.internals.commands import (
     P_DYNAMIC,
-    # PL1_AUTONEGINFO,
-    # PL1_LINKTRAININFO,
-    # PL1_LOG,
-    # PL1_CFG_TMP,
 )
+from xoa_driver import enums
 from xoa_driver.internals.utils import attributes as utils
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
@@ -20,15 +17,21 @@ from .pcs_pma_ghijkl import (
     SerDes,
 )
 from .pcs_pma_l import PcsPma as PcsPma3  
-
+from .freya_l1 import Layer1
 
 class PcsPma(PcsPma1, PcsPma2, PcsPma3):
-    """PCS/PMA layer for Family L1
+    """Freya PCS/PMA
     """
     def __init__(self, conn: "itf.IConnection", port) -> None:
         PcsPma1.__init__(self, conn, port)
         PcsPma2.__init__(self, conn, port)
         PcsPma3.__init__(self, conn, port)
+
+class L1(Layer1):
+    """Freya L1
+    """
+    def __init__(self, conn: "itf.IConnection", port) -> None:
+        Layer1.__init__(self, conn, port)
 
 
 class FamilyFreya(BasePortL23Genuine):
@@ -61,6 +64,7 @@ class FamilyFreya(BasePortL23Genuine):
             SerDes(self._conn, *self.kind, serdes_xindex=serdes_xindex)
             for serdes_xindex in range(self.info.capabilities.serdes_count)
         )
+        self.l1 = L1(self._conn, self)
         return self
 
     on_dynamic_change = functools.partialmethod(utils.on_event, P_DYNAMIC)

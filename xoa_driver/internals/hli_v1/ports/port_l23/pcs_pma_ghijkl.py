@@ -38,11 +38,6 @@ from xoa_driver.internals.commands import (
     PP_PRBSTYPE,
     PP_PHYSETTINGS,
     PP_PHYRXEQ,
-    PP_PRECODING,
-    PP_GRAYCODING,
-    PP_PRECODINGSTATUS,
-    PL1_CTRL,
-    PL1_GET_DATA,
 )
 from xoa_driver import enums
 
@@ -338,29 +333,6 @@ class SDPhy:
         :type: PP_PHYAUTOTUNE
         """
 
-class SDPma:
-    """L23 high-speed port PMA"""
-
-    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, serdes_xindex: int) -> None:
-        self.precoding_config = PP_PRECODING(conn, module_id, port_id, serdes_xindex)
-        """GET/SET Pre-Coding Configurations. (only for Freya)
-
-        :type: PP_PRECODING
-        """
-
-        self.precoding_status = PP_PRECODINGSTATUS(conn, module_id, port_id, serdes_xindex)
-        """GET/SET Pre-Coding Configurations. (only for Freya)
-
-        :type: PP_PRECODING
-        """
-
-        self.graycoding = PP_GRAYCODING(conn, module_id, port_id, serdes_xindex)
-        """GET/SET Gray-Coding Configurations. (only for Freya)
-
-        :type: PP_GRAYCODING
-        """
-
-
 class Prbs:
     """L23 high-speed port SerDes PRBS configuration and status."""
 
@@ -382,21 +354,7 @@ class Prbs:
         L23 high-speed port PRBS configuration.
         """
 
-class SivScan:
-    """Signal Integrity View"""
 
-    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, serdes_xindex: int) -> None:
-        self.control = PL1_CTRL(conn, module_id, port_id, serdes_xindex, enums.Layer1Control.SAMPLED_SIGNAL_INTEGRITY_SCAN)
-        """Control SIV scan
-
-        :type: PL1_CTRL
-        """
-
-        self.data = PL1_GET_DATA(conn, module_id, port_id, serdes_xindex, enums.Layer1Control.SAMPLED_SIGNAL_INTEGRITY_SCAN)
-        """Get SIV scan data
-
-        :type: PL1_GET_DATA
-        """
 
 class SerDes:
     """L23 high-speed port SerDes configuration and status."""
@@ -418,16 +376,6 @@ class SerDes:
         """Eye diagram
 
         :type: SDEyeDiagram
-        """
-
-        self.pma = SDPma(conn, module_id, port_id, serdes_xindex)
-        """PMA layer
-
-        :type: SDPma
-        """
-
-        self.siv = SivScan(conn, module_id, port_id, serdes_xindex)
-        """Signal Integrity 
         """
 
     def __await__(self):

@@ -27,6 +27,8 @@ from xoa_driver.internals.commands import (
     C_SERIALNO,
     C_RESERVEDBY,
     C_FLASH,
+    C_MODEL_NAME,
+    C_MODEL_NUMBER,
 )
 from xoa_driver.internals.core.funcs import establish_connection
 from xoa_driver.internals.core.transporter.handler import TransportationHandler
@@ -97,6 +99,18 @@ class BaseTester(ABC, Generic[TesterStateStorage]):
         """Specifies tester's model.
 
         :type: C_MODEL
+        """
+
+        self.model_name = C_MODEL_NAME(self._conn)
+        """Specifies tester's model name.
+
+        :type: C_MODEL_NAME
+        """
+
+        self.model_number = C_MODEL_NUMBER(self._conn)
+        """Specifies tester's model number.
+
+        :type: C_MODEL_NUMBER
         """
 
         self.version_no = C_VERSIONNO(self._conn)
