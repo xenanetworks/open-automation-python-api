@@ -19,6 +19,7 @@ from xoa_driver.internals.core.transporter.protocol.payload import (
     XmpStr,
     Hex,
     XmpHex,
+    XmpLong,
 )
 from .enums import (
     LinkTrainFrameLock,
@@ -952,15 +953,15 @@ class PL1_CWE_FEC_STATS:
     _port: int
 
     class GetDataAttr(ResponseBodyStruct):
-        total_cw: int = field(XmpInt())
+        total_cw: int = field(XmpLong())
         """Total codewords transmitted."""
-        total_correctable_cw: int = field(XmpInt())
+        total_correctable_cw: int = field(XmpLong())
         """Total injected correctable codewords."""
-        total_uncorrectable_cw: int = field(XmpInt())
+        total_uncorrectable_cw: int = field(XmpLong())
         """Total uncorrectable codewords transmitted."""
-        total_error_free_cw: int = field(XmpInt())
+        total_error_free_cw: int = field(XmpLong())
         """Total error-free codewords transmitted."""
-        total_symbol_error: int = field(XmpInt())
+        total_symbol_error: int = field(XmpLong())
         """Total injected symbol errors."""
 
     def get(self) -> Token[GetDataAttr]:
