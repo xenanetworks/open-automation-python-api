@@ -3105,3 +3105,19 @@ class ModuleModelName(IntEnum):
     E_100_Q_CHIMERA = 12
     
 # endregion
+
+# region FEC CW enums
+
+class FecCodewordBitErrorMaskMode(IntEnum):
+    """FEC Codeword Bit Error Mask Mode"""
+
+    UNKNOWN = 0
+    """Unknown"""
+    STATIC = 1
+    """The bit error pattern stay the same for all errored symbols."""
+    ROTATE_HIGH = 2
+    """The bit error pattern shifts one bit to the most significant bit per errored symbol."""
+    INC = 3
+    """When mode is set to INC, bitmask will be ignored. Instead, the bit error pattern initiates from 000000001, 000000010, 000000011, continuing up to 111111111, and repeating the sequence as 000000001..."""
+
+# endregion

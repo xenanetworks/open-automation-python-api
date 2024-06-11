@@ -26,7 +26,14 @@ from xoa_driver.internals.commands import (
     PL1_LINKTRAIN_CONFIG,
     PL1_LINKTRAIN_STATUS,
     PP_PHYRXEQ_EXT,
-    PP_PHYRXEQSTATUS_EXT
+    PP_PHYRXEQSTATUS_EXT,
+    PL1_CWE_CYCLE,
+    PL1_CWE_ERR_SYM_INDICES,
+    PL1_CWE_BIT_ERR_MASK,
+    PL1_CWE_FEC_ENGINE,
+    PL1_CWE_FEC_STATS,
+    PL1_CWE_CONTROL,
+    PL1_CWE_FEC_STATS_CLEAR,
 )
 from .pcs_pma_ghijkl import (
     Prbs,
@@ -499,6 +506,32 @@ class FreyaANLT:
         """ANLT log
         """
 
+class FreyaFecCodewordErrorInject:
+    """Freya FEC Codeword Error Injection
+    """
+    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
+        self.cycle = PL1_CWE_CYCLE(conn, module_id, port_id)
+        """FEC codeword error injection cycle.
+        """
+        self.err_symbols = PL1_CWE_ERR_SYM_INDICES(conn, module_id, port_id)
+        """The positions of the errored symbols in errored codewords.
+        """
+        self.bit_err_mask = PL1_CWE_BIT_ERR_MASK(conn, module_id, port_id)
+        """The bit error mask for the errored symbols.
+        """
+        self.engine = PL1_CWE_FEC_ENGINE(conn, module_id, port_id)
+        """The FEC engines to use.
+        """
+        self.statistics = PL1_CWE_FEC_STATS(conn, module_id, port_id)
+        """FEC error injection statistics
+        """
+        self.clear_stats = PL1_CWE_FEC_STATS_CLEAR(conn, module_id, port_id)
+        """Clear FEC codeword injection stats
+        """
+        self.control = PL1_CWE_CONTROL(conn, module_id, port_id)
+        """Control the FEC codeword error injection
+        """
+
 class Layer1:
     def __init__(self, conn: "itf.IConnection", port) -> None:
         self.serdes: Tuple[SerDesFreya, ...] = tuple(
@@ -510,6 +543,9 @@ class Layer1:
         """
         self.pcs_variant = PL1_PCS_VARIANT(conn, *port.kind)
         """PCS variant configuration
+        """
+        self.fec_error_inject = FreyaFecCodewordErrorInject(conn, *port.kind)
+        """FEC codeword error injection
         """
         
 

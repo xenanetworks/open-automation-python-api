@@ -1,8 +1,6 @@
-Forward Error Correction
+FEC Mode
 =========================
 
-FEC Mode
---------
 FEC mode for port that supports FEC.
 
 Corresponding CLI command: ``PP_FECMODE``

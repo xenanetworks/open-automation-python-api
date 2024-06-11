@@ -45,6 +45,8 @@ from .enums import (
     Layer1Opcode,
     FreyaPCSVariant,
     FreyaTecAbilityHCD,
+    FecCodewordBitErrorMaskMode,
+    StartOrStop,
 )
 
 
@@ -315,6 +317,7 @@ class PL1_LOG:
 
     class GetDataAttr(ResponseBodyStruct):
         log_string: str = field(XmpStr())
+        """ANLT log string"""
 
     def get(self) -> Token[GetDataAttr]:
         """Return a log line of ANLT of all serdes on a port. (latest 100 lines)
@@ -456,8 +459,14 @@ class PL1_CTRL:
 
     class SetDataAttr(RequestBodyStruct):
         opcode: Layer1Opcode = field(XmpInt())
+        """Operation code"""
 
     def set(self, opcode: Layer1Opcode) -> Token[None]:
+        """Set the control command
+
+        :param opcode: operation code
+        :type opcode: Layer1Opcode
+        """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._func_xindex], opcode=opcode))
     
@@ -654,14 +663,23 @@ class PL1_AUTONEG_STATUS:
 
     class GetDataAttr(ResponseBodyStruct):
         mode: AutoNegMode = field(XmpInt())
+        """Autoneg mode"""
         autoneg_state: AutoNegStatus = field(XmpInt())
+        """Autoneg state"""
         received_tech_abilities: Hex = field(XmpHex(size=8))
+        """Received technology abilities from the remote port"""
         received_fec_abilities: Hex = field(XmpHex(size=1))
+        """Received FEC capabilities from the remote port"""
         received_pause_mode: Hex = field(XmpHex(size=1))
+        """Received pause capabilities from the remote port"""
         tech_ability_hcd_status: FreyaTechAbilityHCDStatus = field(XmpInt())
+        """HCD technology ability negotiation status"""
         tech_ability_hcd_value: FreyaTecAbilityHCD = field(XmpInt())
+        """HCD technology ability negotiation result"""
         fec_mode_result: FECMode = field(XmpInt())
+        """FEC mode negotiation result"""
         pause_mode_result: PauseMode = field(XmpInt())
+        """Pause mode negotiation result"""
 
     def get(self) -> Token[GetDataAttr]:
 
@@ -715,9 +733,11 @@ class PL1_PCS_VARIANT:
 
     class GetDataAttr(ResponseBodyStruct):
         variant: FreyaPCSVariant = field(XmpByte())
+        """PCS variant"""
 
     class SetDataAttr(RequestBodyStruct):
         variant: FreyaPCSVariant = field(XmpByte())
+        """PCS variant"""
 
     def get(self) -> Token[GetDataAttr]:
 
@@ -726,6 +746,226 @@ class PL1_PCS_VARIANT:
     def set(self, variant: FreyaPCSVariant) -> Token[None]:
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, variant=variant))
+
+
+
+@register_command
+@dataclass
+class PL1_CWE_CYCLE:
+    """
+    .. versionadded:: 2.7
+
+    Configure the FEC codeword error injection cycle.
+    """
+
+    code: typing.ClassVar[int] = 435
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        loop: int = field(XmpInt())
+        """Loop count of the FEC codeword error injection cycle. <loop> == 0 means continuous."""
+        cycle_len: int = field(XmpInt())
+        """The number of FEC codewords in the cycle, must be larger than 0 and an even number."""
+        error_len: int = field(XmpInt())
+        """The number of consecutive errored FEC codewords in a cycle, must not be larger than cycle_len"""
+
+    class SetDataAttr(RequestBodyStruct):
+        loop: int = field(XmpInt())
+        """Loop count of the FEC codeword error injection cycle. <loop> == 0 means continuous."""
+        cycle_len: int = field(XmpInt())
+        """The number of FEC codewords in the cycle, must be larger than 0 and an even number."""
+        error_len: int = field(XmpInt())
+        """The number of consecutive errored FEC codewords in a cycle, must not be larger than cycle_len"""
+
+    def get(self) -> Token[GetDataAttr]:
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+
+    def set(self, loop: int, cycle_len: int, error_len: int) -> Token[None]:
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, loop=loop, cycle_len=cycle_len, error_len=error_len))
+    
+    set_continuous = functools.partialmethod(set, 0)
+    """Set continuous loop
+    """
+    
+
+@register_command
+@dataclass
+class PL1_CWE_ERR_SYM_INDICES:
+    """
+    .. versionadded:: 2.7
+
+    Configure the positions of the errored symbols in errored codewords.
+    """
+
+    code: typing.ClassVar[int] = 436
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        error_sym_indices: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        """the indices of the position of the errored symbols.
+        
+            * An empty list means there is no errored symbol in the errored codewords.
+
+            * The indices in the list must not duplicate.
+
+            * The indices in the list do not necessarily need to be sorted.
+
+            * The maximum value of an index must not be larger than what the FEC schema allows, e.g. an index must not be larger than 543 for RS(544, 514).
+
+        """
+
+    class SetDataAttr(RequestBodyStruct):
+        error_sym_indices: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        """the indices of the position of the errored symbols.
+        
+            * An empty list means there is no errored symbol in the errored codewords.
+
+            * The indices in the list must not duplicate.
+
+            * The indices in the list do not necessarily need to be sorted.
+
+            * The maximum value of an index must not be larger than what the FEC schema allows, e.g. an index must not be larger than 543 for RS(544, 514).
+
+        """
+
+    def get(self) -> Token[GetDataAttr]:
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+
+    def set(self, error_sym_indices: typing.List[int]) -> Token[None]:
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, error_sym_indices=error_sym_indices))
+    
+
+@register_command
+@dataclass
+class PL1_CWE_BIT_ERR_MASK:
+    """
+    .. versionadded:: 2.7
+
+    Configure the bit error mask for the errored symbols.
+    """
+
+    code: typing.ClassVar[int] = 437
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        mode: FecCodewordBitErrorMaskMode = field(XmpInt())
+        """bit error mask mode."""
+        bitmask: Hex = field(XmpHex(size=2))
+        """bit error mask for the errored symbols, big endian, only 10 bits are effective."""
+
+    class SetDataAttr(RequestBodyStruct):
+        mode: FecCodewordBitErrorMaskMode = field(XmpInt())
+        """bit error mask mode."""
+        bitmask: Hex = field(XmpHex(size=2))
+        """bit error mask for the errored symbols, big endian, only 10 bits are effective."""
+
+    def get(self) -> Token[GetDataAttr]:
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+
+    def set(self, mode: FecCodewordBitErrorMaskMode, bitmask: Hex) -> Token[None]:
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, mode=mode, bitmask=bitmask))
+    
+    set_all_bits = functools.partialmethod(set, FecCodewordBitErrorMaskMode.STATIC, Hex("03FF"))
+    """Set all bits to errored bits in an errored symbol.
+    """
+
+    set_no_bits = functools.partialmethod(set, FecCodewordBitErrorMaskMode.STATIC, Hex("0000"))
+    """Set no bits to errored bits in an errored symbol.
+    """
+
+
+@register_command
+@dataclass
+class PL1_CWE_FEC_ENGINE:
+    """
+    .. versionadded:: 2.7
+
+    Configure which FEC engines to use.
+    """
+
+    code: typing.ClassVar[int] = 438
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        bitmask: Hex = field(XmpHex(size=1))
+        """big endian.
+        
+            * the highest bit corresponds to FEC engine 4 (0x08)
+
+            * the lowest bit corresponds to FEC engine 1 (0x01)
+
+        """
+
+    class SetDataAttr(RequestBodyStruct):
+        bitmask: Hex = field(XmpHex(size=1))
+        """big endian.
+        
+            * the highest bit corresponds to FEC engine 4 (0x08)
+
+            * the lowest bit corresponds to FEC engine 1 (0x01)
+
+        """
+
+    def get(self) -> Token[GetDataAttr]:
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+
+    def set(self, bitmask: Hex) -> Token[None]:
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, bitmask=bitmask))
+    
+    set_all_engines = functools.partialmethod(set, Hex("0F"))
+    """Use all FEC engines
+    """
+    
+
+@register_command
+@dataclass
+class PL1_CWE_FEC_STATS:
+    """
+    .. versionadded:: 2.7
+
+    FEC error injection statistics.
+    """
+
+    code: typing.ClassVar[int] = 439
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        total_cw: int = field(XmpInt())
+        """Total codewords transmitted."""
+        total_correctable_cw: int = field(XmpInt())
+        """Total injected correctable codewords."""
+        total_uncorrectable_cw: int = field(XmpInt())
+        """Total uncorrectable codewords transmitted."""
+        total_error_free_cw: int = field(XmpInt())
+        """Total error-free codewords transmitted."""
+        total_symbol_error: int = field(XmpInt())
+        """Total injected symbol errors."""
+
+    def get(self) -> Token[GetDataAttr]:
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
 
 
 @register_command
@@ -939,3 +1179,66 @@ class PL1_LINKTRAIN_STATUS:
         """
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex]))
+    
+@register_command
+@dataclass
+class PL1_CWE_CONTROL:
+    """
+    .. versionadded:: 2.7
+
+    Control the FEC codeword error injection.
+    """
+
+    code: typing.ClassVar[int] = 445
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        action: StartOrStop = field(XmpByte())
+        """Control action for FEC codeword error injection"""
+
+    class SetDataAttr(RequestBodyStruct):
+        action: StartOrStop = field(XmpByte())
+        """Control action for FEC codeword error injection"""
+
+    def get(self) -> Token[GetDataAttr]:
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+
+    def set(self, action: StartOrStop) -> Token[None]:
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, action=action))
+    
+    set_start = functools.partialmethod(set, StartOrStop.START)
+    """Start FEC codeword error injection.
+    """
+
+    set_stop = functools.partialmethod(set, StartOrStop.STOP)
+    """Stop FEC codeword error injection.
+    """
+    
+
+@register_command
+@dataclass
+class PL1_CWE_FEC_STATS_CLEAR:
+    """
+    .. versionadded:: 2.7
+
+    Clear FEC codeword injection TX stats
+    """
+
+    code: typing.ClassVar[int] = 446
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+
+    class SetDataAttr(RequestBodyStruct):
+        pass
+
+    def set(self) -> Token[None]:
+        """Clear FEC codeword injection TX stats
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port))

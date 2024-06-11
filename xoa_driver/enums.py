@@ -184,6 +184,7 @@ from .internals.commands.enums import (
     FreyaPCSVariant,
     FreyaTecAbilityHCD,
     Layer1Opcode,
+    FecCodewordBitErrorMaskMode,
 )
 
 __all__ = (
@@ -370,4 +371,5 @@ __all__ = (
     "FreyaPCSVariant",
     "FreyaTecAbilityHCD",
     "Layer1Opcode",
+    "FecCodewordBitErrorMaskMode",
 )
