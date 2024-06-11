@@ -7,6 +7,7 @@ from xoa_driver.internals.commands import (
     PX_TEMPERATURE,
     PX_RW_SEQ,
     PX_I2C_CONFIG,
+    PX_RW_SEQ_BANK,
 )
 
 
@@ -71,7 +72,7 @@ class PortTransceiver:
         )
 
     def access_rw_seq(self, page_address: int, register_address: int, byte_count: int) -> "PX_RW_SEQ":
-        """Sequential read/write a number of bytes to the  register interface supported by the media-independent interface (MII) transceiver.
+        """Sequential read/write a number of bytes to the register interface supported by the media-independent interface (MII) transceiver.
 
         :param page_address: page address (0-255)
         :type page_address: int
@@ -86,6 +87,30 @@ class PortTransceiver:
             self.__conn,
             self.__module_id,
             self.__port_id,
+            page_address,
+            register_address,
+            byte_count
+        )
+    
+    def access_rw_seq_bank(self, bank_address: int, page_address: int, register_address: int, byte_count: int) -> "PX_RW_SEQ_BANK":
+        """Sequential read/write a number of bytes to the register interface supported by the media-independent interface (MII) transceiver.
+
+        :param bank_address: bank address (0-255)
+        :type bank_address: int
+        :param page_address: page address (0-255)
+        :type page_address: int
+        :param register_address: register address (0-255)
+        :type register_address: int
+        :param byte_count: the number of bytes to read/write
+        :type byte_count: int
+        :return: transceiver register values
+        :rtype: PX_RW_SEQ_BANK
+        """
+        return PX_RW_SEQ_BANK(
+            self.__conn,
+            self.__module_id,
+            self.__port_id,
+            bank_address,
             page_address,
             register_address,
             byte_count
