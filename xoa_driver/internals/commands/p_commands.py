@@ -555,6 +555,18 @@ class P_CAPABILITIES:
         """maximum I2C frequency"""
         can_eyescan: int = field(XmpInt(), min_version=463)
         """Bit 0 ==1 => Sampled Eye Scan supported."""
+        layer1_misc: int = field(XmpInt(), min_version=465)
+        """
+        * Bit 0: Can IEEE variant
+        * Bit 1: Can ETC (Ethernet Consortium) PCS variant
+        * Bit 2: Can monitor PCS RX Lane Map
+        * Bit 3: Can control PCS TX Lane Map
+        * Bit 4: Can monitor PCS RX Lane Skew
+        * Bit 5: Can control PCS TX Lane Skew
+        * Bit 6: Can FEC error injection
+        """
+        fec_engines: int = field(XmpInt(), min_version=465)
+        """The number of FEC engines available"""
 
 
     def get(self) -> Token[GetDataAttr]:
