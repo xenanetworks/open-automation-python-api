@@ -25,7 +25,7 @@ Each Xena test packet contains a special proprietary data area called the :term:
     Sequence Number                  3 bytes                 Packet sequence number used for loss and misordering detection.
     Timestamp                        4 bytes                 Timestamp value used for latency measurements.
     Test Payload ID (TID)            2 bytes                 Test payload identifier used to identify the sending stream.
-    Payload Integrity Offset         1 bit                   Offset in packet from where to calculate payload integrity.
+    Payload Integrity Offset         1 byte                  Offset in packet from where to calculate payload integrity.
     First Packet Flag                1 bit                   Set if this is the first packet after traffic is started. 
     Checksum Enabled                 1 bit                   Set if payload integrity checksum is used.
     <reserved>                       7 bits                  
