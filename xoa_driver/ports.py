@@ -167,6 +167,7 @@ Z800FreyaPort = typing.Union[
 ]
 
 E100ChimeraPort = typing.Union[
+    "PortChimera",
     "PChi100G5S2P",
     "PChi100G5S2P_b",
     "PChi40G2S2P",

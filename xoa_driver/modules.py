@@ -220,6 +220,7 @@ Z800FreyaModule = typing.Union[
 ]
 
 E100ChimeraModule = typing.Union[
+    "ModuleChimera",
     "MChi100G5S2P",
     "MChi100G5S2P_b",
     "MChi40G2S2P",
