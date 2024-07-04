@@ -99,39 +99,55 @@ from xoa_driver.internals.hli_v1.ports.port_l23.family_l1 import (
 
 from xoa_driver.internals.hli_v1.ports.port_l23.family_m import POdin1G3S6PT1RJ45
 
-GenericL23Port = typing.Union[
+Z10OdinPort = typing.Union[
+    "POdin1G3S2PT",
     "POdin1G3S6P",
     "POdin1G3S6P_b",
     "POdin1G3S6PE",
-    "POdin1G3S2PT",
+    "POdin1G3S6PT1RJ45",
+    "POdin1G4S4PCombi",
+    "POdin1G4S4PCombi_b",
     "POdin5G4S6PCU",
-    "POdin10G5S6PCU",
-    "POdin10G5S6PCU_b",
-    "POdin10G3S6PCU",
-    "POdin10G3S2PCU",
     "POdin10G1S2P",
     "POdin10G1S2P_b",
     "POdin10G1S2P_c",
+    "POdin10G1S2P_d",
+    "POdin10G1S2PT",
     "POdin10G1S6P",
     "POdin10G1S6P_b",
-    "POdin10G1S2PT",
-    "POdin10G1S2P_d",
     "POdin10G1S12P",
+    "POdin10G3S2PCU",
+    "POdin10G3S6PCU",
+    "POdin10G4S2PCombi",
+    "POdin10G4S2PCombi_b",
+    "POdin10G5S6PCU",
+    "POdin10G5S6PCU_b",
+    "POdin10G6S6P_a",
     "POdin40G2S2P",
     "POdin40G2S2PB",
     "POdin100G3S1P",
+]
+
+Z100LokiPort = typing.Union[
     "PLoki100G3S1P",
     "PLoki100G3S1P_b",
     "PLoki100G3S1PSE",
     "PLoki100G3S1PB",
+    "PLoki100G3S1PB_b",
     "PLoki100G5S1P",
     "PLoki100G5S2P",
+]
+
+Z400ThorPort = typing.Union[
     "PThor100G5S4P",
     "PThor400G7S1P",
     "PThor400G7S1PLE",
     "PThor400G7S1P_b",
     "PThor400G7S1P_c",
     "PThor400G7S1P_d",
+]
+
+Z800FreyaPort = typing.Union[
     "PFreya800G1S1P_a",
     "PFreya800G1S1P_b",
     "PFreya800G1S1POSFP_a",
@@ -148,74 +164,85 @@ GenericL23Port = typing.Union[
     "PFreya800G4S1POSFP_d",
     "PFreya800G4S1POSFP_e",
     "PFreya800G4S1POSFP_f",
-    "POdin1G3S6PT1RJ45",
-    "POdin1G4S4PCombi",
-    "POdin1G4S4PCombi_b",
-    "POdin10G4S2PCombi",
-    "POdin10G4S2PCombi_b",
-    "POdin10G6S6P_a",
-    "PLoki100G3S1PB_b",
+]
+
+E100ChimeraPort = typing.Union[
+    "PChi100G5S2P",
+    "PChi100G5S2P_b",
+    "PChi40G2S2P",
+]
+
+GenericL23Port = typing.Union[
+    Z10OdinPort,
+    Z100LokiPort,
+    Z400ThorPort,
+    Z800FreyaPort,    
+]
+
+LegacyPort = typing.Union[
+    "PortL47",
+    "PortL23VE",
 ]
 
 GenericAnyPort = typing.Union[
     GenericL23Port,
-    "PortL47",
-    "PortL23VE",
-    "PortChimera",
-    "PChi100G5S2P",
-    "PChi100G5S2P_b",
-    "PChi40G2S2P",
+    LegacyPort,
+    E100ChimeraPort,
 ]
 
 __all__ = (
     "BasePortL23",
-    "GenericL23Port",
-    "GenericAnyPort",
+
+    "LegacyPort",
     "PortL47",
     "PortL23VE",
-    "PortChimera",
-    "PChi100G5S2P",
-    "PChi100G5S2P_b",
-    "PChi40G2S2P",
+
+    "Z10OdinPort",
+    "POdin1G3S2PT",
     "POdin1G3S6P",
     "POdin1G3S6P_b",
     "POdin1G3S6PE",
-    "POdin1G3S2PT",
-    "POdin5G4S6PCU",
-    "POdin10G5S6PCU",
-    "POdin10G5S6PCU_b",
-    "POdin10G3S6PCU",
-    "POdin10G3S2PCU",
-    "POdin10G1S2P",
-    "POdin10G1S2P_b",
-    "POdin10G1S2P_c",
-    "POdin10G1S6P",
-    "POdin10G1S6P_b",
-    "POdin10G1S2PT",
-    "POdin10G1S2P_d",
-    "POdin10G1S12P",
-    "POdin40G2S2P",
-    "POdin40G2S2PB",
-    "POdin100G3S1P",
     "POdin1G3S6PT1RJ45",
     "POdin1G4S4PCombi",
     "POdin1G4S4PCombi_b",
+    "POdin5G4S6PCU",
+    "POdin10G1S2P",
+    "POdin10G1S2P_b",
+    "POdin10G1S2P_c",
+    "POdin10G1S2P_d",
+    "POdin10G1S2PT",
+    "POdin10G1S6P",
+    "POdin10G1S6P_b",
+    "POdin10G1S12P",
+    "POdin10G3S2PCU",
+    "POdin10G3S6PCU",
     "POdin10G4S2PCombi",
     "POdin10G4S2PCombi_b",
+    "POdin10G5S6PCU",
+    "POdin10G5S6PCU_b",
     "POdin10G6S6P_a",
+    "POdin40G2S2P",
+    "POdin40G2S2PB",
+    "POdin100G3S1P",
+
+    "Z100LokiPort",
     "PLoki100G3S1P",
     "PLoki100G3S1P_b",
     "PLoki100G3S1PSE",
     "PLoki100G3S1PB",
+    "PLoki100G3S1PB_b",
     "PLoki100G5S1P",
     "PLoki100G5S2P",
-    "PLoki100G3S1PB_b",
+
+    "Z400ThorPort",
     "PThor100G5S4P",
     "PThor400G7S1P",
     "PThor400G7S1PLE",
     "PThor400G7S1P_b",
     "PThor400G7S1P_c",
     "PThor400G7S1P_d",
+
+    "Z800FreyaPort",
     "PFreya800G1S1P_a",
     "PFreya800G1S1P_b",
     "PFreya800G1S1POSFP_a",
@@ -232,4 +259,13 @@ __all__ = (
     "PFreya800G4S1POSFP_d",
     "PFreya800G4S1POSFP_e",
     "PFreya800G4S1POSFP_f",
+
+    "E100ChimeraPort",
+    "PortChimera",
+    "PChi100G5S2P",
+    "PChi100G5S2P_b",
+    "PChi40G2S2P",
+    
+    "GenericL23Port",
+    "GenericAnyPort",
 )
