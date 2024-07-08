@@ -9,19 +9,19 @@ from .internals.hli_v1.testers.l23ve_tester import L23VeTester
 from .internals.hli_v1.testers.l47_tester import L47Tester
 from .internals.hli_v1.testers.l47ve_tester import L47VeTester
 
-import typing as t
+import typing
 
-GenericAnyTester = t.Union[
+GenericAnyTester = typing.Union[
     "L23Tester",
     "L23VeTester",
     "L47Tester",
     "L47VeTester",
 ]
-GenericAnyGenuineTester = t.Union[
+GenericAnyGenuineTester = typing.Union[
     "L23Tester",
     "L47Tester",
 ]
-GenericAnyVirtualTester = t.Union[
+GenericAnyVirtualTester = typing.Union[
     "L23VeTester",
     "L47VeTester",
 ]

@@ -50,6 +50,24 @@ Corresponding CLI command: ``PX_RW_SEQ``
     resp = await port.transceiver.access_rw_seq(page_address=0, register_address=0, byte_count=4).get()
     resp.value
 
+Sequential Read & Write (Banked)
+--------------------------------
+I2C sequential access to a transceiver's register.
+When invoked, the ``<byte_count>`` number of bytes will be read or written in one I2C transaction, in which the ``<value>`` is read or written with only a single register address setup. A subsequent invocation will perform a second I2C transaction in the same manner.
+
+``<bank_xindex>``: the bank address, integer, 0-255.
+``<_page_xindex>``: the transceiver page address, integer, 0-255.
+``<_register_xaddress>``: the address within the page, integer, 0-255.
+
+Corresponding CLI command: ``PX_RW_SEQ_BANK``
+
+.. code-block:: python
+    
+    # Transceiver Sequential Read & Write (banked)
+    await port.transceiver.access_rw_seq_bank(bank_address=1, page_address=0x9F, register_address=200, byte_count=1).set(value=Hex("00"))
+    
+    resp = await port.transceiver.access_rw_seq_bank(bank_address=1, page_address=0x9F, register_address=200, byte_count=1).get()
+    resp.value
 
 MII
 ------------------

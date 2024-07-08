@@ -1202,6 +1202,12 @@ async def my_awesome_func(stop_event: asyncio.Event):
     resp = await port.transceiver.access_rw_seq(page_address=0, register_address=0, byte_count=4).get()
     resp.value
 
+    # Transceiver Sequential Read & Write (banked)
+    await port.transceiver.access_rw_seq_bank(bank_address=1, page_address=0x9F, register_address=200, byte_count=1).set(value=Hex("00"))
+    
+    resp = await port.transceiver.access_rw_seq_bank(bank_address=1, page_address=0x9F, register_address=200, byte_count=1).get()
+    resp.value
+
     # Transceiver MII
     await port.transceiver.access_mii(register_address=0).set(value=Hex("00"))
     

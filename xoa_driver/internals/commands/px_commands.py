@@ -68,12 +68,17 @@ class PX_RW:
 @dataclass
 class PX_RW_SEQ:
     """
-    :term:`I2C<I2C>` sequential access to a transceiver's register.
-    When invoked, the ``<byte_count>`` number of bytes will be read or written in one I2C transaction,
-    in which the ``<value>`` is read or written with only a single register address setup.
-    A subsequent invocation will perform a second I2C transaction in the same manner.
-    ``<_page_xindex>``: the transceiver page address, integer, 0-255.
-    ``<_register_xaddress>``: the address within the page, integer, 0-255.
+    I2C sequential access to a transceiver's register. When invoked, the <byte_count> number of bytes will be read or written in one I2C transaction, in which the <value> is read or written with only a single register address setup. A subsequent invocation will perform a second I2C transaction in the same manner.
+
+    * <_byte_xcount> number of bytes will be read or written in one I2C transaction
+
+    * <_page_xindex>: the transceiver page address, integer, 0x00 - 0xFF (0-255).
+
+    * <_register_xaddress>: the address within the page, integer, 0x00 - 0xFF (0-255).
+
+    If <_register_xaddress> < 128, the page index <_page_xindex> is ignored by the server. The server will read from page 0 without writing 0 into byte 127.
+
+    If <_register_xaddress> >=128, the page index <_page_xindex> will be written into byte 127.
     """
 
     code: typing.ClassVar[int] = 503
@@ -121,6 +126,71 @@ class PX_RW_SEQ:
             )
         )
 
+
+@register_command
+@dataclass
+class PX_RW_SEQ_BANK:
+    """
+    I2C sequential access to a transceiver's register. When invoked, the <byte_count> number of bytes will be read or written in one I2C transaction, in which the <value> is read or written with only a single register address setup. A subsequent invocation will perform a second I2C transaction in the same manner.
+
+    * <_byte_xcount> number of bytes will be read or written in one I2C transaction
+
+    * <_bank_xindex>: the bank address, integer, 0x00 - 0xFF (0-255).
+
+    * <_page_xindex>: the transceiver page address, integer, 0x00 - 0xFF (0-255).
+
+    * <_register_xaddress>: the address within the page, integer, 0x00 - 0xFF (0-255).
+
+    If <_register_xaddress> < 128, the page index <page> and the bank index <_bank_xindex> is ignored by the server. The server will read from page 0 without writing 0 into byte 127.
+
+    If <_register_xaddress> >=128, the page index <page> will be written into byte 127, and the bank index <_bank_xindex> will be written into byte 126.
+    """
+
+    code: typing.ClassVar[int] = 504
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _page_xindex: int
+    _register_xaddress: int
+    _byte_xcount: int
+    _bank_xindex: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        value: Hex = field(XmpHex())
+        """the bytes to be read or written in one I2C transaction. The number of bytes in the ``<value>`` equals ``<byte_count>``."""
+
+    class SetDataAttr(RequestBodyStruct):
+        value: Hex = field(XmpHex())
+        """the bytes to be read or written in one I2C transaction. The number of bytes in the ``<value>`` equals ``<byte_count>``."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the register value of a transceiver in one I2C transaction.
+
+        :return: the register value of a transceiver
+        :rtype: PX_RW_SEQ.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._bank_xindex, self._page_xindex, self._register_xaddress, self._byte_xcount]))
+
+    def set(self, value: Hex) -> Token[None]:
+        """Set the register value of a transceiver in one I2C transaction.
+
+        :param value: register value of a transceiver
+        :type value: Hex
+        """
+
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._bank_xindex, self._page_xindex, self._register_xaddress, self._byte_xcount],
+                value=value
+            )
+        )
 
 @register_command
 @dataclass

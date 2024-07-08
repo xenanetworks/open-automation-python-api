@@ -1,4 +1,4 @@
-Freya L1
+Layer 1 (Freya)
 ===============
 
 .. toctree::
