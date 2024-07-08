@@ -10,15 +10,40 @@
 from ipaddress import IPv4Address, IPv6Address
 from binascii import hexlify
 from xoa_driver.misc import Hex
+from enum import StrEnum, IntEnum
+
+class EtherType(StrEnum):
+    IPv4 = "0800"
+    IPv6 = "86DD"
+    VLAN = "8100"
+    QINQ_LEGACY = "9100"
+    QINQ = "88A8"
+    ARP = "0806"
+    MPLS = "8847"
+    eCPRI = "AEFE"
+    NONE = "FFFF"
+
+class IPProtocol(IntEnum):
+    UDP = 17
+    TCP = 6
+    NONE = 255
+
+class ARPOpcode(IntEnum):
+    Request = 1
+    Reply = 2
+
+class ARPHardwareType(IntEnum):
+    Ethernet = 1
 
 ####################################
 #           Ethernet               #
 ####################################
 class Ethernet:
+
     def __init__(self):
         self.dst_mac = "0000.0000.0000"
         self.src_mac = "0000.0000.0000"
-        self.ethertype = "FFFF"
+        self.ethertype = EtherType.NONE
     
     def __str__(self):
         _dst_mac = self.dst_mac.replace(".", "")
@@ -34,7 +59,7 @@ class VLAN:
         self.pri = 0
         self.dei = 0
         self.id = 0
-        self.type = "FFFF"
+        self.type = EtherType.NONE
     
     def __str__(self):
         _pri_dei = '{:01X}'.format((self.pri<<1)+self.dei)
@@ -48,26 +73,27 @@ class VLAN:
 ####################################
 class ARP:
     def __init__(self):
-        self.hardware_type: str = "0001"
-        self.protocol_type: str = "0800"
-        self.hardware_size: str = "06"
-        self.protocol_size: str = "04"
-        self.opcode: str = "0001"
+        self.hardware_type: int = ARPHardwareType.Ethernet
+        self.protocol_type: str = EtherType.IPv4
+        self.hardware_size: int = 6
+        self.protocol_size: int = 4
+        self.opcode: int = ARPOpcode.Request
         self.sender_mac = "0000.0000.0000"
         self.sender_ip = "0.0.0.0"
         self.target_mac = "0000.0000.0000"
         self.target_ip = "0.0.0.0"
     
     def __str__(self):
-        _hardware_type = self.hardware_type
+        _hardware_type = '{:04X}'.format(self.hardware_type)
         _protocol_type = self.protocol_type
-        _hardware_size = self.hardware_size
-        _protocol_size = self.protocol_size
+        _hardware_size = '{:02X}'.format(self.hardware_size)
+        _protocol_size = '{:02X}'.format(self.protocol_size)
+        _opcode = '{:04X}'.format(self.opcode)
         _sender_mac = self.sender_mac.replace(".", "")
         _sender_ip = hexlify(IPv4Address(self.sender_ip).packed).decode()
         _target_mac = self.target_mac.replace(".", "")
         _target_ip = hexlify(IPv4Address(self.target_ip).packed).decode()
-        return f"{_hardware_type}{_protocol_type}{_hardware_size}{_protocol_size}{_sender_mac}{_sender_ip}{_target_mac}{_target_ip}".upper()
+        return f"{_hardware_type}{_protocol_type}{_hardware_size}{_protocol_size}{_opcode}{_sender_mac}{_sender_ip}{_target_mac}{_target_ip}".upper()
 
 ####################################
 #           IPv4                   #
@@ -78,12 +104,12 @@ class IPV4:
         self.header_length = 5
         self.dscp = 0
         self.ecn = 0
-        self.total_length = 42
+        self.total_length = 0
         self.identification = "0000"
         self.flags = 0
         self.offset = 0
         self.ttl = 255
-        self.proto = 255
+        self.proto = IPProtocol.NONE
         self.checksum = "0000"
         self.src = "0.0.0.0"
         self.dst = "0.0.0.0"
@@ -111,7 +137,7 @@ class IPV6:
         self.traff_class = 8
         self.flow_label = 0
         self.payload_length = 0
-        self.next_header = "11"
+        self.next_header = IPProtocol.NONE
         self.hop_limit = 1
         self.src = "2000::2"
         self.dst = "2000::100"
@@ -121,7 +147,7 @@ class IPV6:
         _traff_class = '{:01X}'.format(self.traff_class)
         _flow_label = '{:06X}'.format(self.flow_label)
         _payload_len = '{:04X}'.format(self.payload_length)
-        _next_header = self.next_header
+        _next_header = '{:02X}'.format(self.next_header)
         _hop_limit = '{:02X}'.format(self.hop_limit)
         _src = hexlify(IPv6Address(self.src).packed).decode()
         _dst = hexlify(IPv6Address(self.dst).packed).decode()
@@ -155,7 +181,7 @@ class TCP:
         self.ack_num = 0
         self.header_length = 20
         """Aka. Data Offset (bytes)"""
-        self.RSRVD = 0
+        self.rsrvd = 0
         """Reserved 000"""
         self.ae = 0
         """Accurate ECN"""
@@ -188,7 +214,7 @@ class TCP:
             raise Exception("Header Length field (bytes) must be multiple of 4")
         _header_length = '{:01X}'.format(int(self.header_length/4))
         _flags = 0
-        _flags += (self.RSRVD<<9)
+        _flags += (self.rsrvd<<9)
         _flags += (self.ae<<8)
         _flags += (self.cwr<<7)
         _flags += (self.ece<<6)
