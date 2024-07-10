@@ -27,6 +27,7 @@ def dictionize_autoneg_status(
     return {
         "is_enabled": _is_enabled,
         "loopback": "allowed" if loopback.values[0] else "not allowed",
+        "state": status.autoneg_state.name,
         "hcd": _ta_hcd_value,
         "fec_result": _fec_result_value,
         "duration": auto_neg_info.duration_us,
