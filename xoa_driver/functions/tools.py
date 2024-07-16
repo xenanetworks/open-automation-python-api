@@ -210,3 +210,35 @@ MODULE_EOL_INFO: dict[str, str] = {
     "94": "2025-10-01",
     "97": "2025-10-01",
 }
+
+def dictionize_anlt_log_ctrl_status(
+    logctrl_status: list[int]
+) -> dict[str, bool]:
+    _value = logctrl_status[0]
+    _debug = bool(_value & enums.AnLtLogControl.LOG_TYPE_DEBUG)
+    _an_trace = bool(_value & enums.AnLtLogControl.LOG_TYPE_AN_TRACE)
+    _lt_trace = bool(_value & enums.AnLtLogControl.LOG_TYPE_LT_TRACE)
+    _alg_trace = bool(_value & enums.AnLtLogControl.LOG_TYPE_ALG_TRACE)
+    _fsm_port = bool(_value & enums.AnLtLogControl.LOG_TYPE_FSM_PORT)
+    _fsm_an = bool(_value & enums.AnLtLogControl.LOG_TYPE_FSM_ANEG)
+    _fsm_an_stimuli = bool(_value & enums.AnLtLogControl.LOG_TYPE_FSM_ANEG_STIMULI)
+    _fsm_lt = bool(_value & enums.AnLtLogControl.LOG_TYPE_FSM_LT)
+    _fsm_lt_coeff = bool(_value & enums.AnLtLogControl.LOG_TYPE_FSM_LT_COEFF)
+    _fsm_lt_stimuli = bool(_value & enums.AnLtLogControl.LOG_TYPE_FSM_LT_STIMULI)
+    _fsm_lt_alg0 = bool(_value & enums.AnLtLogControl.LOG_TYPE_FSM_LT_ALG0)
+    _fsm_lt_algn1 = bool(_value & enums.AnLtLogControl.LOG_TYPE_FSM_LT_ALG1)
+    return {
+        "debug": _debug,
+        "an_trace": _an_trace,
+        "lt_trace": _lt_trace,
+        "alg_trace": _alg_trace,
+        "fsm_port": _fsm_port,
+        "fsm_an": _fsm_an,
+        "fsm_an_stimuli": _fsm_an_stimuli,
+        "fsm_an_stimuli": _fsm_an_stimuli,
+        "fsm_lt": _fsm_lt,
+        "fsm_lt_coeff": _fsm_lt_coeff,
+        "fsm_lt_stimuli": _fsm_lt_stimuli,
+        "fsm_lt_alg0": _fsm_lt_alg0,
+        "fsm_lt_algn1": _fsm_lt_algn1,
+    }
