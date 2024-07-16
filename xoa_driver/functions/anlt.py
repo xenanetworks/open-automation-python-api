@@ -16,7 +16,8 @@ from .tools import (
     dictionize_txtap_get,
     dictionize_anlt_status,
     dictionize_lt_im_status,
-    dictionize_lt_algorithm_status
+    dictionize_lt_algorithm_status,
+    dictionize_anlt_log_ctrl_status
 )
 import asyncio
 
@@ -696,6 +697,28 @@ async def anlt_log_control(port: GenericL23Port, types: t.List[enums.AnLtLogCont
             enums.Layer1ConfigType.ANLT_LOG_CONTROL
         ).set(values=[param])
 
+async def anlt_log_control_get(port: GenericL23Port) -> dict[str, bool]:
+    """
+    .. versionadded:: 2.7
+
+    Get ANLT log control config
+
+    :param port: the port object
+    :type port: :class:`~xoa_driver.ports.GenericL23Port`
+    :return: dict of log control status
+    :rtype:  dict[str, bool]
+    """
+    conn, mid, pid = get_ctx(port)
+    resp = await commands.PL1_CFG_TMP(
+        conn,
+        mid,
+        pid,
+        0,
+        enums.Layer1ConfigType.ANLT_LOG_CONTROL
+    ).get()
+
+    return dictionize_anlt_log_ctrl_status(resp.values)
+
 
 __all__ = (
     "anlt_link_recovery",
@@ -717,4 +740,5 @@ __all__ = (
     "lt_algorithm_status",
     "anlt_strict",
     "anlt_log_control",
+    "anlt_log_control_get",
 )
