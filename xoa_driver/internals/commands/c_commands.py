@@ -749,6 +749,32 @@ class C_PASSWORD:
 
 @register_command
 @dataclass
+class C_VERSIONSTR:
+    """
+    Returns xenaserver version number in the new format, e.g. "466.0.0-XHacked.mke+174.1"
+    """
+
+    code: typing.ClassVar[int] = 23
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+
+    class GetDataAttr(ResponseBodyStruct):
+        version_str: str = field(XmpStr())
+        """string, xenaserver version number in the new format, e.g. 466.0.0-XHacked.mke+174.1"""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Returns xenaserver version number in the new format.
+
+        :return: xenaserver version number in the new format
+        :rtype: C_VERSIONSTR.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self))
+
+
+@register_command
+@dataclass
 class C_IPADDRESS:
     """
     The network configuration parameters of the chassis management port.

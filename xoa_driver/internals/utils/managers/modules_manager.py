@@ -18,7 +18,8 @@ if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
 from xoa_driver.internals.commands import (
     M_REVISION,
-    M_MODEL
+    M_MODEL,
+    M_VERSIONSTR,
 )
 from .abc import AbcResourcesManager
 from .exceptions import (

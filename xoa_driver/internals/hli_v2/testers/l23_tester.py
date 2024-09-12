@@ -11,6 +11,7 @@ from xoa_driver.internals.commands import (
     C_TRAFFICSYNC,
     C_VERSIONNO_MINOR,
     C_BUILDSTRING,
+    C_VERSIONSTR,
 )
 from xoa_driver.internals.core.transporter.logger import CustomLogger
 from xoa_driver.internals.utils.managers.modules_manager import ModulesManager
@@ -120,6 +121,12 @@ class L23Tester(BaseTester["testers_state.GenuineTesterLocalState"]):
         self.version_no_minor = C_VERSIONNO_MINOR(self._conn)
         """
         Representation of C_VERSIONNO_MINOR
+        """
+        self.version_str = C_VERSIONSTR(self._conn)
+        """
+        Returns xenaserver version number in the new format.
+
+        :type: C_VERSIONSTR
         """
         self.build_string = C_BUILDSTRING(self._conn)
         """

@@ -22,6 +22,7 @@ from xoa_driver.internals.commands import (
     M_NAME,
     M_CFPCONFIGEXT,
     M_UPGRADEPAR,
+    M_VERSIONSTR,
 )
 
 from xoa_driver.internals.hli_v1 import revisions
@@ -211,6 +212,12 @@ class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
         """Test module's model P/N name.
 
         :type: M_REVISION
+        """
+
+        self.vesion_str = M_VERSIONSTR(conn, self.module_id)
+        """Module version number in the new format
+
+        :type: M_VERSIONSTR
         """
 
         self.media = MediaModule(conn, self)
