@@ -242,7 +242,7 @@ class ModuleL23(bm.BaseModule["modules_state.ModuleL23LocalState"]):
         Representation of M_REVISION
         """
 
-        self.vesion_str = M_VERSIONSTR(conn, self.module_id)
+        self.version_str = M_VERSIONSTR(conn, self.module_id)
         """Module version number in the new format
 
         :type: M_VERSIONSTR

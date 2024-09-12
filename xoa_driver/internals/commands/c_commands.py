@@ -751,7 +751,9 @@ class C_PASSWORD:
 @dataclass
 class C_VERSIONSTR:
     """
-    Returns xenaserver version number in the new format, e.g. "466.0.0-XHacked.mke+174.1"
+    Returns xenaserver version number in the new format, e.g. "467.0.0+1.0"
+
+    Obsoletes C_VERSIONNO and C_VERSIONNO_MINOR
     """
 
     code: typing.ClassVar[int] = 23
@@ -761,7 +763,7 @@ class C_VERSIONSTR:
 
     class GetDataAttr(ResponseBodyStruct):
         version_str: str = field(XmpStr())
-        """string, xenaserver version number in the new format, e.g. 466.0.0-XHacked.mke+174.1"""
+        """string, xenaserver version number in the new format."""
 
     def get(self) -> Token[GetDataAttr]:
         """Returns xenaserver version number in the new format.

@@ -214,7 +214,7 @@ class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
         :type: M_REVISION
         """
 
-        self.vesion_str = M_VERSIONSTR(conn, self.module_id)
+        self.version_str = M_VERSIONSTR(conn, self.module_id)
         """Module version number in the new format
 
         :type: M_VERSIONSTR

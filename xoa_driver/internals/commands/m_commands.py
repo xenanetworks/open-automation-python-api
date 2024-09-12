@@ -1092,13 +1092,9 @@ class M_REVISION:
 @dataclass
 class M_VERSIONSTR:
     """
-    Returns module version number in the new format.
+    Returns module version number in the new format, e.g. "99.0.0+1.0".
 
-    For Freya, the version number of the release image, "99.0.0+1.1"
-    
-    For Odin-10G-6S-6P, the new-style version number of the image, "3.33.0+3289.1"
-
-    For everything else, the old version number is converted into the new format simply by putting the old version number into the new major number, so e.g. 327 becomes "327.0.0+0.0"
+    Obsoletes M_VERSIONNO.
     """
 
     code: typing.ClassVar[int] = 101
@@ -1109,7 +1105,7 @@ class M_VERSIONSTR:
 
     class GetDataAttr(ResponseBodyStruct):
         version_str: str = field(XmpStr())
-        """string, module version number in the new format in the following way"""
+        """string, module version number in the new format."""
 
     def get(self) -> Token[GetDataAttr]:
         """Returns module version number in the new format.
