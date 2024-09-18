@@ -1332,6 +1332,34 @@ class C_STATSESSION:
 
 @register_command
 @dataclass
+class C_HEALTH:
+    """
+    Gets the chassis system health information.
+    """
+
+    code: typing.ClassVar[int] = 47
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+
+    _sub_indices: typing.List[int]
+
+    class GetDataAttr(ResponseBodyStruct):
+        info: str = field(XmpStr())
+        """Chassis health information json string"""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Gets the Chassis health information.
+
+        :return: Chassis health information json string
+        :rtype: C_HEALTH.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, indices=self._sub_indices))
+
+
+@register_command
+@dataclass
 class C_TKLICFILE:
     """
     Get Xena TimeKeeper license file content.

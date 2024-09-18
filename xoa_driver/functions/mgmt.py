@@ -6,8 +6,8 @@ from xoa_driver.utils import apply
 from xoa_driver.internals.hli_v2.ports.port_l23.family_l import FamilyL
 from xoa_driver.internals.hli_v2.ports.port_l23.family_l1 import FamilyL1
 from xoa_driver.ports import GenericAnyPort
-from xoa_driver.modules import GenericAnyModule, GenericL23Module, ModuleChimera
-from xoa_driver.testers import GenericAnyTester
+from xoa_driver.modules import GenericAnyModule, GenericL23Module, ModuleChimera, Z800FreyaModule
+from xoa_driver.testers import GenericAnyTester, L23Tester
 from .exceptions import (
     NotSupportMedia,
     NotSupportPortSpeed,
@@ -15,6 +15,7 @@ from .exceptions import (
 from .tools import MODULE_EOL_INFO
 from itertools import chain  # type: ignore[Pylance false warning]
 from datetime import datetime
+import json
 
 PcsPmaSupported = (FamilyL, FamilyL1)
 AutoNegSupported = (FamilyL, FamilyL1)
@@ -67,6 +68,24 @@ async def free_tester(
         await tester.reservation.set_release()
     if should_free_modules_ports:
         await asyncio.gather(*(free_module(m, True) for m in tester.modules))
+
+
+async def get_chassis_sys_uptime_sec(tester: L23Tester) -> int:
+    """
+    .. versionadded:: 2.7.2
+
+    Get chassis system uptime in seconds
+
+    :param tester: The tester to free
+    :type tester: :class:`~xoa_driver.testers.L23Tester`
+    :return: Chassis system uptime in seconds
+    :rtype: int
+    """
+    resp = await tester.health.uptime.get()
+    info_js = resp.info
+    info_dict = json.loads(info_js)
+    result = info_dict['1']['data']['uptime_secs']
+    return result
 
 
 # endregion
@@ -300,6 +319,31 @@ async def get_module_eol_days(module: GenericAnyModule) -> int:
     return timedelta.days
 
 
+async def get_module_cage_insertion_count(module: Z800FreyaModule, cage_index: int) -> int:
+    """
+    .. versionadded:: 2.7.2
+
+    Get module cage insertion count
+
+    :param module: The Z800 Freya module object
+    :type module: Z800FreyaModule
+    :param cage_index: The cage index
+    :type module: int
+    :return: Insertion count of the cage
+    :rtype: int
+    """
+    resp = await module.health.cage_insertion.get()
+    info_js = resp.info
+    info_dict = json.loads(info_js)
+    if 0 <= cage_index < len(info_dict['1']['data']):
+        result = info_dict['1']['data'][cage_index]['insert_count']
+    elif cage_index < 0:
+        result = -1
+    else:
+        result = -1
+    return result
+
+
 # endregion
 
 
@@ -465,5 +509,7 @@ __all__ = (
     "reset_port",
     "set_module_media_config",
     "set_module_port_config",
-    "remove_streams"
+    "remove_streams",
+    "get_module_cage_insertion_count",
+    "get_chassis_sys_uptime_sec",
 )

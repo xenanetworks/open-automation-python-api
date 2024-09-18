@@ -20,6 +20,7 @@ from .genuine.l_23 import (
     upload_file,
     time_keeper,
     rest_api,
+    health,
 )
 if TYPE_CHECKING:
     from xoa_driver import modules
@@ -159,6 +160,13 @@ class L23Tester(BaseTester["testers_state.GenuineTesterLocalState"]):
         Identify the hostname of the PC that builds the xenaserver. It uniquely identifies the build of a xenaserver.
 
         :type: C_BUILDSTRING
+        """
+
+        self.health = health.Health(self._conn)
+        """
+        Chassis system health information.
+
+        :type: C_HEALTH
         """
 
         self.modules: TypeL23Manager = mm.ModulesManager(self._conn, get_module_type)

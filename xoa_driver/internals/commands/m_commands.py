@@ -1833,6 +1833,7 @@ class M_HEALTH:
 
     _connection: 'interfaces.IConnection'
     _module: int
+    _sub_indices: typing.List[int]
 
     class GetDataAttr(ResponseBodyStruct):
         info: str = field(XmpStr())
@@ -1845,7 +1846,7 @@ class M_HEALTH:
         :rtype: M_HEALTH.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module))
+        return Token(self._connection, build_get_request(self, module=self._module, indices=self._sub_indices))
     
 @register_command
 @dataclass
