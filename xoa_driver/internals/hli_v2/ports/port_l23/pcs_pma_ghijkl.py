@@ -203,16 +203,6 @@ class PRBSConfig:
         Representation of PP_PRBSTYPE
         """
 
-        self.tx_type = PP_TXPRBSTYPE(conn, module_id, port_id)
-        """TX PRBS type used when in PRBS mode.
-        Representation of PP_TXPRBSTYPE
-        """
-
-        self.rx_type = PP_RXPRBSTYPE(conn, module_id, port_id)
-        """RX PRBS type used when in PRBS mode.
-        Representation of PP_RXPRBSTYPE
-        """
-
 
 class SDEyeDiagram:
     """L23 high-speed port SerDes eye diagram."""
@@ -325,11 +315,6 @@ class Prbs:
         self.status = PP_RXPRBSSTATUS(conn, module_id, port_id, serdes_xindex)
         """RX PRBS status on a SerDes
         Representation of PP_RXPRBSSTATUS
-        """
-
-        self.config = PRBSConfig(conn, module_id, port_id)
-        """
-        L23 high-speed port PRBS configuration.
         """
 
 
