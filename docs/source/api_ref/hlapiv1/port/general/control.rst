@@ -156,6 +156,18 @@ Corresponding CLI command: ``P_BRRMODE``
     resp = await port.brr_mode.get()
     resp.mode
 
+BRR Status
+----------
+Get the actual BroadR-Reach status of the port.
+
+Corresponding CLI command: ``P_BRRSTATUS``
+
+.. code-block:: python
+
+    # BRR Status
+    resp = await port.brr_status.get()
+    resp.mode
+
 
 MDI/MDIX Mode
 -------------
