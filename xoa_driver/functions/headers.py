@@ -11,6 +11,7 @@ from ipaddress import IPv4Address, IPv6Address
 from binascii import hexlify
 from xoa_driver.misc import Hex
 from enum import Enum
+from dataclasses import dataclass
 
 class EtherType(Enum):
     IPv4 = 0x0800
@@ -39,12 +40,11 @@ class ARPHardwareType(Enum):
 ####################################
 #           Ethernet               #
 ####################################
+@dataclass
 class Ethernet:
-
-    def __init__(self):
-        self.dst_mac: str = "0000.0000.0000"
-        self.src_mac: str = "0000.0000.0000"
-        self.ethertype: EtherType = EtherType.NONE
+    dst_mac: str = "0000.0000.0000"
+    src_mac: str = "0000.0000.0000"
+    ethertype: EtherType = EtherType.NONE
     
     def __str__(self):
         _dst_mac: str = self.dst_mac.replace(".", "")
@@ -55,12 +55,13 @@ class Ethernet:
 ####################################
 #           VLAN               #
 ####################################
+
+@dataclass
 class VLAN:
-    def __init__(self):
-        self.pri: int = 0
-        self.dei: int = 0
-        self.id: int = 0
-        self.type: EtherType = EtherType.NONE
+    pri: int = 0
+    dei: int = 0
+    id: int = 0
+    type: EtherType = EtherType.NONE
     
     def __str__(self):
         _pri_dei: str = '{:01X}'.format((self.pri<<1)+self.dei)
@@ -72,17 +73,17 @@ class VLAN:
 ####################################
 #           ARP                    #
 ####################################
+@dataclass
 class ARP:
-    def __init__(self):
-        self.hardware_type: ARPHardwareType = ARPHardwareType.Ethernet
-        self.protocol_type: EtherType = EtherType.IPv4
-        self.hardware_size: int = 6
-        self.protocol_size: int = 4
-        self.opcode: ARPOpcode = ARPOpcode.Request
-        self.sender_mac: str = "0000.0000.0000"
-        self.sender_ip: str = "0.0.0.0"
-        self.target_mac: str = "0000.0000.0000"
-        self.target_ip: str = "0.0.0.0"
+    hardware_type: ARPHardwareType = ARPHardwareType.Ethernet
+    protocol_type: EtherType = EtherType.IPv4
+    hardware_size: int = 6
+    protocol_size: int = 4
+    opcode: ARPOpcode = ARPOpcode.Request
+    sender_mac: str = "0000.0000.0000"
+    sender_ip: str = "0.0.0.0"
+    target_mac: str = "0000.0000.0000"
+    target_ip: str = "0.0.0.0"
     
     def __str__(self):
         _hardware_type: str = '{:04X}'.format(self.hardware_type.value)
@@ -99,21 +100,21 @@ class ARP:
 ####################################
 #           IPv4                   #
 ####################################
+@dataclass
 class IPV4:
-    def __init__(self):
-        self.version: int = 4
-        self.header_length: int = 5
-        self.dscp: int = 0
-        self.ecn: int = 0
-        self.total_length: int = 0
-        self.identification: str = "0000"
-        self.flags: int = 0
-        self.offset: int = 0
-        self.ttl: int = 255
-        self.proto: IPProtocol = IPProtocol.NONE
-        self.checksum: str = "0000"
-        self.src: str = "0.0.0.0"
-        self.dst: str = "0.0.0.0"
+    version: int = 4
+    header_length: int = 5
+    dscp: int = 0
+    ecn: int = 0
+    total_length: int = 0
+    identification: str = "0000"
+    flags: int = 0
+    offset: int = 0
+    ttl: int = 255
+    proto: IPProtocol = IPProtocol.NONE
+    checksum: str = "0000"
+    src: str = "0.0.0.0"
+    dst: str = "0.0.0.0"
 
     def __str__(self):
         _ver: str = '{:01X}'.format(self.version)
@@ -132,16 +133,16 @@ class IPV4:
 ####################################
 #           IPv6                   #
 ####################################
+@dataclass
 class IPV6:
-    def __init__(self):
-        self.version: int = 6
-        self.traff_class: int = 8
-        self.flow_label: int = 0
-        self.payload_length: int = 0
-        self.next_header: IPProtocol = IPProtocol.NONE
-        self.hop_limit: int = 1
-        self.src: str = "2000::2"
-        self.dst: str = "2000::100"
+    version: int = 6
+    traff_class: int = 8
+    flow_label: int = 0
+    payload_length: int = 0
+    next_header: IPProtocol = IPProtocol.NONE
+    hop_limit: int = 1
+    src: str = "2000::2"
+    dst: str = "2000::100"
 
     def __str__(self):
         _ver: str = '{:01X}'.format(self.version)
@@ -157,12 +158,12 @@ class IPV6:
 ####################################
 #           UDP                    #
 ####################################
+@dataclass
 class UDP:
-    def __init__(self):
-        self.src_port: int = 0
-        self.dst_port: int = 0
-        self.length: int = 8
-        self.checksum = "0000"
+    src_port: int = 0
+    dst_port: int = 0
+    length: int = 8
+    checksum = "0000"
 
     def __str__(self):
         _src_port: str = '{:04X}'.format(self.src_port)
@@ -174,37 +175,37 @@ class UDP:
 ####################################
 #           TCP                    #
 ####################################
+@dataclass
 class TCP:
-    def __init__(self):
-        self.src_port: int = 0
-        self.dst_port: int = 0
-        self.seq_num: int = 0
-        self.ack_num: int = 0
-        self.header_length: int = 20
-        """Aka. Data Offset (bytes)"""
-        self.rsrvd: int = 0
-        """Reserved 000"""
-        self.ae: int = 0
-        """Accurate ECN"""
-        self.cwr: int = 0
-        """Congestion Window Reduced"""
-        self.ece: int = 0
-        """ECN-Echo"""
-        self.urg: int = 0
-        """Urgent"""
-        self.ack: int = 0
-        """Acknowledgment"""
-        self.psh: int = 0
-        """Push"""
-        self.rst: int = 0
-        """Rest"""
-        self.syn: int = 0
-        """Sync"""
-        self.fin: int = 0
-        """Fin"""
-        self.window: int = 0
-        self.checksum: str = "0000"
-        self.urgent_pointer: int = 0
+    src_port: int = 0
+    dst_port: int = 0
+    seq_num: int = 0
+    ack_num: int = 0
+    header_length: int = 20
+    """Aka. Data Offset (bytes)"""
+    rsrvd: int = 0
+    """Reserved 000"""
+    ae: int = 0
+    """Accurate ECN"""
+    cwr: int = 0
+    """Congestion Window Reduced"""
+    ece: int = 0
+    """ECN-Echo"""
+    urg: int = 0
+    """Urgent"""
+    ack: int = 0
+    """Acknowledgment"""
+    psh: int = 0
+    """Push"""
+    rst: int = 0
+    """Rest"""
+    syn: int = 0
+    """Sync"""
+    fin: int = 0
+    """Fin"""
+    window: int = 0
+    checksum: str = "0000"
+    urgent_pointer: int = 0
 
     def __str__(self):
         _src_port: str = '{:04X}'.format(self.src_port)
@@ -235,42 +236,42 @@ class TCP:
 ####################################
 #           PTP                    #
 ####################################
+@dataclass
 class PTP:
-    def __init__(self):
-        self.version_ptp: int = 1
-        self.version_network: int = 1
-        self.subdomain: str = "5f44464c540000000000000000000000"
-        self.message_type: int = 1
-        self.source_comm_tech: int = 1
-        self.source_uuid: str = "0030051d1e27"
-        self.source_port_id: int = 1
-        self.seq_id: int = 94
-        self.control_field: int = 0
-        self.flags: str = "0008"
-        self.original_timestamp_sec: int = 1163594296
-        self.original_timestamp_nsec: int = 247015000
-        self.epoch_num: int = 0
-        self.current_utc_offset: int = 0
-        self.gm_comm_tech: int = 1
-        self.gm_clock_uuid: str = "0030051d1e27"
-        self.gm_port_id: int = 0
-        self.gm_seq_id: int = 94
-        self.gm_clock_stratum: int = 4
-        self.gm_clock_id: str = "44464c54"
-        self.gm_clock_variance: int = -4000
-        self.gm_preferred: int = 0
-        self.gm_is_boundary_clock: int = 0
-        self.sync_interval: int = 1
-        self.local_clock_variance: int = -4000
-        self.local_step_removed: int = 0
-        self.local_clock_stratum: int = 4
-        self.local_clock_id: str = "44464c54"
-        self.parent_comm_tech: int = 1
-        self.parent_clock_uuid: str = "0030051D1E27"
-        self.parent_port_id: int = 0
-        self.est_master_variance: int = 0
-        self.est_master_drift: int = 0
-        self.utc_reasonable: int = 1
+    version_ptp: int = 1
+    version_network: int = 1
+    subdomain: str = "5f44464c540000000000000000000000"
+    message_type: int = 1
+    source_comm_tech: int = 1
+    source_uuid: str = "0030051d1e27"
+    source_port_id: int = 1
+    seq_id: int = 94
+    control_field: int = 0
+    flags: str = "0008"
+    original_timestamp_sec: int = 1163594296
+    original_timestamp_nsec: int = 247015000
+    epoch_num: int = 0
+    current_utc_offset: int = 0
+    gm_comm_tech: int = 1
+    gm_clock_uuid: str = "0030051d1e27"
+    gm_port_id: int = 0
+    gm_seq_id: int = 94
+    gm_clock_stratum: int = 4
+    gm_clock_id: str = "44464c54"
+    gm_clock_variance: int = -4000
+    gm_preferred: int = 0
+    gm_is_boundary_clock: int = 0
+    sync_interval: int = 1
+    local_clock_variance: int = -4000
+    local_step_removed: int = 0
+    local_clock_stratum: int = 4
+    local_clock_id: str = "44464c54"
+    parent_comm_tech: int = 1
+    parent_clock_uuid: str = "0030051D1E27"
+    parent_port_id: int = 0
+    est_master_variance: int = 0
+    est_master_drift: int = 0
+    utc_reasonable: int = 1
 
     def __str__(self):
         _version_ptp: str = '{:04X}'.format(self.version_ptp)
@@ -313,15 +314,15 @@ class PTP:
 ####################################
 #  eCPRI GeneralDataTransfer       #
 ####################################
+@dataclass
 class eCPRIGeneralDataTransfer:
-    def __init__(self):
-        self.protocol_rev: int = 1
-        self.c_bit: int = 0
-        self.message_type: str = "03"
-        self.payload_size = 24
-        self.pc_id: str= "12345678"
-        self.seq_id: str = "87654321"
-        self.user_data: str = "0f0e0d0c0b0a09080706050403020100"
+    protocol_rev: int = 1
+    c_bit: int = 0
+    message_type: str = "03"
+    payload_size = 24
+    pc_id: str= "12345678"
+    seq_id: str = "87654321"
+    user_data: str = "0f0e0d0c0b0a09080706050403020100"
 
     def __str__(self):
         _tmp: str = '{:02X}'.format((self.protocol_rev<<4)+self.c_bit)

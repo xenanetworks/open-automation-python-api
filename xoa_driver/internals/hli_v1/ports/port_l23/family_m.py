@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 
-from xoa_driver.internals.commands import P_BRRMODE
+from xoa_driver.internals.commands import P_BRRMODE, P_BRRSTATUS
 
 from .bases.port_l23_genuine import BasePortL23Genuine
 
@@ -15,6 +15,11 @@ class FamilyM(BasePortL23Genuine):
         """BRR mode.
         
         :type: P_BRRMODE
+        """
+        self.brr_status = P_BRRSTATUS(conn, module_id, port_id)
+        """Actual BRR status.
+        
+        :type: P_BRRSTATUS
         """
 
 

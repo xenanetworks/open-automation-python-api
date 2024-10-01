@@ -1086,6 +1086,35 @@ class M_REVISION:
         """
 
         return Token(self._connection, build_get_request(self, module=self._module))
+    
+
+@register_command
+@dataclass
+class M_VERSIONSTR:
+    """
+    Returns module version number in the new format, e.g. "99.0.0+1.0".
+
+    Obsoletes M_VERSIONNO.
+    """
+
+    code: typing.ClassVar[int] = 101
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        version_str: str = field(XmpStr())
+        """string, module version number in the new format."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Returns module version number in the new format.
+
+        :return: module version number in the new format.
+        :rtype: M_VERSIONSTR.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, module=self._module))
 
 
 @register_command
@@ -1804,6 +1833,7 @@ class M_HEALTH:
 
     _connection: 'interfaces.IConnection'
     _module: int
+    _sub_indices: typing.List[int]
 
     class GetDataAttr(ResponseBodyStruct):
         info: str = field(XmpStr())
@@ -1816,7 +1846,7 @@ class M_HEALTH:
         :rtype: M_HEALTH.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module))
+        return Token(self._connection, build_get_request(self, module=self._module, indices=self._sub_indices))
     
 @register_command
 @dataclass

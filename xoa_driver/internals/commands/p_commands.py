@@ -4459,6 +4459,34 @@ class P_SPEEDS_SUPPORTED:
 
 @register_command
 @dataclass
+class P_BRRSTATUS:
+    """
+    Get the actual BroadR-Reach status of the port.
+    """
+
+    code: typing.ClassVar[int] = 460
+    pushed: typing.ClassVar[bool] = True
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        mode: BRRMode = field(XmpByte())
+        """coded byte, the port’s actual BroadR-Reach mode."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the actual BroadR-Reach status of the port.
+
+        :return: the actual BroadR-Reach status of the port.
+        :rtype: P_BRRSTATUS.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+    
+
+@register_command
+@dataclass
 class P_EMULATE:
     """
     The action determines if emulation functionality is enabled or disabled

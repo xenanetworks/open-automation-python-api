@@ -11,6 +11,7 @@ from xoa_driver.internals.commands import (
     C_TRAFFICSYNC,
     C_VERSIONNO_MINOR,
     C_BUILDSTRING,
+    C_VERSIONSTR,
 )
 from xoa_driver.internals.core.transporter.logger import CustomLogger
 from xoa_driver.internals.utils.managers.modules_manager import ModulesManager
@@ -20,6 +21,7 @@ from .genuine.l_23 import (
     upload_file,
     time_keeper,
     rest_api,
+    health,
 )
 if TYPE_CHECKING:
     from xoa_driver.v2 import modules
@@ -121,9 +123,21 @@ class L23Tester(BaseTester["testers_state.GenuineTesterLocalState"]):
         """
         Representation of C_VERSIONNO_MINOR
         """
+        self.version_str = C_VERSIONSTR(self._conn)
+        """
+        Returns xenaserver version number in the new format.
+
+        :type: C_VERSIONSTR
+        """
         self.build_string = C_BUILDSTRING(self._conn)
         """
         Representation of C_BUILDSTRING
+        """
+        self.health = health.Health(self._conn)
+        """
+        Chassis system health information.
+
+        :type: C_HEALTH
         """
         self.modules: TypeL23Manager = ModulesManager(self._conn, get_module_type)
         """

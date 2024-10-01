@@ -110,3 +110,27 @@ Corresponding CLI command: ``M_STATUS``
     # Status
     resp = await module.status.get()
     resp.temperature
+
+Model Name
+------------
+Get the model name of the module.
+
+Corresponding CLI command: ``M_MODEL_NAME``
+
+.. code-block:: python
+
+    # Model Name
+    resp = await module.model_name.get()
+    resp.name
+
+Model Version String
+--------------------
+Returns the currently running module software version. Obsoletes ``M_VERSIONNO``.
+
+Corresponding CLI command: ``M_VERSIONSTR``
+
+.. code-block:: python
+
+    # Model Version String
+    resp = await module.version_str.get()
+    resp.version_str

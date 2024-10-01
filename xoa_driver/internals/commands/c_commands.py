@@ -749,6 +749,34 @@ class C_PASSWORD:
 
 @register_command
 @dataclass
+class C_VERSIONSTR:
+    """
+    Returns xenaserver version number in the new format, e.g. "467.0.0+1.0"
+
+    Obsoletes C_VERSIONNO and C_VERSIONNO_MINOR
+    """
+
+    code: typing.ClassVar[int] = 23
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+
+    class GetDataAttr(ResponseBodyStruct):
+        version_str: str = field(XmpStr())
+        """string, xenaserver version number in the new format."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Returns xenaserver version number in the new format.
+
+        :return: xenaserver version number in the new format
+        :rtype: C_VERSIONSTR.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self))
+
+
+@register_command
+@dataclass
 class C_IPADDRESS:
     """
     The network configuration parameters of the chassis management port.
@@ -1300,6 +1328,34 @@ class C_STATSESSION:
         """
 
         return Token(self._connection, build_get_request(self, indices=[self._session_xindex]))
+
+
+@register_command
+@dataclass
+class C_HEALTH:
+    """
+    Gets the chassis system health information.
+    """
+
+    code: typing.ClassVar[int] = 47
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+
+    _sub_indices: typing.List[int]
+
+    class GetDataAttr(ResponseBodyStruct):
+        info: str = field(XmpStr())
+        """Chassis health information json string"""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Gets the Chassis health information.
+
+        :return: Chassis health information json string
+        :rtype: C_HEALTH.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, indices=self._sub_indices))
 
 
 @register_command

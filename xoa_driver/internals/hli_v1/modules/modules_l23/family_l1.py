@@ -28,6 +28,16 @@ class MClockSweep:
         Representation of M_CLOCKSWEEPSTATUS
         """
 
+class MHealth:
+    """Test module health"""
+    def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
+        self.all = M_HEALTH(conn, module_id, [])
+        """All module health information"""
+        self.info = M_HEALTH(conn, module_id, [0])
+        """Module identification information"""
+        self.cage_insertion = M_HEALTH(conn, module_id, [1])
+        """Module cage insertion counter"""
+
 
 class ModuleFamilyL1(ModuleL23):
     """Test module Freya family"""
@@ -37,8 +47,10 @@ class ModuleFamilyL1(ModuleL23):
         self.clock_sweep = MClockSweep(conn, self.module_id)
         """Clock ppm sweep control"""
 
-        self.health = M_HEALTH(conn, self.module_id)
-        """Module health info"""
+        self.health = MHealth(conn, self.module_id)
+        """Module health information"""
+
+        
 
 
 #region Freya 1S 1P

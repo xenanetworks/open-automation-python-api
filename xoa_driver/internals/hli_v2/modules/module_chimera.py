@@ -7,7 +7,6 @@ from xoa_driver.internals.commands import (
     M_UPGRADE,
     M_UPGRADEPROGRESS,
     M_CFPTYPE,
-    M_CFPCONFIGEXT,
     M_COMMENT,
     M_CAPABILITIES,
     M_CLOCKPPB,
@@ -15,7 +14,15 @@ from xoa_driver.internals.commands import (
     M_TXCLOCKSTATUS_NEW,
     M_EMULBYPASS,
     M_LATENCYMODE,
+    M_REVISION,
+    M_MEDIA,
+    M_MEDIASUPPORT,
+    M_TIMESYNC,
+    M_CLOCKSYNCSTATUS,
+    M_NAME,
+    M_CFPCONFIGEXT,
     M_UPGRADEPAR,
+    M_VERSIONSTR,
 )
 
 from xoa_driver.internals.hli_v2 import revisions
@@ -23,8 +30,9 @@ from xoa_driver.internals.utils.managers import ports_manager as pm
 from xoa_driver.internals.utils import attributes as utils
 from xoa_driver.internals.state_storage import modules_state
 from xoa_driver.v2 import ports
-from xoa_driver.internals.hli_v2.modules.modules_l23.module_l23_base import CfpModule
+from xoa_driver.internals.hli_v2.modules.modules_l23.module_l23_base import MediaModule, CfpModule
 from . import base_module as bm
+
 if typing.TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
     from . import __interfaces as m_itf
@@ -95,9 +103,22 @@ class ChTiming:
 
     def __init__(self, conn: "itf.IConnection", module_id: int) -> None:
 
+        self.source = M_TIMESYNC(conn, module_id)
+        """Timing source of the test module.
+
+        :type: M_TIMESYNC
+        """
+
         self.clock_local_adjust = M_CLOCKPPB(conn, module_id)
         """Time adjustment controlling of the local clock of the test module, which drives the TX rate of the test ports.
-        Representation of M_CLOCKPPB
+
+        :type: M_CLOCKPPB
+        """
+
+        self.clock_sync_status = M_CLOCKSYNCSTATUS(conn, module_id)
+        """Test module's clock sync status.
+
+        :type: M_CLOCKSYNCSTATUS
         """
 
 
@@ -122,65 +143,103 @@ class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
 
         self.tx_clock = ChTXClock(conn, self.module_id)
         """
-        Advanced timing feature (Chimera).
+        TX clock config (Chimera).
+
+        :type: ChTXClock
+        """
+
+        self.timing = ChTiming(conn, self.module_id)
+        """
+        Timing config (Chimera).
+
+        :type: ChTiming
         """
 
         self.cfp = ChCFP(conn, self)
         """
         CFP test module (Chimera).
+
+        :type:  ChCFP
         """
 
         self.upgrade = ChUpgrade(conn, self.module_id)
         """
         Upgrade test module (Chimera).
+
+        :type: ChUpgrade
         """
 
         self.capabilities = M_CAPABILITIES(conn, self.module_id)
         """
         Test module's capabilities.
-        Representation of M_CAPABILITIES
+
+        :type: M_CAPABILITIES
         """
 
         self.comment = M_COMMENT(conn, self.module_id)
         """
         Test module's description.
-        Representation of M_COMMENT
+
+        :type: M_COMMENT
         """
 
         self.status = M_STATUS(conn, self.module_id)
         """
         Test module's status.
-        Representation of M_STATUS
+
+        :type: M_STATUS
         """
 
         self.clock_ppb = M_CLOCKPPB(conn, self.module_id)
         """
         Test module's local clock adjustment.
-        Representation of M_CLOCKPPB
+
+        :type: M_CLOCKPPB
         """
 
         self.emulator_bypass_mode = M_EMULBYPASS(conn, self.module_id)
         """
         Bypass mode of the Chimera module.
-        Representation of M_EMULBYPASS
+
+        :type: M_EMULBYPASS
         """
 
         self.latency_mode = M_LATENCYMODE(conn, self.module_id)
         """
         Latency mode of the Chimera module.
-        Representation of M_LATENCYMODE
+
+        :type: M_LATENCYMODE
         """
 
-        self.timing = ChTiming(conn, self.module_id)
-        """Test module's timing configuration."""
+        self.revision = M_REVISION(conn, self.module_id)
+        """Test module's model P/N name.
 
-        self.bypass_mode = M_EMULBYPASS(conn, self.module_id)
-        """
-        Bypass mode of the Chimera module.
-        Representation of M_EMULBYPASS
+        :type: M_REVISION
         """
 
-        self.adv_timing = ChAdvancedTiming(conn, self.module_id)
+        self.version_str = M_VERSIONSTR(conn, self.module_id)
+        """Module version number in the new format
+
+        :type: M_VERSIONSTR
+        """
+
+        self.media = MediaModule(conn, self)
+        """Test module's media type.
+
+        :type: MediaModule
+        """
+
+        self.available_speeds = M_MEDIASUPPORT(conn, self.module_id)
+        """Test module's available speeds.
+
+        :type: M_MEDIASUPPORT
+        """
+
+        self.name = M_NAME(conn, self.module_id)
+        """Test module's name.
+
+        :type: M_NAME
+        """
 
         self.ports: pm.PortsManager["ports.PortChimera"] = pm.PortsManager(
             conn=conn,
@@ -206,23 +265,49 @@ class ModuleChimera(bm.BaseModule["modules_state.ModuleLocalState"]):
 
     on_cfp_type_change = functools.partialmethod(utils.on_event, M_CFPTYPE)
     """
-    Register a callback to the event that the module's CFP type changes.
+    Register a callback function to the event that the module's CFP type changes.
     """
 
     on_cfp_config_change = functools.partialmethod(utils.on_event, M_CFPCONFIGEXT)
     """
-    Register a callback to the event that the module's CFP configuration changes.
+    Register a callback function to the event that the module's CFP configuration changes.
     """
 
     on_status_change = functools.partialmethod(utils.on_event, M_STATUS)
     """
-    Register a callback to the event that the module's model changes.
+    Register a callback function to the event that the module's model changes.
     """
 
     on_latency_mode_change = functools.partialmethod(utils.on_event, M_LATENCYMODE)
     """
-    Register a callback to the event that the module's latency mode changes.
+    Register a callback function to the event that the module's latency mode changes.
     """
+
+    on_media_change = functools.partialmethod(utils.on_event, M_MEDIA)
+    """
+    Register a callback to the event that the module's media and available speeds change.
+    """
+
+    on_media_support_change = functools.partialmethod(utils.on_event, M_MEDIASUPPORT)
+    """
+    Register a callback to the event that the module's supported media changes.
+    """
+
+    on_timing_source_change = functools.partialmethod(utils.on_event, M_TIMESYNC)
+    """
+    Register a callback to the event that the module's timesync mode changes.
+    """
+
+    on_timing_clock_local_adjust_change = functools.partialmethod(utils.on_event, M_CLOCKPPB)
+    """
+    Register a callback to the event that the module's clock adjustment ppb changes.
+    """
+
+    on_adv_timing_clock_tx_status_change = functools.partialmethod(utils.on_event, M_TXCLOCKSTATUS_NEW)
+    """Register a callback to the event that the module's TX clock status changes."""
+
+    on_adv_timing_clock_tx_source_change = functools.partialmethod(utils.on_event, M_TXCLOCKSOURCE_NEW)
+    """Register a callback to the event that the module's clock that drives the port TX rates changes."""
 
 
 @typing.final

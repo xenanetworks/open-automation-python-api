@@ -28,6 +28,7 @@ from xoa_driver.internals.commands import (
     M_TXCLOCKSTATUS_NEW,
     M_TXCLOCKFILTER_NEW,
     M_UPGRADEPAR,
+    M_VERSIONSTR,
 )
 
 from xoa_driver.internals.utils import attributes as utils
@@ -239,6 +240,12 @@ class ModuleL23(bm.BaseModule["modules_state.ModuleL23LocalState"]):
         self.revision = M_REVISION(conn, self.module_id)
         """Test module's model P/N name.
         Representation of M_REVISION
+        """
+
+        self.version_str = M_VERSIONSTR(conn, self.module_id)
+        """Module version number in the new format
+
+        :type: M_VERSIONSTR
         """
 
         self.multiuser = M_MULTIUSER(conn, self.module_id)
