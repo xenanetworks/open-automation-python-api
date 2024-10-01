@@ -100,3 +100,39 @@ Corresponding CLI command: ``C_BUILDSTRING``
     # Build String
     resp = await tester.build_string.get()
     resp.build_string
+
+Version String
+-----------------
+Returns the currently running chassis software version. Obsoletes ``C_VERSIONNO`` and ``C_VERSIONNO_MINOR``
+
+Corresponding CLI command: ``C_VERSIONSTR``
+
+.. code-block:: python
+
+    # Firmware Version
+    resp = await tester.version_str.get()
+    resp.version_str
+
+Model Name
+-----------------
+Get the Xena chassis model name.
+
+Corresponding CLI command: ``C_MODEL_NAME``
+
+.. code-block:: python
+
+    # Model Name
+    resp = await tester.model_name.get()
+    resp.name
+
+Model Number
+-----------------
+Get the Xena chassis model number.
+
+Corresponding CLI command: ``C_MODEL_NUMBER``
+
+.. code-block:: python
+
+    # Model Name
+    resp = await tester.model_number.get()
+    resp.number
