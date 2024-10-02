@@ -280,7 +280,7 @@ latex_documents = [(master_doc, f"{output_basename}.tex", title, author, 'manual
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
-latex_logo = './_static/pdf_logo.png'
+latex_logo = './_static/tlc_pdf.png'
 
 # -- Options for manual page output -----------------------------------------------------
 
