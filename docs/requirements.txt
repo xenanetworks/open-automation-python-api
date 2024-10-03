@@ -2,9 +2,10 @@
 
 # Defining the exact version will make sure things don't break
 sphinx==7.2.2
-readthedocs-sphinx-search==0.3.2
+readthedocs-sphinx-search>=0.3.2
 sphinx-inline-tabs==2023.4.21
 loguru==0.7.0
-furo==2023.8.17
+# furo==2023.8.17
 sphinx-copybutton==0.5.2
 sphinx-remove-toctrees==0.0.3
+sphinx_rtd_theme
