@@ -1635,7 +1635,7 @@ class M_CLOCKPPBSWEEP:
         """integer >=0, the number of full sweeps performed. 0 means "indefinitely"."""
 
     class SetDataAttr(RequestBodyStruct):
-        mode: PPMSweepMode = field(XmpInt())
+        mode: PPMSweepMode = field(XmpByte())
         """coded byte, specifying the sweeping function: OFF or TRIANGLE"""
         ppb_step: int = field(XmpInt())
         """integer >=0, the numeric clock adjustment in ppb per step of the sweep.
