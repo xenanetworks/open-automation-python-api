@@ -11,7 +11,7 @@ from ipaddress import IPv4Address, IPv6Address
 from binascii import hexlify
 from xoa_driver.misc import Hex
 from enum import Enum
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 class EtherType(Enum):
     IPv4 = 0x0800
@@ -35,6 +35,98 @@ class ARPOpcode(Enum):
 
 class ARPHardwareType(Enum):
     Ethernet = 1
+
+class DHCPOpcode(Enum):
+    BootRequest = 1
+    BootReply = 2
+
+class DHCPMessageType(Enum):
+    Discover = 1
+    Offer = 2
+    Request = 3
+    Decline = 4
+    Ack = 5
+    Nack = 6
+    Release = 7
+    Inform = 8
+
+class DHCPOptionCode(Enum):
+    Pad = 0
+    End = 255
+    SubnetMask = 1
+    TimeOffset = 2
+    RouterOption = 3
+    TimeServerOption = 4
+    NameServerOption = 5
+    DomainNameServerOption = 6
+    LogServerOption = 7
+    CookieServerOption = 8
+    LPRServerOption = 9
+    ImpressServerOption = 10
+    ResourceLocationServerOption = 11
+    HostNameOption = 12
+    BootFileSizeOption = 13
+    MeritDumpFile = 14
+    DomainName = 15
+    SwapServer = 16
+    RootPath = 17
+    ExtensionsPath = 18
+    IPForwardingEnableDisableOption = 19
+    NonLocalSourceRoutingEnableDisableOption = 20
+    PolicyFilterOption = 21
+    MaximumDatagramReassemblySize = 22
+    DefaultIPTimeToLive = 23
+    PathMTUAgingTimeoutOption = 24
+    PathMTUPlateauTableOption = 25
+    InterfaceMTUOption = 26
+    AllSubnetsAreLocalOption = 27
+    BroadcastAddressOption = 28
+    PerformMaskDiscoveryOption = 29
+    MaskSupplierOption = 30
+    PerformRouterDiscoveryOption = 31
+    RouterSolicitationAddressOption = 32
+    StaticRouteOption = 33
+    TrailerEncapsulationOption = 34
+    ARPCacheTimeoutOption = 35
+    EthernetEncapsulationOption = 36
+    TCPDefaultTTLOption = 37
+    TCPKeepAliveIntervalOption = 38
+    TCPKeepAliveGarbageOption = 39
+    NetworkInformationServiceDomainOption = 40
+    NetworkInformationServersOption = 41
+    NetworkTimeProtocolServersOption = 42
+    VendorSpecificInformation = 43
+    NetBIOSOverTCPIPNameServerOption = 44
+    NetBIOSOverTCPIPDatagramDistributionServerOption = 45
+    NetBIOSOverTCPIPNodeTypeOption = 46
+    NetBIOSOverTCPIPScopeOption = 47
+    XWindowSystemFontServerOption = 48
+    XWindowSystemDisplayManagerOption = 49
+    NetworkInformationServicePlusDomainOption = 64
+    NetworkInformationServiceServersOption = 65
+    MobileIPHomeAgentOption = 68
+    SMTPServerOption = 69
+    POP3ServerOption = 70
+    NNTPServerOption = 71
+    WWWServerOption = 72
+    DefaultFingerServerOption = 73
+    DefaultIRCServerOption = 74
+    StreetTalkServerOption = 75
+    STDAServerOption = 76
+    RequestedIPAddress = 50
+    IPAddressLeaseTime = 51
+    OptionOverload = 52
+    TFTPServerName = 66
+    BootfileName = 67
+    DHCPMessageType = 53
+    ServerIdentifier = 54
+    ParameterRequestList = 55
+    Message = 56
+    MaximumDHCPMessageSize = 57
+    RenewalTimeValue = 58
+    RebindingTimeValue = 59
+    VendorClassIdentifier = 60
+    ClientIdentifier = 61
 
 
 ####################################
@@ -332,3 +424,150 @@ class eCPRIGeneralDataTransfer:
         _seq_id: str = self.seq_id
         _user_data: str = self.user_data
         return f"{_tmp}{_message_type}{_payload_size}{_pc_id}{_seq_id}{_user_data}".upper()
+    
+####################################
+#           DHCPv4                 #
+####################################
+@dataclass
+class DHCPV4:
+    op: DHCPOpcode = DHCPOpcode.BootRequest
+    """Message op code / message type"""
+
+    htype: int = 1
+    """Hardware address type"""
+
+    hlen: int = 6
+    """Hardware address length"""
+
+    hops: int = 0
+    """Client sets to zero, optionally used by relay agents when booting via a relay agent"""
+
+    xid: str = "00000000"
+    """Transaction ID, a random number chosen by the
+    client, used by the client and server to associate
+    messages and responses between a client and a
+    server.
+    """
+
+    secs: int = 0
+    """Filled in by client, seconds elapsed since client
+    began address acquisition or renewal process.
+    """
+
+    broadcast_flag: int = 0
+    """Broadcast flag"""
+
+    reserved_flags: int = 0
+    """Reserved flags, must be zero"""
+
+    ciaddr: str = "0.0.0.0"
+    """Client IP address; only filled in if client is in
+    BOUND, RENEW or REBINDING state and can respond
+    to ARP requests.
+    """
+
+    yiaddr: str = "0.0.0.0"
+    """'Your' (client) IP address.
+    """
+
+    siaddr: str = "0.0.0.0"
+    """IP address of next server to use in bootstrap;
+    returned in DHCPOFFER, DHCPACK by server.
+    """
+
+    giaddr: str = "0.0.0.0"
+    """Relay agent IP address, used in booting via a relay agent.
+    """
+
+    chaddr: str = "0000.0000.0000"
+    """Client hardware address (16 bytes). If less than 16 bytes are provided, padding will be used."""
+
+    sname: str = ""
+    """Optional server host name, null terminated string (64 bytes). If less than 64 bytes are provided, padding will be used."""
+
+    file: str = ""  
+    """Boot file name, null terminated string (128 bytes). If less than 128 bytes are provided, padding will be used."""  
+
+    magic_cookie: str = "63825363"
+
+    def __str__(self):
+        _op: str = '{:02X}'.format(self.op.value)
+        _htype: str = '{:02X}'.format(self.htype)
+        _hlen: str = '{:02X}'.format(self.hlen)
+        _hops: str = '{:02X}'.format(self.hops)
+        _xid: str = self.xid
+        _xid = "00"*(4-int(len(_xid)/2)) + _xid
+        _secs: str = '{:04X}'.format(self.secs)
+        _flag: str = '{:04X}'.format((self.broadcast_flag<<15)+self.reserved_flags)
+        _ciaddr: str = hexlify(IPv4Address(self.ciaddr).packed).decode()
+        _yiaddr: str = hexlify(IPv4Address(self.yiaddr).packed).decode()
+        _siaddr: str = hexlify(IPv4Address(self.siaddr).packed).decode()
+        _giaddr: str = hexlify(IPv4Address(self.giaddr).packed).decode()
+        _chaddr: str = self.chaddr.replace(".", "")
+        _chaddr = _chaddr + "00"*(16-int(len(_chaddr)/2))
+        _sname: str = self.sname + "00"*(64-int(len(self.sname)/2))
+        _file: str = self.file + "00"*(128-int(len(self.file)/2))
+        _magic_cookie: str = self.magic_cookie
+
+        return f"{_op}{_htype}{_hlen}{_hops}{_xid}{_secs}{_flag}{_ciaddr}{_yiaddr}{_siaddr}{_giaddr}{_chaddr}{_sname}{_file}{_magic_cookie}".upper()
+    
+
+####################################
+#           DHCPv4 Options         #
+####################################
+@dataclass
+class DHCPOptionMessageType:
+    type: DHCPMessageType = DHCPMessageType.Discover
+
+    def __str__(self):
+        _code: str = '{:02X}'.format(DHCPOptionCode.DHCPMessageType.value)
+        _len: str = '{:02X}'.format(1)
+        _type: str = '{:02X}'.format(self.type.value)
+        return f"{_code}{_len}{_type}".upper()
+    
+@dataclass
+class DHCPOptionClientIdentifier:
+    len: int = 7
+    htype: int = 1
+    client_mac: str = "0000.0000.0000"
+
+    def __str__(self):
+        _code: str = '{:02X}'.format(DHCPOptionCode.ClientIdentifier.value)
+        _len: str = '{:02X}'.format(self.len)
+        _htype: str = '{:02X}'.format(self.htype)
+        _client_mac: str = self.client_mac.replace(".", "")
+        return f"{_code}{_len}{_htype}{_client_mac}".upper()
+    
+@dataclass
+class DHCPOptionRequestedIP:
+    ip_addr: str = "0.0.0.0"
+
+    def __str__(self):
+        _code: str = '{:02X}'.format(DHCPOptionCode.RequestedIPAddress.value)
+        _len: str = '{:02X}'.format(4)
+        _ip_addr: str = hexlify(IPv4Address(self.ip_addr).packed).decode()
+        return f"{_code}{_len}{_ip_addr}".upper()
+    
+@dataclass
+class DHCPOptionParamRequestList:
+    req_list: list = field(default_factory=list)
+
+    def __str__(self):
+        _code: str = '{:02X}'.format(DHCPOptionCode.ParameterRequestList.value)
+        _len: str = '{:02X}'.format(len(self.req_list))
+        _req_list: str = ""
+        for x in self.req_list:
+            _req_list += '{:02X}'.format(x)
+        return f"{_code}{_len}{_req_list}".upper()
+    
+@dataclass
+class DHCPOptionPad:
+    def __str__(self):
+        _code: str = '{:02X}'.format(DHCPOptionCode.Pad.value)
+        return f"{_code}".upper()
+    
+@dataclass
+class DHCPOptionEnd:
+    def __str__(self):
+        _code: str = '{:02X}'.format(DHCPOptionCode.End.value)
+        return f"{_code}".upper()

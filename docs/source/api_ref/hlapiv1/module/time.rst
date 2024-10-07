@@ -77,8 +77,8 @@ Corresponding CLI command: ``M_CLOCKPPBSWEEP``
     # Clock PPM Sweep Configuration
     FREYA_MODULES = (modules.MFreya800G4S1P_a, modules.MFreya800G4S1P_b, modules.MFreya800G4S1POSFP_a, modules.MFreya800G4S1POSFP_b)
     if isinstance(module, FREYA_MODULES):
-        await module.clock_sweep.config.set(mode=enums.PPMSweepMode.OFF, ppb_step=10, step_delay=10, max_ppb=10, loops=1)
-        await module.clock_sweep.config.set(mode=enums.PPMSweepMode.TRIANGLE, ppb_step=10, step_delay=10, max_ppb=10, loops=1)
+        await module.clock_sweep.config.set(mode=enums.PPMSweepMode.OFF, ppb_step=50_000, step_delay=1_000_000, max_ppb=390_000, loops=0)
+        await module.clock_sweep.config.set(mode=enums.PPMSweepMode.TRIANGLE, ppb_step=50_000, step_delay=1_000_000, max_ppb=390_000, loops=0)
 
         resp = await module.clock_sweep.config.get()
         resp.mode
