@@ -110,6 +110,7 @@ extensions = [
     'sphinx_copybutton',
     "sphinx_remove_toctrees",
     'sphinx_rtd_theme',
+    'sphinxcontrib.googleanalytics',
 ]
 
 # -- autodoc configuration
@@ -224,13 +225,18 @@ html_context = {
     "display_github": False
 }
 html_theme_options = {
-    'display_version': True,
+    'analytics_anonymize_ip': False,
+    'flyout_display': 'hidden',
+    'version_selector': True,
+    'language_selector': True,
     'prev_next_buttons_location': 'bottom',
     'style_external_links': False,
     'vcs_pageview_mode': 'view',
     'style_nav_header_background': '#0076c0',
     'navigation_depth': 2,
 }
+googleanalytics_enabled = True
+googleanalytics_id = 'G-3B4BJE8D9D'
 
 # -- Options for Texinfo output -----------------------------------------------------
 
