@@ -38,7 +38,7 @@ Deletes the length term definition with the specified sub-index value. A length
 term cannot be deleted while it is used in the condition of any filter for the
 port.
 
-Corresponding CLI command: ``PL_DELETE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pl_commands.PL_DELETE`
 
 .. code-block:: python
 

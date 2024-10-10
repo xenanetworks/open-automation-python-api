@@ -6,7 +6,7 @@ Signaling
 Sets the remote/local fault signaling behavior of the port (performed by the Reconciliation Sub-layer). By default, the port acts according to the standard, i.e. when receiving a bad signal, it transmits "Remote Fault indications"on the output and when receiving a "Remote Fault indication"from the far-side it will
 transmit IDLE sequences.
 
-Corresponding CLI command: ``P_FAULTSIGNALING``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_FAULTSIGNALING`
 
 .. code-block:: python
 
@@ -28,7 +28,7 @@ Status
 ------------
 Shows if a local or remote fault is currently being detected by the Reconciliation Sub-layer of the port.
 
-Corresponding CLI command: ``P_FAULTSTATUS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_FAULTSTATUS`
 
 .. code-block:: python
 

@@ -6,7 +6,7 @@ Capabilities
 ------------
 Read EEE capabilities of the port (variable size, one for each supported speed, returns 0s if no EEE).
 
-Corresponding CLI command: ``P_LPSUPPORT``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_LPSUPPORT`
 
 .. code-block:: python
 
@@ -19,7 +19,7 @@ Partner Capabilities
 --------------------
 Displays the EEE capabilities advertised during auto-negotiation by the far side (link partner).
 
-Corresponding CLI command: ``P_LPPARTNERAUTONEG``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_LPPARTNERAUTONEG`
 
 .. code-block:: python
 
@@ -36,7 +36,7 @@ Control
 ------------
 Enables/disables Energy Efficient Ethernet (EEE) on the port.
 
-Corresponding CLI command: ``P_LPENABLE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_LPENABLE`
 
 .. code-block:: python
 
@@ -55,7 +55,7 @@ Low Power TX Mode
 Enables/disables the transmission of Low Power Idles (LPIs) on the port. When enabled, the transmit side of the port will automatically enter low-power mode (and leave) low-power mode in periods of low or no traffic. LPIs will only be transmitted if the Link Partner (receiving port) has advertised EEE capability
 for the selected port speed during EEE auto-negotiation.
 
-Corresponding CLI command: ``P_LPTXMODE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_LPTXMODE`
 
 .. code-block:: python
 
@@ -73,7 +73,7 @@ RX Power
 ------------
 Obtain the RX power recorded during training for the four channels.
 
-Corresponding CLI command: ``P_LPRXPOWER``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_LPRXPOWER`
 
 .. code-block:: python
 
@@ -89,7 +89,7 @@ SNR Margin
 ------------
 Displays the SNR margin on the four link channels (Channel A-D) as reported by the PHY. It is displayed in units of 0.1dB.
 
-Corresponding CLI command: ``P_LPSNRMARGIN``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_LPSNRMARGIN`
 
 .. code-block:: python
 
@@ -105,7 +105,7 @@ Status
 ------------
 Displays the Energy Efficient Ethernet (EEE) status as reported by the PHY.
 
-Corresponding CLI command: ``P_LPSTATUS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_LPSTATUS`
 
 .. code-block:: python
 

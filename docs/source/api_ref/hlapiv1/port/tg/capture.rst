@@ -4,7 +4,7 @@ Capture
 Trigger Criteria
 ----------------
 The criteria for when to start and stop the capture process for a port. Even
-when capture is enabled with ``P_CAPTURE``, the actual capturing of packets can be
+when capture is enabled with :class:`~xoa_driver.internals.commands.p_commands.P_CAPTURE``, the actual capturing of packets can be
 delayed until a particular start criteria is met by a received packet.
 Likewise, a stop criteria can be specified, based on a received packet. If no
 explicit stop criteria is specified, capture  stops when the internal buffer
@@ -13,11 +13,11 @@ criteria, then the latest packets will be retained (and the early ones
 discarded),  and otherwise, the earliest packets are retained (and the later
 ones discarded).
 
-Corresponding CLI command: ``PC_TRIGGER``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pc_commands.PC_TRIGGER`
 
 .. seealso::
 
-    Detailed script example can be found in `here <https://github.com/xenanetworks/open-automation-script-library/blob/main/packet_capture/packet_capture.py>`_
+    Detailed script example can be found in `pcap_replay_capture <https://github.com/xenanetworks/open-automation-script-library/tree/main/pcap_replay_capture>`_
 
 .. code-block:: python
 
@@ -43,9 +43,9 @@ in the capture buffer.
 
 .. seealso::
 
-    Detailed script example can be found in `here <https://github.com/xenanetworks/open-automation-script-library/blob/main/packet_capture/packet_capture.py>`_
+    Detailed script example can be found in `pcap_replay_capture <https://github.com/xenanetworks/open-automation-script-library/tree/main/pcap_replay_capture>`_
 
-Corresponding CLI command: ``PC_KEEP``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pc_commands.PC_KEEP`
 
 .. code-block:: python
 
@@ -76,7 +76,7 @@ packets and makes them available for inspection. The capture criteria are
 configured using the ``PC_xxx`` parameters. While capture is on the capture
 parameters cannot be changed.
 
-Corresponding CLI command: ``P_CAPTURE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_CAPTURE`
 
 .. code-block:: python
 
@@ -95,7 +95,7 @@ Statistics
 Obtains the number of packets currently in the capture buffer for a port. The
 count is reset to zero when capture is turned on.
 
-Corresponding CLI command: ``PC_STATS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pc_commands.PC_STATS`
 
 .. code-block:: python
 
@@ -108,9 +108,9 @@ Corresponding CLI command: ``PC_STATS``
 Read Captured Packets
 ---------------------
 Obtains the raw bytes of a captured packet for a port. The packet data may be
-truncated if the :class:`PC_KEEP` command specified a limit on the number of bytes kept.
+truncated if the :class:`~xoa_driver.internals.commands.pc_commands.PC_KEEP` command specified a limit on the number of bytes kept.
 
-Corresponding CLI command: ``PC_PACKET``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pc_commands.PC_PACKET`
 
 .. code-block:: python
 

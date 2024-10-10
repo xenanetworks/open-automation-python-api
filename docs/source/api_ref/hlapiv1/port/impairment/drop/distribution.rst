@@ -10,7 +10,7 @@ Control whether this impairment distribution is enabled.
 
     This command is not applicable for PE_BANDPOLICER and PE_BANDSHAPER because they have a separate ``ON / OFF`` parameter.
 
-Corresponding CLI command: ``PED_ENABLE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ped_commands.PED_ENABLE`
 
 .. code-block:: python
 
@@ -29,7 +29,7 @@ Off Distribution
 Configure Impairments Distribution to OFF. Assigning a different distribution than OFF to an impairment
 will activate the impairment. To de-activate the impairment assign distribution OFF.
 
-Corresponding CLI command: ``PED_OFF``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ped_commands.PED_OFF`
 
 .. code-block:: python
 
@@ -49,7 +49,7 @@ nearly equal distance between impairments, to match the configured probability.
 
     In case of misordering, a special limit applies, probability * (depth + 1) should be less than 1000000.
 
-Corresponding CLI command: ``PED_FIXED``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ped_commands.PED_FIXED`
 
 .. code-block:: python
 
@@ -66,7 +66,7 @@ on a per packet probability. This way the impaired fraction of packets will be
 equal to the configured probability over time. Random probability in ppm (i.e. 1
 means 0.0001%)
 
-Corresponding CLI command: ``PED_RANDOM``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ped_commands.PED_RANDOM`
 
 .. code-block:: python
 
@@ -80,7 +80,7 @@ Bit Error Rate Distribution
 ---------------------------
 Configuration of Bit Error Rate distribution.
 
-Corresponding CLI command: ``PED_BER``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ped_commands.PED_BER`
 
 .. code-block:: python
 
@@ -95,7 +95,7 @@ Fixed Burst Distribution
 -------------------------
 Configuration of Fixed Burst distribution.
 
-Corresponding CLI command: ``PED_FIXEDBURST``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ped_commands.PED_FIXEDBURST`
 
 .. code-block:: python
 
@@ -109,7 +109,7 @@ Random Burst Distribution
 --------------------------
 Configuration of Random Burst distribution.
 
-Corresponding CLI command: ``PED_RANDOMBURST``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ped_commands.PED_RANDOMBURST`
 
 .. code-block:: python
 
@@ -125,7 +125,7 @@ Gilbert Elliott Distribution
 ----------------------------
 Configuration of Gilbert-Elliot distribution.
 
-Corresponding CLI command: ``PED_GE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ped_commands.PED_GE`
 
 .. code-block:: python
 
@@ -147,7 +147,7 @@ Configuration of Uniform distribution.
 
     If minimum is less than minimum, value is set to minimum. If minimum is greater than maximum, value is set to maximum.
 
-Corresponding CLI command: ``PED_UNI``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ped_commands.PED_UNI`
 
 .. code-block:: python
 
@@ -172,7 +172,7 @@ Configuration of Gaussian distribution.
         (1) mean plus 3 times standard deviation should be less than or equal to the maximum latency.
         (2) mean minus 3 times the standard deviation should be greater than or equal to minimum latency.
 
-Corresponding CLI command: ``PED_GAUSS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ped_commands.PED_GAUSS`
 
 .. code-block:: python
 
@@ -195,7 +195,7 @@ Configuration of "Poisson" distribution.
 
     In case of ``_impairment_type_xindex = DELAY``, mean plus 3 times standard deviation should be less than or equal to the maximum latency.
 
-Corresponding CLI command: ``PED_POISSON``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ped_commands.PED_POISSON`
 
 .. code-block:: python
 
@@ -220,7 +220,7 @@ Configuration of Gamma distribution.
 
     In case of ``_impairment_type_xindex = DELAY``, mean plus 4 times standard deviation should be less than or equal to the maximum latency.
 
-Corresponding CLI command: ``PED_GAMMA``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ped_commands.PED_GAMMA`
 
 .. code-block:: python
 
@@ -248,7 +248,7 @@ Associate a custom distribution to a flow and impairment type.
     (2) Custom values should be greater than or equal to minimum latency.
     (3) Custom distribution should contain 1024 values.
 
-Corresponding CLI command: ``PED_CUST``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ped_commands.PED_CUST`
 
 .. code-block:: python
 

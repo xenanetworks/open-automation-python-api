@@ -5,7 +5,7 @@ RX Length
 ---------------
 Enable RX runt length detection to flag if packets are seen with length not being I bytes.
 
-Corresponding CLI command: ``P_RXRUNTLENGTH``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_RXRUNTLENGTH`
 
 .. code-block:: python
 
@@ -20,7 +20,7 @@ TX Length
 ---------------
 Enable TX runt feature to cut all packets to a number of bytes.
 
-Corresponding CLI command: ``P_TXRUNTLENGTH``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_TXRUNTLENGTH`
 
 .. code-block:: python
 
@@ -35,7 +35,7 @@ Length Error
 ---------------------
 Sticky clear on read: Have packets with wrong runt length been detected since last read?
 
-Corresponding CLI command: ``P_RXRUNTLEN_ERRS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_RXRUNTLEN_ERRS`
 
 .. code-block:: python
 

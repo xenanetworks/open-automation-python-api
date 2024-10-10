@@ -6,7 +6,7 @@ Length
 The specification for a length-based check that is applied on the packets
 received on the port.
 
-Corresponding CLI command: ``PL_LENGTH``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pl_commands.PL_LENGTH`
 
 .. code-block:: python
 

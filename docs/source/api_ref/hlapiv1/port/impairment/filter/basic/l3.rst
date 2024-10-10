@@ -15,7 +15,7 @@ for the filter.
 
     For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
-Corresponding CLI command: ``PEF_L3USE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_L3USE`
 
 .. code-block:: python
 
@@ -37,7 +37,7 @@ Basic mode only. Defines the IPv4 Destination Address settings for the IPv4 filt
 
     For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
-Corresponding CLI command: ``PEF_IPV4DESTADDR``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_IPV4DESTADDR`
 
 .. code-block:: python
 
@@ -57,7 +57,7 @@ Basic mode only. Defines the IPv4 Source Address settings for the IPv4 filter.
 
     For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
-Corresponding CLI command: ``PEF_IPV4SRCADDR``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_IPV4SRCADDR`
 
 .. code-block:: python
 
@@ -77,7 +77,7 @@ Basic mode only. Defines if IPv4 DSCP/TOS settings used for the IPv4 filter.
 
     For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
-Corresponding CLI command: ``PEF_IPV4DSCP``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_IPV4DSCP`
 
 .. code-block:: python
 
@@ -97,7 +97,7 @@ Basic mode only. Defines what filter action is performed on the IPv4 header.
 
     For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
-Corresponding CLI command: ``PEF_IPV4SETTINGS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_IPV4SETTINGS`
 
 .. code-block:: python
     
@@ -118,7 +118,7 @@ Basic mode only. Defines the IPv6 Destination Address settings for the IPv6 filt
 
     For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
-Corresponding CLI command: ``PEF_IPV6DESTADDR``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_IPV6DESTADDR`
 
 .. code-block:: python
 
@@ -138,7 +138,7 @@ Basic mode only. Defines the IPv6 Source Address settings for the IPv6 filter.
 
     For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
-Corresponding CLI command: ``PEF_IPV6SRCADDR``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_IPV6SRCADDR`
 
 .. code-block:: python
 
@@ -158,7 +158,7 @@ Basic mode only. Defines the IPv6 Traffic Class settings used for the filter.
 
     For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
-Corresponding CLI command: ``PEF_IPV6TC``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_IPV6TC`
 
 .. code-block:: python
 
@@ -178,7 +178,7 @@ Basic mode only. Defines what filter action is performed on the IPv6 header.
 
     For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
-Corresponding CLI command: ``PEF_IPV6SETTINGS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_IPV6SETTINGS`
 
 .. code-block:: python
     

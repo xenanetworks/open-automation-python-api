@@ -6,7 +6,7 @@ Create and Obtain
 
 Create a match term on the port, and obtain the match term object. The match term index is automatically assigned by the port.
 
-Corresponding CLI command: ``PM_CREATE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pm_commands.PM_CREATE`
 
 .. code-block:: python
 
@@ -41,7 +41,7 @@ Deletes the match term definition with the specified sub-index value. A match
 term cannot be deleted while it is used in the condition of any filter for the
 port.
 
-Corresponding CLI command: ``PM_DELETE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pm_commands.PM_DELETE`
 
 .. code-block:: python
 

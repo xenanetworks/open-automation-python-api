@@ -6,7 +6,7 @@ Enable
 Whether a filter is currently active on a port. While a filter is enabled its
 condition cannot be changed, nor can any match term or length terms used by it.
 
-Corresponding CLI command: ``PF_ENABLE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pf_commands.PF_ENABLE`
 
 .. code-block:: python
 
@@ -23,7 +23,7 @@ Description
 -----------
 The description of a filter.
 
-Corresponding CLI command: ``PF_COMMENT``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pf_commands.PF_COMMENT`
 
 .. code-block:: python
 
@@ -74,7 +74,7 @@ A 'simple' and-expression can only have non-negated terms.
 In practice, the simplest way to generate these encodings is to use the ValkyrieManager,
 which supports Boolean expressions using the operators ``&, |, and ~``, and simply query the chassis for the resulting script-level definition.
 
-Corresponding CLI command: ``PF_CONDITION``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pf_commands.PF_CONDITION`
 
 .. code-block:: python
 
@@ -100,7 +100,7 @@ String Representation
 ----------------------
 The string representation of a filter.
 
-Corresponding CLI command: ``PF_STRING``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pf_commands.PF_STRING`
 
 .. code-block:: python
 

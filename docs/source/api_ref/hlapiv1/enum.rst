@@ -6,4 +6,4 @@ Enum
 .. automodule:: xoa_driver.enums
     :members:
     :no-undoc-members:
-    :exclude-members:  __init__
+    :exclude-members:  __init__, __new__

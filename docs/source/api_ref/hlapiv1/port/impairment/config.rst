@@ -5,7 +5,7 @@ Impairment On/OFF
 -------------------------
 The action determines if emulation functionality is enabled or disabled.
 
-Corresponding CLI command: ``P_EMULATE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_EMULATE`
 
 .. code-block:: python
 
@@ -20,7 +20,7 @@ FCS Error Action
 -------------------------
 The action on packets with FCS errors on a port.
 
-Corresponding CLI command: ``PE_FCSDROP``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pe_commands.PE_FCSDROP`
 
 .. code-block:: python
 
@@ -35,7 +35,7 @@ TPLD Mode
 -------------------------
 The action indicates the TPLD mode to be used per port.
 
-Corresponding CLI command: ``PE_TPLDMODE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pe_commands.PE_TPLDMODE`
 
 .. code-block:: python
 

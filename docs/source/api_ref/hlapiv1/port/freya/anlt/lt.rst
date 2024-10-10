@@ -6,6 +6,8 @@ Configuration
 
 Configuration LT out-of-sync preset and timeout
 
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pl1_commands.PL1_LINKTRAIN_CONFIG`
+
 .. code-block:: python
 
     await port.l1.anlt.lt_config.set(oos_preset=enums.FreyaOutOfSyncPreset.CURRENT, timeout_mode=enums.TimeoutMode.DEFAULT)
@@ -18,6 +20,8 @@ Status
 
 Get link training status.
 
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pl1_commands.PL1_LINKTRAIN_STATUS`
+
 .. code-block:: python
 
     resp = await port.l1.serdes[0].lt_status.get()
@@ -29,6 +33,8 @@ Info
 -----
 
 Get link training result info.
+
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pl1_commands.PL1_LINKTRAININFO`
 
 .. code-block:: python
 

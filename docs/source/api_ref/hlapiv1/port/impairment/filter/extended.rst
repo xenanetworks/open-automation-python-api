@@ -19,7 +19,7 @@ reduced, then the excess bytes of value and mask are set to zero. I.e. to update
 an existing filter, you must first correct the list of segments (using
 PEF_PROTOCOL) and subsequently update the filtering value (using PEF_VALUE) and filtering mask (PEF_MASK).
     
-Corresponding CLI command: ``PEF_PROTOCOL``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_PROTOCOL`
 
 .. code-block:: python
     
@@ -64,7 +64,7 @@ For ``set`` command where fewer value bytes are provided than specified by the p
 
 The ``get`` command always returns the number of bytes specified by the protocol segment.
 
-Corresponding CLI command: ``PEF_VALUE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_VALUE`
 
 .. code-block:: python
     
@@ -115,7 +115,7 @@ bytes of the eCPRI header starting at byte position (12 + 2 + 4) = 18.
 
 ``get/set`` semantics are similar to PEF_VALUE.
 
-Corresponding CLI command: ``PEF_MASK``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_MASK`
 
 .. code-block:: python
     

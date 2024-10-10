@@ -6,7 +6,7 @@ Clear Counter
 Clear all the receive statistics for a port. The byte and packet counts will
 restart at zero.
 
-Corresponding CLI command: ``PR_CLEAR``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pr_commands.PR_CLEAR`
 
 .. code-block:: python
 
@@ -20,7 +20,7 @@ Calibrate the latency calculation for packets received on a port. The lowest
 detected latency value (across all Test Payload IDs) will be set as the new
 base.
 
-Corresponding CLI command: ``PR_CALIBRATE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pr_commands.PR_CALIBRATE`
 
 .. code-block:: python
 
@@ -32,7 +32,7 @@ Total Counter
 -------------
 Obtains statistics concerning all the packets received on a port.
 
-Corresponding CLI command: ``PR_TOTAL``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pr_commands.PR_TOTAL`
 
 .. code-block:: python
 
@@ -49,7 +49,7 @@ Non-TPLD Counter
 Obtains statistics concerning the packets without a test payload received on a
 port.
 
-Corresponding CLI command: ``PR_NOTPLD``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pr_commands.PR_NOTPLD`
 
 .. code-block:: python
 
@@ -65,7 +65,7 @@ PFC Counter
 -------------
 Obtains statistics of received Priority Flow Control (PFC) packets on a port.
 
-Corresponding CLI command: ``PR_PFCSTATS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pr_commands.PR_PFCSTATS`
 
 .. code-block:: python
 
@@ -87,7 +87,7 @@ Extra Counter
 -------------
 Obtains statistics concerning special errors received on a port since received statistics were cleared.
 
-Corresponding CLI command: ``PR_EXTRA``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pr_commands.PR_EXTRA`
 
 .. code-block:: python
 
@@ -110,7 +110,7 @@ Obtain the set of test payload IDs observed among the received packets since
 receive statistics were cleared. Traffic statistics for these test payload
 streams will have non-zero byte and packet count.
 
-Corresponding CLI command: ``PR_TPLDS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pr_commands.PR_TPLDS`
 
 .. code-block:: python
 
@@ -129,7 +129,7 @@ receiving port, and in particular knowing which port originated the packets with
 a particular test payload identifier. This information requires knowledge of the
 global test environment, and is not supported at the port-level.
 
-Corresponding CLI command: ``PR_TPLDERRORS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pr_commands.PR_TPLDERRORS`
 
 .. code-block:: python
 
@@ -144,13 +144,13 @@ TPLD - Latency Counter
 -----------------------
 Obtains statistics concerning the latency experienced by the packets with a
 particular test payload id received on a port. The values are adjusted by the
-port-level P_LATENCYOFFSET value. A special value of -1 is returned if latency
+port-level :class:`~xoa_driver.internals.commands.p_commands.P_LATENCYOFFSET`` value. A special value of -1 is returned if latency
 numbers are not applicable. Latency is only meaningful when the clocks of the
 transmitter and receiver are synchronized. This requires the two ports to be on
 the same test module, and it requires knowledge of the global test environment
 to ensure that packets are in fact routed between these ports.
 
-Corresponding CLI command: ``PR_TPLDLATENCY``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pr_commands.PR_TPLDLATENCY`
 
 .. code-block:: python
 
@@ -172,7 +172,7 @@ packet-to-packet latency, and the minimum will usually be zero.A special value
 of -1 is returned if jitter numbers are not applicable. They are only available
 for TID values 0..31.
 
-Corresponding CLI command: ``PR_TPLDJITTER``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pr_commands.PR_TPLDJITTER`
 
 .. code-block:: python
 
@@ -190,7 +190,7 @@ TPLD - Traffic Counter
 Obtains traffic statistics concerning the packets with a particular test payload
 identifier received on a port.
 
-Corresponding CLI command: ``PR_TPLDTRAFFIC``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pr_commands.PR_TPLDTRAFFIC`
 
 .. code-block:: python
 
@@ -207,7 +207,7 @@ Filter Statistics
 Obtains statistics concerning the packets satisfying the condition of a
 particular filter for a port.
 
-Corresponding CLI command: ``PR_FILTER``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pr_commands.PR_FILTER`
 
 .. code-block:: python
 
@@ -221,9 +221,9 @@ Corresponding CLI command: ``PR_FILTER``
 UAT Status
 -------------
 This command will show the current UAT (UnAvailable Time) state, which is used
-in Valkyrie1564.
+in Xena1564.
 
-Corresponding CLI command: ``PR_UAT_STATUS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pr_commands.PR_UAT_STATUS`
 
 .. code-block:: python
 
@@ -232,9 +232,9 @@ Corresponding CLI command: ``PR_UAT_STATUS``
 
 UAT Time
 -------------
-This command will show the current number of unavailable seconds, which is used in Valkyrie1564.
+This command will show the current number of unavailable seconds, which is used in Xena1564.
 
-Corresponding CLI command: ``PR_UAT_TIME``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pr_commands.PR_UAT_TIME`
 
 .. code-block:: python
 

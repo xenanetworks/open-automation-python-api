@@ -6,7 +6,7 @@ Enable
 Whether a histogram is currently active on a port. When turned on, all the bucket
 counts are cleared to zero. Subsequently each packet matching the histogram source criteria is counted into one of the buckets. While a histogram is enabled its parameters cannot be changed.
 
-Corresponding CLI command: ``PD_ENABLE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pd_commands.PD_ENABLE`
 
 .. code-block:: python
 
@@ -24,7 +24,7 @@ Data Source
 The source criteria specifying what is counted, and for which packets, by a
 histogram of a port.
 
-Corresponding CLI command: ``PD_SOURCE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pd_commands.PD_SOURCE`
 
 .. code-block:: python
 
@@ -76,7 +76,7 @@ The first and last buckets count all the packets that do not fit within the
 ranges of the middle buckets. The buckets are placed at a certain offset by
 specifying the first value that should be counted by the first middle bucket.
 
-Corresponding CLI command: ``PD_RANGE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pd_commands.PD_RANGE`
 
 .. code-block:: python
 
@@ -99,7 +99,7 @@ The current set of counts collected by a histogram for a port. There is one valu
 for each bucket, but any trailing zeros are left out. The list is empty if all
 counts are zero.
 
-Corresponding CLI command: ``PD_SAMPLES``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pd_commands.PD_SAMPLES`
 
 .. code-block:: python
 
@@ -111,7 +111,7 @@ Remove
 
 Delete an existing histogram definition.
 
-Corresponding CLI command: ``PD_DELETE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pd_commands.PD_DELETE`
 
 .. code-block:: python
 

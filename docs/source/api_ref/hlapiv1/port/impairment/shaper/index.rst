@@ -9,7 +9,7 @@ Shaper Configuration
 -----------------------
 Configures the bandwidth shaper. L1 (0) (Shaper performed at Layer 1 level. I.e. including the preamble and min interpacket gap) L2 (1) (Shaper performed at Layer 2 level. I.e. excluding the preamble and min interpacket gap) Default value: L2 (0)
 
-Corresponding CLI command: ``PE_BANDSHAPER``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pe_commands.PE_BANDSHAPER`
 
 .. code-block:: python
     

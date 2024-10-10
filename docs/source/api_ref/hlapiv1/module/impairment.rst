@@ -11,7 +11,7 @@ Bypass Mode
 Set emulator bypass mode. Emulator bypass mode will bypass the entire emulator
 for minimum latency.
 
-Corresponding CLI command: ``M_EMULBYPASS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.m_commands.M_EMULBYPASS`
 
 .. code-block:: python
 
@@ -34,7 +34,7 @@ Configures the latency mode for Chimera module. In extended latency mode, the FP
 
     When change the latency mode, all latency configurations are reset on all ports in chimera module.
 
-Corresponding CLI command: ``M_LATENCYMODE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.m_commands.M_LATENCYMODE`
 
 .. code-block:: python
 
@@ -53,7 +53,7 @@ TX Clock Source
 --------------------
 For test modules with advanced timing features, select what clock drives the port TX rates.
 
-Corresponding CLI command: ``M_TXCLOCKSOURCE_NEW``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.m_commands.M_TXCLOCKSOURCE_NEW`
 
 .. code-block:: python
 
@@ -86,7 +86,7 @@ TX Clock Status
 ----------------------------
 For test modules with advanced timing features, check whether a valid clock is present.
 
-Corresponding CLI command: ``M_TXCLOCKSTATUS_NEW``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.m_commands.M_TXCLOCKSTATUS_NEW`
 
 .. code-block:: python
 

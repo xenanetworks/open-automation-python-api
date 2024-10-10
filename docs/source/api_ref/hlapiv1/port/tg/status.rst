@@ -5,7 +5,7 @@ Sync Status
 -----------
 Obtains the current in-sync status of a port's receive interface.
 
-Corresponding CLI command: ``P_RECEIVESYNC``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_RECEIVESYNC`
 
 .. code-block:: python
 

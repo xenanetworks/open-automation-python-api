@@ -6,7 +6,7 @@ Control
 
 Start/stop FEC error injection
 
-Corresponding CLI command: ``PL1_CWE_CONTROL``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pl1_commands.PL1_CWE_CONTROL``
 
 .. code-block:: python
 
@@ -24,7 +24,7 @@ Cycle Configuration
 
 Configure the FEC codeword error injection cycle.
 
-Corresponding CLI command: ``PL1_CWE_CYCLE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pl1_commands.PL1_CWE_CYCLE`
 
 .. code-block:: python
 
@@ -42,7 +42,7 @@ Errored Symbols Per Codeword Configuration
 
 Configure the positions of the errored symbols in errored codewords.
 
-Corresponding CLI command: ``PL1_CWE_ERR_SYM_INDICES``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pl1_commands.PL1_CWE_ERR_SYM_INDICES`
 
 .. code-block:: python
 
@@ -56,7 +56,7 @@ Bit Error Mask Configuration
 
 Configure the bit error mask for the errored symbols.
 
-Corresponding CLI command: ``PL1_CWE_BIT_ERR_MASK``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pl1_commands.PL1_CWE_BIT_ERR_MASK`
 
 .. code-block:: python
 
@@ -75,7 +75,7 @@ FEC Engine Configuration
 
 Configure which FEC engines to use.
 
-Corresponding CLI command: ``PL1_CWE_FEC_ENGINE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pl1_commands.PL1_CWE_FEC_ENGINE`
 
 .. code-block:: python
 
@@ -91,7 +91,7 @@ Error Injection Statistics
 
 FEC error injection statistics.
 
-Corresponding CLI command: ``PL1_CWE_FEC_STATS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pl1_commands.PL1_CWE_FEC_STATS`
 
 .. code-block:: python
 
@@ -108,7 +108,7 @@ Clear Error Injection Statistics
 
 Clear FEC codeword injection TX stats.
 
-Corresponding CLI command: ``PL1_CWE_FEC_STATS_CLEAR``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pl1_commands.PL1_CWE_FEC_STATS_CLEAR`
 
 .. code-block:: python
 

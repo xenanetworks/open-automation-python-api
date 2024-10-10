@@ -6,7 +6,7 @@ Reset
 Reset port-level parameters to default values, and delete all streams, filters,
 capture, and dataset definitions.
 
-Corresponding CLI command: ``P_RESET``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_RESET`
 
 .. code-block:: python
 
@@ -20,7 +20,7 @@ Make the test port LED for a particular port flash on and off with a 1-second
 interval. This is helpful when you need to identify a specific port within a
 chassis.
 
-Corresponding CLI command: ``P_FLASH``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_FLASH`
 
 .. code-block:: python
 

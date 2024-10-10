@@ -4,12 +4,12 @@ Tap Configuration
 
 TX Tap Autotune
 -------------------------
-Enable or disable the automatic receiving of PHY retuning (see PP_PHYRETUNE), which
+Enable or disable the automatic receiving of PHY retuning (see :class:`~xoa_driver.internals.commands.pp_commands.PP_PHYRETUNE`), which
 is performed on the 25G interfaces as soon as a signal is detected by the
 transceiver. Useful if a bad signal causes the PHY to continuously retune or if
-for some other reason it is preferable to use manual retuning (PP_PHYRETUNE).
+for some other reason it is preferable to use manual retuning (:class:`~xoa_driver.internals.commands.pp_commands.PP_PHYRETUNE`).
 
-Corresponding CLI command: ``PP_PHYAUTOTUNE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pp_commands.PP_PHYAUTOTUNE`
 
 .. code-block:: python
 
@@ -30,7 +30,7 @@ serdes. Useful if e.g. a direct attached copper cable or loop transceiver does
 not go into sync after insertion. Note that the retuning will cause disruption
 of the traffic on all serdes.
 
-Corresponding CLI command: ``PP_PHYRETUNE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pp_commands.PP_PHYRETUNE`
 
 .. code-block:: python
 
@@ -43,7 +43,7 @@ TX Tap Configuration
 Control and monitor the equalizer settings of the on-board PHY in the
 transmission direction (towards the transceiver cage) on Thor and Loki modules.
 
-Corresponding CLI command: ``PP_PHYTXEQ``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pp_commands.PP_PHYTXEQ`
 
 .. code-block:: python
 
@@ -66,7 +66,7 @@ RX EQ parameters.
     
     For non-Freya Modules.
 
-Corresponding CLI command: ``PP_PHYRXEQ``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pp_commands.PP_PHYRXEQ`
 
 .. code-block:: python
 

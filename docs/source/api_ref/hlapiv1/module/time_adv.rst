@@ -6,7 +6,7 @@ TX Clock Filter Loop Bandwidth
 For test modules with advanced timing features, the loop bandwidth on the TX
 clock filter.
 
-Corresponding CLI command: ``M_TXCLOCKFILTER_NEW``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.m_commands.M_TXCLOCKFILTER_NEW`
 
 .. code-block:: python
 
@@ -31,7 +31,7 @@ TX Clock Source
 For test modules with advanced timing features, select what clock drives the port TX
 rates.
 
-Corresponding CLI command: ``M_TXCLOCKSOURCE_NEW``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.m_commands.M_TXCLOCKSOURCE_NEW`
 
 .. code-block:: python
 
@@ -63,7 +63,7 @@ TX Clock Status
 ----------------------------
 For test modules with advanced timing features, check whether a valid clock is present.
 
-Corresponding CLI command: ``M_TXCLOCKSTATUS_NEW``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.m_commands.M_TXCLOCKSTATUS_NEW`
 
 .. code-block:: python
 
@@ -76,7 +76,7 @@ SMA Status
 ----------------------------
 For test modules with SMA connectors, this returns the status of the SMA input.
 
-Corresponding CLI command: ``M_SMASTATUS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.m_commands.M_SMASTATUS`
 
 .. code-block:: python
 
@@ -89,7 +89,7 @@ SMA Input
 ----------------------------
 For test modules with SMA (SubMiniature version A) connectors, selects the function of the SMA input.
 
-Corresponding CLI command: ``M_SMAINPUT``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.m_commands.M_SMAINPUT`
 
 .. code-block:: python
 
@@ -109,7 +109,7 @@ SMA Output
 ----------------------------
 For test modules with SMA (SubMiniature version A) connectors, selects the function of the SMA output.
 
-Corresponding CLI command: ``M_SMAOUTPUT``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.m_commands.M_SMAOUTPUT`
 
 .. code-block:: python
 

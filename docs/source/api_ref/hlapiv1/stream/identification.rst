@@ -5,7 +5,7 @@ Description
 -----------
 The description of a stream.
 
-Corresponding CLI command: ``PS_COMMENT``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ps_commands.PS_COMMENT`
 
 .. code-block:: python
 
@@ -27,7 +27,7 @@ receiving port to distinguish multiple different streams, which may originate
 from multiple different chassis. Since test payloads are an inter-port and
 inter-chassis mechanism, the test payload identifier assignments should be
 
-Corresponding CLI command: ``PS_TPLDID``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ps_commands.PS_TPLDID`
 
 .. code-block:: python
 
@@ -45,7 +45,7 @@ port level. Streams in the OFF state cannot be set to any other value while
 traffic is enabled. The sum of the rates of all enabled or suppressed streams
 must not exceed the effective port rate.
 
-Corresponding CLI command: ``PS_ENABLE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ps_commands.PS_ENABLE`
 
 .. code-block:: python
 

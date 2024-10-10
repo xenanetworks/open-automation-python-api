@@ -7,7 +7,7 @@ including lost packets, misorder events, and payload errors.
 
     FCS errors are included, which will typically lead to double-counting of lost packets.
 
-Corresponding CLI command: ``P_ERRORS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_ERRORS`
 
 .. code-block:: python
 

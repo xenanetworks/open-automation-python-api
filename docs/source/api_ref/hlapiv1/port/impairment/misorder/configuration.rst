@@ -10,7 +10,7 @@ Configures the misordering depth in number of packets.
 
     probability * (depth + 1) should be less than 1,000,000. (see PED_FIXED)
 
-Corresponding CLI command: ``PE_MISORDER``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pe_commands.PE_MISORDER`
 
 .. code-block:: python
 

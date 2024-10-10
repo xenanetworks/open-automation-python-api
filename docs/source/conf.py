@@ -233,7 +233,7 @@ html_theme_options = {
     'style_external_links': False,
     'vcs_pageview_mode': 'view',
     'style_nav_header_background': '#0076c0',
-    'navigation_depth': 2,
+    'navigation_depth': 6,
 }
 googleanalytics_enabled = True
 googleanalytics_id = 'G-3B4BJE8D9D'

@@ -2,7 +2,7 @@ Insert Frame Checksum
 =========================
 Whether a valid frame checksum is added to the packets of a stream.
 
-Corresponding CLI command: ``PS_INSERTFCS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ps_commands.PS_INSERTFCS`
 
 .. code-block:: python
 

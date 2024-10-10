@@ -22,7 +22,7 @@ Logoff
 Terminates the current session. Courtesy only, the chassis will also
 handle disconnection at the TCP/IP level.
 
-Corresponding CLI command: ``C_LOGOFF``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.c_commands.C_LOGOFF`
 
 .. code-block:: python
 

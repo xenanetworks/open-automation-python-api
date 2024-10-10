@@ -5,7 +5,7 @@ IPv4 Gateway Address
 --------------------
 An IPv4 gateway configuration specified for a stream.
 
-Corresponding CLI command: ``PS_IPV4GATEWAY``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ps_commands.PS_IPV4GATEWAY`
 
 .. code-block:: python
 
@@ -20,7 +20,7 @@ IPv6 Gateway Address
 --------------------
 An IPv6 gateway configuration specified for a stream.
 
-Corresponding CLI command: ``PS_IPV6GATEWAY``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ps_commands.PS_IPV6GATEWAY`
 
 .. code-block:: python
 
@@ -47,7 +47,7 @@ milliseconds, it returns.
     
     You need to make sure either the port has a correct gateway or the stream has a correct destination IP address to ARP resolve the MAC address.
 
-Corresponding CLI command: ``PS_ARPREQUEST``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ps_commands.PS_ARPREQUEST`
 
 .. code-block:: python
 
@@ -64,14 +64,14 @@ packet header for the stream must contain an IP protocol segment, with valid
 source and destination IP addresses. The framing of the ping request matches the
 packet header, including any VLAN protocol segments, and the destination MAC
 address must also be valid, possibly containing a value obtained with
-PS_ARPREQUEST. This command does not generate an immediate result, but
+:class:`~xoa_driver.internals.commands.ps_commands.PS_ARPREQUEST`. This command does not generate an immediate result, but
 waits until a ping reply is received on the test port.
 
 .. note::
 
     You need to make sure either the port has a correct gateway or the stream has a correct destination IP address to ping.
 
-Corresponding CLI command: ``PS_PINGREQUEST``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ps_commands.PS_PINGREQUEST`
 
 .. code-block:: python
 

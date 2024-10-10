@@ -6,6 +6,8 @@ Abilities
 
 Return supported technology abilities, supported FEC modes, and supported pause modes.
 
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pl1_commands.PL1_AUTONEG_ABILITIES`
+
 .. code-block:: python
 
     resp = await port.l1.anlt.an.abilities.get()
@@ -19,15 +21,19 @@ Configuration
 
 Configure the advertised technology abilities, FEC modes, and pause modes.
 
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pl1_commands.PL1_AUTONEG_CONFIG`
+
 .. code-block:: python
 
-    await port.l1.anlt.an.abilities.set(<advertised_tech_abilities>, <advertised_fec_abilities>, <advertised_pause_mode>)
+    await port.l1.anlt.an.config.set(<advertised_tech_abilities>, <advertised_fec_abilities>, <advertised_pause_mode>)
 
 
 Status
 ---------
 
 Returns received technology abilities, FEC abilities, pause abilities, HCD technology ability, FEC mode result, and pause mode result.
+
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pl1_commands.PL1_AUTONEG_STATUS`
 
 .. code-block:: python
 
@@ -46,6 +52,8 @@ Info
 ---------
 
 Get L1 auto-negotiation information.
+
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pl1_commands.PL1_AUTONEGINFO`
 
 .. code-block:: python
 

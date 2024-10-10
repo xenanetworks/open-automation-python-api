@@ -5,7 +5,7 @@ IP Address
 -----------
 The network configuration parameters of the chassis management port.
 
-Corresponding CLI command: ``C_IPADDRESS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.c_commands.C_IPADDRESS`
 
 .. code-block:: python
 
@@ -27,7 +27,7 @@ MAC Address
 -----------
 Get the MAC address for the chassis management port.
 
-Corresponding CLI command: ``C_MACADDRESS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.c_commands.C_MACADDRESS`
 
 .. code-block:: python
 
@@ -40,7 +40,7 @@ Hostname
 ----------
 Get or set the chassis hostname used when DHCP is enabled.
 
-Corresponding CLI command: ``C_HOSTNAME``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.c_commands.C_HOSTNAME`
 
 .. code-block:: python
 
@@ -54,7 +54,7 @@ Corresponding CLI command: ``C_HOSTNAME``
 DHCP
 ----------
 Controls whether the chassis will use DHCP to get the management IP address.
-Corresponding CLI command: ``C_DHCP``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.c_commands.C_DHCP`
 
 .. code-block:: python
 

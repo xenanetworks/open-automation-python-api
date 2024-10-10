@@ -6,7 +6,7 @@ Lane Error Counters
 Statistics about errors detected at the physical coding sub-layer on the data
 received on a specified physical lane.
 
-Corresponding CLI command: ``PP_RXLANEERRORS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pp_commands.PP_RXLANEERRORS`
 
 .. code-block:: python
 
@@ -22,7 +22,7 @@ Lock Status
 Whether the receiver has achieved header lock and alignment lock on the data
 received on a specified physical lane.
 
-Corresponding CLI command: ``PP_RXLANELOCK``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pp_commands.PP_RXLANELOCK`
 
 .. code-block:: python
 
@@ -38,7 +38,7 @@ The virtual lane index and actual skew for data received on a specified physical
 lane. This is only meaningful when the lane is in header lock and alignment
 lock.
 
-Corresponding CLI command: ``PP_RXLANESTATUS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pp_commands.PP_RXLANESTATUS`
 
 .. code-block:: python
 
@@ -52,7 +52,7 @@ Clear Counters
 ---------------
 Clear all the PCS/PMA receiver statistics for a port.
 
-Corresponding CLI command: ``PP_RXCLEAR``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pp_commands.PP_RXCLEAR`
 
 .. code-block:: python
 
@@ -64,7 +64,7 @@ RX FEC Stats
 ---------------
 Provides statistics on how many FEC blocks have been seen with a given number of symbol errors.
 
-Corresponding CLI command: ``PP_RXFECSTATS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pp_commands.PP_RXFECSTATS`
 
 .. code-block:: python
 
@@ -79,7 +79,7 @@ RX Total Stats
 ---------------
 Provides FEC Total counters.
 
-Corresponding CLI command: ``PP_RXTOTALSTATS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pp_commands.PP_RXTOTALSTATS`
 
 .. code-block:: python
 

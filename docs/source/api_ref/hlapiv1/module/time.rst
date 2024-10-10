@@ -6,7 +6,7 @@ Local Clock Adjust
 Makes small adjustments to the local clock of the test module, which drives the
 TX rate of the test ports.
 
-Corresponding CLI command: ``M_CLOCKPPB``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.m_commands.M_CLOCKPPB``
 
 .. code-block:: python
 
@@ -21,7 +21,7 @@ Clock Sync Status
 ----------------------------
 Get module's clock sync status.
 
-Corresponding CLI command: ``M_CLOCKSYNCSTATUS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.m_commands.M_CLOCKSYNCSTATUS``
 
 .. code-block:: python
 
@@ -43,7 +43,7 @@ transmitting and receiving ports are in the same chassis. Running with locked
 external time enables inter-chassis latency measurements, but can introduce
 small time discontinuities as the test module time is adjusted.
 
-Corresponding CLI command: ``M_TIMESYNC``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.m_commands.M_TIMESYNC``
 
 .. code-block:: python
 
@@ -68,9 +68,9 @@ Clock PPM Sweep Configuration
 
 Start and stop deviation sweep the local clock of the test module, which drives the TX rate of the test ports.
 
-The sweep is independent of the M_CLOCKPPB parameter, i.e. the sweep uses the deviation set by M_CLOCKPPB as its zero point.
+The sweep is independent of the M_CLOCKPPB parameter, i.e. the sweep uses the deviation set by :class:`~xoa_driver.internals.commands.m_commands.M_CLOCKPPB` as its zero point.
 
-Corresponding CLI command: ``M_CLOCKPPBSWEEP``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.m_commands.M_CLOCKPPBSWEEP`
 
 .. code-block:: python
 
@@ -90,9 +90,9 @@ Corresponding CLI command: ``M_CLOCKPPBSWEEP``
 
 Clock PPM Sweep Status
 -----------------------------
-Return the current status of the M_CLOCKPPBSWEEP command.
+Return the current status of the :class:`~xoa_driver.internals.commands.m_commands.M_CLOCKPPBSWEEP` command.
 
-Corresponding CLI command: ``M_CLOCKSWEEPSTATUS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.m_commands.M_CLOCKSWEEPSTATUS`
 
 .. code-block:: python
 

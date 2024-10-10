@@ -3,7 +3,7 @@ Statistics
 Statistics about PRBS pattern detection on the data received on a specified
 SerDes.
 
-Corresponding CLI command: ``PP_RXPRBSSTATUS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pp_commands.PP_RXPRBSSTATUS`
 
 .. code-block:: python
 

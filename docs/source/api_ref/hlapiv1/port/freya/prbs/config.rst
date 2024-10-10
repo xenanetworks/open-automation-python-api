@@ -5,7 +5,7 @@ Type
 -------------------------
 Defines the PRBS type used when the interface is in PRBS mode.
 
-Corresponding CLI command: ``PP_PRBSTYPE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pp_commands.PP_PRBSTYPE`
 
 .. code-block:: python
 

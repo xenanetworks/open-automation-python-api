@@ -6,7 +6,7 @@ Create and Obtain
 
 Create a histogram on the port, and obtain the histogram object. The histogram index is automatically assigned by the port.
 
-Corresponding CLI command: ``PD_CREATE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pd_commands.PD_CREATE`
 
 .. code-block:: python
 
@@ -40,7 +40,7 @@ Remove
 
 Remove a histogram on the port with an explicit histogram index by the index manager of the port.
 
-Corresponding CLI command: ``PD_DELETE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pd_commands.PD_DELETE`
 
 .. code-block:: python
 

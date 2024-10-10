@@ -5,7 +5,7 @@ Control
 --------
 Enable / disable 'PMA pulse error inject'.
 
-Corresponding CLI command: ``PP_PMAERRPUL_ENABLE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pp_commands.PP_PMAERRPUL_ENABLE`
 
 .. code-block:: python
 
@@ -27,7 +27,7 @@ The 'PMA pulse error inject'.
 
     Period must be > duration. BER will be: coeff * 10exp
 
-Corresponding CLI command: ``PP_PMAERRPUL_PARAMS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pp_commands.PP_PMAERRPUL_PARAMS`
 
 .. code-block:: python
 

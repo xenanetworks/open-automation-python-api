@@ -42,11 +42,11 @@ specifying which values the modifier should take on. This applies only to
 incrementing and decrementing modifiers; random modifiers always produce every
 possible bit pattern. The range is specified as a three values: mix, step, and
 max, where max must be equal to min plus a multiple of step. Note that when
-"decrement" is specified in PS_MODIFIEREXT as the action, the value sequence
+"decrement" is specified in :class:`~xoa_driver.internals.commands.ps_commands.PS_MODIFIEREXT` as the action, the value sequence
 will begin with the max value instead of the min value and decrement from there:
 {max, max-1, max-2, ...., min, max, max-1...}.
 
-Corresponding CLI command: ``PS_MODIFIEREXTRANGE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ps_commands.PS_MODIFIEREXTRANGE`
 
 .. code-block:: python
 
@@ -71,7 +71,7 @@ and applies an action to those bits in each packet. Packets can be repeated so
 that a certain number of identical packets are transmitted before applying the
 next modification.
 
-Corresponding CLI command: ``PS_MODIFIEREXT``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ps_commands.PS_MODIFIEREXT`
 
 .. code-block:: python
 

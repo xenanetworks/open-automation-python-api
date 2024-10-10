@@ -6,7 +6,7 @@ Status
 ------------------
 Get various tcvr status information. RX loss status of the individual RX optical lanes (only 4 lanes are supported currently).
 
-Corresponding CLI command: ``P_TCVRSTATUS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_TCVRSTATUS`
 
 .. code-block:: python
     
@@ -22,7 +22,7 @@ Read & Write
 -------------
 Provides read and write access to the register interface supported by the port transceiver. It is possible to both read and write register values.
 
-Corresponding CLI command: ``PX_RW``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.px_commands.PX_RW`
 
 .. code-block:: python
 
@@ -40,7 +40,7 @@ When invoked, the ``<byte_count>`` number of bytes will be read or written in on
 ``<_page_xindex>``: the transceiver page address, integer, 0-255.
 ``<_register_xaddress>``: the address within the page, integer, 0-255.
 
-Corresponding CLI command: ``PX_RW_SEQ``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.px_commands.PX_RW_SEQ`
 
 .. code-block:: python
     
@@ -59,7 +59,7 @@ When invoked, the ``<byte_count>`` number of bytes will be read or written in on
 ``<_page_xindex>``: the transceiver page address, integer, 0-255.
 ``<_register_xaddress>``: the address within the page, integer, 0-255.
 
-Corresponding CLI command: ``PX_RW_SEQ_BANK``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.px_commands.PX_RW_SEQ_BANK`
 
 .. code-block:: python
     
@@ -73,7 +73,7 @@ MII
 ------------------
 Provides access to the register interface supported by the media-independent interface (MII) transceiver. It is possible to both read and write register values.
 
-Corresponding CLI command: ``PX_MII``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.px_commands.PX_MII`
 
 .. code-block:: python
     
@@ -88,7 +88,7 @@ Temperature
 ------------------
 Transceiver temperature in degrees Celsius.
 
-Corresponding CLI command: ``PX_TEMPERATURE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.px_commands.PX_TEMPERATURE`
 
 .. code-block:: python
     
@@ -105,7 +105,7 @@ for each laser/wavelength, and the number of these depends on the kind of CFP
 transceiver used. The list is empty if the CFP transceiver does not support
 optical power read-out.
 
-Corresponding CLI command: ``PP_RXLASERPOWER``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pp_commands.PP_RXLASERPOWER`
 
 .. code-block:: python
     
@@ -119,7 +119,7 @@ TX Laser Power
 Reading of the optical power level of the transmission signal. There is one
 value for each laser/wavelength, and the number of these depends on the kind of CFP transceiver used. The list is empty if the CFP transceiver does not support optical power read-out.
 
-Corresponding CLI command: ``PP_TXLASERPOWER``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pp_commands.PP_TXLASERPOWER`
 
 .. code-block:: python
     
