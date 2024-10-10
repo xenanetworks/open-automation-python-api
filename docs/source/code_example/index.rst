@@ -1,24 +1,28 @@
-Code Examples
-===================
+Python Script Examples
+======================
 
-You can find various code examples in `XOA Scripting Library <https://github.com/xenanetworks/open-automation-script-library>`_.
+You can find various XOA Python scripts in our public GitHub repository `Xena OpenAutomation Script Example Library <https://github.com/xenanetworks/open-automation-script-library>`_. It includes script examples of how you can use XOA Python API to configure a Xena tester.
 
-We recommend you start from `Quick Start <https://github.com/xenanetworks/open-automation-script-library/tree/main/quick_start>`_. Some highlighted examples that you may find helpful:
+What Example Folder Contains
+----------------------------
 
-1. `XenaAsyncWrapper <https://github.com/xenanetworks/open-automation-script-library/tree/main/async_wrapper>`_: The APIs provided by xoa-driver are **async** functions. This means any function that uses the xoa-driver must be declared as **async**. This might be a problem for you if your existing framework doesn't support async functions. To solve this "incompatibility" issue, we have made an async wrapper class **XenaAsyncWrapper** for you to wrap xoa-driver's async function inside and use it as a regular Python function.
+Each folder contains at least three files:
 
-2. `Use XOA Python API to load port configuration file <https://github.com/xenanetworks/open-automation-script-library/tree/main/xpc_integration>`_ as you do on ValkyrieManager. 
+* Python script file - this is where the example code locates
+* requirements.txt - dependencies to run the code. You should `pip install -r requirements.txt` to update your Python environment (either global or virtual) to have the necessary dependencies.
 
-3. `Send CLI via XOA Python API <https://github.com/xenanetworks/open-automation-script-library/tree/main/cli_integration>`_ demonstrates how to load ``.xpc`` file or send CLI commands via XOA Python API.
+Installing XOA Driver
+----------------------------
 
-4. `Low-Level API <https://github.com/xenanetworks/open-automation-script-library/tree/main/low_level_api>`_ demonstrates how to use xoa-driver's low-level API if you are familiar with XOA CLI.
+This section details how to install ``xoa-driver``. Installation is necessary to execute scripts that use XOA Python API.
 
-5. `Network Emulation <https://github.com/xenanetworks/open-automation-script-library/tree/main/chimera_automation>`_ demonstrates how to automate Chimera for network emulation.
+Before installing ``xoa-driver``, please make sure your environment has installed `python>=3.10` and `pip`.
 
-6. `PPM Sweep and ANLT on Thor <https://github.com/xenanetworks/open-automation-script-library/tree/main/thor_ppm_anlt_eth>`_ demonstrates how to change media configuration, perform PPM sweep and AN&LT on Thor modules.
+You can install the ``xoa-driver`` to your global or virtual environment for Windows, macOS, and Linux using the commands below. 
 
-7. `IP ARP/NDP Table <https://github.com/xenanetworks/open-automation-script-library/tree/main/ip_streams_arp_table>`_ demonstrates how to generate ARP/NDP table on a port for IP streams.
+.. code-block:: python
 
-8. `Packet Capture <https://github.com/xenanetworks/open-automation-script-library/tree/main/packet_capture>`_ demonstrates how to capture packets and read their content.
+    pip install xoa-driver -U            # latest version
 
-**More code examples can be found in** `XOA Scripting Library <https://github.com/xenanetworks/open-automation-script-library>`_.
+
+Once the ``xoa-driver`` is installed, you can execute the script.
