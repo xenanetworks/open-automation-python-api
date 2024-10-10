@@ -602,6 +602,16 @@ class PL1_PHYTXEQ_COEFF:
 
         PL1_PHYTXEQ, PL1_PHYTXEQ_LEVEL, and PL1_PHYTXEQ_COEFF facilitate the configuration and retrieval of TX tap values, each offering a unique perspective. Modifications made with any of these parameters will result in updates to the read results across all of them.
 
+    The following rules apply:
+
+        * 0.5 approx. ≤ main ≤ 1
+        * -0.4 approx ≤ post ≤ 0
+        * -0.4 approx ≤ pre ≤ 0
+        * 0 ≤ pre2 ≤ 0.25 approx.
+        * -0.25 approx ≤ pre3 ≤ 0
+        * The sum of the absolute value of each coefficients must be ≤ 1.
+        * A sum of 1 corresponds to a TX output voltage swing of 1000 mVpp approximately.
+
     """
 
     code: typing.ClassVar[int] = 431
