@@ -5,7 +5,7 @@ Configuration
 -------------------------
 Link training settings
 
-Corresponding CLI command: ``PP_LINKTRAIN``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pp_commands.PP_LINKTRAIN`
 
 .. code-block:: python
 
@@ -47,7 +47,7 @@ Per Serdes Status
 -------------------------
 Per lane Link training status
 
-Corresponding CLI command: ``PP_LINKTRAINSTATUS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pp_commands.PP_LINKTRAINSTATUS`
 
 .. code-block:: python
 

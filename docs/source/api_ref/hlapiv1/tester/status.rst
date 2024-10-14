@@ -5,7 +5,7 @@ Health
 ----------------
 Gets the chassis system health information.
 
-Corresponding CLI command: ``C_HEALTH``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.c_commands.C_HEALTH`
 
 .. code-block:: python
 

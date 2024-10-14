@@ -7,7 +7,7 @@ The name of the chassis, as it appears at various places in the user interface.
 The name is also used to distinguish the various chassis contained within a
 testbed  and in files containing the configuration for an entire test case.
 
-Corresponding CLI command: ``C_NAME``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.c_commands.C_NAME`
 
 .. code-block:: python
 
@@ -21,7 +21,7 @@ Password
 ----------
 The password of the chassis, which must be provided when logging on to the chassis.
 
-Corresponding CLI command: ``C_PASSWORD``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.c_commands.C_PASSWORD`
 
 .. code-block:: python
 
@@ -35,7 +35,7 @@ Description
 -----------
 The description of the chassis.
 
-Corresponding CLI command: ``C_COMMENT``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.c_commands.C_COMMENT`
 
 .. code-block:: python
 
@@ -49,7 +49,7 @@ Model
 -----------
 Gets the specific model of this Xena chassis.
 
-Corresponding CLI command: ``C_MODEL``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.c_commands.C_MODEL`
 
 .. code-block:: python
 
@@ -61,7 +61,7 @@ Serial Number
 -------------
 Gets the unique serial number of this particular Xena chassis.
 
-Corresponding CLI command: ``C_SERIALNO``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.c_commands.C_SERIALNO`
 
 .. code-block:: python
 
@@ -74,7 +74,7 @@ Firmware Version
 Gets the major version numbers for the chassis firmware and the Xena PCI
 driver installed on the chassis.
 
-Corresponding CLI command: ``C_VERSIONNO``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.c_commands.C_VERSIONNO`
 
 .. code-block:: python
 
@@ -93,7 +93,7 @@ Build String
 Identify the hostname of the PC that builds the xenaserver. It uniquely
 identifies the build of a xenaserver.
 
-Corresponding CLI command: ``C_BUILDSTRING``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.c_commands.C_BUILDSTRING`
 
 .. code-block:: python
     
@@ -103,9 +103,9 @@ Corresponding CLI command: ``C_BUILDSTRING``
 
 Version String
 -----------------
-Returns the currently running chassis software version. Obsoletes ``C_VERSIONNO`` and ``C_VERSIONNO_MINOR``
+Returns the currently running chassis software version. Obsoletes :class:`~xoa_driver.internals.commands.c_commands.C_VERSIONNO` and :class:`~xoa_driver.internals.commands.c_commands.C_VERSIONNO_MINOR`
 
-Corresponding CLI command: ``C_VERSIONSTR``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.c_commands.C_VERSIONSTR`
 
 .. code-block:: python
 
@@ -117,7 +117,7 @@ Model Name
 -----------------
 Get the Xena chassis model name.
 
-Corresponding CLI command: ``C_MODEL_NAME``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.c_commands.C_MODEL_NAME`
 
 .. code-block:: python
 
@@ -129,7 +129,7 @@ Model Number
 -----------------
 Get the Xena chassis model number.
 
-Corresponding CLI command: ``C_MODEL_NUMBER``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.c_commands.C_MODEL_NUMBER`
 
 .. code-block:: python
 

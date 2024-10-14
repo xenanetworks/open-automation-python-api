@@ -5,7 +5,7 @@ Name
 ----------
 Gets the name of a module.
 
-Corresponding CLI command: ``M_NAME``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.m_commands.M_NAME`
 
 .. code-block:: python
 
@@ -18,7 +18,7 @@ Description
 -----------
 Gets the user-defined description string of a module.
 
-Corresponding CLI command: ``M_COMMENT``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.m_commands.M_COMMENT`
 
 .. code-block:: python
 
@@ -32,7 +32,7 @@ Legacy Model
 ------------
 Gets the legacy model P/N name of a Xena test module.
 
-Corresponding CLI command: ``M_MODEL``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.m_commands.M_MODEL`
 
 .. code-block:: python
 
@@ -44,7 +44,7 @@ Model
 -------------
 Gets the model P/N name of a Xena test module.
 
-Corresponding CLI command: ``M_REVISION``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.m_commands.M_REVISION`
 
 .. code-block:: python
 
@@ -57,7 +57,7 @@ Serial Number
 -----------------
 Gets the unique serial number of a module.
 
-Corresponding CLI command: ``M_SERIALNO``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.m_commands.M_SERIALNO`
 
 .. code-block:: python
 
@@ -70,7 +70,7 @@ Firmware Version
 -----------------
 Gets the version number of the hardware image installed on a module.
 
-Corresponding CLI command: ``M_VERSIONNO``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.m_commands.M_VERSIONNO`
 
 .. code-block:: python
 
@@ -89,9 +89,9 @@ Gets the maximum number of ports on a module.
 
     So if a CFP-type module can be set in for instance either 1x100G mode or 8x10G mode then this command will always return 8.
 
-    If you want the current number of ports for a CFP-type module you need to read the M_CFPCONFIGEXT command which returns the number of current ports.
+    If you want the current number of ports for a CFP-type module you need to read the :class:`~xoa_driver.internals.commands.m_commands..M_CFPCONFIGEXT` command which returns the number of current ports.
 
-Corresponding CLI command: ``M_PORTCOUNT``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.m_commands.M_PORTCOUNT`
 
 .. code-block:: python
 
@@ -103,7 +103,7 @@ Status
 ------
 Get status readings for the test module itself.
 
-Corresponding CLI command: ``M_STATUS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.m_commands.M_STATUS`
 
 .. code-block:: python
     
@@ -115,7 +115,7 @@ Model Name
 ------------
 Get the model name of the module.
 
-Corresponding CLI command: ``M_MODEL_NAME``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.m_commands.M_MODEL_NAME`
 
 .. code-block:: python
 
@@ -125,9 +125,9 @@ Corresponding CLI command: ``M_MODEL_NAME``
 
 Model Version String
 --------------------
-Returns the currently running module software version. Obsoletes ``M_VERSIONNO``.
+Returns the currently running module software version. Obsoletes :class:`~xoa_driver.internals.commands.m_commands.M_VERSIONNO`.
 
-Corresponding CLI command: ``M_VERSIONSTR``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.m_commands.M_VERSIONSTR`
 
 .. code-block:: python
 

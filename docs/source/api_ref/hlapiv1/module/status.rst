@@ -5,7 +5,7 @@ Health
 ----------------
 Gets the module health information.
 
-Corresponding CLI command: ``M_HEALTH``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.m_commands.M_HEALTH`
 
 .. code-block:: python
 

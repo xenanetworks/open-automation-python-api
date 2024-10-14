@@ -2,7 +2,7 @@ Capabilities
 =========================
 A series of integer values specifying various internal limits (aka. capabilities) of the chassis.
 
-Corresponding CLI command: ``C_CAPABILITIES``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.c_commands.C_CAPABILITIES`
 
 .. code-block:: python
 

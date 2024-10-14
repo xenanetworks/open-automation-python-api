@@ -14,7 +14,7 @@ Defines the Ethernet Destination Address settings for the Ethernet filter.
 
     For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
-Corresponding CLI command: ``PEF_ETHDESTADDR``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_ETHDESTADDR`
 
 .. code-block:: python
 
@@ -34,7 +34,7 @@ Defines the Ethernet Source Address settings for the Ethernet filter.
 
     For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
-Corresponding CLI command: ``PEF_ETHSRCADDR``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_ETHSRCADDR`
 
 .. code-block:: python
 
@@ -54,7 +54,7 @@ Defines what filter action is performed on the Ethernet header.
 
     For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
-Corresponding CLI command: ``PEF_ETHSETTINGS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_ETHSETTINGS`
 
 .. code-block:: python
 

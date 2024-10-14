@@ -5,7 +5,7 @@ Inter-frame Gap
 ---------------
 The minimum gap between packets in the traffic generated for a port. The gap includes the Ethernet preamble.
 
-Corresponding CLI command: ``P_INTERFRAMEGAP``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_INTERFRAMEGAP`
 
 .. code-block:: python
 
@@ -20,7 +20,7 @@ PAUSE Frames
 ---------------
 Whether a port responds to incoming Ethernet PAUSE frames by holding back outgoing traffic.
 
-Corresponding CLI command: ``P_PAUSE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_PAUSE`
 
 .. code-block:: python
 
@@ -45,7 +45,7 @@ age-out the learned MAC address. By setting the auto-train interval you instruct
 the port to send switch training packets, independent of whether the port is
 transmitting test traffic.
 
-Corresponding CLI command: ``P_AUTOTRAIN``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_AUTOTRAIN`
 
 .. code-block:: python
 
@@ -63,7 +63,7 @@ expects a steady stream of incoming packets, and detects larger-than-allowed
 gaps between them. Once a gap event is encountered it requires a certain number
 of consecutive packets below the threshold to end the event.
 
-Corresponding CLI command: ``P_GAPMONITOR``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_GAPMONITOR`
 
 .. code-block:: python
 
@@ -79,7 +79,7 @@ Priority Flow Control
 ---------------------
 This setting control whether a port responds to incoming Ethernet Priority Flow Control (PFC) frames, by holding back outgoing traffic for that priority.
 
-Corresponding CLI command: ``P_PFCENABLE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_PFCENABLE`
 
 .. code-block:: python
 
@@ -115,7 +115,7 @@ logic, and can be captured and analyzed. (2) Internal TX-to-RX loopback, where
 the transmitted packets are received directly by the port itself. This is mainly
 useful for testing the generated traffic patterns before actual use.
 
-Corresponding CLI command: ``P_LOOPBACK``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_LOOPBACK`
 
 .. code-block:: python
 
@@ -143,7 +143,7 @@ BRR Mode
 --------
 Selects the Master/Slave setting of 100 Mbit/s, 1000 Mbit/s BroadR-Reach copper interfaces.
 
-Corresponding CLI command: ``P_BRRMODE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_BRRMODE`
 
 .. code-block:: python
 
@@ -160,7 +160,7 @@ BRR Status
 ----------
 Get the actual BroadR-Reach status of the port.
 
-Corresponding CLI command: ``P_BRRSTATUS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_BRRSTATUS`
 
 .. code-block:: python
 
@@ -173,7 +173,7 @@ MDI/MDIX Mode
 -------------
 Selects the MDI/MDIX behavior of copper interfaces.
 
-Corresponding CLI command: ``P_MDIXMODE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_MDIXMODE`
 
 .. code-block:: python
 

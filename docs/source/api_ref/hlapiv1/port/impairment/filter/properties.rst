@@ -5,7 +5,7 @@ Description
 ---------------
 Flow description.
 
-Corresponding CLI command: ``PE_COMMENT``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pe_commands.PE_COMMENT`
 
 .. code-block:: python
 
@@ -35,7 +35,7 @@ with the default values (DEFAULT).
 
     (4) Only when PEF_APPLY is called, ``working-copy`` and FPGA are updated with values from the ``shadow-copy``.
 
-Corresponding CLI command: ``PEF_INIT``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_INIT`
 
 .. code-block:: python
 
@@ -48,7 +48,7 @@ Apply
 Applies filter definitions from "shadow-copy" to "working-copy". This
 also pushes these settings to the FPGA.
 
-Corresponding CLI command: ``PEF_APPLY``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_APPLY`
 
 .. code-block:: python
 
@@ -65,7 +65,7 @@ Defines if filtering is enabled for the flow.
     For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
 
-Corresponding CLI command: ``PEF_ENABLE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_ENABLE`
 
 .. code-block:: python
 
@@ -81,7 +81,7 @@ Cancel
 ------
 Undo updates to shadow filter settings, sets dirty false.
 
-Corresponding CLI command: ``PEF_CANCEL``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_CANCEL`
 
 .. code-block:: python
 
@@ -92,7 +92,7 @@ Filter Mode
 -----------
 Control the filter mode.
 
-Corresponding CLI command: ``PEF_MODE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_MODE`
 
 .. code-block:: python
 

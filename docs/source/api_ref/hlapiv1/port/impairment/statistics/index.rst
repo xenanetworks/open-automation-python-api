@@ -9,7 +9,7 @@ Clear all the impairment (duplicate, drop, mis-ordered, corrupted, latency and
 jitter) statistics for a Chimera port and flows on the port. The byte and packet
 counts will restart at zero.
 
-Corresponding CLI command: ``PE_CLEAR``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pe_commands.PE_CLEAR`
 
 .. code-block:: python
 
@@ -19,7 +19,7 @@ Corruption
 -------------
 Obtains statistics concerning all the packets corrupted on between this receive port and its partner TX port.
 
-Corresponding CLI command: ``PE_CORTOTAL``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pe_commands.PE_CORTOTAL`
 
 .. code-block:: python
 
@@ -40,7 +40,7 @@ Drop Counter
 -------------
 Obtains statistics concerning all the packets dropped between this receive port and its partner TX port.
 
-Corresponding CLI command: ``PE_DROPTOTAL``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pe_commands.PE_DROPTOTAL`
 
 .. code-block:: python
 
@@ -59,7 +59,7 @@ Duplication Counter
 -------------------
 Obtains statistics concerning all the packets duplicated between this receive port and its partner TX port.
 
-Corresponding CLI command: ``PE_DUPTOTAL``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pe_commands.PE_DUPTOTAL`
 
 .. code-block:: python
 
@@ -73,7 +73,7 @@ Jittered Counter
 Obtains statistics concerning all the packets jittered between this receive port
 and its partner TX port.
 
-Corresponding CLI command: ``PE_JITTERTOTAL``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pe_commands.PE_JITTERTOTAL`
 
 .. code-block:: python
 
@@ -86,7 +86,7 @@ Delay Counter
 -------------
 Obtains statistics concerning all the packets delayed this receive port and its partner TX port.
 
-Corresponding CLI command: ``PE_LATENCYTOTAL``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pe_commands.PE_LATENCYTOTAL`
 
 .. code-block:: python
 
@@ -100,7 +100,7 @@ Misordering Counter
 Obtains statistics concerning all the packets mis-ordered between this receive
 port and its partner TX port.
 
-Corresponding CLI command: ``PE_MISTOTAL``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pe_commands.PE_MISTOTAL`
 
 .. code-block:: python
 

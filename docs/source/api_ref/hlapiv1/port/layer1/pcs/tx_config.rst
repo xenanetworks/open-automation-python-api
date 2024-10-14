@@ -6,7 +6,7 @@ Error Counters
 Obtain the error count of each alarm, PCS Error, FEC Error, Header Error, Align
 Error, BIP Error, and High BER Error.
 
-Corresponding CLI command: ``PP_ALARMS_ERRORS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pp_commands.PP_ALARMS_ERRORS`
 
 .. code-block:: python
 
@@ -28,7 +28,7 @@ Error Generation Rate
 The rate of continuous bit-level error injection. Errors are injected evenly
 across the SerDes where injection is enabled.
 
-Corresponding CLI command: ``PP_TXERRORRATE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pp_commands.PP_TXERRORRATE`
 
 .. code-block:: python
 
@@ -41,7 +41,7 @@ Error Generation Inject
 -----------------------
 Inject a single bit-level error into the SerDes where injection has been enabled.
 
-Corresponding CLI command: ``PP_TXINJECTONE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pp_commands.PP_TXINJECTONE`
 
 .. code-block:: python
 
@@ -53,7 +53,7 @@ Error Injection
 ---------------------
 Inject a particular kind of CAUI error into a specific physical lane.
 
-Corresponding CLI command: ``PP_TXLANEINJECT``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pp_commands.PP_TXLANEINJECT`
 
 .. code-block:: python
 
@@ -68,7 +68,7 @@ Lane Configuration
 The virtual lane index and artificial skew for data transmitted on a specified
 physical lane.
 
-Corresponding CLI command: ``PP_TXLANECONFIG``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pp_commands.PP_TXLANECONFIG`
 
 .. code-block:: python
 

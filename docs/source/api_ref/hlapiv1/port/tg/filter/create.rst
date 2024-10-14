@@ -6,7 +6,7 @@ Create and Obtain
 
 Create a filter on the port, and obtain the filter object. The filter index is automatically assigned by the port.
 
-Corresponding CLI command: ``PF_CREATE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pf_commands.PF_CREATE`
 
 .. code-block:: python
 
@@ -39,7 +39,7 @@ Remove
 
 Remove a filter on the port with an explicit filter index by the index manager of the port.
 
-Corresponding CLI command: ``PF_DELETE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pf_commands.PF_DELETE`
 
 .. code-block:: python
 

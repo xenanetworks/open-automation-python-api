@@ -3,9 +3,9 @@ Media
 
 Media Configuration
 -------------------
-For the test modules that support media configuration (check M_CAPABILITIES), this command sets the desired media type (front port).
+For the test modules that support media configuration (check :class:`~xoa_driver.internals.commands.m_commands.M_CAPABILITIES`), this command sets the desired media type (front port).
 
-Corresponding CLI command: ``M_MEDIA``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.m_commands.M_MEDIA`
 
 .. code-block:: python
 
@@ -41,7 +41,7 @@ Shows the available speeds on a module. The structure of the returned value is
 ``[<ports_per_speed> <speed>]`` is repeated until all speeds supported by the ``<cage_type>`` has been listed.
 ``[<cage_type> <available_speed_count>]`` is repeated for all cage types on the module including the related ``<ports_per_speed> <speed>`` information.
 
-Corresponding CLI command: ``M_MEDIASUPPORT``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.m_commands.M_MEDIASUPPORT`
 
 .. code-block:: python
 
@@ -63,7 +63,7 @@ on a CFP test module. The following combinations are possible: 2x10G, 4x10G, 8x1
     
     For example if the configuration is 4x25G, ``<portspeed_list>`` will be ``[4, 25000, 25000, 25000, 25000]``.
 
-Corresponding CLI command: ``M_CFPCONFIGEXT``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.m_commands.M_CFPCONFIGEXT`
 
 .. code-block:: python
 

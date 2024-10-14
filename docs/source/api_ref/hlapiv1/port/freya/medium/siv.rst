@@ -34,6 +34,8 @@ The first 6 sample values are so-called sampled levels: <p1> <p2> < p3> <m1> <m2
 Control
 -------
 
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pl1_commands.PL1_CTRL`
+
 .. code-block:: python
 
     await port.l1.serdes[0].medium.siv.control.set(opcode=enums.Layer1Opcode.START_SCAN)
@@ -41,6 +43,8 @@ Control
 
 Data
 ------
+
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pl1_commands.PL1_GET_DATA`
 
 .. code-block:: python
     

@@ -12,7 +12,7 @@ Manager to attempt to keep the rate-percentage unchanged in case it has to cap
 stream rates. Get value is only valid if the rate was last set using this
 command.
 
-Corresponding CLI command: ``PS_RATEFRACTION``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ps_commands.PS_RATEFRACTION`
 
 .. code-block:: python
 
@@ -34,7 +34,7 @@ Manager to attempt to keep the packets-per-second unchanged in case it has to
 cap stream rates. Get value is only valid if the rate was the last set using
 this command.
 
-Corresponding CLI command: ``PS_RATEPPS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ps_commands.PS_RATEPPS`
 
 .. code-block:: python
 
@@ -57,7 +57,7 @@ the Manager to attempt to keep the layer-2 bps rate unchanged in case it has to
 cap stream rates. Get value is only valid if the rate was the last set using
 this command.
 
-Corresponding CLI command: ``PS_RATEL2BPS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ps_commands.PS_RATEL2BPS`
 
 .. code-block:: python
 
@@ -79,7 +79,7 @@ Manager to attempt to keep the packets-per-second unchanged in case it has to
 cap stream rates. Get value is only valid if the rate was the last set using
 this command.
 
-Corresponding CLI command: ``PS_RATEPPS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ps_commands.PS_RATEPPS`
 
 .. code-block:: python
 
@@ -100,7 +100,7 @@ packed tightly together, only spaced by the minimum inter-frame gap. A value of
 0 means even, non-bursty, spacing. The exact spacing achieved depends on the
 other enabled streams of the port.
 
-Corresponding CLI command: ``PS_BURST``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ps_commands.PS_BURST`
 
 .. code-block:: python
 
@@ -118,7 +118,7 @@ When the port is in in Burst TX mode, this command defines the gap between packe
 (inter-packet gap) and the gap after a burst defined in one stream stops until a
 burst defined in the next stream starts (inter-burst gap).
 
-Corresponding CLI command: ``PS_BURSTGAP``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ps_commands.PS_BURSTGAP`
 
 .. code-block:: python
 
@@ -134,7 +134,7 @@ Priority Flow
 --------------------------
 Set and get the Priority Flow Control (PFC) Cos value of a stream.
 
-Corresponding CLI command: ``PS_PFCPRIORITY``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ps_commands.PS_PFCPRIORITY`
 
 .. code-block:: python
 

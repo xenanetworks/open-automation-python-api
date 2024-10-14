@@ -5,7 +5,7 @@ Control
 -------------
 Enable / disable port 'link flap'.
 
-Corresponding CLI command: ``PP_LINKFLAP_ENABLE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pp_commands.PP_LINKFLAP_ENABLE`
 
 .. code-block:: python
 
@@ -23,7 +23,7 @@ Configuration
 -------------
 Set port 'link flap' parameters. Notice: Period must be larger than duration.
 
-Corresponding CLI command: ``PP_LINKFLAP_PARAMS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pp_commands.PP_LINKFLAP_PARAMS`
 
 .. code-block:: python
 

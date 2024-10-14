@@ -4,7 +4,7 @@ Packet Header Definition
 Header Protocol Segment
 ------------------------
 This command will inform the Xena tester how to interpret the packet header
-byte sequence specified with PS_PACKETHEADER.  This is mainly for information
+byte sequence specified with :class:`~xoa_driver.internals.commands.ps_commands.PS_PACKETHEADER`.  This is mainly for information
 purposes, and the stream will transmit the packet header bytes even if no
 protocol segments are specified.  The Xena tester however support calculation of
 certain field values in hardware, such as the IP, TCP and UDP length and
@@ -13,7 +13,7 @@ segments.  In order for this function to work the Xena tester needs to know the
 type of each segment that precedes the segment where the hardware calculation is
 to be performed.
 
-Corresponding CLI command: ``PS_HEADERPROTOCOL``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ps_commands.PS_HEADERPROTOCOL`
 
 .. code-block:: python
 
@@ -121,7 +121,7 @@ the payload, an optional test payload, and the frame checksum. The header data
 is specified as raw bytes, since the script environment does not know the field-
 by-field layout of the various protocol segments.
 
-Corresponding CLI command: ``PS_PACKETHEADER``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ps_commands.PS_PACKETHEADER`
 
 .. code-block:: python
 

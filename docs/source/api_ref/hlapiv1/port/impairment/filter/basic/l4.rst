@@ -13,7 +13,7 @@ Basic mode only. Defines TCP Destination Port settings used for the filter.
 
     For SET, the only allowed ``_filter_type`` is ``shadow-copy``.
 
-Corresponding CLI command: ``PEF_TCPDESTPORT``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_TCPDESTPORT`
 
 .. code-block:: python
 
@@ -33,7 +33,7 @@ Basic mode only. Defines TCP Source Port settings used for the filter.
 
     For SET, the only allowed ``_filter_type`` is ``shadow-copy``.
 
-Corresponding CLI command: ``PEF_TCPSRCPORT``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_TCPSRCPORT`
 
 .. code-block:: python
 
@@ -54,7 +54,7 @@ filtering.
 
     For SET, the only allowed ``_filter_type`` is ``shadow-copy``.
 
-Corresponding CLI command: ``PEF_TCPSETTINGS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_TCPSETTINGS`
 
 .. code-block:: python
     
@@ -74,7 +74,7 @@ Basic mode only. Defines UDP Destination Port settings used for the filter.
 
     For SET, the only allowed ``_filter_type`` is ``shadow-copy``.
 
-Corresponding CLI command: ``PEF_UDPDESTPORT``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_UDPDESTPORT`
 
 .. code-block:: python
 
@@ -94,7 +94,7 @@ Basic mode only. Defines UDP Source Port settings used for the filter.
 
     For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
-Corresponding CLI command: ``PEF_UDPSRCPORT``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_UDPSRCPORT`
 
 .. code-block:: python
 
@@ -114,7 +114,7 @@ Basic mode only. Controls if UDP packet information is used for flow filtering.
 
     For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
-Corresponding CLI command: ``PEF_UDPSETTINGS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_UDPSETTINGS`
 
 .. code-block:: python
     

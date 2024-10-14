@@ -8,7 +8,7 @@ bathtub curve information on a 25G serdes. This must be called after "PP_EYEMEAS
 has run to return valid results.  Use "get" to see the status of the data
 gathering process.
 
-Corresponding CLI command: ``PP_EYEINFO``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pp_commands.PP_EYEINFO`
 
 .. code-block:: python
 
@@ -39,7 +39,7 @@ Bit Error Rate
 -----------------
 Obtain BER estimations of an eye diagram.
 
-Corresponding CLI command: ``PP_EYEBER``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pp_commands.PP_EYEBER`
 
 .. code-block:: python
 
@@ -52,7 +52,7 @@ Dwell Bits
 -----------------
 Min and max dwell bits for an eye capture.
 
-Corresponding CLI command: ``PP_EYEDWELLBITS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pp_commands.PP_EYEDWELLBITS`
 
 .. code-block:: python
 
@@ -67,7 +67,7 @@ Measure
 Start/stop a new BER eye-measure on a 25G serdes. Use "get" to see the status of
 the data gathering process.
 
-Corresponding CLI command: ``PP_EYEMEASURE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pp_commands.PP_EYEMEASURE`
 
 .. code-block:: python
 
@@ -80,7 +80,7 @@ Resolution
 -----------------
 Set or get the resolution used for the next BER eye-measurement.
 
-Corresponding CLI command: ``PP_EYERESOLUTION``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pp_commands.PP_EYERESOLUTION`
 
 .. code-block:: python
 
@@ -99,7 +99,7 @@ reading out the eye while it is being measured).
 .. note::
     The columns of the eye-data will be measured in the order: xres-1, xres-2, xres-3, ... 0. The values show the number of bit errors measured out of a total of 1M bits at each of the individual sampling points (x=timeaxis, y = 0/1 threshold).
 
-Corresponding CLI command: ``PP_EYEREAD``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pp_commands.PP_EYEREAD`
 
 .. code-block:: python
 

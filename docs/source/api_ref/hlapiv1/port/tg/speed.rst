@@ -7,9 +7,9 @@ The speed mode of an autoneg port with an interface type supporting multiple spe
 
 .. note::
 
-    This is only a settable command when speed is selected at the port level. Use the M_CFPCONFIGEXT` command when speed is selected at the module level.
+    This is only a settable command when speed is selected at the port level. Use the :class:`~xoa_driver.internals.commands.m_commands.M_CFPCONFIGEXT` command when speed is selected at the module level.
 
-Corresponding CLI command: ``P_SPEEDSELECTION``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_SPEEDSELECTION`
 
 .. code-block:: python
 
@@ -65,7 +65,7 @@ which speeds are supported by the port.
 
     Ports can support zero (in case of e.g. empty cage), one, or multiple speeds.
 
-Corresponding CLI command: ``P_SPEEDS_SUPPORTED``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_SPEEDS_SUPPORTED`
 
 .. code-block:: python
 
@@ -98,7 +98,7 @@ Current Speed
 ----------------
 Obtains the current physical speed of a port's interface.
 
-Corresponding CLI command: ``P_SPEED``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_SPEED`
 
 .. code-block:: python
 
@@ -111,7 +111,7 @@ Speed Reduction
 ----------------
 A speed reduction applied to the transmitting side of a port, resulting in an effective traffic rate that is slightly lower than the rate of the physical interface. Speed reduction is effectuated by inserting short idle periods in the generated traffic pattern to consume part of the port's physical bandwidth. The port's clock speed is not altered.
 
-Corresponding CLI command: ``P_SPEEDREDUCTION``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_SPEEDREDUCTION`
 
 .. code-block:: python
 

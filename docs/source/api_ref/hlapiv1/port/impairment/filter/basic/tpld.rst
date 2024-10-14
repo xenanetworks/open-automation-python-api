@@ -14,7 +14,7 @@ Defines the TPLD filter configuration. There are only 16 TPLD filter, thus the i
 
     For SET, the only allowed ``_filter_type`` is ``shadow-copy``.
 
-Corresponding CLI command: ``PEF_TPLDCONFIG``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_TPLDCONFIG`
 
 .. code-block:: python
 
@@ -67,7 +67,7 @@ generators. For each flow filter, can the filter be based on 16 TPLD ID values.
 
     For SET, the only allowed ``_filter_type`` is ``shadow-copy``.
 
-Corresponding CLI command: ``PEF_TPLDSETTINGS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_TPLDSETTINGS`
 
 .. code-block:: python
     

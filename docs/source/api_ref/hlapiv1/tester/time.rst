@@ -5,7 +5,7 @@ Time
 ----------------
 Get local chassis time in seconds.
 
-Corresponding CLI command: ``C_TIME``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.c_commands.C_TIME`
 
 .. code-block:: python
 
@@ -18,7 +18,7 @@ TimeKeeper Configuration
 ----------------------------
 TimeKeeper config file content.
 
-Corresponding CLI command: ``C_TKCONFIG``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.c_commands.C_TKCONFIG`
 
 .. code-block:: python
 
@@ -32,7 +32,7 @@ TimeKeeper GPS State
 ----------------------------
 Get TimeKeeper GPS status.
 
-Corresponding CLI command: ``C_TKGPSSTATE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.c_commands.C_TKGPSSTATE`
 
 .. code-block:: python
 
@@ -45,7 +45,7 @@ TimeKeeper License File
 ----------------------------
 TimeKeeper license file content.
 
-Corresponding CLI command: ``C_TKLICFILE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.c_commands.C_TKLICFILE`
 
 .. code-block:: python
 
@@ -60,7 +60,7 @@ TimeKeeper License State
 ----------------------------
 State of TimeKeeper license file content.
 
-Corresponding CLI command: ``C_TKLICSTATE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.c_commands.C_TKLICSTATE`
 
 .. code-block:: python
 
@@ -75,7 +75,7 @@ TimeKeeper Status
 ----------------------------
 Version and status of TimeKeeper.
 
-Corresponding CLI command: ``C_TKSTATUS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.c_commands.C_TKSTATUS`
 
 .. code-block:: python
 

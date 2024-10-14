@@ -6,7 +6,7 @@ Match
 The value that must be found at the match term position for packets received on
 the port. The mask can make certain bit positions don't-care.
 
-Corresponding CLI command: ``PM_MATCH``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pm_commands.PM_MATCH`
 
 .. code-block:: python
 
@@ -21,7 +21,7 @@ Position
 -----------
 The position within each received packet where content matching begins for the port.
 
-Corresponding CLI command: ``PM_POSITION``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pm_commands.PM_POSITION`
 
 .. code-block:: python
 
@@ -38,7 +38,7 @@ mainly for information purposes, and helps you identify which portion of the
 packet header is being matched. The actual value definition of the match
 position is specified with PM_POSITION.
 
-Corresponding CLI command: ``PM_PROTOCOL``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pm_commands.PM_PROTOCOL`
 
 .. code-block:: python
 

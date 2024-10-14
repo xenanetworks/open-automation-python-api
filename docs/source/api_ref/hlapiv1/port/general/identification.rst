@@ -5,7 +5,7 @@ Interface
 ----------
 Obtains the name of the physical interface type of a port.
 
-Corresponding CLI command: ``P_INTERFACE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_INTERFACE`
 
 .. code-block:: python
 
@@ -18,7 +18,7 @@ Description
 -----------
 The description of a port.
 
-Corresponding CLI command: ``P_COMMENT``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_COMMENT`
 
 .. code-block:: python
 
@@ -33,7 +33,7 @@ Optical Signal Level
 ---------------------
 Get the received signal level for optical ports.
 
-Corresponding CLI command: ``P_STATUS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_STATUS`
 
 .. code-block:: python
     

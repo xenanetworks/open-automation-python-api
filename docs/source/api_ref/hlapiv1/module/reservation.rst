@@ -12,7 +12,7 @@ Reservation will fail if the chassis or any ports are reserved for other users.
 
     The reservation parameters are slightly asymmetric with respect to set/get. When querying for the current reservation state, the chassis will use these values.
 
-Corresponding CLI command: ``M_RESERVATION``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.m_commands.M_RESERVATION`
 
 .. code-block:: python
 
@@ -33,7 +33,7 @@ Reserved By
 Identify the user who has a module reserved. Returns an empty string if the
 module is not currently reserved by anyone.
 
-Corresponding CLI command: ``M_RESERVEDBY``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.m_commands.M_RESERVEDBY`
 
 .. code-block:: python
 

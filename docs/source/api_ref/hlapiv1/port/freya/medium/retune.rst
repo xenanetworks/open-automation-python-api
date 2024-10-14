@@ -6,7 +6,7 @@ serdes. Useful if e.g. a direct attached copper cable or loop transceiver does
 not go into sync after insertion. Note that the retuning will cause disruption
 of the traffic on all serdes.
 
-Corresponding CLI command: ``PP_PHYRETUNE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pp_commands.PP_PHYRETUNE`
 
 .. code-block:: python
 

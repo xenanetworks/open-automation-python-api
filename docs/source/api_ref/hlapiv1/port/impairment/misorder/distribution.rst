@@ -10,7 +10,7 @@ Control whether this impairment distribution is enabled.
 
     This command is not applicable for PE_BANDPOLICER and PE_BANDSHAPER because they have a separate ``ON / OFF`` parameter.
 
-Corresponding CLI command: ``PED_ENABLE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ped_commands.PED_ENABLE`
 
 .. code-block:: python
 
@@ -29,7 +29,7 @@ Off Distribution
 Configure Impairments Distribution to OFF. Assigning a different distribution than OFF to an impairment
 will activate the impairment. To de-activate the impairment assign distribution OFF.
 
-Corresponding CLI command: ``PED_OFF``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ped_commands.PED_OFF`
 
 .. code-block:: python
 
@@ -49,7 +49,7 @@ nearly equal distance between impairments, to match the configured probability.
 
     In case of misordering, a special limit applies, probability * (depth + 1) should be less than 1000000.
 
-Corresponding CLI command: ``PED_FIXED``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ped_commands.PED_FIXED`
 
 .. code-block:: python
 
@@ -63,7 +63,7 @@ Fixed Burst Distribution
 -------------------------
 Configuration of Fixed Burst distribution.
 
-Corresponding CLI command: ``PED_FIXEDBURST``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ped_commands.PED_FIXEDBURST`
 
 .. code-block:: python
 

@@ -6,7 +6,7 @@ Create and Obtain
 
 Create a stream on the port, and obtain the stream object. The stream index is automatically assigned by the port.
 
-Corresponding CLI command: ``PS_CREATE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ps_commands.PS_CREATE`
 
 .. code-block:: python
 
@@ -38,7 +38,7 @@ Remove
 
 Deletes the stream definition with the specified sub-index value.
 
-Corresponding CLI command: ``PS_DELETE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ps_commands.PS_DELETE`
 
 .. code-block:: python
 

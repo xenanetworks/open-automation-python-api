@@ -7,7 +7,7 @@ A 48-bit Ethernet MAC address specified for a port. This address is used as the
 default source MAC field in the header of generated traffic for the port, and is
 also used for support of the ARP protocol.
 
-Corresponding CLI command: ``P_MACADDRESS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_MACADDRESS`
 
 .. code-block:: python
 
@@ -24,7 +24,7 @@ An IPv4 network configuration specified for a port. The address is used as the
 default source address field in the IP header of generated traffic, and the
 configuration is also used for support of the ARP and PING protocols.
 
-Corresponding CLI command: ``P_IPADDRESS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_IPADDRESS`
 
 .. code-block:: python
 
@@ -49,7 +49,7 @@ port can reply to incoming ARP requests by mapping the IP address specified for
 the port to the MAC address specified for the port. ARP/NDP reply generation is
 independent of whether traffic and capture is on for the port.
 
-Corresponding CLI command: ``P_ARPREPLY``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_ARPREPLY`
 
 .. code-block:: python
 
@@ -67,7 +67,7 @@ Whether the port replies to IPv4/IPv6 PING. The port can
 reply to incoming IPv4/IPv6 PING requests to the IP address specified for the port. IPv4/IPv6 PING
 reply generation is independent of whether traffic and capture is on for the port.
 
-Corresponding CLI command: ``P_PINGREPLY``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_PINGREPLY`
 
 .. code-block:: python
 
@@ -85,7 +85,7 @@ An IPv6 network configuration specified for a port. The address is used as the
 default source address field in the IP header of generated traffic, and the
 configuration is also used for support of the NDP and PINGv6 protocols.
 
-Corresponding CLI command: ``P_IPV6ADDRESS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_IPV6ADDRESS`
 
 .. code-block:: python
 
@@ -111,7 +111,7 @@ The port can reply to incoming NDP Neighbor Solicitations by mapping the IPv6 ad
 specified for the port to the MAC address specified for the port. NDP reply
 generation is independent of whether traffic and capture is on for the port.
 
-Corresponding CLI command: ``P_ARPV6REPLY``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_ARPV6REPLY`
 
 .. code-block:: python
 
@@ -130,7 +130,7 @@ IPv6. The port can reply to incoming PINGv6 requests to the IPv6 address
 specified for the port. PINGv6 reply generation is independent of whether
 traffic and capture is on for the port.
 
-Corresponding CLI command: ``P_PINGV6REPLY``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_PINGV6REPLY`
 
 .. code-block:: python
 
@@ -146,11 +146,11 @@ ARP Table
 ------------
 Port ARP table used to reply to incoming ARP requests.
 
-Corresponding CLI command: ``P_ARPRXTABLE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_ARPRXTABLE`
 
 .. seealso::
 
-    Detailed script example can be found at `ip_streams_arp_table <https://github.com/xenanetworks/open-automation-script-library/tree/main/ip_streams_arp_table>`_
+    Detailed script example can be found at `ip_streams_arp_ndp_table <https://github.com/xenanetworks/open-automation-script-library/tree/main/ip_streams_arp_ndp_table>`_
 
 .. code-block:: python
 
@@ -165,11 +165,11 @@ NDP Table
 ------------
 Port NDP table used to reply to incoming NDP Neighbor Solicitation.
 
-Corresponding CLI command: ``P_NDPRXTABLE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_NDPRXTABLE`
 
 .. seealso::
 
-    Detailed script example can be found at `ip_streams_arp_table <https://github.com/xenanetworks/open-automation-script-library/tree/main/ip_streams_arp_table>`_
+    Detailed script example can be found at `ip_streams_arp_ndp_table <https://github.com/xenanetworks/open-automation-script-library/tree/main/ip_streams_arp_ndp_table>`_
 
 .. code-block:: python
 

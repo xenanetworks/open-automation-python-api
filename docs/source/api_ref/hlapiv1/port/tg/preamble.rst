@@ -6,7 +6,7 @@ RX Preamble Insert
 ------------------
 Insert preambles to the incoming frames.
 
-Corresponding CLI command: ``P_RXPREAMBLE_INSERT``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_RXPREAMBLE_INSERT`
 
 .. code-block:: python
 
@@ -22,7 +22,7 @@ TX Preamble Removal
 -------------------
 Remove preamble from outgoing frames.
 
-Corresponding CLI command: ``P_TXPREAMBLE_REMOVE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_TXPREAMBLE_REMOVE`
 
 .. code-block:: python
     

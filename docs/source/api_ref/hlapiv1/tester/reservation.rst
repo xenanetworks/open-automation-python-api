@@ -12,7 +12,7 @@ Reservation will fail if any modules or ports are reserved for other users.
 
     Before reserve Tester need to reserve all the ports on it, otherwise ``<STATUS_NOTVALID>``
 
-Corresponding CLI command: ``C_RESERVATION``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.c_commands.C_RESERVATION`
 
 .. code-block:: python
 
@@ -32,7 +32,7 @@ Reserved By
 Identify the user who has the chassis reserved. The empty string if the chassis
 is not currently reserved.
 
-Corresponding CLI command: ``C_RESERVEDBY``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.c_commands.C_RESERVEDBY`
 
 .. code-block:: python
 

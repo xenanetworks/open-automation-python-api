@@ -3,9 +3,9 @@ Unavailable Time
 
 Mode
 -------------
-This command defines if a port is currently used by test suite Valkyrie1564, which means that UAT (UnAvailable Time) will be detected for the port.
+This command defines if a port is currently used by test suite Xena1564, which means that UAT (UnAvailable Time) will be detected for the port.
 
-Corresponding CLI command: ``P_UAT_MODE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_UAT_MODE`
 
 .. code-block:: python
 
@@ -20,10 +20,10 @@ Corresponding CLI command: ``P_UAT_MODE``
 Frame Loss Ratio
 ----------------
 This command defines the threshold for the Frame Loss Ratio, where a second is
-declared as a Severely Errored Second (SES). In Valkyrie1564 UnAvailable Time
+declared as a Severely Errored Second (SES). In Xena1564 UnAvailable Time
 (UAT) is declared after 10 consecutive SES has been detected
 
-Corresponding CLI command: ``P_UAT_FLR``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_UAT_FLR`
 
 .. code-block:: python
 

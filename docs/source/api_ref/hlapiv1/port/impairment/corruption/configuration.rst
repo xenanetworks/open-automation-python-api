@@ -9,7 +9,7 @@ Configures impairment corruption type.
 
     IP / TCP / UDP corruption modes are not supported on default flow (0)
 
-Corresponding CLI command: ``PE_CORRUPT``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pe_commands.PE_CORRUPT`
 
 .. code-block:: python
 

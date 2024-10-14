@@ -8,7 +8,7 @@ the packets currently being transmitted from a stream. This can aid in analyzing
 the error-detection functionality of the system under test. Traffic must be on
 for the port, and the stream must be enabled and include test payloads.
 
-Corresponding CLI command: ``PS_INJECTMISERR``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ps_commands.PS_INJECTMISERR`
 
 .. code-block:: python
 
@@ -26,7 +26,7 @@ receiving Xena chassis will detect the invalid payload based on information in
 the test payload. Traffic must be on for the port, and the stream must be
 enabled and include test payloads.
 
-Corresponding CLI command: ``PS_INJECTPLDERR``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ps_commands.PS_INJECTPLDERR`
 
 .. code-block:: python
 
@@ -41,7 +41,7 @@ packets currently being transmitted from a stream. This can aid in analyzing the
 error-detection functionality of the system under test. Traffic must be on for
 the port, and the stream must be enabled and include test payloads.
 
-Corresponding CLI command: ``PS_INJECTSEQERR``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ps_commands.PS_INJECTSEQERR`
 
 .. code-block:: python
 
@@ -57,7 +57,7 @@ receiving port, so it will be counted as a no-test-payload packet, and there
 will be a lost packet for the stream. Traffic must be on for the port, and the
 stream must be enabled and include test payloads.
 
-Corresponding CLI command: ``PS_INJECTTPLDERR``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ps_commands.PS_INJECTTPLDERR`
 
 .. code-block:: python
 
@@ -72,7 +72,7 @@ from a stream. This can aid in analyzing the error-detection functionality of
 the system under test. Traffic must be on for the port, and the stream must be
 enabled.
 
-Corresponding CLI command: ``PS_INJECTFCSERR``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ps_commands.PS_INJECTFCSERR`
 
 .. code-block:: python
 

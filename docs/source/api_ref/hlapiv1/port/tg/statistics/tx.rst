@@ -6,7 +6,7 @@ Clear Counter
 Clear all the transmit statistics for a port. The byte and packet counts will
 restart at zero.
 
-Corresponding CLI command: ``PT_CLEAR``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pt_commands.PT_CLEAR`
 
 .. code-block:: python
 
@@ -18,7 +18,7 @@ Total Counter
 --------------
 Obtains statistics concerning all the packets transmitted on a port.
 
-Corresponding CLI command: ``PT_TOTAL``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pt_commands.PT_TOTAL`
 
 .. code-block:: python
 
@@ -35,7 +35,7 @@ Non-TPLD Counter
 Obtains statistics concerning the packets without a test payload transmitted on
 a port.
 
-Corresponding CLI command: ``PT_NOTPLD``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pt_commands.PT_NOTPLD`
 
 .. code-block:: python
 
@@ -51,7 +51,7 @@ Extra Counter
 -------------
 Obtains additional statistics for packets transmitted on a port.
 
-Corresponding CLI command: ``PT_EXTRA``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pt_commands.PT_EXTRA`
 
 .. code-block:: python
 
@@ -65,7 +65,7 @@ Stream Counter
 Obtains statistics concerning the packets of a specific stream transmitted on a
 port.
 
-Corresponding CLI command: ``PT_STREAM``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pt_commands.PT_STREAM`
 
 .. code-block:: python
 

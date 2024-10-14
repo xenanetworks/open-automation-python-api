@@ -9,7 +9,7 @@ Policer Configuration
 -----------------------
 Configures the bandwidth policer.
 
-Corresponding CLI command: ``PE_BANDPOLICER``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pe_commands.PE_BANDPOLICER`
 
 .. code-block:: python
 

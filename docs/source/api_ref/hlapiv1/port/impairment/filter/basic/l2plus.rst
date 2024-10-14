@@ -14,7 +14,7 @@ Defines what Layer 2+ protocols that are present and may be used for the filter.
 
     For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
-Corresponding CLI command: ``PEF_L2PUSE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_L2PUSE`
 
 .. code-block:: python
 
@@ -39,7 +39,7 @@ Basic mode only. Defines the VLAN TAG settings for the VLAN filter.
 
     For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
-Corresponding CLI command: ``PEF_VLANTAG``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_VLANTAG`
 
 .. code-block:: python
 
@@ -62,7 +62,7 @@ Basic mode only. Defines the VLAN PCP settings for the VLAN filter.
 
     For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
-Corresponding CLI command: ``PEF_VLANPCP``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_VLANPCP`
 
 .. code-block:: python
 
@@ -85,7 +85,7 @@ Basic mode only. Defines the VLAN TAG settings for the VLAN filter.
 
     For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
-Corresponding CLI command: ``PEF_VLANTAG``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_VLANTAG`
 
 .. code-block:: python
 
@@ -107,7 +107,7 @@ Basic mode only. Defines the VLAN PCP settings for the VLAN filter.
 
     For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
-Corresponding CLI command: ``PEF_VLANPCP``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_VLANPCP`
 
 .. code-block:: python
 
@@ -129,7 +129,7 @@ Defines what filter action is performed on the VLAN header.
 
     For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
-Corresponding CLI command: ``PEF_VLANSETTINGS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_VLANSETTINGS`
 
 .. code-block:: python
 
@@ -150,7 +150,7 @@ Basic mode only. Defines the MPLS label settings for the filter.
 
     For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
-Corresponding CLI command: ``PEF_MPLSLABEL``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_MPLSLABEL`
 
 .. code-block:: python
 
@@ -170,7 +170,7 @@ Basic mode only. Defines the MPLS TOC settings for the filter.
 
     For SET, the only allowed ``_filter_type`` is ``shadow-copy``
 
-Corresponding CLI command: ``PEF_MPLSTOC``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_MPLSTOC`
 
 .. code-block:: python
 
@@ -186,7 +186,7 @@ MPLS Settings
 -------------------
 Basic mode only. Defines what filter action is performed on the MPLS header.
 
-Corresponding CLI command: ``PEF_MPLSSETTINGS``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pef_commands.PEF_MPLSSETTINGS`
 
 .. code-block:: python
 

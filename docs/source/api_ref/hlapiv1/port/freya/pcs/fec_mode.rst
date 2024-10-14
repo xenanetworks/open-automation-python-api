@@ -3,7 +3,7 @@ FEC Mode
 
 FEC mode for port that supports FEC.
 
-Corresponding CLI command: ``PP_FECMODE``
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pp_commands.PP_FECMODE`
 
 .. code-block:: python
 
