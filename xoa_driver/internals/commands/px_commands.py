@@ -133,13 +133,13 @@ class PX_RW_SEQ_BANK:
     """
     I2C sequential access to a transceiver's register. When invoked, the <byte_count> number of bytes will be read or written in one I2C transaction, in which the <value> is read or written with only a single register address setup. A subsequent invocation will perform a second I2C transaction in the same manner.
 
-    * <_byte_xcount> number of bytes will be read or written in one I2C transaction
-
     * <_bank_xindex>: the bank address, integer, 0x00 - 0xFF (0-255).
 
     * <_page_xindex>: the transceiver page address, integer, 0x00 - 0xFF (0-255).
 
     * <_register_xaddress>: the address within the page, integer, 0x00 - 0xFF (0-255).
+
+    * <_byte_xcount> number of bytes will be read or written in one I2C transaction
 
     If <_register_xaddress> < 128, the page index <page> and the bank index <_bank_xindex> is ignored by the server. The server will read from page 0 without writing 0 into byte 127.
 
@@ -152,10 +152,10 @@ class PX_RW_SEQ_BANK:
     _connection: 'interfaces.IConnection'
     _module: int
     _port: int
+    _bank_xindex: int
     _page_xindex: int
     _register_xaddress: int
     _byte_xcount: int
-    _bank_xindex: int
 
     class GetDataAttr(ResponseBodyStruct):
         value: Hex = field(XmpHex())
