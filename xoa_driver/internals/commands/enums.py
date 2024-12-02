@@ -3003,6 +3003,37 @@ class FreyaTecAbilityHCD(IntEnum):
     IEEE_1000BASE_KX = 0
     """IEEE_1000BASE_KX"""
 
+class FreyaPresetResponse(IntEnum):
+    """Response to the received IC request"""
+
+    IGNORE = 0
+    """Acknowledge the IC request without acting upon it (acknowledge but no changes)."""
+
+    ACCEPT = 1
+    """Acknowledge the IC request and apply the corresponding preset value."""
+
+class FreyaPresetIndex(IntEnum):
+    """Preset index for FreyaPresetResponse"""
+
+    PRESET1 = 0
+    """Preset 1"""
+
+    PRESET2 = 1
+    """Preset 2"""
+
+    PRESET3 = 2
+    """Preset 3"""
+
+    PRESET4 = 3
+    """Preset 4"""
+
+    PRESET5 = 4
+    """Preset 5"""
+
+    LOS = 255
+    """Preset when out of sync"""
+
+
 # endregion
 
 # region misc enums
