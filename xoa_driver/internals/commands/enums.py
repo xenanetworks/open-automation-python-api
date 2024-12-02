@@ -2298,6 +2298,9 @@ class Layer1ConfigType(IntEnum):
     AN_LT_XLA_MODE = 7
     """Set XLA mode. If enabled XLA dumps will, if triggered, be logged automatically"""
 
+    AN_EMPTY_NP = 8
+    """Empty Next Pages mode. If enabled, the port forcibly sends empty NP pages. If disabled, the port does not send empty NP pages."""
+
 
 class Layer1LogType(IntEnum):
     """
