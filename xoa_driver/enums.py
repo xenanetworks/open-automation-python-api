@@ -185,6 +185,10 @@ from .internals.commands.enums import (
     FreyaTecAbilityHCD,
     Layer1Opcode,
     FecCodewordBitErrorMaskMode,
+    FreyaPresetResponse,
+    FreyaPresetIndex,
+    FreyaTapIndex,
+    FreyaLinkTrainingRangeResponse,
 )
 
 __all__ = (
@@ -372,4 +376,8 @@ __all__ = (
     "FreyaTecAbilityHCD",
     "Layer1Opcode",
     "FecCodewordBitErrorMaskMode",
+    "FreyaPresetResponse",
+    "FreyaPresetIndex",
+    "FreyaTapIndex",
+    "FreyaLinkTrainingRangeResponse",
 )
