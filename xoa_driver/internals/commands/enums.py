@@ -3033,6 +3033,46 @@ class FreyaPresetIndex(IntEnum):
     LOS = 255
     """Preset when out of sync"""
 
+class FreyaTapIndex(IntEnum):
+    """Preset index for FreyaPresetResponse"""
+
+    TAP0 = 0
+    """pre (For Freya 112G and 56G serdes)"""
+
+    TAP1 = 1
+    """main (For Freya 112G and 56G serdes)"""
+
+    TAP2 = 2
+    """post (For Freya 112G and 56G serdes)"""
+
+    TAP3 = 3
+    """pre2 (For Freya 112G and 56G serdes)"""
+
+    TAP4 = 4
+    """pre3 (For Freya 112G and 56G serdes)"""
+
+
+class FreyaLinkTrainingRangeResponse(IntEnum):
+    """Response when LT range is reached"""
+
+    AUTO = 0
+    """The response is automatically determined by the serdes."""
+
+    IGNORE = 1
+    """The increment/decrement request will be “acknowledged” without acting upon it."""
+
+    COEFF_AT_LIMIT = 2
+    """Respond Coefficient At Limit (coefficient status = 010) to the increment/decrement request."""
+
+    EQ_AT_LIMIT = 3
+    """Respond Equalization Limit (coefficient status = 100) to the increment/decrement request."""
+
+    COEFF_EQ_AT_LIMIT = 4
+    """Respond Coefficient At Limit and Equalization Limit (coefficient status = 110) to the increment/decrement request."""
+
+    COEFF_NOT_SUPPORTED = 5
+    """Respond Coefficient Not Supported (coefficient status = 011) to the increment/decrement request."""
+
 
 # endregion
 

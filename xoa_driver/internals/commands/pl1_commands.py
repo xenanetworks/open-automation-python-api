@@ -50,6 +50,8 @@ from .enums import (
     StartOrStop,
     FreyaPresetResponse,
     FreyaPresetIndex,
+    FreyaTapIndex,
+    FreyaLinkTrainingRangeResponse,
 )
 
 
@@ -431,6 +433,126 @@ class PL1_LINKTRAIN_CMD:
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], cmd=cmd, arg=arg))
+
+
+@register_command
+@dataclass
+class PL1_LT_PHYTXEQ_RANGE:
+    """
+    .. versionadded:: 2.9
+    
+    Configure the lower and the upper bound of transmit equalizer (native value) of the serdes, and how the serdes responds to an increment/decrement request when either bound is reached.
+
+    """
+
+    code: typing.ClassVar[int] = 417
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _serdes_xindex: int
+    _tap_xindex: FreyaTapIndex
+
+    class GetDataAttr(ResponseBodyStruct):
+        response: FreyaLinkTrainingRangeResponse = field(XmpByte())
+        """byte, the response when either of the bounds is triggered. Default is AUTO."""
+        min: int = field(XmpInt())
+        """integer, the lower bound of the tap. When set, the value is ignored when <response> == AUTO."""
+        max: int = field(XmpInt())
+        """integer, the upper bound of the tap. When set, the value is ignored when <response> == AUTO.)"""
+        
+    class SetDataAttr(RequestBodyStruct):
+        response: FreyaLinkTrainingRangeResponse = field(XmpByte())
+        """byte, the response when either of the bounds is triggered. Default is AUTO."""
+        min: int = field(XmpInt())
+        """integer, the lower bound of the tap. When set, the value is ignored when <response> == AUTO."""
+        max: int = field(XmpInt())
+        """integer, the upper bound of the tap. When set, the value is ignored when <response> == AUTO.)"""
+
+
+    def get(self) -> Token[GetDataAttr]:
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._tap_xindex]))
+
+    def set(self, response:FreyaLinkTrainingRangeResponse, min: int, max: int) -> Token[None]:
+
+        return Token(
+            self._connection,
+            build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._tap_xindex], response=response, min=min, max=max))
+    
+
+@register_command
+@dataclass
+class PL1_LT_PHYTXEQ_RANGE_COEFF:
+    """
+    .. versionadded:: 2.9
+    
+    Configure the lower and the upper bound of transmit equalizer (IEEE coefficient value) of the serdes, and how the serdes responds to an increment/decrement request when either bound is reached.
+    
+    Whenever <response> == AUTO (the default), min and max will have their default values, which can be read with “get”. Any value that attempt to set the min and max when <response> == AUTO will be ignored by the chassis.
+    
+    """
+
+    code: typing.ClassVar[int] = 419
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _serdes_xindex: int
+    _tap_xindex: FreyaTapIndex
+
+    class GetDataAttr(ResponseBodyStruct):
+        response: FreyaLinkTrainingRangeResponse = field(XmpByte())
+        """byte, the response when either of the bounds is triggered. Default is AUTO."""
+        min: int = field(XmpInt())
+        """
+        integer, the lower bound of the tap. When set, the value is ignored when <response> == AUTO.
+        
+        * For <tap_index> == PRE3/PRE/POST, negative, scaled by 1E3.
+        * For <tap_index> == MAIN/PRE2, positive, scaled by 1E3.
+
+        """
+        max: int = field(XmpInt())
+        """
+        integer, the upper bound of the tap. When set, the value is ignored when <response> == AUTO.
+        
+        * For <tap_index> == PRE3/PRE/POST, negative, scaled by 1E3.
+        * For <tap_index> == MAIN/PRE2, positive, scaled by 1E3.
+
+        """
+        
+    class SetDataAttr(RequestBodyStruct):
+        response: FreyaLinkTrainingRangeResponse = field(XmpByte())
+        """byte, the response when either of the bounds is triggered. Default is AUTO."""
+        min: int = field(XmpInt())
+        """
+        integer, the lower bound of the tap. When set, the value is ignored when <response> == AUTO.
+        
+        * For <tap_index> == PRE3/PRE/POST, negative, scaled by 1E3.
+        * For <tap_index> == MAIN/PRE2, positive, scaled by 1E3.
+
+        """
+        max: int = field(XmpInt())
+        """
+        integer, the upper bound of the tap. When set, the value is ignored when <response> == AUTO.
+        
+        * For <tap_index> == PRE3/PRE/POST, negative, scaled by 1E3.
+        * For <tap_index> == MAIN/PRE2, positive, scaled by 1E3.
+
+        """
+
+
+    def get(self) -> Token[GetDataAttr]:
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._tap_xindex]))
+
+    def set(self, response:FreyaLinkTrainingRangeResponse, min: int, max: int) -> Token[None]:
+
+        return Token(
+            self._connection,
+            build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._tap_xindex], response=response, min=min, max=max))
 
 @register_command
 @dataclass
