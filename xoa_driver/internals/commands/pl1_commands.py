@@ -491,7 +491,7 @@ class PL1_LT_PHYTXEQ_RANGE_COEFF:
     Configure the lower and the upper bound of transmit equalizer (IEEE coefficient value) of the serdes, and how the serdes responds to an increment/decrement request when either bound is reached.
     
     Whenever <response> == AUTO (the default), min and max will have their default values, which can be read with “get”. Any value that attempt to set the min and max when <response> == AUTO will be ignored by the chassis.
-    
+
     """
 
     code: typing.ClassVar[int] = 419
@@ -716,7 +716,37 @@ class PL1_PRESET_CONFIG:
         return Token(
             self._connection,
             build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._preset_xindex], response=response, pre3=pre3, pre2=pre2, pre=pre, main=main, post=post))
+
+
+@register_command
+@dataclass
+class PL1_PRESET_RESET:
+    """
+    .. versionadded:: 2.9
     
+    Reset the preset of the serdes to its default values.
+
+    """
+
+    code: typing.ClassVar[int] = 427
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _serdes_xindex: int
+    _preset_xindex: FreyaPresetIndex
+
+    class SetDataAttr(RequestBodyStruct):
+        pass
+
+
+    def set(self) -> Token[None]:
+        """Reset the preset of the serdes to its default values.
+        """
+        return Token(
+            self._connection,
+            build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._preset_xindex]))
 
 @register_command
 @dataclass
