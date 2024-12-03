@@ -472,11 +472,11 @@ class PL1_LT_PHYTXEQ_RANGE:
 
 
     def get(self) -> Token[GetDataAttr]:
-
+        """Get the lower and the upper bound of transmit equalizer (native value) of the serdes, and how the serdes responds to an increment/decrement request when either bound is reached."""
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._tap_xindex]))
 
     def set(self, response:FreyaLinkTrainingRangeResponse, min: int, max: int) -> Token[None]:
-
+        """Set the lower and the upper bound of transmit equalizer (native value) of the serdes, and how the serdes responds to an increment/decrement request when either bound is reached."""
         return Token(
             self._connection,
             build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._tap_xindex], response=response, min=min, max=max))
@@ -545,11 +545,11 @@ class PL1_LT_PHYTXEQ_RANGE_COEFF:
 
 
     def get(self) -> Token[GetDataAttr]:
-
+        """Get the lower and the upper bound of transmit equalizer (IEEE coefficient value) of the serdes, and how the serdes responds to an increment/decrement request when either bound is reached."""
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._tap_xindex]))
 
     def set(self, response:FreyaLinkTrainingRangeResponse, min: int, max: int) -> Token[None]:
-
+        """Set the lower and the upper bound of transmit equalizer (IEEE coefficient value) of the serdes, and how the serdes responds to an increment/decrement request when either bound is reached."""
         return Token(
             self._connection,
             build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._tap_xindex], response=response, min=min, max=max))
@@ -708,11 +708,11 @@ class PL1_PRESET_CONFIG:
 
 
     def get(self) -> Token[GetDataAttr]:
-
+        """Get the preset values (native values) of a serdes and the response to the received IC request."""
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._preset_xindex]))
 
     def set(self, response:FreyaPresetResponse, pre3:int, pre2: int, pre: int, main: int, post: int) -> Token[None]:
-
+        """Set the preset values (native values) of a serdes and the response to the received IC request."""
         return Token(
             self._connection,
             build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._preset_xindex], response=response, pre3=pre3, pre2=pre2, pre=pre, main=main, post=post))
@@ -797,11 +797,11 @@ class PL1_PRESET_CONFIG_LEVEL:
 
 
     def get(self) -> Token[GetDataAttr]:
-
+        """Get the preset values (mV/dB values) of a serdes and the response to the received IC request"""
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._preset_xindex]))
 
     def set(self, response:FreyaPresetResponse, pre3:int, pre2: int, pre: int, main: int, post: int) -> Token[None]:
-
+        """Set the preset values (mV/dB values) of a serdes and the response to the received IC request"""
         return Token(
             self._connection,
             build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._preset_xindex], response=response, pre3=pre3, pre2=pre2, pre=pre, main=main, post=post))
@@ -856,11 +856,11 @@ class PL1_PRESET_CONFIG_COEFF:
 
 
     def get(self) -> Token[GetDataAttr]:
-
+        """Get the preset values (IEEE coefficient values) of a serdes and the response to the received IC request."""
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._preset_xindex]))
 
     def set(self, response:FreyaPresetResponse, pre3:int, pre2: int, pre: int, main: int, post: int) -> Token[None]:
-
+        """Set the preset values (IEEE coefficient values) of a serdes and the response to the received IC request."""
         return Token(
             self._connection,
             build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._preset_xindex], response=response, pre3=pre3, pre2=pre2, pre=pre, main=main, post=post))
