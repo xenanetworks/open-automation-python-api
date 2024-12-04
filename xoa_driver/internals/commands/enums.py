@@ -3074,6 +3074,17 @@ class FreyaLinkTrainingRangeResponse(IntEnum):
     """Respond Coefficient Not Supported (coefficient status = 011) to the increment/decrement request."""
 
 
+class FreyaAutorestartMode(IntEnum):
+    """Response when LT range is reached"""
+
+    OFF = 0
+
+    WHEN_LINK_DOWN = 1
+
+    WHEN_LT_FAILED = 2
+
+    WHEN_LINK_DOWN_LT_FAILED = 3
+
 # endregion
 
 # region misc enums

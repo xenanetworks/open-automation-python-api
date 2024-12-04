@@ -383,6 +383,7 @@ class PL1_CFG_TMP:
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._type], values=values))
     
+    
 @register_command
 @dataclass
 class PL1_LINKTRAIN_CMD:

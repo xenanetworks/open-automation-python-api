@@ -548,6 +548,25 @@ class FreyaLinkTraining:
         :rtype: FreyaLinkTrainingRange
         """
 
+        self.initial_modulation = PL1_CFG_TMP(conn, module_id, port_id, 0, enums.Layer1ConfigType.LT_INITIAL_MODULATION)
+        """Link training initial modulation
+
+        :rtype: PL1_CFG_TMP
+        """
+
+        self.algorithm = PL1_CFG_TMP(conn, module_id, port_id, 0, enums.Layer1ConfigType.LT_TRAINING_ALGORITHM)
+        """Link training algorithm
+
+        :rtype: PL1_CFG_TMP
+        """
+
+        self.strict_mode = PL1_CFG_TMP(conn, module_id, port_id, 0, enums.Layer1ConfigType.ANLT_STRICT_MODE)
+        """ANLT strict mode. In strict mode, errored framed will be ignored.
+
+        :rtype: PL1_CFG_TMP
+        """
+
+
 class FreyaANLT:
     """Freya port-level anlt. For per-serdes configuration and status, use serdes[x]
     """
@@ -563,6 +582,15 @@ class FreyaANLT:
         """
         self.log = PL1_LOG(conn, module_id, port_id)
         """ANLT log
+        """
+        self.autorestart = PL1_CFG_TMP(conn, module_id, port_id, 0, enums.Layer1ConfigType.AUTO_LINK_RECOVERY)
+        """ANLT Autorestart
+        """
+        self.allow_an_loopback = PL1_CFG_TMP(conn, module_id, port_id, 0, enums.Layer1ConfigType.AN_LOOPBACK)
+        """ANLT Autorestart
+        """
+        self.send_empty_np = PL1_CFG_TMP(conn, module_id, port_id, 0, enums.Layer1ConfigType.AN_EMPTY_NP)
+        """If the port should send Next Pages if they are empty.
         """
 
 class FreyaFecCodewordErrorInject:

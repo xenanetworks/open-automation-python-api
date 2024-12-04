@@ -189,6 +189,7 @@ from .internals.commands.enums import (
     FreyaPresetIndex,
     FreyaTapIndex,
     FreyaLinkTrainingRangeResponse,
+    FreyaAutorestartMode,
 )
 
 __all__ = (
@@ -380,4 +381,5 @@ __all__ = (
     "FreyaPresetIndex",
     "FreyaTapIndex",
     "FreyaLinkTrainingRangeResponse",
+    "FreyaAutorestartMode",
 )
