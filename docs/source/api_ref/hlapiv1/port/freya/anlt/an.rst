@@ -71,3 +71,25 @@ Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pl1_co
     resp.negotiation_success_count
     resp.duration_us
 
+
+Allow Autoneg In Loopback
+---------------------------
+
+This command controls whether the port should permit loopback during AN operations.
+
+.. code-block:: python
+
+    await port_obj.l1.anlt.allow_an_loopback.set(values=[enums.OnOff.ON])
+    await port_obj.l1.anlt.allow_an_loopback.set(values=[enums.OnOff.OFF])
+
+
+Send Empty Next Page
+----------------------
+
+This command controls if the port should send Next Pages if they are empty. 
+
+.. code-block:: python
+
+    await port_obj.l1.anlt.send_empty_np.set(values=[enums.OnOff.ON])
+
+    await port_obj.l1.anlt.send_empty_np.set(values=[enums.OnOff.OFF])

@@ -380,3 +380,31 @@ Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pl1_co
     await port_obj.l1.serdes[serdes_id].lt.range.post.ieee.set(response=enums.FreyaLinkTrainingRangeResponse.COEFF_EQ_AT_LIMIT, min=0, max=500)
     await port_obj.l1.serdes[serdes_id].lt.range.post.ieee.set(response=enums.FreyaLinkTrainingRangeResponse.COEFF_NOT_SUPPORTED, min=0, max=500)
     await port_obj.l1.serdes[serdes_id].lt.range.post.ieee.set(response=enums.FreyaLinkTrainingRangeResponse.IGNORE, min=0, max=500)
+
+
+Initial Modulation
+------------------
+
+This command controls the initial modulation of Link Training. 
+
+.. code-block:: python
+
+    await port_obj.l1.serdes[serdes_id].lt.initial_modulation.set(values=[enums.LinkTrainEncoding.NRZ])
+
+    await port_obj.l1.serdes[serdes_id].lt.initial_modulation.set(values=[enums.LinkTrainEncoding.PAM4])
+
+    await port_obj.l1.serdes[serdes_id].lt.initial_modulation.set(values=[enums.LinkTrainEncoding.PAM4_WITH_PRECODING])
+
+
+Algorithm Selection
+--------------------
+
+This command controls the link training algorithm used by the port. 
+
+.. code-block:: python
+
+    await port_obj.l1.serdes[serdes_id].lt.algorithm.set(values=[enums.LinkTrainAlgorithm.ALG0])
+
+    await port_obj.l1.serdes[serdes_id].lt.algorithm.set(values=[enums.LinkTrainAlgorithm.ALGN1])
+
+    await port_obj.l1.serdes[serdes_id].lt.algorithm.set(values=[enums.LinkTrainAlgorithm.INTERACTIVE])
