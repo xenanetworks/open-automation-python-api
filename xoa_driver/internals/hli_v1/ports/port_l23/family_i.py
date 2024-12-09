@@ -63,6 +63,7 @@ class FamilyI(BasePortL23Genuine):
         
         :type: P_DYNAMIC
         """
+        self.fault = Fault(conn, module_id, port_id)
 
     async def _setup(self) -> Self:
         await super()._setup()
