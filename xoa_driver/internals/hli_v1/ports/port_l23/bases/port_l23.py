@@ -50,6 +50,7 @@ from xoa_driver.internals.commands import (
     P_PFCENABLE,
     P_TXBURSTPERIOD,
     P_CAPABILITIES_EXT,
+    P_IGMPV3_GROUP_RECORD_BUNDLE,
 )
 if typing.TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
@@ -185,6 +186,12 @@ class Multicast:
         """L23 port multicast IGMP header.
 
         :type: P_MULTICASTHDR
+        """
+
+        self.igmpv3_group_record_bundle = P_IGMPV3_GROUP_RECORD_BUNDLE(conn, module_id, port_id)
+        """Configure if a single membership report bundles multiple multicast group records to decrease the number of packets sent when using IGMPv3. This command returns <NOTVALID> when the IGMP version is not IGMPv3.
+
+        :type: P_IGMPV3_GROUP_RECORD_BUNDLE
         """
 
 

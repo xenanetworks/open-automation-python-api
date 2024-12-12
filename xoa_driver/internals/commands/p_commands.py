@@ -2532,6 +2532,47 @@ class P_MCSRCLIST:
 
 @register_command
 @dataclass
+class P_IGMPV3_GROUP_RECORD_BUNDLE:
+    """
+    Configure if a single membership report bundles multiple multicast group records to decrease the number of packets sent when using IGMPv3. This command returns <NOTVALID> when the IGMP version is not IGMPv3.
+    """
+
+    code: typing.ClassVar[int] = 315
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        mode: OnOff = field(XmpByte())
+        """byte, if a single membership report bundles multiple multicast group records to decrease the number of packets sent when using IGMPv3."""
+
+    class SetDataAttr(RequestBodyStruct):
+        mode: OnOff = field(XmpByte())
+        """byte, if a single membership report bundles multiple multicast group records to decrease the number of packets sent when using IGMPv3."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the mode of IGMPV3 group record bundle.
+
+        :return: the mode of IGMPV3 group record bundle.
+        :rtype: P_IGMPV3_GROUP_RECORD_BUNDLE.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+
+    def set(self, mode: OnOff) -> Token[None]:
+        """Set the mode of IGMPV3 group record bundle.
+
+        :param mode: the mode of IGMPV3 group record bundle
+        :type OnOff
+        """
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, mode=mode))
+    
+
+@register_command
+@dataclass
 class P_TXMODE:
     """
     The scheduling mode for outgoing traffic from the port, specifying how multiple
