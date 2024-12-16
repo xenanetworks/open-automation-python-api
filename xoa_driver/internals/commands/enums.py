@@ -2707,9 +2707,7 @@ class PreCodingMode(IntEnum):
     
     ON = 1
     """On"""
-    
-    AUTO = 2
-    """Auto"""
+
 
 class GrayCodingMode(IntEnum):
     """Rx/Tx Gray-Coding Mode."""

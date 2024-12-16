@@ -2204,21 +2204,21 @@ class PP_PRECODING:
 
     class GetDataAttr(ResponseBodyStruct):
         rx_mode: PreCodingMode = field(XmpInt())
-        """RX Mode Off/On/Auto"""
+        """RX Mode Off/On"""
         rx_endianness: Endianness = field(XmpInt())
         """RX Endianness Normal/Reverted(BigEndian/LittleEndian)) """
         tx_mode: PreCodingMode = field(XmpInt())
-        """TX Mode Off/On/Auto"""
+        """TX Mode Off/On"""
         tx_endianness: Endianness = field(XmpInt())
         """TX Endianness Normal/Reverted(BigEndian/LittleEndian)) """
 
     class SetDataAttr(RequestBodyStruct):
         rx_mode: PreCodingMode = field(XmpInt())
-        """RX Mode Off/On/Auto"""
+        """RX Mode Off/On"""
         rx_endianness: Endianness = field(XmpInt())
         """RX Endianness Normal/Reverted(BigEndian/LittleEndian)) """
         tx_mode: PreCodingMode = field(XmpInt())
-        """TX Mode Off/On/Auto"""
+        """TX Mode Off/On"""
         tx_endianness: Endianness = field(XmpInt())
         """TX Endianness Normal/Reverted(BigEndian/LittleEndian)) """
 
