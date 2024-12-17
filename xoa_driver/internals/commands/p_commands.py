@@ -2565,7 +2565,7 @@ class P_IGMPV3_GROUP_RECORD_BUNDLE:
         """Set the mode of IGMPV3 group record bundle.
 
         :param mode: the mode of IGMPV3 group record bundle
-        :type OnOff
+        :type: OnOff
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, mode=mode))
