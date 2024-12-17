@@ -14,9 +14,9 @@ import os
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path('../../xoa_driver').resolve()))
 sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath('../../'))
+sys.path.insert(0, os.path.abspath('../xoa_driver'))
 
 import datetime
 import codecs
