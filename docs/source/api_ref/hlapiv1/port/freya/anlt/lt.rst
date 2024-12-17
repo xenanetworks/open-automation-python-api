@@ -190,3 +190,221 @@ Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pl1_co
     resp.last_ic_received
     resp.last_ic_sent
 
+Preset Configuration
+--------------------
+
+Preset Configuration (Native)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Configure the preset values (native values) of a serdes and the response to the received IC request.
+
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pl1_commands.PL1_PRESET_CONFIG`
+
+.. code-block:: python
+
+    await port_obj.l1.serdes[serdes_id].lt.preset1.native.set(response=enums.FreyaPresetResponse.ACCEPT, pre3=0, pre2=0, pre=0, main=84, post=0)
+    await port_obj.l1.serdes[serdes_id].lt.preset1.native.set(response=enums.FreyaPresetResponse.IGNORE, pre3=0, pre2=0, pre=0, main=84, post=0)
+
+    await port_obj.l1.serdes[serdes_id].lt.preset2.native.set(response=enums.FreyaPresetResponse.ACCEPT, pre3=0, pre2=0, pre=0, main=84, post=0)
+    await port_obj.l1.serdes[serdes_id].lt.preset2.native.set(response=enums.FreyaPresetResponse.IGNORE, pre3=0, pre2=0, pre=0, main=84, post=0)
+    
+    await port_obj.l1.serdes[serdes_id].lt.preset3.native.set(response=enums.FreyaPresetResponse.ACCEPT, pre3=0, pre2=0, pre=0, main=84, post=0)
+    await port_obj.l1.serdes[serdes_id].lt.preset3.native.set(response=enums.FreyaPresetResponse.IGNORE, pre3=0, pre2=0, pre=0, main=84, post=0)
+
+    await port_obj.l1.serdes[serdes_id].lt.preset4.native.set(response=enums.FreyaPresetResponse.ACCEPT, pre3=0, pre2=0, pre=0, main=84, post=0)
+    await port_obj.l1.serdes[serdes_id].lt.preset4.native.set(response=enums.FreyaPresetResponse.IGNORE, pre3=0, pre2=0, pre=0, main=84, post=0)
+
+    await port_obj.l1.serdes[serdes_id].lt.preset5.native.set(response=enums.FreyaPresetResponse.ACCEPT, pre3=0, pre2=0, pre=0, main=84, post=0)
+    await port_obj.l1.serdes[serdes_id].lt.preset5.native.set(response=enums.FreyaPresetResponse.IGNORE, pre3=0, pre2=0, pre=0, main=84, post=0)
+
+    await port_obj.l1.serdes[serdes_id].lt.preset_los.native.set(response=enums.FreyaPresetResponse.ACCEPT, pre3=0, pre2=0, pre=0, main=84, post=0)
+    await port_obj.l1.serdes[serdes_id].lt.preset_los.native.set(response=enums.FreyaPresetResponse.IGNORE, pre3=0, pre2=0, pre=0, main=84, post=0)
+
+Preset Configuration (IEEE)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Configure the preset values (IEEE coefficient values) of a serdes and the response to the received IC request.
+
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pl1_commands.PL1_PRESET_CONFIG_COEFF`
+
+.. code-block:: python
+
+    await port_obj.l1.serdes[serdes_id].lt.preset1.ieee.set(response=enums.FreyaPresetResponse.ACCEPT, pre3=0, pre2=0, pre=0, main=1000, post=0)
+    await port_obj.l1.serdes[serdes_id].lt.preset1.ieee.set(response=enums.FreyaPresetResponse.IGNORE, pre3=0, pre2=0, pre=0, main=1000, post=0)
+
+    await port_obj.l1.serdes[serdes_id].lt.preset2.ieee.set(response=enums.FreyaPresetResponse.ACCEPT, pre3=0, pre2=0, pre=0, main=1000, post=0)
+    await port_obj.l1.serdes[serdes_id].lt.preset2.ieee.set(response=enums.FreyaPresetResponse.IGNORE, pre3=0, pre2=0, pre=0, main=1000, post=0)
+    
+    await port_obj.l1.serdes[serdes_id].lt.preset3.ieee.set(response=enums.FreyaPresetResponse.ACCEPT, pre3=0, pre2=0, pre=0, main=1000, post=0)
+    await port_obj.l1.serdes[serdes_id].lt.preset3.ieee.set(response=enums.FreyaPresetResponse.IGNORE, pre3=0, pre2=0, pre=0, main=1000, post=0)
+
+    await port_obj.l1.serdes[serdes_id].lt.preset4.ieee.set(response=enums.FreyaPresetResponse.ACCEPT, pre3=0, pre2=0, pre=0, main=1000, post=0)
+    await port_obj.l1.serdes[serdes_id].lt.preset4.ieee.set(response=enums.FreyaPresetResponse.IGNORE, pre3=0, pre2=0, pre=0, main=1000, post=0)
+
+    await port_obj.l1.serdes[serdes_id].lt.preset5.ieee.set(response=enums.FreyaPresetResponse.ACCEPT, pre3=0, pre2=0, pre=0, main=1000, post=0)
+    await port_obj.l1.serdes[serdes_id].lt.preset5.ieee.set(response=enums.FreyaPresetResponse.IGNORE, pre3=0, pre2=0, pre=0, main=1000, post=0)
+
+    await port_obj.l1.serdes[serdes_id].lt.preset_los.ieee.set(response=enums.FreyaPresetResponse.ACCEPT, pre3=0, pre2=0, pre=0, main=1000, post=0)
+    await port_obj.l1.serdes[serdes_id].lt.preset_los.ieee.set(response=enums.FreyaPresetResponse.IGNORE, pre3=0, pre2=0, pre=0, main=1000, post=0)
+
+
+Preset Configuration (mV/dB)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Configure the preset values (mV/dB values) of a serdes and the response to the received IC request.
+
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pl1_commands.PL1_PRESET_CONFIG_LEVEL`
+
+.. code-block:: python
+
+    await port_obj.l1.serdes[serdes_id].lt.preset1.level.set(response=enums.FreyaPresetResponse.ACCEPT, pre3=0, pre2=0, pre=0, main=998, post=0)
+    await port_obj.l1.serdes[serdes_id].lt.preset1.level.set(response=enums.FreyaPresetResponse.IGNORE, pre3=0, pre2=0, pre=0, main=998, post=0)
+
+    await port_obj.l1.serdes[serdes_id].lt.preset2.level.set(response=enums.FreyaPresetResponse.ACCEPT, pre3=0, pre2=0, pre=0, main=998, post=0)
+    await port_obj.l1.serdes[serdes_id].lt.preset2.level.set(response=enums.FreyaPresetResponse.IGNORE, pre3=0, pre2=0, pre=0, main=998, post=0)
+    
+    await port_obj.l1.serdes[serdes_id].lt.preset3.level.set(response=enums.FreyaPresetResponse.ACCEPT, pre3=0, pre2=0, pre=0, main=998, post=0)
+    await port_obj.l1.serdes[serdes_id].lt.preset3.level.set(response=enums.FreyaPresetResponse.IGNORE, pre3=0, pre2=0, pre=0, main=998, post=0)
+
+    await port_obj.l1.serdes[serdes_id].lt.preset4.level.set(response=enums.FreyaPresetResponse.ACCEPT, pre3=0, pre2=0, pre=0, main=998, post=0)
+    await port_obj.l1.serdes[serdes_id].lt.preset4.level.set(response=enums.FreyaPresetResponse.IGNORE, pre3=0, pre2=0, pre=0, main=998, post=0)
+
+    await port_obj.l1.serdes[serdes_id].lt.preset5.level.set(response=enums.FreyaPresetResponse.ACCEPT, pre3=0, pre2=0, pre=0, main=998, post=0)
+    await port_obj.l1.serdes[serdes_id].lt.preset5.level.set(response=enums.FreyaPresetResponse.IGNORE, pre3=0, pre2=0, pre=0, main=998, post=0)
+
+    await port_obj.l1.serdes[serdes_id].lt.preset_los.level.set(response=enums.FreyaPresetResponse.ACCEPT, pre3=0, pre2=0, pre=0, main=998, post=0)
+    await port_obj.l1.serdes[serdes_id].lt.preset_los.level.set(response=enums.FreyaPresetResponse.IGNORE, pre3=0, pre2=0, pre=0, main=998, post=0)
+
+Reset
+^^^^^
+
+Reset the preset of the serdes to its default values.
+
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pl1_commands.PL1_PRESET_RESET`
+
+.. code-block:: python
+
+    await port_obj.l1.serdes[serdes_id].lt.preset1.reset.set()
+    await port_obj.l1.serdes[serdes_id].lt.preset2.reset.set()
+    await port_obj.l1.serdes[serdes_id].lt.preset3.reset.set()
+    await port_obj.l1.serdes[serdes_id].lt.preset4.reset.set()
+    await port_obj.l1.serdes[serdes_id].lt.preset5.reset.set()
+    await port_obj.l1.serdes[serdes_id].lt.preset_los.reset.set()
+
+
+Tap Range and Response Configuration
+-------------------------------------
+
+Tap Range and Response Configuration (Native)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Configure the lower and the upper bound of transmit equalizer (native value) of the serdes, and how the serdes responds to an increment/decrement request when either bound is reached.
+
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pl1_commands.PL1_LT_PHYTXEQ_RANGE`
+
+.. code-block:: python
+
+    await port_obj.l1.serdes[serdes_id].lt.range.pre3.native.set(response=enums.FreyaLinkTrainingRangeResponse.AUTO, min=0, max=44)
+    await port_obj.l1.serdes[serdes_id].lt.range.pre3.native.set(response=enums.FreyaLinkTrainingRangeResponse.COEFF_AT_LIMIT, min=0, max=44)
+    await port_obj.l1.serdes[serdes_id].lt.range.pre3.native.set(response=enums.FreyaLinkTrainingRangeResponse.EQ_AT_LIMIT, min=0, max=44)
+    await port_obj.l1.serdes[serdes_id].lt.range.pre3.native.set(response=enums.FreyaLinkTrainingRangeResponse.COEFF_EQ_AT_LIMIT, min=0, max=44)
+    await port_obj.l1.serdes[serdes_id].lt.range.pre3.native.set(response=enums.FreyaLinkTrainingRangeResponse.COEFF_NOT_SUPPORTED, min=0, max=44)
+    await port_obj.l1.serdes[serdes_id].lt.range.pre3.native.set(response=enums.FreyaLinkTrainingRangeResponse.IGNORE, min=0, max=44)
+
+    await port_obj.l1.serdes[serdes_id].lt.range.pre2.native.set(response=enums.FreyaLinkTrainingRangeResponse.AUTO, min=0, max=44)
+    await port_obj.l1.serdes[serdes_id].lt.range.pre2.native.set(response=enums.FreyaLinkTrainingRangeResponse.COEFF_AT_LIMIT, min=0, max=44)
+    await port_obj.l1.serdes[serdes_id].lt.range.pre2.native.set(response=enums.FreyaLinkTrainingRangeResponse.EQ_AT_LIMIT, min=0, max=44)
+    await port_obj.l1.serdes[serdes_id].lt.range.pre2.native.set(response=enums.FreyaLinkTrainingRangeResponse.COEFF_EQ_AT_LIMIT, min=0, max=44)
+    await port_obj.l1.serdes[serdes_id].lt.range.pre2.native.set(response=enums.FreyaLinkTrainingRangeResponse.COEFF_NOT_SUPPORTED, min=0, max=44)
+    await port_obj.l1.serdes[serdes_id].lt.range.pre2.native.set(response=enums.FreyaLinkTrainingRangeResponse.IGNORE, min=0, max=44)
+
+    await port_obj.l1.serdes[serdes_id].lt.range.pre.native.set(response=enums.FreyaLinkTrainingRangeResponse.AUTO, min=0, max=44)
+    await port_obj.l1.serdes[serdes_id].lt.range.pre.native.set(response=enums.FreyaLinkTrainingRangeResponse.COEFF_AT_LIMIT, min=0, max=44)
+    await port_obj.l1.serdes[serdes_id].lt.range.pre.native.set(response=enums.FreyaLinkTrainingRangeResponse.EQ_AT_LIMIT, min=0, max=44)
+    await port_obj.l1.serdes[serdes_id].lt.range.pre.native.set(response=enums.FreyaLinkTrainingRangeResponse.COEFF_EQ_AT_LIMIT, min=0, max=44)
+    await port_obj.l1.serdes[serdes_id].lt.range.pre.native.set(response=enums.FreyaLinkTrainingRangeResponse.COEFF_NOT_SUPPORTED, min=0, max=44)
+    await port_obj.l1.serdes[serdes_id].lt.range.pre.native.set(response=enums.FreyaLinkTrainingRangeResponse.IGNORE, min=0, max=44)
+
+    await port_obj.l1.serdes[serdes_id].lt.range.main.native.set(response=enums.FreyaLinkTrainingRangeResponse.AUTO, min=0, max=44)
+    await port_obj.l1.serdes[serdes_id].lt.range.main.native.set(response=enums.FreyaLinkTrainingRangeResponse.COEFF_AT_LIMIT, min=0, max=44)
+    await port_obj.l1.serdes[serdes_id].lt.range.main.native.set(response=enums.FreyaLinkTrainingRangeResponse.EQ_AT_LIMIT, min=0, max=44)
+    await port_obj.l1.serdes[serdes_id].lt.range.main.native.set(response=enums.FreyaLinkTrainingRangeResponse.COEFF_EQ_AT_LIMIT, min=0, max=44)
+    await port_obj.l1.serdes[serdes_id].lt.range.main.native.set(response=enums.FreyaLinkTrainingRangeResponse.COEFF_NOT_SUPPORTED, min=0, max=44)
+    await port_obj.l1.serdes[serdes_id].lt.range.main.native.set(response=enums.FreyaLinkTrainingRangeResponse.IGNORE, min=0, max=44)
+
+    await port_obj.l1.serdes[serdes_id].lt.range.post.native.set(response=enums.FreyaLinkTrainingRangeResponse.AUTO, min=0, max=44)
+    await port_obj.l1.serdes[serdes_id].lt.range.post.native.set(response=enums.FreyaLinkTrainingRangeResponse.COEFF_AT_LIMIT, min=0, max=44)
+    await port_obj.l1.serdes[serdes_id].lt.range.post.native.set(response=enums.FreyaLinkTrainingRangeResponse.EQ_AT_LIMIT, min=0, max=44)
+    await port_obj.l1.serdes[serdes_id].lt.range.post.native.set(response=enums.FreyaLinkTrainingRangeResponse.COEFF_EQ_AT_LIMIT, min=0, max=44)
+    await port_obj.l1.serdes[serdes_id].lt.range.post.native.set(response=enums.FreyaLinkTrainingRangeResponse.COEFF_NOT_SUPPORTED, min=0, max=44)
+    await port_obj.l1.serdes[serdes_id].lt.range.post.native.set(response=enums.FreyaLinkTrainingRangeResponse.IGNORE, min=0, max=44)
+
+Tap Range and Response Configuration (IEEE)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Configure the lower and the upper bound of transmit equalizer (IEEE coefficient value) of the serdes, and how the serdes responds to an increment/decrement request when either bound is reached.
+
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.pl1_commands.PL1_LT_PHYTXEQ_RANGE_COEFF`
+
+.. code-block:: python
+
+    await port_obj.l1.serdes[serdes_id].lt.range.pre3.ieee.set(response=enums.FreyaLinkTrainingRangeResponse.AUTO, min=-100, max=0)
+    await port_obj.l1.serdes[serdes_id].lt.range.pre3.ieee.set(response=enums.FreyaLinkTrainingRangeResponse.COEFF_AT_LIMIT, min=-100, max=0)
+    await port_obj.l1.serdes[serdes_id].lt.range.pre3.ieee.set(response=enums.FreyaLinkTrainingRangeResponse.EQ_AT_LIMIT, min=-100, max=0)
+    await port_obj.l1.serdes[serdes_id].lt.range.pre3.ieee.set(response=enums.FreyaLinkTrainingRangeResponse.COEFF_EQ_AT_LIMIT, min=-100, max=0)
+    await port_obj.l1.serdes[serdes_id].lt.range.pre3.ieee.set(response=enums.FreyaLinkTrainingRangeResponse.COEFF_NOT_SUPPORTED, min=-100, max=0)
+    await port_obj.l1.serdes[serdes_id].lt.range.pre3.ieee.set(response=enums.FreyaLinkTrainingRangeResponse.IGNORE, min=-100, max=0)
+
+    await port_obj.l1.serdes[serdes_id].lt.range.pre.ieee.set(response=enums.FreyaLinkTrainingRangeResponse.AUTO, min=-100, max=0)
+    await port_obj.l1.serdes[serdes_id].lt.range.pre.ieee.set(response=enums.FreyaLinkTrainingRangeResponse.COEFF_AT_LIMIT, min=-100, max=0)
+    await port_obj.l1.serdes[serdes_id].lt.range.pre.ieee.set(response=enums.FreyaLinkTrainingRangeResponse.EQ_AT_LIMIT, min=-100, max=0)
+    await port_obj.l1.serdes[serdes_id].lt.range.pre.ieee.set(response=enums.FreyaLinkTrainingRangeResponse.COEFF_EQ_AT_LIMIT, min=-100, max=0)
+    await port_obj.l1.serdes[serdes_id].lt.range.pre.ieee.set(response=enums.FreyaLinkTrainingRangeResponse.COEFF_NOT_SUPPORTED, min=-100, max=0)
+    await port_obj.l1.serdes[serdes_id].lt.range.pre.ieee.set(response=enums.FreyaLinkTrainingRangeResponse.IGNORE, min=-100, max=0)
+
+    await port_obj.l1.serdes[serdes_id].lt.range.post.ieee.set(response=enums.FreyaLinkTrainingRangeResponse.AUTO, min=-100, max=0)
+    await port_obj.l1.serdes[serdes_id].lt.range.post.ieee.set(response=enums.FreyaLinkTrainingRangeResponse.COEFF_AT_LIMIT, min=-100, max=0)
+    await port_obj.l1.serdes[serdes_id].lt.range.post.ieee.set(response=enums.FreyaLinkTrainingRangeResponse.EQ_AT_LIMIT, min=-100, max=0)
+    await port_obj.l1.serdes[serdes_id].lt.range.post.ieee.set(response=enums.FreyaLinkTrainingRangeResponse.COEFF_EQ_AT_LIMIT, min=-100, max=0)
+    await port_obj.l1.serdes[serdes_id].lt.range.post.ieee.set(response=enums.FreyaLinkTrainingRangeResponse.COEFF_NOT_SUPPORTED, min=-100, max=0)
+    await port_obj.l1.serdes[serdes_id].lt.range.post.ieee.set(response=enums.FreyaLinkTrainingRangeResponse.IGNORE, min=-100, max=0)
+
+    await port_obj.l1.serdes[serdes_id].lt.range.main.ieee.set(response=enums.FreyaLinkTrainingRangeResponse.AUTO, min=0, max=500)
+    await port_obj.l1.serdes[serdes_id].lt.range.main.ieee.set(response=enums.FreyaLinkTrainingRangeResponse.COEFF_AT_LIMIT, min=0, max=500)
+    await port_obj.l1.serdes[serdes_id].lt.range.main.ieee.set(response=enums.FreyaLinkTrainingRangeResponse.EQ_AT_LIMIT, min=0, max=500)
+    await port_obj.l1.serdes[serdes_id].lt.range.main.ieee.set(response=enums.FreyaLinkTrainingRangeResponse.COEFF_EQ_AT_LIMIT, min=0, max=500)
+    await port_obj.l1.serdes[serdes_id].lt.range.main.ieee.set(response=enums.FreyaLinkTrainingRangeResponse.COEFF_NOT_SUPPORTED, min=0, max=500)
+    await port_obj.l1.serdes[serdes_id].lt.range.main.ieee.set(response=enums.FreyaLinkTrainingRangeResponse.IGNORE, min=0, max=500)
+
+    await port_obj.l1.serdes[serdes_id].lt.range.post.ieee.set(response=enums.FreyaLinkTrainingRangeResponse.AUTO, min=0, max=500)
+    await port_obj.l1.serdes[serdes_id].lt.range.post.ieee.set(response=enums.FreyaLinkTrainingRangeResponse.COEFF_AT_LIMIT, min=0, max=500)
+    await port_obj.l1.serdes[serdes_id].lt.range.post.ieee.set(response=enums.FreyaLinkTrainingRangeResponse.EQ_AT_LIMIT, min=0, max=500)
+    await port_obj.l1.serdes[serdes_id].lt.range.post.ieee.set(response=enums.FreyaLinkTrainingRangeResponse.COEFF_EQ_AT_LIMIT, min=0, max=500)
+    await port_obj.l1.serdes[serdes_id].lt.range.post.ieee.set(response=enums.FreyaLinkTrainingRangeResponse.COEFF_NOT_SUPPORTED, min=0, max=500)
+    await port_obj.l1.serdes[serdes_id].lt.range.post.ieee.set(response=enums.FreyaLinkTrainingRangeResponse.IGNORE, min=0, max=500)
+
+
+Initial Modulation
+------------------
+
+This command controls the initial modulation of Link Training. 
+
+.. code-block:: python
+
+    await port_obj.l1.serdes[serdes_id].lt.initial_modulation.set(values=[enums.LinkTrainEncoding.NRZ])
+
+    await port_obj.l1.serdes[serdes_id].lt.initial_modulation.set(values=[enums.LinkTrainEncoding.PAM4])
+
+    await port_obj.l1.serdes[serdes_id].lt.initial_modulation.set(values=[enums.LinkTrainEncoding.PAM4_WITH_PRECODING])
+
+
+Algorithm Selection
+--------------------
+
+This command controls the link training algorithm used by the port. 
+
+.. code-block:: python
+
+    await port_obj.l1.serdes[serdes_id].lt.algorithm.set(values=[enums.LinkTrainAlgorithm.ALG0])
+
+    await port_obj.l1.serdes[serdes_id].lt.algorithm.set(values=[enums.LinkTrainAlgorithm.ALGN1])
+
+    await port_obj.l1.serdes[serdes_id].lt.algorithm.set(values=[enums.LinkTrainAlgorithm.INTERACTIVE])

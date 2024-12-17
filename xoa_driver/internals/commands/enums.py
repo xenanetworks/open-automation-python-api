@@ -1061,6 +1061,9 @@ class MediaConfigurationType(IntEnum):
     OSFP_ANLT = 119
     """OSFP, 56G serdes, L1/ANLT"""
 
+    OSFP_NRZ = 120
+    """OSFP, 56G serdes, NRZ"""
+
     UNKNOWN = 255
 
 
@@ -2295,6 +2298,9 @@ class Layer1ConfigType(IntEnum):
     AN_LT_XLA_MODE = 7
     """Set XLA mode. If enabled XLA dumps will, if triggered, be logged automatically"""
 
+    AN_EMPTY_NP = 8
+    """Empty Next Pages mode. If enabled, the port forcibly sends empty NP pages. If disabled, the port does not send empty NP pages."""
+
 
 class Layer1LogType(IntEnum):
     """
@@ -2701,9 +2707,7 @@ class PreCodingMode(IntEnum):
     
     ON = 1
     """On"""
-    
-    AUTO = 2
-    """Auto"""
+
 
 class GrayCodingMode(IntEnum):
     """Rx/Tx Gray-Coding Mode."""
@@ -2996,6 +3000,88 @@ class FreyaTecAbilityHCD(IntEnum):
 
     IEEE_1000BASE_KX = 0
     """IEEE_1000BASE_KX"""
+
+class FreyaPresetResponse(IntEnum):
+    """Response to the received IC request"""
+
+    IGNORE = 0
+    """Acknowledge the IC request without acting upon it (acknowledge but no changes)."""
+
+    ACCEPT = 1
+    """Acknowledge the IC request and apply the corresponding preset value."""
+
+class FreyaPresetIndex(IntEnum):
+    """Preset index for FreyaPresetResponse"""
+
+    PRESET1 = 0
+    """Preset 1"""
+
+    PRESET2 = 1
+    """Preset 2"""
+
+    PRESET3 = 2
+    """Preset 3"""
+
+    PRESET4 = 3
+    """Preset 4"""
+
+    PRESET5 = 4
+    """Preset 5"""
+
+    LOS = 255
+    """Preset when out of sync"""
+
+class FreyaTapIndex(IntEnum):
+    """Preset index for FreyaPresetResponse"""
+
+    TAP0 = 0
+    """pre (For Freya 112G and 56G serdes)"""
+
+    TAP1 = 1
+    """main (For Freya 112G and 56G serdes)"""
+
+    TAP2 = 2
+    """post (For Freya 112G and 56G serdes)"""
+
+    TAP3 = 3
+    """pre2 (For Freya 112G and 56G serdes)"""
+
+    TAP4 = 4
+    """pre3 (For Freya 112G and 56G serdes)"""
+
+
+class FreyaLinkTrainingRangeResponse(IntEnum):
+    """Response when LT range is reached"""
+
+    AUTO = 0
+    """The response is automatically determined by the serdes."""
+
+    IGNORE = 1
+    """The increment/decrement request will be “acknowledged” without acting upon it."""
+
+    COEFF_AT_LIMIT = 2
+    """Respond Coefficient At Limit (coefficient status = 010) to the increment/decrement request."""
+
+    EQ_AT_LIMIT = 3
+    """Respond Equalization Limit (coefficient status = 100) to the increment/decrement request."""
+
+    COEFF_EQ_AT_LIMIT = 4
+    """Respond Coefficient At Limit and Equalization Limit (coefficient status = 110) to the increment/decrement request."""
+
+    COEFF_NOT_SUPPORTED = 5
+    """Respond Coefficient Not Supported (coefficient status = 011) to the increment/decrement request."""
+
+
+class FreyaAutorestartMode(IntEnum):
+    """Response when LT range is reached"""
+
+    OFF = 0
+
+    WHEN_LINK_DOWN = 1
+
+    WHEN_LT_FAILED = 2
+
+    WHEN_LINK_DOWN_LT_FAILED = 3
 
 # endregion
 

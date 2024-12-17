@@ -48,6 +48,10 @@ from .enums import (
     FreyaTecAbilityHCD,
     FecCodewordBitErrorMaskMode,
     StartOrStop,
+    FreyaPresetResponse,
+    FreyaPresetIndex,
+    FreyaTapIndex,
+    FreyaLinkTrainingRangeResponse,
 )
 
 
@@ -379,6 +383,7 @@ class PL1_CFG_TMP:
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._type], values=values))
     
+    
 @register_command
 @dataclass
 class PL1_LINKTRAIN_CMD:
@@ -429,6 +434,126 @@ class PL1_LINKTRAIN_CMD:
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex], cmd=cmd, arg=arg))
+
+
+@register_command
+@dataclass
+class PL1_LT_PHYTXEQ_RANGE:
+    """
+    .. versionadded:: 2.9
+    
+    Configure the lower and the upper bound of transmit equalizer (native value) of the serdes, and how the serdes responds to an increment/decrement request when either bound is reached.
+
+    """
+
+    code: typing.ClassVar[int] = 417
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _serdes_xindex: int
+    _tap_xindex: FreyaTapIndex
+
+    class GetDataAttr(ResponseBodyStruct):
+        response: FreyaLinkTrainingRangeResponse = field(XmpByte())
+        """byte, the response when either of the bounds is triggered. Default is AUTO."""
+        min: int = field(XmpInt())
+        """integer, the lower bound of the tap. When set, the value is ignored when <response> == AUTO."""
+        max: int = field(XmpInt())
+        """integer, the upper bound of the tap. When set, the value is ignored when <response> == AUTO.)"""
+        
+    class SetDataAttr(RequestBodyStruct):
+        response: FreyaLinkTrainingRangeResponse = field(XmpByte())
+        """byte, the response when either of the bounds is triggered. Default is AUTO."""
+        min: int = field(XmpInt())
+        """integer, the lower bound of the tap. When set, the value is ignored when <response> == AUTO."""
+        max: int = field(XmpInt())
+        """integer, the upper bound of the tap. When set, the value is ignored when <response> == AUTO.)"""
+
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the lower and the upper bound of transmit equalizer (native value) of the serdes, and how the serdes responds to an increment/decrement request when either bound is reached."""
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._tap_xindex]))
+
+    def set(self, response:FreyaLinkTrainingRangeResponse, min: int, max: int) -> Token[None]:
+        """Set the lower and the upper bound of transmit equalizer (native value) of the serdes, and how the serdes responds to an increment/decrement request when either bound is reached."""
+        return Token(
+            self._connection,
+            build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._tap_xindex], response=response, min=min, max=max))
+    
+
+@register_command
+@dataclass
+class PL1_LT_PHYTXEQ_RANGE_COEFF:
+    """
+    .. versionadded:: 2.9
+    
+    Configure the lower and the upper bound of transmit equalizer (IEEE coefficient value) of the serdes, and how the serdes responds to an increment/decrement request when either bound is reached.
+    
+    Whenever <response> == AUTO (the default), min and max will have their default values, which can be read with “get”. Any value that attempt to set the min and max when <response> == AUTO will be ignored by the chassis.
+
+    """
+
+    code: typing.ClassVar[int] = 419
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _serdes_xindex: int
+    _tap_xindex: FreyaTapIndex
+
+    class GetDataAttr(ResponseBodyStruct):
+        response: FreyaLinkTrainingRangeResponse = field(XmpByte())
+        """byte, the response when either of the bounds is triggered. Default is AUTO."""
+        min: int = field(XmpInt())
+        """
+        integer, the lower bound of the tap. When set, the value is ignored when <response> == AUTO.
+        
+        * For <tap_index> == PRE3/PRE/POST, negative, scaled by 1E3.
+        * For <tap_index> == MAIN/PRE2, positive, scaled by 1E3.
+
+        """
+        max: int = field(XmpInt())
+        """
+        integer, the upper bound of the tap. When set, the value is ignored when <response> == AUTO.
+        
+        * For <tap_index> == PRE3/PRE/POST, negative, scaled by 1E3.
+        * For <tap_index> == MAIN/PRE2, positive, scaled by 1E3.
+
+        """
+        
+    class SetDataAttr(RequestBodyStruct):
+        response: FreyaLinkTrainingRangeResponse = field(XmpByte())
+        """byte, the response when either of the bounds is triggered. Default is AUTO."""
+        min: int = field(XmpInt())
+        """
+        integer, the lower bound of the tap. When set, the value is ignored when <response> == AUTO.
+        
+        * For <tap_index> == PRE3/PRE/POST, negative, scaled by 1E3.
+        * For <tap_index> == MAIN/PRE2, positive, scaled by 1E3.
+
+        """
+        max: int = field(XmpInt())
+        """
+        integer, the upper bound of the tap. When set, the value is ignored when <response> == AUTO.
+        
+        * For <tap_index> == PRE3/PRE/POST, negative, scaled by 1E3.
+        * For <tap_index> == MAIN/PRE2, positive, scaled by 1E3.
+
+        """
+
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the lower and the upper bound of transmit equalizer (IEEE coefficient value) of the serdes, and how the serdes responds to an increment/decrement request when either bound is reached."""
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._tap_xindex]))
+
+    def set(self, response:FreyaLinkTrainingRangeResponse, min: int, max: int) -> Token[None]:
+        """Set the lower and the upper bound of transmit equalizer (IEEE coefficient value) of the serdes, and how the serdes responds to an increment/decrement request when either bound is reached."""
+        return Token(
+            self._connection,
+            build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._tap_xindex], response=response, min=min, max=max))
 
 @register_command
 @dataclass
@@ -533,7 +658,215 @@ class PL1_GET_DATA:
     def get(self) -> Token[GetDataAttr]:
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._func_xindex]))
+
+
+@register_command
+@dataclass
+class PL1_PRESET_CONFIG:
+    """
+    .. versionadded:: 2.9
     
+    Configure the preset values (native values) of a serdes and the response to the received IC request.
+
+    """
+
+    code: typing.ClassVar[int] = 426
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _serdes_xindex: int
+    _preset_xindex: FreyaPresetIndex
+
+    class GetDataAttr(ResponseBodyStruct):
+        response: FreyaPresetResponse = field(XmpByte())
+        """integer, byte, the response to the received IC request. Default = ACCEPT."""
+        pre3: int = field(XmpInt())
+        """integer, pre3 tap value. Default = 0 (neutral)"""
+        pre2: int = field(XmpInt())
+        """integer, pre2 tap value. Default = 0 (neutral)"""
+        pre: int = field(XmpInt())
+        """integer, pre tap value. Default = 0 (neutral)"""
+        main: int = field(XmpInt())
+        """integer, main tap value."""
+        post: int = field(XmpInt())
+        """integer, post tap value. Default = 0 (neutral)"""
+        
+    class SetDataAttr(RequestBodyStruct):
+        response: FreyaPresetResponse = field(XmpByte())
+        """integer, byte, the response to the received IC request. Default = ACCEPT."""
+        pre3: int = field(XmpInt())
+        """integer, pre3 tap value. Default = 0 (neutral)"""
+        pre2: int = field(XmpInt())
+        """integer, pre2 tap value. Default = 0 (neutral)"""
+        pre: int = field(XmpInt())
+        """integer, pre tap value. Default = 0 (neutral)"""
+        main: int = field(XmpInt())
+        """integer, main tap value."""
+        post: int = field(XmpInt())
+        """integer, post tap value. Default = 0 (neutral)"""
+
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the preset values (native values) of a serdes and the response to the received IC request."""
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._preset_xindex]))
+
+    def set(self, response:FreyaPresetResponse, pre3:int, pre2: int, pre: int, main: int, post: int) -> Token[None]:
+        """Set the preset values (native values) of a serdes and the response to the received IC request."""
+        return Token(
+            self._connection,
+            build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._preset_xindex], response=response, pre3=pre3, pre2=pre2, pre=pre, main=main, post=post))
+
+
+@register_command
+@dataclass
+class PL1_PRESET_RESET:
+    """
+    .. versionadded:: 2.9
+    
+    Reset the preset of the serdes to its default values.
+
+    """
+
+    code: typing.ClassVar[int] = 427
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _serdes_xindex: int
+    _preset_xindex: FreyaPresetIndex
+
+    class SetDataAttr(RequestBodyStruct):
+        pass
+
+
+    def set(self) -> Token[None]:
+        """Reset the preset of the serdes to its default values.
+        """
+        return Token(
+            self._connection,
+            build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._preset_xindex]))
+
+@register_command
+@dataclass
+class PL1_PRESET_CONFIG_LEVEL:
+    """
+    .. versionadded:: 2.9
+    
+    Configure the preset values (mV/dB values) of a serdes and the response to the received IC request.
+
+    """
+
+    code: typing.ClassVar[int] = 428
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _serdes_xindex: int
+    _preset_xindex: FreyaPresetIndex
+
+    class GetDataAttr(ResponseBodyStruct):
+        response: FreyaPresetResponse = field(XmpByte())
+        """integer, byte, the response to the received IC request. Default = ACCEPT."""
+        pre3: int = field(XmpInt())
+        """integer, pre3 tap value in dB/10, ranges from 0 to 71. Default = 0 (neutral)"""
+        pre2: int = field(XmpInt())
+        """integer, pre2 tap value in dB/10, ranges from 0 to 71. Default = 0 (neutral)"""
+        pre: int = field(XmpInt())
+        """integer, pre tap value in dB/10, ranges from 0 to 187. Default = 0 (neutral)"""
+        main: int = field(XmpInt())
+        """integer, main tap value in mV, ranges from 507 to 998."""
+        post: int = field(XmpInt())
+        """integer, post tap value in dB/10, ranges from 0 to 187 Default = 0 (neutral)"""
+        
+    class SetDataAttr(RequestBodyStruct):
+        response: FreyaPresetResponse = field(XmpByte())
+        """integer, byte, the response to the received IC request. Default = ACCEPT."""
+        pre3: int = field(XmpInt())
+        """integer, pre3 tap value in dB/10, ranges from 0 to 71. Default = 0 (neutral)"""
+        pre2: int = field(XmpInt())
+        """integer, pre2 tap value in dB/10, ranges from 0 to 71. Default = 0 (neutral)"""
+        pre: int = field(XmpInt())
+        """integer, pre tap value in dB/10, ranges from 0 to 187. Default = 0 (neutral)"""
+        main: int = field(XmpInt())
+        """integer, main tap value in mV, ranges from 507 to 998."""
+        post: int = field(XmpInt())
+        """integer, post tap value in dB/10, ranges from 0 to 187 Default = 0 (neutral)"""
+
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the preset values (mV/dB values) of a serdes and the response to the received IC request"""
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._preset_xindex]))
+
+    def set(self, response:FreyaPresetResponse, pre3:int, pre2: int, pre: int, main: int, post: int) -> Token[None]:
+        """Set the preset values (mV/dB values) of a serdes and the response to the received IC request"""
+        return Token(
+            self._connection,
+            build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._preset_xindex], response=response, pre3=pre3, pre2=pre2, pre=pre, main=main, post=post))
+    
+
+@register_command
+@dataclass
+class PL1_PRESET_CONFIG_COEFF:
+    """
+    .. versionadded:: 2.9
+    
+    Configure the preset values (IEEE coefficient values) of a serdes and the response to the received IC request.
+
+    """
+
+    code: typing.ClassVar[int] = 429
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _serdes_xindex: int
+    _preset_xindex: FreyaPresetIndex
+
+    class GetDataAttr(ResponseBodyStruct):
+        response: FreyaPresetResponse = field(XmpByte())
+        """integer, byte, the response to the received IC request. Default = ACCEPT."""
+        pre3: int = field(XmpInt())
+        """integer, pre3 tap value, negative, scaled by 1E3. Default = 0 (neutral)"""
+        pre2: int = field(XmpInt())
+        """integer, pre2 tap value, positive, scaled by 1E3. Default = 0 (neutral)"""
+        pre: int = field(XmpInt())
+        """integer, pre tap value, negative, scaled by 1E3. Default = 0 (neutral)"""
+        main: int = field(XmpInt())
+        """integer, main tap value, positive, scaled by 1E3. Default = 1000"""
+        post: int = field(XmpInt())
+        """integer, post tap value, negative, scaled by 1E3. Default = 0 (neutral)"""
+        
+    class SetDataAttr(RequestBodyStruct):
+        response: FreyaPresetResponse = field(XmpByte())
+        """integer, byte, the response to the received IC request. Default = ACCEPT."""
+        pre3: int = field(XmpInt())
+        """integer, pre3 tap value, negative, scaled by 1E3. Default = 0 (neutral)"""
+        pre2: int = field(XmpInt())
+        """integer, pre2 tap value, positive, scaled by 1E3. Default = 0 (neutral)"""
+        pre: int = field(XmpInt())
+        """integer, pre tap value, negative, scaled by 1E3. Default = 0 (neutral)"""
+        main: int = field(XmpInt())
+        """integer, main tap value, positive, scaled by 1E3. Default = 1000"""
+        post: int = field(XmpInt())
+        """integer, post tap value, negative, scaled by 1E3. Default = 0 (neutral)"""
+
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the preset values (IEEE coefficient values) of a serdes and the response to the received IC request."""
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._preset_xindex]))
+
+    def set(self, response:FreyaPresetResponse, pre3:int, pre2: int, pre: int, main: int, post: int) -> Token[None]:
+        """Set the preset values (IEEE coefficient values) of a serdes and the response to the received IC request."""
+        return Token(
+            self._connection,
+            build_set_request(self, module=self._module, port=self._port, indices=[self._serdes_xindex, self._preset_xindex], response=response, pre3=pre3, pre2=pre2, pre=pre, main=main, post=post))
+    
+
 @register_command
 @dataclass
 class PL1_PHYTXEQ_LEVEL:
