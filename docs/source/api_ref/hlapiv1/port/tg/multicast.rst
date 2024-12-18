@@ -145,7 +145,7 @@ Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_comm
 
 IGMPv3 Group Record
 ---------------------
-Configure if a single membership report bundles multiple multicast group records to decrease the number of packets sent when using IGMPv3. This command returns <NOTVALID> when the IGMP version is not IGMPv3.
+Configure if a single membership report bundles multiple multicast group records to decrease the number of packets sent when using IGMPv3. This command returns ``<NOTVALID>`` when the IGMP version is not IGMPv3.
 
 Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_IGMPV3_GROUP_RECORD_BUNDLE`
 

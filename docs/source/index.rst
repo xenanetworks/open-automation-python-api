@@ -23,6 +23,7 @@ The target audience of this document is test specialists who develop and run aut
 
 
 .. toctree::
+   :numbered:
    :maxdepth: 1
    :caption: Table of Content
 
