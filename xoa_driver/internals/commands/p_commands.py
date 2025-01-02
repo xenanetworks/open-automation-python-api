@@ -4573,3 +4573,55 @@ class P_EMULATE:
     set_on = functools.partialmethod(set, OnOff.ON)
     """Enable the Chimera port's emulation functionality.
     """
+
+
+@register_command
+@dataclass
+class P_MACSEC_TXSC_CREATE:
+    """
+    Create a new TX Secure Channel (SC) on the port.
+    """
+
+    code: typing.ClassVar[int] = 505
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _txsc_index: int
+
+    class SetDataAttr(RequestBodyStruct):
+        pass
+
+    def set(self) -> Token[None]:
+        """Create a new TX Secure Channel (SC) on the port.
+        """
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
+
+
+@register_command
+@dataclass
+class P_MACSEC_TXSC_DELETE:
+    """
+    Delete a new TX Secure Channel (SC) on the port.
+    """
+
+    code: typing.ClassVar[int] = 530
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _txsc_index: int
+
+    class SetDataAttr(RequestBodyStruct):
+        pass
+
+    def set(self) -> Token[None]:
+        """Delete a new TX Secure Channel (SC) on the port.
+        """
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
+
+
