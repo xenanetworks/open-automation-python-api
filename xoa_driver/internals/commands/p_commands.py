@@ -4625,3 +4625,51 @@ class P_MACSEC_TXSC_DELETE:
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
 
 
+@register_command
+@dataclass
+class P_MACSEC_RXSC_CREATE:
+    """
+    Create a new RX Secure Channel (SC) on the port.
+    """
+
+    code: typing.ClassVar[int] = 518
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _txsc_index: int
+
+    class SetDataAttr(RequestBodyStruct):
+        pass
+
+    def set(self) -> Token[None]:
+        """Create a new RX Secure Channel (SC) on the port.
+        """
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
+
+
+@register_command
+@dataclass
+class P_MACSEC_RXSC_DELETE:
+    """
+    Delete a new RX Secure Channel (SC) on the port.
+    """
+
+    code: typing.ClassVar[int] = 531
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _txsc_index: int
+
+    class SetDataAttr(RequestBodyStruct):
+        pass
+
+    def set(self) -> Token[None]:
+        """Delete a new RX Secure Channel (SC) on the port.
+        """
+        
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))

@@ -51,6 +51,8 @@ from xoa_driver.internals.commands import (
     P_TXBURSTPERIOD,
     P_CAPABILITIES_EXT,
     P_IGMPV3_GROUP_RECORD_BUNDLE,
+    P_MACSEC_TXSC_CREATE,
+    P_MACSEC_TXSC_DELETE,
 )
 if typing.TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
@@ -331,6 +333,21 @@ class Traffic:
         """
 
 
+class MACsec:
+    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
+        self.txsc_create: P_MACSEC_TXSC_CREATE = P_MACSEC_TXSC_CREATE(conn, module_id, port_id)
+        """Create a Tx SC for the port.
+
+        :type: P_MACSEC_TXSC_CREATE
+        """
+
+        self.txsc_delete: P_MACSEC_TXSC_DELETE = P_MACSEC_TXSC_DELETE(conn, module_id, port_id)
+        """Delete a Tx SC for the port.
+
+        :type: P_MACSEC_TXSC_DELETE
+        """
+
+
 class BasePortL23(base_port.BasePort[ports_state.PortL23LocalState]):
     """L23 port layout which is relevant to all L23 ports."""
 
@@ -519,6 +536,12 @@ class BasePortL23(base_port.BasePort[ports_state.PortL23LocalState]):
         """L23 port's match term index manager.
 
         :type: MatchTermIndices
+        """
+
+        self.macsec : MACsec = MACsec(conn, module_id, port_id)
+        """L23 port Media Access Control security.
+
+        :type: MACsec
         """
 
     on_speed_change = functools.partialmethod(utils.on_event, P_SPEED)

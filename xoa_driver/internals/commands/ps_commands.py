@@ -2157,3 +2157,53 @@ class PS_OPTIONS:
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._stream_xindex], options=options))
+
+@register_command
+@dataclass
+class PS_MACSEC_ENABLE:
+    """
+    Whether a port should enable its transmitter, or keep the outgoing link down.
+    """
+
+    code: typing.ClassVar[int] = 526
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _stream_xindex: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        on_off: OnOff = field(XmpByte())
+        """coded byte, whether the transmitter is enabled or disabled."""
+
+    class SetDataAttr(RequestBodyStruct):
+        on_off: OnOff = field(XmpByte())
+        """coded byte, whether the transmitter is enabled or disabled."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the port's transmitter status.
+
+        :return: the port's transmitter status
+        :rtype: P_TXENABLE.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indicies=[self._stream_xindex]))
+
+    def set(self, on_off: OnOff) -> Token[None]:
+        """Set the the port's transmitter status.
+
+        :param on_off: the port's transmitter status
+        :type on_off: OnOff
+        """
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indicies=[self._stream_xindex], on_off=on_off))
+
+    set_off = functools.partialmethod(set, OnOff.OFF)
+    """Disable the port's transmitter and keep the outgoing link down.
+    """
+
+    set_on = functools.partialmethod(set, OnOff.ON)
+    """Enable the port's transmitter.
+    """
+
