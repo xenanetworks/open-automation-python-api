@@ -7,9 +7,9 @@ from xoa_driver.lli import TransportationHandler
 from xoa_driver.lli import establish_connection
 from xoa_driver import enums
 
-CHASSIS_IP = "10.10.10.10"
+CHASSIS_IP = "10.165.153.110"
 PORT_ID = "0/0"
-USERNAME = "TEST"
+USERNAME = "leo"
 
 
 async def macsec_api_test(chassis: str, username: str, port_id: str, stop_event: asyncio.Event, password: str = "xena") -> None:
@@ -19,7 +19,7 @@ async def macsec_api_test(chassis: str, username: str, port_id: str, stop_event:
     _pid = int(port_id.split("/")[1])
 
     # Connect to chassis                            
-    handler = TransportationHandler(enable_logging=False)
+    handler = TransportationHandler(enable_logging=True)
     await establish_connection(handler, host=chassis, port=22606)
     await utils.apply(
         cmd.C_LOGON(handler).set(password),
@@ -40,20 +40,26 @@ async def macsec_api_test(chassis: str, username: str, port_id: str, stop_event:
     # Create a stream on port
     _stream_id = 0
     await cmd.PS_CREATE(handler, _mid, _pid, _stream_id).set()
+    await cmd.PS_PACKETLENGTH(handler,_mid, _pid, _stream_id).set(length_type=enums.LengthType.FIXED, min_val=1000, max_val=1000)
+    await cmd.PS_ENABLE(handler, _mid, _pid, _stream_id).set(state=enums.OnOffWithSuppress.ON)
 
-    # Create a MACSec TX SC on the port
+    # # Create a MACSec TX SC on the port
     _macsec_txsc_id = 0
     await cmd.P_MACSEC_TXSC_CREATE(handler, _mid, _pid, _macsec_txsc_id).set()
 
-    # Create a MACSec RX SC on the port
+    # # Create a MACSec RX SC on the port
     _macsec_rxsc_id = 0
     await cmd.P_MACSEC_RXSC_CREATE(handler, _mid, _pid, _macsec_rxsc_id).set()
 
     # Enable MACSec on the stream
     await cmd.PS_MACSEC_ENABLE(handler, _mid, _pid, _stream_id).set(on_off=enums.OnOff.ON)
+    resp = await cmd.PS_MACSEC_ENABLE(handler, _mid, _pid, _stream_id).get()
+    print(resp.on_off)
 
     # Disable MACSec on the stream
     await cmd.PS_MACSEC_ENABLE(handler, _mid, _pid, _stream_id).set(on_off=enums.OnOff.OFF)
+    resp = await cmd.PS_MACSEC_ENABLE(handler, _mid, _pid, _stream_id).get()
+    print(resp.on_off)
 
     # Delete MACSec RX SC
     await cmd.P_MACSEC_RXSC_DELETE(handler, _mid, _pid, _macsec_rxsc_id).set()
