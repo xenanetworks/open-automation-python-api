@@ -53,6 +53,8 @@ from xoa_driver.internals.commands import (
     P_IGMPV3_GROUP_RECORD_BUNDLE,
     P_MACSEC_TXSC_CREATE,
     P_MACSEC_TXSC_DELETE,
+    P_MACSEC_RXSC_CREATE,
+    P_MACSEC_RXSC_DELETE,
 )
 if typing.TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
@@ -195,6 +197,31 @@ class Multicast:
 
         :type: P_IGMPV3_GROUP_RECORD_BUNDLE
         """
+
+        self.macsec_txsc_create = P_MACSEC_TXSC_CREATE(conn, module_id, port_id)
+        """Create a new TX Secure Channel (SC) on the port.
+
+        :type: P_MACSEC_TXSC_CREATE
+        """
+
+        self.macsec_txsc_delete = P_MACSEC_TXSC_DELETE(conn, module_id, port_id)
+        """Delete a new TX Secure Channel (SC) on the port.
+
+        :type: P_MACSEC_TXSC_DELETE
+        """
+
+        self.macsec_rxsc_create = P_MACSEC_RXSC_CREATE(conn, module_id, port_id)
+        """Create a new RX Secure Channel (SC) on the port.
+
+        :type: P_MACSEC_RXSC_CREATE
+        """
+
+        self.macsec_rxsc_delete = P_MACSEC_RXSC_DELETE(conn, module_id, port_id)
+        """Delete a new RX Secure Channel (SC) on the port.
+
+        :type: P_MACSEC_RXSC_DELETE
+        """
+
 
 
 class IPv4:
