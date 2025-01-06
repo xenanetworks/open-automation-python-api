@@ -4579,7 +4579,7 @@ class P_EMULATE:
 @dataclass
 class P_MACSEC_TXSC_CREATE:
     """
-    Create a new TX Secure Channel (SC) on the port.
+    Create a TX Secure Channel (SC) on the port.
     """
 
     code: typing.ClassVar[int] = 505
@@ -4594,7 +4594,7 @@ class P_MACSEC_TXSC_CREATE:
         pass
 
     def set(self) -> Token[None]:
-        """Create a new TX Secure Channel (SC) on the port.
+        """Create a TX Secure Channel (SC) on the port.
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
@@ -4604,7 +4604,7 @@ class P_MACSEC_TXSC_CREATE:
 @dataclass
 class P_MACSEC_TXSC_DELETE:
     """
-    Delete a new TX Secure Channel (SC) on the port.
+    Delete a TX Secure Channel (SC) on the port.
     """
 
     code: typing.ClassVar[int] = 530
@@ -4619,7 +4619,7 @@ class P_MACSEC_TXSC_DELETE:
         pass
 
     def set(self) -> Token[None]:
-        """Delete a new TX Secure Channel (SC) on the port.
+        """Delete a TX Secure Channel (SC) on the port.
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
@@ -4629,7 +4629,7 @@ class P_MACSEC_TXSC_DELETE:
 @dataclass
 class P_MACSEC_RXSC_CREATE:
     """
-    Create a new RX Secure Channel (SC) on the port.
+    Create a RX Secure Channel (SC) on the port.
     """
 
     code: typing.ClassVar[int] = 518
@@ -4644,7 +4644,7 @@ class P_MACSEC_RXSC_CREATE:
         pass
 
     def set(self) -> Token[None]:
-        """Create a new RX Secure Channel (SC) on the port.
+        """Create a RX Secure Channel (SC) on the port.
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
@@ -4654,7 +4654,7 @@ class P_MACSEC_RXSC_CREATE:
 @dataclass
 class P_MACSEC_RXSC_DELETE:
     """
-    Delete a new RX Secure Channel (SC) on the port.
+    Delete a RX Secure Channel (SC) on the port.
     """
 
     code: typing.ClassVar[int] = 531
@@ -4669,7 +4669,7 @@ class P_MACSEC_RXSC_DELETE:
         pass
 
     def set(self) -> Token[None]:
-        """Delete a new RX Secure Channel (SC) on the port.
+        """Delete a RX Secure Channel (SC) on the port.
         """
         
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))

@@ -2175,35 +2175,35 @@ class PS_MACSEC_ENABLE:
 
     class GetDataAttr(ResponseBodyStruct):
         on_off: OnOff = field(XmpByte())
-        """coded byte, whether the transmitter is enabled or disabled."""
+        """coded byte, whether MACSec is enabled on the stream."""
 
     class SetDataAttr(RequestBodyStruct):
         on_off: OnOff = field(XmpByte())
-        """coded byte, whether the transmitter is enabled or disabled."""
+        """coded byte, enable/disable MACSec on the stream."""
 
     def get(self) -> Token[GetDataAttr]:
-        """Get the port's transmitter status.
+        """Get the stream's MACSec state.
 
-        :return: the port's transmitter status
-        :rtype: P_TXENABLE.GetDataAttr
+        :return: the stream's MACSec state
+        :rtype: PS_MACSEC_ENABLE.GetDataAttr
         """
 
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indicies=[self._stream_xindex]))
 
     def set(self, on_off: OnOff) -> Token[None]:
-        """Set the the port's transmitter status.
+        """Set the stream's MACSec state.
 
-        :param on_off: the port's transmitter status
+        :param on_off: the stream's MACSec state
         :type on_off: OnOff
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indicies=[self._stream_xindex], on_off=on_off))
 
     set_off = functools.partialmethod(set, OnOff.OFF)
-    """Disable the port's transmitter and keep the outgoing link down.
+    """Disable the stream's MACSec.
     """
 
     set_on = functools.partialmethod(set, OnOff.ON)
-    """Enable the port's transmitter.
+    """Enable the stream's MACSec.
     """
 
