@@ -2162,7 +2162,7 @@ class PS_OPTIONS:
 @dataclass
 class PS_MACSEC_ENABLE:
     """
-    Whether a port should enable its transmitter, or keep the outgoing link down.
+    If the stream should enable MACSec.
     """
 
     code: typing.ClassVar[int] = 526
@@ -2188,7 +2188,7 @@ class PS_MACSEC_ENABLE:
         :rtype: PS_MACSEC_ENABLE.GetDataAttr
         """
 
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indicies=[self._stream_xindex]))
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._stream_xindex]))
 
     def set(self, on_off: OnOff) -> Token[None]:
         """Set the stream's MACSec state.
@@ -2197,13 +2197,13 @@ class PS_MACSEC_ENABLE:
         :type on_off: OnOff
         """
 
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indicies=[self._stream_xindex], on_off=on_off))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._stream_xindex], on_off=on_off))
 
-    set_off = functools.partialmethod(set, OnOff.OFF)
-    """Disable the stream's MACSec.
-    """
+    # set_off = functools.partialmethod(set, OnOff.OFF)
+    # """Disable the stream's MACSec.
+    # """
 
-    set_on = functools.partialmethod(set, OnOff.ON)
-    """Enable the stream's MACSec.
-    """
+    # set_on = functools.partialmethod(set, OnOff.ON)
+    # """Enable the stream's MACSec.
+    # """
 
