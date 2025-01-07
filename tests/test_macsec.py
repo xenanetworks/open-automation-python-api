@@ -30,12 +30,34 @@ async def macsec_enable_test(handler, _mid, _pid, _stream_id):
     resp = await cmd.PS_MACSEC_ENABLE(handler, _mid, _pid, _stream_id).get()
     assert resp.on_off == enums.OnOff.OFF
 
-async def macsec_assign_test(handler, _mid, _pid, _stream_id, _macsec_txsc_id):
 
-    # Enable MACSec on the stream
+async def macsec_assign_test(handler, _mid, _pid, _stream_id, _macsec_txsc_id):
     await cmd.PS_MACSEC_ASSIGN(handler, _mid, _pid, _stream_id).set(_macsec_txsc_id)
     resp = await cmd.PS_MACSEC_ASSIGN(handler, _mid, _pid, _stream_id).get()
     assert resp.tx_sc_index == _macsec_txsc_id
+
+
+async def macsec_txsc_conf_offset_test(handler, _mid, _pid, _macsec_txsc_id):
+    # Check the default
+    resp = await cmd.P_MACSEC_TXSC_CONF_OFFSET(handler, _mid, _pid, _macsec_txsc_id).get()
+    assert resp.offset == 0
+
+    # Check valid input
+    await cmd.P_MACSEC_TXSC_CONF_OFFSET(handler, _mid, _pid, _macsec_txsc_id).set(30)
+    resp = await cmd.P_MACSEC_TXSC_CONF_OFFSET(handler, _mid, _pid, _macsec_txsc_id).get()
+    assert resp.offset == 30
+
+
+async def macsec_rxsc_conf_offset_test(handler, _mid, _pid, _macsec_txsc_id):
+    # Check the default
+    resp = await cmd.P_MACSEC_RXSC_CONF_OFFSET(handler, _mid, _pid, _macsec_txsc_id).get()
+    assert resp.offset == 0
+
+    # Check valid input
+    await cmd.P_MACSEC_RXSC_CONF_OFFSET(handler, _mid, _pid, _macsec_txsc_id).set(30)
+    resp = await cmd.P_MACSEC_RXSC_CONF_OFFSET(handler, _mid, _pid, _macsec_txsc_id).get()
+    assert resp.offset == 30
+
 
 @pytest.mark.xfail(strict=True)
 async def macsec_api_test(chassis: str, username: str, port_id: str, stop_event: asyncio.Event, password: str = "xena") -> None:
@@ -79,6 +101,8 @@ async def macsec_api_test(chassis: str, username: str, port_id: str, stop_event:
 
     await macsec_enable_test(handler, _mid, _pid, _stream_id)
     await macsec_assign_test(handler, _mid, _pid, _stream_id, _macsec_txsc_id)
+    await macsec_txsc_conf_offset_test(handler, _mid, _pid, _macsec_txsc_id)
+    await macsec_rxsc_conf_offset_test(handler, _mid, _pid, _macsec_rxsc_id)
 
     # Delete MACSec RX SC
     await cmd.P_MACSEC_RXSC_DELETE(handler, _mid, _pid, _macsec_rxsc_id).set()

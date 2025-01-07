@@ -4673,3 +4673,82 @@ class P_MACSEC_RXSC_DELETE:
         """
         
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
+    
+@register_command
+@dataclass
+class P_MACSEC_RXSC_CONF_OFFSET:
+    """
+    The confidentiality offset of the port’s RX SC.
+    """
+
+    code: typing.ClassVar[int] = 522
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _rxsc_index: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        offset: int = field(XmpInt())
+        """integer, the RX Secure Channel (SC) offset."""
+
+    class SetDataAttr(RequestBodyStruct):
+        offset: int = field(XmpInt())
+        """integer, the RX Secure Channel (SC) offset."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the RX Secure Channel (SC) offset on the port.
+
+        :return: the RX Secure Channel (SC) offset on the port
+        :rtype: P_MACSEC_RXSC_CONF_OFFSET.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._rxsc_index]))
+
+    def set(self, offset: int) -> Token[None]:
+        """Set the RX Secure Channel (SC) offset on the port.
+
+        :param offset: the RX Secure Channel (SC) offset
+        :type offset: int
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._rxsc_index], offset=offset))
+
+
+@register_command
+@dataclass
+class P_MACSEC_TXSC_CONF_OFFSET:
+    """
+    The confidentiality offset of the port’s TX SC.
+    """
+
+    code: typing.ClassVar[int] = 510
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _txsc_index: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        offset: int = field(XmpInt())
+        """integer, the TX Secure Channel (SC) offset."""
+
+    class SetDataAttr(RequestBodyStruct):
+        offset: int = field(XmpInt())
+        """integer, the TX Secure Channel (SC) offset."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the TX Secure Channel (SC) offset on the port.
+
+        :return: the TX Secure Channel (SC) offset on the port
+        :rtype: P_MACSEC_TXSC_CONF_OFFSET.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
+
+    def set(self, offset: int) -> Token[None]:
+        """Set the TX Secure Channel (SC) offset on the port.
+
+        :param offset: the TX Secure Channel (SC) offset
+        :type offset: int
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index], offset=offset))
