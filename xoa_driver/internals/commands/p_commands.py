@@ -4752,3 +4752,83 @@ class P_MACSEC_TXSC_CONF_OFFSET:
         :type offset: int
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index], offset=offset))
+    
+
+@register_command
+@dataclass
+class P_MACSEC_TXSC_DESCR:
+    """
+    The description of the port’s TX SC.
+    """
+
+    code: typing.ClassVar[int] = 507
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _txsc_index: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        description: str = field(XmpStr())
+        """string, the description of the TX Secure Channel (SC)."""
+
+    class SetDataAttr(RequestBodyStruct):
+        description: str = field(XmpStr())
+        """string, the description of the TX Secure Channel (SC)."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the description of the TX Secure Channel (SC) on the port.
+
+        :return: the description of the TX Secure Channel (SC) on the port
+        :rtype: P_MACSEC_TXSC_DESCR.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
+
+    def set(self, description: str) -> Token[None]:
+        """Set the description of the TX Secure Channel (SC) on the port.
+
+        :param description: the description of the TX Secure Channel (SC)
+        :type description: str
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index], description=description))
+    
+
+@register_command
+@dataclass
+class P_MACSEC_RXSC_DESCR:
+    """
+    The description of the port’s RX SC.
+    """
+
+    code: typing.ClassVar[int] = 520
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _rxsc_index: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        description: str = field(XmpStr())
+        """string, the description of the RX Secure Channel (SC)."""
+
+    class SetDataAttr(RequestBodyStruct):
+        description: str = field(XmpStr())
+        """string, the description of the RX Secure Channel (SC)."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the description of the RX Secure Channel (SC) on the port.
+
+        :return: the description of the RX Secure Channel (SC) on the port
+        :rtype: P_MACSEC_RXSC_DESCR.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._rxsc_index]))
+
+    def set(self, description: str) -> Token[None]:
+        """Set the description of the RX Secure Channel (SC) on the port.
+
+        :param description: the description of the RX Secure Channel (SC)
+        :type description: str
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._rxsc_index], description=description))

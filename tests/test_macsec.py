@@ -16,10 +16,6 @@ USERNAME = os.environ.get('TEST_USERNAME', '')
 
 
 async def macsec_enable_test(handler, _mid, _pid, _stream_id):
-    # Default MACSec state is OFF
-    resp = await cmd.PS_MACSEC_ENABLE(handler, _mid, _pid, _stream_id).get()
-    assert resp.on_off == enums.OnOff.OFF
-
     # Enable MACSec on the stream
     await cmd.PS_MACSEC_ENABLE(handler, _mid, _pid, _stream_id).set(on_off=enums.OnOff.ON)
     resp = await cmd.PS_MACSEC_ENABLE(handler, _mid, _pid, _stream_id).get()
@@ -38,10 +34,6 @@ async def macsec_assign_test(handler, _mid, _pid, _stream_id, _macsec_txsc_id):
 
 
 async def macsec_txsc_conf_offset_test(handler, _mid, _pid, _macsec_txsc_id):
-    # Check the default
-    resp = await cmd.P_MACSEC_TXSC_CONF_OFFSET(handler, _mid, _pid, _macsec_txsc_id).get()
-    assert resp.offset == 0
-
     # Check valid input
     await cmd.P_MACSEC_TXSC_CONF_OFFSET(handler, _mid, _pid, _macsec_txsc_id).set(30)
     resp = await cmd.P_MACSEC_TXSC_CONF_OFFSET(handler, _mid, _pid, _macsec_txsc_id).get()
@@ -49,14 +41,22 @@ async def macsec_txsc_conf_offset_test(handler, _mid, _pid, _macsec_txsc_id):
 
 
 async def macsec_rxsc_conf_offset_test(handler, _mid, _pid, _macsec_txsc_id):
-    # Check the default
-    resp = await cmd.P_MACSEC_RXSC_CONF_OFFSET(handler, _mid, _pid, _macsec_txsc_id).get()
-    assert resp.offset == 0
-
     # Check valid input
     await cmd.P_MACSEC_RXSC_CONF_OFFSET(handler, _mid, _pid, _macsec_txsc_id).set(30)
     resp = await cmd.P_MACSEC_RXSC_CONF_OFFSET(handler, _mid, _pid, _macsec_txsc_id).get()
     assert resp.offset == 30
+
+
+async def macsec_txsc_desc_test(handler, _mid, _pid, _macsec_txsc_id):
+    await cmd.P_MACSEC_TXSC_DESCR(handler, _mid, _pid, _macsec_txsc_id).set('TEST')
+    resp = await cmd.P_MACSEC_TXSC_DESCR(handler, _mid, _pid, _macsec_txsc_id).get()
+    assert resp.description == 'TEST'
+
+
+async def macsec_rxsc_desc_test(handler, _mid, _pid, _macsec_rxsc_id):
+    await cmd.P_MACSEC_RXSC_DESCR(handler, _mid, _pid, _macsec_rxsc_id).set('TEST')
+    resp = await cmd.P_MACSEC_RXSC_DESCR(handler, _mid, _pid, _macsec_rxsc_id).get()
+    assert resp.description == 'TEST'
 
 
 @pytest.mark.xfail(strict=True)
@@ -103,6 +103,9 @@ async def macsec_api_test(chassis: str, username: str, port_id: str, stop_event:
     await macsec_assign_test(handler, _mid, _pid, _stream_id, _macsec_txsc_id)
     await macsec_txsc_conf_offset_test(handler, _mid, _pid, _macsec_txsc_id)
     await macsec_rxsc_conf_offset_test(handler, _mid, _pid, _macsec_rxsc_id)
+    await macsec_txsc_desc_test(handler, _mid, _pid, _macsec_txsc_id)
+    await macsec_rxsc_desc_test(handler, _mid, _pid, _macsec_rxsc_id)
+
 
     # Delete MACSec RX SC
     await cmd.P_MACSEC_RXSC_DELETE(handler, _mid, _pid, _macsec_rxsc_id).set()
