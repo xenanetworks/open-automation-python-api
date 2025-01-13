@@ -3207,3 +3207,72 @@ class FecCodewordBitErrorMaskMode(IntEnum):
     """When mode is set to INC, bitmask will be ignored. Instead, the bit error pattern initiates from 000000001, 000000010, 000000011, continuing up to 111111111, and repeating the sequence as 000000001..."""
 
 # endregion
+
+# region MACSec enums
+
+class MACSecSCIMode(IntEnum):
+    """MACSec SCI Mode"""
+
+    NO_SCI = 0
+    """Without SCI (default) (aka, End Station): ES bit is set."""
+
+    WITH_SCI = 1
+    """With SCI: ES bit is cleared"""
+
+
+class MACSecCipherSuite(IntEnum):
+    """MACSec SCI Mode"""
+
+    GCM_AES_128 = 1
+    """GCM-AES-128 (IEEE 802.1AE-2018 Clause 14.5) (default)"""
+
+    GCM_AES_256 = 2
+    """GCM-AES-256 (IEEE 802.1AE-2018 Clause 14.6)"""
+
+    GCM_AES_XPN_128 = 3
+    """GCM-AES-XPN-128 (IEEE 802.1AE-2018 Clause 14.7)"""
+
+    GCM_AES_XPN_256 = 4
+    """GCM-AES-XPN-256 (IEEE 802.1AE-2018 Clause 14.8)"""
+
+
+class MACSecVLANMode(IntEnum):
+    """MACSec SCI Mode"""
+
+    ENCRYPTED = 1
+    """MACsec encryption starts after the MAC address fields."""
+
+    CLEAR_TEXT = 2
+    """Clear-text VLAN (802.1Q). MACsec encryption will leave the first VLAN field out of the MACsec protocol data unit."""
+
+
+class MACSecRekeyMode(IntEnum):
+    """MACSec Rekey Mode"""
+
+    PN_EXHAUSTION = 1
+    """Switch to the next SAK when PN is exhausted."""
+
+    PACKET_CNT = 2
+    """Switch to the next SAK when the given number of packets are transmitted."""
+
+
+class MACSecEncryptionMode(IntEnum):
+    """The encryption mode"""
+
+    ENCRYPT_INTEGRITY = 1
+    """MACsec provides both encryption and integrity."""
+
+    INTEGRITY_ONLY = 2
+    """MACsec only provides integrity."""
+
+
+class MACSecSAKKeyType(IntEnum):
+    """The SAK key type"""
+
+    SAK128 = 1
+    """128-bit SAK key."""
+
+    SAK256 = 2
+    """256-bit SAK key."""
+
+# endregion

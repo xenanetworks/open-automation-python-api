@@ -62,6 +62,12 @@ from .enums import (
     TrafficError,
     TrafficEngine,
     ReconciliationSublayerSupport,
+    MACSecSCIMode,
+    MACSecCipherSuite,
+    MACSecVLANMode,
+    MACSecRekeyMode,
+    MACSecEncryptionMode,
+    MACSecSAKKeyType,
 )
 
 
@@ -1017,7 +1023,7 @@ class P_IPADDRESS:
         :type ipv4_address: Union[str, int, ipaddress.IPv4Address]
         :param subnet_mask: the subnet mask of the local network segment for the port
         :type subnet_mask: Union[str, int, ipaddress.IPv4Address]
-        :param gateway: he gateway of the local network segment for the port
+        :param gateway: the gateway of the local network segment for the port
         :type gateway: Union[str, int, ipaddress.IPv4Address]
         :param wild: wildcards used for ARP and PING replies, and each byte must be 255 (0xFF) or 0 (0x00)
         :type wild: Union[str, int, ipaddress.IPv4Address]
@@ -4598,6 +4604,47 @@ class P_MACSEC_TXSC_CREATE:
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
+    
+
+@register_command
+@dataclass
+class P_MACSEC_TXSC_INDICES:
+    """
+    Create multiple TX SCs or query the existing TX SCs on the port.
+    """
+
+    code: typing.ClassVar[int] = 506
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        txsc_indices: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        """list of integers, the sub-indices of TX SCs on the port."""
+
+    class SetDataAttr(RequestBodyStruct):
+        txsc_indices: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        """list of integers, the sub-indices of TX SCs on the port."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the full list of which TX SCs are defined for a port.
+
+        :return: the sub-indices of TX SCs on the port
+        :rtype: P_MACSEC_TXSC_INDICES.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+
+    def set(self, txsc_indices: typing.List[int]) -> Token[None]:
+        """Creates a new empty TX SC for each value that is not already in use, and deletes each TX SC that is not mentioned in the list.
+
+        :param txsc_indices: the sub-indices of TX SCs on the port
+        :type txsc_indices: typing.List[int]
+        """
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, txsc_indices=txsc_indices))
 
 
 @register_command
@@ -4623,95 +4670,6 @@ class P_MACSEC_TXSC_DELETE:
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
-
-
-@register_command
-@dataclass
-class P_MACSEC_RXSC_CREATE:
-    """
-    Create a RX Secure Channel (SC) on the port.
-    """
-
-    code: typing.ClassVar[int] = 518
-    pushed: typing.ClassVar[bool] = False
-
-    _connection: 'interfaces.IConnection'
-    _module: int
-    _port: int
-    _txsc_index: int
-
-    class SetDataAttr(RequestBodyStruct):
-        pass
-
-    def set(self) -> Token[None]:
-        """Create a RX Secure Channel (SC) on the port.
-        """
-
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
-
-
-@register_command
-@dataclass
-class P_MACSEC_RXSC_DELETE:
-    """
-    Delete a RX Secure Channel (SC) on the port.
-    """
-
-    code: typing.ClassVar[int] = 531
-    pushed: typing.ClassVar[bool] = False
-
-    _connection: 'interfaces.IConnection'
-    _module: int
-    _port: int
-    _txsc_index: int
-
-    class SetDataAttr(RequestBodyStruct):
-        pass
-
-    def set(self) -> Token[None]:
-        """Delete a RX Secure Channel (SC) on the port.
-        """
-        
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
-    
-@register_command
-@dataclass
-class P_MACSEC_RXSC_CONF_OFFSET:
-    """
-    The confidentiality offset of the port’s RX SC.
-    """
-
-    code: typing.ClassVar[int] = 522
-    pushed: typing.ClassVar[bool] = False
-
-    _connection: 'interfaces.IConnection'
-    _module: int
-    _port: int
-    _rxsc_index: int
-
-    class GetDataAttr(ResponseBodyStruct):
-        offset: int = field(XmpInt())
-        """integer, the RX Secure Channel (SC) offset."""
-
-    class SetDataAttr(RequestBodyStruct):
-        offset: int = field(XmpInt())
-        """integer, the RX Secure Channel (SC) offset."""
-
-    def get(self) -> Token[GetDataAttr]:
-        """Get the RX Secure Channel (SC) offset on the port.
-
-        :return: the RX Secure Channel (SC) offset on the port
-        :rtype: P_MACSEC_RXSC_CONF_OFFSET.GetDataAttr
-        """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._rxsc_index]))
-
-    def set(self, offset: int) -> Token[None]:
-        """Set the RX Secure Channel (SC) offset on the port.
-
-        :param offset: the RX Secure Channel (SC) offset
-        :type offset: int
-        """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._rxsc_index], offset=offset))
 
 
 @register_command
@@ -4796,6 +4754,574 @@ class P_MACSEC_TXSC_DESCR:
 
 @register_command
 @dataclass
+class P_MACSEC_TXSC_SCI_MODE:
+    """
+    The mode of the port’s TX SCI in MACsec.
+
+    """
+
+    code: typing.ClassVar[int] = 513
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _txsc_index: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        mode: MACSecSCIMode = field(XmpByte())
+        """coded byte, the mode of the port’s TX SCI in MACsec."""
+
+    class SetDataAttr(RequestBodyStruct):
+        mode: MACSecSCIMode = field(XmpByte())
+        """coded byte, the mode of the port’s TX SCI in MACsec."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the mode of the port’s TX SCI in MACsec.
+
+        :return: the mode of the port’s TX SCI in MACsec.
+        :rtype: P_MACSEC_TXSC_SCI_MODE.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
+
+    def set(self, mode: MACSecSCIMode) -> Token[None]:
+        """Set the mode of the port’s TX SCI in MACsec.
+
+        :param mode: the mode of the port’s TX SCI in MACsec.
+        :type mode: MACSecSCIMode
+        """
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index], mode=mode))
+
+    set_no_sci = functools.partialmethod(set, MACSecSCIMode.NO_SCI)
+    """Set SCI Mode to NO SCI.
+    """
+
+    set_with_sci = functools.partialmethod(set, MACSecSCIMode.WITH_SCI)
+    """Set SCI Mode to WITH SCI.
+    """
+
+
+@register_command
+@dataclass
+class P_MACSEC_TXSC_SCI:
+    """
+    The SCI of the port’s TX SC.
+    """
+
+    code: typing.ClassVar[int] = 508
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _txsc_index: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        sci: int = field(XmpInt())
+        """integer, the SCI of the port’s TX SC."""
+
+    class SetDataAttr(RequestBodyStruct):
+        sci: int = field(XmpInt())
+        """integer, the SCI of the port’s TX SC."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the SCI of the port’s TX SC.
+
+        :return: the SCI of the port’s TX SC.
+        :rtype: P_MACSEC_TXSC_SCI.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
+
+    def set(self, sci: int) -> Token[None]:
+        """Set the SCI of the port’s TX SC.
+
+        :param sci: The SCI of the port’s TX SC.
+        :type sci: int
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index], sci=sci))
+    
+
+@register_command
+@dataclass
+class P_MACSEC_TXSC_CIPHERSUITE:
+    """
+    The cipher suite of the port’s TX SC.
+    """
+
+    code: typing.ClassVar[int] = 509
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _txsc_index: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        cipher_suite: MACSecCipherSuite = field(XmpByte())
+        """coded byte, the cipher suite of the port’s TX SC."""
+
+    class SetDataAttr(RequestBodyStruct):
+        cipher_suite: MACSecCipherSuite = field(XmpByte())
+        """coded byte, the cipher suite of the port’s TX SC."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the cipher suite of the port’s TX SC.
+
+        :return: the cipher suite of the port’s TX SC.
+        :rtype: P_MACSEC_TXSC_CIPHERSUITE.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
+
+    def set(self, cipher_suite: MACSecCipherSuite) -> Token[None]:
+        """Set the cipher suite of the port’s TX SC.
+
+        :param cipher_suite: the cipher suite of the port’s TX SC.
+        :type cipher_suite: MACSecCipherSuite
+        """
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index], cipher_suite=cipher_suite))
+
+    set_gcm_aes_128 = functools.partialmethod(set, MACSecCipherSuite.GCM_AES_128)
+    """Set cipher suite to GCM_AES_128.
+    """
+
+    set_gcm_aes_256 = functools.partialmethod(set, MACSecCipherSuite.GCM_AES_256)
+    """Set cipher suite to GCM_AES_256.
+    """
+
+    set_gcm_aes_xpn_128 = functools.partialmethod(set, MACSecCipherSuite.GCM_AES_XPN_128)
+    """Set cipher suite to GCM_AES_XPN_128.
+    """
+
+    set_gcm_aes_xpn_256 = functools.partialmethod(set, MACSecCipherSuite.GCM_AES_XPN_256)
+    """Set cipher suite to GCM_AES_XPN_256.
+    """
+
+
+@register_command
+@dataclass
+class P_MACSEC_TXSC_STARTING_PN:
+    """
+    The starting PN number of the port’s TX SC uses.
+    """
+
+    code: typing.ClassVar[int] = 514
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _txsc_index: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        start: int = field(XmpInt())
+        """integer, the starting PN number. Default to 0, maximum 2^32."""
+
+    class SetDataAttr(RequestBodyStruct):
+        start: int = field(XmpInt())
+        """integer, the starting PN number. Default to 0, maximum 2^32."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the starting PN number. Default to 0, maximum 2^32.
+
+        :return: the starting PN number. Default to 0, maximum 2^32.
+        :rtype: P_MACSEC_TXSC_STARTING_PN.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
+
+    def set(self, start: int) -> Token[None]:
+        """Set the starting PN number. Default to 0, maximum 2^32.
+
+        :param sci: the starting PN number. Default to 0, maximum 2^32.
+        :type sci: int
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index], start=start))
+    
+
+@register_command
+@dataclass
+class P_MACSEC_TXSC_VLAN_MODE:
+    """
+    The VLAN mode of the port’s TX SC.
+    
+        * VLAN encrypted: The original MACsec header format encoded the 802.1Q tag as part of the encrypted payload, thus hiding it from the public Ethernet transport.
+        
+        * VLAN in clear text (WAN MACsec): With 802.1Q tag in the clear, the 802.1Q tag is encoded outside the 802.1AE encryption header, exposing the tag to the private and public Ethernet transport.
+
+    """
+
+    code: typing.ClassVar[int] = 511
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _txsc_index: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        mode: MACSecVLANMode = field(XmpInt())
+        """integer, the VLAN mode. Default to ENCRYPTED."""
+
+    class SetDataAttr(RequestBodyStruct):
+        mode: MACSecVLANMode = field(XmpInt())
+        """integer, the VLAN mode. Default to ENCRYPTEDC."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the VLAN mode.
+
+        :return: the VLAN mode.
+        :rtype: P_MACSEC_TXSC_VLAN_MODE.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
+
+    def set(self, mode: MACSecVLANMode) -> Token[None]:
+        """Set the VLAN mode.
+
+        :param mode: the VLAN mode.
+        :type mode: MACSecVLANMode
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index], mode=mode))
+    
+    set_encrypted = functools.partialmethod(set, MACSecVLANMode.ENCRYPTED)
+    """Set VLAN mode to ENCRYPTED.
+    """
+
+    set_clear_text = functools.partialmethod(set, MACSecVLANMode.CLEAR_TEXT)
+    """Set VLAN mode to CLEAR_TEXT.
+    """
+
+
+@register_command
+@dataclass
+class P_MACSEC_TXSC_REKEY_MODE:
+    """
+    The rekey mode of the port’s TX SC defines when to switch to the next SAK.
+    """
+
+    code: typing.ClassVar[int] = 515
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _txsc_index: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        mode: MACSecRekeyMode = field(XmpInt())
+        """integer, the rekey mode of the port’s TX SC"""
+
+    class SetDataAttr(RequestBodyStruct):
+        mode: MACSecRekeyMode = field(XmpInt())
+        """integer, the rekey mode of the port’s TX SC"""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the rekey mode of the port’s TX SC
+
+        :return: the rekey mode of the port’s TX SC
+        :rtype: P_MACSEC_TXSC_REKEY_MODE.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
+
+    def set(self, mode: MACSecRekeyMode) -> Token[None]:
+        """Set the rekey mode.
+
+        :param mode: the rekey mode.
+        :type mode: MACSecRekeyMode
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index], mode=mode))
+    
+    set_encrypted = functools.partialmethod(set, MACSecRekeyMode.PN_EXHAUSTION)
+    """Set rekey mode to PN Exhaustion.
+    """
+
+    set_clear_text = functools.partialmethod(set, MACSecRekeyMode.PACKET_CNT)
+    """Set rekey mode to Packet Count.
+    """
+
+
+@register_command
+@dataclass
+class P_MACSEC_TXSC_ENCRYPT:
+    """
+    The encryption mode of the port’s TX SC.
+    """
+
+    code: typing.ClassVar[int] = 512
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _txsc_index: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        mode: MACSecEncryptionMode = field(XmpInt())
+        """integer, the encryption mode of the port’s TX SC"""
+
+    class SetDataAttr(RequestBodyStruct):
+        mode: MACSecEncryptionMode = field(XmpInt())
+        """integer, the encryption mode of the port’s TX SC"""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the encryption mode of the port’s TX SC
+
+        :return: the encryption mode of the port’s TX SC
+        :rtype: P_MACSEC_TXSC_ENCRYPT.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
+
+    def set(self, mode: MACSecEncryptionMode) -> Token[None]:
+        """Set the encryption mode.
+
+        :param mode: the encryption mode.
+        :type mode: MACSecEncryptionMode
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index], mode=mode))
+    
+    set_encrypt_integrity = functools.partialmethod(set, MACSecEncryptionMode.ENCRYPT_INTEGRITY)
+    """Set rekey mode to PN Exhaustion.
+    """
+
+    set_integrity_only = functools.partialmethod(set, MACSecEncryptionMode.INTEGRITY_ONLY)
+    """Set rekey mode to Packet Count.
+    """
+
+
+@register_command
+@dataclass
+class P_MACSEC_TXSC_SAK_TYPE:
+    """
+    The SAK key type of the port’s TX SC.
+    """
+
+    code: typing.ClassVar[int] = 532
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _txsc_index: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        sak_key_type: MACSecSAKKeyType = field(XmpInt())
+        """integer, the SAK key type of the port’s TX SC."""
+
+    class SetDataAttr(RequestBodyStruct):
+        sak_key_type: MACSecSAKKeyType = field(XmpInt())
+        """integer, the SAK key type of the port’s TX SC."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the SAK key type of the port’s TX SC.
+
+        :return: the SAK key type of the port’s TX SC.
+        :rtype: P_MACSEC_TXSC_SAK_TYPE.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
+
+    def set(self, sak_key_type: MACSecSAKKeyType) -> Token[None]:
+        """Set the SAK key type of the port’s TX SC.
+
+        :param mode: the SAK key type of the port’s TX SC.
+        :type mode: MACSecSAKKeyType
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index], sak_key_type=sak_key_type))
+    
+    set_sak128 = functools.partialmethod(set, MACSecSAKKeyType.SAK128)
+    """Set the SAK key type of the port’s TX SC to SAK128.
+    """
+
+    set_sak256 = functools.partialmethod(set, MACSecSAKKeyType.SAK256)
+    """Set the SAK key type of the port’s TX SC to SAK256.
+    """
+
+
+@register_command
+@dataclass
+class P_MACSEC_TXSC_SAK_INDICES:
+    """
+    Configure the SAK key indices of the port’s TX SC.
+    """
+
+    code: typing.ClassVar[int] = 533
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _txsc_index: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        key_indices: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        """list of integers, the indices of SAK keys on the port’s TX SC. Allowed to be empty."""
+
+    class SetDataAttr(RequestBodyStruct):
+        key_indices: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        """list of integers, the indices of SAK keys on the port’s TX SC. Allowed to be empty."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the indices of SAK keys on the port’s TX SC.
+
+        :return: the indices of SAK keys on the port’s TX SC. Allowed to be empty.
+        :rtype: P_MACSEC_TXSC_INDICES.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
+
+    def set(self, key_indices: typing.List[int]) -> Token[None]:
+        """Creates the indices of SAK keys on the port’s TX SC.
+
+        :param key_indices: the indices of SAK keys on the port’s TX SC. Allowed to be empty.
+
+                            * If P_MACSEC_TXSC_SAK_TYPE is set to SAK128 (1), the allowed elements in the key_indices are 0-3.
+
+                            * If P_MACSEC_TXSC_SAK_TYPE is set to SAK256 (2), the allowed elements in the key_indices are 0-1.
+
+                            * If key_indices is empty, the SAK keys on the port’s TX SC are cleared.
+            
+        :type key_indices: typing.List[int]
+        """
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index], key_indices=key_indices))
+    
+
+@register_command
+@dataclass
+class P_MACSEC_TXSC_SAK_VALUE:
+    """
+    Configure the value of a SAK key on the port’s TX SC.
+    """
+
+    code: typing.ClassVar[int] = 534
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _txsc_index: int
+    _sak_key_index: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        sak_key_value: Hex = field(XmpHex())
+        """integer, the SAK key. Default to all-zero. Allowed to be empty."""
+
+    class SetDataAttr(RequestBodyStruct):
+        sak_key_value: Hex = field(XmpHex())
+        """integer, the SAK key. Default to all-zero. Allowed to be empty."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the SAK key.
+
+        :return: the the SAK key.
+        :rtype: P_MACSEC_TXSC_SAK_VALUE.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._txsc_index, self._sak_key_index]))
+
+    def set(self, sak_key_value: Hex) -> Token[None]:
+        """Set the SAK key.
+
+        :param sak_key_value: the SAK key.
+        :type sak_key_value: Hex
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index, self._sak_key_index], sak_key_value=sak_key_value))
+    
+
+
+@register_command
+@dataclass
+class P_MACSEC_RXSC_CREATE:
+    """
+    Create a RX Secure Channel (SC) on the port.
+    """
+
+    code: typing.ClassVar[int] = 518
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _rxsc_index: int
+
+    class SetDataAttr(RequestBodyStruct):
+        pass
+
+    def set(self) -> Token[None]:
+        """Create a RX Secure Channel (SC) on the port.
+        """
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._rxsc_index]))
+    
+
+@register_command
+@dataclass
+class P_MACSEC_RXSC_INDICES:
+    """
+    Create multiple RX SCs or query the existing RX SCs on the port.
+    """
+
+    code: typing.ClassVar[int] = 519
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        rxsc_indices: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        """list of integers, the sub-indices of RX SCs on the port."""
+
+    class SetDataAttr(RequestBodyStruct):
+        rxsc_indices: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        """list of integers, the sub-indices of RX SCs on the port."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the full list of which RX SCs are defined for a port.
+
+        :return: the sub-indices of RX SCs on the port
+        :rtype: P_MACSEC_RXSC_INDICES.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+
+    def set(self, rxsc_indices: typing.List[int]) -> Token[None]:
+        """Creates a new empty RX SC for each value that is not already in use, and deletes each RX SC that is not mentioned in the list.
+
+        :param rxsc_indices: the sub-indices of RX SCs on the port
+        :type rxsc_indices: typing.List[int]
+        """
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, rxsc_indices=rxsc_indices))
+    
+
+@register_command
+@dataclass
+class P_MACSEC_RXSC_DELETE:
+    """
+    Delete a RX Secure Channel (SC) on the port.
+    """
+
+    code: typing.ClassVar[int] = 531
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _rxsc_index: int
+
+    class SetDataAttr(RequestBodyStruct):
+        pass
+
+    def set(self) -> Token[None]:
+        """Delete a RX Secure Channel (SC) on the port.
+        """
+        
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._rxsc_index]))
+    
+
+@register_command
+@dataclass
 class P_MACSEC_RXSC_DESCR:
     """
     The description of the port’s RX SC.
@@ -4832,3 +5358,552 @@ class P_MACSEC_RXSC_DESCR:
         :type description: str
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._rxsc_index], description=description))
+    
+
+@register_command
+@dataclass
+class P_MACSEC_RXSC_SCI:
+    """
+    The SCI of the port’s RX SC.
+    """
+
+    code: typing.ClassVar[int] = 523
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _rxsc_index: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        sci: int = field(XmpInt())
+        """integer, the SCI of the port’s RX SC."""
+
+    class SetDataAttr(RequestBodyStruct):
+        sci: int = field(XmpInt())
+        """integer, the SCI of the port’s RX SC."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the SCI of the port’s RX SC.
+
+        :return: the SCI of the port’s RX SC.
+        :rtype: P_MACSEC_RXSC_SCI.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._rxsc_index]))
+
+    def set(self, sci: int) -> Token[None]:
+        """Set the SCI of the port’s RX SC.
+
+        :param sci: The SCI of the port’s RX SC.
+        :type sci: int
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._rxsc_index], sci=sci))
+    
+
+@register_command
+@dataclass
+class P_MACSEC_RXSC_CONF_OFFSET:
+    """
+    The confidentiality offset of the port’s RX SC.
+    """
+
+    code: typing.ClassVar[int] = 522
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _rxsc_index: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        offset: int = field(XmpInt())
+        """integer, the RX Secure Channel (SC) offset."""
+
+    class SetDataAttr(RequestBodyStruct):
+        offset: int = field(XmpInt())
+        """integer, the RX Secure Channel (SC) offset."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the RX Secure Channel (SC) offset on the port.
+
+        :return: the RX Secure Channel (SC) offset on the port
+        :rtype: P_MACSEC_RXSC_CONF_OFFSET.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._rxsc_index]))
+
+    def set(self, offset: int) -> Token[None]:
+        """Set the RX Secure Channel (SC) offset on the port.
+
+        :param offset: the RX Secure Channel (SC) offset
+        :type offset: int
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._rxsc_index], offset=offset))
+    
+
+@register_command
+@dataclass
+class P_MACSEC_RXSC_CIPHERSUITE:
+    """
+    The cipher suite of the port’s RX SC.
+    """
+
+    code: typing.ClassVar[int] = 521
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _rxsc_index: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        cipher_suite: MACSecCipherSuite = field(XmpByte())
+        """coded byte, the cipher suite of the port’s RX SC."""
+
+    class SetDataAttr(RequestBodyStruct):
+        cipher_suite: MACSecCipherSuite = field(XmpByte())
+        """coded byte, the cipher suite of the port’s RX SC."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the cipher suite of the port’s RX SC.
+
+        :return: the cipher suite of the port’s RX SC.
+        :rtype: P_MACSEC_RXSC_CIPHERSUITE.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._rxsc_index]))
+
+    def set(self, cipher_suite: MACSecCipherSuite) -> Token[None]:
+        """Set the cipher suite of the port’s RX SC.
+
+        :param cipher_suite: the cipher suite of the port’s RX SC.
+        :type cipher_suite: MACSecCipherSuite
+        """
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._rxsc_index], cipher_suite=cipher_suite))
+
+    set_gcm_aes_128 = functools.partialmethod(set, MACSecCipherSuite.GCM_AES_128)
+    """Set cipher suite to GCM_AES_128.
+    """
+
+    set_gcm_aes_256 = functools.partialmethod(set, MACSecCipherSuite.GCM_AES_256)
+    """Set cipher suite to GCM_AES_256.
+    """
+
+    set_gcm_aes_xpn_128 = functools.partialmethod(set, MACSecCipherSuite.GCM_AES_XPN_128)
+    """Set cipher suite to GCM_AES_XPN_128.
+    """
+
+    set_gcm_aes_xpn_256 = functools.partialmethod(set, MACSecCipherSuite.GCM_AES_XPN_256)
+    """Set cipher suite to GCM_AES_XPN_256.
+    """
+
+
+@register_command
+@dataclass
+class P_MACSEC_RXSC_TPLDID:
+    """
+    Associate a TPLD ID with the RX SC.
+    """
+
+    code: typing.ClassVar[int] = 535
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _rxsc_index: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        tpld_id: int = field(XmpInt())
+        """integer, the TPLD ID to associate with the RX SC."""
+
+    class SetDataAttr(RequestBodyStruct):
+        tpld_id: int = field(XmpInt())
+        """integer, the TPLD ID to associate with the RX SC."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the TPLD ID to associate with the RX SC.
+
+        :return: the TPLD ID to associate with the RX SC.
+        :rtype: P_MACSEC_RXSC_TPLDID.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._rxsc_index]))
+
+    def set(self, tpld_id: int) -> Token[None]:
+        """Set the TPLD ID to associate with the RX SC.
+
+        :param tpld_id: the TPLD ID to associate with the RX SC.
+        :type tpld_id: int
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._rxsc_index], tpld_id=tpld_id))
+    
+
+@register_command
+@dataclass
+class P_MACSEC_RXSC_SAK_TYPE:
+    """
+    The SAK key type of the port’s RX SC.
+    """
+
+    code: typing.ClassVar[int] = 540
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _rxsc_index: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        sak_key_type: MACSecSAKKeyType = field(XmpInt())
+        """integer, the SAK key type of the port’s RX SC."""
+
+    class SetDataAttr(RequestBodyStruct):
+        sak_key_type: MACSecSAKKeyType = field(XmpInt())
+        """integer, the SAK key type of the port’s RX SC."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the SAK key type of the port’s RX SC.
+
+        :return: the SAK key type of the port’s RX SC.
+        :rtype: P_MACSEC_RXSC_SAK_TYPE.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._rxsc_index]))
+
+    def set(self, sak_key_type: MACSecSAKKeyType) -> Token[None]:
+        """Set the SAK key type of the port’s RX SC.
+
+        :param mode: the SAK key type of the port’s RX SC.
+        :type mode: MACSecSAKKeyType
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._rxsc_index], sak_key_type=sak_key_type))
+    
+    set_sak128 = functools.partialmethod(set, MACSecSAKKeyType.SAK128)
+    """Set the SAK key type of the port’s RX SC to SAK128.
+    """
+
+    set_sak256 = functools.partialmethod(set, MACSecSAKKeyType.SAK256)
+    """Set the SAK key type of the port’s RX SC to SAK256.
+    """
+
+
+@register_command
+@dataclass
+class P_MACSEC_RXSC_SAK_INDICES:
+    """
+    Configure the SAK key indices of the port’s RX SC.
+    """
+
+    code: typing.ClassVar[int] = 541
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _rxsc_index: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        key_indices: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        """list of integers, the indices of SAK keys on the port’s RX SC. Allowed to be empty."""
+
+    class SetDataAttr(RequestBodyStruct):
+        key_indices: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
+        """list of integers, the indices of SAK keys on the port’s RX SC. Allowed to be empty."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the indices of SAK keys on the port’s RX SC.
+
+        :return: the indices of SAK keys on the port’s RX SC. Allowed to be empty.
+        :rtype: P_MACSEC_RXSC_SAK_INDICES.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._rxsc_index]))
+
+    def set(self, key_indices: typing.List[int]) -> Token[None]:
+        """Creates the indices of SAK keys on the port’s RX SC.
+
+        :param key_indices: the indices of SAK keys on the port’s RX SC. Allowed to be empty.
+
+                            * If P_MACSEC_TXSC_SAK_TYPE is set to SAK128 (1), the allowed elements in the key_indices are 0-3.
+
+                            * If P_MACSEC_TXSC_SAK_TYPE is set to SAK256 (2), the allowed elements in the key_indices are 0-1.
+
+                            * If key_indices is empty, the SAK keys on the port’s RX SC are cleared.
+            
+        :type key_indices: typing.List[int]
+        """
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._rxsc_index], key_indices=key_indices))
+    
+
+@register_command
+@dataclass
+class P_MACSEC_RXSC_SAK_VALUE:
+    """
+    Configure the value of a SAK key on the port’s RX SC.
+    """
+
+    code: typing.ClassVar[int] = 542
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _rxsc_index: int
+    _sak_key_index: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        sak_key_value: Hex = field(XmpHex())
+        """integer, the SAK key. Default to all-zero. Allowed to be empty."""
+
+    class SetDataAttr(RequestBodyStruct):
+        sak_key_value: Hex = field(XmpHex())
+        """integer, the SAK key. Default to all-zero. Allowed to be empty."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the SAK key.
+
+        :return: the the SAK key.
+        :rtype: P_MACSEC_RXSC_SAK_VALUE.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._rxsc_index, self._sak_key_index]))
+
+    def set(self, sak_key_value: Hex) -> Token[None]:
+        """Set the SAK key.
+
+        :param sak_key_value: the SAK key.
+        :type sak_key_value: Hex
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._rxsc_index, self._sak_key_index], sak_key_value=sak_key_value))
+    
+
+
+@register_command
+@dataclass
+class P_MACSEC_TX_STATS:
+    """
+    Port-level MACsec TX counters
+    """
+
+    code: typing.ClassVar[int] = 517
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        protected_bytes: int = field(XmpLong())
+        """long integer, number of protected (non-encrypted) bytes transmitted by the port."""
+        encrypted_bytes: int = field(XmpLong())
+        """long integer, number of encrypted bytes transmitted by the port."""
+        bits_sec: int = field(XmpLong())
+        """long integer, number of MACsec L2 bits transmitted of the previous second."""
+        bytes_sec: int = field(XmpLong())
+        """long integer, number of MACsec L2 bytes transmitted of the previous second."""
+        frames_sec: int = field(XmpLong())
+        """long integer, number of MACsec frames transmitted of the previous second."""
+        total_bits: int = field(XmpLong())
+        """long integer, number of MACsec L2 bits transmitted since last cleare."""
+        total_bytes: int = field(XmpLong())
+        """long integer, number of MACsec L2 bytes transmitted since last cleare.."""
+        total_frames: int = field(XmpLong())
+        """long integer, number of MACsec frames transmitted since last cleare."""
+
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get port-level MACsec TX counters
+
+        :return: port-level MACsec TX counters
+        :rtype: P_MACSEC_TX_STATS.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+    
+
+@register_command
+@dataclass
+class P_MACSEC_TXSC_STATS:
+    """
+    SC/stream-level MACsec TX counters.
+    """
+
+    code: typing.ClassVar[int] = 528
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _txsc_index: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        protected_bytes: int = field(XmpLong())
+        """long integer, number of protected (non-encrypted) bytes transmitted by the SC."""
+        encrypted_bytes: int = field(XmpLong())
+        """long integer, number of encrypted bytes transmitted by the SC."""
+        bits_sec: int = field(XmpLong())
+        """long integer, number of MACsec L2 bits transmitted of the previous second."""
+        bytes_sec: int = field(XmpLong())
+        """long integer, number of MACsec L2 bytes transmitted of the previous second."""
+        frames_sec: int = field(XmpLong())
+        """long integer, number of MACsec frames transmitted of the previous second."""
+        total_bits: int = field(XmpLong())
+        """long integer, number of MACsec L2 bits transmitted since last cleare."""
+        total_bytes: int = field(XmpLong())
+        """long integer, number of MACsec L2 bytes transmitted since last cleare.."""
+        total_frames: int = field(XmpLong())
+        """long integer, number of MACsec frames transmitted since last cleare."""
+
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get SC/stream-level MACsec TX counters.
+
+        :return: SC/stream-level MACsec TX counters.
+        :rtype: P_MACSEC_TXSC_STATS.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
+    
+
+@register_command
+@dataclass
+class P_MACSEC_TX_CLEAR:
+    """
+    Clear the MACsec TX counters of the port.
+    """
+
+    code: typing.ClassVar[int] = 516
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+
+    class SetDataAttr(RequestBodyStruct):
+        pass
+
+    def set(self) -> Token[None]:
+        """Clear the MACsec TX counters of the port.
+        """
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port))
+    
+
+
+@register_command
+@dataclass
+class P_MACSEC_RX_STATS:
+    """
+    Port-level MACsec RX counters
+    """
+
+    code: typing.ClassVar[int] = 525
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        delayed_frames: int = field(XmpLong())
+        """long integer, """
+        out_of_window_frames: int = field(XmpLong())
+        """long integer, """
+        not_valid_frames: int = field(XmpLong())
+        """long integer, """
+        bits_sec: int = field(XmpLong())
+        """long integer, number of MACsec L2 bits received of the previous second."""
+        bytes_sec: int = field(XmpLong())
+        """long integer, number of MACsec L2 bytes received of the previous second."""
+        frames_sec: int = field(XmpLong())
+        """long integer, number of MACsec frames received of the previous second."""
+        total_bits: int = field(XmpLong())
+        """long integer, number of MACsec L2 bits received since last cleare."""
+        total_bytes: int = field(XmpLong())
+        """long integer, number of MACsec L2 bytes received since last cleare.."""
+        total_frames: int = field(XmpLong())
+        """long integer, number of MACsec frames received since last cleare."""
+        lost_frames: int = field(XmpLong())
+        """long integer, number of lost MACsec frames in total from cleared."""
+
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get port-level MACsec RX counters
+
+        :return: port-level MACsec RX counters
+        :rtype: P_MACSEC_RX_STATS.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+
+
+
+@register_command
+@dataclass
+class P_MACSEC_RXSC_STATS:
+    """
+    SC/stream-level MACsec RX counters
+    """
+
+    code: typing.ClassVar[int] = 529
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _rxsc_index: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        delayed_frames: int = field(XmpLong())
+        """long integer, """
+        out_of_window_frames: int = field(XmpLong())
+        """long integer, """
+        not_valid_frames: int = field(XmpLong())
+        """long integer, """
+        bits_sec: int = field(XmpLong())
+        """long integer, number of MACsec L2 bits received of the previous second."""
+        bytes_sec: int = field(XmpLong())
+        """long integer, number of MACsec L2 bytes received of the previous second."""
+        frames_sec: int = field(XmpLong())
+        """long integer, number of MACsec frames received of the previous second."""
+        total_bits: int = field(XmpLong())
+        """long integer, number of MACsec L2 bits received since last cleare."""
+        total_bytes: int = field(XmpLong())
+        """long integer, number of MACsec L2 bytes received since last cleare.."""
+        total_frames: int = field(XmpLong())
+        """long integer, number of MACsec frames received since last cleare."""
+        lost_frames: int = field(XmpLong())
+        """long integer, number of lost MACsec frames in total from cleared."""
+
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get port-level MACsec RX counters
+
+        :return: port-level MACsec RX counters
+        :rtype: P_MACSEC_RX_STATS.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._rxsc_index]))
+    
+
+@register_command
+@dataclass
+class P_MACSEC_RX_CLEAR:
+    """
+    Clear the MACsec RX counters of the port.
+    """
+
+    code: typing.ClassVar[int] = 524
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+
+    class SetDataAttr(RequestBodyStruct):
+        pass
+
+    def set(self) -> Token[None]:
+        """Clear the MACsec RX counters of the port.
+        """
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port))

@@ -2162,7 +2162,7 @@ class PS_OPTIONS:
 @dataclass
 class PS_MACSEC_ENABLE:
     """
-    If the stream should enable MACSec.
+    Enable or disable MACsec on the stream.
     """
 
     code: typing.ClassVar[int] = 526
@@ -2211,7 +2211,7 @@ class PS_MACSEC_ENABLE:
 @dataclass
 class PS_MACSEC_ASSIGN:
     """
-    Assign a TX SC profile to a stream.
+    Assign a TX SC to a stream.
     """
 
     code: typing.ClassVar[int] = 527
