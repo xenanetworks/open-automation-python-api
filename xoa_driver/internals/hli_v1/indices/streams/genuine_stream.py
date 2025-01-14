@@ -2,6 +2,8 @@ from typing import TYPE_CHECKING
 from xoa_driver.internals.commands import (
     PS_INSERTFCS,
     PS_INJECTFCSERR,
+    PS_MACSEC_ENABLE,
+    PS_MACSEC_ASSIGN,
 )
 from .base_stream import (
     BaseStreamIdx,
@@ -24,6 +26,20 @@ class GSInjectError(SInjectError):
         :type: PS_INJECTFCSERR
         """
 
+class SMacSec:
+    """MACSec configuration"""
+    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, stream_idx: int) -> None:
+        self.enable = PS_MACSEC_ENABLE(conn, module_id, port_id, stream_idx)
+        """Enable MACSec
+
+        :type: PS_MACSEC_ENABLE
+        """
+
+        self.assign = PS_MACSEC_ASSIGN(conn, module_id, port_id, stream_idx)
+        """Assign MACSec
+
+        :type: PS_MACSEC_ASSIGN
+        """
 
 class GenuineStreamIdx(BaseStreamIdx):
     """Genuine L23 Stream Index Manager"""
@@ -39,4 +55,10 @@ class GenuineStreamIdx(BaseStreamIdx):
         """Error injection configuration
 
         :type: GSInjectError
+        """
+
+        self.macsec = SMacSec(conn, *kind)
+        """MACSec configuration
+
+        :type: SMacSec
         """
