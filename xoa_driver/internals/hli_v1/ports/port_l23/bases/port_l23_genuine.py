@@ -19,6 +19,7 @@ from xoa_driver.internals.hli_v1.indices.streams.genuine_stream import GenuineSt
 from xoa_driver.internals.hli_v1.indices.filter.genuine_filter import GenuineFilterIdx
 from xoa_driver.internals.hli_v1.indices.port_dataset import PortDatasetIdx
 from xoa_driver.internals.state_storage import ports_state
+from xoa_driver.internals.hli_v1.indices.macsecscs.genuine_macsecsc import GenuineMacSecTxScIdx, GenuineMacSecRxScIdx
 
 from .port_l23 import (
     BasePortL23,
@@ -33,7 +34,8 @@ from .port_transmission_statistics import PortTransmissionStatistics
 StreamIndices = idx_mgr.IndexManager[GenuineStreamIdx]
 FilterIndices = idx_mgr.IndexManager[GenuineFilterIdx]
 PortDatasetIndices = idx_mgr.IndexManager[PortDatasetIdx]
-
+MacSecTxScIndices = idx_mgr.IndexManager[GenuineMacSecTxScIdx]
+MacSecRxScIndices = idx_mgr.IndexManager[GenuineMacSecRxScIdx]
 
 class SpeedMode:
     """L23 port's speed mode"""
@@ -180,6 +182,28 @@ class BasePortL23Genuine(BasePortL23):
         """L23 port histogram index manager.
 
         :type: PortDatasetIndices
+        """
+
+        self.macsec_txscs: MacSecTxScIndices = idx_mgr.IndexManager(
+            conn,
+            GenuineMacSecTxScIdx,
+            module_id,
+            port_id
+        )
+        """L23 port MACSec TX SC index manager.
+
+        :type: MacSecTxScIndices
+        """
+
+        self.macsec_rxscs: MacSecRxScIndices = idx_mgr.IndexManager(
+            conn,
+            GenuineMacSecRxScIdx,
+            module_id,
+            port_id
+        )
+        """L23 port MACSec RX SC index manager.
+
+        :type: MacSecRxScIndices
         """
 
     @property

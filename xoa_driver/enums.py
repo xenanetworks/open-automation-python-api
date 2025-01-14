@@ -190,6 +190,12 @@ from .internals.commands.enums import (
     FreyaTapIndex,
     FreyaLinkTrainingRangeResponse,
     FreyaAutorestartMode,
+    MACSecSCIMode,
+    MACSecCipherSuite,
+    MACSecEncryptionMode,
+    MACSecRekeyMode,
+    MACSecSAKKeyType,
+    MACSecVLANMode,
 )
 
 __all__ = (
@@ -382,4 +388,10 @@ __all__ = (
     "FreyaTapIndex",
     "FreyaLinkTrainingRangeResponse",
     "FreyaAutorestartMode",
+    "MACSecSCIMode",
+    "MACSecCipherSuite",
+    "MACSecEncryptionMode",
+    "MACSecRekeyMode",
+    "MACSecSAKKeyType",
+    "MACSecVLANMode",
 )
