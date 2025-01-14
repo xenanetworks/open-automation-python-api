@@ -520,12 +520,6 @@ class BasePortL23(base_port.BasePort[ports_state.PortL23LocalState]):
         :type: MatchTermIndices
         """
 
-        self.macsec : MACsec = MACsec(conn, module_id, port_id)
-        """L23 port Media Access Control security.
-
-        :type: MACsec
-        """
-
     on_speed_change = functools.partialmethod(utils.on_event, P_SPEED)
     """Register a callback to the event that the port's speed changes."""
 

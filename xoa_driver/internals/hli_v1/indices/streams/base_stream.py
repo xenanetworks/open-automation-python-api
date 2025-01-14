@@ -42,7 +42,6 @@ from xoa_driver.internals.commands import (
     PS_PFCPRIORITY,
     PS_AUTOADJUST,
     PS_OPTIONS,
-    PS_MACSEC_ENABLE
 )
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
@@ -378,12 +377,6 @@ class BaseStreamIdx(BaseIndex):
         :type: PS_OPTIONS
         """
 
-        self.macsec = SMacSec(conn, *kind)
-        """L23 stream macsec
-
-        :type: SMacSec
-        """
-
     async def delete(self):
         """Delete the stream
 
@@ -403,12 +396,3 @@ class BaseStreamIdx(BaseIndex):
         await PS_CREATE(conn, *kind).set()
         return cls(conn, kind, observer)
 
-
-class SMacSec:
-    """L23 Stream MACsec Configuration"""
-    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, stream_idx: int) -> None:
-        self.enable = PS_MACSEC_ENABLE(conn, module_id, port_id, stream_idx)
-        """Enable MACsec for the stream.
-
-        :type: PS_MACSEC_ENABLE
-        """
