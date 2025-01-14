@@ -2157,3 +2157,95 @@ class PS_OPTIONS:
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._stream_xindex], options=options))
+
+@register_command
+@dataclass
+class PS_MACSEC_ENABLE:
+    """
+    Enable or disable MACsec on the stream.
+    """
+
+    code: typing.ClassVar[int] = 526
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _stream_xindex: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        on_off: OnOff = field(XmpByte())
+        """coded byte, whether MACSec is enabled on the stream."""
+
+    class SetDataAttr(RequestBodyStruct):
+        on_off: OnOff = field(XmpByte())
+        """coded byte, enable/disable MACSec on the stream."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the stream's MACSec state.
+
+        :return: the stream's MACSec state
+        :rtype: PS_MACSEC_ENABLE.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._stream_xindex]))
+
+    def set(self, on_off: OnOff) -> Token[None]:
+        """Set the stream's MACSec state.
+
+        :param on_off: the stream's MACSec state
+        :type on_off: OnOff
+        """
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._stream_xindex], on_off=on_off))
+
+    set_off = functools.partialmethod(set, OnOff.OFF)
+    """Disable the stream's MACSec.
+    """
+
+    set_on = functools.partialmethod(set, OnOff.ON)
+    """Enable the stream's MACSec.
+    """
+
+@register_command
+@dataclass
+class PS_MACSEC_ASSIGN:
+    """
+    Assign a TX SC to a stream.
+    """
+
+    code: typing.ClassVar[int] = 527
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _stream_xindex: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        tx_sc_index: int = field(XmpInt())
+        """integer, index of the TX SC of the port."""
+
+    class SetDataAttr(RequestBodyStruct):
+        tx_sc_index: int = field(XmpInt())
+        """integer, index of the TX SC of the port."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the index of the TX SC of the port.
+
+        :return: index of the TX SC of the port.
+        :rtype: PS_MACSEC_ASSIGN.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._stream_xindex]))
+
+    def set(self, tx_sc_index: int) -> Token[None]:
+        """Set the index of the TX SC of the port.
+
+        :param tx_sc_index: index of the TX SC of the port.
+        :type tx_sc_index: integer
+        """
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._stream_xindex], tx_sc_index=tx_sc_index))
+    
+
