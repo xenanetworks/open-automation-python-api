@@ -571,8 +571,10 @@ class P_CAPABILITIES:
         * Bit 5: Can control PCS TX Lane Skew
         * Bit 6: Can FEC error injection
         """
-        fec_engines: int = field(XmpInt(), min_version=465)
-        """The number of FEC engines available"""
+        # fec_engines: int = field(XmpInt(), min_version=465)
+        # """The number of FEC engines available"""
+        can_macsec: int = field(XmpInt(), min_version=470)
+        """If the port supports MACsec"""
 
 
     def get(self) -> Token[GetDataAttr]:
