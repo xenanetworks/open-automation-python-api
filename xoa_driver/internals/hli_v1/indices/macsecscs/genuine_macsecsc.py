@@ -6,6 +6,8 @@ from xoa_driver.internals.commands import (
     P_MACSEC_RXSC_SAK_INDICES,
     P_MACSEC_RXSC_SAK_TYPE,
     P_MACSEC_RXSC_SAK_VALUE,
+    P_MACSEC_TXSC_STATS,
+    P_MACSEC_RXSC_STATS,
 )
 from .base_macsecsc import (
     BaseMacSecTxScIdx,
@@ -34,6 +36,12 @@ class GenuineMacSecTxScIdx(BaseMacSecTxScIdx):
         """SAK type of the TX SC.
 
         :type:  P_MACSEC_TXSC_SAK_TYPE
+        """
+
+        self.stats = P_MACSEC_TXSC_STATS(conn, *kind)
+        """Port's MACsec TX SC statistics
+
+        :type: P_MACSEC_TXSC_STATS
         """
 
     def access_sak_value(self, sak_index: int) -> "P_MACSEC_TXSC_SAK_VALUE":
@@ -67,6 +75,12 @@ class GenuineMacSecRxScIdx(BaseMacSecRxScIdx):
         """SAK type of the RX SC.
 
         :type:  P_MACSEC_RXSC_SAK_TYPE
+        """
+
+        self.stats = P_MACSEC_RXSC_STATS(conn, *kind)
+        """Port's MACsec RX SC statistics
+
+        :type: P_MACSEC_RXSC_STATS
         """
 
     def access_sak_value(self, sak_index: int) -> "P_MACSEC_RXSC_SAK_VALUE":

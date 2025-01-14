@@ -24,7 +24,7 @@ from xoa_driver.internals.commands import (
     P_MACSEC_RXSC_SCI,
     P_MACSEC_RXSC_CONF_OFFSET,
     P_MACSEC_RXSC_CIPHERSUITE,
-    P_MACSEC_RXSC_TPLDID
+    P_MACSEC_RXSC_TPLDID,
 )
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
@@ -125,6 +125,41 @@ class MACSecRxScConfig:
 
         :type: P_MACSEC_RXSC_TPLDID
         """
+
+
+# class MACSecTxStats:
+#     """MACSec TX SC Statistics"""
+#     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, txsc_idx: int) -> None:
+
+#         self.total = P_MACSEC_TX_STATS(conn, module_id, port_id)
+#         """Port's total MACsec TX statistics
+
+#         :type: P_MACSEC_TX_STATS
+#         """
+
+#         self.clear = P_MACSEC_TX_CLEAR(conn, module_id, port_id)
+#         """Clear Port's MACsec TX statistics
+
+#         :type: P_MACSEC_TX_CLEAR
+#         """
+
+
+# class MACSecRxStats:
+#     """MACSec RX SC Statistics"""
+#     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, rxsc_idx: int) -> None:
+
+#         self.total = P_MACSEC_RX_STATS(conn, module_id, port_id)
+#         """Port's total MACsec RX statistics
+
+#         :type: P_MACSEC_RX_STATS
+#         """
+
+#         self.clear = P_MACSEC_RX_CLEAR(conn, module_id, port_id)
+#         """Clear Port's MACsec RX statistics
+
+#         :type: P_MACSEC_RX_CLEAR
+#         """
+
 
 
 BS = TypeVar("BS")
