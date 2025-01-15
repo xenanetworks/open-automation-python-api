@@ -4821,12 +4821,12 @@ class P_MACSEC_TXSC_SCI:
     _txsc_index: int
 
     class GetDataAttr(ResponseBodyStruct):
-        sci: int = field(XmpInt())
-        """integer, the SCI of the port’s TX SC."""
+        sci: Hex = field(XmpHex(size=8))
+        """hex 8 bytes, the SCI of the port’s TX SC."""
 
     class SetDataAttr(RequestBodyStruct):
-        sci: int = field(XmpInt())
-        """integer, the SCI of the port’s TX SC."""
+        sci: Hex = field(XmpHex(size=8))
+        """hex 8 bytes, the SCI of the port’s TX SC."""
 
     def get(self) -> Token[GetDataAttr]:
         """Get the SCI of the port’s TX SC.
@@ -4836,7 +4836,7 @@ class P_MACSEC_TXSC_SCI:
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
 
-    def set(self, sci: int) -> Token[None]:
+    def set(self, sci: Hex) -> Token[None]:
         """Set the SCI of the port’s TX SC.
 
         :param sci: The SCI of the port’s TX SC.
@@ -5378,12 +5378,12 @@ class P_MACSEC_RXSC_SCI:
     _rxsc_index: int
 
     class GetDataAttr(ResponseBodyStruct):
-        sci: int = field(XmpInt())
-        """integer, the SCI of the port’s RX SC."""
+        sci: Hex = field(XmpHex(size=8))
+        """hex 8 bytes, the SCI of the port’s RX SC."""
 
     class SetDataAttr(RequestBodyStruct):
-        sci: int = field(XmpInt())
-        """integer, the SCI of the port’s RX SC."""
+        sci: Hex = field(XmpHex(size=8))
+        """hex 8 bytes, the SCI of the port’s RX SC."""
 
     def get(self) -> Token[GetDataAttr]:
         """Get the SCI of the port’s RX SC.
@@ -5393,7 +5393,7 @@ class P_MACSEC_RXSC_SCI:
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._rxsc_index]))
 
-    def set(self, sci: int) -> Token[None]:
+    def set(self, sci: Hex) -> Token[None]:
         """Set the SCI of the port’s RX SC.
 
         :param sci: The SCI of the port’s RX SC.
