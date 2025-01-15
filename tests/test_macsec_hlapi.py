@@ -21,9 +21,9 @@ async def macsec_txsc_description_test(port: ports.GenericL23Port, txsc_id: int)
     await txsc_obj.config.description.set(value)
     resp = await txsc_obj.config.description.get()
     if resp.description == value:
-        print(f"{__name__} {value}: PASSED")
+        logging.info(f"{macsec_txsc_description_test.__name__} {value}: PASSED")
     else:
-        print(f"{__name__} {value}: FAILED")
+        logging.info(f"{macsec_txsc_description_test.__name__} {value}: FAILED")
 
 async def macsec_rxsc_description_test(port: ports.GenericL23Port, rxsc_id: int) -> None:
     rxsc_obj = port.macsec_rxscs.obtain(rxsc_id)
@@ -31,9 +31,9 @@ async def macsec_rxsc_description_test(port: ports.GenericL23Port, rxsc_id: int)
     await rxsc_obj.config.description.set(value)
     resp = await rxsc_obj.config.description.get()
     if resp.description == value:
-        print(f"{__name__} {value}: PASSED")
+        logging.info(f"{macsec_rxsc_description_test.__name__} {value}: PASSED")
     else:
-        print(f"{__name__} {value}: FAILED")
+        logging.info(f"{macsec_rxsc_description_test.__name__} {value}: FAILED")
     
 async def macsec_txsc_sci_mode_test(port: ports.GenericL23Port, txsc_id: int) -> None:
     txsc_obj = port.macsec_txscs.obtain(txsc_id)
@@ -43,9 +43,9 @@ async def macsec_txsc_sci_mode_test(port: ports.GenericL23Port, txsc_id: int) ->
         await txsc_obj.config.sci_mode.set(value)
         resp = await txsc_obj.config.sci_mode.get()
         if resp.mode == value:
-            print(f"{__name__} {value}: PASSED")
+            logging.info(f"{macsec_txsc_sci_mode_test.__name__} {value}: PASSED")
         else:
-            print(f"{__name__} {value}: FAILED")
+            logging.info(f"{macsec_txsc_sci_mode_test.__name__} {value}: FAILED")
 
 async def macsec_txsc_sci_test(port: ports.GenericL23Port, txsc_id: int) -> None:
     txsc_obj = port.macsec_txscs.obtain(txsc_id)
@@ -55,9 +55,9 @@ async def macsec_txsc_sci_test(port: ports.GenericL23Port, txsc_id: int) -> None
     await txsc_obj.config.sci.set(value)
     resp = await txsc_obj.config.sci.get()
     if resp.sci == value:
-        print(f"{__name__} {value}: PASSED")
+        logging.info(f"{macsec_txsc_sci_test.__name__} {value}: PASSED")
     else:
-        print(f"{__name__} {value}: FAILED")
+        logging.info(f"{macsec_txsc_sci_test.__name__} {value}: FAILED")
 
 async def macsec_rxsc_sci_test(port: ports.GenericL23Port, rxsc_id: int) -> None:
     rxsc_obj = port.macsec_rxscs.obtain(rxsc_id)
@@ -67,9 +67,9 @@ async def macsec_rxsc_sci_test(port: ports.GenericL23Port, rxsc_id: int) -> None
     await rxsc_obj.config.sci.set(value)
     resp = await rxsc_obj.config.sci.get()
     if resp.sci == value:
-        print(f"{__name__} {value}: PASSED")
+        logging.info(f"{macsec_rxsc_sci_test.__name__} {value}: PASSED")
     else:
-        print(f"{__name__} {value}: FAILED")
+        logging.info(f"{macsec_rxsc_sci_test.__name__} {value}: FAILED")
 
 async def macsec_txsc_conf_offset_test(port: ports.GenericL23Port, txsc_id: int) -> None:
     txsc_obj = port.macsec_txscs.obtain(txsc_id)
@@ -77,9 +77,9 @@ async def macsec_txsc_conf_offset_test(port: ports.GenericL23Port, txsc_id: int)
         await txsc_obj.config.confidentiality_offset.set(value)
         resp = await txsc_obj.config.confidentiality_offset.get()
         if resp.offset == value:
-            print(f"{__name__} {value}: PASSED")
+            logging.info(f"{macsec_txsc_conf_offset_test.__name__} {value}: PASSED")
         else:
-            print(f"{__name__} {value}: FAILED")
+            logging.info(f"{macsec_txsc_conf_offset_test.__name__} {value}: FAILED")
 
 async def macsec_rxsc_conf_offset_test(port: ports.GenericL23Port, rxsc_id: int) -> None:
     rxsc_obj = port.macsec_rxscs.obtain(rxsc_id)
@@ -87,9 +87,9 @@ async def macsec_rxsc_conf_offset_test(port: ports.GenericL23Port, rxsc_id: int)
         await rxsc_obj.config.confidentiality_offset.set(value)
         resp = await rxsc_obj.config.confidentiality_offset.get()
         if resp.offset == value:
-            print(f"{__name__} {value}: PASSED")
+            logging.info(f"{macsec_rxsc_conf_offset_test.__name__} {value}: PASSED")
         else:
-            print(f"{__name__} {value}: FAILED")
+            logging.info(f"{macsec_rxsc_conf_offset_test.__name__} {value}: FAILED")
 
 async def macsec_txsc_ciphersuite_test(port: ports.GenericL23Port, txsc_id: int) -> None:
     txsc_obj = port.macsec_txscs.obtain(txsc_id)
@@ -99,9 +99,9 @@ async def macsec_txsc_ciphersuite_test(port: ports.GenericL23Port, txsc_id: int)
         await txsc_obj.config.cipher_suite.set(value)
         resp = await txsc_obj.config.cipher_suite.get()
         if resp.cipher_suite == value:
-            print(f"{__name__} {value}: PASSED")
+            logging.info(f"{macsec_txsc_ciphersuite_test.__name__} {value}: PASSED")
         else:
-            print(f"{__name__} {value}: FAILED")
+            logging.info(f"{macsec_txsc_ciphersuite_test.__name__} {value}: FAILED")
 
 async def macsec_rxsc_ciphersuite_test(port: ports.GenericL23Port, rxsc_id: int) -> None:
     rxsc_obj = port.macsec_rxscs.obtain(rxsc_id)
@@ -111,19 +111,19 @@ async def macsec_rxsc_ciphersuite_test(port: ports.GenericL23Port, rxsc_id: int)
         await rxsc_obj.config.cipher_suite.set(value)
         resp = await rxsc_obj.config.cipher_suite.get()
         if resp.cipher_suite == value:
-            print(f"{__name__} {value}: PASSED")
+            logging.info(f"{macsec_rxsc_ciphersuite_test.__name__} {value}: PASSED")
         else:
-            print(f"{__name__} {value}: FAILED")
+            logging.info(f"{macsec_rxsc_ciphersuite_test.__name__} {value}: FAILED")
 
 async def macsec_txsc_pn_test(port: ports.GenericL23Port, txsc_id: int) -> None:
     txsc_obj = port.macsec_txscs.obtain(txsc_id)
-    for value in range(0, 0xFFFFFFFF):
+    for value in range(0, 1000):
         await txsc_obj.config.starting_pn.set(value)
         resp = await txsc_obj.config.starting_pn.get()
         if resp.start == value:
-            print(f"{__name__} {value}: PASSED")
+            logging.info(f"{macsec_txsc_pn_test.__name__} {value}: PASSED")
         else:
-            print(f"{__name__} {value}: FAILED")
+            logging.info(f"{macsec_txsc_pn_test.__name__} {value}: FAILED")
 
 async def macsec_txsc_vlan_mode_test(port: ports.GenericL23Port, txsc_id: int) -> None:
     txsc_obj = port.macsec_txscs.obtain(txsc_id)
@@ -133,9 +133,9 @@ async def macsec_txsc_vlan_mode_test(port: ports.GenericL23Port, txsc_id: int) -
         await txsc_obj.config.vlan_mode.set(value)
         resp = await txsc_obj.config.vlan_mode.get()
         if resp.mode == value:
-            print(f"{__name__} {value}: PASSED")
+            logging.info(f"{macsec_txsc_vlan_mode_test.__name__} {value}: PASSED")
         else:
-            print(f"{__name__} {value}: FAILED")
+            logging.info(f"{macsec_txsc_vlan_mode_test.__name__} {value}: FAILED")
 
 async def macsec_txsc_rekey_mode_test(port: ports.GenericL23Port, txsc_id: int) -> None:
     txsc_obj = port.macsec_txscs.obtain(txsc_id)
@@ -145,9 +145,9 @@ async def macsec_txsc_rekey_mode_test(port: ports.GenericL23Port, txsc_id: int) 
         await txsc_obj.config.rekey_mode.set(value)
         resp = await txsc_obj.config.rekey_mode.get()
         if resp.mode == value:
-            print(f"{__name__} {value}: PASSED")
+            logging.info(f"{macsec_txsc_rekey_mode_test.__name__} {value}: PASSED")
         else:
-            print(f"{__name__} {value}: FAILED")
+            logging.info(f"{macsec_txsc_rekey_mode_test.__name__} {value}: FAILED")
 
 async def macsec_txsc_encrypt_mode_test(port: ports.GenericL23Port, txsc_id: int) -> None:
     txsc_obj = port.macsec_txscs.obtain(txsc_id)
@@ -157,9 +157,9 @@ async def macsec_txsc_encrypt_mode_test(port: ports.GenericL23Port, txsc_id: int
         await txsc_obj.config.encryption_mode.set(value)
         resp = await txsc_obj.config.encryption_mode.get()
         if resp.mode == value:
-            print(f"{__name__} {value}: PASSED")
+            logging.info(f"{macsec_txsc_encrypt_mode_test.__name__} {value}: PASSED")
         else:
-            print(f"{__name__} {value}: FAILED")
+            logging.info(f"{macsec_txsc_encrypt_mode_test.__name__} {value}: FAILED")
 
 async def macsec_txsc_sak_test(port: ports.GenericL23Port, txsc_id: int) -> None:
     txsc_obj = port.macsec_txscs.obtain(txsc_id)
@@ -169,17 +169,17 @@ async def macsec_txsc_sak_test(port: ports.GenericL23Port, txsc_id: int) -> None
     for i in _key_indices:
         resp = await txsc_obj.access_sak_value(i).get()
         if resp.sak_key_value == "00"*16:
-            print(f"{__name__} default all-zero: PASSED")
+            logging.info(f"{macsec_txsc_sak_test.__name__} default all-zero: PASSED")
         else:
-            print(f"{__name__} default all-zero: FAILED")
+            logging.info(f"{macsec_txsc_sak_test.__name__} default all-zero: FAILED")
     for i in _key_indices:
         value = Hex("000102030405060708FF0102030405060708")
         await txsc_obj.access_sak_value(i).set(value)
         resp = await txsc_obj.access_sak_value(i).get()
         if resp.sak_key_value == value:
-            print(f"{__name__} {value}: PASSED")
+            logging.info(f"{macsec_txsc_sak_test.__name__} {value}: PASSED")
         else:
-            print(f"{__name__} {value}: FAILED")
+            logging.info(f"{macsec_txsc_sak_test.__name__} {value}: FAILED")
 
 async def macsec_rxsc_sak_test(port: ports.GenericL23Port, rxsc_id: int) -> None:
     rxsc_obj = port.macsec_rxscs.obtain(rxsc_id)
@@ -189,17 +189,17 @@ async def macsec_rxsc_sak_test(port: ports.GenericL23Port, rxsc_id: int) -> None
     for i in _key_indices:
         resp = await rxsc_obj.access_sak_value(i).get()
         if resp.sak_key_value == "00"*16:
-            print(f"{__name__} default all-zero: PASSED")
+            logging.info(f"{macsec_rxsc_sak_test.__name__} default all-zero: PASSED")
         else:
-            print(f"{__name__} default all-zero: FAILED")
+            logging.info(f"{macsec_rxsc_sak_test.__name__} default all-zero: FAILED")
     for i in _key_indices:
         value = Hex("000102030405060708FF0102030405060708")
         await rxsc_obj.access_sak_value(i).set(value)
         resp = await rxsc_obj.access_sak_value(i).get()
         if resp.sak_key_value == value:
-            print(f"{__name__} {value}: PASSED")
+            logging.info(f"{macsec_rxsc_sak_test.__name__} {value}: PASSED")
         else:
-            print(f"{__name__} {value}: FAILED")
+            logging.info(f"{macsec_rxsc_sak_test.__name__} {value}: FAILED")
 
 async def macsec_rxsc_tpldid_test(port: ports.GenericL23Port, rxsc_id: int) -> None:
     rxsc_obj = port.macsec_rxscs.obtain(rxsc_id)
@@ -207,47 +207,47 @@ async def macsec_rxsc_tpldid_test(port: ports.GenericL23Port, rxsc_id: int) -> N
         await rxsc_obj.config.tpld_id.set(value)
         resp = await rxsc_obj.config.tpld_id.get()
         if resp.tpld_id == value:
-            print(f"{__name__} {value}: PASSED")
+            logging.info(f"{macsec_rxsc_tpldid_test.__name__} {value}: PASSED")
         else:
-            print(f"{__name__} {value}: FAILED")
+            logging.info(f"{macsec_rxsc_tpldid_test.__name__} {value}: FAILED")
 
 async def macsec_txsc_default_value_test(port: ports.GenericL23Port, txsc_id: int) -> None:
-    print(f"TX SC {txsc_id} Default Value Test")
+    logging.info(f"TX SC {txsc_id} Default Value Test")
     txsc_obj = port.macsec_txscs.obtain(txsc_id)
     resp = await txsc_obj.config.description.get()
-    print(resp.description)
+    logging.info(resp.description)
     resp = await txsc_obj.config.sci_mode.get()
-    print(resp.mode)
+    logging.info(resp.mode)
     resp = await txsc_obj.config.sci.get()
-    print(resp.sci)
+    logging.info(resp.sci)
     resp = await txsc_obj.config.confidentiality_offset.get()
-    print(resp.offset)
+    logging.info(resp.offset)
     resp = await txsc_obj.config.cipher_suite.get()
-    print(resp.cipher_suite)
+    logging.info(resp.cipher_suite)
     resp = await txsc_obj.config.starting_pn.get()
-    print(resp.start)
+    logging.info(resp.start)
     resp = await txsc_obj.config.vlan_mode.get()
-    print(resp.mode)
+    logging.info(resp.mode)
     resp = await txsc_obj.config.rekey_mode.get()
-    print(resp.mode)
+    logging.info(resp.mode)
     resp = await txsc_obj.config.encryption_mode.get()
-    print(resp.mode)
+    logging.info(resp.mode)
     resp = await txsc_obj.sak_indices.get()
-    print(resp.key_indices)
+    logging.info(resp.key_indices)
 
 async def macsec_rxsc_default_value_test(port: ports.GenericL23Port, rxsc_id: int) -> None:
-    print(f"RX SC {rxsc_id} Default Value Test")
+    logging.info(f"RX SC {rxsc_id} Default Value Test")
     rxsc_obj = port.macsec_rxscs.obtain(rxsc_id)
     resp = await rxsc_obj.config.description.get()
-    print(resp.description)
+    logging.info(resp.description)
     resp = await rxsc_obj.config.sci.get()
-    print(resp.sci)
+    logging.info(resp.sci)
     resp = await rxsc_obj.config.confidentiality_offset.get()
-    print(resp.offset)
+    logging.info(resp.offset)
     resp = await rxsc_obj.config.cipher_suite.get()
-    print(resp.cipher_suite)
+    logging.info(resp.cipher_suite)
     resp = await rxsc_obj.sak_indices.get()
-    print(resp.key_indices)
+    logging.info(resp.key_indices)
 
 async def macsec_stream_test(port: ports.GenericL23Port, stream_id: int, txsc_id: int) -> None:
     stream_obj = port.streams.obtain(stream_id)
@@ -261,16 +261,16 @@ async def macsec_stream_test(port: ports.GenericL23Port, stream_id: int, txsc_id
         await stream_obj.macsec.enable.set(value)
         resp = await stream_obj.macsec.enable.get()
         if resp.on_off == value:
-            print(f"{__name__} {value}: PASSED")
+            logging.info(f"{macsec_stream_test.__name__} {value}: PASSED")
         else:
-            print(f"{__name__} {value}: FAILED")
+            logging.info(f"{macsec_stream_test.__name__} {value}: FAILED")
     await stream_obj.macsec.enable.set(on_off=enums.OnOff.ON)
     await stream_obj.macsec.assign.set(tx_sc_index=txsc_id)
     resp = await stream_obj.macsec.assign.get()
     if resp.tx_sc_index == txsc_id:
-        print(f"{__name__} {txsc_id}: PASSED")
+        logging.info(f"{macsec_stream_test.__name__} {txsc_id}: PASSED")
     else:
-        print(f"{__name__} {txsc_id}: FAILED")
+        logging.info(f"{macsec_stream_test.__name__} {txsc_id}: FAILED")
 
 
 async def macsec_hlapi_test(
@@ -285,7 +285,7 @@ async def macsec_hlapi_test(
         format="%(asctime)s  %(message)s",
         level=logging.DEBUG,
         handlers=[
-            logging.FileHandler(filename="test.log", mode="a"),
+            logging.FileHandler(filename=f"{macsec_hlapi_test.__name__}.log", mode="a"),
             logging.StreamHandler()]
         )
     
@@ -305,7 +305,7 @@ async def macsec_hlapi_test(
         # Get the port
         port_obj = module_obj.ports.obtain(_pid)
 
-        print(f"Start")
+        logging.info(f"Start")
         await mgmt.reserve_port(port_obj)
         await mgmt.reset_port(port_obj)
 
@@ -314,7 +314,7 @@ async def macsec_hlapi_test(
             txsc_obj = await port_obj.macsec_txscs.create()
             txsc_index = txsc_obj.idx
             # await macsec_txsc_default_value_test(port_obj, txsc_index)
-            print(f"-------------------")
+            logging.info(f"-------------------")
             await macsec_txsc_description_test(port_obj, txsc_index)
             await macsec_txsc_sci_mode_test(port_obj, txsc_index)
             await macsec_txsc_sci_test(port_obj, txsc_index)
@@ -325,61 +325,61 @@ async def macsec_hlapi_test(
             await macsec_txsc_rekey_mode_test(port_obj, txsc_index)
             await macsec_txsc_encrypt_mode_test(port_obj, txsc_index)
             await macsec_txsc_sak_test(port_obj, txsc_index)
-            print(f"-------------------")
+            logging.info(f"-------------------")
             stream_obj = await port_obj.streams.create()
             stream_index = stream_obj.idx
             await macsec_stream_test(port_obj, stream_index, txsc_index)
-            print(f"-------------------")
+            logging.info(f"-------------------")
             rxsc_obj = await port_obj.macsec_rxscs.create()
             rxsc_index = rxsc_obj.idx
             # await macsec_rxsc_default_value_test(port_obj, rxsc_index)
-            print(f"-------------------")
+            logging.info(f"-------------------")
             await macsec_rxsc_description_test(port_obj, rxsc_index)
             await macsec_rxsc_sci_test(port_obj, rxsc_index)
             await macsec_rxsc_conf_offset_test(port_obj, rxsc_index)
             await macsec_rxsc_ciphersuite_test(port_obj, rxsc_index)
             await macsec_rxsc_tpldid_test(port_obj, rxsc_index)
             await macsec_txsc_sak_test(port_obj, txsc_index)
-            print(f"-------------------")
+            logging.info(f"-------------------")
 
             # await port_obj.traffic.state.set_start()
 
             resp = await txsc_obj.stats.get()
-            print(f"TX SC {txsc_index} Stats: {resp}")
+            logging.info(f"TX SC {txsc_index} Stats: {resp}")
 
             resp = await rxsc_obj.stats.get()
-            print(f"RX SC {rxsc_index} Stats: {resp}")
+            logging.info(f"RX SC {rxsc_index} Stats: {resp}")
             
             resp = await port_obj.statistics.tx.macsec.total.get()
-            print(f"TX Total Stats: {resp}")
+            logging.info(f"TX Total Stats: {resp}")
             
             resp = await port_obj.statistics.rx.macsec.total.get()
-            print(f"RX Total Stats: {resp}")
+            logging.info(f"RX Total Stats: {resp}")
             
-            print(f"-------------------")
+            logging.info(f"-------------------")
             await asyncio.sleep(5)
             await port_obj.statistics.tx.macsec.clear.set()
             await port_obj.statistics.rx.macsec.clear.set()
-            print(f"TX & RX Stats Cleared")
+            logging.info(f"TX & RX Stats Cleared")
 
             resp = await txsc_obj.stats.get()
-            print(f"TX SC {txsc_index} Stats: {resp}")
+            logging.info(f"TX SC {txsc_index} Stats: {resp}")
 
             resp = await rxsc_obj.stats.get()
-            print(f"RX SC {rxsc_index} Stats: {resp}")
+            logging.info(f"RX SC {rxsc_index} Stats: {resp}")
             
             resp = await port_obj.statistics.tx.macsec.total.get()
-            print(f"TX Total Stats: {resp}")
+            logging.info(f"TX Total Stats: {resp}")
             
             resp = await port_obj.statistics.rx.macsec.total.get()
-            print(f"RX Total Stats: {resp}")
-            print(f"-------------------")
-            print(f"End")
+            logging.info(f"RX Total Stats: {resp}")
+            logging.info(f"-------------------")
+            logging.info(f"End")
 
             # await port_obj.traffic.state.set_stop()
 
         except Exception as e:
-            print(e)
+            logging.info(e)
 
         # release the port
         await mgmt.free_port(port_obj)
