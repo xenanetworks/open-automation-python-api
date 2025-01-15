@@ -29,7 +29,7 @@ from .port_l23 import (
 
 from .port_transceiver import PortTransceiver
 from .port_reception_statistics import GenuinePortReceptionStatistics
-from .port_transmission_statistics import PortTransmissionStatistics
+from .port_transmission_statistics import GenuinePortTransmissionStatistics
 
 StreamIndices = idx_mgr.IndexManager[GenuineStreamIdx]
 FilterIndices = idx_mgr.IndexManager[GenuineFilterIdx]
@@ -78,6 +78,7 @@ class UnAvailableTime:
         """
 
 
+
 class PortStatistics:
     """L23 port statistics"""
 
@@ -85,7 +86,7 @@ class PortStatistics:
         self.rx = GenuinePortReceptionStatistics(conn, module_id, port_id)
         """L23 port's RX statistics."""
 
-        self.tx = PortTransmissionStatistics(conn, module_id, port_id)
+        self.tx = GenuinePortTransmissionStatistics(conn, module_id, port_id)
         """L23 port's TX statistics."""
 
 
