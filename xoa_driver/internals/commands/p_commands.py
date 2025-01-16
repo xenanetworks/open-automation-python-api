@@ -4964,11 +4964,11 @@ class P_MACSEC_TXSC_VLAN_MODE:
     _txsc_index: int
 
     class GetDataAttr(ResponseBodyStruct):
-        mode: MACSecVLANMode = field(XmpInt())
+        mode: MACSecVLANMode = field(XmpByte())
         """integer, the VLAN mode. Default to ENCRYPTED."""
 
     class SetDataAttr(RequestBodyStruct):
-        mode: MACSecVLANMode = field(XmpInt())
+        mode: MACSecVLANMode = field(XmpByte())
         """integer, the VLAN mode. Default to ENCRYPTEDC."""
 
     def get(self) -> Token[GetDataAttr]:
@@ -5012,11 +5012,11 @@ class P_MACSEC_TXSC_REKEY_MODE:
     _txsc_index: int
 
     class GetDataAttr(ResponseBodyStruct):
-        mode: MACSecRekeyMode = field(XmpInt())
+        mode: MACSecRekeyMode = field(XmpByte())
         """integer, the rekey mode of the port’s TX SC"""
 
     class SetDataAttr(RequestBodyStruct):
-        mode: MACSecRekeyMode = field(XmpInt())
+        mode: MACSecRekeyMode = field(XmpByte())
         """integer, the rekey mode of the port’s TX SC"""
 
     def get(self) -> Token[GetDataAttr]:
@@ -5060,12 +5060,12 @@ class P_MACSEC_TXSC_ENCRYPT:
     _txsc_index: int
 
     class GetDataAttr(ResponseBodyStruct):
-        mode: MACSecEncryptionMode = field(XmpInt())
-        """integer, the encryption mode of the port’s TX SC"""
+        mode: MACSecEncryptionMode = field(XmpByte())
+        """byte, the encryption mode of the port’s TX SC"""
 
     class SetDataAttr(RequestBodyStruct):
-        mode: MACSecEncryptionMode = field(XmpInt())
-        """integer, the encryption mode of the port’s TX SC"""
+        mode: MACSecEncryptionMode = field(XmpByte())
+        """byte, the encryption mode of the port’s TX SC"""
 
     def get(self) -> Token[GetDataAttr]:
         """Get the encryption mode of the port’s TX SC
@@ -5108,11 +5108,11 @@ class P_MACSEC_TXSC_SAK_TYPE:
     _txsc_index: int
 
     class GetDataAttr(ResponseBodyStruct):
-        sak_key_type: MACSecSAKKeyType = field(XmpInt())
+        sak_key_type: MACSecSAKKeyType = field(XmpByte())
         """integer, the SAK key type of the port’s TX SC."""
 
     class SetDataAttr(RequestBodyStruct):
-        sak_key_type: MACSecSAKKeyType = field(XmpInt())
+        sak_key_type: MACSecSAKKeyType = field(XmpByte())
         """integer, the SAK key type of the port’s TX SC."""
 
     def get(self) -> Token[GetDataAttr]:
@@ -5556,11 +5556,11 @@ class P_MACSEC_RXSC_SAK_TYPE:
     _rxsc_index: int
 
     class GetDataAttr(ResponseBodyStruct):
-        sak_key_type: MACSecSAKKeyType = field(XmpInt())
+        sak_key_type: MACSecSAKKeyType = field(XmpByte())
         """integer, the SAK key type of the port’s RX SC."""
 
     class SetDataAttr(RequestBodyStruct):
-        sak_key_type: MACSecSAKKeyType = field(XmpInt())
+        sak_key_type: MACSecSAKKeyType = field(XmpByte())
         """integer, the SAK key type of the port’s RX SC."""
 
     def get(self) -> Token[GetDataAttr]:
