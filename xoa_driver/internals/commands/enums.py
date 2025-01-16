@@ -3223,6 +3223,9 @@ class MACSecSCIMode(IntEnum):
 class MACSecCipherSuite(IntEnum):
     """MACSec SCI Mode"""
 
+    UNKNOWN = 0
+    """Unknown"""
+
     GCM_AES_128 = 1
     """GCM-AES-128 (IEEE 802.1AE-2018 Clause 14.5) (default)"""
 
@@ -3239,6 +3242,9 @@ class MACSecCipherSuite(IntEnum):
 class MACSecVLANMode(IntEnum):
     """MACSec SCI Mode"""
 
+    UNKNOWN = 0
+    """Unknown"""
+
     ENCRYPTED = 1
     """MACsec encryption starts after the MAC address fields."""
 
@@ -3248,6 +3254,9 @@ class MACSecVLANMode(IntEnum):
 
 class MACSecRekeyMode(IntEnum):
     """MACSec Rekey Mode"""
+
+    UNKNOWN = 0
+    """Unknown"""
 
     PN_EXHAUSTION = 1
     """Switch to the next SAK when PN is exhausted."""
@@ -3259,6 +3268,9 @@ class MACSecRekeyMode(IntEnum):
 class MACSecEncryptionMode(IntEnum):
     """The encryption mode"""
 
+    UNKNOWN = 0
+    """Unknown"""
+
     ENCRYPT_INTEGRITY = 1
     """MACsec provides both encryption and integrity."""
 
@@ -3268,6 +3280,9 @@ class MACSecEncryptionMode(IntEnum):
 
 class MACSecSAKKeyType(IntEnum):
     """The SAK key type"""
+
+    UNKNOWN = 0
+    """Unknown"""
 
     SAK128 = 1
     """128-bit SAK key."""
