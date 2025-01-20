@@ -40,6 +40,7 @@ from xoa_driver.internals.commands import (
     PL1_PRESET_CONFIG_COEFF,
     PL1_PRESET_CONFIG_LEVEL,
     PL1_PRESET_RESET,
+    PP_PRBSTYPE,
 )
 from .pcs_pma_ghijkl import (
     Prbs,
@@ -633,6 +634,9 @@ class Layer1:
         """
         self.fec_error_inject = FreyaFecCodewordErrorInject(conn, *port.kind)
         """FEC codeword error injection
+        """
+        self.prbs_config = PP_PRBSTYPE(conn, *port.kind)
+        """PRBS configuration, including PRBS polynomial, invert mode, and statistic collection mode (for RX).
         """
 
 class FreyaLinkTrainingPreset:

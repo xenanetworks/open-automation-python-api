@@ -325,7 +325,7 @@ class Prbs:
     """L23 high-speed port SerDes PRBS configuration and status."""
 
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, serdes_xindex: int) -> None:
-        self.tx_config = PP_TXPRBSCONFIG(conn, module_id, port_id, serdes_xindex)
+        self.control = PP_TXPRBSCONFIG(conn, module_id, port_id, serdes_xindex)
         """TX PRBS configuration of a SerDes.
 
         :type: PP_TXPRBSCONFIG
