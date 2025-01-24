@@ -5091,104 +5091,6 @@ class P_MACSEC_TXSC_ENCRYPT:
     """Set rekey mode to Packet Count.
     """
 
-
-@register_command
-@dataclass
-class P_MACSEC_TXSC_SAK_TYPE:
-    """
-    The SAK key type of the port’s TX SC.
-    """
-
-    code: typing.ClassVar[int] = 532
-    pushed: typing.ClassVar[bool] = False
-
-    _connection: 'interfaces.IConnection'
-    _module: int
-    _port: int
-    _txsc_index: int
-
-    class GetDataAttr(ResponseBodyStruct):
-        sak_key_type: MACSecSAKKeyType = field(XmpByte())
-        """integer, the SAK key type of the port’s TX SC."""
-
-    class SetDataAttr(RequestBodyStruct):
-        sak_key_type: MACSecSAKKeyType = field(XmpByte())
-        """integer, the SAK key type of the port’s TX SC."""
-
-    def get(self) -> Token[GetDataAttr]:
-        """Get the SAK key type of the port’s TX SC.
-
-        :return: the SAK key type of the port’s TX SC.
-        :rtype: P_MACSEC_TXSC_SAK_TYPE.GetDataAttr
-        """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
-
-    def set(self, sak_key_type: MACSecSAKKeyType) -> Token[None]:
-        """Set the SAK key type of the port’s TX SC.
-
-        :param mode: the SAK key type of the port’s TX SC.
-        :type mode: MACSecSAKKeyType
-        """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index], sak_key_type=sak_key_type))
-    
-    set_sak128 = functools.partialmethod(set, MACSecSAKKeyType.SAK128)
-    """Set the SAK key type of the port’s TX SC to SAK128.
-    """
-
-    set_sak256 = functools.partialmethod(set, MACSecSAKKeyType.SAK256)
-    """Set the SAK key type of the port’s TX SC to SAK256.
-    """
-
-
-@register_command
-@dataclass
-class P_MACSEC_TXSC_SAK_INDICES:
-    """
-    Configure the SAK key indices of the port’s TX SC.
-    """
-
-    code: typing.ClassVar[int] = 533
-    pushed: typing.ClassVar[bool] = False
-
-    _connection: 'interfaces.IConnection'
-    _module: int
-    _port: int
-    _txsc_index: int
-
-    class GetDataAttr(ResponseBodyStruct):
-        key_indices: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
-        """list of integers, the indices of SAK keys on the port’s TX SC. Allowed to be empty."""
-
-    class SetDataAttr(RequestBodyStruct):
-        key_indices: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
-        """list of integers, the indices of SAK keys on the port’s TX SC. Allowed to be empty."""
-
-    def get(self) -> Token[GetDataAttr]:
-        """Get the indices of SAK keys on the port’s TX SC.
-
-        :return: the indices of SAK keys on the port’s TX SC. Allowed to be empty.
-        :rtype: P_MACSEC_TXSC_INDICES.GetDataAttr
-        """
-
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
-
-    def set(self, key_indices: typing.List[int]) -> Token[None]:
-        """Creates the indices of SAK keys on the port’s TX SC.
-
-        :param key_indices: the indices of SAK keys on the port’s TX SC. Allowed to be empty.
-
-                            * If P_MACSEC_TXSC_SAK_TYPE is set to SAK128 (1), the allowed elements in the key_indices are 0-3.
-
-                            * If P_MACSEC_TXSC_SAK_TYPE is set to SAK256 (2), the allowed elements in the key_indices are 0-1.
-
-                            * If key_indices is empty, the SAK keys on the port’s TX SC are cleared.
-            
-        :type key_indices: typing.List[int]
-        """
-
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index], key_indices=key_indices))
-    
-
 @register_command
 @dataclass
 class P_MACSEC_TXSC_SAK_VALUE:
@@ -5542,103 +5444,6 @@ class P_MACSEC_RXSC_TPLDID:
 
 @register_command
 @dataclass
-class P_MACSEC_RXSC_SAK_TYPE:
-    """
-    The SAK key type of the port’s RX SC.
-    """
-
-    code: typing.ClassVar[int] = 540
-    pushed: typing.ClassVar[bool] = False
-
-    _connection: 'interfaces.IConnection'
-    _module: int
-    _port: int
-    _rxsc_index: int
-
-    class GetDataAttr(ResponseBodyStruct):
-        sak_key_type: MACSecSAKKeyType = field(XmpByte())
-        """integer, the SAK key type of the port’s RX SC."""
-
-    class SetDataAttr(RequestBodyStruct):
-        sak_key_type: MACSecSAKKeyType = field(XmpByte())
-        """integer, the SAK key type of the port’s RX SC."""
-
-    def get(self) -> Token[GetDataAttr]:
-        """Get the SAK key type of the port’s RX SC.
-
-        :return: the SAK key type of the port’s RX SC.
-        :rtype: P_MACSEC_RXSC_SAK_TYPE.GetDataAttr
-        """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._rxsc_index]))
-
-    def set(self, sak_key_type: MACSecSAKKeyType) -> Token[None]:
-        """Set the SAK key type of the port’s RX SC.
-
-        :param mode: the SAK key type of the port’s RX SC.
-        :type mode: MACSecSAKKeyType
-        """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._rxsc_index], sak_key_type=sak_key_type))
-    
-    set_sak128 = functools.partialmethod(set, MACSecSAKKeyType.SAK128)
-    """Set the SAK key type of the port’s RX SC to SAK128.
-    """
-
-    set_sak256 = functools.partialmethod(set, MACSecSAKKeyType.SAK256)
-    """Set the SAK key type of the port’s RX SC to SAK256.
-    """
-
-
-@register_command
-@dataclass
-class P_MACSEC_RXSC_SAK_INDICES:
-    """
-    Configure the SAK key indices of the port’s RX SC.
-    """
-
-    code: typing.ClassVar[int] = 541
-    pushed: typing.ClassVar[bool] = False
-
-    _connection: 'interfaces.IConnection'
-    _module: int
-    _port: int
-    _rxsc_index: int
-
-    class GetDataAttr(ResponseBodyStruct):
-        key_indices: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
-        """list of integers, the indices of SAK keys on the port’s RX SC. Allowed to be empty."""
-
-    class SetDataAttr(RequestBodyStruct):
-        key_indices: typing.List[int] = field(XmpSequence(types_chunk=[XmpInt()]))
-        """list of integers, the indices of SAK keys on the port’s RX SC. Allowed to be empty."""
-
-    def get(self) -> Token[GetDataAttr]:
-        """Get the indices of SAK keys on the port’s RX SC.
-
-        :return: the indices of SAK keys on the port’s RX SC. Allowed to be empty.
-        :rtype: P_MACSEC_RXSC_SAK_INDICES.GetDataAttr
-        """
-
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._rxsc_index]))
-
-    def set(self, key_indices: typing.List[int]) -> Token[None]:
-        """Creates the indices of SAK keys on the port’s RX SC.
-
-        :param key_indices: the indices of SAK keys on the port’s RX SC. Allowed to be empty.
-
-                            * If P_MACSEC_TXSC_SAK_TYPE is set to SAK128 (1), the allowed elements in the key_indices are 0-3.
-
-                            * If P_MACSEC_TXSC_SAK_TYPE is set to SAK256 (2), the allowed elements in the key_indices are 0-1.
-
-                            * If key_indices is empty, the SAK keys on the port’s RX SC are cleared.
-            
-        :type key_indices: typing.List[int]
-        """
-
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._rxsc_index], key_indices=key_indices))
-    
-
-@register_command
-@dataclass
 class P_MACSEC_RXSC_SAK_VALUE:
     """
     Configure the value of a SAK key on the port’s RX SC.
@@ -5909,3 +5714,52 @@ class P_MACSEC_RX_CLEAR:
         """
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port))
+    
+
+@register_command
+@dataclass
+class P_MACSEC_RX_ENABLE:
+    """
+    This will enable/disable the MACSec functionality on the RX side. With it ON, the RX port will try to decode the received packets. If it is OFF, the port will not try to decode any received packets.
+    """
+
+    code: typing.ClassVar[int] = 545
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        on_off: OnOff = field(XmpByte())
+        """coded byte, enable or disable MACsec on the RX port."""
+
+    class SetDataAttr(RequestBodyStruct):
+        on_off: OnOff = field(XmpByte())
+        """coded byte, enable or disable MACsec on the RX port."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the RX port MACSec state.
+
+        :return: the RX port MACSec stat
+        :rtype: PS_MACSEC_ENABLE.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port))
+
+    def set(self, on_off: OnOff) -> Token[None]:
+        """Set the RX port MACSec stat.
+
+        :param on_off: the RX port MACSec stat
+        :type on_off: OnOff
+        """
+
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, on_off=on_off))
+
+    set_off = functools.partialmethod(set, OnOff.OFF)
+    """Disable the RX port MACSec.
+    """
+
+    set_on = functools.partialmethod(set, OnOff.ON)
+    """Enable the RX port MACSec.
+    """

@@ -1,10 +1,6 @@
 from typing import TYPE_CHECKING
 from xoa_driver.internals.commands import (
-    P_MACSEC_TXSC_SAK_INDICES,
-    P_MACSEC_TXSC_SAK_TYPE,
     P_MACSEC_TXSC_SAK_VALUE,
-    P_MACSEC_RXSC_SAK_INDICES,
-    P_MACSEC_RXSC_SAK_TYPE,
     P_MACSEC_RXSC_SAK_VALUE,
     P_MACSEC_TXSC_STATS,
     P_MACSEC_RXSC_STATS,
@@ -25,18 +21,6 @@ class GenuineMacSecTxScIdx(BaseMacSecTxScIdx):
     """Genuine MACSec TX SC Index Manager"""
     def __init__(self, conn: "itf.IConnection", kind: "kind.IndicesKind", observer: "idx_obs.IndicesObserver") -> None:
         super().__init__(conn, kind, observer)
-
-        self.sak_indices = P_MACSEC_TXSC_SAK_INDICES(conn, *kind)
-        """SAK indices of the TX SC.
-
-        :type:  P_MACSEC_TXSC_SAK_INDICES
-        """
-
-        self.sak_type = P_MACSEC_TXSC_SAK_TYPE(conn, *kind)
-        """SAK type of the TX SC.
-
-        :type:  P_MACSEC_TXSC_SAK_TYPE
-        """
 
         self.stats = P_MACSEC_TXSC_STATS(conn, *kind)
         """Port's MACsec TX SC statistics
@@ -64,18 +48,6 @@ class GenuineMacSecRxScIdx(BaseMacSecRxScIdx):
     """Genuine MACSec RX SC Index Manager"""
     def __init__(self, conn: "itf.IConnection", kind: "kind.IndicesKind", observer: "idx_obs.IndicesObserver") -> None:
         super().__init__(conn, kind, observer)
-
-        self.sak_indices = P_MACSEC_RXSC_SAK_INDICES(conn, *kind)
-        """SAK indices of the RX SC.
-
-        :type:  P_MACSEC_RXSC_SAK_INDICES
-        """
-
-        self.sak_type = P_MACSEC_RXSC_SAK_TYPE(conn, *kind)
-        """SAK type of the RX SC.
-
-        :type:  P_MACSEC_RXSC_SAK_TYPE
-        """
 
         self.stats = P_MACSEC_RXSC_STATS(conn, *kind)
         """Port's MACsec RX SC statistics

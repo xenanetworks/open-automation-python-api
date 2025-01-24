@@ -12,6 +12,7 @@ from xoa_driver.internals.commands import (
     P_TCVRSTATUS,
     P_LOADMODE,
     PP_FECMODE,
+    P_MACSEC_RX_ENABLE
 )
 from xoa_driver.internals.utils import attributes as utils
 from xoa_driver.internals.utils.indices import index_manager as idx_mgr
@@ -76,7 +77,6 @@ class UnAvailableTime:
 
         :type: P_UAT_FLR
         """
-
 
 
 class PortStatistics:
@@ -150,6 +150,12 @@ class BasePortL23Genuine(BasePortL23):
         """L23 port statistics.
 
         :type: PortStatistics
+        """
+
+        self.macsec_rx = P_MACSEC_RX_ENABLE(conn, module_id, port_id)
+        """L23 port MACSec RX enable.
+
+        :type: P_MACSEC_RX_ENABLE        
         """
 
         self.streams: StreamIndices = idx_mgr.IndexManager(

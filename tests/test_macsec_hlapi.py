@@ -163,9 +163,7 @@ async def macsec_txsc_encrypt_mode_test(port: ports.GenericL23Port, txsc_id: int
 
 async def macsec_txsc_sak_test(port: ports.GenericL23Port, txsc_id: int) -> None:
     txsc_obj = port.macsec_txscs.obtain(txsc_id)
-    await txsc_obj.sak_type.set(sak_key_type=enums.MACSecSAKKeyType.SAK128)
     _key_indices = [0,1,2,3]
-    await txsc_obj.sak_indices.set(key_indices=_key_indices)
     for i in _key_indices:
         resp = await txsc_obj.access_sak_value(i).get()
         if resp.sak_key_value == "00"*16:
@@ -183,9 +181,7 @@ async def macsec_txsc_sak_test(port: ports.GenericL23Port, txsc_id: int) -> None
 
 async def macsec_rxsc_sak_test(port: ports.GenericL23Port, rxsc_id: int) -> None:
     rxsc_obj = port.macsec_rxscs.obtain(rxsc_id)
-    await rxsc_obj.sak_type.set(sak_key_type=enums.MACSecSAKKeyType.SAK128)
     _key_indices = [0,1,2,3]
-    await rxsc_obj.sak_indices.set(key_indices=_key_indices)
     for i in _key_indices:
         resp = await rxsc_obj.access_sak_value(i).get()
         if resp.sak_key_value == "00"*16:
@@ -232,8 +228,7 @@ async def macsec_txsc_default_value_test(port: ports.GenericL23Port, txsc_id: in
     logging.info(resp.mode)
     resp = await txsc_obj.config.encryption_mode.get()
     logging.info(resp.mode)
-    resp = await txsc_obj.sak_indices.get()
-    logging.info(resp.key_indices)
+
 
 async def macsec_rxsc_default_value_test(port: ports.GenericL23Port, rxsc_id: int) -> None:
     logging.info(f"RX SC {rxsc_id} Default Value Test")
@@ -246,8 +241,7 @@ async def macsec_rxsc_default_value_test(port: ports.GenericL23Port, rxsc_id: in
     logging.info(resp.offset)
     resp = await rxsc_obj.config.cipher_suite.get()
     logging.info(resp.cipher_suite)
-    resp = await rxsc_obj.sak_indices.get()
-    logging.info(resp.key_indices)
+
 
 async def macsec_stream_test(port: ports.GenericL23Port, stream_id: int, txsc_id: int) -> None:
     stream_obj = port.streams.obtain(stream_id)
@@ -330,6 +324,7 @@ async def macsec_hlapi_test(
             stream_index = stream_obj.idx
             await macsec_stream_test(port_obj, stream_index, txsc_index)
             logging.info(f"-------------------")
+            await port_obj.macsec_rx.set(on_off=enums.OnOff.ON)
             rxsc_obj = await port_obj.macsec_rxscs.create()
             rxsc_index = rxsc_obj.idx
             # await macsec_rxsc_default_value_test(port_obj, rxsc_index)
