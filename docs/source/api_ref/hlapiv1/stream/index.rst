@@ -7,5 +7,5 @@ Stream APIs for Valkyrie.
     :glob:
 
     *
-    modifier/*
+    modifier/index
     error_handling/index

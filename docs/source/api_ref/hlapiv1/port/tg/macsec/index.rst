@@ -1,7 +1,7 @@
-Histogram
+MACsec
 =========================
 
-Histogram APIs.
+MACsec APIs.
 
 .. toctree::
     :glob:

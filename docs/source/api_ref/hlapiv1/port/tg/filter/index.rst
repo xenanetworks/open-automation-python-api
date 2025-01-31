@@ -1,7 +1,7 @@
 Filter
 =========================
 
-Filter APIs for Valkyrie.
+Filter APIs.
 
 .. toctree::
     :glob:
