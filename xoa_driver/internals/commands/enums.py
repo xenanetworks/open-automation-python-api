@@ -3223,71 +3223,46 @@ class MACSecSCIMode(IntEnum):
 class MACSecCipherSuite(IntEnum):
     """MACSec SCI Mode"""
 
-    UNKNOWN = 0
-    """Unknown"""
-
-    GCM_AES_128 = 1
+    GCM_AES_128 = 0
     """GCM-AES-128 (IEEE 802.1AE-2018 Clause 14.5) (default)"""
 
-    GCM_AES_256 = 2
+    GCM_AES_256 = 1
     """GCM-AES-256 (IEEE 802.1AE-2018 Clause 14.6)"""
 
-    GCM_AES_XPN_128 = 3
+    GCM_AES_XPN_128 = 2
     """GCM-AES-XPN-128 (IEEE 802.1AE-2018 Clause 14.7)"""
 
-    GCM_AES_XPN_256 = 4
+    GCM_AES_XPN_256 = 3
     """GCM-AES-XPN-256 (IEEE 802.1AE-2018 Clause 14.8)"""
 
 
 class MACSecVLANMode(IntEnum):
     """MACSec SCI Mode"""
 
-    UNKNOWN = 0
-    """Unknown"""
-
-    ENCRYPTED = 1
+    ENCRYPTED = 0
     """MACsec encryption starts after the MAC address fields."""
 
-    CLEAR_TEXT = 2
+    CLEAR_TEXT = 1
     """Clear-text VLAN (802.1Q). MACsec encryption will leave the first VLAN field out of the MACsec protocol data unit."""
 
 
 class MACSecRekeyMode(IntEnum):
     """MACSec Rekey Mode"""
 
-    UNKNOWN = 0
-    """Unknown"""
-
-    PN_EXHAUSTION = 1
+    PN_EXHAUSTION = 0
     """Switch to the next SAK when PN is exhausted."""
 
-    PACKET_CNT = 2
+    PACKET_CNT = 1
     """Switch to the next SAK when the given number of packets are transmitted."""
 
 
 class MACSecEncryptionMode(IntEnum):
     """The encryption mode"""
 
-    UNKNOWN = 0
-    """Unknown"""
-
-    ENCRYPT_INTEGRITY = 1
+    ENCRYPT_INTEGRITY = 0
     """MACsec provides both encryption and integrity."""
 
-    INTEGRITY_ONLY = 2
+    INTEGRITY_ONLY = 1
     """MACsec only provides integrity."""
-
-
-class MACSecSAKKeyType(IntEnum):
-    """The SAK key type"""
-
-    UNKNOWN = 0
-    """Unknown"""
-
-    SAK128 = 1
-    """128-bit SAK key."""
-
-    SAK256 = 2
-    """256-bit SAK key."""
 
 # endregion

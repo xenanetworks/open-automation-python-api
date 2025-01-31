@@ -67,7 +67,6 @@ from .enums import (
     MACSecVLANMode,
     MACSecRekeyMode,
     MACSecEncryptionMode,
-    MACSecSAKKeyType,
 )
 
 
