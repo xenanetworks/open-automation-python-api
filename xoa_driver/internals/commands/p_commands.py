@@ -5012,11 +5012,17 @@ class P_MACSEC_TXSC_REKEY_MODE:
 
     class GetDataAttr(ResponseBodyStruct):
         mode: MACSecRekeyMode = field(XmpByte())
-        """integer, the rekey mode of the port’s TX SC"""
+        """byte, the rekey mode of the port’s TX SC"""
+
+        value: int = field(XmpInt())
+        """integer, defines the packet count. This value will be ignored if the mode is set to PN_EXHAUSTION"""
 
     class SetDataAttr(RequestBodyStruct):
         mode: MACSecRekeyMode = field(XmpByte())
-        """integer, the rekey mode of the port’s TX SC"""
+        """byte, the rekey mode of the port’s TX SC"""
+
+        value: int = field(XmpInt())
+        """integer, defines the packet count. This value will be ignored if the mode is set to PN_EXHAUSTION"""
 
     def get(self) -> Token[GetDataAttr]:
         """Get the rekey mode of the port’s TX SC
@@ -5026,21 +5032,13 @@ class P_MACSEC_TXSC_REKEY_MODE:
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
 
-    def set(self, mode: MACSecRekeyMode) -> Token[None]:
+    def set(self, mode: MACSecRekeyMode, value: int) -> Token[None]:
         """Set the rekey mode.
 
         :param mode: the rekey mode.
         :type mode: MACSecRekeyMode
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index], mode=mode))
-    
-    set_encrypted = functools.partialmethod(set, MACSecRekeyMode.PN_EXHAUSTION)
-    """Set rekey mode to PN Exhaustion.
-    """
-
-    set_clear_text = functools.partialmethod(set, MACSecRekeyMode.PACKET_CNT)
-    """Set rekey mode to Packet Count.
-    """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index], mode=mode, value=value))
 
 
 @register_command
