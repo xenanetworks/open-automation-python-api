@@ -4690,11 +4690,11 @@ class P_MACSEC_TXSC_CONF_OFFSET:
 
     class GetDataAttr(ResponseBodyStruct):
         offset: int = field(XmpInt())
-        """integer, the TX Secure Channel (SC) offset."""
+        """integer, the TX Secure Channel (SC) offset. Allowed values are 0, 30, and 50"""
 
     class SetDataAttr(RequestBodyStruct):
         offset: int = field(XmpInt())
-        """integer, the TX Secure Channel (SC) offset."""
+        """integer, the TX Secure Channel (SC) offset. Allowed values are 0, 30, and 50"""
 
     def get(self) -> Token[GetDataAttr]:
         """Get the TX Secure Channel (SC) offset on the port.
@@ -5318,11 +5318,11 @@ class P_MACSEC_RXSC_CONF_OFFSET:
 
     class GetDataAttr(ResponseBodyStruct):
         offset: int = field(XmpInt())
-        """integer, the RX Secure Channel (SC) offset."""
+        """integer, the RX Secure Channel (SC) offset. Allowed values are 0, 30, and 50."""
 
     class SetDataAttr(RequestBodyStruct):
         offset: int = field(XmpInt())
-        """integer, the RX Secure Channel (SC) offset."""
+        """integer, the RX Secure Channel (SC) offset. Allowed values are 0, 30, and 50"""
 
     def get(self) -> Token[GetDataAttr]:
         """Get the RX Secure Channel (SC) offset on the port.
