@@ -4918,25 +4918,25 @@ class P_MACSEC_TXSC_STARTING_PN:
     _txsc_index: int
 
     class GetDataAttr(ResponseBodyStruct):
-        start: int = field(XmpInt())
-        """integer, the starting PN number. Default to 0, maximum 2^32."""
+        start: int = field(XmpLong())
+        """integer, the starting PN number. Default to 1, maximum 2^64. Allowed to be 0."""
 
     class SetDataAttr(RequestBodyStruct):
-        start: int = field(XmpInt())
-        """integer, the starting PN number. Default to 0, maximum 2^32."""
+        start: int = field(XmpLong())
+        """integer, the starting PN number. Default to 1, maximum 2^64. Allowed to be 0."""
 
     def get(self) -> Token[GetDataAttr]:
-        """Get the starting PN number. Default to 0, maximum 2^32.
+        """Get the starting PN number. Default to 1, maximum 2^64. Allowed to be 0.
 
-        :return: the starting PN number. Default to 0, maximum 2^32.
+        :return: the starting PN number. Default to 1, maximum 2^64.
         :rtype: P_MACSEC_TXSC_STARTING_PN.GetDataAttr
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
 
     def set(self, start: int) -> Token[None]:
-        """Set the starting PN number. Default to 0, maximum 2^32.
+        """Set the starting PN number. Default to 1, maximum 2^64. Allowed to be 0.
 
-        :param sci: the starting PN number. Default to 0, maximum 2^32.
+        :param sci: the starting PN number. Default to 1, maximum 2^64.
         :type sci: int
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index], start=start))
