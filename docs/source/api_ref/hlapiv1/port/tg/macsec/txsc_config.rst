@@ -57,7 +57,7 @@ Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_comm
 
 .. code-block:: python
 
-    await txsc_obj.config.confidentiality_offset.set(offset=5)
+    await txsc_obj.config.confidentiality_offset.set(offset=0)
     
     resp = await txsc_obj.config.confidentiality_offset.get()
     resp.offset
