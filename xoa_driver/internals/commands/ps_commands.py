@@ -35,6 +35,7 @@ from .enums import (
     PayloadType,
     PFCMode,
     StreamOption,
+    ModifierEndianness,
 )
 
 
@@ -2249,3 +2250,62 @@ class PS_MACSEC_ASSIGN:
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._stream_xindex], tx_sc_index=tx_sc_index))
     
 
+@register_command
+@dataclass
+class PS_MODIFIER_ENDIAN:
+    """
+    Network byte order is Big Endian, where the MSB is assigned with the smallest address. Xena’s modifier (16-bit, 24-bit, or 32-bit) inc/dec mode is default to BIG, where inc/dec starts from the LSB (the largest address). The user can set the mode to LITTLE, where the modifier inc/dec starts from the MSB (the smallest address).
+    """
+
+    code: typing.ClassVar[int] = 166
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _stream_xindex: int
+    _modifier_xindex: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        mode: ModifierEndianness = field(XmpByte())
+        """byte, the start mode of the modifier. Default to BIG."""
+        
+
+    class SetDataAttr(RequestBodyStruct):
+        mode: ModifierEndianness = field(XmpByte())
+        """byte, the start mode of the modifier. Default to BIG."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the modifier endianness.
+
+        :return: the modifier endianness.
+        :rtype: PS_MODIFIER_ENDIAN.GetDataAttr
+        """
+
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._stream_xindex, self._modifier_xindex]))
+
+    def set(self, mode: ModifierEndianness) -> Token[None]:
+        """Set the modifier endianness.
+
+        :param mode: the endianness of the modifier.
+        :type mode: ModifierEndianness
+        """
+
+        return Token(
+            self._connection,
+            build_set_request(
+                self,
+                module=self._module,
+                port=self._port,
+                indices=[self._stream_xindex, self._modifier_xindex],
+                mode=mode
+            )
+        )
+
+    set_big_endian = functools.partialmethod(set, mode=ModifierEndianness.BIG)
+    """Set a stream modifier endianness to Big Endian.
+    """
+
+    set_little_endia = functools.partialmethod(set, mode=ModifierEndianness.LITTLE)
+    """Set a stream modifier endianness to Little Endian.
+    """

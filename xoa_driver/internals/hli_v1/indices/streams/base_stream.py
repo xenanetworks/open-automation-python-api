@@ -42,6 +42,7 @@ from xoa_driver.internals.commands import (
     PS_PFCPRIORITY,
     PS_AUTOADJUST,
     PS_OPTIONS,
+    PS_MODIFIER_ENDIAN,
 )
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
@@ -88,20 +89,32 @@ class HModifierExtended:
         :type: PS_MODIFIEREXTRANGE
         """
 
+        self.endian = PS_MODIFIER_ENDIAN(conn, module_id, port_id, stream_idx, modifier_idx)
+        """32-bit modifier's endianness
+
+        :type: PS_MODIFIER_ENDIAN
+        """
+
 
 class HModifier:
     """L23 Modifier Configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, stream_idx: int, modifier_idx: int) -> None:
         self.specification = PS_MODIFIER(conn, module_id, port_id, stream_idx, modifier_idx)
-        """16-bit modifier position, action, repetition
+        """16/24-bit modifier position, action, repetition
 
         :type: PS_MODIFIEREXTRANGE
         """
 
         self.range = PS_MODIFIERRANGE(conn, module_id, port_id, stream_idx, modifier_idx)
-        """16-bit modifier's range
+        """16/24-bit modifier's range
 
         :type: PS_MODIFIERRANGE
+        """
+
+        self.endian = PS_MODIFIER_ENDIAN(conn, module_id, port_id, stream_idx, modifier_idx)
+        """16/24-bit modifier's endianness
+
+        :type: PS_MODIFIER_ENDIAN
         """
 
 
