@@ -95,32 +95,32 @@ Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_comm
     resp = await txsc_obj.config.starting_pn.get()
     resp.start
 
+.. 
+    VLAN Mode
+    -----------------------
 
-VLAN Mode
------------------------
+    The VLAN mode of the port’s TX SC.
 
-The VLAN mode of the port’s TX SC.
+        * VLAN encrypted: The original MACsec header format encoded the 802.1Q tag as part of the encrypted payload, thus hiding it from the public Ethernet transport.
 
-    * VLAN encrypted: The original MACsec header format encoded the 802.1Q tag as part of the encrypted payload, thus hiding it from the public Ethernet transport.
+        * VLAN in clear text (WAN MACsec): With 802.1Q tag in the clear, the 802.1Q tag is encoded outside the 802.1AE encryption header, exposing the tag to the private and public Ethernet transport
 
-    * VLAN in clear text (WAN MACsec): With 802.1Q tag in the clear, the 802.1Q tag is encoded outside the 802.1AE encryption header, exposing the tag to the private and public Ethernet transport
+    .. figure:: images/macsec_vlan_modes.png
+        :align: center
 
-.. figure:: images/macsec_vlan_modes.png
-    :align: center
+    .. important::
 
-.. important::
+        MACsec VLAN Mode only takes effect if the packet header has VLAN fields after MAC address fields. You can have multiple VLAN fields in the packet header definition, but it will be the outermost VLAN field that is either moved inside or outside the MACsec PDU based on the configuration of the command.  
 
-    MACsec VLAN Mode only takes effect if the packet header has VLAN fields after MAC address fields. You can have multiple VLAN fields in the packet header definition, but it will be the outermost VLAN field that is either moved inside or outside the MACsec PDU based on the configuration of the command.  
+    Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_MACSEC_TXSC_VLAN_MODE`
 
-Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_MACSEC_TXSC_VLAN_MODE`
+    .. code-block:: python
 
-.. code-block:: python
-
-    await txsc_obj.config.vlan_mode.set(mode=enums.MACSecVLANMode.ENCRYPTED)
-    await txsc_obj.config.vlan_mode.set(mode=enums.MACSecVLANMode.CLEAR_TEXT)
-    
-    resp = await txsc_obj.config.vlan_mode.get()
-    resp.mode
+        await txsc_obj.config.vlan_mode.set(mode=enums.MACSecVLANMode.ENCRYPTED)
+        await txsc_obj.config.vlan_mode.set(mode=enums.MACSecVLANMode.CLEAR_TEXT)
+        
+        resp = await txsc_obj.config.vlan_mode.get()
+        resp.mode
 
 
 Rekey Mode

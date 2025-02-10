@@ -14,7 +14,7 @@ from xoa_driver.internals.commands import (
     P_MACSEC_TXSC_CONF_OFFSET,
     P_MACSEC_TXSC_CIPHERSUITE,
     P_MACSEC_TXSC_STARTING_PN,
-    P_MACSEC_TXSC_VLAN_MODE,
+    # P_MACSEC_TXSC_VLAN_MODE,
     P_MACSEC_TXSC_REKEY_MODE,
     P_MACSEC_TXSC_ENCRYPT,
     P_MACSEC_RXSC_INDICES,
@@ -74,11 +74,11 @@ class MACSecTxScConfig:
         :type: P_MACSEC_TXSC_STARTING_PN
         """
 
-        self.vlan_mode = P_MACSEC_TXSC_VLAN_MODE(conn, module_id, port_id, txsc_idx)
-        """Configure TX SC's VLAN mode
+        # self.vlan_mode = P_MACSEC_TXSC_VLAN_MODE(conn, module_id, port_id, txsc_idx)
+        # """Configure TX SC's VLAN mode
 
-        :type: P_MACSEC_TXSC_VLAN_MODE
-        """
+        # :type: P_MACSEC_TXSC_VLAN_MODE
+        # """
 
         self.rekey_mode = P_MACSEC_TXSC_REKEY_MODE(conn, module_id, port_id, txsc_idx)
         """Configure TX SC's rekey mode

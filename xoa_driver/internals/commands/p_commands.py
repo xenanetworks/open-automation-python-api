@@ -64,7 +64,7 @@ from .enums import (
     ReconciliationSublayerSupport,
     MACSecSCIMode,
     MACSecCipherSuite,
-    MACSecVLANMode,
+    # MACSecVLANMode,
     MACSecRekeyMode,
     MACSecEncryptionMode,
 )
@@ -572,6 +572,25 @@ class P_CAPABILITIES:
         """
         # fec_engines: int = field(XmpInt(), min_version=465)
         # """The number of FEC engines available"""
+        editable_mixlength_indices: int = field(XmpInt(), min_version=470)
+        """
+        * Bit 0: Is Mix length index 0 editable
+        * Bit 1: Is Mix length index 1 editable
+        * Bit 2: Is Mix length index 2 editable
+        * Bit 3: Is Mix length index 3 editable
+        * Bit 4: Is Mix length index 4 editable
+        * Bit 5: Is Mix length index 5 editable
+        * Bit 6: Is Mix length index 6 editable
+        * Bit 7: Is Mix length index 7 editable
+        * Bit 8: Is Mix length index 8 editable
+        * Bit 9: Is Mix length index 9 editable
+        * Bit 10: Is Mix length index 10 editable
+        * Bit 11: Is Mix length index 11 editable
+        * Bit 12: Is Mix length index 12 editable
+        * Bit 13: Is Mix length index 13 editable
+        * Bit 14: Is Mix length index 14 editable
+        * Bit 15: Is Mix length index 15 editable
+        """
         can_macsec: int = field(XmpInt(), min_version=470)
         """If the port supports MACsec"""
 
@@ -4942,57 +4961,57 @@ class P_MACSEC_TXSC_STARTING_PN:
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index], start=start))
     
 
-@register_command
-@dataclass
-class P_MACSEC_TXSC_VLAN_MODE:
-    """
-    The VLAN mode of the port’s TX SC.
+# @register_command
+# @dataclass
+# class P_MACSEC_TXSC_VLAN_MODE:
+#     """
+#     The VLAN mode of the port’s TX SC.
     
-        * VLAN encrypted: The original MACsec header format encoded the 802.1Q tag as part of the encrypted payload, thus hiding it from the public Ethernet transport.
+#         * VLAN encrypted: The original MACsec header format encoded the 802.1Q tag as part of the encrypted payload, thus hiding it from the public Ethernet transport.
         
-        * VLAN in clear text (WAN MACsec): With 802.1Q tag in the clear, the 802.1Q tag is encoded outside the 802.1AE encryption header, exposing the tag to the private and public Ethernet transport.
+#         * VLAN in clear text (WAN MACsec): With 802.1Q tag in the clear, the 802.1Q tag is encoded outside the 802.1AE encryption header, exposing the tag to the private and public Ethernet transport.
 
-    """
+#     """
 
-    code: typing.ClassVar[int] = 511
-    pushed: typing.ClassVar[bool] = False
+#     code: typing.ClassVar[int] = 511
+#     pushed: typing.ClassVar[bool] = False
 
-    _connection: 'interfaces.IConnection'
-    _module: int
-    _port: int
-    _txsc_index: int
+#     _connection: 'interfaces.IConnection'
+#     _module: int
+#     _port: int
+#     _txsc_index: int
 
-    class GetDataAttr(ResponseBodyStruct):
-        mode: MACSecVLANMode = field(XmpByte())
-        """integer, the VLAN mode. Default to ENCRYPTED."""
+#     class GetDataAttr(ResponseBodyStruct):
+#         mode: MACSecVLANMode = field(XmpByte())
+#         """integer, the VLAN mode. Default to ENCRYPTED."""
 
-    class SetDataAttr(RequestBodyStruct):
-        mode: MACSecVLANMode = field(XmpByte())
-        """integer, the VLAN mode. Default to ENCRYPTEDC."""
+#     class SetDataAttr(RequestBodyStruct):
+#         mode: MACSecVLANMode = field(XmpByte())
+#         """integer, the VLAN mode. Default to ENCRYPTEDC."""
 
-    def get(self) -> Token[GetDataAttr]:
-        """Get the VLAN mode.
+#     def get(self) -> Token[GetDataAttr]:
+#         """Get the VLAN mode.
 
-        :return: the VLAN mode.
-        :rtype: P_MACSEC_TXSC_VLAN_MODE.GetDataAttr
-        """
-        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
+#         :return: the VLAN mode.
+#         :rtype: P_MACSEC_TXSC_VLAN_MODE.GetDataAttr
+#         """
+#         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
 
-    def set(self, mode: MACSecVLANMode) -> Token[None]:
-        """Set the VLAN mode.
+#     def set(self, mode: MACSecVLANMode) -> Token[None]:
+#         """Set the VLAN mode.
 
-        :param mode: the VLAN mode.
-        :type mode: MACSecVLANMode
-        """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index], mode=mode))
+#         :param mode: the VLAN mode.
+#         :type mode: MACSecVLANMode
+#         """
+#         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index], mode=mode))
     
-    set_encrypted = functools.partialmethod(set, MACSecVLANMode.ENCRYPTED)
-    """Set VLAN mode to ENCRYPTED.
-    """
+#     set_encrypted = functools.partialmethod(set, MACSecVLANMode.ENCRYPTED)
+#     """Set VLAN mode to ENCRYPTED.
+#     """
 
-    set_clear_text = functools.partialmethod(set, MACSecVLANMode.CLEAR_TEXT)
-    """Set VLAN mode to CLEAR_TEXT.
-    """
+#     set_clear_text = functools.partialmethod(set, MACSecVLANMode.CLEAR_TEXT)
+#     """Set VLAN mode to CLEAR_TEXT.
+#     """
 
 
 @register_command

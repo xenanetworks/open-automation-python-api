@@ -194,7 +194,7 @@ from .internals.commands.enums import (
     MACSecCipherSuite,
     MACSecEncryptionMode,
     MACSecRekeyMode,
-    MACSecVLANMode,
+    # MACSecVLANMode,
     ModifierEndianness,
 )
 
@@ -392,6 +392,6 @@ __all__ = (
     "MACSecCipherSuite",
     "MACSecEncryptionMode",
     "MACSecRekeyMode",
-    "MACSecVLANMode",
+    # "MACSecVLANMode",
     "ModifierEndianness",
 )
