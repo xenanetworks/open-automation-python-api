@@ -89,12 +89,6 @@ class HModifierExtended:
         :type: PS_MODIFIEREXTRANGE
         """
 
-        self.endian = PS_MODIFIER_ENDIAN(conn, module_id, port_id, stream_idx, modifier_idx)
-        """32-bit modifier's endianness
-
-        :type: PS_MODIFIER_ENDIAN
-        """
-
 
 class HModifier:
     """L23 Modifier Configuration"""

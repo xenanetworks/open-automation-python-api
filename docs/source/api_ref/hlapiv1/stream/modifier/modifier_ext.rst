@@ -85,19 +85,3 @@ Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ps_com
     resp.mask
     resp.position
     resp.repetition
-
-
-Endianness
-----------------------
-Network byte order is Big Endian, where the MSB is assigned with the smallest address. Xena’s modifier (16-bit, 24-bit, or 32-bit) inc/dec mode is default to BIG, which inc/dec starts from the LSB (the largest address). The user can set the mode to LITTLE, which the modifier inc/dec starts from the MSB (the smallest address)
-
-Corresponding low-level API class: :class:`~xoa_driver.internals.commands.ps_commands.PS_MODIFIER_ENDIAN`
-
-.. code-block:: python
-
-    # Position, Action, Mask
-    await modifier.endian.set(mode=enums.ModifierEndianness.BIG)
-    await modifier.endian.set(mode=enums.ModifierEndianness.LITTLE)
-    
-    resp = await modifier.endian.get()
-    resp.mode
