@@ -12,7 +12,6 @@ from binascii import hexlify
 from xoa_driver.misc import Hex
 from enum import Enum
 from dataclasses import dataclass, field
-from typing import List
 
 class EtherType(Enum):
     IPv4 = 0x0800
@@ -581,8 +580,8 @@ class DHCPOptionEnd:
 @dataclass
 class MACControlPFC:
     opcode: str = "0101"
-    class_enable_list: List[bool] = [False] * 8
-    class_quanta_list: List[int] = [65535] * 8
+    class_enable_list: list = [False] * 8
+    class_quanta_list: list = [65535] * 8
     
     def __str__(self):
         _opcode: str = self.opcode
