@@ -3274,4 +3274,13 @@ class MACSecEncryptionMode(IntEnum):
     INTEGRITY_ONLY = 1
     """MACsec only provides integrity."""
 
+class MACSecPNMode(IntEnum):
+    """Modes for TX PN after the start-traffic"""
+
+    CONTINUE = 0
+    """Continue from the last PN value"""
+
+    RESET = 1
+    """Reset the PN value"""
+
 # endregion

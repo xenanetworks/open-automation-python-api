@@ -65,6 +65,21 @@ Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_comm
     resp.cipher_suite
 
 
+Starting Packet Number
+-----------------------
+
+The first PN number that the port’s RX SC expectes to receive.
+
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_MACSEC_RXSC_STARTING_PN`
+
+.. code-block:: python
+
+    await rxsc_obj.config.starting_pn.set(value=10)
+    
+    resp = await rxsc_obj.config.starting_pn.get()
+    resp.value
+
+
 Test Payload ID
 -----------------------
 

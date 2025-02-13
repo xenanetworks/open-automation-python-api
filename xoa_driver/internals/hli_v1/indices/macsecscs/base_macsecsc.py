@@ -25,6 +25,7 @@ from xoa_driver.internals.commands import (
     P_MACSEC_RXSC_CONF_OFFSET,
     P_MACSEC_RXSC_CIPHERSUITE,
     P_MACSEC_RXSC_TPLDID,
+    P_MACSEC_RXSC_STARTING_PN
 )
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
@@ -119,6 +120,9 @@ class MACSecRxScConfig:
 
         :type: P_MACSEC_RXSC_CIPHERSUITE
         """
+
+        self.starting_pn = P_MACSEC_RXSC_STARTING_PN(conn, module_id, port_id, rxsc_idx)
+        """Configure RX SC's firset expected PN"""
 
         self.tpld_id = P_MACSEC_RXSC_TPLDID(conn, module_id, port_id, rxsc_idx)
         """Configure RX SC's TPLD ID value

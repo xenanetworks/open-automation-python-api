@@ -67,6 +67,7 @@ from .enums import (
     # MACSecVLANMode,
     MACSecRekeyMode,
     MACSecEncryptionMode,
+    MACSecPNMode,
 )
 
 
@@ -4940,9 +4941,15 @@ class P_MACSEC_TXSC_STARTING_PN:
         start: int = field(XmpLong())
         """integer, the starting PN number. Default to 1, maximum 2^64. Allowed to be 0."""
 
+        mode: MACSecPNMode = field(XmpByte())
+        """byte, defining how to continue the TX PN after the start-traffic. Default to CONTINUOUS."""
+
     class SetDataAttr(RequestBodyStruct):
         start: int = field(XmpLong())
         """integer, the starting PN number. Default to 1, maximum 2^64. Allowed to be 0."""
+
+        mode: MACSecPNMode = field(XmpByte())
+        """byte, defining how to continue the TX PN after the start-traffic. Default to CONTINUOUS."""
 
     def get(self) -> Token[GetDataAttr]:
         """Get the starting PN number. Default to 1, maximum 2^64. Allowed to be 0.
@@ -4952,13 +4959,15 @@ class P_MACSEC_TXSC_STARTING_PN:
         """
         return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
 
-    def set(self, start: int) -> Token[None]:
+    def set(self, start: int, mode: MACSecPNMode) -> Token[None]:
         """Set the starting PN number. Default to 1, maximum 2^64. Allowed to be 0.
 
-        :param sci: the starting PN number. Default to 1, maximum 2^64.
-        :type sci: int
+        :param start: the starting PN number. Default to 1, maximum 2^64.
+        :type start: int
+        :param mode: defining how to continue the TX PN after the start-traffic.
+        :type mode: MACSecPNMode
         """
-        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index], start=start))
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index], start=start, mode=mode))
     
 
 # @register_command
@@ -5100,11 +5109,11 @@ class P_MACSEC_TXSC_ENCRYPT:
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index], mode=mode))
     
     set_encrypt_integrity = functools.partialmethod(set, MACSecEncryptionMode.ENCRYPT_INTEGRITY)
-    """Set rekey mode to PN Exhaustion.
+    """Set encryption mode to encryption and integrity.
     """
 
     set_integrity_only = functools.partialmethod(set, MACSecEncryptionMode.INTEGRITY_ONLY)
-    """Set rekey mode to Packet Count.
+    """Set encryption mode to integrity only.
     """
 
 @register_command
@@ -5417,6 +5426,45 @@ class P_MACSEC_RXSC_CIPHERSUITE:
     """Set cipher suite to GCM_AES_XPN_256.
     """
 
+@register_command
+@dataclass
+class P_MACSEC_RXSC_STARTING_PN:
+    """
+    The first PN number of the port’s RX SC expects to receive.
+    """
+
+    code: typing.ClassVar[int] = 511
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _rxsc_index: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        value: int = field(XmpLong())
+        """integer, The first PN number of the port’s RX SC expects to receive. Default to 1, maximum 2^64. Allowed to be 0."""
+
+    class SetDataAttr(RequestBodyStruct):
+        value: int = field(XmpLong())
+        """integer, The first PN number of the port’s RX SC expects to receive. Default to 1, maximum 2^64. Allowed to be 0."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the first PN number of the port’s RX SC expects to receive
+
+        :return: the first PN number of the port’s RX SC expects to receive
+        :rtype: P_MACSEC_RXSC_STARTING_PN.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._rxsc_index]))
+
+    def set(self, value: int) -> Token[None]:
+        """Set the first PN number of the port’s RX SC expects to receive
+
+        :param start: The first PN number of the port’s RX SC expects to receive. Default to 1, maximum 2^64.
+        :type start: int
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._rxsc_index], value=value))
+
 
 @register_command
 @dataclass
@@ -5515,22 +5563,26 @@ class P_MACSEC_TX_STATS:
     _port: int
 
     class GetDataAttr(ResponseBodyStruct):
-        protected_bytes: int = field(XmpLong())
-        """long integer, number of protected (non-encrypted) bytes transmitted by the port."""
-        encrypted_bytes: int = field(XmpLong())
-        """long integer, number of encrypted bytes transmitted by the port."""
         bits_sec: int = field(XmpLong())
-        """long integer, number of MACsec L2 bits transmitted of the previous second."""
+        """long integer, the number of MACsec L2 bits transmitted of the previous second."""
         bytes_sec: int = field(XmpLong())
-        """long integer, number of MACsec L2 bytes transmitted of the previous second."""
+        """long integer, the number of MACsec L2 bytes transmitted of the previous second."""
         frames_sec: int = field(XmpLong())
-        """long integer, number of MACsec frames transmitted of the previous second."""
+        """long integer, the number of MACsec frames transmitted of the previous second."""
         total_bits: int = field(XmpLong())
-        """long integer, number of MACsec L2 bits transmitted since last cleare."""
+        """long integer, the number of MACsec L2 bits transmitted since last cleared."""
         total_bytes: int = field(XmpLong())
-        """long integer, number of MACsec L2 bytes transmitted since last cleare.."""
+        """long integer, the number of MACsec L2 bytes transmitted since last cleared."""
         total_frames: int = field(XmpLong())
-        """long integer, number of MACsec frames transmitted since last cleare."""
+        """long integer, the number of MACsec frames transmitted since last cleared."""
+        total_protected_only_bits: int = field(XmpLong())
+        """long integer, the number of protected-only (non-encrypted) bits transmitted by the port since cleared."""
+        total_protected_only_bytes: int = field(XmpLong())
+        """long integer, the number of protected-only (non-encrypted) bytes transmitted by the port since cleared."""
+        total_encrypted_bits: int = field(XmpLong())
+        """long integer, the number of encrypted bits transmitted by the port since cleared, excluding the bytes in the Confidentiality Offset."""
+        total_encrypted_bytes: int = field(XmpLong())
+        """long integer, the number of encrypted bytes transmitted by the port since cleared, excluding the bytes in the Confidentiality Offset."""
 
 
     def get(self) -> Token[GetDataAttr]:
@@ -5559,22 +5611,26 @@ class P_MACSEC_TXSC_STATS:
     _txsc_index: int
 
     class GetDataAttr(ResponseBodyStruct):
-        protected_bytes: int = field(XmpLong())
-        """long integer, number of protected (non-encrypted) bytes transmitted by the SC."""
-        encrypted_bytes: int = field(XmpLong())
-        """long integer, number of encrypted bytes transmitted by the SC."""
         bits_sec: int = field(XmpLong())
-        """long integer, number of MACsec L2 bits transmitted of the previous second."""
+        """long integer, the number of MACsec L2 bits transmitted of the previous second."""
         bytes_sec: int = field(XmpLong())
-        """long integer, number of MACsec L2 bytes transmitted of the previous second."""
+        """long integer, the number of MACsec L2 bytes transmitted of the previous second."""
         frames_sec: int = field(XmpLong())
-        """long integer, number of MACsec frames transmitted of the previous second."""
+        """long integer, the number of MACsec frames transmitted of the previous second."""
         total_bits: int = field(XmpLong())
-        """long integer, number of MACsec L2 bits transmitted since last cleare."""
+        """long integer, the number of MACsec L2 bits transmitted since last cleared."""
         total_bytes: int = field(XmpLong())
-        """long integer, number of MACsec L2 bytes transmitted since last cleare.."""
+        """long integer, the number of MACsec L2 bytes transmitted since last cleared."""
         total_frames: int = field(XmpLong())
-        """long integer, number of MACsec frames transmitted since last cleare."""
+        """long integer, the number of MACsec frames transmitted since last cleared."""
+        total_protected_only_bits: int = field(XmpLong())
+        """long integer, the number of protected-only (non-encrypted) bits transmitted since cleared."""
+        total_protected_only_bytes: int = field(XmpLong())
+        """long integer, the number of protected-only (non-encrypted) bytes transmitted since cleared."""
+        total_encrypted_bits: int = field(XmpLong())
+        """long integer, the number of encrypted bits transmitted since cleared, excluding the bytes in the Confidentiality Offset."""
+        total_encrypted_bytes: int = field(XmpLong())
+        """long integer, the number of encrypted bytes transmitted since cleared, excluding the bytes in the Confidentiality Offset."""
 
 
     def get(self) -> Token[GetDataAttr]:
@@ -5627,12 +5683,6 @@ class P_MACSEC_RX_STATS:
     _port: int
 
     class GetDataAttr(ResponseBodyStruct):
-        delayed_frames: int = field(XmpLong())
-        """long integer, """
-        out_of_window_frames: int = field(XmpLong())
-        """long integer, """
-        not_valid_frames: int = field(XmpLong())
-        """long integer, """
         bits_sec: int = field(XmpLong())
         """long integer, number of MACsec L2 bits received of the previous second."""
         bytes_sec: int = field(XmpLong())
@@ -5640,14 +5690,17 @@ class P_MACSEC_RX_STATS:
         frames_sec: int = field(XmpLong())
         """long integer, number of MACsec frames received of the previous second."""
         total_bits: int = field(XmpLong())
-        """long integer, number of MACsec L2 bits received since last cleare."""
+        """long integer, number of MACsec L2 bits received since last cleared."""
         total_bytes: int = field(XmpLong())
-        """long integer, number of MACsec L2 bytes received since last cleare.."""
+        """long integer, number of MACsec L2 bytes received since last cleared."""
         total_frames: int = field(XmpLong())
-        """long integer, number of MACsec frames received since last cleare."""
-        lost_frames: int = field(XmpLong())
-        """long integer, number of lost MACsec frames in total from cleared."""
-
+        """long integer, number of MACsec frames received since last cleared."""
+        total_ok_frames: int = field(XmpLong())
+        """long integer, the number of good MACsec frames received since cleared."""
+        total_delayed_frames: int = field(XmpLong())
+        """long integer, the number of frames with the PN lower than the minmum expected since cleared."""
+        total_icv_check_failed_frames: int = field(XmpLong())
+        """long integer, the number of frames with ICV check failed recevied since cleared."""
 
     def get(self) -> Token[GetDataAttr]:
         """Get port-level MACsec RX counters
@@ -5676,12 +5729,6 @@ class P_MACSEC_RXSC_STATS:
     _rxsc_index: int
 
     class GetDataAttr(ResponseBodyStruct):
-        delayed_frames: int = field(XmpLong())
-        """long integer, """
-        out_of_window_frames: int = field(XmpLong())
-        """long integer, """
-        not_valid_frames: int = field(XmpLong())
-        """long integer, """
         bits_sec: int = field(XmpLong())
         """long integer, number of MACsec L2 bits received of the previous second."""
         bytes_sec: int = field(XmpLong())
@@ -5689,13 +5736,17 @@ class P_MACSEC_RXSC_STATS:
         frames_sec: int = field(XmpLong())
         """long integer, number of MACsec frames received of the previous second."""
         total_bits: int = field(XmpLong())
-        """long integer, number of MACsec L2 bits received since last cleare."""
+        """long integer, number of MACsec L2 bits received since last cleared."""
         total_bytes: int = field(XmpLong())
-        """long integer, number of MACsec L2 bytes received since last cleare.."""
+        """long integer, number of MACsec L2 bytes received since last cleared."""
         total_frames: int = field(XmpLong())
-        """long integer, number of MACsec frames received since last cleare."""
-        lost_frames: int = field(XmpLong())
-        """long integer, number of lost MACsec frames in total from cleared."""
+        """long integer, number of MACsec frames received since last cleared."""
+        total_ok_frames: int = field(XmpLong())
+        """long integer, the number of good MACsec frames received since cleared."""
+        total_delayed_frames: int = field(XmpLong())
+        """long integer, the number of frames with the PN lower than the minmum expected since cleared."""
+        total_icv_check_failed_frames: int = field(XmpLong())
+        """long integer, the number of frames with ICV check failed recevied since cleared."""
 
 
     def get(self) -> Token[GetDataAttr]:

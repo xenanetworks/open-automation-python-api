@@ -90,10 +90,12 @@ Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_comm
 
 .. code-block:: python
 
-    await txsc_obj.config.starting_pn.set(start=0)
+    await txsc_obj.config.starting_pn.set(start=1, mode=enums.MACSecStartingPNMode.CONTINUE)
+    await txsc_obj.config.starting_pn.set(start=1, mode=enums.MACSecStartingPNMode.RESET)
     
     resp = await txsc_obj.config.starting_pn.get()
     resp.start
+    resp.mode
 
 .. 
     VLAN Mode
