@@ -580,10 +580,12 @@ class DHCPOptionEnd:
 @dataclass
 class MACControlPFC:
     opcode: str = "0101"
-    class_enable_list: list = [False] * 8
-    class_quanta_list: list = [65535] * 8
+    class_enable_list: list = field(default_factory=list)
+    class_quanta_list: list = field(default_factory=list)
     
     def __str__(self):
+        self.class_enable_list = [False] * 8
+        self.class_quanta_list = [65535] * 8
         _opcode: str = self.opcode
         _class_enable_vector_str: str = ''.join([str(int(x)) for x in self.class_enable_list])
         _class_enable_vector_int: int = int(_class_enable_vector_str, 2)
