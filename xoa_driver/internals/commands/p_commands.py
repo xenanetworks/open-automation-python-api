@@ -573,6 +573,8 @@ class P_CAPABILITIES:
         """
         # fec_engines: int = field(XmpInt(), min_version=465)
         # """The number of FEC engines available"""
+        can_macsec: int = field(XmpInt(), min_version=470)
+        """If the port supports MACsec"""
         editable_mixlength_indices: int = field(XmpInt(), min_version=470)
         """
         * Bit 0: Is Mix length index 0 editable
@@ -592,8 +594,12 @@ class P_CAPABILITIES:
         * Bit 14: Is Mix length index 14 editable
         * Bit 15: Is Mix length index 15 editable
         """
-        can_macsec: int = field(XmpInt(), min_version=470)
-        """If the port supports MACsec"""
+        can_modifier_le: int = field(XmpInt(), min_version=470)
+        """
+        * Bit 0: Normal modifier (16/24-bit) supports little-endian
+        * Bit 1: Extended modifier (32-bit) supports little-endian
+        """
+        
 
 
     def get(self) -> Token[GetDataAttr]:
