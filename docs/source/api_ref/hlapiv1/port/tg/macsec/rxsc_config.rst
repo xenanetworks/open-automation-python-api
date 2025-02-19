@@ -26,7 +26,7 @@ Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_comm
 
 .. code-block:: python
 
-    await rxsc_obj.config.sci.set(sci=Hex("0102030405060001"))
+    await rxsc_obj.config.sci.set(sci=Hex("0102030405060002"))
     
     resp = await rxsc_obj.config.sci.get()
     resp.sci
@@ -116,3 +116,31 @@ Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_comm
     # For GCM_AES_256 and GCM_AES_256_XPN
     await rxsc_obj.access_sak_value(0).set(sak_key_value=Hex("0001020304050607000102030405060700010203040506070001020304050607"))
     await rxsc_obj.access_sak_value(1).set(sak_key_value=Hex("0001020304050607000102030405060700010203040506070001020304050607"))
+
+XPN SSCI Value
+--------------
+
+The XPN SSCI of the port’s RX SC.
+
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_MACSEC_RXSC_XPN_SSCI`
+
+.. code-block:: python
+
+    await rxsc_obj.config.xpn_ssci.set(sci=Hex("00000000"))
+    
+    resp = await rxsc_obj.config.xpn_ssci.get()
+    resp.ssci
+
+XPN Salt Value
+--------------
+
+The XPN Salt of the port’s RX SC.
+
+Corresponding low-level API class: :class:`~xoa_driver.internals.commands.p_commands.P_MACSEC_RXSC_XPN_SALT`
+
+.. code-block:: python
+
+    await rxsc_obj.config.xpn_salt.set(sci=Hex("000000000000000000000000"))
+    
+    resp = await rxsc_obj.config.xpn_salt.get()
+    resp.salt
