@@ -3222,11 +3222,14 @@ class FecCodewordBitErrorMaskMode(IntEnum):
 class MACSecSCIMode(IntEnum):
     """MACSec SCI Mode"""
 
-    NO_SCI = 0
-    """Without SCI (default) (aka, End Station): ES bit is set."""
+    END_STATION = 0
+    """End Station, ES bit is set."""
 
     WITH_SCI = 1
     """With SCI: ES bit is cleared"""
+
+    NO_SCI = 2
+    """No SCI"""
 
 
 class MACSecCipherSuite(IntEnum):
