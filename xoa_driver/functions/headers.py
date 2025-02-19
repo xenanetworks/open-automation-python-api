@@ -22,6 +22,7 @@ class EtherType(Enum):
     ARP = 0x0806
     MPLS = 0x8847
     eCPRI = 0xAEFE
+    MACControl = 0x8808
     NONE = 0xFFFF
 
 class IPProtocol(Enum):
@@ -571,3 +572,37 @@ class DHCPOptionEnd:
     def __str__(self):
         _code: str = '{:02X}'.format(DHCPOptionCode.End.value)
         return f"{_code}".upper()
+    
+
+####################################
+#           MAC Control PFC        #
+####################################
+@dataclass
+class MACControlPFC:
+    opcode: str = "0101"
+    class_enable_list: list = field(default_factory=list)
+    class_quanta_list: list = field(default_factory=list)
+    
+    def __str__(self):
+        self.class_enable_list = [False] * 8
+        self.class_quanta_list = [65535] * 8
+        _opcode: str = self.opcode
+        _class_enable_vector_str: str = ''.join([str(int(x)) for x in self.class_enable_list])
+        _class_enable_vector_int: int = int(_class_enable_vector_str, 2)
+        _class_enable_vector = '{:02X}'.format(_class_enable_vector_int)
+        _reserved: str = "00"
+        _class_quanta_list: str = ''.join([f"{x:04x}" for x in self.class_quanta_list])
+        return f"{_opcode}{_reserved}{_class_enable_vector}{_class_quanta_list}".upper()
+    
+####################################
+#           MAC Control PAUSE      #
+####################################
+@dataclass
+class MACControlPause:
+    opcode: str = "0001"
+    value: int = 65535
+    
+    def __str__(self):
+        _opcode: str = self.opcode
+        _value = '{:04X}'.format(self.value)
+        return f"{_opcode}{_value}".upper()

@@ -25,6 +25,8 @@ from xoa_driver.internals.commands import (
     PR_CALIBRATE,
     PR_UAT_STATUS,
     PR_UAT_TIME,
+    P_MACSEC_RX_STATS,
+    P_MACSEC_RX_CLEAR
 
 )
 
@@ -188,6 +190,23 @@ class GPrsUat():
         """
 
 
+class MACSecRxStats:
+    """MACSec RX SC Statistics"""
+    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
+
+        self.total = P_MACSEC_RX_STATS(conn, module_id, port_id)
+        """Port's total MACsec RX statistics
+
+        :type: P_MACSEC_RX_STATS
+        """
+
+        self.clear = P_MACSEC_RX_CLEAR(conn, module_id, port_id)
+        """Clear Port's MACsec RX statistics
+
+        :type: P_MACSEC_RX_CLEAR
+        """
+
+
 class GenuinePortReceptionStatistics(PortReceptionStatistics):
     """L23 port RX statistics."""
 
@@ -203,6 +222,10 @@ class GenuinePortReceptionStatistics(PortReceptionStatistics):
         """L23 port UAT info.
 
         :type: GPrsUat
+        """
+
+        self.macsec = MACSecRxStats(conn, module_id, port_id)
+        """L23 port's MACsec RX statistics.
         """
 
 # endregion

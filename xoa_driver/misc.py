@@ -29,6 +29,7 @@ from .internals.hli_v1.indices.streams.genuine_stream import GenuineStreamIdx as
 from .internals.hli_v1.ports.port_l23.chimera.port_emulation import CFlow as ImpairmentFlow
 from .internals.hli_v1.ports.port_l23.chimera.filter_definition.general import ModeBasic as BasicImpairmentFlowFilter
 from .internals.hli_v1.ports.port_l23.chimera.filter_definition.general import ModeExtended as ExtendedImpairmentFlowFilter
+from xoa_driver.internals.hli_v1.indices.macsecscs.genuine_macsecsc import GenuineMacSecTxScIdx, GenuineMacSecRxScIdx
 
 
 __all__ = (
@@ -51,4 +52,6 @@ __all__ = (
     "ImpairmentFlow",
     "BasicImpairmentFlowFilter",
     "ExtendedImpairmentFlowFilter",
+    "GenuineMacSecTxScIdx",
+    "GenuineMacSecRxScIdx",
 )

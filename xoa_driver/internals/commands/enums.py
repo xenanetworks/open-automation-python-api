@@ -1513,6 +1513,15 @@ class StreamOption(IntEnum):
     INCPLDFROM0 = 0
     """This flag affects the INC8/DEC8/INC16/DEC16 payload types (refer to the PS_PAYLOAD command): With the flag set, the first payload byte/word after the header will be 0 (INC8/INC16) or -1 (DEC8/DEC16). With the flag unset, the default is used: The first payload byte/word of the payload will be equal to <length of header> (INC8/INC16), or -<length of header> - 1 (DEC8/DEC16)."""
 
+class ModifierEndianness(IntEnum):
+    """Stream modifier endianness"""
+
+    BIG = 0
+    """Modifier inc/dec starts from the LSB"""
+
+    LITTLE = 1
+    """Modifier inc/dec starts from the MSB"""
+
 # endregion
 
 # region L47 enums
@@ -3205,5 +3214,73 @@ class FecCodewordBitErrorMaskMode(IntEnum):
     """The bit error pattern shifts one bit to the most significant bit per errored symbol."""
     INC = 3
     """When mode is set to INC, bitmask will be ignored. Instead, the bit error pattern initiates from 000000001, 000000010, 000000011, continuing up to 111111111, and repeating the sequence as 000000001..."""
+
+# endregion
+
+# region MACSec enums
+
+class MACSecSCIMode(IntEnum):
+    """MACSec SCI Mode"""
+
+    NO_SCI = 0
+    """Without SCI (default) (aka, End Station): ES bit is set."""
+
+    WITH_SCI = 1
+    """With SCI: ES bit is cleared"""
+
+
+class MACSecCipherSuite(IntEnum):
+    """MACSec SCI Mode"""
+
+    GCM_AES_128 = 0
+    """GCM-AES-128 (IEEE 802.1AE-2018 Clause 14.5) (default)"""
+
+    GCM_AES_256 = 1
+    """GCM-AES-256 (IEEE 802.1AE-2018 Clause 14.6)"""
+
+    GCM_AES_XPN_128 = 2
+    """GCM-AES-XPN-128 (IEEE 802.1AE-2018 Clause 14.7)"""
+
+    GCM_AES_XPN_256 = 3
+    """GCM-AES-XPN-256 (IEEE 802.1AE-2018 Clause 14.8)"""
+
+
+# class MACSecVLANMode(IntEnum):
+#     """MACSec SCI Mode"""
+
+#     ENCRYPTED = 0
+#     """MACsec encryption starts after the MAC address fields."""
+
+#     CLEAR_TEXT = 1
+#     """Clear-text VLAN (802.1Q). MACsec encryption will leave the first VLAN field out of the MACsec protocol data unit."""
+
+
+class MACSecRekeyMode(IntEnum):
+    """MACSec Rekey Mode"""
+
+    PN_EXHAUSTION = 0
+    """Switch to the next SAK when PN is exhausted."""
+
+    PACKET_CNT = 1
+    """Switch to the next SAK when the given number of packets are transmitted."""
+
+
+class MACSecEncryptionMode(IntEnum):
+    """The encryption mode"""
+
+    ENCRYPT_INTEGRITY = 0
+    """MACsec provides both encryption and integrity."""
+
+    INTEGRITY_ONLY = 1
+    """MACsec only provides integrity."""
+
+class MACSecPNMode(IntEnum):
+    """Modes for TX PN after the start-traffic"""
+
+    CONTINUE = 0
+    """Continue from the last PN value"""
+
+    RESET = 1
+    """Reset the PN value"""
 
 # endregion

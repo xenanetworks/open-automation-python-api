@@ -194,7 +194,6 @@ class Multicast:
         :type: P_IGMPV3_GROUP_RECORD_BUNDLE
         """
 
-
 class IPv4:
     """L23 port IPv4 configuration"""
 

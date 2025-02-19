@@ -14,8 +14,11 @@ from xoa_driver.internals.commands import (
     PT_TOTALEXT,
     PT_NOTPLDEXT,
     PT_STREAMEXT,
+    P_MACSEC_TX_STATS,
+    P_MACSEC_TX_CLEAR,
 )
 
+# region All Ports
 
 class PortTransmissionStatistics:
     """L23 port TX statistics"""
@@ -93,3 +96,36 @@ class PortTransmissionStatistics:
             self.__port_id,
             stream_idx
         )
+
+# endregion
+
+# region Genuine Ports
+
+class MACSecTxStats:
+    """MACSec TX SC Statistics"""
+    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
+
+        self.total = P_MACSEC_TX_STATS(conn, module_id, port_id)
+        """Port's total MACsec TX statistics
+
+        :type: P_MACSEC_TX_STATS
+        """
+
+        self.clear = P_MACSEC_TX_CLEAR(conn, module_id, port_id)
+        """Clear Port's MACsec TX statistics
+
+        :type: P_MACSEC_TX_CLEAR
+        """
+
+
+class GenuinePortTransmissionStatistics(PortTransmissionStatistics):
+    """L23 port RX statistics."""
+
+    def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int) -> None:
+        super().__init__(conn, module_id, port_id)
+
+        self.macsec = MACSecTxStats(conn, module_id, port_id)
+        """L23 port's MACsec TX statistics.
+        """
+
+# endregion
