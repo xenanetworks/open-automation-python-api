@@ -4821,12 +4821,16 @@ class P_MACSEC_TXSC_SCI_MODE:
 
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index], mode=mode))
 
-    set_no_sci = functools.partialmethod(set, MACSecSCIMode.NO_SCI)
-    """Set SCI Mode to NO SCI.
+    set_end_station = functools.partialmethod(set, MACSecSCIMode.END_STATION)
+    """Set SCI Mode to END STATION.
     """
 
     set_with_sci = functools.partialmethod(set, MACSecSCIMode.WITH_SCI)
     """Set SCI Mode to WITH SCI.
+    """
+
+    set_no_sci = functools.partialmethod(set, MACSecSCIMode.NO_SCI)
+    """Set SCI Mode to NO SCI.
     """
 
 
@@ -5163,6 +5167,85 @@ class P_MACSEC_TXSC_SAK_VALUE:
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index, self._sak_key_index], sak_key_value=sak_key_value))
     
 
+@register_command
+@dataclass
+class P_MACSEC_TXSC_XPN_SSCI:
+    """
+    The XPN Short SCI of the port's TX SC when XPN cipher suite is in use.
+    """
+
+    code: typing.ClassVar[int] = 540
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _txsc_index: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        ssci: Hex = field(XmpHex(size=4))
+        """hex 4 bytes, The XPN Short SCI of the port's TX SC when XPN cipher suite is in use"""
+
+    class SetDataAttr(RequestBodyStruct):
+        ssci: Hex = field(XmpHex(size=4))
+        """hex 4 bytes, The XPN Short SCI of the port's TX SC when XPN cipher suite is in use"""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the XPN Short SCI of the port's TX SC when XPN cipher suite is in use
+
+        :return: the SCI of the port’s TX SC.
+        :rtype: P_MACSEC_TXSC_XPN_SSCI.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
+
+    def set(self, ssci: Hex) -> Token[None]:
+        """Set the XPN Short SCI of the port's TX SC when XPN cipher suite is in use
+
+        :param ssci: the XPN Short SCI of the port's TX SC when XPN cipher suite is in use
+        :type ssci: int
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index], ssci=ssci))
+    
+
+@register_command
+@dataclass
+class P_MACSEC_TXSC_XPN_SALT:
+    """
+    The XPN salt of the port's TX SC when XPN cipher suite is in use.
+    """
+
+    code: typing.ClassVar[int] = 541
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _txsc_index: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        salt: Hex = field(XmpHex(size=12))
+        """hex 12 bytes, XPN salt of the port's TX SC when XPN cipher suite is in use."""
+
+    class SetDataAttr(RequestBodyStruct):
+        salt: Hex = field(XmpHex(size=12))
+        """hex 12 bytes, XPN salt of the port's TX SC when XPN cipher suite is in use."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get XPN salt of the port's TX SC when XPN cipher suite is in use.
+
+        :return: the SCI of the port’s TX SC.
+        :rtype: P_MACSEC_TXSC_XPN_SALT.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._txsc_index]))
+
+    def set(self, salt: Hex) -> Token[None]:
+        """Set XPN salt of the port's TX SC when XPN cipher suite is in use.
+
+        :param salt: XPN salt of the port's TX SC when XPN cipher suite is in use.
+        :type salt: int
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._txsc_index], salt=salt))
+    
 
 @register_command
 @dataclass
@@ -5552,6 +5635,85 @@ class P_MACSEC_RXSC_SAK_VALUE:
         """
         return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._rxsc_index, self._sak_key_index], sak_key_value=sak_key_value))
     
+
+@register_command
+@dataclass
+class P_MACSEC_RXSC_XPN_SSCI:
+    """
+    The XPN Short SCI of the port's RX SC when XPN cipher suite is in use.
+    """
+
+    code: typing.ClassVar[int] = 544
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _rxsc_index: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        ssci: Hex = field(XmpHex(size=4))
+        """hex 4 bytes, The XPN Short SCI of the port's RX SC when XPN cipher suite is in use"""
+
+    class SetDataAttr(RequestBodyStruct):
+        ssci: Hex = field(XmpHex(size=4))
+        """hex 4 bytes, The XPN Short SCI of the port's RX SC when XPN cipher suite is in use"""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get the XPN Short SCI of the port's RX SC when XPN cipher suite is in use
+
+        :return: the SCI of the port’s RX SC.
+        :rtype: P_MACSEC_RXSC_XPN_SSCI.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._rxsc_index]))
+
+    def set(self, ssci: Hex) -> Token[None]:
+        """Set the XPN Short SCI of the port's RX SC when XPN cipher suite is in use
+
+        :param ssci: the XPN Short SCI of the port's RX SC when XPN cipher suite is in use
+        :type ssci: int
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._rxsc_index], ssci=ssci))
+    
+
+@register_command
+@dataclass
+class P_MACSEC_RXSC_XPN_SALT:
+    """
+    The XPN salt of the port's RX SC when XPN cipher suite is in use.
+    """
+
+    code: typing.ClassVar[int] = 546
+    pushed: typing.ClassVar[bool] = False
+
+    _connection: 'interfaces.IConnection'
+    _module: int
+    _port: int
+    _rxsc_index: int
+
+    class GetDataAttr(ResponseBodyStruct):
+        salt: Hex = field(XmpHex(size=12))
+        """hex 12 bytes, XPN salt of the port's RX SC when XPN cipher suite is in use."""
+
+    class SetDataAttr(RequestBodyStruct):
+        salt: Hex = field(XmpHex(size=12))
+        """hex 12 bytes, XPN salt of the port's RX SC when XPN cipher suite is in use."""
+
+    def get(self) -> Token[GetDataAttr]:
+        """Get XPN salt of the port's RX SC when XPN cipher suite is in use.
+
+        :return: the SCI of the port’s RX SC.
+        :rtype: P_MACSEC_TXSC_XPN_SALT.GetDataAttr
+        """
+        return Token(self._connection, build_get_request(self, module=self._module, port=self._port, indices=[self._rxsc_index]))
+
+    def set(self, salt: Hex) -> Token[None]:
+        """Set XPN salt of the port's RX SC when XPN cipher suite is in use.
+
+        :param salt: XPN salt of the port's RX SC when XPN cipher suite is in use.
+        :type salt: int
+        """
+        return Token(self._connection, build_set_request(self, module=self._module, port=self._port, indices=[self._rxsc_index], salt=salt))
 
 
 @register_command

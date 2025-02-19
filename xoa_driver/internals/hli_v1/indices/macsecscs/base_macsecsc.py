@@ -25,7 +25,11 @@ from xoa_driver.internals.commands import (
     P_MACSEC_RXSC_CONF_OFFSET,
     P_MACSEC_RXSC_CIPHERSUITE,
     P_MACSEC_RXSC_TPLDID,
-    P_MACSEC_RXSC_STARTING_PN
+    P_MACSEC_RXSC_STARTING_PN,
+    P_MACSEC_TXSC_XPN_SSCI,
+    P_MACSEC_TXSC_XPN_SALT,
+    P_MACSEC_RXSC_XPN_SSCI,
+    P_MACSEC_RXSC_XPN_SALT,
 )
 if TYPE_CHECKING:
     from xoa_driver.internals.core import interfaces as itf
@@ -93,6 +97,18 @@ class MACSecTxScConfig:
         :type: P_MACSEC_TXSC_ENCRYPT
         """
 
+        self.xpn_ssci = P_MACSEC_TXSC_XPN_SSCI(conn, module_id, port_id, txsc_idx)
+        """Configure TX SC's XPN SSCI value
+
+        :type: P_MACSEC_TXSC_XPN_SSCI
+        """
+
+        self.xpn_salt = P_MACSEC_TXSC_XPN_SALT(conn, module_id, port_id, txsc_idx)
+        """Configure TX SC's XPN Salt value
+
+        :type: P_MACSEC_TXSC_XPN_SALT
+        """
+
 class MACSecRxScConfig:
     """MACSec RX SC Configuration"""
     def __init__(self, conn: "itf.IConnection", module_id: int, port_id: int, rxsc_idx: int) -> None:
@@ -128,6 +144,18 @@ class MACSecRxScConfig:
         """Configure RX SC's TPLD ID value
 
         :type: P_MACSEC_RXSC_TPLDID
+        """
+
+        self.xpn_ssci = P_MACSEC_RXSC_XPN_SSCI(conn, module_id, port_id, rxsc_idx)
+        """Configure RX SC's XPN SSCI value
+
+        :type: P_MACSEC_RXSC_XPN_SSCI
+        """
+
+        self.xpn_salt = P_MACSEC_RXSC_XPN_SALT(conn, module_id, port_id, rxsc_idx)
+        """Configure RX SC's XPN Salt value
+
+        :type: P_MACSEC_RXSC_XPN_SALT
         """
 
 
