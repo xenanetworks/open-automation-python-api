@@ -4829,9 +4829,9 @@ class P_MACSEC_TXSC_SCI_MODE:
     """Set SCI Mode to WITH SCI.
     """
 
-    set_no_sci = functools.partialmethod(set, MACSecSCIMode.NO_SCI)
-    """Set SCI Mode to NO SCI.
-    """
+    # set_no_sci = functools.partialmethod(set, MACSecSCIMode.NO_SCI)
+    # """Set SCI Mode to NO SCI.
+    # """
 
 
 @register_command
