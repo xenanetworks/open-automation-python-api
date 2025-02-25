@@ -4641,7 +4641,7 @@ class P_MACSEC_TXSC_INDICES:
     """
 
     code: typing.ClassVar[int] = 506
-    pushed: typing.ClassVar[bool] = False
+    pushed: typing.ClassVar[bool] = True
 
     _connection: 'interfaces.IConnection'
     _module: int
@@ -5280,7 +5280,7 @@ class P_MACSEC_RXSC_INDICES:
     """
 
     code: typing.ClassVar[int] = 519
-    pushed: typing.ClassVar[bool] = False
+    pushed: typing.ClassVar[bool] = True
 
     _connection: 'interfaces.IConnection'
     _module: int

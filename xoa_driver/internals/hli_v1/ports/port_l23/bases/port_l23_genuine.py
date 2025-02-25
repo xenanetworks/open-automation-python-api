@@ -224,3 +224,6 @@ class BasePortL23Genuine(BasePortL23):
 
     on_speed_selection_change = functools.partialmethod(utils.on_event, P_SPEEDSELECTION)
     """Register a callback to the event that the port's speed mode changes."""
+
+    on_macsec_rx_enable_change = functools.partialmethod(utils.on_event, P_MACSEC_RX_ENABLE)
+    """Register a callback to the event that the port MACsec RX enable status changes."""

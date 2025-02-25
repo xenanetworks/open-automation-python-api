@@ -2167,7 +2167,7 @@ class PS_MACSEC_ENABLE:
     """
 
     code: typing.ClassVar[int] = 526
-    pushed: typing.ClassVar[bool] = False
+    pushed: typing.ClassVar[bool] = True
 
     _connection: 'interfaces.IConnection'
     _module: int
