@@ -1,4 +1,15 @@
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/xoa-driver) [![PyPI](https://img.shields.io/pypi/v/xoa-driver)](https://pypi.python.org/pypi/xoa-driver) ![GitHub](https://img.shields.io/github/license/xenanetworks/open-automation-python-api) [![Documentation Status](https://readthedocs.com/projects/xena-networks-open-automation-python-api/badge/?version=latest)](https://docs.xenanetworks.com/projects/xoa-python-api/en/latest/?badge=latest)
+
+# 🔴 **IMPORTANT** 🔴
+
+**``xoa-driver`` is discontinued. It is replaced by [tdl-xoa-driver](https://github.com/xenanetworks/tdl-xoa-driver).**
+
+Please uninstall ``xoa-driver`` from your environment and install ``tdl-xoa-driver``. The APIs and imported module remain the same so you don't need to change your scripts.
+
+
+
+
+
 # Xena OpenAutomation Python API
 Xena OpenAutomation Python API is a standalone Python library that provides a user-friendly and powerful interface for automating network testing tasks using Xena Networks test equipment. Xena test equipment is a high-performance network test device designed for testing and measuring the performance of network equipment and applications.
 
